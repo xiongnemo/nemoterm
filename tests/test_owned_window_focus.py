@@ -42,6 +42,8 @@ class Desktop:
     def SendMessageW(self,*unused):return 2  # Owned, exposed caption
     def SendInput(self,count,*unused):self.pending_click=True;self.clicks+=count;return count
     def GetAsyncKeyState(self,key):return 0
+    def GetSystemMetrics(self,index):return {76:0,77:0,78:1024,79:768}[index]
+    def GetDoubleClickTime(self):return 500
     def wait(self,predicate):
         # Advancing the desktop delivers pending input at its current position.
         if self.pending_click:

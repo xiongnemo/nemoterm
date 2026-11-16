@@ -30,6 +30,9 @@ u.SendMessageTimeoutW.argtypes = [w.HWND, w.UINT, w.WPARAM, w.LPARAM,
                                 w.UINT, w.UINT, c.POINTER(c.c_size_t)]
 u.SendMessageTimeoutW.restype = c.c_ssize_t
 u.GetAsyncKeyState.argtypes, u.GetAsyncKeyState.restype = [c.c_int], c.c_short
+u.GetSystemMetrics.argtypes, u.GetSystemMetrics.restype = [c.c_int], c.c_int
+u.GetDoubleClickTime.restype = w.UINT
+_last_caption_click = {}
 
 def focus_owned_window(window, owner_pid, *, allow_local=False, record=None,
                        mode='synchronized'):
@@ -88,8 +91,13 @@ def _prepare_focus(window, record, mode, observe):
                 record['bounds']=[bounds.left,bounds.top,bounds.right,bounds.bottom]
                 record['style']=int(u.GetWindowLongPtrW(window,-16))
                 record['caption_candidates']=[]
+                left=u.GetSystemMetrics(76);top=u.GetSystemMetrics(77)
+                right=left+u.GetSystemMetrics(78);bottom=top+u.GetSystemMetrics(79)
+                assert right>left and bottom>top
+                record['virtual_screen']=[left,top,right,bottom]
                 x = (bounds.left + bounds.right) // 2
                 for y in range(bounds.top + 6, min(bounds.top + 60, bounds.bottom), 2):
+                    if not (left<=x<right and top<=y<bottom):continue
                     candidate = w.POINT(x, y)
                     packed = (x & 0xffff) | ((y & 0xffff) << 16)
                     under=u.WindowFromPoint(candidate)
@@ -100,7 +108,17 @@ def _prepare_focus(window, record, mode, observe):
                         break
                 assert point is not None, ('No exposed owned caption', record)
                 assert u.SetCursorPos(point.x, point.y)
+                actual=w.POINT();assert u.GetCursorPos(c.byref(actual))
+                assert (actual.x,actual.y)==(point.x,point.y),('Cursor was clipped away from the caption',record)
                 assert u.WindowFromPoint(point) == window
+                if mode == 'synchronized':
+                    previous=_last_caption_click.get(window)
+                    if previous is not None:
+                        remaining=u.GetDoubleClickTime()/1000+0.02-(time.monotonic()-previous)
+                        if remaining>0:
+                            time.sleep(remaining)
+                            record['double_click_guard_seconds']=remaining
+                    _last_caption_click[window]=time.monotonic()
                 clicks = (Input * 2)()
                 clicks[0].mouse.flags, clicks[1].mouse.flags = 2, 4
                 sent = u.SendInput(2, clicks, c.sizeof(Input))
