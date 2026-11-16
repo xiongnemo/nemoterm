@@ -13,8 +13,10 @@ import owned_window_focus as focus
 
 root=Path(__file__).resolve().parents[1]
 record=dict(completed=False,denied_calls=[],scope='Controller-only refusal forces real owned caption input; no terminal API hooks or fabricated focus messages.')
+record['double_click_ms']=focus.u.GetDoubleClickTime()
+record['virtual_screen']=[focus.u.GetSystemMetrics(index) for index in (76,77,78,79)]
 def refused(window):
-    record['denied_calls'].append(dict(window=window,foreground=focus.u.GetForegroundWindow()))
+    record['denied_calls'].append(dict(window=window,foreground=focus.u.GetForegroundWindow(),seconds=focus.time.monotonic()))
     return 0
 
 try:
