@@ -92,7 +92,9 @@ mapper, configuration and capability regressions. `legacy-modifiers-ci.tar.gz`
 and its manifest retain original logs and artifact receipts; all source hashes
 match the exact Git content, with separately verified Windows CRLF checkout
 variants for four existing `.inc` files. Ordinary and single-image CI include
-the native fixture. The single-image workflow failed later while preparing
+the native fixture. [Ordinary CI at `029bfac`](https://github.com/xiongnemo/nemoterm/actions/runs/43776658219)
+passed all four jobs, including the native legacy-key fixture and existing
+memory gates. The single-image workflow failed later while preparing
 foreground focus for the fourth bell-window profile; it is not a successful
 167-group checkpoint. The unchanged failed image passes four targeted
 [focus comparisons](bell-focus-029bfac.md), while the exact original failure
