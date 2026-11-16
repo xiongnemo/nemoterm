@@ -30,6 +30,14 @@ preparation avoids unnecessary caption clicks. The original failure was not
 reproduced. This is not a successful complete-product checkpoint; the updated
 harness still requires full CI and exact-image local acceptance.
 
+The subsequent [DirectX strip-reservation fix](../research/d3d11-discarded-reservations.md)
+passes both complete workflows at the exact product source `f3b5b65`: all four
+ordinary jobs and 167 single-image checks. Its generated single EXE remains a
+development candidate. The densest hosted GDI Unicode/Kitty workload peaks at
+14,065,664 bytes private and 44,990,464 bytes total working set for the frontend.
+The distinct MSVC tab-selection access violation above and exact-image local
+acceptance remain open; main's accepted image is unchanged.
+
 The development branch adds Kitty relative placements and Unicode placeholders.
 The lazy cell index passes all three component compilers and ordinary full CI at
 `f01927a`, including twelve memory groups and 25,048 post-memory cell-centre
