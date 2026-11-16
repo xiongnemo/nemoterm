@@ -44,8 +44,9 @@ static IUIAutomationElement *find(IUIAutomation *uia,IUIAutomationElement *paren
         if(found)return found;
         Sleep(20);
     }
-    std::wstring text=name;
-    throw std::runtime_error("Missing UIA control: "+std::string(text.begin(),text.end()));
+    std::string text;
+    for(;*name;name++)text.push_back(*name<128?(char)*name:'?');
+    throw std::runtime_error("Missing UIA control: "+text);
 }
 struct Page {const wchar_t *id;std::vector<const wchar_t *> path,labels;};
 static const Page pages[]={

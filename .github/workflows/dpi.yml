@@ -64,6 +64,7 @@ jobs:
           "NEMOTERM_DPI_PRODUCT_RUN=$env:PRODUCT_RUN" | Out-File $env:GITHUB_ENV -Append -Encoding utf8
           "NEMOTERM_DPI_PRODUCT_COMMIT=$env:PRODUCT_COMMIT" | Out-File $env:GITHUB_ENV -Append -Encoding utf8
       - name: Compile the test-only display environment probe
+        id: probes
         shell: pwsh
         run: |
           $vswhere="${env:ProgramFiles(x86)}/Microsoft Visual Studio/Installer/vswhere.exe"
@@ -91,7 +92,7 @@ jobs:
             if ($result) { exit $result }
           }
       - name: Actual system scaling, cold starts, live settings and terminal pixels
-        if: ${{ !cancelled() && env.NEMOTERM_TEST_EXE != '' }}
+        if: ${{ !cancelled() && steps.probes.outcome == 'success' }}
         shell: pwsh
         run: |
           python build/dpi-check/tests/dpi_window_smoke.py --display-helper build/dpi-check/build/dpi-display.exe --renderer gdi 2>&1 | Tee-Object build/dpi-check/research/dpi-real-gdi.log
