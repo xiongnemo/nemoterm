@@ -1,0 +1,1470 @@
+{
+  "run": {
+    "conclusion": "success",
+    "databaseId": 43778543052,
+    "headSha": "4f319c0cbada9d49bbdfa4de7227dbc89d3cfb22",
+    "jobs": [
+      {
+        "completedAt": "2026-11-16T00:10:30Z",
+        "conclusion": "success",
+        "databaseId": 133010289080,
+        "name": "diagnostic",
+        "startedAt": "2026-11-16T00:08:03Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-11-16T00:08:07Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-11-16T00:08:04Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-16T00:08:21Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+            "number": 2,
+            "startedAt": "2026-11-16T00:08:07Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-16T00:08:28Z",
+            "conclusion": "success",
+            "name": "Verify and isolate the exact failed image",
+            "number": 3,
+            "startedAt": "2026-11-16T00:08:21Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-16T00:08:36Z",
+            "conclusion": "success",
+            "name": "Install fixture dependency",
+            "number": 4,
+            "startedAt": "2026-11-16T00:08:28Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-16T00:08:36Z",
+            "conclusion": "skipped",
+            "name": "Verify shutdown observer detects invalid event orders",
+            "number": 5,
+            "startedAt": "2026-11-16T00:08:36Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-16T00:08:47Z",
+            "conclusion": "success",
+            "name": "Verify code-change detection and foreign-job rejection",
+            "number": 6,
+            "startedAt": "2026-11-16T00:08:36Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-16T00:08:47Z",
+            "conclusion": "skipped",
+            "name": "Verify external exception capture and target survival",
+            "number": 7,
+            "startedAt": "2026-11-16T00:08:47Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-16T00:08:47Z",
+            "conclusion": "skipped",
+            "name": "Verify failure dump ownership, context and target survival",
+            "number": 8,
+            "startedAt": "2026-11-16T00:08:47Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-16T00:10:25Z",
+            "conclusion": "success",
+            "name": "Observe independently owned exact-image lifetimes",
+            "number": 9,
+            "startedAt": "2026-11-16T00:08:47Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-16T00:10:26Z",
+            "conclusion": "success",
+            "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+            "number": 10,
+            "startedAt": "2026-11-16T00:10:25Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-16T00:10:28Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+            "number": 20,
+            "startedAt": "2026-11-16T00:10:26Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-16T00:10:28Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 21,
+            "startedAt": "2026-11-16T00:10:28Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43778543052/job/133010289080"
+      },
+      {
+        "completedAt": "2026-11-16T00:07:59Z",
+        "conclusion": "skipped",
+        "databaseId": 133010290181,
+        "name": "dense-diagnostic",
+        "startedAt": "2026-11-16T00:08:00Z",
+        "status": "completed",
+        "steps": [],
+        "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43778543052/job/133010290181"
+      },
+      {
+        "completedAt": "2026-11-16T00:07:59Z",
+        "conclusion": "skipped",
+        "databaseId": 133010337314,
+        "name": "source-diagnostic",
+        "startedAt": "2026-11-16T00:08:09Z",
+        "status": "completed",
+        "steps": [],
+        "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43778543052/job/133010337314"
+      }
+    ],
+    "status": "completed",
+    "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43778543052"
+  },
+  "identity": {
+    "source_commit": "8655aae163a81c927537e18845f930d42df6cafc",
+    "source_run": "43768960240",
+    "fixture_commit": "4f319c0cbada9d49bbdfa4de7227dbc89d3cfb22",
+    "executable_sha256": "11d36b78d616b27407e485bf4df36f304d84f292127432b6617749d5b6b37244",
+    "executable_bytes": 3538432,
+    "runtime_hashes": [
+      {
+        "Path": "D:\\a\\nemoterm\\nemoterm\\build\\close-replay-product\\conpty.dll",
+        "Hash": "FEEEF341D891643C62D30B6B07800BC70F0BC148F44CB8C3BEE84AA557AE805A"
+      },
+      {
+        "Path": "D:\\a\\nemoterm\\nemoterm\\build\\close-replay-product\\nemoterm.exe",
+        "Hash": "11D36B78D616B27407E485BF4DF36F304D84F292127432B6617749D5B6B37244"
+      },
+      {
+        "Path": "D:\\a\\nemoterm\\nemoterm\\build\\close-replay-product\\OpenConsole.exe",
+        "Hash": "3D66B23D0A71BB8EED2B77EDC8B9DF9BF54CE6C8FB74C863A30E760997F80586"
+      }
+    ],
+    "fixture": "tabs-probes",
+    "artifact_name": "unverified-msvc-renderer-8655aae163a81c927537e18845f930d42df6cafc",
+    "capture_exceptions": false,
+    "capture_failure_dumps": false,
+    "shutdown_observer": "both",
+    "frida_version": "17.24.3",
+    "profile_observer": null,
+    "repetitions": 6,
+    "fixture_hashes": [
+      {
+        "Path": "D:\\a\\nemoterm\\nemoterm\\tests\\tabs_profiles_window_smoke.py",
+        "Hash": "ED8650EA21D0A2EEAF2470C40AA2E2562CFF68074D7E35D299B4E12428B6081D"
+      },
+      {
+        "Path": "D:\\a\\nemoterm\\nemoterm\\tests\\automation_capture.py",
+        "Hash": "17BC64137AEFF5EEA66A5CDFE77D4E32CC1EDB0F310977F58B235C4A5775B4E0"
+      },
+      {
+        "Path": "D:\\a\\nemoterm\\nemoterm\\tools\\nemoterm_debug.py",
+        "Hash": "B203A875B55F4D93F4F05A36E5177301C640EB856FE5E58291073D910EB8C6F9"
+      },
+      {
+        "Path": "D:\\a\\nemoterm\\nemoterm\\tests\\gpu_capture.py",
+        "Hash": "606C6C4898F7E3138E430E6089DAE0F89F42B03DE1FFA2F45CE34A8D8E34C343"
+      },
+      {
+        "Path": "D:\\a\\nemoterm\\nemoterm\\tests\\frida_test_utils.py",
+        "Hash": "60464818B9A87D30D19C0E32683BEFE2CFB98168F722FFA8AC43949C8E6A7AB4"
+      },
+      {
+        "Path": "D:\\a\\nemoterm\\nemoterm\\tests\\native_test_utils.py",
+        "Hash": "7AB93EC1E4CD9941D1E06921D27AC61B43BD062445B8BC47CE066AC9380AA675"
+      },
+      {
+        "Path": "D:\\a\\nemoterm\\nemoterm\\tests\\shutdown_window_smoke.py",
+        "Hash": "C836401818D42CE550A84E96481BFC4BA9C865BB3ED2200417E027C352E593B6"
+      },
+      {
+        "Path": "D:\\a\\nemoterm\\nemoterm\\tests\\shutdown_probe.js",
+        "Hash": "A7D23659EFA08326A4C2CC06DF1900F0AA79B83BDC16AFA8F59E9A3E6D20331F"
+      },
+      {
+        "Path": "D:\\a\\nemoterm\\nemoterm\\tests\\tabs_window_smoke.py",
+        "Hash": "2EB7123E6B8862C19162FD89B2B302E6DC3387DFCC6087D2E882D0EF40D8937B"
+      },
+      {
+        "Path": "D:\\a\\nemoterm\\nemoterm\\tests\\tab_probe_boundary.py",
+        "Hash": "BF943F2F80EF817CB4510681F69D505ADDEFC2A1E53D2A492A29E0F9085EAADC"
+      },
+      {
+        "Path": "D:\\a\\nemoterm\\nemoterm\\tests\\tabs_hover_probe.js",
+        "Hash": "D081BC30872552C9DDA92FD370544B7BEF3B4A7C9847F3FBCCA5B7AD80ABA41E"
+      },
+      {
+        "Path": "D:\\a\\nemoterm\\nemoterm\\tests\\agent_key_probe.js",
+        "Hash": "AEFF8AEB85642447DC6D66CD48AEDFB872F0F6BF314A52B36455CBCC32117EA3"
+      },
+      {
+        "Path": "D:\\a\\nemoterm\\nemoterm\\tests\\session_faults.js",
+        "Hash": "0336042802A5186BE3C799871EEE46940E7F70268C830C233BDB36F453B25391"
+      },
+      {
+        "Path": "D:\\a\\nemoterm\\nemoterm\\tests\\session_fixture.py",
+        "Hash": "80050F268D573CB843B69DBC7E38231BF198E2CF0CE48AA589E1AC899838CFD8"
+      },
+      {
+        "Path": "D:\\a\\nemoterm\\nemoterm\\tests\\mouse_fixture.py",
+        "Hash": "7EA357AE2B3E7ED88178C452E88C41C2868EE8CB775963788B4EE202F8402D40"
+      },
+      {
+        "Path": "D:\\a\\nemoterm\\nemoterm\\tests\\tab_workload_memory.py",
+        "Hash": "CBE71E0CE88230C83969B5D935548E0F7825DF58F2E95F8C47785669876BF3A0"
+      },
+      {
+        "Path": "D:\\a\\nemoterm\\nemoterm\\tests\\kitty_unicode_tab_workload.py",
+        "Hash": "BBC1237E643320B1C2B8BFC2A3E4D5DEA8D99C3CACAFC8F214A5DF3EA9D3D8C0"
+      },
+      {
+        "Path": "D:\\a\\nemoterm\\nemoterm\\tests\\drop_window_smoke.py",
+        "Hash": "5F057EDA3D503EEDD32DE29A909A3A7B4066FC725E2511D1AED60CC436655EEC"
+      },
+      {
+        "Path": "D:\\a\\nemoterm\\nemoterm\\tests\\clipboard_test_utils.py",
+        "Hash": "CD7137B1766F8D096534013F39FCEA29B21B2B2DE8818E7E7569E34EA895A560"
+      },
+      {
+        "Path": "D:\\a\\nemoterm\\nemoterm\\tests\\automation_window_smoke.py",
+        "Hash": "B74FBB679E1ECD33A87CE1BDEF37D78DE50347ED1C0419D7B8FFE3C9D3D7E4CE"
+      },
+      {
+        "Path": "D:\\a\\nemoterm\\nemoterm\\tests\\fixture_io.py",
+        "Hash": "4842E58DA597199A8662C0C90B3755C541FD7D8492AAADF24225A3323A086D2B"
+      },
+      {
+        "Path": "D:\\a\\nemoterm\\nemoterm\\tests\\owned_job.py",
+        "Hash": "51327173DAFEE0666E8916A76C9C56D97E300803F6784C7B51AC22C9F4A64D23"
+      }
+    ],
+    "unverified_product": true,
+    "scope": "Exact-image diagnosis only; unchanged fixture deadlines; no product acceptance"
+  },
+  "artifact": {
+    "id": 14186969528,
+    "path": "tab-probe-lifetime-8655aae-hosted.zip",
+    "sha256": "a9cd3399a333ca95ecae081918f0c8cbc233e2887de72474b91e44e79a6ee130",
+    "bytes": 107104
+  },
+  "receipt": {
+    "artifact_id": 14186969528,
+    "source": "4f319c0cbada9d49bbdfa4de7227dbc89d3cfb22",
+    "run_id": 43778543052,
+    "artifact_name": "tabs-close-diagnostic-4f319c0cbada9d49bbdfa4de7227dbc89d3cfb22",
+    "files": [
+      {
+        "path": "code-controls/build.log",
+        "bytes": 28,
+        "sha256": "6448a176e7d1a864e2e128714ca84b504595829755a12a7e56964c2d14efda04"
+      },
+      {
+        "path": "code-controls/control.exe",
+        "bytes": 103424,
+        "sha256": "7e1e253359da1d614732a97cca6c1349a9a739a74d6d2247fc1812f33c3b8db3"
+      },
+      {
+        "path": "code-controls/control.obj",
+        "bytes": 3062,
+        "sha256": "5e48a56ad775cec654058c7f612c923f8fbf9d01d5d3f0516ae0c94ef6396e59"
+      },
+      {
+        "path": "code-controls/results/results.json",
+        "bytes": 24936,
+        "sha256": "e0d862b94ba2c8eb0217a50a70c947f1eb897e0aca44af08eadc00cdd11bf5c7"
+      },
+      {
+        "path": "code-controls/test.log",
+        "bytes": 37,
+        "sha256": "fe68131e82ecc03296f9acc3d1788a0f13b701c87c056fbb6d8c76bad107ca3e"
+      },
+      {
+        "path": "code-observer-source.json",
+        "bytes": 788,
+        "sha256": "0f42d1648c2f60090e4371129505484add28db92d47d00b53556836e8a2d430b"
+      },
+      {
+        "path": "identity.json",
+        "bytes": 5057,
+        "sha256": "c658f8456064c263f90e3bbfde5a77473cdb7c24346bb76325429af261c7e84a"
+      },
+      {
+        "path": "replay-1-observed.json",
+        "bytes": 150624,
+        "sha256": "fd3b31d8d1f3f5f92e8d2912693b5075df4a1654bead64ce46cb98b197943d47"
+      },
+      {
+        "path": "replay-1.log",
+        "bytes": 36,
+        "sha256": "04973c1ea181758e744fb6dca823ee56c11d625a83f1757ac93db1e5358bd3c6"
+      },
+      {
+        "path": "replay-2-observed.json",
+        "bytes": 154574,
+        "sha256": "e6de9fb27bf1dcb48a31b16cbe83fa159f2caf7593c14f3ce885c7a487363e8c"
+      },
+      {
+        "path": "replay-2.log",
+        "bytes": 36,
+        "sha256": "04973c1ea181758e744fb6dca823ee56c11d625a83f1757ac93db1e5358bd3c6"
+      },
+      {
+        "path": "replay-3-observed.json",
+        "bytes": 156844,
+        "sha256": "2f45de998337108f199ae3220bad0b94e20ee40d4f25620c0fc481e360c1cdb0"
+      },
+      {
+        "path": "replay-3.log",
+        "bytes": 36,
+        "sha256": "04973c1ea181758e744fb6dca823ee56c11d625a83f1757ac93db1e5358bd3c6"
+      },
+      {
+        "path": "replay-4-observed.json",
+        "bytes": 156819,
+        "sha256": "39b5e4c31e0dc86c0b461fefc7481abc705851142f84c5e0713f446ab812f67e"
+      },
+      {
+        "path": "replay-4.log",
+        "bytes": 36,
+        "sha256": "04973c1ea181758e744fb6dca823ee56c11d625a83f1757ac93db1e5358bd3c6"
+      },
+      {
+        "path": "replay-5-observed.json",
+        "bytes": 154496,
+        "sha256": "6d833c432f2cbba357c6c18323eaf43bd5e89bb87f36bb155f00f012a4846af1"
+      },
+      {
+        "path": "replay-5.log",
+        "bytes": 36,
+        "sha256": "04973c1ea181758e744fb6dca823ee56c11d625a83f1757ac93db1e5358bd3c6"
+      },
+      {
+        "path": "replay-6-observed.json",
+        "bytes": 150469,
+        "sha256": "674721076ca550d5e4a0632290ec50d74aa4d7082ff89d584c3fc9cf70c3c4a3"
+      },
+      {
+        "path": "replay-6.log",
+        "bytes": 36,
+        "sha256": "04973c1ea181758e744fb6dca823ee56c11d625a83f1757ac93db1e5358bd3c6"
+      }
+    ]
+  },
+  "source_checks": [
+    {
+      "path": "tests/tabs_profiles_window_smoke.py",
+      "sha256": "ed8650ea21d0a2eeaf2470c40aa2e2562cff68074d7e35d299b4e12428b6081d",
+      "checkout": "git"
+    },
+    {
+      "path": "tests/automation_capture.py",
+      "sha256": "17bc64137aeff5eea66a5cdfe77d4e32cc1edb0f310977f58b235c4a5775b4e0",
+      "checkout": "git"
+    },
+    {
+      "path": "tools/nemoterm_debug.py",
+      "sha256": "b203a875b55f4d93f4f05a36e5177301c640eb856fe5e58291073d910eb8c6f9",
+      "checkout": "git"
+    },
+    {
+      "path": "tests/gpu_capture.py",
+      "sha256": "606c6c4898f7e3138e430e6089dae0f89f42b03de1ffa2f45ce34a8d8e34c343",
+      "checkout": "git"
+    },
+    {
+      "path": "tests/frida_test_utils.py",
+      "sha256": "60464818b9a87d30d19c0e32683befe2cfb98168f722ffa8ac43949c8e6a7ab4",
+      "checkout": "git"
+    },
+    {
+      "path": "tests/native_test_utils.py",
+      "sha256": "7ab93ec1e4cd9941d1e06921d27ac61b43bd062445b8bc47ce066ac9380aa675",
+      "checkout": "git"
+    },
+    {
+      "path": "tests/shutdown_window_smoke.py",
+      "sha256": "c836401818d42ce550a84e96481bfc4ba9c865bb3ed2200417e027c352e593b6",
+      "checkout": "git"
+    },
+    {
+      "path": "tests/shutdown_probe.js",
+      "sha256": "a7d23659efa08326a4c2cc06df1900f0aa79b83bdc16afa8f59e9a3e6d20331f",
+      "checkout": "CRLF"
+    },
+    {
+      "path": "tests/tabs_window_smoke.py",
+      "sha256": "2eb7123e6b8862c19162fd89b2b302e6dc3387dfcc6087d2e882d0ef40d8937b",
+      "checkout": "git"
+    },
+    {
+      "path": "tests/tab_probe_boundary.py",
+      "sha256": "bf943f2f80ef817cb4510681f69d505addefc2a1e53d2a492a29e0f9085eaadc",
+      "checkout": "git"
+    },
+    {
+      "path": "tests/tabs_hover_probe.js",
+      "sha256": "d081bc30872552c9dda92fd370544b7bef3b4a7c9847f3fbcca5b7ad80aba41e",
+      "checkout": "CRLF"
+    },
+    {
+      "path": "tests/agent_key_probe.js",
+      "sha256": "aeff8aeb85642447dc6d66cd48aedfb872f0f6bf314a52b36455cbcc32117ea3",
+      "checkout": "CRLF"
+    },
+    {
+      "path": "tests/session_faults.js",
+      "sha256": "0336042802a5186be3c799871eee46940e7f70268c830c233bdb36f453b25391",
+      "checkout": "CRLF"
+    },
+    {
+      "path": "tests/session_fixture.py",
+      "sha256": "80050f268d573cb843b69dbc7e38231bf198e2cf0ce48aa589e1ac899838cfd8",
+      "checkout": "git"
+    },
+    {
+      "path": "tests/mouse_fixture.py",
+      "sha256": "7ea357ae2b3e7ed88178c452e88c41c2868ee8cb775963788b4ee202f8402d40",
+      "checkout": "git"
+    },
+    {
+      "path": "tests/tab_workload_memory.py",
+      "sha256": "cbe71e0ce88230c83969b5d935548e0f7825df58f2e95f8c47785669876bf3a0",
+      "checkout": "git"
+    },
+    {
+      "path": "tests/kitty_unicode_tab_workload.py",
+      "sha256": "bbc1237e643320b1c2b8bfc2a3e4d5dea8d99c3cacafc8f214a5df3ea9d3d8c0",
+      "checkout": "git"
+    },
+    {
+      "path": "tests/drop_window_smoke.py",
+      "sha256": "5f057eda3d503eedd32de29a909a3a7b4066fc725e2511d1aed60cc436655eec",
+      "checkout": "git"
+    },
+    {
+      "path": "tests/clipboard_test_utils.py",
+      "sha256": "cd7137b1766f8d096534013f39fcea29b21b2b2de8818e7e7569e34ea895a560",
+      "checkout": "git"
+    },
+    {
+      "path": "tests/automation_window_smoke.py",
+      "sha256": "b74fbb679e1ecd33a87ce1bdef37d78de50347ed1c0419d7b8ffe3c9d3d7e4ce",
+      "checkout": "git"
+    },
+    {
+      "path": "tests/fixture_io.py",
+      "sha256": "4842e58da597199a8662c0c90b3755c541fd7d8492aaadf24225a3323a086d2b",
+      "checkout": "git"
+    },
+    {
+      "path": "tests/owned_job.py",
+      "sha256": "51327173dafee0666e8916a76c9c56d97e300803f6784c7b51ac22c9f4a64d23",
+      "checkout": "git"
+    },
+    {
+      "path": "tests/owned_code_boundary.py",
+      "sha256": "472ae211e273de9ee39fc97148abf825c895ba19b9cadbb2a5d458c8dd4fc84e",
+      "checkout": "git"
+    },
+    {
+      "path": "tests/owned_code_boundary_controls.py",
+      "sha256": "568bed5a781b974b92195173e13ee70f9523af73079f48c476e7a07b5d18b9e6",
+      "checkout": "git"
+    },
+    {
+      "path": "tests/native_exception_control.c",
+      "sha256": "953af4904984c5963a8ff7282d3ec690dedaa6fd8943a864de29341ab484166b",
+      "checkout": "git"
+    },
+    {
+      "path": "scripts/test-code-boundary.ps1",
+      "sha256": "64a78db85160b877ee9c7fa7d52139b96cd16b6c2984b4070474a3522ec7372a",
+      "checkout": "git"
+    }
+  ],
+  "controls": {
+    "frida": "17.24.3",
+    "passed": true,
+    "snapshots": [
+      {
+        "label": "before-attach",
+        "pid": 7132,
+        "sections": [
+          {
+            "module": "control.exe",
+            "section": ".text",
+            "sha256": "439a2723976352810be402f80f48cd3dbfc1d0aa7aa81569047e983f730ae8ca",
+            "matches_baseline": true
+          },
+          {
+            "module": "ntdll.dll",
+            "section": ".text",
+            "sha256": "ed73b5ed509d23317c4cc89662684d5c8f10e2cf2021bccd2943e22422ee014a",
+            "matches_baseline": true
+          },
+          {
+            "module": "ntdll.dll",
+            "section": "SCPCFG",
+            "sha256": "967ee519ba1bacda4f8d370eefa8d83741c83de915b0484fc0c114c9d35405e9",
+            "matches_baseline": true
+          },
+          {
+            "module": "ntdll.dll",
+            "section": "SCPCFGFP",
+            "sha256": "3f0a26096984f24a13ae29b26f1f79659c118b4661c5830662bacf41bf9469fb",
+            "matches_baseline": true
+          },
+          {
+            "module": "ntdll.dll",
+            "section": "SCPCFGNP",
+            "sha256": "d34e6384deadab7a818e5d2472c64288a44669d23cb6deb2e78a5533160568c0",
+            "matches_baseline": true
+          },
+          {
+            "module": "ntdll.dll",
+            "section": "SCPCFGES",
+            "sha256": "ceff412a81b887f09a0b89faf765739a1f99c821b3ada49a7c4cf48dc1e2ffea",
+            "matches_baseline": true
+          },
+          {
+            "module": "ntdll.dll",
+            "section": "RT",
+            "sha256": "fe7601162928c5bb444b5bca4937c11eceafc5774eec4b98ba4cffc9abb15995",
+            "matches_baseline": true
+          },
+          {
+            "module": "ntdll.dll",
+            "section": "PAGE",
+            "sha256": "cb5eb7ecb1116f44c29717d3da27fc2f6683583530662405ad4ee748f169508e",
+            "matches_baseline": true
+          },
+          {
+            "module": "ntdll.dll",
+            "section": "fothk",
+            "sha256": "157d2ecd8ecc942d51be598af22235d52119933a996c4f2602f0766bf6d9c371",
+            "matches_baseline": true
+          },
+          {
+            "module": "KERNELBASE.dll",
+            "section": ".text",
+            "sha256": "36f5907e6f5751621ac2ca9e9d5babd4c28c951ea0d393a8fea2b225d00b0fee",
+            "matches_baseline": true
+          },
+          {
+            "module": "KERNELBASE.dll",
+            "section": "fothk",
+            "sha256": "ddf7f432177bc6da0acfa99b837301494c7d8095af813b7ee205559054d1ecde",
+            "matches_baseline": true
+          }
+        ],
+        "changes": [],
+        "changed_blocks": 0,
+        "exit_code": null,
+        "omitted_blocks": 0,
+        "seconds": 0.0,
+        "exit_code_after_observation": null
+      },
+      {
+        "label": "after-load",
+        "pid": 7132,
+        "sections": [
+          {
+            "module": "control.exe",
+            "section": ".text",
+            "sha256": "439a2723976352810be402f80f48cd3dbfc1d0aa7aa81569047e983f730ae8ca",
+            "matches_baseline": true
+          },
+          {
+            "module": "ntdll.dll",
+            "section": ".text",
+            "sha256": "132c5a8c02a9cf4cdfbfbff628ddcd876ae6e71b3d39b134f75564395d19568c",
+            "matches_baseline": false
+          },
+          {
+            "module": "ntdll.dll",
+            "section": "SCPCFG",
+            "sha256": "967ee519ba1bacda4f8d370eefa8d83741c83de915b0484fc0c114c9d35405e9",
+            "matches_baseline": true
+          },
+          {
+            "module": "ntdll.dll",
+            "section": "SCPCFGFP",
+            "sha256": "3f0a26096984f24a13ae29b26f1f79659c118b4661c5830662bacf41bf9469fb",
+            "matches_baseline": true
+          },
+          {
+            "module": "ntdll.dll",
+            "section": "SCPCFGNP",
+            "sha256": "d34e6384deadab7a818e5d2472c64288a44669d23cb6deb2e78a5533160568c0",
+            "matches_baseline": true
+          },
+          {
+            "module": "ntdll.dll",
+            "section": "SCPCFGES",
+            "sha256": "ceff412a81b887f09a0b89faf765739a1f99c821b3ada49a7c4cf48dc1e2ffea",
+            "matches_baseline": true
+          },
+          {
+            "module": "ntdll.dll",
+            "section": "RT",
+            "sha256": "fe7601162928c5bb444b5bca4937c11eceafc5774eec4b98ba4cffc9abb15995",
+            "matches_baseline": true
+          },
+          {
+            "module": "ntdll.dll",
+            "section": "PAGE",
+            "sha256": "cb5eb7ecb1116f44c29717d3da27fc2f6683583530662405ad4ee748f169508e",
+            "matches_baseline": true
+          },
+          {
+            "module": "ntdll.dll",
+            "section": "fothk",
+            "sha256": "157d2ecd8ecc942d51be598af22235d52119933a996c4f2602f0766bf6d9c371",
+            "matches_baseline": true
+          },
+          {
+            "module": "KERNELBASE.dll",
+            "section": ".text",
+            "sha256": "eeeaab103303064f1d7868439980ecd27667feccd12841d305066574280d2248",
+            "matches_baseline": false
+          },
+          {
+            "module": "KERNELBASE.dll",
+            "section": "fothk",
+            "sha256": "ddf7f432177bc6da0acfa99b837301494c7d8095af813b7ee205559054d1ecde",
+            "matches_baseline": true
+          }
+        ],
+        "changes": [
+          {
+            "module": "ntdll.dll",
+            "section": ".text",
+            "rva": 65984,
+            "address": 140721717313984,
+            "before": "ffffe9e1fcffffcccccccccccccccccc48895c240848897424104c894c24204c",
+            "after": "ffffe9e1fcffffcccccccccccccccccce933fefdff48897424104c894c24204c"
+          },
+          {
+            "module": "ntdll.dll",
+            "section": ".text",
+            "rva": 85056,
+            "address": 140721717333056,
+            "before": "0d0000c0e943feffffcccccccccccccc40534883ec30803d2bad1b0000488bd9",
+            "after": "0d0000c0e943feffffcccccccccccccce9b3b7fdff90803d2bad1b0000488bd9"
+          },
+          {
+            "module": "ntdll.dll",
+            "section": ".text",
+            "rva": 321728,
+            "address": 140721717569728,
+            "before": "4c8bdc49895b10565741564881ecd0000000488b05bf7c19004833c448898424",
+            "after": "e94319faff6690565741564881ecd0000000488b05bf7c19004833c448898424"
+          },
+          {
+            "module": "KERNELBASE.dll",
+            "section": ".text",
+            "rva": 738432,
+            "address": 140721671718016,
+            "before": "cccccccccccccccccccccccccccccccc8b0c250400fe7fb82003fe7f48c1e120",
+            "after": "cccccccccccccccccccccccccccccccce973c3b5026690b82003fe7f48c1e120"
+          }
+        ],
+        "changed_blocks": 4,
+        "exit_code": null,
+        "omitted_blocks": 0,
+        "seconds": 0.015999999999991132,
+        "exit_code_after_observation": null
+      },
+      {
+        "label": "after-detach",
+        "pid": 7132,
+        "sections": [
+          {
+            "module": "control.exe",
+            "section": ".text",
+            "sha256": "439a2723976352810be402f80f48cd3dbfc1d0aa7aa81569047e983f730ae8ca",
+            "matches_baseline": true
+          },
+          {
+            "module": "ntdll.dll",
+            "section": ".text",
+            "sha256": "132c5a8c02a9cf4cdfbfbff628ddcd876ae6e71b3d39b134f75564395d19568c",
+            "matches_baseline": false
+          },
+          {
+            "module": "ntdll.dll",
+            "section": "SCPCFG",
+            "sha256": "967ee519ba1bacda4f8d370eefa8d83741c83de915b0484fc0c114c9d35405e9",
+            "matches_baseline": true
+          },
+          {
+            "module": "ntdll.dll",
+            "section": "SCPCFGFP",
+            "sha256": "3f0a26096984f24a13ae29b26f1f79659c118b4661c5830662bacf41bf9469fb",
+            "matches_baseline": true
+          },
+          {
+            "module": "ntdll.dll",
+            "section": "SCPCFGNP",
+            "sha256": "d34e6384deadab7a818e5d2472c64288a44669d23cb6deb2e78a5533160568c0",
+            "matches_baseline": true
+          },
+          {
+            "module": "ntdll.dll",
+            "section": "SCPCFGES",
+            "sha256": "ceff412a81b887f09a0b89faf765739a1f99c821b3ada49a7c4cf48dc1e2ffea",
+            "matches_baseline": true
+          },
+          {
+            "module": "ntdll.dll",
+            "section": "RT",
+            "sha256": "fe7601162928c5bb444b5bca4937c11eceafc5774eec4b98ba4cffc9abb15995",
+            "matches_baseline": true
+          },
+          {
+            "module": "ntdll.dll",
+            "section": "PAGE",
+            "sha256": "cb5eb7ecb1116f44c29717d3da27fc2f6683583530662405ad4ee748f169508e",
+            "matches_baseline": true
+          },
+          {
+            "module": "ntdll.dll",
+            "section": "fothk",
+            "sha256": "157d2ecd8ecc942d51be598af22235d52119933a996c4f2602f0766bf6d9c371",
+            "matches_baseline": true
+          },
+          {
+            "module": "KERNELBASE.dll",
+            "section": ".text",
+            "sha256": "36f5907e6f5751621ac2ca9e9d5babd4c28c951ea0d393a8fea2b225d00b0fee",
+            "matches_baseline": true
+          },
+          {
+            "module": "KERNELBASE.dll",
+            "section": "fothk",
+            "sha256": "ddf7f432177bc6da0acfa99b837301494c7d8095af813b7ee205559054d1ecde",
+            "matches_baseline": true
+          }
+        ],
+        "changes": [
+          {
+            "module": "ntdll.dll",
+            "section": ".text",
+            "rva": 65984,
+            "address": 140721717313984,
+            "before": "ffffe9e1fcffffcccccccccccccccccc48895c240848897424104c894c24204c",
+            "after": "ffffe9e1fcffffcccccccccccccccccce933fefdff48897424104c894c24204c"
+          },
+          {
+            "module": "ntdll.dll",
+            "section": ".text",
+            "rva": 85056,
+            "address": 140721717333056,
+            "before": "0d0000c0e943feffffcccccccccccccc40534883ec30803d2bad1b0000488bd9",
+            "after": "0d0000c0e943feffffcccccccccccccce9b3b7fdff90803d2bad1b0000488bd9"
+          },
+          {
+            "module": "ntdll.dll",
+            "section": ".text",
+            "rva": 321728,
+            "address": 140721717569728,
+            "before": "4c8bdc49895b10565741564881ecd0000000488b05bf7c19004833c448898424",
+            "after": "e94319faff6690565741564881ecd0000000488b05bf7c19004833c448898424"
+          }
+        ],
+        "changed_blocks": 3,
+        "exit_code": null,
+        "omitted_blocks": 0,
+        "seconds": 0.0,
+        "exit_code_after_observation": null
+      },
+      {
+        "label": "after-wait-0.01",
+        "pid": 7132,
+        "sections": [
+          {
+            "module": "control.exe",
+            "section": ".text",
+            "sha256": "439a2723976352810be402f80f48cd3dbfc1d0aa7aa81569047e983f730ae8ca",
+            "matches_baseline": true
+          },
+          {
+            "module": "ntdll.dll",
+            "section": ".text",
+            "sha256": "ed73b5ed509d23317c4cc89662684d5c8f10e2cf2021bccd2943e22422ee014a",
+            "matches_baseline": true
+          },
+          {
+            "module": "ntdll.dll",
+            "section": "SCPCFG",
+            "sha256": "967ee519ba1bacda4f8d370eefa8d83741c83de915b0484fc0c114c9d35405e9",
+            "matches_baseline": true
+          },
+          {
+            "module": "ntdll.dll",
+            "section": "SCPCFGFP",
+            "sha256": "3f0a26096984f24a13ae29b26f1f79659c118b4661c5830662bacf41bf9469fb",
+            "matches_baseline": true
+          },
+          {
+            "module": "ntdll.dll",
+            "section": "SCPCFGNP",
+            "sha256": "d34e6384deadab7a818e5d2472c64288a44669d23cb6deb2e78a5533160568c0",
+            "matches_baseline": true
+          },
+          {
+            "module": "ntdll.dll",
+            "section": "SCPCFGES",
+            "sha256": "ceff412a81b887f09a0b89faf765739a1f99c821b3ada49a7c4cf48dc1e2ffea",
+            "matches_baseline": true
+          },
+          {
+            "module": "ntdll.dll",
+            "section": "RT",
+            "sha256": "fe7601162928c5bb444b5bca4937c11eceafc5774eec4b98ba4cffc9abb15995",
+            "matches_baseline": true
+          },
+          {
+            "module": "ntdll.dll",
+            "section": "PAGE",
+            "sha256": "cb5eb7ecb1116f44c29717d3da27fc2f6683583530662405ad4ee748f169508e",
+            "matches_baseline": true
+          },
+          {
+            "module": "ntdll.dll",
+            "section": "fothk",
+            "sha256": "157d2ecd8ecc942d51be598af22235d52119933a996c4f2602f0766bf6d9c371",
+            "matches_baseline": true
+          },
+          {
+            "module": "KERNELBASE.dll",
+            "section": ".text",
+            "sha256": "36f5907e6f5751621ac2ca9e9d5babd4c28c951ea0d393a8fea2b225d00b0fee",
+            "matches_baseline": true
+          },
+          {
+            "module": "KERNELBASE.dll",
+            "section": "fothk",
+            "sha256": "ddf7f432177bc6da0acfa99b837301494c7d8095af813b7ee205559054d1ecde",
+            "matches_baseline": true
+          }
+        ],
+        "changes": [],
+        "changed_blocks": 0,
+        "exit_code": null,
+        "omitted_blocks": 0,
+        "seconds": 0.016000000000019554,
+        "exit_code_after_observation": null
+      },
+      {
+        "label": "after-wait-0.05",
+        "pid": 7132,
+        "sections": [
+          {
+            "module": "control.exe",
+            "section": ".text",
+            "sha256": "439a2723976352810be402f80f48cd3dbfc1d0aa7aa81569047e983f730ae8ca",
+            "matches_baseline": true
+          },
+          {
+            "module": "ntdll.dll",
+            "section": ".text",
+            "sha256": "ed73b5ed509d23317c4cc89662684d5c8f10e2cf2021bccd2943e22422ee014a",
+            "matches_baseline": true
+          },
+          {
+            "module": "ntdll.dll",
+            "section": "SCPCFG",
+            "sha256": "967ee519ba1bacda4f8d370eefa8d83741c83de915b0484fc0c114c9d35405e9",
+            "matches_baseline": true
+          },
+          {
+            "module": "ntdll.dll",
+            "section": "SCPCFGFP",
+            "sha256": "3f0a26096984f24a13ae29b26f1f79659c118b4661c5830662bacf41bf9469fb",
+            "matches_baseline": true
+          },
+          {
+            "module": "ntdll.dll",
+            "section": "SCPCFGNP",
+            "sha256": "d34e6384deadab7a818e5d2472c64288a44669d23cb6deb2e78a5533160568c0",
+            "matches_baseline": true
+          },
+          {
+            "module": "ntdll.dll",
+            "section": "SCPCFGES",
+            "sha256": "ceff412a81b887f09a0b89faf765739a1f99c821b3ada49a7c4cf48dc1e2ffea",
+            "matches_baseline": true
+          },
+          {
+            "module": "ntdll.dll",
+            "section": "RT",
+            "sha256": "fe7601162928c5bb444b5bca4937c11eceafc5774eec4b98ba4cffc9abb15995",
+            "matches_baseline": true
+          },
+          {
+            "module": "ntdll.dll",
+            "section": "PAGE",
+            "sha256": "cb5eb7ecb1116f44c29717d3da27fc2f6683583530662405ad4ee748f169508e",
+            "matches_baseline": true
+          },
+          {
+            "module": "ntdll.dll",
+            "section": "fothk",
+            "sha256": "157d2ecd8ecc942d51be598af22235d52119933a996c4f2602f0766bf6d9c371",
+            "matches_baseline": true
+          },
+          {
+            "module": "KERNELBASE.dll",
+            "section": ".text",
+            "sha256": "36f5907e6f5751621ac2ca9e9d5babd4c28c951ea0d393a8fea2b225d00b0fee",
+            "matches_baseline": true
+          },
+          {
+            "module": "KERNELBASE.dll",
+            "section": "fothk",
+            "sha256": "ddf7f432177bc6da0acfa99b837301494c7d8095af813b7ee205559054d1ecde",
+            "matches_baseline": true
+          }
+        ],
+        "changes": [],
+        "changed_blocks": 0,
+        "exit_code": null,
+        "omitted_blocks": 0,
+        "seconds": 0.0,
+        "exit_code_after_observation": null
+      },
+      {
+        "label": "after-wait-0.2",
+        "pid": 7132,
+        "sections": [
+          {
+            "module": "control.exe",
+            "section": ".text",
+            "sha256": "439a2723976352810be402f80f48cd3dbfc1d0aa7aa81569047e983f730ae8ca",
+            "matches_baseline": true
+          },
+          {
+            "module": "ntdll.dll",
+            "section": ".text",
+            "sha256": "ed73b5ed509d23317c4cc89662684d5c8f10e2cf2021bccd2943e22422ee014a",
+            "matches_baseline": true
+          },
+          {
+            "module": "ntdll.dll",
+            "section": "SCPCFG",
+            "sha256": "967ee519ba1bacda4f8d370eefa8d83741c83de915b0484fc0c114c9d35405e9",
+            "matches_baseline": true
+          },
+          {
+            "module": "ntdll.dll",
+            "section": "SCPCFGFP",
+            "sha256": "3f0a26096984f24a13ae29b26f1f79659c118b4661c5830662bacf41bf9469fb",
+            "matches_baseline": true
+          },
+          {
+            "module": "ntdll.dll",
+            "section": "SCPCFGNP",
+            "sha256": "d34e6384deadab7a818e5d2472c64288a44669d23cb6deb2e78a5533160568c0",
+            "matches_baseline": true
+          },
+          {
+            "module": "ntdll.dll",
+            "section": "SCPCFGES",
+            "sha256": "ceff412a81b887f09a0b89faf765739a1f99c821b3ada49a7c4cf48dc1e2ffea",
+            "matches_baseline": true
+          },
+          {
+            "module": "ntdll.dll",
+            "section": "RT",
+            "sha256": "fe7601162928c5bb444b5bca4937c11eceafc5774eec4b98ba4cffc9abb15995",
+            "matches_baseline": true
+          },
+          {
+            "module": "ntdll.dll",
+            "section": "PAGE",
+            "sha256": "cb5eb7ecb1116f44c29717d3da27fc2f6683583530662405ad4ee748f169508e",
+            "matches_baseline": true
+          },
+          {
+            "module": "ntdll.dll",
+            "section": "fothk",
+            "sha256": "157d2ecd8ecc942d51be598af22235d52119933a996c4f2602f0766bf6d9c371",
+            "matches_baseline": true
+          },
+          {
+            "module": "KERNELBASE.dll",
+            "section": ".text",
+            "sha256": "36f5907e6f5751621ac2ca9e9d5babd4c28c951ea0d393a8fea2b225d00b0fee",
+            "matches_baseline": true
+          },
+          {
+            "module": "KERNELBASE.dll",
+            "section": "fothk",
+            "sha256": "ddf7f432177bc6da0acfa99b837301494c7d8095af813b7ee205559054d1ecde",
+            "matches_baseline": true
+          }
+        ],
+        "changes": [],
+        "changed_blocks": 0,
+        "exit_code": null,
+        "omitted_blocks": 0,
+        "seconds": 0.0,
+        "exit_code_after_observation": null
+      },
+      {
+        "label": "after-wait-1",
+        "pid": 7132,
+        "sections": [
+          {
+            "module": "control.exe",
+            "section": ".text",
+            "sha256": "439a2723976352810be402f80f48cd3dbfc1d0aa7aa81569047e983f730ae8ca",
+            "matches_baseline": true
+          },
+          {
+            "module": "ntdll.dll",
+            "section": ".text",
+            "sha256": "ed73b5ed509d23317c4cc89662684d5c8f10e2cf2021bccd2943e22422ee014a",
+            "matches_baseline": true
+          },
+          {
+            "module": "ntdll.dll",
+            "section": "SCPCFG",
+            "sha256": "967ee519ba1bacda4f8d370eefa8d83741c83de915b0484fc0c114c9d35405e9",
+            "matches_baseline": true
+          },
+          {
+            "module": "ntdll.dll",
+            "section": "SCPCFGFP",
+            "sha256": "3f0a26096984f24a13ae29b26f1f79659c118b4661c5830662bacf41bf9469fb",
+            "matches_baseline": true
+          },
+          {
+            "module": "ntdll.dll",
+            "section": "SCPCFGNP",
+            "sha256": "d34e6384deadab7a818e5d2472c64288a44669d23cb6deb2e78a5533160568c0",
+            "matches_baseline": true
+          },
+          {
+            "module": "ntdll.dll",
+            "section": "SCPCFGES",
+            "sha256": "ceff412a81b887f09a0b89faf765739a1f99c821b3ada49a7c4cf48dc1e2ffea",
+            "matches_baseline": true
+          },
+          {
+            "module": "ntdll.dll",
+            "section": "RT",
+            "sha256": "fe7601162928c5bb444b5bca4937c11eceafc5774eec4b98ba4cffc9abb15995",
+            "matches_baseline": true
+          },
+          {
+            "module": "ntdll.dll",
+            "section": "PAGE",
+            "sha256": "cb5eb7ecb1116f44c29717d3da27fc2f6683583530662405ad4ee748f169508e",
+            "matches_baseline": true
+          },
+          {
+            "module": "ntdll.dll",
+            "section": "fothk",
+            "sha256": "157d2ecd8ecc942d51be598af22235d52119933a996c4f2602f0766bf6d9c371",
+            "matches_baseline": true
+          },
+          {
+            "module": "KERNELBASE.dll",
+            "section": ".text",
+            "sha256": "36f5907e6f5751621ac2ca9e9d5babd4c28c951ea0d393a8fea2b225d00b0fee",
+            "matches_baseline": true
+          },
+          {
+            "module": "KERNELBASE.dll",
+            "section": "fothk",
+            "sha256": "ddf7f432177bc6da0acfa99b837301494c7d8095af813b7ee205559054d1ecde",
+            "matches_baseline": true
+          }
+        ],
+        "changes": [],
+        "changed_blocks": 0,
+        "exit_code": null,
+        "omitted_blocks": 0,
+        "seconds": 0.014999999999986358,
+        "exit_code_after_observation": null
+      }
+    ],
+    "baseline": {
+      "modules": [
+        {
+          "base": 140696085004288,
+          "size": 118784,
+          "path": "D:\\a\\nemoterm\\nemoterm\\build\\close-replay-evidence\\code-controls\\control.exe",
+          "name": "control.exe"
+        },
+        {
+          "base": 140721717248000,
+          "size": 2506752,
+          "path": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "name": "ntdll.dll"
+        },
+        {
+          "base": 140721670979584,
+          "size": 4116480,
+          "path": "C:\\Windows\\System32\\KERNELBASE.dll",
+          "name": "KERNELBASE.dll"
+        }
+      ],
+      "bytes": 3262594,
+      "sections": [
+        {
+          "module": "control.exe",
+          "base": 140696085004288,
+          "section": ".text",
+          "rva": 4096,
+          "bytes": 53120,
+          "baseline_sha256": "439a2723976352810be402f80f48cd3dbfc1d0aa7aa81569047e983f730ae8ca"
+        },
+        {
+          "module": "ntdll.dll",
+          "base": 140721717248000,
+          "section": ".text",
+          "rva": 4096,
+          "bytes": 1488284,
+          "baseline_sha256": "ed73b5ed509d23317c4cc89662684d5c8f10e2cf2021bccd2943e22422ee014a"
+        },
+        {
+          "module": "ntdll.dll",
+          "base": 140721717248000,
+          "section": "SCPCFG",
+          "rva": 1495040,
+          "bytes": 688,
+          "baseline_sha256": "967ee519ba1bacda4f8d370eefa8d83741c83de915b0484fc0c114c9d35405e9"
+        },
+        {
+          "module": "ntdll.dll",
+          "base": 140721717248000,
+          "section": "SCPCFGFP",
+          "rva": 1499136,
+          "bytes": 688,
+          "baseline_sha256": "3f0a26096984f24a13ae29b26f1f79659c118b4661c5830662bacf41bf9469fb"
+        },
+        {
+          "module": "ntdll.dll",
+          "base": 140721717248000,
+          "section": "SCPCFGNP",
+          "rva": 1503232,
+          "bytes": 688,
+          "baseline_sha256": "d34e6384deadab7a818e5d2472c64288a44669d23cb6deb2e78a5533160568c0"
+        },
+        {
+          "module": "ntdll.dll",
+          "base": 140721717248000,
+          "section": "SCPCFGES",
+          "rva": 1507328,
+          "bytes": 688,
+          "baseline_sha256": "ceff412a81b887f09a0b89faf765739a1f99c821b3ada49a7c4cf48dc1e2ffea"
+        },
+        {
+          "module": "ntdll.dll",
+          "base": 140721717248000,
+          "section": "RT",
+          "rva": 1511424,
+          "bytes": 444,
+          "baseline_sha256": "fe7601162928c5bb444b5bca4937c11eceafc5774eec4b98ba4cffc9abb15995"
+        },
+        {
+          "module": "ntdll.dll",
+          "base": 140721717248000,
+          "section": "PAGE",
+          "rva": 1515520,
+          "bytes": 2243,
+          "baseline_sha256": "cb5eb7ecb1116f44c29717d3da27fc2f6683583530662405ad4ee748f169508e"
+        },
+        {
+          "module": "ntdll.dll",
+          "base": 140721717248000,
+          "section": "fothk",
+          "rva": 1519616,
+          "bytes": 4096,
+          "baseline_sha256": "157d2ecd8ecc942d51be598af22235d52119933a996c4f2602f0766bf6d9c371"
+        },
+        {
+          "module": "KERNELBASE.dll",
+          "base": 140721670979584,
+          "section": ".text",
+          "rva": 4096,
+          "bytes": 1707559,
+          "baseline_sha256": "36f5907e6f5751621ac2ca9e9d5babd4c28c951ea0d393a8fea2b225d00b0fee"
+        },
+        {
+          "module": "KERNELBASE.dll",
+          "base": 140721670979584,
+          "section": "fothk",
+          "rva": 1712128,
+          "bytes": 4096,
+          "baseline_sha256": "ddf7f432177bc6da0acfa99b837301494c7d8095af813b7ee205559054d1ecde"
+        }
+      ],
+      "controller_only": true,
+      "baseline_seconds": 0.016000000000019554
+    },
+    "foreign_job_rejected": "Process does not belong to the supplied owned job",
+    "process_exit": 23,
+    "after_exit": {
+      "label": "after-exit",
+      "pid": 7132,
+      "sections": [],
+      "changes": [],
+      "changed_blocks": 0,
+      "exit_code": 23
+    },
+    "cleanup": {
+      "before": {
+        "total": 2,
+        "active": 0,
+        "terminated": 0
+      },
+      "after": {
+        "total": 2,
+        "active": 0,
+        "terminated": 0
+      },
+      "terminated_remaining": false,
+      "remaining_processes": []
+    }
+  },
+  "comparisons": [
+    {
+      "iteration": 1,
+      "mode": "immediate",
+      "checks": 9,
+      "elapsed_seconds": 16.639999999999986,
+      "boundaries": [
+        {
+          "label": "before-attach",
+          "changed_blocks": 0,
+          "seconds": 0.0
+        },
+        {
+          "label": "after-load",
+          "changed_blocks": 5,
+          "seconds": 0.0
+        },
+        {
+          "label": "before-detach",
+          "changed_blocks": 5,
+          "seconds": 0.0
+        },
+        {
+          "label": "after-detach",
+          "changed_blocks": 1,
+          "seconds": 0.014999999999986358
+        },
+        {
+          "label": "after-select",
+          "changed_blocks": 0,
+          "seconds": 0.0
+        }
+      ]
+    },
+    {
+      "iteration": 2,
+      "mode": "unload-first",
+      "checks": 9,
+      "elapsed_seconds": 16.030999999999977,
+      "boundaries": [
+        {
+          "label": "before-attach",
+          "changed_blocks": 0,
+          "seconds": 0.0
+        },
+        {
+          "label": "after-load",
+          "changed_blocks": 5,
+          "seconds": 0.016000000000019554
+        },
+        {
+          "label": "before-detach",
+          "changed_blocks": 5,
+          "seconds": 0.016000000000019554
+        },
+        {
+          "label": "after-script-unload",
+          "changed_blocks": 3,
+          "seconds": 0.015999999999991132
+        },
+        {
+          "label": "after-detach",
+          "changed_blocks": 0,
+          "seconds": 0.0
+        },
+        {
+          "label": "after-select",
+          "changed_blocks": 0,
+          "seconds": 0.015999999999991132
+        }
+      ]
+    },
+    {
+      "iteration": 3,
+      "mode": "after-interactions",
+      "checks": 9,
+      "elapsed_seconds": 16.094000000000023,
+      "boundaries": [
+        {
+          "label": "before-attach",
+          "changed_blocks": 0,
+          "seconds": 0.014999999999986358
+        },
+        {
+          "label": "after-load",
+          "changed_blocks": 5,
+          "seconds": 0.015999999999991132
+        },
+        {
+          "label": "before-detach",
+          "changed_blocks": 5,
+          "seconds": 0.0
+        },
+        {
+          "label": "after-select",
+          "changed_blocks": 5,
+          "seconds": 0.0
+        },
+        {
+          "label": "before-delayed-detach",
+          "changed_blocks": 5,
+          "seconds": 0.0
+        },
+        {
+          "label": "after-delayed-detach",
+          "changed_blocks": 0,
+          "seconds": 0.0
+        }
+      ]
+    },
+    {
+      "iteration": 4,
+      "mode": "after-interactions",
+      "checks": 9,
+      "elapsed_seconds": 15.953000000000003,
+      "boundaries": [
+        {
+          "label": "before-attach",
+          "changed_blocks": 0,
+          "seconds": 0.016000000000019554
+        },
+        {
+          "label": "after-load",
+          "changed_blocks": 5,
+          "seconds": 0.016000000000019554
+        },
+        {
+          "label": "before-detach",
+          "changed_blocks": 5,
+          "seconds": 0.015999999999991132
+        },
+        {
+          "label": "after-select",
+          "changed_blocks": 5,
+          "seconds": 0.0
+        },
+        {
+          "label": "before-delayed-detach",
+          "changed_blocks": 5,
+          "seconds": 0.016000000000019554
+        },
+        {
+          "label": "after-delayed-detach",
+          "changed_blocks": 0,
+          "seconds": 0.014999999999986358
+        }
+      ]
+    },
+    {
+      "iteration": 5,
+      "mode": "unload-first",
+      "checks": 9,
+      "elapsed_seconds": 16.172000000000025,
+      "boundaries": [
+        {
+          "label": "before-attach",
+          "changed_blocks": 0,
+          "seconds": 0.0
+        },
+        {
+          "label": "after-load",
+          "changed_blocks": 5,
+          "seconds": 0.015999999999991132
+        },
+        {
+          "label": "before-detach",
+          "changed_blocks": 5,
+          "seconds": 0.014999999999986358
+        },
+        {
+          "label": "after-script-unload",
+          "changed_blocks": 3,
+          "seconds": 0.016000000000019554
+        },
+        {
+          "label": "after-detach",
+          "changed_blocks": 0,
+          "seconds": 0.0
+        },
+        {
+          "label": "after-select",
+          "changed_blocks": 0,
+          "seconds": 0.016000000000019554
+        }
+      ]
+    },
+    {
+      "iteration": 6,
+      "mode": "immediate",
+      "checks": 9,
+      "elapsed_seconds": 16.094000000000023,
+      "boundaries": [
+        {
+          "label": "before-attach",
+          "changed_blocks": 0,
+          "seconds": 0.0
+        },
+        {
+          "label": "after-load",
+          "changed_blocks": 5,
+          "seconds": 0.016000000000019554
+        },
+        {
+          "label": "before-detach",
+          "changed_blocks": 5,
+          "seconds": 0.0
+        },
+        {
+          "label": "after-detach",
+          "changed_blocks": 0,
+          "seconds": 0.0
+        },
+        {
+          "label": "after-select",
+          "changed_blocks": 0,
+          "seconds": 0.014999999999986358
+        }
+      ]
+    }
+  ],
+  "scope": "Six finite exact-image diagnostic passes; async code cleanup observed; original crash unresolved, no promotion"
+}

@@ -67,3 +67,28 @@ the failed job, exact artifact hash and matching production source, runs the
 observer controls, then performs the fixed six-way comparison. It never replaces
 ordinary product CI or memory acceptance. A recurrence with an exception address
 or a differing controlled outcome is still needed before attributing the crash.
+
+## Hosted comparison
+
+[Run 43778543052](https://github.com/xiongnemo/nemoterm/actions/runs/43778543052)
+at fixture `4f319c0` passes the observer controls and the same six lifetimes on
+the exact failed image. The OpenGL request falls back to actual GDI, as in the
+original failing job. Each lifetime passes all nine checks and naturally drains
+54 owned processes. No observation errors or truncated change lists occur.
+
+The first immediate-detach snapshot retains one changed ntdll block; the second
+retains none. Both are fully restored after the first tab selection. The two
+explicit-unload runs retain three blocks between script unload and session
+detach, then none after detach. Both delayed-detach runs retain five blocks
+during the interaction checks and none in their post-detach snapshots. All
+three controlled paths pass, so these results do not discriminate a crash cause.
+The original access violation remains unresolved.
+
+The original artifact ZIP is retained as `tab-probe-lifetime-8655aae-hosted.zip`
+(107,104 bytes, SHA256
+`a9cd3399a333ca95ecae081918f0c8cbc233e2887de72474b91e44e79a6ee130`).
+Its validation manifest verifies the GitHub digest, every extracted member,
+fixture and observer source hashes, image identity, results and process cleanup.
+Local observations and both failed controls remain separately retained in
+`tab-probe-lifetime-8655aae.tar.gz` (SHA256
+`c1053d8f43d56f739687242f6f0e7d3a58d4039dbaf788b47f9bdfad1ae16685`).
