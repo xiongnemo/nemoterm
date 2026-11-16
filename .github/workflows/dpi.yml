@@ -1,6 +1,14 @@
 name: Remote Windows DPI acceptance
 
 on:
+  workflow_call:
+    inputs:
+      product_run:
+        required: true
+        type: string
+      product_commit:
+        required: true
+        type: string
   workflow_dispatch:
     inputs:
       product_run:
@@ -28,6 +36,8 @@ jobs:
       NEMOTERM_TEST_TRACEBACK_SECONDS: '60'
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
       - name: Download and verify the exact single executable
         shell: pwsh
         env:
@@ -36,11 +46,15 @@ jobs:
           PRODUCT_COMMIT: ${{ inputs.product_commit }}
         run: |
           if ($env:PRODUCT_RUN -notmatch '^\d+$' -or $env:PRODUCT_COMMIT -notmatch '^[0-9a-f]{40}$') { throw 'Invalid product identity' }
+          $run=gh run view $env:PRODUCT_RUN --repo $env:GITHUB_REPOSITORY --json headSha | ConvertFrom-Json
+          if ($LASTEXITCODE -or $run.headSha -ne $env:PRODUCT_COMMIT) { throw 'Source run identity mismatch' }
+          git diff --quiet $env:PRODUCT_COMMIT HEAD -- vendor native scripts/build.ps1 scripts/build-single-exe.ps1 scripts/prepare-single-exe.py
+          if ($LASTEXITCODE) { throw 'Production differs; select a fresh source-host artifact' }
           gh run download $env:PRODUCT_RUN --repo $env:GITHUB_REPOSITORY --name "source-console-host-x64-$env:PRODUCT_COMMIT" --dir build/dpi-product
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           $record=Get-Content build/dpi-product/SOURCE-HOST.json -Raw | ConvertFrom-Json
           $exe=(Resolve-Path build/dpi-product/nemoterm.exe).Path
-          if ($record.SourceCommit -ne $env:PRODUCT_COMMIT -or $record.Executable.SHA256 -ne (Get-FileHash $exe).Hash.ToLowerInvariant()) { throw 'Executable identity mismatch' }
+          if ($record.SourceCommit -ne $env:PRODUCT_COMMIT -or $record.Executable.SHA256 -ne (Get-FileHash $exe).Hash.ToLowerInvariant() -or $record.Executable.Bytes -ne (Get-Item $exe).Length) { throw 'Executable identity mismatch' }
           New-Item -ItemType Directory build/dpi-check/research,build/dpi-check/tools,build/dpi-check/build | Out-Null
           Copy-Item tests build/dpi-check/tests -Recurse
           Copy-Item tools/nemoterm_debug.py build/dpi-check/tools/
@@ -69,7 +83,7 @@ jobs:
             if ($mode -eq 'tabs') { $arguments+='--tabs' }
             python build/dpi-check/tests/input_method_window_smoke.py @arguments
             $result=$LASTEXITCODE
-            Copy-Item build/dpi-check/research/input-method-* "build/dpi-check/research/synthetic-$mode/" -Recurse -Force -ErrorAction SilentlyContinue
+            Copy-Item build/dpi-check/research/*input-method-* "build/dpi-check/research/synthetic-$mode/" -Force -ErrorAction SilentlyContinue
             if ($result) { exit $result }
           }
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
