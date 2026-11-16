@@ -26,19 +26,57 @@ u.SetCursorPos.argtypes = [c.c_int, c.c_int]
 u.GetCursorPos.argtypes = [c.POINTER(w.POINT)]
 u.SendMessageW.restype = c.c_ssize_t
 u.SendInput.argtypes = [w.UINT, c.POINTER(Input), c.c_int]
+u.SendMessageTimeoutW.argtypes = [w.HWND, w.UINT, w.WPARAM, w.LPARAM,
+                                w.UINT, w.UINT, c.POINTER(c.c_size_t)]
+u.SendMessageTimeoutW.restype = c.c_ssize_t
+u.GetAsyncKeyState.argtypes, u.GetAsyncKeyState.restype = [c.c_int], c.c_short
 
-def focus_owned_window(window, owner_pid, *, allow_local=False):
+def focus_owned_window(window, owner_pid, *, allow_local=False, record=None,
+                       mode='synchronized'):
     assert os.environ.get('GITHUB_ACTIONS') == 'true' or allow_local, 'Local foreground preparation requires explicit opt-in'
+    assert mode in ('legacy', 'synchronized'), mode
     owner = w.DWORD()
     assert u.IsWindow(window) and terminal_host(window) == window
     assert u.GetWindowThreadProcessId(window, c.byref(owner)) and owner.value == owner_pid
-    record = dict(window=window, owner_pid=owner_pid, before=u.GetForegroundWindow())
+    if record is None:record = {}
+    record.update(window=window, owner_pid=owner_pid, mode=mode,
+                  before=u.GetForegroundWindow(), completed=False, transitions=[])
+    started = time.monotonic()
+    def observe(stage):
+        foreground = u.GetForegroundWindow()
+        pid = w.DWORD()
+        if foreground:u.GetWindowThreadProcessId(foreground, c.byref(pid))
+        state = dict(stage=stage, foreground=foreground, foreground_pid=pid.value)
+        previous = record['transitions'][-1] if record['transitions'] else None
+        if previous is None or any(previous[k] != v for k,v in state.items()):
+            state['elapsed_seconds'] = time.monotonic()-started
+            if len(record['transitions']) < 256:record['transitions'].append(state)
+        return foreground
+    try:
+        return _prepare_focus(window, record, mode, observe)
+    except BaseException as error:
+        record['error'] = repr(error)
+        observe('failed')
+        raise
+
+
+def _prepare_focus(window, record, mode, observe):
     if record['before'] == window:
         record['method'] = 'already-foreground'
     else:
         record['set_foreground_result'] = bool(u.SetForegroundWindow(window))
         record['method'] = 'SetForegroundWindow'
-        if u.GetForegroundWindow() != window:
+        immediate = observe('after-set-foreground')
+        if mode == 'synchronized':
+            # Activation crosses input queues asynchronously. Wait for the
+            # target's queue before deciding that a real caption click is needed.
+            # https://devblogs.microsoft.com/oldnewthing/20161118-00/?p=94745
+            result = c.c_size_t()
+            record['queue_barrier'] = bool(u.SendMessageTimeoutW(
+                window, 0, 0, 0, 0, 5000, c.byref(result)))
+            assert record['queue_barrier'], ('Focus target is unresponsive', record)
+            immediate = observe('after-queue-barrier')
+        if immediate != window:
             # Expose only this owned caption, preserving its topmost attribute.
             topmost = bool(u.GetWindowLongPtrW(window, -20) & 8)
             original = w.POINT();assert u.GetCursorPos(c.byref(original))
@@ -70,14 +108,21 @@ def focus_owned_window(window, owner_pid, *, allow_local=False):
                     u.SendInput(1, c.byref(clicks[1]), c.sizeof(Input))
                 assert sent == 2, ('Caption click failed', sent, record)
                 record.update(method='owned-caption-click', click=[point.x, point.y])
+                if mode == 'synchronized':
+                    # SendInput reports insertion, not delivery. Keep the caption
+                    # exposed and cursor in place until activation and button-up
+                    # are observed, before restoring the temporary preparation.
+                    wait_for(lambda: observe('waiting-for-click') == window
+                             and not (u.GetAsyncKeyState(1) & 0x8000))
             finally:
                 if not topmost:u.SetWindowPos(window, -2, 0, 0, 0, 0, 0x13)
                 current = w.POINT()
                 if point is not None and u.GetCursorPos(c.byref(current)) and (current.x,current.y)==(point.x,point.y):
                     record['cursor_restored']=bool(u.SetCursorPos(original.x,original.y))
             assert bool(u.GetWindowLongPtrW(window, -20) & 8) == topmost
-    wait_for(lambda: u.GetForegroundWindow() == window)
+    wait_for(lambda: observe('waiting-for-foreground') == window)
     time.sleep(.06)
-    record['after'] = u.GetForegroundWindow()
+    record['after'] = observe('settled')
     assert record['after'] == window, record
+    record['completed'] = True
     return record

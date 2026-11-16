@@ -21,8 +21,10 @@ u.ShowWindow.argtypes=[w.HWND,c.c_int]
 u.IsIconic.argtypes=[w.HWND]
 u.GetPropW.argtypes,u.GetPropW.restype=[w.HWND,w.LPCWSTR],w.HANDLE
 exe=Path(os.environ.get('NEMOTERM_TEST_EXE',root/'dist/nemoterm.exe')).resolve()
+focus_mode=os.environ.get('NEMOTERM_FOCUS_MODE','synchronized')
+assert focus_mode in ('legacy','synchronized'),focus_mode
 evidence=dict(completed=False,executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),
-    checks=[],cleanup=[],focus_actions=[],position_actions=[],window_events=[],renderers=[],scope='Actual owned Windows state and unmodified API observation; no speaker or visible taskbar acceptance.')
+    focus_mode=focus_mode,checks=[],cleanup=[],focus_actions=[],position_actions=[],window_events=[],renderers=[],scope='Actual owned Windows state and unmodified API observation; no speaker or visible taskbar acceptance.')
 marker=b'\x1b[0n'
 
 try:
@@ -97,7 +99,10 @@ try:
                             active=active[0],sessions=[s['id'] for s in sessions],configured_topmost=always_on_top)
             def focus(window):
                 assert window in (host,other)
-                evidence['focus_actions'].append(focus_owned_window(window,process.pid if window==host else cover.pid))
+                record=dict(renderer=renderer,configured_topmost=always_on_top)
+                evidence['focus_actions'].append(record)
+                focus_owned_window(window,process.pid if window==host else cover.pid,
+                                   record=record,mode=focus_mode)
             def position(window,after):
                 record=dict(window=window,after=after,before_style=int(u.GetWindowLongPtrW(window,-20)))
                 evidence['position_actions'].append(record)
@@ -261,5 +266,12 @@ try:
             assert not cleanup['terminated_remaining'] and cleanup['after']['active']==0
     evidence['completed']=True
     print('Native bell window states:',len(evidence['checks']),'GDI/DirectX tab-host checks passed')
+except BaseException as error:
+    evidence['error']=repr(error)
+    raise
 finally:
+    # OwnedJob.__exit__ also runs on a failed assertion. Retain its cleanup,
+    # rather than silently losing the last profile's process-lifetime evidence.
+    if 'job' in globals() and job.cleanup is not None and not any(item is job.cleanup for item in evidence['cleanup']):
+        evidence['cleanup'].append(job.cleanup)
     (root/'research/bell-window-state-observed.json').write_text(json.dumps(evidence,indent=2),encoding='utf-8')

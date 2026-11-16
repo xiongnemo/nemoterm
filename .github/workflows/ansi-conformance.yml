@@ -7,6 +7,10 @@ on:
         description: Reuse a verified native image to check tab and window-state bell lifetime
         type: boolean
         default: false
+      focus_comparison:
+        description: Diagnostic bell-state comparison of legacy and synchronized foreground preparation
+        type: boolean
+        default: false
       image_run:
         description: Completed bell-native run for the window-state fixture
         type: string
@@ -381,6 +385,11 @@ jobs:
 
   bell-window-state:
     if: inputs.bell_state == true
+    strategy:
+      fail-fast: false
+      matrix:
+        focus: ${{ fromJSON(inputs.focus_comparison && '["legacy","synchronized"]' || '["synchronized"]') }}
+        repetition: ${{ fromJSON(inputs.focus_comparison && '[1,2]' || '[1]') }}
     permissions:
       contents: read
       actions: read
@@ -421,8 +430,13 @@ jobs:
           }
           @{ fixture_source=$env:GITHUB_SHA; image_source=$run.head_sha; image_run=$run.id; image_conclusion=$run.conclusion; diagnostic_failed_baseline=$diagnosticFailed; artifact_id=$artifact[0].id; image_sha256=$hash } | ConvertTo-Json | Set-Content bell-state-provenance.json
       - run: python -m pip install frida==17.24.3
+      - name: Check foreground preparation against deferred queue controls
+        if: inputs.focus_comparison == true
+        run: python tests/test_owned_window_focus.py
       - name: Check focus, stacking, minimized and background-tab lifetime
         shell: pwsh
+        env:
+          NEMOTERM_FOCUS_MODE: ${{ matrix.focus }}
         run: |
           $env:NEMOTERM_TEST_EXE = (Resolve-Path dist/nemoterm.exe).Path
           python tests/bell_window_state_smoke.py 2>&1 | Tee-Object bell-window-state.log
@@ -430,7 +444,7 @@ jobs:
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
-          name: bell-window-state-${{ github.sha }}
+          name: bell-window-state-${{ inputs.focus_comparison && format('{0}-{1}-', matrix.focus, matrix.repetition) || '' }}${{ github.sha }}
           path: |
             bell-state-provenance.json
             bell-window-state.log
