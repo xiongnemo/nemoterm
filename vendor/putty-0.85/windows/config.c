@@ -31,7 +31,7 @@ static void shell_handler(dlgcontrol *ctrl, dlgparam *dlg, void *data, int event
             sfree(label);
             if (!strcmp(id, nemo_shell_ids[i])) selected = i + 1;
         }
-        dlg_listbox_addwithid(ctrl, dlg, "Custom command (Session / Shell)", NEMO_SHELL_COUNT + 1);
+        dlg_listbox_addwithid(ctrl, dlg, "Custom command (Profile / Shell)", NEMO_SHELL_COUNT + 1);
         if (!strcmp(id, "custom")) selected = NEMO_SHELL_COUNT + 1;
         if (strcmp(id, "auto") && strcmp(id, "custom") && nemo_shell_index(id) < 0) {
             char *label = dupprintf("Unavailable saved shell: %s", id);

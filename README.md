@@ -157,8 +157,8 @@ Nemoterm 使用系统中已有的 shell；单文件产物不包含 PowerShell 7�
 - `-e` 后的内容作为自定义启动命令，优先于保存的 shell。**Nemoterm 参数应写在 `-e` 之前。**
 - 开发分支已修复 `-load` 覆盖前置 `--tabs`、字体及尺寸选项的问题；明确的命令行设置优先于保存配置，见[参数验证](research/command-line-profile.md)。上述 `12ee33b` 及更早下载版应将这些选项写在 `-load` 之后。
 - 开发分支还修复了标签窗口在最小化期间接收尺寸请求后、恢复时内容区域偏小的问题，见[恢复尺寸验证](research/host-restore-size.md)。
-- 在 **Session** 中选择 shell，并保存到 `Default Settings` 或命名配置；`-load "配置名"` 可加载命名配置。
-- **Session / Shell** 用于编辑自定义命令和启动目录；命令行也可用 `--shell custom --shell-command "命令"`。
+- 在 **Profile / Shell** 中选择 shell，使用 **Save and Apply** 保存当前 profile；`--profile "名称"` 可加载命名 profile。
+- **Profile / Shell** 用于编辑自定义命令和启动目录；命令行也可用 `--shell custom --shell-command "命令"`。
 
 更多说明见 [Shell 检测](research/shell-selection.md) 与 [工作目录集成](research/working-directory.md)。
 
@@ -195,7 +195,7 @@ Sarasa 字体在本机 GDI、OpenGL、DirectX 下的字号回归也已通过；
 
 `--choose-shell` 和 `--settings` 都会先打开启动设置窗口；也可从运行中的上下文菜单选择
 **Profile Settings**，调整字体、颜色、光标、回滚和渲染器。
-设置窗口的 **Profile** 页提供 **Add / Edit / Save / Delete**。首次启动自动创建不可删除的 **Default**；Add 会复制当前设置到新 profile，Edit 选择要编辑的 profile。**Save & Apply** 将设置保存到当前 profile 并应用到当前标签；Cancel 放弃尚未保存的编辑，已经点击 Add / Save / Delete 的操作保留。
+设置窗口的 **Profile** 页提供 **Add / Edit / Save / Delete**。首次启动自动创建不可删除的 **Default**；Add 会复制当前设置到新 profile，Edit 选择要编辑的 profile。**Save and Apply** 将设置保存到当前 profile 并应用到当前标签；Cancel 放弃尚未保存的编辑，已经点击 Add / Save / Delete 的操作保留。
 
 不带参数启动使用 Default，也可用 `--profile "名称"` 指定；Profile 菜单可以用所选 profile 新建标签。字体、颜色、绑定等即时应用，Profile / Shell 的 shell 和目录设置在新标签或下次启动生效。临时 `-e` 命令不会保存到 profile。配置保存在 `HKCU\Software\Nemo\Nemoterm`，与 PuTTY / pterm 分开；已有配置和 `-load` 继续兼容，旧 Default Settings 显示为 Default。
 

@@ -115,11 +115,11 @@ python "$stage/interaction_manual.py" stop --stage $stage
 | M08 | 用本机中文输入法实际输入、选择候选、取消、提交中文和 emoji；输入中调整字号；有第二屏则跨屏 | 候选/组合窗跟随光标；提交一次、不丢字；实际 DPI 与模拟 DPI 分别记录。不具备多屏条件就填未验证 |
 | M09 | `text` 中 Ctrl+滚轮缩放；`mouse` 中普通滚轮、Ctrl+滚轮、Ctrl+Shift+滚轮对比；设置恢复字号键 | 本地缩放只在应触发时发生；应用捕获下需 Shift 强制缩放；恢复后字形和布局正确 |
 | M10 | 设置声音模式，运行 `bell`；视觉模式再试；关闭响铃后再试 | 听到/看到预期提示；关闭后不响不闪。人工填写听感，API 成功不能代替听到 |
-| M11 | Profile 中 Add 测试 profile；Edit 选择后更改字体、颜色、绑定与 Profile / Shell；Save & Apply 后用 `--profile` 重启；检查 Cancel；最后 Delete | 设置保存到当前 profile；临时 `-e` 不保存；Default 不可删除。pwsh / Windows PowerShell / BusyBox ash / Git Bash / WSL Bash 分别记录可用性与实际启动；缺装只记缺装 |
+| M11 | Profile 中 Add 测试 profile；Edit 选择后更改字体、颜色、绑定与 Profile / Shell；Save and Apply 后用 `--profile` 重启；检查 Cancel；最后 Delete | 设置保存到当前 profile；临时 `-e` 不保存；Default 不可删除。pwsh / Windows PowerShell / BusyBox ash / Git Bash / WSL Bash 分别记录可用性与实际启动；缺装只记缺装 |
 | M12 | 审阅两款隔离客户端图片测试回执和画面；需要物理键确认时在相同隔离 fixture 内重复 | Ctrl+V 与 Ctrl+Shift+V 的附件、生成图片 SHA/像素、关闭结果对应同一客户端。禁止把已有个人会话当测试对象 |
 
 M06/M11 的普通 shell 窗口应单独从 `snapshot/dist/nemoterm.exe` 打开，使用测试目录与测试配置。
-生成文本窗口内的新标签可能继承测试命令，不能共用同一个记录文件做独立标签证据。
+生成文本窗口中新建标签会启动真实 shell；不要向该标签粘贴输入录制测试内容。Duplicate Tab 会继承临时命令，也不能共用同一个记录文件做独立标签证据。
 真实客户端长期输出/滚动还需单独记录持续时间、应用版本、场景与峰值；短贴图用例不能证明长期负载。
 
 先做 GDI；DX 做选择、缩放、标签、图片与候选窗复查，OpenGL 做切换/降级与关键画面观察。

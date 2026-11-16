@@ -149,7 +149,7 @@ function Set-GraphemePreference([bool]$enabled) {
     $current=$toggle.Current.ToggleState -eq [System.Windows.Automation.ToggleState]::On
     if ($current -ne $enabled) {$toggle.Toggle()}
     $handle=[IntPtr]$dialog.Current.NativeWindowHandle
-    Invoke-Button $dialog 'Save & Apply'
+    Invoke-Button $dialog 'Save and Apply'
     Wait-Value {![ShellSettingsNative]::IsWindow($handle)} | Out-Null
 }
 function Binding-Controls($dialog, $expected, [string]$page = 'Bindings') {
@@ -271,7 +271,7 @@ try {
     $app = Start-Process -FilePath $exe -ArgumentList @('--profile', $fixtureProfile, '--settings') -PassThru
     $dialog = Dialog $app
     if (!(Find-Name $dialog ('Active profile: ' + $fixtureProfile))) { throw 'Active profile identity missing' }
-    foreach ($name in @('Add','Edit','Save','Delete','Save & Open','Cancel','New profile name')) {
+    foreach ($name in @('Add','Edit','Save','Delete','Save and Open','Cancel','New profile name')) {
         $node=Wait-Value { Find-Name $dialog $name }
         if ($node.Current.IsOffscreen -or !$dialog.Current.BoundingRectangle.Contains($node.Current.BoundingRectangle)) { throw "Profile control clipped: $name" }
     }
@@ -573,7 +573,7 @@ try {
             if ([int]$attributes.edits[$channel].GetCurrentPattern([System.Windows.Automation.ValuePattern]::Pattern).Current.Value -ne $attributeRGB[$index][$channel]) { throw 'Attribute RGB did not reload' }
         }
     }
-    Invoke-Button $dialog 'Save & Open'
+    Invoke-Button $dialog 'Save and Open'
     $observed = Wait-Value {
         if (Test-Path -LiteralPath $report) {
             $value = Get-Content -LiteralPath $report -Raw | ConvertFrom-Json
@@ -610,7 +610,7 @@ try {
         Select-Node $dialog 'Rendering' | Out-Null
         Select-Node $dialog $mode | Out-Null
         $dialogHandle=[IntPtr]$dialog.Current.NativeWindowHandle
-        Invoke-Button $dialog 'Save & Apply'
+        Invoke-Button $dialog 'Save and Apply'
         Wait-Value { ![ShellSettingsNative]::IsWindow($dialogHandle) } | Out-Null
         $savedMode=if ($mode -eq 'GDI (low memory)') {0} elseif ($mode -eq 'OpenGL (GPU composition)') {1} else {2}
         $persisted=Get-ItemProperty -LiteralPath $profilePath
@@ -660,7 +660,7 @@ try {
     $attributes.edits[1].GetCurrentPattern([System.Windows.Automation.ValuePattern]::Pattern).SetValue('32')
     $attributes.edits[2].GetCurrentPattern([System.Windows.Automation.ValuePattern]::Pattern).SetValue('48')
     $handle=[IntPtr]$dialog.Current.NativeWindowHandle
-    Invoke-Button $dialog 'Save & Apply'
+    Invoke-Button $dialog 'Save and Apply'
     Wait-Value { ![ShellSettingsNative]::IsWindow($handle) } | Out-Null
     $selectionColourChecks+=Check-SelectionColours 'selection-colour-live-apply' '' '5555/6666/7777' 'dddd/eeee/ffff'
     $attributeChecks+=Check-AttributeColours 'attribute-live-apply' '' (@('1010/2020/3030')+$attributeReplies[1..4])

@@ -2224,7 +2224,7 @@ void setup_config_box(struct controlbox *b, bool midsession,
     s = ctrl_getset(b, "", "", "");
     ctrl_columns(s, 5, 20, 20, 20, 20, 20);
     ssd->okbutton = ctrl_pushbutton(s,
-                                    (ssd->profiles ? (midsession ? "Save && Apply" : "Save && Open") :
+                                    (ssd->profiles ? (midsession ? "Save and Apply" : "Save and Open") :
                                      (midsession ? "Apply" : "Open")),
                                     (char)(midsession ? 'a' : 'o'),
                                     HELPCTX(no_help),
