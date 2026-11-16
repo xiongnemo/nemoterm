@@ -10,10 +10,9 @@ if ($env:GITHUB_ACTIONS -ne 'true' -or $env:RUNNER_ENVIRONMENT -ne 'github-hoste
 if ($Prefix -notmatch '^[a-z0-9-]+$') {throw 'Invalid evidence prefix'}
 Add-Type -AssemblyName UIAutomationClient
 Add-Type -AssemblyName UIAutomationTypes
-# Initialize the framework's standard Win32 proxies before FromHandle.
-# Otherwise a direct handle lookup can expose only HWND panes, omitting
-# tree items and control patterns even though the controls are visible.
-$desktop=[System.Windows.Automation.AutomationElement]::RootElement
+Add-Type -AssemblyName UIAutomationClientsideProviders
+[System.Windows.Automation.ClientSettings]::RegisterClientSideProviderAssembly(
+ [UIAutomationClientsideProviders.UIAutomationClientSideProviders].Assembly.GetName())
 Add-Type @'
 using System;
 using System.Runtime.InteropServices;
@@ -24,11 +23,20 @@ public static class DpiDialogNative {
  [DllImport("user32.dll")] public static extern bool PostMessageW(IntPtr h,uint m,IntPtr w,IntPtr l);
 }
 '@
-[DpiDialogNative]::SetThreadDpiAwarenessContext([IntPtr](-4)) | Out-Null
+# UIA bounding rectangles are physical screen coordinates. Keep the same
+# client DPI context as the existing settings CI; screenshots use a separate
+# PMv2-aware Python process and actual DPI comes from the target HWND.
 [uint32]$owner=0
 [DpiDialogNative]::GetWindowThreadProcessId([IntPtr]$DialogHwnd,[ref]$owner) | Out-Null
 if ($owner -ne $ProcessId) {throw 'Dialog PID mismatch'}
-$dialog=[System.Windows.Automation.AutomationElement]::FromHandle([IntPtr]$DialogHwnd)
+$owned=New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::ProcessIdProperty,$ProcessId)
+$byHandle=New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::NativeWindowHandleProperty,[int]$DialogHwnd)
+$dialog=$null
+foreach ($window in [System.Windows.Automation.AutomationElement]::RootElement.FindAll([System.Windows.Automation.TreeScope]::Children,$owned)) {
+ $dialog=$window.FindFirst([System.Windows.Automation.TreeScope]::Subtree,$byHandle)
+ if ($dialog) {break}
+}
+if (!$dialog) {throw 'Owned settings dialog absent from the UIA tree'}
 if ($dialog.Current.ClassName -ne 'PuTTYConfigBox') {throw 'Unexpected dialog class'}
 $scope=[System.Windows.Automation.TreeScope]::Descendants
 function Find($parent,[string]$name) {
@@ -52,7 +60,8 @@ function Select-Page([string[]]$path) {
 }
 function Coordinates($r) {return @($r.Left,$r.Top,$r.Width,$r.Height)}
 $root=Split-Path $PSScriptRoot -Parent
-$result=@{completed=$false;expected_dpi=$ExpectedDpi;hwnd=$DialogHwnd;pages=@();ui_language='en'}
+$result=@{completed=$false;expected_dpi=$ExpectedDpi;hwnd=$DialogHwnd;pages=@();ui_language='en';
+ client_providers=[System.Windows.Automation.ClientSettings]::GetClientSideProviderDescriptionTable().Count}
 $pages=@(
  @{id='profile';path=@('Profile');labels=@('New profile name','Add','Edit','Delete')},
  @{id='shell';path=@('Profile','Shell');labels=@('Choose shell on startup','Command (select Custom above):','Starting directory (blank inherits launcher):')},
