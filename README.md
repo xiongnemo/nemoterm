@@ -11,10 +11,14 @@ Nemoterm 是 **PuTTY 0.85 Windows pterm 的下游 fork**，沿用其终端核心
 本项目独立维护，非 PuTTY 或 Microsoft 官方版本。
 
 **项目仍在开发中。** CI 产物是开发快照；协议兼容性、真实终端应用和长期资源占用仍在持续验证。
-本文说明以 `main` 分支为准。已实现功能与测试边界见 [协议支持表](docs/PROTOCOLS.md)
+本页描述所在分支的代码；下载产物按下面的提交和验证记录区分。已实现功能与测试边界见 [协议支持表](docs/PROTOCOLS.md)
 和 [需求与验证记录](docs/REQUIREMENTS.md)。
 
-最新开发候选 `f3b5b65` 修复了 DirectX 绘制缓存越界，已通过四个普通 CI 任务和
+新的 profile 预览 `9be9bce` 默认使用多标签，提供 Default 与可增删改的 profile，
+**Save and Apply** 会保存当前 profile。准确的单 EXE 已通过管理、重启恢复、标签快捷键及跨 profile 窗口归属专项测试；完整协议 CI 仍在运行。
+[下载 profile 预览](https://github.com/xiongnemo/nemoterm/actions/runs/43860864767/artifacts/14223332537) · [验证记录](research/profiles-default-tabs.md)。
+
+前一开发候选 `f3b5b65` 修复了 DirectX 绘制缓存越界，已通过四个普通 CI 任务和
 167 组单文件检查。[下载该单 EXE](https://github.com/xiongnemo/nemoterm/actions/runs/43796089119/artifacts/14196406797)。
 这份准确产物的六组本机验收也已通过：Sarasa 160×48 密集图片负载的 GDI 私有工作集
 峰值 **19.95 MB**、总工作集 **47.03 MB**，29,072 个图像单元及标签生命周期检查通过。
