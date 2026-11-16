@@ -3,6 +3,7 @@ import os
 assert os.environ.get('GITHUB_ACTIONS') == 'true', 'Requires disposable CI desktop'
 import frida
 from itertools import product
+from contextlib import ExitStack
 from native_test_utils import (root,c,w,u,hashlib,json,subprocess,sys,tempfile,
     Path,time,read_snapshot,write_snapshot,wait_for,find_window,terminal_host)
 from owned_job import OwnedJob
@@ -24,7 +25,7 @@ exe=Path(os.environ.get('NEMOTERM_TEST_EXE',root/'dist/nemoterm.exe')).resolve()
 focus_mode=os.environ.get('NEMOTERM_FOCUS_MODE','synchronized')
 assert focus_mode in ('legacy','synchronized'),focus_mode
 evidence=dict(completed=False,executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),
-    focus_mode=focus_mode,checks=[],cleanup=[],focus_actions=[],position_actions=[],window_events=[],renderers=[],scope='Actual owned Windows state and unmodified API observation; no speaker or visible taskbar acceptance.')
+    focus_mode=focus_mode,checks=[],cleanup=[],process_exits=[],focus_actions=[],position_actions=[],window_events=[],renderers=[],scope='Actual owned Windows state and unmodified API observation; no speaker or visible taskbar acceptance.')
 marker=b'\x1b[0n'
 
 try:
@@ -32,16 +33,18 @@ try:
         settings=dict(Beep=0,BeepInd=0,NemoBellRaise=0,NemoBellOnReset=0,
                       BellOverload=0,WarnOnClose=0,CloseOnExit=1,NemoRenderer=renderer,
                       AlwaysOnTop=int(always_on_top))
-        with saved_profile(settings) as args,tempfile.TemporaryDirectory(prefix='nemoterm-bell-state-') as directory,OwnedJob() as job:
+        with ExitStack() as logs,saved_profile(settings) as args,tempfile.TemporaryDirectory(prefix='nemoterm-bell-state-') as directory,OwnedJob() as job:
             folder=Path(directory);tab_folder=folder/'tabs';tab_folder.mkdir()
+            def process_log(name):
+                return logs.enter_context((root/'research'/f'bell-state-process-{renderer}-{int(always_on_top)}-{name}.log').open('w',encoding='utf-8'))
             environment=dict(os.environ,NEMOTERM_CONPTY='bundled',NEMOTERM_TEST_EXACT_OUTPUT='1')
             process=job.spawn([str(exe),*args,'--automation','--tabs','--cols','80','--rows','24',
                 '-e',sys.executable,str(root/'tests/session_fixture.py'),str(tab_folder)],
-                env=environment,creationflags=subprocess.CREATE_NO_WINDOW)
+                env=environment,creationflags=subprocess.CREATE_NO_WINDOW,stdout=process_log('tabs'),stderr=subprocess.STDOUT)
             other_report,other_control=folder/'other.json',folder/'other-control.json'
             cover=job.spawn([str(exe),*args,'--cols','80','--rows','24','-e',sys.executable,
                 str(root/'tests/mouse_fixture.py'),str(other_report),str(other_control),'300'],
-                env=environment,creationflags=subprocess.CREATE_NO_WINDOW)
+                env=environment,creationflags=subprocess.CREATE_NO_WINDOW,stdout=process_log('cover'),stderr=subprocess.STDOUT)
             instance=wait_for(lambda:next(iter(api.discover(process.pid)),None))
             endpoint=instance['endpoint'];first=instance['sessions'][0]
             assert first['renderer']==renderer and first['active'],first
@@ -101,8 +104,16 @@ try:
                 assert window in (host,other)
                 record=dict(renderer=renderer,configured_topmost=always_on_top)
                 evidence['focus_actions'].append(record)
-                focus_owned_window(window,process.pid if window==host else cover.pid,
-                                   record=record,mode=focus_mode)
+                try:
+                    focus_owned_window(window,process.pid if window==host else cover.pid,
+                                       record=record,mode=focus_mode)
+                finally:
+                    record['window_exists']=bool(u.IsWindow(window))
+                    bounds=w.RECT()
+                    if u.GetWindowRect(window,c.byref(bounds)):
+                        record['after_bounds']=[bounds.left,bounds.top,bounds.right,bounds.bottom]
+                        record['after_style']=int(u.GetWindowLongPtrW(window,-16))
+                    record['process_exit']=(process if window==host else cover).poll()
             def position(window,after):
                 record=dict(window=window,after=after,before_style=int(u.GetWindowLongPtrW(window,-20)))
                 evidence['position_actions'].append(record)
@@ -256,12 +267,18 @@ try:
                 evidence['checks'][-1]['focus_input_hex']=focused['hex']
                 phase(third_child,'disable-focus-reporting','\x1b[?1004l')
             finally:
+                in_flight_error=sys.exc_info()[0] is not None
+                exits=dict(renderer=renderer,configured_topmost=always_on_top,host_pid=process.pid,cover_pid=cover.pid,
+                           before_cleanup=dict(host=process.poll(),cover=cover.poll()),
+                           cover_snapshot=read_snapshot(other_report))
+                evidence['process_exits'].append(exits)
                 evidence['window_events'].append(dict(renderer=renderer,host=host,other=other,events=script.exports_sync.windowevents()))
                 session.detach()
                 for target in children:write_snapshot(target['control'],dict(stop=True))
                 write_snapshot(other_control,dict(stop=True))
                 process.wait(timeout=10);cover.wait(timeout=10)
-                assert process.returncode==cover.returncode==0
+                exits['after_cleanup']=dict(host=process.returncode,cover=cover.returncode)
+                if not in_flight_error:assert process.returncode==cover.returncode==0,exits
             cleanup=job.finish();evidence['cleanup'].append(cleanup)
             assert not cleanup['terminated_remaining'] and cleanup['after']['active']==0
     evidence['completed']=True

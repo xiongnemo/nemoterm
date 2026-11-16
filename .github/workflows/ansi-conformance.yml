@@ -401,6 +401,10 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Retain native crash diagnostics for the caption control
+        if: inputs.caption_control == true
+        shell: pwsh
+        run: ./scripts/native-crash-evidence.ps1
       - name: Verify and download the explicitly identified native image
         shell: pwsh
         env:
@@ -450,6 +454,10 @@ jobs:
             python tests/bell_window_state_smoke.py 2>&1 | Tee-Object bell-window-state.log
           }
           exit $LASTEXITCODE
+      - name: Collect caption-control application failure events
+        if: always() && inputs.caption_control == true
+        shell: pwsh
+        run: ./scripts/native-crash-evidence.ps1 -Collect
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
@@ -459,5 +467,7 @@ jobs:
             bell-window-state.log
             research/bell-window-state-observed.json
             research/owned-focus-caption-control.json
+            research/bell-state-process-*.log
+            build/native-crashes/
           if-no-files-found: error
           retention-days: 60
