@@ -1,0 +1,84 @@
+name: Remote Windows DPI acceptance
+
+on:
+  workflow_dispatch:
+    inputs:
+      product_run:
+        description: Successful source-console-host build run ID
+        required: true
+        type: string
+      product_commit:
+        description: Exact 40-character product source commit
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: dpi-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  dpi:
+    runs-on: windows-2025
+    timeout-minutes: 20
+    env:
+      NEMOTERM_TEST_TRACEBACK_SECONDS: '60'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Download and verify the exact single executable
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PRODUCT_RUN: ${{ inputs.product_run }}
+          PRODUCT_COMMIT: ${{ inputs.product_commit }}
+        run: |
+          if ($env:PRODUCT_RUN -notmatch '^\d+$' -or $env:PRODUCT_COMMIT -notmatch '^[0-9a-f]{40}$') { throw 'Invalid product identity' }
+          gh run download $env:PRODUCT_RUN --repo $env:GITHUB_REPOSITORY --name "source-console-host-x64-$env:PRODUCT_COMMIT" --dir build/dpi-product
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          $record=Get-Content build/dpi-product/SOURCE-HOST.json -Raw | ConvertFrom-Json
+          $exe=(Resolve-Path build/dpi-product/nemoterm.exe).Path
+          if ($record.SourceCommit -ne $env:PRODUCT_COMMIT -or $record.Executable.SHA256 -ne (Get-FileHash $exe).Hash.ToLowerInvariant()) { throw 'Executable identity mismatch' }
+          New-Item -ItemType Directory build/dpi-check/research,build/dpi-check/tools,build/dpi-check/build | Out-Null
+          Copy-Item tests build/dpi-check/tests -Recurse
+          Copy-Item tools/nemoterm_debug.py build/dpi-check/tools/
+          "NEMOTERM_TEST_EXE=$exe" | Out-File $env:GITHUB_ENV -Append -Encoding utf8
+          "NEMOTERM_DPI_PRODUCT_RUN=$env:PRODUCT_RUN" | Out-File $env:GITHUB_ENV -Append -Encoding utf8
+          "NEMOTERM_DPI_PRODUCT_COMMIT=$env:PRODUCT_COMMIT" | Out-File $env:GITHUB_ENV -Append -Encoding utf8
+      - name: Compile the test-only display environment probe
+        shell: pwsh
+        run: |
+          $vswhere="${env:ProgramFiles(x86)}/Microsoft Visual Studio/Installer/vswhere.exe"
+          $vs=& $vswhere -latest -products '*' -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+          Import-Module "$vs/Common7/Tools/Microsoft.VisualStudio.DevShell.dll"
+          Enter-VsDevShell -VsInstallPath $vs -SkipAutomaticLocation -DevCmdArguments '-arch=x64 -host_arch=x64'
+          cl /nologo /W4 /WX /EHsc /std:c++17 tests/dpi_display_probe.cpp /Febuild/dpi-check/build/dpi-display.exe /Fobuild/dpi-check/build/dpi-display.obj user32.lib
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          & build/dpi-check/build/dpi-display.exe | Tee-Object build/dpi-check/research/display-environment.json
+          exit $LASTEXITCODE
+      - name: Synthetic terminal and input-method DPI transitions
+        shell: pwsh
+        run: |
+          python -m pip install frida==17.24.3
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          foreach ($mode in @('standalone','tabs')) {
+            New-Item -ItemType Directory "build/dpi-check/research/synthetic-$mode" | Out-Null
+            $arguments=@('--font','Consolas','--dpi-sequence','96,120,144,168,192,96')
+            if ($mode -eq 'tabs') { $arguments+='--tabs' }
+            python build/dpi-check/tests/input_method_window_smoke.py @arguments
+            $result=$LASTEXITCODE
+            Copy-Item build/dpi-check/research/input-method-* "build/dpi-check/research/synthetic-$mode/" -Recurse -Force -ErrorAction SilentlyContinue
+            if ($result) { exit $result }
+          }
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: dpi-evidence-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            build/dpi-product/SOURCE-HOST.json
+            build/dpi-check/research/
+            build/dpi-check/build/*.json
+          if-no-files-found: error
+          retention-days: 14

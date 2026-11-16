@@ -13,7 +13,12 @@ parser.add_argument('--font',default='SarasaTermSC Nerd Font Light')
 parser.add_argument('--tabs',action='store_true')
 parser.add_argument('--input-api',choices=('byte','wide'),default='byte')
 parser.add_argument('--foreground',action='store_true',help='Explicitly focus only this owned test window, with a checked caption click if required')
+parser.add_argument('--dpi-sequence',default='144,192,120,96',help='Synthetic WM_DPICHANGED values; does not change Windows display scaling')
 args=parser.parse_args()
+dpi_sequence=[int(value) for value in args.dpi_sequence.split(',')]
+if not dpi_sequence or len(dpi_sequence)>20 or any(dpi<96 or dpi>288 for dpi in dpi_sequence):
+ parser.error('DPI sequence requires 1..20 values between 96 and 288')
+u.GetDpiForWindow.argtypes=[w.HWND];u.GetDpiForWindow.restype=w.UINT
 u.PostMessageW.argtypes=[w.HWND,w.UINT,w.WPARAM,w.LPARAM]
 u.GetClientRect.argtypes=[w.HWND,c.POINTER(w.RECT)]
 u.GetClassNameW.argtypes=[w.HWND,w.LPWSTR,c.c_int]
@@ -112,7 +117,11 @@ try:
     return found if red=={(x+2*cw+xx,y+2*ch+yy) for xx in range(24) for yy in range(12)} else False
    initial=wait_for(pixels_match)[0];u.SendMessageW(hwnd,0x10d,0,0)
    initial_imm=command('focused-capabilities')
-   for dpi in (144,192,120,96):
+   baseline_dpi=u.GetDpiForWindow(host)
+   assert baseline_dpi==96,('Synthetic fixture requires an actual 96 DPI baseline',baseline_dpi)
+   evidence['dpi_method']='synthetic WM_DPICHANGED, not system scaling'
+   evidence['baseline_actual_dpi']=baseline_dpi
+   for dpi in dpi_sequence:
     answer=command('dpi',dpi=dpi)
     def resized_pixels():
      found=pixels_match()
@@ -126,7 +135,7 @@ try:
     if initial_imm.get('compositionFontHeight'):
      assert abs(answer['compositionFontHeight']/initial_imm['compositionFontHeight']-dpi/96)<.1,(dpi,answer)
      assert (answer['compositionWindow']['x'],answer['compositionWindow']['y'])==geom[:2],(dpi,answer,geom)
-    record=dict(dpi=dpi,geometry=geom,imm=answer);evidence['dpi'].append(record)
+    record=dict(requested_dpi=dpi,actual_window_dpi=u.GetDpiForWindow(host),geometry=geom,imm=answer);evidence['dpi'].append(record)
    capture(hwnd,'input-method-dpi.png');u.SendMessageW(hwnd,0x10e,0,0)
    evidence['checks'].append('synthetic-dpi-pixels-preserve-sixel')
    evidence['imm_reads']=[m['payload'] for m in messages if m.get('payload',{}).get('event')=='read']
