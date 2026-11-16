@@ -1,0 +1,37 @@
+{
+  "executable_sha256": "de2f9e105e9186cb99fd925f8824e0573ae144ff62954b63ab3cda7c15ff0d28",
+  "archive_sha256": "72629bbd89d01cfb8258d3d29af1a0d88a28a7be08772952b015dee3e37a4ffc",
+  "members": [
+    {
+      "path": "IDENTITY.json",
+      "bytes": 42733,
+      "sha256": "f0588b54b0b68abb13e4dc5d7001000e0f4f4fc8b76e68e592a541bdc3051200"
+    },
+    {
+      "path": "cases.json",
+      "bytes": 1734,
+      "sha256": "04a80460893671b9ad6d2c3274b982fe2cad7f6ea62eca2e07bdad9fdc8b66bc"
+    },
+    {
+      "path": "controller.py",
+      "bytes": 6162,
+      "sha256": "cf4c6857668f5377e56cdb64c72e3c2a5da7d4d441ace4b5552bff226f590071"
+    },
+    {
+      "path": "logs/results.json",
+      "bytes": 334,
+      "sha256": "102e181e707d0002c15369e919f71bdbf95001e530f3e2e5079ec44cff8f52a7"
+    },
+    {
+      "path": "logs/input-byte.log",
+      "bytes": 648,
+      "sha256": "564f49417c41ab22d4f0964fc0b278f3cb1f8cb79c6aeafb4c6ebde1e71f37c0"
+    },
+    {
+      "path": "case-evidence/input-byte/build/input-method-failure.json",
+      "bytes": 9508,
+      "sha256": "e0caa8338c72cc6244d13555cd080d75effb18b4ba15598c17dcb74d0a2727e4"
+    }
+  ],
+  "scope": "Input-byte failed at synthetic DPI 144 composition position (1,1), visible cursor (4,11). User was using desktop. Cause unconfirmed. Remaining cases not run."
+}
