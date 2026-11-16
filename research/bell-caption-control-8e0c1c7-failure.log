@@ -1,0 +1,320 @@
+bell-window-state (synchronized, 1)	Set up job	﻿2026-11-16T00:48:46.8730514Z Current runner version: '2.338.2'
+bell-window-state (synchronized, 1)	Set up job	2026-11-16T00:48:46.8790877Z ##[group]Runner Image Provisioner
+bell-window-state (synchronized, 1)	Set up job	2026-11-16T00:48:46.8792083Z Hosted Compute Agent
+bell-window-state (synchronized, 1)	Set up job	2026-11-16T00:48:46.8792892Z Version: 20261103.629
+bell-window-state (synchronized, 1)	Set up job	2026-11-16T00:48:46.8793749Z Commit: 15dbd9ccb5dbf34fae002b6ed1a2670f52df37bc
+bell-window-state (synchronized, 1)	Set up job	2026-11-16T00:48:46.8794842Z Build Date: 2026-11-03T17:26:59Z
+bell-window-state (synchronized, 1)	Set up job	2026-11-16T00:48:46.8795827Z Worker ID: {e5fa199a-f001-424c-8081-bf38983566d6}
+bell-window-state (synchronized, 1)	Set up job	2026-11-16T00:48:46.8796800Z Region: eastus2
+bell-window-state (synchronized, 1)	Set up job	2026-11-16T00:48:46.8797595Z Cloud: Azure
+bell-window-state (synchronized, 1)	Set up job	2026-11-16T00:48:46.8798385Z ##[endgroup]
+bell-window-state (synchronized, 1)	Set up job	2026-11-16T00:48:46.8800351Z ##[group]Operating System
+bell-window-state (synchronized, 1)	Set up job	2026-11-16T00:48:46.8801317Z Microsoft Windows Server 2025
+bell-window-state (synchronized, 1)	Set up job	2026-11-16T00:48:46.8802231Z 10.0.26100
+bell-window-state (synchronized, 1)	Set up job	2026-11-16T00:48:46.8802921Z Datacenter
+bell-window-state (synchronized, 1)	Set up job	2026-11-16T00:48:46.8803620Z ##[endgroup]
+bell-window-state (synchronized, 1)	Set up job	2026-11-16T00:48:46.8804348Z ##[group]Runner Image
+bell-window-state (synchronized, 1)	Set up job	2026-11-16T00:48:46.8805191Z Image: windows-2025-vs2026
+bell-window-state (synchronized, 1)	Set up job	2026-11-16T00:48:46.8806000Z Version: 20261103.298.1
+bell-window-state (synchronized, 1)	Set up job	2026-11-16T00:48:46.8808120Z Included Software: https://github.com/actions/runner-images/blob/win25-vs2026/20261103.298/images/windows/Windows2025-VS2026-Readme.md
+bell-window-state (synchronized, 1)	Set up job	2026-11-16T00:48:46.8811133Z Image Release: https://github.com/actions/runner-images/releases/tag/win25-vs2026%2F20261103.298
+bell-window-state (synchronized, 1)	Set up job	2026-11-16T00:48:46.8812447Z ##[endgroup]
+bell-window-state (synchronized, 1)	Set up job	2026-11-16T00:48:46.8814054Z ##[group]GITHUB_TOKEN Permissions
+bell-window-state (synchronized, 1)	Set up job	2026-11-16T00:48:46.8817335Z Actions: read
+bell-window-state (synchronized, 1)	Set up job	2026-11-16T00:48:46.8818108Z Contents: read
+bell-window-state (synchronized, 1)	Set up job	2026-11-16T00:48:46.8818866Z Metadata: read
+bell-window-state (synchronized, 1)	Set up job	2026-11-16T00:48:46.8819567Z ##[endgroup]
+bell-window-state (synchronized, 1)	Set up job	2026-11-16T00:48:46.8822257Z Secret source: Actions
+bell-window-state (synchronized, 1)	Set up job	2026-11-16T00:48:46.8823479Z Cache mode: write
+bell-window-state (synchronized, 1)	Set up job	2026-11-16T00:48:46.8824563Z Prepare workflow directory
+bell-window-state (synchronized, 1)	Set up job	2026-11-16T00:48:46.9147826Z Prepare all required actions
+bell-window-state (synchronized, 1)	Set up job	2026-11-16T00:48:46.9196991Z Getting action download info
+bell-window-state (synchronized, 1)	Set up job	2026-11-16T00:48:47.1116174Z Download action repository 'actions/checkout@11d5960a326750d5838078e36cf38b85af677262' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+bell-window-state (synchronized, 1)	Set up job	2026-11-16T00:48:47.2147419Z Download action repository 'actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+bell-window-state (synchronized, 1)	Set up job	2026-11-16T00:48:47.5060275Z Complete job name: bell-window-state (synchronized, 1)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	﻿2026-11-16T00:48:47.6552298Z ##[group]Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:48:47.6553997Z with:
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:48:47.6554469Z   repository: xiongnemo/nemoterm
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:48:47.6559452Z   token: ***
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:48:47.6559931Z   ssh-strict: true
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:48:47.6560450Z   ssh-user: git
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:48:47.6560935Z   persist-credentials: true
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:48:47.6561434Z   clean: true
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:48:47.6561949Z   sparse-checkout-cone-mode: true
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:48:47.6562526Z   fetch-depth: 1
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:48:47.6562999Z   fetch-tags: false
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:48:47.6563490Z   show-progress: true
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:48:47.6563963Z   lfs: false
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:48:47.6564406Z   submodules: false
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:48:47.6564896Z   set-safe-directory: true
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:48:47.6565490Z   allow-unsafe-pr-checkout: false
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:48:47.6566408Z ##[endgroup]
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:48:47.8032470Z Syncing repository: xiongnemo/nemoterm
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:48:47.8034434Z ##[group]Getting Git version info
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:48:47.8035259Z Working directory is 'D:\a\nemoterm\nemoterm'
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:48:47.8772352Z [command]"C:\Program Files\Git\bin\git.exe" version
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:48:48.1801705Z git version 2.56.0.windows.4
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:48:48.1858494Z ##[endgroup]
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:48:48.1879455Z Temporarily overriding HOME='D:\a\_temp\6884041d-21ad-40ef-8899-137680e3eb0f' before making global git config changes
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:48:48.1881127Z Adding repository directory to the temporary git global config as a safe directory
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:48:48.1890330Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\nemoterm\nemoterm
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:48:48.2523925Z Deleting the contents of 'D:\a\nemoterm\nemoterm'
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:48:48.2530775Z ##[group]Initializing the repository
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:48:48.2539828Z [command]"C:\Program Files\Git\bin\git.exe" init D:\a\nemoterm\nemoterm
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:48:48.3323445Z Initialized empty Git repository in D:/a/nemoterm/nemoterm/.git/
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:48:48.3377279Z [command]"C:\Program Files\Git\bin\git.exe" remote add origin https://github.com/xiongnemo/nemoterm
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:48:48.4079816Z ##[endgroup]
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:48:48.4081416Z ##[group]Disabling automatic garbage collection
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:48:48.4088451Z [command]"C:\Program Files\Git\bin\git.exe" config --local gc.auto 0
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:48:48.4535861Z ##[endgroup]
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:48:48.4537459Z ##[group]Setting up auth
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:48:48.4550511Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:48:48.4942224Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:48:49.8296843Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:48:49.8692524Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:48:50.4389149Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:48:50.4790298Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:48:51.0462866Z [command]"C:\Program Files\Git\bin\git.exe" config --local http.https://github.com/.extraheader "AUTHORIZATION: basic ***"
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:48:51.0862281Z ##[endgroup]
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:48:51.0863426Z ##[group]Fetching the repository
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:48:51.0875535Z [command]"C:\Program Files\Git\bin\git.exe" -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +8e0c1c74715abb35198ca5607768c9f8a12f3762:refs/remotes/origin/diagnose/bell-focus-029bfac
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:48:59.3689294Z From https://github.com/xiongnemo/nemoterm
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:48:59.3690693Z  * [new ref]         8e0c1c74715abb35198ca5607768c9f8a12f3762 -> origin/diagnose/bell-focus-029bfac
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:48:59.3744590Z ##[endgroup]
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:48:59.3745743Z ##[group]Determining the checkout info
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:48:59.3746808Z ##[endgroup]
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:48:59.3757323Z [command]"C:\Program Files\Git\bin\git.exe" sparse-checkout disable
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:48:59.4447091Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset-all extensions.worktreeConfig
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:48:59.4840628Z ##[group]Checking out the ref
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:48:59.4850402Z [command]"C:\Program Files\Git\bin\git.exe" checkout --progress --force -B diagnose/bell-focus-029bfac refs/remotes/origin/diagnose/bell-focus-029bfac
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:00.5884795Z Updating files:  10% (1695/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:00.6250332Z Updating files:  11% (1789/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:00.7357081Z Updating files:  12% (1952/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:00.9549515Z Updating files:  13% (2114/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:00.9840186Z Updating files:  14% (2277/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:01.0143098Z Updating files:  15% (2439/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:01.0473383Z Updating files:  16% (2602/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:01.0728260Z Updating files:  17% (2765/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:01.0995021Z Updating files:  18% (2927/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:01.2679345Z Updating files:  19% (3090/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:01.4785844Z Updating files:  20% (3252/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:01.5836026Z Updating files:  21% (3415/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:01.8185900Z Updating files:  21% (3534/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:02.0151714Z Updating files:  22% (3578/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:02.0419619Z Updating files:  23% (3740/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:02.0592216Z Updating files:  24% (3903/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:02.0747832Z Updating files:  25% (4065/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:02.0908942Z Updating files:  26% (4228/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:02.1210588Z Updating files:  27% (4391/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:02.1406663Z Updating files:  28% (4553/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:02.1574593Z Updating files:  29% (4716/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:02.1810505Z Updating files:  30% (4878/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:02.2116117Z Updating files:  31% (5041/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:02.2637418Z Updating files:  32% (5204/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:02.3590828Z Updating files:  33% (5366/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:02.3857617Z Updating files:  34% (5529/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:02.4061251Z Updating files:  35% (5691/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:02.4254248Z Updating files:  36% (5854/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:02.4471795Z Updating files:  37% (6017/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:02.4663682Z Updating files:  38% (6179/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:02.4837177Z Updating files:  39% (6342/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:02.5067642Z Updating files:  40% (6504/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:02.5309744Z Updating files:  41% (6667/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:02.5478054Z Updating files:  42% (6830/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:02.5669994Z Updating files:  43% (6992/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:02.5707048Z Updating files:  43% (7116/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:02.5865766Z Updating files:  44% (7155/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:02.6053383Z Updating files:  45% (7317/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:02.6497146Z Updating files:  46% (7480/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:02.6693915Z Updating files:  47% (7643/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:02.6903360Z Updating files:  48% (7805/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:02.7125142Z Updating files:  49% (7968/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:02.7356142Z Updating files:  50% (8130/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:02.7955545Z Updating files:  51% (8293/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:02.8989170Z Updating files:  52% (8456/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:02.9225320Z Updating files:  53% (8618/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:03.2796900Z Updating files:  54% (8781/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:03.3405258Z Updating files:  55% (8943/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:03.4003857Z Updating files:  56% (9106/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:03.4269265Z Updating files:  57% (9269/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:03.4513444Z Updating files:  58% (9431/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:03.4746048Z Updating files:  59% (9594/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:03.4987178Z Updating files:  60% (9756/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:03.7154129Z Updating files:  61% (9919/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:03.8460320Z Updating files:  61% (9939/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:03.9985725Z Updating files:  62% (10082/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:04.2716311Z Updating files:  63% (10244/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:04.2959390Z Updating files:  64% (10407/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:04.3222434Z Updating files:  65% (10569/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:04.3478734Z Updating files:  66% (10732/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:04.3887370Z Updating files:  67% (10895/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:04.4328103Z Updating files:  68% (11057/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:04.4639861Z Updating files:  69% (11220/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:04.4893753Z Updating files:  70% (11382/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:04.5169086Z Updating files:  71% (11545/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:04.5401343Z Updating files:  72% (11708/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:04.5578548Z Updating files:  73% (11870/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:04.5683613Z Updating files:  74% (12033/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:04.5784378Z Updating files:  74% (12108/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:04.5952611Z Updating files:  75% (12195/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:04.6113824Z Updating files:  76% (12358/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:04.6334055Z Updating files:  77% (12521/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:04.6515225Z Updating files:  78% (12683/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:04.6729218Z Updating files:  79% (12846/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:04.6901470Z Updating files:  80% (13008/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:04.7093132Z Updating files:  81% (13171/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:04.7296992Z Updating files:  82% (13334/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:04.7483922Z Updating files:  83% (13496/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:04.7655171Z Updating files:  84% (13659/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:04.9392943Z Updating files:  85% (13821/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:04.9636253Z Updating files:  86% (13984/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:05.3190470Z Updating files:  87% (14147/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:05.3523522Z Updating files:  88% (14309/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:05.3792783Z Updating files:  89% (14472/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:05.4193243Z Updating files:  90% (14634/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:05.4701255Z Updating files:  91% (14797/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:05.5075325Z Updating files:  92% (14960/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:05.5669991Z Updating files:  93% (15122/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:05.5799130Z Updating files:  94% (15285/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:05.6414259Z Updating files:  94% (15356/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:05.6843117Z Updating files:  95% (15447/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:05.7190224Z Updating files:  96% (15610/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:05.7564950Z Updating files:  97% (15773/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:05.7853276Z Updating files:  98% (15935/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:05.8152031Z Updating files:  99% (16098/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:05.8153350Z Updating files: 100% (16260/16260)
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:05.8154077Z Updating files: 100% (16260/16260), done.
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:05.8494630Z Switched to a new branch 'diagnose/bell-focus-029bfac'
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:05.8505860Z branch 'diagnose/bell-focus-029bfac' set up to track 'origin/diagnose/bell-focus-029bfac'.
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:05.9234259Z ##[endgroup]
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:05.9657866Z [command]"C:\Program Files\Git\bin\git.exe" log -1 --format=%H
+bell-window-state (synchronized, 1)	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:06.0006525Z 8e0c1c74715abb35198ca5607768c9f8a12f3762
+bell-window-state (synchronized, 1)	Verify and download the explicitly identified native image	﻿2026-11-16T00:49:06.0452906Z ##[group]Run if ($env:IMAGE_RUN -notmatch '^\d+$') { throw 'Expected a workflow run number' }
+bell-window-state (synchronized, 1)	Verify and download the explicitly identified native image	2026-11-16T00:49:06.0453860Z ^[[36;1mif ($env:IMAGE_RUN -notmatch '^\d+$') { throw 'Expected a workflow run number' }^[[0m
+bell-window-state (synchronized, 1)	Verify and download the explicitly identified native image	2026-11-16T00:49:06.0454612Z ^[[36;1m$run = gh api "repos/$env:GITHUB_REPOSITORY/actions/runs/$env:IMAGE_RUN" | ConvertFrom-Json^[[0m
+bell-window-state (synchronized, 1)	Verify and download the explicitly identified native image	2026-11-16T00:49:06.0455326Z ^[[36;1m$diagnosticFailed = $env:ALLOW_FAILED_IMAGE -eq 'true' -and $run.conclusion -eq 'failure'^[[0m
+bell-window-state (synchronized, 1)	Verify and download the explicitly identified native image	2026-11-16T00:49:06.0456382Z ^[[36;1mif ($LASTEXITCODE -or $run.status -ne 'completed' -or ($run.conclusion -ne 'success' -and !$diagnosticFailed)) { throw 'Baseline must be completed; a failed run requires explicit diagnostic-only selection' }^[[0m
+bell-window-state (synchronized, 1)	Verify and download the explicitly identified native image	2026-11-16T00:49:06.0457342Z ^[[36;1m$name = "bell-native-$($run.head_sha)"^[[0m
+bell-window-state (synchronized, 1)	Verify and download the explicitly identified native image	2026-11-16T00:49:06.0457924Z ^[[36;1m$artifacts = gh api "repos/$env:GITHUB_REPOSITORY/actions/runs/$env:IMAGE_RUN/artifacts" | ConvertFrom-Json^[[0m
+bell-window-state (synchronized, 1)	Verify and download the explicitly identified native image	2026-11-16T00:49:06.0458687Z ^[[36;1m$artifact = @($artifacts.artifacts | Where-Object { $_.name -eq $name -and !$_.expired })^[[0m
+bell-window-state (synchronized, 1)	Verify and download the explicitly identified native image	2026-11-16T00:49:06.0459285Z ^[[36;1m$singleDiagnostic = $false^[[0m
+bell-window-state (synchronized, 1)	Verify and download the explicitly identified native image	2026-11-16T00:49:06.0460038Z ^[[36;1mif ($diagnosticFailed -and $artifact.Count -eq 0) {^[[0m
+bell-window-state (synchronized, 1)	Verify and download the explicitly identified native image	2026-11-16T00:49:06.0460519Z ^[[36;1m  $name = "unverified-single-exe-x64-$($run.head_sha)"^[[0m
+bell-window-state (synchronized, 1)	Verify and download the explicitly identified native image	2026-11-16T00:49:06.0461076Z ^[[36;1m  $artifact = @($artifacts.artifacts | Where-Object { $_.name -eq $name -and !$_.expired })^[[0m
+bell-window-state (synchronized, 1)	Verify and download the explicitly identified native image	2026-11-16T00:49:06.0461634Z ^[[36;1m  $singleDiagnostic = $true^[[0m
+bell-window-state (synchronized, 1)	Verify and download the explicitly identified native image	2026-11-16T00:49:06.0461993Z ^[[36;1m}^[[0m
+bell-window-state (synchronized, 1)	Verify and download the explicitly identified native image	2026-11-16T00:49:06.0462528Z ^[[36;1mif ($LASTEXITCODE -or $artifact.Count -ne 1) { throw 'Expected exactly one unexpired native image artifact' }^[[0m
+bell-window-state (synchronized, 1)	Verify and download the explicitly identified native image	2026-11-16T00:49:06.0463288Z ^[[36;1mgh run download $env:IMAGE_RUN --repo $env:GITHUB_REPOSITORY --name $name --dir build/bell-baseline^[[0m
+bell-window-state (synchronized, 1)	Verify and download the explicitly identified native image	2026-11-16T00:49:06.0463851Z ^[[36;1mif ($LASTEXITCODE) { exit $LASTEXITCODE }^[[0m
+bell-window-state (synchronized, 1)	Verify and download the explicitly identified native image	2026-11-16T00:49:06.0464292Z ^[[36;1mNew-Item -ItemType Directory -Force dist | Out-Null^[[0m
+bell-window-state (synchronized, 1)	Verify and download the explicitly identified native image	2026-11-16T00:49:06.0465002Z ^[[36;1m$image = if ($singleDiagnostic) { 'build/bell-baseline/nemoterm.exe' } else { 'build/bell-baseline/build/single-exe-dist/nemoterm.exe' }^[[0m
+bell-window-state (synchronized, 1)	Verify and download the explicitly identified native image	2026-11-16T00:49:06.0465791Z ^[[36;1mCopy-Item -LiteralPath $image -Destination dist/nemoterm.exe^[[0m
+bell-window-state (synchronized, 1)	Verify and download the explicitly identified native image	2026-11-16T00:49:06.0466315Z ^[[36;1m$hash = (Get-FileHash dist/nemoterm.exe -Algorithm SHA256).Hash^[[0m
+bell-window-state (synchronized, 1)	Verify and download the explicitly identified native image	2026-11-16T00:49:06.0466752Z ^[[36;1mif (!$singleDiagnostic) {^[[0m
+bell-window-state (synchronized, 1)	Verify and download the explicitly identified native image	2026-11-16T00:49:06.0467983Z ^[[36;1m  $original = Get-Content build/bell-baseline/bell-image.json -Raw | ConvertFrom-Json^[[0m
+bell-window-state (synchronized, 1)	Verify and download the explicitly identified native image	2026-11-16T00:49:06.0468695Z ^[[36;1m  if ($hash -ne $original.Hash) { throw 'Downloaded image hash differs from its native checkpoint' }^[[0m
+bell-window-state (synchronized, 1)	Verify and download the explicitly identified native image	2026-11-16T00:49:06.0469228Z ^[[36;1m}^[[0m
+bell-window-state (synchronized, 1)	Verify and download the explicitly identified native image	2026-11-16T00:49:06.0470343Z ^[[36;1m@{ fixture_source=$env:GITHUB_SHA; image_source=$run.head_sha; image_run=$run.id; image_conclusion=$run.conclusion; diagnostic_failed_baseline=$diagnosticFailed; artifact_id=$artifact[0].id; image_sha256=$hash } | ConvertTo-Json | Set-Content bell-state-provenance.json^[[0m
+bell-window-state (synchronized, 1)	Verify and download the explicitly identified native image	2026-11-16T00:49:06.1053038Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+bell-window-state (synchronized, 1)	Verify and download the explicitly identified native image	2026-11-16T00:49:06.1053557Z env:
+bell-window-state (synchronized, 1)	Verify and download the explicitly identified native image	2026-11-16T00:49:06.1056603Z   GH_TOKEN: ***
+bell-window-state (synchronized, 1)	Verify and download the explicitly identified native image	2026-11-16T00:49:06.1056951Z   IMAGE_RUN: 43776658192
+bell-window-state (synchronized, 1)	Verify and download the explicitly identified native image	2026-11-16T00:49:06.1057292Z   ALLOW_FAILED_IMAGE: true
+bell-window-state (synchronized, 1)	Verify and download the explicitly identified native image	2026-11-16T00:49:06.1057633Z ##[endgroup]
+bell-window-state (synchronized, 1)	Run python -m pip install frida==17.24.3	﻿2026-11-16T00:49:11.2685602Z ##[group]Run python -m pip install frida==17.24.3
+bell-window-state (synchronized, 1)	Run python -m pip install frida==17.24.3	2026-11-16T00:49:11.2686182Z ^[[36;1mpython -m pip install frida==17.24.3^[[0m
+bell-window-state (synchronized, 1)	Run python -m pip install frida==17.24.3	2026-11-16T00:49:11.2756012Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+bell-window-state (synchronized, 1)	Run python -m pip install frida==17.24.3	2026-11-16T00:49:11.2756679Z ##[endgroup]
+bell-window-state (synchronized, 1)	Run python -m pip install frida==17.24.3	2026-11-16T00:49:16.4758396Z Collecting frida==17.24.3
+bell-window-state (synchronized, 1)	Run python -m pip install frida==17.24.3	2026-11-16T00:49:16.6949715Z   Downloading frida-17.24.3-cp37-abi3-win_amd64.whl.metadata (2.3 kB)
+bell-window-state (synchronized, 1)	Run python -m pip install frida==17.24.3	2026-11-16T00:49:16.7303537Z Downloading frida-17.24.3-cp37-abi3-win_amd64.whl (58.0 MB)
+bell-window-state (synchronized, 1)	Run python -m pip install frida==17.24.3	2026-11-16T00:49:18.9896031Z    ---------------------------------------- 58.0/58.0 MB 26.6 MB/s  0:00:02
+bell-window-state (synchronized, 1)	Run python -m pip install frida==17.24.3	2026-11-16T00:49:19.3189552Z Installing collected packages: frida
+bell-window-state (synchronized, 1)	Run python -m pip install frida==17.24.3	2026-11-16T00:49:21.6024507Z Successfully installed frida-17.24.3
+bell-window-state (synchronized, 1)	Check focus, stacking, minimized and background-tab lifetime	﻿2026-11-16T00:49:21.8480753Z ##[group]Run $env:NEMOTERM_TEST_EXE = (Resolve-Path dist/nemoterm.exe).Path
+bell-window-state (synchronized, 1)	Check focus, stacking, minimized and background-tab lifetime	2026-11-16T00:49:21.8481566Z ^[[36;1m$env:NEMOTERM_TEST_EXE = (Resolve-Path dist/nemoterm.exe).Path^[[0m
+bell-window-state (synchronized, 1)	Check focus, stacking, minimized and background-tab lifetime	2026-11-16T00:49:21.8482049Z ^[[36;1mif ('true' -eq 'true') {^[[0m
+bell-window-state (synchronized, 1)	Check focus, stacking, minimized and background-tab lifetime	2026-11-16T00:49:21.8482625Z ^[[36;1m  if ('false' -eq 'true') { throw 'Choose comparison or caption control, not both' }^[[0m
+bell-window-state (synchronized, 1)	Check focus, stacking, minimized and background-tab lifetime	2026-11-16T00:49:21.8483266Z ^[[36;1m  python tests/owned_focus_caption_control.py 2>&1 | Tee-Object bell-window-state.log^[[0m
+bell-window-state (synchronized, 1)	Check focus, stacking, minimized and background-tab lifetime	2026-11-16T00:49:21.8483790Z ^[[36;1m} else {^[[0m
+bell-window-state (synchronized, 1)	Check focus, stacking, minimized and background-tab lifetime	2026-11-16T00:49:21.8484226Z ^[[36;1m  python tests/bell_window_state_smoke.py 2>&1 | Tee-Object bell-window-state.log^[[0m
+bell-window-state (synchronized, 1)	Check focus, stacking, minimized and background-tab lifetime	2026-11-16T00:49:21.8484698Z ^[[36;1m}^[[0m
+bell-window-state (synchronized, 1)	Check focus, stacking, minimized and background-tab lifetime	2026-11-16T00:49:21.8485011Z ^[[36;1mexit $LASTEXITCODE^[[0m
+bell-window-state (synchronized, 1)	Check focus, stacking, minimized and background-tab lifetime	2026-11-16T00:49:21.8550649Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+bell-window-state (synchronized, 1)	Check focus, stacking, minimized and background-tab lifetime	2026-11-16T00:49:21.8551130Z env:
+bell-window-state (synchronized, 1)	Check focus, stacking, minimized and background-tab lifetime	2026-11-16T00:49:21.8551428Z   NEMOTERM_FOCUS_MODE: synchronized
+bell-window-state (synchronized, 1)	Check focus, stacking, minimized and background-tab lifetime	2026-11-16T00:49:21.8551811Z ##[endgroup]
+bell-window-state (synchronized, 1)	Check focus, stacking, minimized and background-tab lifetime	2026-11-16T00:49:41.5308501Z ^[[31;1mTraceback (most recent call last):^[[0m
+bell-window-state (synchronized, 1)	Check focus, stacking, minimized and background-tab lifetime	2026-11-16T00:49:41.5343155Z ^[[31;1m  File "D:\a\nemoterm\nemoterm\tests\bell_window_state_smoke.py", line 221, in <module>^[[0m
+bell-window-state (synchronized, 1)	Check focus, stacking, minimized and background-tab lifetime	2026-11-16T00:49:41.5350245Z ^[[31;1m    focus(host);focus(other);position(other,None)^[[0m
+bell-window-state (synchronized, 1)	Check focus, stacking, minimized and background-tab lifetime	2026-11-16T00:49:41.5369411Z ^[[31;1m                ^^^^^^^^^^^^^[[0m
+bell-window-state (synchronized, 1)	Check focus, stacking, minimized and background-tab lifetime	2026-11-16T00:49:41.5376993Z ^[[31;1m  File "D:\a\nemoterm\nemoterm\tests\bell_window_state_smoke.py", line 104, in focus^[[0m
+bell-window-state (synchronized, 1)	Check focus, stacking, minimized and background-tab lifetime	2026-11-16T00:49:41.5383295Z ^[[31;1m    focus_owned_window(window,process.pid if window==host else cover.pid,^[[0m
+bell-window-state (synchronized, 1)	Check focus, stacking, minimized and background-tab lifetime	2026-11-16T00:49:41.5389299Z ^[[31;1m  File "D:\a\nemoterm\nemoterm\tests\owned_window_focus.py", line 56, in focus_owned_window^[[0m
+bell-window-state (synchronized, 1)	Check focus, stacking, minimized and background-tab lifetime	2026-11-16T00:49:41.5395147Z ^[[31;1m    return _prepare_focus(window, record, mode, observe)^[[0m
+bell-window-state (synchronized, 1)	Check focus, stacking, minimized and background-tab lifetime	2026-11-16T00:49:41.5401795Z ^[[31;1m           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[[0m
+bell-window-state (synchronized, 1)	Check focus, stacking, minimized and background-tab lifetime	2026-11-16T00:49:41.5408027Z ^[[31;1m  File "D:\a\nemoterm\nemoterm\tests\owned_window_focus.py", line 123, in _prepare_focus^[[0m
+bell-window-state (synchronized, 1)	Check focus, stacking, minimized and background-tab lifetime	2026-11-16T00:49:41.5418553Z ^[[31;1m    wait_for(lambda: observe('waiting-for-foreground') == window)^[[0m
+bell-window-state (synchronized, 1)	Check focus, stacking, minimized and background-tab lifetime	2026-11-16T00:49:41.5425137Z ^[[31;1m  File "D:\a\nemoterm\nemoterm\tests\native_test_utils.py", line 115, in wait_for^[[0m
+bell-window-state (synchronized, 1)	Check focus, stacking, minimized and background-tab lifetime	2026-11-16T00:49:41.5431012Z ^[[31;1m    raise AssertionError('Timed out waiting for native fixture')^[[0m
+bell-window-state (synchronized, 1)	Check focus, stacking, minimized and background-tab lifetime	2026-11-16T00:49:41.5436496Z ^[[31;1mAssertionError: Timed out waiting for native fixture^[[0m
+bell-window-state (synchronized, 1)	Check focus, stacking, minimized and background-tab lifetime	2026-11-16T00:49:41.5452653Z ^[[31;1m^[[0m
+bell-window-state (synchronized, 1)	Check focus, stacking, minimized and background-tab lifetime	2026-11-16T00:49:41.5460278Z ^[[31;1mDuring handling of the above exception, another exception occurred:^[[0m
+bell-window-state (synchronized, 1)	Check focus, stacking, minimized and background-tab lifetime	2026-11-16T00:49:41.5466874Z ^[[31;1m^[[0m
+bell-window-state (synchronized, 1)	Check focus, stacking, minimized and background-tab lifetime	2026-11-16T00:49:41.5472740Z ^[[31;1mTraceback (most recent call last):^[[0m
+bell-window-state (synchronized, 1)	Check focus, stacking, minimized and background-tab lifetime	2026-11-16T00:49:41.5478526Z ^[[31;1m  File "D:\a\nemoterm\nemoterm\tests\owned_focus_caption_control.py", line 22, in <module>^[[0m
+bell-window-state (synchronized, 1)	Check focus, stacking, minimized and background-tab lifetime	2026-11-16T00:49:41.5484004Z ^[[31;1m    runpy.run_path(str(root/'tests/bell_window_state_smoke.py'),run_name='__main__')^[[0m
+bell-window-state (synchronized, 1)	Check focus, stacking, minimized and background-tab lifetime	2026-11-16T00:49:41.5489323Z ^[[31;1m  File "<frozen runpy>", line 287, in run_path^[[0m
+bell-window-state (synchronized, 1)	Check focus, stacking, minimized and background-tab lifetime	2026-11-16T00:49:41.5495006Z ^[[31;1m  File "<frozen runpy>", line 98, in _run_module_code^[[0m
+bell-window-state (synchronized, 1)	Check focus, stacking, minimized and background-tab lifetime	2026-11-16T00:49:41.5502496Z ^[[31;1m  File "<frozen runpy>", line 88, in _run_code^[[0m
+bell-window-state (synchronized, 1)	Check focus, stacking, minimized and background-tab lifetime	2026-11-16T00:49:41.5509448Z ^[[31;1m  File "D:\a\nemoterm\nemoterm\tests\bell_window_state_smoke.py", line 264, in <module>^[[0m
+bell-window-state (synchronized, 1)	Check focus, stacking, minimized and background-tab lifetime	2026-11-16T00:49:41.5515068Z ^[[31;1m    assert process.returncode==cover.returncode==0^[[0m
+bell-window-state (synchronized, 1)	Check focus, stacking, minimized and background-tab lifetime	2026-11-16T00:49:41.5523123Z ^[[31;1m           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[[0m
+bell-window-state (synchronized, 1)	Check focus, stacking, minimized and background-tab lifetime	2026-11-16T00:49:41.5528595Z ^[[31;1mAssertionError^[[0m
+bell-window-state (synchronized, 1)	Check focus, stacking, minimized and background-tab lifetime	2026-11-16T00:49:41.5793996Z ##[error]Process completed with exit code 1.
+bell-window-state (synchronized, 1)	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	﻿2026-11-16T00:49:41.6006858Z ##[group]Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+bell-window-state (synchronized, 1)	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	2026-11-16T00:49:41.6007483Z with:
+bell-window-state (synchronized, 1)	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	2026-11-16T00:49:41.6007889Z   name: bell-window-state-8e0c1c74715abb35198ca5607768c9f8a12f3762
+bell-window-state (synchronized, 1)	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	2026-11-16T00:49:41.6008678Z   path: bell-state-provenance.json
+bell-window-state (synchronized, 1)	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	bell-window-state.log
+bell-window-state (synchronized, 1)	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	research/bell-window-state-observed.json
+bell-window-state (synchronized, 1)	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	research/owned-focus-caption-control.json
+bell-window-state (synchronized, 1)	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	
+bell-window-state (synchronized, 1)	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	2026-11-16T00:49:41.6009391Z   if-no-files-found: error
+bell-window-state (synchronized, 1)	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	2026-11-16T00:49:41.6009711Z   retention-days: 60
+bell-window-state (synchronized, 1)	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	2026-11-16T00:49:41.6009995Z   compression-level: 6
+bell-window-state (synchronized, 1)	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	2026-11-16T00:49:41.6010318Z   overwrite: false
+bell-window-state (synchronized, 1)	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	2026-11-16T00:49:41.6010633Z   include-hidden-files: false
+bell-window-state (synchronized, 1)	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	2026-11-16T00:49:41.6010990Z ##[endgroup]
+bell-window-state (synchronized, 1)	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	2026-11-16T00:49:41.7910168Z (node:2140) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+bell-window-state (synchronized, 1)	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	2026-11-16T00:49:41.7911149Z (Use `node --trace-deprecation ...` to show where the warning was created)
+bell-window-state (synchronized, 1)	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	2026-11-16T00:49:41.7991715Z Multiple search paths detected. Calculating the least common ancestor of all paths
+bell-window-state (synchronized, 1)	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	2026-11-16T00:49:41.7995211Z The least common ancestor is D:\a\nemoterm\nemoterm. This will be the root directory of the artifact
+bell-window-state (synchronized, 1)	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	2026-11-16T00:49:41.7996025Z With the provided path, there will be 4 files uploaded
+bell-window-state (synchronized, 1)	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	2026-11-16T00:49:41.8000328Z Artifact name is valid!
+bell-window-state (synchronized, 1)	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	2026-11-16T00:49:41.8001825Z Root directory input is valid!
+bell-window-state (synchronized, 1)	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	2026-11-16T00:49:42.0258782Z Beginning upload of artifact content to blob storage
+bell-window-state (synchronized, 1)	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	2026-11-16T00:49:42.0637365Z (node:2140) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+bell-window-state (synchronized, 1)	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	2026-11-16T00:49:42.1154140Z Uploaded bytes 9703
+bell-window-state (synchronized, 1)	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	2026-11-16T00:49:42.1310462Z Finished uploading artifact content to blob storage!
+bell-window-state (synchronized, 1)	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	2026-11-16T00:49:42.1311776Z SHA256 digest of uploaded artifact zip is 33ab1f4b25d460fc72977fe6f99d3645de2f48ea02615cbf199eb38354fe4fb9
+bell-window-state (synchronized, 1)	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	2026-11-16T00:49:42.1316168Z Finalizing artifact upload
+bell-window-state (synchronized, 1)	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	2026-11-16T00:49:42.4926367Z Artifact bell-window-state-8e0c1c74715abb35198ca5607768c9f8a12f3762.zip successfully finalized. Artifact ID 14189420072
+bell-window-state (synchronized, 1)	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	2026-11-16T00:49:42.4928047Z Artifact bell-window-state-8e0c1c74715abb35198ca5607768c9f8a12f3762 has been successfully uploaded! Final size is 9703 bytes. Artifact ID is 14189420072
+bell-window-state (synchronized, 1)	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	2026-11-16T00:49:42.4937968Z Artifact download URL: https://github.com/xiongnemo/nemoterm/actions/runs/43782567735/artifacts/14189420072
+bell-window-state (synchronized, 1)	Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	﻿2026-11-16T00:49:42.5408175Z Post job cleanup.
+bell-window-state (synchronized, 1)	Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:42.7151190Z [command]"C:\Program Files\Git\bin\git.exe" version
+bell-window-state (synchronized, 1)	Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:42.7576783Z git version 2.56.0.windows.4
+bell-window-state (synchronized, 1)	Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:42.7660873Z Temporarily overriding HOME='D:\a\_temp\d40e185a-036e-45b5-aee9-22ca6defae42' before making global git config changes
+bell-window-state (synchronized, 1)	Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:42.7662435Z Adding repository directory to the temporary git global config as a safe directory
+bell-window-state (synchronized, 1)	Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:42.7673058Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\nemoterm\nemoterm
+bell-window-state (synchronized, 1)	Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:42.8123434Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+bell-window-state (synchronized, 1)	Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:42.8537244Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+bell-window-state (synchronized, 1)	Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:43.4447006Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+bell-window-state (synchronized, 1)	Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:43.4785079Z http.https://github.com/.extraheader
+bell-window-state (synchronized, 1)	Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:43.4832790Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset-all http.https://github.com/.extraheader
+bell-window-state (synchronized, 1)	Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:43.5218233Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+bell-window-state (synchronized, 1)	Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:44.0651756Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+bell-window-state (synchronized, 1)	Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-11-16T00:49:44.1037037Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+bell-window-state (synchronized, 1)	Complete job	﻿2026-11-16T00:49:44.7052363Z Cleaning up orphan processes
+bell-window-state (synchronized, 1)	Complete job	2026-11-16T00:49:44.7274643Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@11d5960a326750d5838078e36cf38b85af677262, actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

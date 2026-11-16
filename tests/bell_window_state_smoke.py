@@ -24,8 +24,9 @@ u.GetPropW.argtypes,u.GetPropW.restype=[w.HWND,w.LPCWSTR],w.HANDLE
 exe=Path(os.environ.get('NEMOTERM_TEST_EXE',root/'dist/nemoterm.exe')).resolve()
 focus_mode=os.environ.get('NEMOTERM_FOCUS_MODE','synchronized')
 assert focus_mode in ('legacy','synchronized'),focus_mode
+exception_observer=os.environ.get('NEMOTERM_BELL_EXCEPTION_OBSERVER')
 evidence=dict(completed=False,executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),
-    focus_mode=focus_mode,checks=[],cleanup=[],process_exits=[],focus_actions=[],position_actions=[],window_events=[],renderers=[],scope='Actual owned Windows state and unmodified API observation; no speaker or visible taskbar acceptance.')
+    focus_mode=focus_mode,exception_observers=[],checks=[],cleanup=[],process_exits=[],focus_actions=[],position_actions=[],window_events=[],renderers=[],scope='Actual owned Windows state and unmodified API observation; no speaker or visible taskbar acceptance.')
 marker=b'\x1b[0n'
 
 try:
@@ -49,6 +50,14 @@ try:
             endpoint=instance['endpoint'];first=instance['sessions'][0]
             assert first['renderer']==renderer and first['active'],first
             host=first['window'];other=terminal_host(wait_for(lambda:find_window(cover.pid)))
+            if exception_observer:
+                from native_exception_observer import NativeExceptionObserver
+                observer=NativeExceptionObserver(exception_observer,cover,job,
+                    root/'build/bell-caption-exceptions'/f'{renderer}-{int(always_on_top)}')
+                def close_observer(observer=observer):
+                    result=observer.close();evidence['exception_observers'].append(result)
+                    assert result['exit_code']==0,result
+                logs.callback(close_observer)
             # Exercise the user setting in each native process. An external
             # controller's SetWindowPos can return success without changing
             # the inactive target's topmost state on the CI desktop.

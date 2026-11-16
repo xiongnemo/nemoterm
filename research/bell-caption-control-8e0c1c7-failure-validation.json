@@ -1,0 +1,436 @@
+{
+  "run": {
+    "conclusion": "failure",
+    "databaseId": 43782567735,
+    "headSha": "8e0c1c74715abb35198ca5607768c9f8a12f3762",
+    "jobs": [
+      {
+        "completedAt": "2026-11-16T00:49:45Z",
+        "conclusion": "failure",
+        "databaseId": 133022859665,
+        "name": "bell-window-state (synchronized, 1)",
+        "startedAt": "2026-11-16T00:48:46Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-11-16T00:48:47Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-11-16T00:48:46Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-16T00:49:06Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+            "number": 2,
+            "startedAt": "2026-11-16T00:48:47Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-16T00:49:11Z",
+            "conclusion": "success",
+            "name": "Verify and download the explicitly identified native image",
+            "number": 3,
+            "startedAt": "2026-11-16T00:49:06Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-16T00:49:21Z",
+            "conclusion": "success",
+            "name": "Run python -m pip install frida==17.24.3",
+            "number": 4,
+            "startedAt": "2026-11-16T00:49:11Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-16T00:49:21Z",
+            "conclusion": "skipped",
+            "name": "Check foreground preparation against deferred queue controls",
+            "number": 5,
+            "startedAt": "2026-11-16T00:49:21Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-16T00:49:41Z",
+            "conclusion": "failure",
+            "name": "Check focus, stacking, minimized and background-tab lifetime",
+            "number": 6,
+            "startedAt": "2026-11-16T00:49:21Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-16T00:49:42Z",
+            "conclusion": "success",
+            "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+            "number": 7,
+            "startedAt": "2026-11-16T00:49:41Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-16T00:49:44Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+            "number": 14,
+            "startedAt": "2026-11-16T00:49:42Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-16T00:49:44Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 15,
+            "startedAt": "2026-11-16T00:49:44Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43782567735/job/133022859665"
+      },
+      {
+        "completedAt": "2026-11-16T00:48:44Z",
+        "conclusion": "skipped",
+        "databaseId": 133022860704,
+        "name": "locator-native",
+        "startedAt": "2026-11-16T00:48:45Z",
+        "status": "completed",
+        "steps": [],
+        "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43782567735/job/133022860704"
+      },
+      {
+        "completedAt": "2026-11-16T00:48:44Z",
+        "conclusion": "skipped",
+        "databaseId": 133022861319,
+        "name": "udk-native",
+        "startedAt": "2026-11-16T00:48:45Z",
+        "status": "completed",
+        "steps": [],
+        "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43782567735/job/133022861319"
+      },
+      {
+        "completedAt": "2026-11-16T00:48:44Z",
+        "conclusion": "skipped",
+        "databaseId": 133022861643,
+        "name": "bell-native",
+        "startedAt": "2026-11-16T00:48:45Z",
+        "status": "completed",
+        "steps": [],
+        "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43782567735/job/133022861643"
+      },
+      {
+        "completedAt": "2026-11-16T00:48:44Z",
+        "conclusion": "skipped",
+        "databaseId": 133022886738,
+        "name": "msvc",
+        "startedAt": "2026-11-16T00:48:50Z",
+        "status": "completed",
+        "steps": [],
+        "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43782567735/job/133022886738"
+      },
+      {
+        "completedAt": "2026-11-16T00:48:44Z",
+        "conclusion": "skipped",
+        "databaseId": 133022906618,
+        "name": "linux",
+        "startedAt": "2026-11-16T00:48:54Z",
+        "status": "completed",
+        "steps": [],
+        "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43782567735/job/133022906618"
+      }
+    ],
+    "status": "completed",
+    "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43782567735"
+  },
+  "provenance": {
+    "image_run": 43776658192,
+    "image_conclusion": "failure",
+    "fixture_source": "8e0c1c74715abb35198ca5607768c9f8a12f3762",
+    "image_sha256": "64A493391747C27AFD44074A4FEA3F3EFC21724139BAEF6D35D13955D0D05F5D",
+    "image_source": "029bfac4434d59a66dbd991d8281a94fe166e647",
+    "diagnostic_failed_baseline": true,
+    "artifact_id": 14188555805
+  },
+  "archive": {
+    "path": "bell-caption-control-8e0c1c7-failure.zip",
+    "artifact_id": 14189420072,
+    "sha256": "33ab1f4b25d460fc72977fe6f99d3645de2f48ea02615cbf199eb38354fe4fb9",
+    "bytes": 9703,
+    "files": [
+      {
+        "path": "bell-state-provenance.json",
+        "bytes": 353,
+        "sha256": "9f4144ece35f8bea6bc941ce1cb5e05dd02d18ae3724d4b1b8259b66b136b6aa"
+      },
+      {
+        "path": "bell-window-state.log",
+        "bytes": 1583,
+        "sha256": "52fbc01c2b0ebbe38585bee3a5662dd6a70560193c8dbfac600a7f35af64ea5c"
+      },
+      {
+        "path": "research/bell-window-state-observed.json",
+        "bytes": 300376,
+        "sha256": "dfbe75338f63cd386830afc0c9c2d64d2a621ec590d207ebbe04b32386bd0ab1"
+      },
+      {
+        "path": "research/owned-focus-caption-control.json",
+        "bytes": 2250,
+        "sha256": "2dfccab8b98b460aa9f075248d1203dc0a3a480f16918f9bab99dfec53911346"
+      }
+    ]
+  },
+  "completed": false,
+  "checks": 47,
+  "focus_actions": 38,
+  "failed_actions": [
+    {
+      "renderer": 2,
+      "configured_topmost": false,
+      "window": 720978,
+      "owner_pid": 7324,
+      "mode": "synchronized",
+      "before": 655398,
+      "completed": false,
+      "transitions": [
+        {
+          "stage": "after-set-foreground",
+          "foreground": 655398,
+          "foreground_pid": 1528,
+          "elapsed_seconds": 0.0
+        },
+        {
+          "stage": "after-queue-barrier",
+          "foreground": 655398,
+          "foreground_pid": 1528,
+          "elapsed_seconds": 0.0
+        },
+        {
+          "stage": "waiting-for-click",
+          "foreground": null,
+          "foreground_pid": 0,
+          "elapsed_seconds": 0.03200000000001069
+        },
+        {
+          "stage": "waiting-for-click",
+          "foreground": 720978,
+          "foreground_pid": 7324,
+          "elapsed_seconds": 0.046999999999997044
+        },
+        {
+          "stage": "waiting-for-foreground",
+          "foreground": null,
+          "foreground_pid": 0,
+          "elapsed_seconds": 0.2820000000000107
+        },
+        {
+          "stage": "waiting-for-foreground",
+          "foreground": 655398,
+          "foreground_pid": 1528,
+          "elapsed_seconds": 0.29699999999999704
+        },
+        {
+          "stage": "failed",
+          "foreground": 655398,
+          "foreground_pid": 1528,
+          "elapsed_seconds": 8.28200000000001
+        }
+      ],
+      "set_foreground_result": false,
+      "method": "owned-caption-click",
+      "queue_barrier": true,
+      "bounds": [
+        -8,
+        -8,
+        1032,
+        728
+      ],
+      "style": 401539072,
+      "caption_candidates": [
+        {
+          "x": 512,
+          "y": -2,
+          "window": 720978,
+          "hit": 2
+        }
+      ],
+      "click": [
+        512,
+        -2
+      ],
+      "error": "AssertionError('Timed out waiting for native fixture')"
+    }
+  ],
+  "cleanup": [
+    {
+      "before": {
+        "total": 12,
+        "active": 0,
+        "terminated": 0
+      },
+      "after": {
+        "total": 12,
+        "active": 0,
+        "terminated": 0
+      },
+      "terminated_remaining": false,
+      "remaining_processes": []
+    },
+    {
+      "before": {
+        "total": 12,
+        "active": 0,
+        "terminated": 0
+      },
+      "after": {
+        "total": 12,
+        "active": 0,
+        "terminated": 0
+      },
+      "terminated_remaining": false,
+      "remaining_processes": []
+    },
+    {
+      "before": {
+        "total": 10,
+        "active": 0,
+        "terminated": 0
+      },
+      "after": {
+        "total": 10,
+        "active": 0,
+        "terminated": 0
+      },
+      "terminated_remaining": false,
+      "remaining_processes": []
+    }
+  ],
+  "process_exits": null,
+  "error": "AssertionError()",
+  "control": {
+    "completed": false,
+    "denied_calls": [
+      {
+        "window": 262214,
+        "foreground": 262226
+      },
+      {
+        "window": 262226,
+        "foreground": 262214
+      },
+      {
+        "window": 262214,
+        "foreground": 262226
+      },
+      {
+        "window": 262226,
+        "foreground": 262214
+      },
+      {
+        "window": 262214,
+        "foreground": 262226
+      },
+      {
+        "window": 262214,
+        "foreground": 262226
+      },
+      {
+        "window": 262226,
+        "foreground": 262214
+      },
+      {
+        "window": 262214,
+        "foreground": 262226
+      },
+      {
+        "window": 262226,
+        "foreground": 262214
+      },
+      {
+        "window": 262214,
+        "foreground": 262226
+      },
+      {
+        "window": 262226,
+        "foreground": 262214
+      },
+      {
+        "window": 328074,
+        "foreground": 918034
+      },
+      {
+        "window": 918034,
+        "foreground": 328074
+      },
+      {
+        "window": 328074,
+        "foreground": 918034
+      },
+      {
+        "window": 918034,
+        "foreground": 328074
+      },
+      {
+        "window": 918034,
+        "foreground": 262266
+      },
+      {
+        "window": 918034,
+        "foreground": 328074
+      },
+      {
+        "window": 328074,
+        "foreground": 918034
+      },
+      {
+        "window": 918034,
+        "foreground": 328074
+      },
+      {
+        "window": 328074,
+        "foreground": 918034
+      },
+      {
+        "window": 918034,
+        "foreground": 328074
+      },
+      {
+        "window": 328074,
+        "foreground": 918034
+      },
+      {
+        "window": 720978,
+        "foreground": 655398
+      },
+      {
+        "window": 655398,
+        "foreground": 720978
+      },
+      {
+        "window": 720978,
+        "foreground": 655398
+      },
+      {
+        "window": 655398,
+        "foreground": 720978
+      },
+      {
+        "window": 720978,
+        "foreground": 655398
+      },
+      {
+        "window": 720978,
+        "foreground": 655398
+      },
+      {
+        "window": 655398,
+        "foreground": 720978
+      },
+      {
+        "window": 720978,
+        "foreground": 655398
+      }
+    ],
+    "scope": "Controller-only refusal forces real owned caption input; no terminal API hooks or fabricated focus messages.",
+    "error": "AssertionError()"
+  },
+  "scope": "Caption-only diagnostic on the original failed image. Includes failures as observed; no complete CI acceptance or promotion."
+}

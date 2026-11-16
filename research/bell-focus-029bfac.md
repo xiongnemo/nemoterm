@@ -76,3 +76,8 @@ remains unconfirmed. A successful replay does not turn the failed complete
 workflow into a successful checkpoint or explain the unrelated historical
 MSVC tab callback crash. Full product CI and exact-image local acceptance
 remain separate gates.
+
+A subsequent [forced caption control](bell-caption-control-failure.md) exposes
+a native DirectX process exit during window-state changes. Its two failed
+runs are retained separately. Queue synchronization's passing direct-activation
+path does not close this new failure or certify the real fallback path.
