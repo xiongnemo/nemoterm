@@ -17,7 +17,7 @@ def run(font_resize):
     try:
         with tempfile.TemporaryDirectory(prefix='nemoterm-margins-') as temporary:
             directory=Path(temporary);report,control=directory/'report',directory/'control'
-            process=subprocess.Popen([str(exe),'-load',name,'--cols','40','--rows','12',
+            process=subprocess.Popen([str(exe),'--no-tabs','-load',name,'--cols','40','--rows','12',
                 '--font','SarasaTermSC Nerd Font Light','-e',sys.executable,
                 str(root/'tests/mouse_fixture.py'),str(report),str(control)],
                 env=dict(os.environ,NEMOTERM_CONPTY='bundled'),creationflags=subprocess.CREATE_NO_WINDOW)

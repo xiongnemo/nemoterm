@@ -104,12 +104,57 @@ struct settings_w {
     SaveItem si[MAXKEY];
 };
 
+struct settings_r {
+    size_t n;
+    SaveItem si[MAXKEY];
+};
+
+static bool profile_storage, profile_write_fail;
+static struct {
+    bool exists;
+    char name[160];
+    settings_w write;
+    settings_r read;
+} profiles[4];
+
 settings_w *open_settings_w(const char *sessionname, char **errmsg)
-{ return NULL; }
+{
+    *errmsg = NULL;
+    if (!profile_storage || profile_write_fail) {
+        *errmsg = dupstr("injected storage failure"); return NULL;
+    }
+    int slot=-1;
+    for (int i=0; i<4; i++) {
+        if (profiles[i].exists && !stricmp(profiles[i].name, sessionname)) {slot=i;break;}
+        if (!profiles[i].exists && slot<0) slot=i;
+    }
+    if (slot>=0) {
+        int i=slot;
+        profiles[i].exists = true; strcpy(profiles[i].name, sessionname);
+        settings_w *sw = &profiles[i].write; memset(sw, 0, sizeof(*sw));
+        const char *keys[]={"TermWidth","NemoTabs","NemoShell","RemoteCommand","NemoRenderer"};
+        sw->n=lenof(keys);
+        for (size_t j=0; j<lenof(keys); j++) sw->si[j].key=keys[j];
+        return sw;
+    }
+    *errmsg = dupstr("test profile store full"); return NULL;
+}
 void close_settings_w(settings_w *sw)
-{ unreachable("we don't open and close in this test program"); }
+{
+    for (int i=0; i<4; i++) if (sw==&profiles[i].write) {
+        profiles[i].read.n=sw->n;
+        memcpy(profiles[i].read.si,sw->si,sizeof(sw->si)); return;
+    }
+    unreachable("unknown profile write handle");
+}
 settings_r *open_settings_r(const char *sessionname)
-{ return NULL; }
+{
+    if (!profile_storage) return NULL;
+    if (!sessionname || !*sessionname) sessionname="Default Settings";
+    for (int i=0; i<4; i++)
+        if (profiles[i].exists && !stricmp(profiles[i].name,sessionname)) return &profiles[i].read;
+    return NULL;
+}
 void close_settings_r(settings_r *sr) { }
 
 /* Work around lack of true snprintf before VS2015 */
@@ -165,10 +210,7 @@ void write_setting_filename(settings_w *sw, const char *key, Filename *fn)
     }
 }
 
-struct settings_r {
-    size_t n;
-    SaveItem si[MAXKEY];
-};
+
 
 char *read_setting_s(settings_r *sr, const char *key)
 {
@@ -206,7 +248,11 @@ Filename *read_setting_filename(settings_r *sr, const char *key)
     return NULL;
 }
 
-void del_settings(const char *sessionname) {}
+void del_settings(const char *sessionname) {
+    if (profile_storage)
+        for (int i=0; i<4; i++)
+            if (!stricmp(profiles[i].name,sessionname)) profiles[i].exists=false;
+}
 
 settings_e *enum_settings_start(void)
 { return NULL; }
@@ -1100,8 +1146,45 @@ void test_conf_key_info(void)
     }
 }
 
+static void test_profiles(void)
+{
+#define PROFILE_CHECK(value) do { if (!(value)) { printf("profile check failed: %s\n", #value); nfails++; } } while (0)
+    Conf *a=conf_new(), *b=conf_new();
+    do_defaults(NULL,a);
+    PROFILE_CHECK(conf_get_bool(a,CONF_nemo_tabs));
+    PROFILE_CHECK(!strcmp(conf_get_str(a,CONF_nemo_profile),"Default"));
+    profile_storage=true;
+    char *error=nemo_profile_save(a,"Default",false);
+    PROFILE_CHECK(!error);sfree(error);
+    PROFILE_CHECK(nemo_profile_exists("default"));
+    PROFILE_CHECK(nemo_profile_exists("Default Settings"));
+    conf_set_int(a,CONF_width,132);conf_set_str(a,CONF_nemo_shell,"pwsh");
+    conf_set_str(a,CONF_remote_cmd,"one-time-command");
+    error=nemo_profile_save(a,"Work",true);PROFILE_CHECK(!error);sfree(error);
+    PROFILE_CHECK(!strcmp(conf_get_str(a,CONF_nemo_profile),"Work"));
+    bool utf8;PROFILE_CHECK(!strcmp(conf_get_str_ambi(a,CONF_remote_cmd,&utf8),"one-time-command"));
+    PROFILE_CHECK(load_settings("Work",b));
+    PROFILE_CHECK(conf_get_int(b,CONF_width)==132);
+    PROFILE_CHECK(!strcmp(conf_get_str(b,CONF_nemo_shell),"pwsh"));
+    PROFILE_CHECK(!*conf_get_str_ambi(b,CONF_remote_cmd,&utf8));
+    Conf *copy=conf_copy(b);PROFILE_CHECK(!strcmp(conf_get_str(copy,CONF_nemo_profile),"Work"));conf_free(copy);
+    error=nemo_profile_save(b,"work",true);PROFILE_CHECK(error);sfree(error);
+    profile_write_fail=true;error=nemo_profile_save(b,"Failed",true);
+    PROFILE_CHECK(error);sfree(error);PROFILE_CHECK(!strcmp(conf_get_str(b,CONF_nemo_profile),"Work"));
+    profile_write_fail=false;
+    conf_set_int(b,CONF_width,144);error=nemo_profile_save(b,conf_get_str(b,CONF_nemo_profile),false);
+    PROFILE_CHECK(!error);sfree(error);load_settings("Work",a);PROFILE_CHECK(conf_get_int(a,CONF_width)==144);
+    load_settings(NULL,a);PROFILE_CHECK(conf_get_int(a,CONF_width)==160);
+    error=nemo_profile_delete("Default");PROFILE_CHECK(error);sfree(error);PROFILE_CHECK(nemo_profile_exists("Default"));
+    error=nemo_profile_save(b," bad",true);PROFILE_CHECK(error);sfree(error);
+    error=nemo_profile_delete("Work");PROFILE_CHECK(!error);sfree(error);PROFILE_CHECK(!nemo_profile_exists("Work"));
+    profile_storage=false;conf_free(a);conf_free(b);
+#undef PROFILE_CHECK
+}
+
 int main(void)
 {
+    test_profiles();
     test_directory_unicode();
     test_conf_key_info();
     test_simple();

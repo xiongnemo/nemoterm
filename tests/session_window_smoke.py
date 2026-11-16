@@ -43,7 +43,7 @@ with winreg.CreateKey(winreg.HKEY_CURRENT_USER,keypath) as key:
 try:
     with tempfile.TemporaryDirectory(prefix='nemoterm-sessions-') as tmp,OwnedJob() as job:
         tmp=Path(tmp);known=set();children=[];serial=0;instrument=None
-        process=job.spawn([str(exe),'-load',profile,'--cols','60','--rows','16','-e',
+        process=job.spawn([str(exe),'--no-tabs','-load',profile,'--cols','60','--rows','16','-e',
             sys.executable,str(root/'tests/session_fixture.py'),str(tmp)],
             env=dict(os.environ,NEMOTERM_CONPTY='bundled',NEMOTERM_TEST_UTF8_INPUT='1'),
             creationflags=subprocess.CREATE_NO_WINDOW)

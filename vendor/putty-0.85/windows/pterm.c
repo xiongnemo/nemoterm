@@ -13,11 +13,15 @@ void gui_term_process_cmdline(Conf *conf, char *cmdline)
     bool show_settings = false;
     char *exec_command = NULL;
     char *shell_id = NULL, *shell_command = NULL, *directory = NULL;
-    bool tabs = false;
+    int tabs = -1;
     int tab_side = -1, cols = 0, rows = 0, scrollback = -1;
     int font_size = 0, right_click_paste = -1;
     char *font_name = NULL;
     do_defaults(NULL, conf);
+    if (!nemo_profile_exists("Default")) {
+        char *error = nemo_profile_save(conf, "Default", false);
+        if (error) { nonfatal("Unable to save Default profile: %s", error); sfree(error); }
+    }
     conf_set_str(conf, CONF_remote_cmd, "");
 
     cmdline = handle_restrict_acl_cmdline_prefix(cmdline);
@@ -40,7 +44,19 @@ void gui_term_process_cmdline(Conf *conf, char *cmdline)
             continue;
         }
         if (!strcmp(argstr, "--tabs")) {
-            tabs = true;
+            tabs = 1;
+            continue;
+        }
+        if (!strcmp(argstr, "--no-tabs")) {
+            tabs = 0;
+            continue;
+        }
+        if (!strcmp(argstr, "--profile")) {
+            if (!nextarg) cmdline_error("option %s requires an argument", argstr);
+            const char *name = cmdline_arg_to_str(nextarg);
+            if (!nemo_profile_exists(name)) cmdline_error("Unknown profile '%s'", name);
+            do_defaults(nemo_profile_key(name), conf);
+            arglistpos++;
             continue;
         }
         if (!strcmp(argstr, "--tab-side")) {
@@ -136,7 +152,7 @@ void gui_term_process_cmdline(Conf *conf, char *cmdline)
     /* Like the existing shell overrides and PuTTY's saved options, explicit
      * frontend options take precedence over any -load, regardless of order.
      * Read unspecified font properties from the final loaded configuration. */
-    if (tabs) conf_set_bool(conf, CONF_nemo_tabs, true);
+    if (tabs >= 0) conf_set_bool(conf, CONF_nemo_tabs, tabs != 0);
     if (tab_side >= 0) conf_set_int(conf, CONF_nemo_tab_side, tab_side);
     if (cols) conf_set_int(conf, CONF_width, cols);
     if (rows) conf_set_int(conf, CONF_height, rows);

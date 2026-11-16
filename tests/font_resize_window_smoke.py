@@ -52,7 +52,7 @@ def font_resize_profile():
 with font_resize_profile() as profile, tempfile.TemporaryDirectory(prefix='nemoterm-font-') as directory:
     directory = Path(directory)
     report, control = directory/'report.json', directory/'control.json'
-    process = subprocess.Popen([str(root/'dist/nemoterm.exe'), '-load', profile,
+    process = subprocess.Popen([str(root/'dist/nemoterm.exe'),'--no-tabs', '-load', profile,
         '--cols', '40', '--rows', '12', '--font-size', '12', '--font', args.font,
         '-e', sys.executable, str(root/'tests/mouse_fixture.py'), str(report), str(control)],
         env=dict(os.environ, NEMOTERM_CONPTY='bundled'), creationflags=subprocess.CREATE_NO_WINDOW)

@@ -890,7 +890,79 @@ struct sessionsaver_data {
     struct sesslist sesslist;
     bool midsession;
     char *savedsession;     /* the current contents of ssd->editbox */
+    bool profiles, profile_initialized;
+    dlgcontrol *addbutton, *active_profile;
 };
+
+static void profiles_refresh(struct sessionsaver_data *ssd, dlgparam *dlg)
+{
+    get_sesslist(&ssd->sesslist, false);
+    get_sesslist(&ssd->sesslist, true);
+    dlg_refresh(NULL, dlg);
+}
+
+static bool profile_error(dlgparam *dlg, char *error)
+{
+    if (!error) return false;
+    dlg_error_msg(dlg, error);
+    sfree(error);
+    return true;
+}
+
+static void profiles_handler(dlgcontrol *ctrl, dlgparam *dlg, Conf *conf,
+                             int event, struct sessionsaver_data *ssd)
+{
+    if (!ssd->profile_initialized) {
+        ssd->profile_initialized = true;
+        sfree(ssd->savedsession);
+        ssd->savedsession = dupstr(conf_get_str(conf, CONF_nemo_profile));
+    }
+    if (event == EVENT_REFRESH) {
+        if (ctrl == ssd->editbox) dlg_editbox_set(ctrl, dlg, ssd->savedsession);
+        else if (ctrl == ssd->active_profile) {
+            char *text = dupprintf("Active profile: %s", conf_get_str(conf, CONF_nemo_profile));
+            dlg_text_set(ctrl, dlg, text); sfree(text);
+        } else if (ctrl == ssd->listbox) {
+            dlg_update_start(ctrl, dlg); dlg_listbox_clear(ctrl, dlg);
+            for (int i = 0; i < ssd->sesslist.nsessions; i++) {
+                const char *name = nemo_profile_name(ssd->sesslist.sessions[i]);
+                dlg_listbox_add(ctrl, dlg, name);
+                if (!stricmp(name, conf_get_str(conf, CONF_nemo_profile)))
+                    dlg_listbox_select(ctrl, dlg, i);
+            }
+            dlg_update_done(ctrl, dlg);
+        }
+    } else if (event == EVENT_VALCHANGE && ctrl == ssd->editbox) {
+        sfree(ssd->savedsession); ssd->savedsession = dlg_editbox_get(ctrl, dlg);
+    } else if (event == EVENT_ACTION) {
+        if (ctrl == ssd->cancelbutton) { dlg_end(dlg, 0); return; }
+        if (ctrl == ssd->okbutton || ctrl == ssd->savebutton || ctrl == ssd->addbutton) {
+            const char *name = ctrl == ssd->addbutton ? ssd->savedsession :
+                conf_get_str(conf, CONF_nemo_profile);
+            if (profile_error(dlg, nemo_profile_save(conf, name, ctrl == ssd->addbutton))) return;
+            sfree(ssd->savedsession);
+            ssd->savedsession = dupstr(conf_get_str(conf, CONF_nemo_profile));
+            if (ctrl == ssd->okbutton) dlg_end(dlg, 1);
+            else profiles_refresh(ssd, dlg);
+        } else if (ctrl == ssd->loadbutton || ctrl == ssd->listbox || ctrl == ssd->delbutton) {
+            int index = dlg_listbox_index(ssd->listbox, dlg);
+            if (index < 0) { dlg_beep(dlg); return; }
+            char *key = dupstr(ssd->sesslist.sessions[index]);
+            if (ctrl == ssd->delbutton) {
+                if (profile_error(dlg, nemo_profile_delete(key))) { sfree(key); return; }
+                if (!stricmp(nemo_profile_name(key), conf_get_str(conf, CONF_nemo_profile)))
+                    load_settings(NULL, conf);
+            } else {
+                load_settings(key, conf);
+                /* Loading settings in a running terminal changes its profile,
+                 * not its already running child process. */
+            }
+            sfree(key); sfree(ssd->savedsession);
+            ssd->savedsession = dupstr(conf_get_str(conf, CONF_nemo_profile));
+            profiles_refresh(ssd, dlg);
+        }
+    }
+}
 
 static void sessionsaver_data_free(void *ssdv)
 {
@@ -934,6 +1006,8 @@ static void sessionsaver_handler(dlgcontrol *ctrl, dlgparam *dlg,
     Conf *conf = (Conf *)data;
     struct sessionsaver_data *ssd =
         (struct sessionsaver_data *)ctrl->context.p;
+
+    if (ssd->profiles) { profiles_handler(ctrl, dlg, conf, event, ssd); return; }
 
     if (event == EVENT_REFRESH) {
         if (ctrl == ssd->editbox) {
@@ -2140,6 +2214,8 @@ void setup_config_box(struct controlbox *b, bool midsession,
     memset(ssd, 0, sizeof(*ssd));
     ssd->savedsession = dupstr("");
     ssd->midsession = midsession;
+    ssd->profiles = protocol < 0;
+    const char *profile_panel = ssd->profiles ? "Profile" : "Session";
 
     /*
      * The standard panel that appears at the bottom of all panels:
@@ -2148,12 +2224,13 @@ void setup_config_box(struct controlbox *b, bool midsession,
     s = ctrl_getset(b, "", "", "");
     ctrl_columns(s, 5, 20, 20, 20, 20, 20);
     ssd->okbutton = ctrl_pushbutton(s,
-                                    (midsession ? "Apply" : "Open"),
+                                    (ssd->profiles ? (midsession ? "Save && Apply" : "Save && Open") :
+                                     (midsession ? "Apply" : "Open")),
                                     (char)(midsession ? 'a' : 'o'),
                                     HELPCTX(no_help),
                                     sessionsaver_handler, P(ssd));
     ssd->okbutton->button.isdefault = true;
-    ssd->okbutton->column = 3;
+    ssd->okbutton->column = ssd->profiles ? COLUMN_FIELD(2,2) : 3;
     ssd->cancelbutton = ctrl_pushbutton(s, "Cancel", 'c', HELPCTX(no_help),
                                         sessionsaver_handler, P(ssd));
     ssd->cancelbutton->button.iscancel = true;
@@ -2164,8 +2241,8 @@ void setup_config_box(struct controlbox *b, bool midsession,
     /*
      * The Session panel.
      */
-    str = dupprintf("Basic options for your %s session", appname);
-    ctrl_settitle(b, "Session", str);
+    str = dupprintf("%s %s settings", appname, ssd->profiles ? "profile" : "session");
+    ctrl_settitle(b, profile_panel, str);
     sfree(str);
 
     if (!midsession && protocol >= 0) {
@@ -2239,12 +2316,18 @@ void setup_config_box(struct controlbox *b, bool midsession,
     /*
      * The Load/Save panel is available even in mid-session.
      */
-    s = ctrl_getset(b, "Session", "savedsessions",
-                    midsession ? "Save the current session settings" :
-                    "Load, save or delete a stored session");
+    s = ctrl_getset(b, profile_panel, "savedsessions",
+                    ssd->profiles ? "Manage profiles" :
+                    midsession ? "Save the current session settings" : "Load, save or delete a stored session");
+    if (ssd->profiles) {
+        ssd->active_profile = ctrl_text(s, "Active profile", HELPCTX(no_help));
+        ssd->active_profile->handler = sessionsaver_handler;
+        ssd->active_profile->context = P(ssd);
+        ctrl_text(s, "Save and Apply keeps this profile for future launches. Shell changes start in a new tab.", HELPCTX(no_help));
+    }
     ctrl_columns(s, 2, 75, 25);
     get_sesslist(&ssd->sesslist, true);
-    ssd->editbox = ctrl_editbox(s, "Saved Sessions", 'e', 100,
+    ssd->editbox = ctrl_editbox(s, ssd->profiles ? "New profile name" : "Saved Sessions", 'e', 100,
                                 HELPCTX(session_saved),
                                 sessionsaver_handler, P(ssd), P(NULL));
     ssd->editbox->column = 0;
@@ -2256,9 +2339,9 @@ void setup_config_box(struct controlbox *b, bool midsession,
                                 HELPCTX(session_saved),
                                 sessionsaver_handler, P(ssd));
     ssd->listbox->column = 0;
-    ssd->listbox->listbox.height = 7;
-    if (!midsession) {
-        ssd->loadbutton = ctrl_pushbutton(s, "Load", 'l',
+    ssd->listbox->listbox.height = ssd->profiles ? 5 : 7;
+    if (!midsession || ssd->profiles) {
+        ssd->loadbutton = ctrl_pushbutton(s, ssd->profiles ? "Edit" : "Load", 'l',
                                           HELPCTX(session_saved),
                                           sessionsaver_handler, P(ssd));
         ssd->loadbutton->column = 1;
@@ -2274,7 +2357,11 @@ void setup_config_box(struct controlbox *b, bool midsession,
                                       HELPCTX(session_saved),
                                       sessionsaver_handler, P(ssd));
     ssd->savebutton->column = 1;
-    if (!midsession) {
+    if (ssd->profiles) {
+        ssd->addbutton = ctrl_pushbutton(s, "Add", 'n', HELPCTX(no_help), sessionsaver_handler, P(ssd));
+        ssd->addbutton->column = 1;
+    }
+    if (!midsession || ssd->profiles) {
         ssd->delbutton = ctrl_pushbutton(s, "Delete", 'd',
                                          HELPCTX(session_saved),
                                          sessionsaver_handler, P(ssd));
@@ -2285,7 +2372,7 @@ void setup_config_box(struct controlbox *b, bool midsession,
     }
     ctrl_columns(s, 1, 100);
 
-    s = ctrl_getset(b, "Session", "otheropts", NULL);
+    s = ctrl_getset(b, profile_panel, "otheropts", NULL);
     ctrl_radiobuttons(s, "Close window on exit:", 'x', 4,
                       HELPCTX(session_coe),
                       conf_radiobutton_handler,
@@ -2297,9 +2384,9 @@ void setup_config_box(struct controlbox *b, bool midsession,
     /*
      * The Session/Logging panel.
      */
-    ctrl_settitle(b, "Session/Logging", "Options controlling session logging");
+    ctrl_settitle(b, ssd->profiles ? "Profile/Logging" : "Session/Logging", "Options controlling terminal logging");
 
-    s = ctrl_getset(b, "Session/Logging", "main", NULL);
+    s = ctrl_getset(b, ssd->profiles ? "Profile/Logging" : "Session/Logging", "main", NULL);
     /*
      * The logging buttons change depending on whether SSH packet
      * logging can sensibly be available.
@@ -2757,7 +2844,7 @@ void setup_config_box(struct controlbox *b, bool midsession,
     ctrl_settitle(b, "Window/Tabs", "Terminal tabs");
     s = ctrl_getset(b, "Window/Tabs", "layout", "Tab bar");
     if (!midsession)
-        ctrl_checkbox(s, "Open sessions in tabs", NO_SHORTCUT, HELPCTX(no_help),
+        ctrl_checkbox(s, "Open terminals in tabs", NO_SHORTCUT, HELPCTX(no_help),
                       conf_checkbox_handler, I(CONF_nemo_tabs));
     ctrl_radiobuttons(s, "Position", NO_SHORTCUT, 4, HELPCTX(no_help),
         conf_radiobutton_handler, I(CONF_nemo_tab_side),

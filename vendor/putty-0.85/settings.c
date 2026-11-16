@@ -711,6 +711,7 @@ bool load_settings(const char *section, Conf *conf)
     bool exists = (sesskey != NULL);
     load_open_settings(sesskey, conf);
     close_settings_r(sesskey);
+    conf_set_str(conf, CONF_nemo_profile, nemo_profile_name(section));
 
     if (exists && conf_launchable(conf))
         add_session_to_jumplist(section);
@@ -1084,6 +1085,58 @@ void load_open_settings(settings_r *sesskey, Conf *conf)
 bool do_defaults(const char *session, Conf *conf)
 {
     return load_settings(session, conf);
+}
+
+const char *nemo_profile_name(const char *name)
+{
+    return !name || !*name || !stricmp(name, "Default Settings") ||
+        !stricmp(name, "Default") ? "Default" : name;
+}
+
+const char *nemo_profile_key(const char *name)
+{
+    name = nemo_profile_name(name);
+    return !strcmp(name, "Default") ? "Default Settings" : name;
+}
+
+bool nemo_profile_exists(const char *name)
+{
+    settings_r *key = open_settings_r(nemo_profile_key(name));
+    bool exists = key != NULL;
+    close_settings_r(key);
+    return exists;
+}
+
+char *nemo_profile_save(Conf *conf, const char *name, bool create)
+{
+    if (!name || !*name || strlen(name) > 128 ||
+        name[0] == ' ' || name[strlen(name)-1] == ' ')
+        return dupstr("Enter a profile name of 1 to 128 bytes without outer spaces.");
+    for (const unsigned char *p = (const unsigned char *)name; *p; p++)
+        if (*p < 32 || *p == 127)
+            return dupstr("Profile names cannot contain control characters.");
+    char *target = dupstr(nemo_profile_name(name));
+    if (create && (!strcmp(target, "Default") || nemo_profile_exists(target))) {
+        sfree(target);
+        return dupstr("This profile already exists. Choose another name.");
+    }
+    Conf *saved = conf_copy(conf);
+    /* A command from -e belongs to this launch, never to a persistent profile.
+     * Custom shell commands use CONF_nemo_shell_command and remain saved. */
+    conf_set_str(saved, CONF_remote_cmd, "");
+    char *error = save_settings(nemo_profile_key(target), saved);
+    conf_free(saved);
+    if (!error) conf_set_str(conf, CONF_nemo_profile, target);
+    sfree(target);
+    return error;
+}
+
+char *nemo_profile_delete(const char *name)
+{
+    if (!strcmp(nemo_profile_name(name), "Default"))
+        return dupstr("The Default profile cannot be deleted.");
+    del_settings(nemo_profile_key(name));
+    return nemo_profile_exists(name) ? dupstr("Unable to delete this profile.") : NULL;
 }
 
 static int sessioncmp(const void *av, const void *bv)

@@ -92,22 +92,22 @@ void win_setup_config_box(struct controlbox *b, HWND *hwndp, bool has_help,
     dlgcontrol *c;
     char *str;
 
-    if (!midsession && protocol < 0) {
+    if (protocol < 0) {
         NemoShellList *list = ctrl_alloc_with_free(b, sizeof(*list), shell_list_free);
         nemo_shell_detect(list);
-        s = ctrl_getset(b, "Session", "shell", "Local shell");
+        s = ctrl_getset(b, "Profile/Shell", "shell", "Local shell");
         ctrl_droplist(s, "Shell:", NO_SHORTCUT, 100, HELPCTX(no_help), shell_handler, P(list));
         ctrl_checkbox(s, "Choose shell on startup", NO_SHORTCUT, HELPCTX(no_help),
                       conf_checkbox_handler, I(CONF_nemo_choose_shell));
-        ctrl_settitle(b, "Session/Shell", "Shell startup command");
-        s = ctrl_getset(b, "Session/Shell", "command", "Custom shell");
-        ctrl_editbox(s, "Command (select Custom on Session):", 'm', 100, HELPCTX(no_help),
+        ctrl_settitle(b, "Profile/Shell", "Shell startup command");
+        s = ctrl_getset(b, "Profile/Shell", "command", "Custom shell");
+        ctrl_editbox(s, "Command (select Custom above):", 'm', 100, HELPCTX(no_help),
                      conf_editbox_handler, I(CONF_nemo_shell_command), ED_STR);
         ctrl_editbox(s, "Starting directory (blank inherits launcher):", NO_SHORTCUT, 100,
                      HELPCTX(no_help), conf_editbox_handler, I(CONF_nemo_starting_directory), ED_STR);
-        ctrl_checkbox(s, "Use reported directory for duplicated sessions", NO_SHORTCUT,
+        ctrl_checkbox(s, "Use reported directory for new or duplicated tabs", NO_SHORTCUT,
                       HELPCTX(no_help), conf_checkbox_handler, I(CONF_nemo_inherit_directory));
-        ctrl_text(s, "Save Default Settings on Session to use your shell at startup. -e overrides the shell for one launch.", HELPCTX(no_help));
+        ctrl_text(s, "Save this profile to keep the shell and directory for new tabs and launches. -e overrides one launch.", HELPCTX(no_help));
     }
 
     if (!midsession) {

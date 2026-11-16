@@ -67,6 +67,13 @@ void close_settings_r(settings_r *handle);
  */
 void del_settings(const char *sessionname);
 
+/* Runtime profile identity travels with Conf but is not a stored setting. */
+const char *nemo_profile_name(const char *name);
+const char *nemo_profile_key(const char *name);
+bool nemo_profile_exists(const char *name);
+char *nemo_profile_save(Conf *conf, const char *name, bool create);
+char *nemo_profile_delete(const char *name);
+
 /*
  * Enumerate all saved sessions.
  */

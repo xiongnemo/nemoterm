@@ -11,7 +11,7 @@ import winreg
 import urllib.parse
 
 exe = Path(os.environ.get('NEMOTERM_TEST_EXE', root/'dist/nemoterm.exe')).resolve()
-shells = json.loads(subprocess.check_output([str(exe), '--list-shells'], timeout=10))
+shells = json.loads(subprocess.check_output([str(exe),'--no-tabs', '--list-shells'], timeout=10))
 profile = 'shell-test-' + uuid.uuid4().hex
 keypath = 'Software\\Nemo\\Nemoterm\\Sessions\\' + profile
 with winreg.CreateKey(winreg.HKEY_CURRENT_USER, keypath) as key:
@@ -84,7 +84,7 @@ try:
                 continue
             marker = Path(temporary) / (sid + '.txt')
             command, ready_file = directory_command(marker, sid)
-            process = subprocess.Popen([str(exe), '-load', profile, '--shell', sid,
+            process = subprocess.Popen([str(exe),'--no-tabs', '-load', profile, '--shell', sid,
                 '--directory', str(starting)],
                 env=dict(os.environ, NEMOTERM_CONPTY='bundled'),
                 creationflags=subprocess.CREATE_NO_WINDOW)

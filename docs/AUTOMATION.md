@@ -36,7 +36,8 @@ behavior. Neither text nor image reads use the clipboard, and ordinary input
 does not focus the window or send global desktop input.
 
 Discovery returns process ID and all live session IDs, terminal/host HWNDs,
-active status, dimensions, actual renderer (0 GDI, 1 OpenGL, 2 DirectX), and title.
+active status, dimensions, actual renderer (0 GDI, 1 OpenGL, 2 DirectX), title,
+and the active `profile` name (including `Default`).
 Development builds also report `pointer_shape`: the active screen's OSC 22
 application shape (a canonical name, or `"0"` for automatic). This is protocol
 state, not the effective OS cursor: Shift selection, link hover and busy status

@@ -190,12 +190,14 @@ Sarasa 字体在本机 GDI、OpenGL、DirectX 下的字号回归也已通过；
 此前 `69cd5a4` 本机测试的 Windows 提示音已获实际听感确认。物理滚轮和跨屏 DPI 仍需单独验证，
 此前的听感确认不算作新产物的一次听感测试。
 详见[字号与响铃记录](research/font-zoom-and-bell.md)。
-多标签启动使用 `--tabs`，或保存对应设置。`--tab-side` 接受 `top`、`bottom`、`left`、`right`；
+默认使用多标签，`Ctrl+Shift+T` 新建标签。`--no-tabs` 可启动独立窗口。`--tab-side` 接受 `top`、`bottom`、`left`、`right`；
 例如 `--tabs --tab-side left` 将标签栏放在左侧，悬停标签可预览对应终端。
 
 `--choose-shell` 和 `--settings` 都会先打开启动设置窗口；也可从运行中的上下文菜单选择
-**Change Settings**，调整字体、颜色、光标、回滚和渲染器。
-配置保存在 `HKCU\Software\Nemo\Nemoterm`，与 PuTTY / pterm 分开。
+**Profile Settings**，调整字体、颜色、光标、回滚和渲染器。
+设置窗口的 **Profile** 页提供 **Add / Edit / Save / Delete**。首次启动自动创建不可删除的 **Default**；Add 会复制当前设置到新 profile，Edit 选择要编辑的 profile。**Save & Apply** 将设置保存到当前 profile 并应用到当前标签；Cancel 放弃尚未保存的编辑，已经点击 Add / Save / Delete 的操作保留。
+
+不带参数启动使用 Default，也可用 `--profile "名称"` 指定；Profile 菜单可以用所选 profile 新建标签。字体、颜色、绑定等即时应用，Profile / Shell 的 shell 和目录设置在新标签或下次启动生效。临时 `-e` 命令不会保存到 profile。配置保存在 `HKCU\Software\Nemo\Nemoterm`，与 PuTTY / pterm 分开；已有配置和 `-load` 继续兼容，旧 Default Settings 显示为 Default。
 
 OSC 52 剪贴板读取默认关闭，读写权限可在 Terminal / Clipboard 分别设置。
 Shell Integration 的命令与输出导航需要 shell 输出 OSC 133 / 633 标记；程序不会自动修改 shell 配置。
@@ -203,7 +205,7 @@ Shell Integration 的命令与输出导航需要 shell 输出 OSC 133 / 633 标�
 ## 渲染与内存
 
 运行 `nemoterm.exe --settings`，在 **Window / Rendering** 选择渲染器，再保存配置并启动。
-运行中也可通过 **Change Settings** 切换。
+运行中也可通过 **Profile Settings** 切换。
 GPU 模式使用 Windows 系统 DLL 与显卡驱动，不新增分发文件；目前尚未证明它们在所有场景下比 GDI 更快。
 
 | 模式 | 实现与内存目标 |

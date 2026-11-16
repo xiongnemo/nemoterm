@@ -71,7 +71,7 @@ def run_case(name, settings):
         with winreg.CreateKey(winreg.HKEY_CURRENT_USER,profile_path) as key:
             for setting,value in dict(WarnOnClose=0,**settings).items():
                 winreg.SetValueEx(key,setting,0,winreg.REG_DWORD,value)
-        process=subprocess.Popen([str(root/'dist/nemoterm.exe'),'-load',profile,
+        process=subprocess.Popen([str(root/'dist/nemoterm.exe'),'--no-tabs','-load',profile,
             *(['--font',args.font] if args.font else []),
             '--cols','80','--rows','24','-e',sys.executable,str(root/'tests/mouse_fixture.py'),
             str(report),str(control)],env=dict(os.environ,NEMOTERM_CONPTY='bundled'),

@@ -24,7 +24,7 @@ evidence=dict(requested_tab_host=args.tabs,tab_host=None,tab_side=args.tab_side,
 evidence['requested_font']=args.font
 with tempfile.TemporaryDirectory(prefix='nemoterm-selection-') as temporary:
     report,control=(Path(temporary)/name for name in ('report','control'))
-    process=subprocess.Popen([str(exe)]+(['--tabs','--tab-side',args.tab_side] if args.tabs else [])+(['--font',args.font] if args.font else [])+['-load',profile,'--cols','80','--rows','24','-e',sys.executable,
+    process=subprocess.Popen([str(exe)]+(['--tabs','--tab-side',args.tab_side] if args.tabs else ['--no-tabs'])+(['--font',args.font] if args.font else [])+['-load',profile,'--cols','80','--rows','24','-e',sys.executable,
         str(root/'tests/mouse_fixture.py'),str(report),str(control)],
         env=dict(os.environ,NEMOTERM_CONPTY='bundled'),creationflags=subprocess.CREATE_NO_WINDOW)
     saved=None; session=None; script=None; gpu=None

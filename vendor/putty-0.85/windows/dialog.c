@@ -778,7 +778,7 @@ bool do_config(Conf *conf)
     setup_config_box(pds->ctrlbox, false, protocol, 0);
     win_setup_config_box(pds->ctrlbox, &pds->dp->hwnd, has_help(), false, protocol);
 
-    pds->dp->wintitle = dupprintf("%s Configuration", appname);
+    pds->dp->wintitle = dupprintf("%s %s", appname, protocol < 0 ? "Profiles" : "Configuration");
     pds->dp->data = conf;
 
     dlg_auto_set_fixed_pitch_flag(pds->dp);
@@ -807,7 +807,8 @@ bool do_reconfig(HWND hwnd, Conf *conf, int protcfginfo)
     win_setup_config_box(pds->ctrlbox, &pds->dp->hwnd, has_help(),
                          true, protocol);
 
-    pds->dp->wintitle = dupprintf("%s Reconfiguration", appname);
+    pds->dp->wintitle = protocol < 0 ? dupprintf("%s - Profile: %s", appname,
+        conf_get_str(conf, CONF_nemo_profile)) : dupprintf("%s Reconfiguration", appname);
     pds->dp->data = conf;
 
     dlg_auto_set_fixed_pitch_flag(pds->dp);

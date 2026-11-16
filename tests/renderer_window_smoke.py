@@ -36,7 +36,7 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-renderer-') as tmp:
         if os.environ.get('CI')=='true' or os.environ.get('NEMOTERM_TEST_CLUSTER_TRACE')=='1':
             trace.write_text('')
             child_env['NEMOTERM_CLUSTER_TRACE']=str(trace)
-        process=subprocess.Popen([str(exe),'-load',profile,'--automation','--cols','80','--rows','24',
+        process=subprocess.Popen([str(exe),'--no-tabs','-load',profile,'--automation','--cols','80','--rows','24',
             '--font',font,'-e',sys.executable,str(root/'tests/mouse_fixture.py'),str(report),str(control)],
             env=child_env,creationflags=subprocess.CREATE_NO_WINDOW)
         gl_capture = focus_session = None

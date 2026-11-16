@@ -47,7 +47,7 @@ try:
         try:
             with tempfile.TemporaryDirectory(prefix='nemoterm-window-resize-') as tmp,OwnedJob() as job:
                 report,control=Path(tmp)/'report',Path(tmp)/'control'
-                process=job.spawn([str(exe),'--automation']+(['--tabs','--tab-side',args.tab_side] if args.tabs else [])+['-load',profile,'--cols','83','--rows','27',
+                process=job.spawn([str(exe),'--automation']+(['--tabs','--tab-side',args.tab_side] if args.tabs else ['--no-tabs'])+['-load',profile,'--cols','83','--rows','27',
                     '--font',font,'--font-size',str(args.font_size),'-e',sys.executable,
                     str(root/'tests/mouse_fixture.py'),str(report),str(control)],
                     env=dict(os.environ,NEMOTERM_CONPTY='bundled',NEMOTERM_TEST_EXACT_OUTPUT='1'),

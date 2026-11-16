@@ -59,6 +59,8 @@ if ($env:NEMOTERM_TEST_EXE) { $exe = $env:NEMOTERM_TEST_EXE }
 $python = (Get-Command python.exe -ErrorAction Stop).Source
 $fixtureProfile = 'settings-test-' + [Guid]::NewGuid().ToString('N')
 $profilePath = 'HKCU:\Software\Nemo\Nemoterm\Sessions\' + $fixtureProfile
+$copyProfile = $fixtureProfile + '-copy'
+$copyPath = 'HKCU:\Software\Nemo\Nemoterm\Sessions\' + $copyProfile
 $directory = Join-Path ([IO.Path]::GetTempPath()) $fixtureProfile
 New-Item -ItemType Directory -Path $directory | Out-Null
 $report = Join-Path $directory 'report.json'
@@ -147,7 +149,7 @@ function Set-GraphemePreference([bool]$enabled) {
     $current=$toggle.Current.ToggleState -eq [System.Windows.Automation.ToggleState]::On
     if ($current -ne $enabled) {$toggle.Toggle()}
     $handle=[IntPtr]$dialog.Current.NativeWindowHandle
-    Invoke-Button $dialog 'Apply'
+    Invoke-Button $dialog 'Save & Apply'
     Wait-Value {![ShellSettingsNative]::IsWindow($handle)} | Out-Null
 }
 function Binding-Controls($dialog, $expected, [string]$page = 'Bindings') {
@@ -266,8 +268,28 @@ try {
     New-ItemProperty -Path $profilePath -Name WarnOnClose -Value 0 -PropertyType DWord | Out-Null
     # This is the visible GUI under test, not a background helper. Hidden
     # startup also hides the modal dialog from the UI Automation tree.
-    $app = Start-Process -FilePath $exe -ArgumentList @('-load', $fixtureProfile, '--settings') -PassThru
+    $app = Start-Process -FilePath $exe -ArgumentList @('--profile', $fixtureProfile, '--settings') -PassThru
     $dialog = Dialog $app
+    if (!(Find-Name $dialog ('Active profile: ' + $fixtureProfile))) { throw 'Active profile identity missing' }
+    foreach ($name in @('Add','Edit','Save','Delete','Save & Open','Cancel','New profile name')) {
+        $node=Wait-Value { Find-Name $dialog $name }
+        if ($node.Current.IsOffscreen -or !$dialog.Current.BoundingRectangle.Contains($node.Current.BoundingRectangle)) { throw "Profile control clipped: $name" }
+    }
+    $nameEdit=Find-Name $dialog 'New profile name' 'Edit'
+    $nameEdit.GetCurrentPattern([System.Windows.Automation.ValuePattern]::Pattern).SetValue($copyProfile)
+    Invoke-Button $dialog 'Add'
+    Wait-Value { Find-Name $dialog ('Active profile: ' + $copyProfile) } | Out-Null
+    if ((Get-ItemProperty -LiteralPath $copyPath).NemoTabs -ne 1) { throw 'Add did not copy defaults' }
+    Select-Node $dialog $fixtureProfile | Out-Null
+    Invoke-Button $dialog 'Edit'
+    Wait-Value { Find-Name $dialog ('Active profile: ' + $fixtureProfile) } | Out-Null
+    Select-Node $dialog $copyProfile | Out-Null
+    Invoke-Button $dialog 'Delete'
+    Wait-Value { !(Test-Path -LiteralPath $copyPath) } | Out-Null
+    if (!(Find-Name $dialog ('Active profile: ' + $fixtureProfile))) { throw 'Deleting another profile changed the active profile' }
+    if (!(Find-Name $dialog 'Default')) { throw 'Default profile missing from list' }
+    python "$PSScriptRoot/settings_capture.py" $app.Id $dialog.Current.NativeWindowHandle profiles-settings.png
+    if ($LASTEXITCODE) { throw 'Profiles capture failed' }
     foreach ($name in @('Terminal', 'Keyboard')) {
         $node = Wait-Value { Find-Name $dialog $name }
         $node.GetCurrentPattern([System.Windows.Automation.ExpandCollapsePattern]::Pattern).Expand()
@@ -360,11 +382,11 @@ try {
     if ($LASTEXITCODE) { throw 'Shell integration settings capture failed' }
     Select-Node $dialog 'Rendering' | Out-Null
     Select-Node $dialog 'Tabs' | Out-Null
-    $tabs=Wait-Value { Find-Name $dialog 'Open sessions in tabs' }
+    $tabs=Wait-Value { Find-Name $dialog 'Open terminals in tabs' }
     $tabsToggle=$tabs.GetCurrentPattern([System.Windows.Automation.TogglePattern]::Pattern)
-    if ($tabsToggle.Current.ToggleState -ne [System.Windows.Automation.ToggleState]::Off) { throw 'Staged tab host unexpectedly enabled by default' }
-    if ($TabHost) { $tabsToggle.Toggle() }
-    foreach ($label in @('Open sessions in tabs','Top','Bottom','Left','Right','Preview terminal on hover')) {
+    if ($tabsToggle.Current.ToggleState -ne [System.Windows.Automation.ToggleState]::On) { throw 'Tabs not enabled by default' }
+    if (!$TabHost) { $tabsToggle.Toggle() }
+    foreach ($label in @('Open terminals in tabs','Top','Bottom','Left','Right','Preview terminal on hover')) {
         $node=Find-Name $dialog $label
         if (!$node -or $node.Current.IsOffscreen -or !$bounds.Contains($node.Current.BoundingRectangle)) { throw "Clipped tab setting: $label" }
     }
@@ -426,7 +448,8 @@ try {
         throw 'Copy only was not the default'
     }
     Select-Node $dialog 'Copy and paste' | Out-Null
-    Select-Node $dialog 'Session' | Out-Null
+    (Select-Node $dialog 'Profile').GetCurrentPattern([System.Windows.Automation.ExpandCollapsePattern]::Pattern).Expand()
+    Select-Node $dialog 'Shell' | Out-Null
     $chooseShell = Wait-Value { Find-Name $dialog 'Choose shell on startup' }
     if ($chooseShell.Current.IsOffscreen -or !$bounds.Contains($chooseShell.Current.BoundingRectangle)) { throw 'Shell startup option clipped' }
     $chooseShell.GetCurrentPattern([System.Windows.Automation.TogglePattern]::Pattern).Toggle()
@@ -438,11 +461,11 @@ try {
     [ShellSettingsNative]::SendMessageW([ShellSettingsNative]::GetParent($shellHandle), 0x111, [IntPtr]($fixtureShellControlId -bor (1 -shl 16)), $shellHandle) | Out-Null
     python "$PSScriptRoot/settings_capture.py" $app.Id $dialog.Current.NativeWindowHandle shell-settings.png
     if ($LASTEXITCODE) { throw 'Shell settings capture failed' }
-    $sessionNode = Find-Name $dialog 'Session'
+    $sessionNode = Find-Name $dialog 'Profile'
     $sessionNode.GetCurrentPattern([System.Windows.Automation.ExpandCollapsePattern]::Pattern).Expand()
     Select-Node $dialog 'Shell' | Out-Null
     $cwdLabel = 'Starting directory (blank inherits launcher):'
-    $inheritLabel = 'Use reported directory for duplicated sessions'
+    $inheritLabel = 'Use reported directory for new or duplicated tabs'
     $cwdEdit = Wait-Value { Find-Name $dialog $cwdLabel 'Edit' }
     $inherit = Wait-Value { Find-Name $dialog $inheritLabel }
     foreach ($node in @($cwdEdit, $inherit)) {
@@ -456,8 +479,8 @@ try {
     $inheritToggle.Toggle()
     python "$PSScriptRoot/settings_capture.py" $app.Id $dialog.Current.NativeWindowHandle cwd-settings.png
     if ($LASTEXITCODE) { throw 'Directory settings capture failed' }
-    Select-Node $dialog 'Session' | Out-Null
-    $saved = Wait-Value { Find-Name $dialog 'Saved Sessions' 'Edit' }
+    Select-Node $dialog 'Profile' | Out-Null
+    $saved = Wait-Value { Find-Name $dialog 'New profile name' 'Edit' }
     $saved.GetCurrentPattern([System.Windows.Automation.ValuePattern]::Pattern).SetValue($fixtureProfile)
     Invoke-Button $dialog 'Save'
     if ((Get-ItemProperty -LiteralPath $profilePath).NemoChooseShell -ne 1) { throw 'Shell startup preference was not saved' }
@@ -500,12 +523,14 @@ try {
     $arguments = @('-load', $fixtureProfile, '--settings', '-e', ('"'+$python+'"'), ('"'+$fixture+'"'), ('"'+$report+'"'), ('"'+$controlFile+'"'), '300')
     $app = Start-Process -FilePath $exe -ArgumentList $arguments -PassThru
     $dialog = Dialog $app
+    (Select-Node $dialog 'Profile').GetCurrentPattern([System.Windows.Automation.ExpandCollapsePattern]::Pattern).Expand()
+    Select-Node $dialog 'Shell' | Out-Null
     $reloadedShell = Wait-Value { Find-Name $dialog 'Choose shell on startup' }
     if ($reloadedShell.GetCurrentPattern([System.Windows.Automation.TogglePattern]::Pattern).Current.ToggleState -ne [System.Windows.Automation.ToggleState]::On) { throw 'Shell startup preference did not reload' }
     $shellCombo = $dialog.FindFirst($scope, (New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::ControlTypeProperty, [System.Windows.Automation.ControlType]::ComboBox)))
     if ([ShellSettingsNative]::SendMessageW([IntPtr]$shellCombo.Current.NativeWindowHandle, 0x147, [IntPtr]::Zero, [IntPtr]::Zero).ToInt32() -ne 4) { throw 'Selected default shell did not reload' }
     if (Find-Name $dialog 'Connection') { throw 'Local terminal exposed network settings' }
-    $sessionNode = Find-Name $dialog 'Session'
+    $sessionNode = Find-Name $dialog 'Profile'
     $sessionNode.GetCurrentPattern([System.Windows.Automation.ExpandCollapsePattern]::Pattern).Expand()
     Select-Node $dialog 'Shell' | Out-Null
     $reloadedCwd = Wait-Value { Find-Name $dialog $cwdLabel 'Edit' }
@@ -548,7 +573,7 @@ try {
             if ([int]$attributes.edits[$channel].GetCurrentPattern([System.Windows.Automation.ValuePattern]::Pattern).Current.Value -ne $attributeRGB[$index][$channel]) { throw 'Attribute RGB did not reload' }
         }
     }
-    Invoke-Button $dialog 'Open'
+    Invoke-Button $dialog 'Save & Open'
     $observed = Wait-Value {
         if (Test-Path -LiteralPath $report) {
             $value = Get-Content -LiteralPath $report -Raw | ConvertFrom-Json
@@ -585,8 +610,11 @@ try {
         Select-Node $dialog 'Rendering' | Out-Null
         Select-Node $dialog $mode | Out-Null
         $dialogHandle=[IntPtr]$dialog.Current.NativeWindowHandle
-        Invoke-Button $dialog 'Apply'
+        Invoke-Button $dialog 'Save & Apply'
         Wait-Value { ![ShellSettingsNative]::IsWindow($dialogHandle) } | Out-Null
+        $savedMode=if ($mode -eq 'GDI (low memory)') {0} elseif ($mode -eq 'OpenGL (GPU composition)') {1} else {2}
+        $persisted=Get-ItemProperty -LiteralPath $profilePath
+        if ($persisted.NemoRenderer -ne $savedMode -or $persisted.RemoteCommand) { throw 'Save and Apply failed to persist active profile or saved temporary -e command' }
         $allowed=if ($mode -eq 'GDI (low memory)') {@(1)} elseif ($mode -eq 'OpenGL (GPU composition)') {@(1,2)} else {@(1,3)}
         if ($mode -eq 'OpenGL (GPU composition)' -and $env:NEMOTERM_REQUIRE_OPENGL -eq '1') {$allowed=@(2)}
         if ($mode -eq 'DirectX (GPU composition)' -and $env:NEMOTERM_REQUIRE_DIRECTX -eq '1') {$allowed=@(3)}
@@ -632,7 +660,7 @@ try {
     $attributes.edits[1].GetCurrentPattern([System.Windows.Automation.ValuePattern]::Pattern).SetValue('32')
     $attributes.edits[2].GetCurrentPattern([System.Windows.Automation.ValuePattern]::Pattern).SetValue('48')
     $handle=[IntPtr]$dialog.Current.NativeWindowHandle
-    Invoke-Button $dialog 'Apply'
+    Invoke-Button $dialog 'Save & Apply'
     Wait-Value { ![ShellSettingsNative]::IsWindow($handle) } | Out-Null
     $selectionColourChecks+=Check-SelectionColours 'selection-colour-live-apply' '' '5555/6666/7777' 'dddd/eeee/ffff'
     $attributeChecks+=Check-AttributeColours 'attribute-live-apply' '' (@('1010/2020/3030')+$attributeReplies[1..4])
@@ -653,6 +681,18 @@ try {
         ($evidence | ConvertTo-Json -Depth 5), (New-Object Text.UTF8Encoding($false)))
     Write-Control @{stop=$true}
     if (!$app.WaitForExit(5000) -or $app.ExitCode -ne 0) { throw 'Fixture shutdown failed' }
+    $app = Start-Process -FilePath $exe -ArgumentList @('--profile', $fixtureProfile, '--settings') -PassThru
+    $dialog=Dialog $app
+    if (!(Find-Name $dialog ('Active profile: '+$fixtureProfile))) {throw 'Restart lost active profile identity'}
+    (Select-Node $dialog 'Window').GetCurrentPattern([System.Windows.Automation.ExpandCollapsePattern]::Pattern).Expand()
+    Select-Node $dialog 'Rendering' | Out-Null
+    if (!(Find-Name $dialog 'GDI (low memory)').GetCurrentPattern([System.Windows.Automation.SelectionItemPattern]::Pattern).Current.IsSelected) {throw 'Restart did not load the last applied renderer'}
+    Invoke-Button $dialog 'Cancel'
+    if (!$app.WaitForExit(3000) -or $app.ExitCode -ne 0) {throw 'Restart settings cancel failed'}
+    $evidence.profile_crud=$true
+    $evidence.active_profile_persisted=$true
+    $evidence.temporary_command_not_saved=$true
+    [IO.File]::WriteAllText((Join-Path $root $evidenceName), ($evidence | ConvertTo-Json -Depth 5), (New-Object Text.UTF8Encoding($false)))
     Write-Output 'Native settings save/load, visible controls and local launch passed'
 } catch {
     Write-Output $_.ScriptStackTrace
@@ -673,6 +713,7 @@ try {
 } finally {
     if ($app -and !$app.HasExited) { $app.Kill(); $app.WaitForExit() }
     if (Test-Path -LiteralPath $profilePath) { Remove-Item -LiteralPath $profilePath }
+    if (Test-Path -LiteralPath $copyPath) { Remove-Item -LiteralPath $copyPath }
     # Delete only these known fixture files, then the empty owned directory.
     foreach ($name in @('report.json', 'report.tmp', 'control.json', 'control.json.tmp')) {
         $path = Join-Path $directory $name

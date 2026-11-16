@@ -152,7 +152,7 @@ enabled = false
             'APPDATA','LOCALAPPDATA','PROGRAMDATA','PROGRAMFILES','PROGRAMFILES(X86)',
             'NUMBER_OF_PROCESSORS','PROCESSOR_ARCHITECTURE'}}
         env.update(CODEX_HOME=str(home), NEMOTERM_CONPTY='bundled', TERM='xterm-256color')
-        process = job.spawn([str(exe)]+(['--tabs'] if args.tabs else [])+['-load', profile, '--cols', '100', '--rows', '30',
+        process = job.spawn([str(exe)]+(['--tabs'] if args.tabs else ['--no-tabs'])+['-load', profile, '--cols', '100', '--rows', '30',
             '--font', args.font, '-e', str(codex), '--no-daemon',
             '--cd', str(work), *(['--no-alt-screen'] if args.inline else [])],
             cwd=work, env=env, creationflags=subprocess.CREATE_NO_WINDOW)

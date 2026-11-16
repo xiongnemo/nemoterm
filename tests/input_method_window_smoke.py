@@ -27,7 +27,7 @@ evidence['runtime_files']={p.name:hashlib.sha256(p.read_bytes()).hexdigest()
 try:
  with tempfile.TemporaryDirectory(prefix='nemoterm-input-method-') as temporary:
   p=Path(temporary);report,control=p/'report',p/'control'
-  process=subprocess.Popen([str(exe)]+(['--tabs'] if args.tabs else [])+['-load',profile,'--cols','40','--rows','12','--font',args.font,
+  process=subprocess.Popen([str(exe)]+(['--tabs'] if args.tabs else ['--no-tabs'])+['-load',profile,'--cols','40','--rows','12','--font',args.font,
     '-e',sys.executable,str(root/'tests/mouse_fixture.py'),str(report),str(control)],creationflags=subprocess.CREATE_NO_WINDOW,
     env=dict(os.environ,NEMOTERM_CONPTY='bundled',NEMOTERM_TEST_UTF8_INPUT='1',
              NEMOTERM_TEST_WIDE_INPUT='1' if args.input_api=='wide' else '0'))

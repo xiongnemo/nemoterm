@@ -126,6 +126,8 @@ static void nemo_debug_ui(NemoDebugRequest *r)
                                                       wgs->term->alt_which != 0)));
             wchar_t title[1024];GetWindowTextW(wgs->term_hwnd,title,lenof(title));
             char *utf8=dup_wc_to_mb(CP_UTF8,title,NULL);nemo_debug_json_string(r->output,utf8);sfree(utf8);
+            put_dataz(r->output,",\"profile\":");
+            nemo_debug_json_string(r->output,conf_get_str(wgs->conf,CONF_nemo_profile));
             put_byte(r->output,'}');
         }
         HandleIOStats io = handle_io_stats();

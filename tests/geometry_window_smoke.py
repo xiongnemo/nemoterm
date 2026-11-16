@@ -58,7 +58,7 @@ try:
         try:
             with tempfile.TemporaryDirectory(prefix='nemoterm-geometry-') as tmp, OwnedJob() as job:
                 report, control = Path(tmp)/'report', Path(tmp)/'control'
-                process = job.spawn([str(exe), '--automation']+(['--tabs','--tab-side',args.tab_side] if args.tabs else [])+['-load', profile, '--cols', '80', '--rows', '24',
+                process = job.spawn([str(exe), '--automation']+(['--tabs','--tab-side',args.tab_side] if args.tabs else ['--no-tabs'])+['-load', profile, '--cols', '80', '--rows', '24',
                     '--font-size', '12', '--font', args.font, '-e', sys.executable,
                     str(root/'tests/mouse_fixture.py'), str(report), str(control)],
                     env=dict(os.environ, NEMOTERM_CONPTY='bundled', NEMOTERM_TEST_UTF8_INPUT='1',

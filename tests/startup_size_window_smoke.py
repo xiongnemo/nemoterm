@@ -31,7 +31,7 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-size-') as tmp,OwnedJob() as j
             hwnd=wait_for(lambda:find_window(process.pid));value=wait_for(lambda:read_snapshot(report))
             actual_renderer=int(u.GetPropW(hwnd,'NemotermRenderer') or 0)
             assert actual_renderer==1,actual_renderer
-            outer,client=w.RECT(),w.RECT();u.GetWindowRect(hwnd,c.byref(outer));u.GetClientRect(hwnd,c.byref(client))
+            outer,client=w.RECT(),w.RECT();u.GetWindowRect(terminal_host(hwnd),c.byref(outer));u.GetClientRect(hwnd,c.byref(client))
             info=MonitorInfo();info.size=c.sizeof(info);assert u.GetMonitorInfoW(u.MonitorFromWindow(hwnd,2),c.byref(info))
             cols,rows=value['columns'],value['rows'];cw,ch=(client.right-2)//cols,(client.bottom-2)//rows
             maxcols=(info.work.right-info.work.left-(outer.right-outer.left-client.right+2))//cw

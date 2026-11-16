@@ -34,7 +34,7 @@ try:
                 with tempfile.TemporaryDirectory(prefix='nemoterm-visibility-') as tmp,OwnedJob() as job:
                     tmp=Path(tmp);startup=subprocess.STARTUPINFO();startup.dwFlags=subprocess.STARTF_USESHOWWINDOW
                     startup.wShowWindow=7 if minimized else 1
-                    process=job.spawn([str(exe),'-load',profile,*(['--tabs'] if tabbed else []),
+                    process=job.spawn([str(exe),'-load',profile,*(['--tabs'] if tabbed else ['--no-tabs']),
                         '--cols','160','--rows','48','--font',font,'-e',
                         sys.executable,str(root/'tests/startup_visibility_fixture.py'),str(tmp)],
                         startupinfo=startup,creationflags=subprocess.CREATE_NO_WINDOW,

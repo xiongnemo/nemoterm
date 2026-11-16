@@ -484,7 +484,7 @@ static void close_session(void *vctx)
     for (i = 0; i < lenof(wgs->popup_menus); i++) {
         DeleteMenu(wgs->popup_menus[i].menu, IDM_RESTART, MF_BYCOMMAND);
         InsertMenu(wgs->popup_menus[i].menu, IDM_DUPSESS,
-                   MF_BYCOMMAND | MF_ENABLED, IDM_RESTART, "&Restart Session");
+                   MF_BYCOMMAND | MF_ENABLED, IDM_RESTART, "&Restart Terminal");
     }
 }
 
@@ -870,11 +870,11 @@ static WinGuiSeat *wgs_create(Conf *conf, int show)
             AppendMenu(m, MF_SEPARATOR, 0, 0);
             AppendMenu(m, MF_ENABLED, IDM_SHOWLOG, "&Event Log");
             AppendMenu(m, MF_SEPARATOR, 0, 0);
-            AppendMenu(m, MF_ENABLED, IDM_NEWSESS, "Ne&w Session...");
-            AppendMenu(m, MF_ENABLED, IDM_DUPSESS, "&Duplicate Session");
+            AppendMenu(m, MF_ENABLED, IDM_NEWSESS, "Ne&w Tab");
+            AppendMenu(m, MF_ENABLED, IDM_DUPSESS, "&Duplicate Tab");
             AppendMenu(m, MF_POPUP | MF_ENABLED, (UINT_PTR)wgs->savedsess_menu,
-                       "Sa&ved Sessions");
-            AppendMenu(m, MF_ENABLED, IDM_RECONF, "Chan&ge Settings...");
+                       "&Profiles");
+            AppendMenu(m, MF_ENABLED, IDM_RECONF, "Profile &Settings...");
             AppendMenu(m, MF_ENABLED, IDM_ZOOMIN, "Increase Font Size");
             AppendMenu(m, MF_ENABLED, IDM_ZOOMOUT, "Decrease Font Size");
             AppendMenu(m, MF_ENABLED, IDM_ZOOMRESET, "Reset Font Size");
@@ -1338,17 +1338,16 @@ static void update_savedsess_menu(WinGuiSeat *wgs)
 {
     int i;
     while (DeleteMenu(wgs->savedsess_menu, 0, MF_BYPOSITION)) ;
-    /* skip sesslist.sessions[0] == Default Settings */
-    for (i = 1;
-         i < ((sesslist.nsessions <= MENU_SAVED_MAX+1) ? sesslist.nsessions
-                                                       : MENU_SAVED_MAX+1);
+    for (i = 0;
+         i < ((sesslist.nsessions <= MENU_SAVED_MAX) ? sesslist.nsessions
+                                                       : MENU_SAVED_MAX);
          i++)
         AppendMenu(wgs->savedsess_menu, MF_ENABLED,
-                   IDM_SAVED_MIN + (i-1)*MENU_SAVED_STEP,
-                   sesslist.sessions[i]);
-    if (sesslist.nsessions <= 1)
+                   IDM_SAVED_MIN + i*MENU_SAVED_STEP,
+                   nemo_profile_name(sesslist.sessions[i]));
+    if (sesslist.nsessions == 0)
         AppendMenu(wgs->savedsess_menu, MF_GRAYED, IDM_SAVED_MIN,
-                   "(No sessions)");
+                   "(No profiles)");
 }
 
 /*
@@ -2969,7 +2968,7 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
             if (wgs->tabbed) {
                 if (wParam==IDM_NEWSESS) nemo_host_new_tab(wgs);
                 else {
-                    unsigned int sessno=((lParam-IDM_SAVED_MIN)/MENU_SAVED_STEP)+1;
+                    unsigned int sessno=(lParam-IDM_SAVED_MIN)/MENU_SAVED_STEP;
                     if (sessno<(unsigned)sesslist.nsessions) {
                         Conf *conf=conf_new();do_defaults(sesslist.sessions[sessno],conf);
                         conf_set_bool(conf,CONF_nemo_tabs,true);wgs_create(conf,SW_SHOWNORMAL);
@@ -2991,7 +2990,7 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
 
             if (wParam == IDM_SAVEDSESS) {
                 unsigned int sessno = ((lParam - IDM_SAVED_MIN)
-                                       / MENU_SAVED_STEP) + 1;
+                                       / MENU_SAVED_STEP);
                 if (sessno < (unsigned)sesslist.nsessions) {
                     const char *session = sesslist.sessions[sessno];
                     cl = dupprintf("putty %s@%s", argprefix, session);

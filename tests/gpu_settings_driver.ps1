@@ -63,7 +63,7 @@ try {
    if ($node.Current.IsOffscreen -or !$dialog.Current.BoundingRectangle.Contains($node.Current.BoundingRectangle)) {throw 'Renderer control clipped'}
    $node.GetCurrentPattern([System.Windows.Automation.SelectionItemPattern]::Pattern).Select()
    $handle=[IntPtr]$dialog.Current.NativeWindowHandle
-   $button=Wait-Value {Find-Name $dialog 'Apply'}
+   $button=Wait-Value {Find-Name $dialog 'Save & Apply'}
    $button.GetCurrentPattern([System.Windows.Automation.InvokePattern]::Pattern).Invoke()
    Wait-Value {![GpuFixtureNative]::IsWindow($handle)} | Out-Null
    Snapshot @{id=$last;applied=$request.mode}

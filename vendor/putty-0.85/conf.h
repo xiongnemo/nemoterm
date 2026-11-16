@@ -908,7 +908,7 @@ CONF_OPTION(height,
     SAVE_KEYWORD("TermHeight"),
 )
 CONF_OPTION(nemo_tabs,
-    VALUE_TYPE(BOOL), DEFAULT_BOOL(false),
+    VALUE_TYPE(BOOL), DEFAULT_BOOL(true),
     SAVE_KEYWORD("NemoTabs"),
 )
 CONF_OPTION(nemo_tab_side,
@@ -1521,4 +1521,7 @@ CONF_OPTION(nemo_attribute_reverse,
 CONF_OPTION(nemo_attribute_italic,
     VALUE_TYPE(INT), DEFAULT_INT(0xffffff),
     SAVE_KEYWORD("NemoAttributeItalicColour"),
+)
+CONF_OPTION(nemo_profile,
+    VALUE_TYPE(STR), DEFAULT_STR("Default"), NOT_SAVED,
 )

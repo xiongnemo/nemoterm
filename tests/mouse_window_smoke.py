@@ -66,7 +66,7 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-mouse-') as directory:
     directory = Path(directory)
     report, control = directory/'report.json', directory/'control.json'
     env = dict(os.environ, NEMOTERM_CONPTY='bundled')
-    process = subprocess.Popen([str(root/'dist/nemoterm.exe'), '--cols', '80',
+    process = subprocess.Popen([str(root/'dist/nemoterm.exe'),'--no-tabs', '--cols', '80',
         '--rows', '24', '-e', sys.executable, str(root/'tests/mouse_fixture.py'),
         str(report), str(control)], env=env, creationflags=subprocess.CREATE_NO_WINDOW)
     def request(value):
