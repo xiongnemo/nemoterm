@@ -59,8 +59,14 @@ member hashes and source/image identities are retained in
 
 The reproduction's unintended double clicks and off-screen caption candidates
 were deliberately unchanged for this comparison. Correcting preparation before
-replaying the product fix would remove the original trigger. Those test-helper
-behaviors are separate cleanup work.
+replaying the product fix would remove the original trigger. A later
+[on-screen replay 43796940288](https://github.com/xiongnemo/nemoterm/actions/runs/43796940288)
+uses the same fixed image and passes 74 checks with 44 titlebar clicks, all
+within the virtual screen, and 48 natural process exits. Fifteen repeated
+clicks were spaced by the system double-click interval. Four click results
+still show maximized windows, so the spacing is not claimed to eliminate
+maximization; the renderer remains stable through those changes. The original
+artifact and member hashes are retained in `on-screen-caption-60d50b6-validation.json`.
 
 This candidate is not an accepted distribution and does not resolve the separate
 historical MSVC tab-selection crash. Complete ordinary and single-image CI are
