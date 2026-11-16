@@ -14,9 +14,10 @@ Nemoterm 是 **PuTTY 0.85 Windows pterm 的下游 fork**，沿用其终端核心
 本页描述所在分支的代码；下载产物按下面的提交和验证记录区分。已实现功能与测试边界见 [协议支持表](docs/PROTOCOLS.md)
 和 [需求与验证记录](docs/REQUIREMENTS.md)。
 
-新的 profile 预览 `9be9bce` 默认使用多标签，提供 Default 与可增删改的 profile，
-**Save and Apply** 会保存当前 profile。准确的单 EXE 已通过管理、重启恢复、标签快捷键及跨 profile 窗口归属专项测试；完整协议 CI 仍在运行。
-[下载 profile 预览](https://github.com/xiongnemo/nemoterm/actions/runs/43860864767/artifacts/14223332537) · [验证记录](research/profiles-default-tabs.md)。
+最新预览 `1f4db22` 保留默认多标签和 profile 管理，修正 Bell 页遮挡，
+默认用 **Ctrl++ / Ctrl+-** 缩放字号，并在设置等弹窗打开期间阻止切回终端。
+准确的单 EXE 已通过两种窗口模式下的弹窗、键盘缩放和 profile 持久化专项测试；完整协议 CI 发布时仍在运行。
+[下载最新单 EXE](https://github.com/xiongnemo/nemoterm/actions/runs/43872383575/artifacts/14228757239) · [本轮验证记录](research/dialogs-font-zoom.md) · [profile 设计与此前验证](research/profiles-default-tabs.md)。
 
 前一开发候选 `f3b5b65` 修复了 DirectX 绘制缓存越界，已通过四个普通 CI 任务和
 167 组单文件检查。[下载该单 EXE](https://github.com/xiongnemo/nemoterm/actions/runs/43796089119/artifacts/14196406797)。
