@@ -84,5 +84,11 @@ check identities and verified artifact receipts. The three original GitHub
 ZIPs `d3d11-product-ci-{core-evidence,single-evidence,product}.zip` are retained;
 their GitHub SHA-256 digests, 9,095 ZIP member hashes and extracted receipt
 hashes were checked. This candidate is not an accepted distribution. Exact
-product local/physical acceptance and the separate historical MSVC
+product interaction acceptance and the separate historical MSVC
 tab-selection crash remain open; main and `dist/nemoterm.exe` are unchanged.
+
+The [exact-image local checkpoint](d3d11-local-f3b5b65.md) now passes six groups,
+including Sarasa 160 x 48 GDI dense images (19,947,520 bytes private working set,
+47,030,272 total working set), 29,072 image cells and natural process cleanup.
+The first foreground interaction attempt was interrupted by Windows lock
+screen during focus preparation; its original failure is retained.

@@ -14,6 +14,13 @@ Nemoterm 是 **PuTTY 0.85 Windows pterm 的下游 fork**，沿用其终端核心
 本文说明以 `main` 分支为准。已实现功能与测试边界见 [协议支持表](docs/PROTOCOLS.md)
 和 [需求与验证记录](docs/REQUIREMENTS.md)。
 
+最新开发候选 `f3b5b65` 修复了 DirectX 绘制缓存越界，已通过四个普通 CI 任务和
+167 组单文件检查。[下载该单 EXE](https://github.com/xiongnemo/nemoterm/actions/runs/43796089119/artifacts/14196406797)。
+这份准确产物的六组本机验收也已通过：Sarasa 160×48 密集图片负载的 GDI 私有工作集
+峰值 **19.95 MB**、总工作集 **47.03 MB**，29,072 个图像单元及标签生命周期检查通过。
+前台交互验收因测试期间桌面重新锁屏而中断，尚未完成；原始证据、哈希和剩余范围见
+[本机验收记录](research/d3d11-local-f3b5b65.md)。
+
 [下载](#下载) · [快速开始](#快速开始) · [渲染与内存](#渲染与内存) · [从源码构建](#从源码构建)
 
 ## 功能

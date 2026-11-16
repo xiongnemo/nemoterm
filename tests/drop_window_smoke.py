@@ -50,13 +50,14 @@ def quoted(paths,shell):
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--renderer',choices=('gdi','directx'),default='gdi')
+    parser.add_argument('--font',default=os.environ.get('NEMOTERM_TEST_FONT'))
     args=parser.parse_args()
     exe=Path(os.environ.get('NEMOTERM_TEST_EXE',ROOT/'dist/nemoterm.exe')).resolve()
     folder=Path(tempfile.mkdtemp(prefix='file-drop-',dir=ROOT/'build'))
     paths=[str(folder/"space ' 中文 & $name.txt"),str(folder/'folder with spaces')]
     Path(paths[0]).write_text('owned fixture',encoding='utf-8');Path(paths[1]).mkdir()
     result=dict(exe_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),renderer=args.renderer,
-                folder=str(folder),checks=[],cleanup=[])
+                folder=str(folder),checks=[],cleanup=[],requested_font=args.font)
     detected=json.loads(subprocess.check_output([str(exe),'--list-shells'],creationflags=subprocess.CREATE_NO_WINDOW))
     locations={v['id']:v['path'] for v in detected if v['available']}
     result['shell_argument_checks']={}
@@ -91,7 +92,7 @@ def main():
         try:
             with OwnedJob() as job:
                 child_dir=folder/shell;child_dir.mkdir()
-                process=job.spawn([str(exe),'-load',profile,'--automation','--tabs','--tab-side',
+                process=job.spawn([str(exe)]+(['--font',args.font] if args.font else [])+['-load',profile,'--automation','--tabs','--tab-side',
                     'right' if args.renderer=='directx' else 'top','--shell',shell,'--cols','80','--rows','24',
                     '-e',sys.executable,str(ROOT/'tests/automation_window_smoke.py'),'--child',str(child_dir)],
                     creationflags=subprocess.CREATE_NO_WINDOW)

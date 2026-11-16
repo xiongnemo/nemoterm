@@ -11,10 +11,12 @@ with winreg.CreateKey(winreg.HKEY_CURRENT_USER,path) as key:
                           NemoCopyPasteBinding=0x35a,NemoRectangleModifiers=4,WarnOnClose=0).items():
         winreg.SetValueEx(key,name,0,winreg.REG_DWORD,value)
 evidence=dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),checks=[])
+font=os.environ.get('NEMOTERM_TEST_FONT')
+evidence['requested_font']=font
 try:
     with tempfile.TemporaryDirectory(prefix='nemoterm-bindings-') as tmp:
         report,control=(Path(tmp)/n for n in ('report','control'))
-        process=subprocess.Popen([str(exe),'-load',profile,'--cols','80','--rows','24','-e',
+        process=subprocess.Popen([str(exe)]+(['--font',font] if font else [])+['-load',profile,'--cols','80','--rows','24','-e',
             sys.executable,str(root/'tests/mouse_fixture.py'),str(report),str(control)],
             env=dict(os.environ,NEMOTERM_CONPTY='bundled',NEMOTERM_TEST_UTF8_INPUT='1'),creationflags=subprocess.CREATE_NO_WINDOW)
         saved=session=script=None

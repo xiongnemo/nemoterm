@@ -10,6 +10,7 @@ parser=argparse.ArgumentParser()
 parser.add_argument('--renderer',type=int,choices=(0,1,2),default=0)
 parser.add_argument('--tabs',action='store_true')
 parser.add_argument('--tab-side',choices=('top','bottom','left','right'),default='top')
+parser.add_argument('--font',default=os.environ.get('NEMOTERM_TEST_FONT'))
 args=parser.parse_args()
 u.GetPropW.argtypes,u.GetPropW.restype=[w.HWND,w.LPCWSTR],w.HANDLE
 u.GetClassNameW.argtypes=[w.HWND,w.LPWSTR,c.c_int]
@@ -20,9 +21,10 @@ with winreg.CreateKey(winreg.HKEY_CURRENT_USER,keypath) as key:
     winreg.SetValueEx(key,'WarnOnClose',0,winreg.REG_DWORD,0)
 exe=Path(os.environ.get('NEMOTERM_TEST_EXE',root/'dist/nemoterm.exe')).resolve()
 evidence=dict(requested_tab_host=args.tabs,tab_host=None,tab_side=args.tab_side,executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),checks=[],rectangles=[],requested_renderer=args.renderer,completed=False)
+evidence['requested_font']=args.font
 with tempfile.TemporaryDirectory(prefix='nemoterm-selection-') as temporary:
     report,control=(Path(temporary)/name for name in ('report','control'))
-    process=subprocess.Popen([str(exe)]+(['--tabs','--tab-side',args.tab_side] if args.tabs else [])+['-load',profile,'--cols','80','--rows','24','-e',sys.executable,
+    process=subprocess.Popen([str(exe)]+(['--tabs','--tab-side',args.tab_side] if args.tabs else [])+(['--font',args.font] if args.font else [])+['-load',profile,'--cols','80','--rows','24','-e',sys.executable,
         str(root/'tests/mouse_fixture.py'),str(report),str(control)],
         env=dict(os.environ,NEMOTERM_CONPTY='bundled'),creationflags=subprocess.CREATE_NO_WINDOW)
     saved=None; session=None; script=None; gpu=None
