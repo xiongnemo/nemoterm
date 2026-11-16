@@ -175,7 +175,13 @@ static bool reserve_run(NemoD3D11 *g,int width,int height,int *x,int *y)
     if (g->batch_x+width>g->strip_width) {
         g->batch_x=0;g->batch_y+=g->batch_row;g->batch_row=0;
     }
-    if (g->batch_y+height>g->strip_height && !flush_batch(g)) return false;
+    if (g->batch_y+height>g->strip_height) {
+        if (!flush_batch(g)) return false;
+        /* Fully clipped runs consume strip space without queueing a copy.
+         * An empty flush preserves a live overlay reservation, so only this
+         * allocation boundary may retire those discarded reservations. */
+        reset_batch(g);
+    }
     *x=g->batch_x;*y=g->batch_y;g->batch_x+=width;
     g->batch_row=max(g->batch_row,height);g->batch_bottom=max(g->batch_bottom,*y+height);
     return true;

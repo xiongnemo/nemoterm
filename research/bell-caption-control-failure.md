@@ -43,3 +43,9 @@ reported separately. No production source has been changed or promoted.
 Complete ordinary and single-image CI at `8a6bd2b` remain useful regressions,
 but even a pass cannot close this newly exposed native-exit case. Exact-product
 acceptance and any promotion must wait for this failure to be understood.
+
+The external observer subsequently reproduces the same 47-check failure and
+captures the original write exception and a dump. A production staging-strip
+bounds defect and its before/after regression are described in
+[the DirectX allocation correction](d3d11-discarded-reservations.md). Fixed-image
+native replay is still required before treating this case as resolved.
