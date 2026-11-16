@@ -15,6 +15,10 @@ on:
         description: Force the real owned caption fallback by refusing only the controller activation request
         type: boolean
         default: false
+      caption_exceptions:
+        description: Attach the verified external debugger to the owned cover window during caption control
+        type: boolean
+        default: false
       image_run:
         description: Completed bell-native run for the window-state fixture
         type: string
@@ -441,12 +445,21 @@ jobs:
       - name: Check foreground preparation against deferred queue controls
         if: inputs.focus_comparison == true
         run: python tests/test_owned_window_focus.py
+      - name: Verify external exception capture and target survival
+        if: inputs.caption_exceptions == true
+        shell: pwsh
+        run: |
+          if ('${{ inputs.caption_control }}' -ne 'true') { throw 'Exception capture requires the explicit caption control' }
+          ./scripts/test-exception-observer.ps1 -Destination build/bell-caption-exceptions/controls
       - name: Check focus, stacking, minimized and background-tab lifetime
         shell: pwsh
         env:
           NEMOTERM_FOCUS_MODE: ${{ matrix.focus }}
         run: |
           $env:NEMOTERM_TEST_EXE = (Resolve-Path dist/nemoterm.exe).Path
+          if ('${{ inputs.caption_exceptions }}' -eq 'true') {
+            $env:NEMOTERM_BELL_EXCEPTION_OBSERVER = (Resolve-Path build/bell-caption-exceptions/controls/observer.exe).Path
+          }
           if ('${{ inputs.caption_control }}' -eq 'true') {
             if ('${{ inputs.focus_comparison }}' -eq 'true') { throw 'Choose comparison or caption control, not both' }
             python tests/owned_focus_caption_control.py 2>&1 | Tee-Object bell-window-state.log
@@ -469,5 +482,6 @@ jobs:
             research/owned-focus-caption-control.json
             research/bell-state-process-*.log
             build/native-crashes/
+            build/bell-caption-exceptions/
           if-no-files-found: error
           retention-days: 60
