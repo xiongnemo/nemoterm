@@ -12,7 +12,7 @@ on:
   workflow_dispatch:
     inputs:
       product_run:
-        description: Successful source-console-host build run ID
+        description: Run ID containing a successful source-console-host build job
         required: true
         type: string
       product_commit:
@@ -46,8 +46,10 @@ jobs:
           PRODUCT_COMMIT: ${{ inputs.product_commit }}
         run: |
           if ($env:PRODUCT_RUN -notmatch '^\d+$' -or $env:PRODUCT_COMMIT -notmatch '^[0-9a-f]{40}$') { throw 'Invalid product identity' }
-          $run=gh run view $env:PRODUCT_RUN --repo $env:GITHUB_REPOSITORY --json headSha | ConvertFrom-Json
+          $run=gh run view $env:PRODUCT_RUN --repo $env:GITHUB_REPOSITORY --json headSha,jobs | ConvertFrom-Json
           if ($LASTEXITCODE -or $run.headSha -ne $env:PRODUCT_COMMIT) { throw 'Source run identity mismatch' }
+          $sourceJob=@($run.jobs | Where-Object { $_.name -eq 'Source-built console host for compiler comparison' -and $_.conclusion -eq 'success' })
+          if ($sourceJob.Count -ne 1) { throw 'Expected a successful source-host build job' }
           git diff --quiet $env:PRODUCT_COMMIT HEAD -- vendor native scripts/build.ps1 scripts/build-single-exe.ps1 scripts/prepare-single-exe.py
           if ($LASTEXITCODE) { throw 'Production differs; select a fresh source-host artifact' }
           gh run download $env:PRODUCT_RUN --repo $env:GITHUB_REPOSITORY --name "source-console-host-x64-$env:PRODUCT_COMMIT" --dir build/dpi-product

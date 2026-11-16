@@ -49,12 +49,29 @@ static bool hosted() {
 }
 int wmain(int argc,wchar_t **argv) {
     bool set=argc==3 && !wcscmp(argv[1],L"--set-percent");
-    if ((argc!=1 && !set) || (set && !hosted())) {
+    bool resize=argc==4 && !wcscmp(argv[1],L"--set-size");
+    if ((argc!=1 && !set && !resize) || ((set || resize) && !hosted())) {
         std::fputs("Display changes require a disposable GitHub-hosted runner.\n",stderr);return 2;
     }
     int wanted=set?_wtoi(argv[2]):0;
     bool aware=SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2)!=0;
     EnumDisplayMonitors(nullptr,nullptr,collect,0);
+    LONG resize_result=DISP_CHANGE_BADMODE;
+    if (resize) {
+        for (const auto &m:monitors) if (m.info.dwFlags&MONITORINFOF_PRIMARY) {
+            DEVMODEW mode={};mode.dmSize=sizeof(mode);
+            for (DWORD i=0;EnumDisplaySettingsExW(m.info.szDevice,i,&mode,0);i++) {
+                if (mode.dmBitsPerPel==32 && mode.dmPelsWidth==(DWORD)_wtoi(argv[2]) &&
+                    mode.dmPelsHeight==(DWORD)_wtoi(argv[3])) {
+                    resize_result=ChangeDisplaySettingsExW(m.info.szDevice,&mode,nullptr,CDS_TEST,nullptr);
+                    if (resize_result==DISP_CHANGE_SUCCESSFUL)
+                        resize_result=ChangeDisplaySettingsExW(m.info.szDevice,&mode,nullptr,0,nullptr);
+                    break;
+                }
+            }
+        }
+        monitors.clear();EnumDisplayMonitors(nullptr,nullptr,collect,0);
+    }
     std::vector<DISPLAYCONFIG_PATH_INFO> paths;
     std::vector<DISPLAYCONFIG_MODE_INFO> modes;
     LONG query=ERROR_GEN_FAILURE;
@@ -75,7 +92,14 @@ int wmain(int argc,wchar_t **argv) {
         first=false;
         std::printf("{\"device\":");quoted(m.info.szDevice);
         std::printf(",\"primary\":%s,\"dpi\":%u,\"bounds\":",(m.info.dwFlags&MONITORINFOF_PRIMARY)?"true":"false",m.dpi);
-        rect(m.info.rcMonitor);std::printf(",\"work\":");rect(m.info.rcWork);std::putchar('}');
+        rect(m.info.rcMonitor);std::printf(",\"work\":");rect(m.info.rcWork);
+        std::printf(",\"display_modes\":[");
+        DEVMODEW mode={};mode.dmSize=sizeof(mode);bool first_mode=true;
+        for (DWORD i=0;EnumDisplaySettingsExW(m.info.szDevice,i,&mode,0);i++) if (mode.dmBitsPerPel==32) {
+            std::printf("%s[%lu,%lu,%lu]",first_mode?"":",",mode.dmPelsWidth,mode.dmPelsHeight,mode.dmDisplayFrequency);
+            first_mode=false;
+        }
+        std::printf("]}");
     }
     std::printf("],\"sources\":[");first=true;bool attempted=false;
     for (const auto &path:paths) {
@@ -107,6 +131,8 @@ int wmain(int argc,wchar_t **argv) {
         }
         std::putchar('}');
     }
-    std::printf("],\"set_requested\":%d,\"set_attempted\":%s}\n",wanted,attempted?"true":"false");
+    std::printf("],\"set_requested\":%d,\"set_attempted\":%s",wanted,attempted?"true":"false");
+    if (resize) std::printf(",\"resize_requested\":[%d,%d],\"resize_result\":%ld",_wtoi(argv[2]),_wtoi(argv[3]),resize_result);
+    std::printf("}\n");
     return 0;
 }

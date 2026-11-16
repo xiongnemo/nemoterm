@@ -135,7 +135,9 @@ try:
     if initial_imm.get('compositionFontHeight'):
      assert abs(answer['compositionFontHeight']/initial_imm['compositionFontHeight']-dpi/96)<.1,(dpi,answer)
      assert (answer['compositionWindow']['x'],answer['compositionWindow']['y'])==geom[:2],(dpi,answer,geom)
-    record=dict(requested_dpi=dpi,actual_window_dpi=u.GetDpiForWindow(host),geometry=geom,imm=answer);evidence['dpi'].append(record)
+    screenshot=('tabs-' if args.tabs else '')+f'input-method-dpi-{len(evidence["dpi"])}-{dpi}.png'
+    capture(hwnd,screenshot)
+    record=dict(requested_dpi=dpi,actual_window_dpi=u.GetDpiForWindow(host),geometry=geom,imm=answer,screenshot=screenshot);evidence['dpi'].append(record)
    capture(hwnd,'input-method-dpi.png');u.SendMessageW(hwnd,0x10e,0,0)
    evidence['checks'].append('synthetic-dpi-pixels-preserve-sixel')
    evidence['imm_reads']=[m['payload'] for m in messages if m.get('payload',{}).get('event')=='read']

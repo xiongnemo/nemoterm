@@ -72,10 +72,8 @@ def inspect_settings(process,hwnd,dpi,prefix):
 
 initial=helper();evidence['initial_environment']=initial;save()
 baseline_percent=primary(initial)['dpi']*100//96
-source=next((s for s in initial['sources'] if s['device']==primary(initial)['device']),None)
-available=source['supported_percentages'] if source else []
-targets=[v for v in (100,125,150,175,200) if v in available or v==baseline_percent]
-evidence['coverage_gaps'] += [f'Real {v}% unsupported by this display driver' for v in (100,125,150,175,200) if v not in targets]
+initial_bounds=primary(initial)['bounds']
+initial_size=[initial_bounds[2]-initial_bounds[0],initial_bounds[3]-initial_bounds[1]]
 scene=('\x1b[2J\x1b[3J\x1b[H\x1b[2 q\x1b[?25h\x1b]12;#00ff00\x07\x1b]11;#000000\x07'
        '\x1b[3;3H\x1bP0;1q"1;1;24;12#1;2;100;0;0!24~-!24~\x1b\\'
        '\x1b[6;2HChinese: 中文  emoji: 🙂  combined: e\u0301\x1b[H')
@@ -150,10 +148,25 @@ def exercise(tabbed,start_percent,warm):
             try:
                 process.wait(timeout=10)
                 assert process.returncode==0,process.returncode
+            except Exception:
+                case['completed']=False;raise
             finally:
-                case['cleanup']=job.finish();save()
+                case['cleanup']=job.finish()
+                if case['cleanup']['terminated_remaining']:case['completed']=False
+                save()
+                assert not case['cleanup']['terminated_remaining'],case['cleanup']
 
 try:
+    # A larger advertised mode can expose higher real scales on a virtual
+    # display. Never force an unadvertised mode or install a display driver.
+    if initial_size != [1920,1080] and any(m[:2]==[1920,1080] for m in primary(initial).get('display_modes',[])):
+        evidence['resolution_preparation']=helper('--set-size',1920,1080);save()
+    prepared=helper();evidence['prepared_environment']=prepared
+    source=next((s for s in prepared['sources'] if s['device']==primary(prepared)['device']),None)
+    available=source['supported_percentages'] if source else []
+    targets=[v for v in (100,125,150,175,200) if v in available or v==baseline_percent]
+    evidence['coverage_gaps'] += [f'Real {v}% unsupported by this display driver' for v in (100,125,150,175,200) if v not in targets]
+    save()
     for tabbed in (False,True):
         for percent in targets:
             try:
@@ -161,6 +174,17 @@ try:
                     raise AssertionError(('Advertised scale unavailable',percent))
                 exercise(tabbed,percent,False)
             except Exception:evidence['failures'].append(traceback.format_exc());save()
+        # Compare fresh-process cell geometry across real system scales too.
+        cold=[v for v in evidence['cases'] if v['host']==('tabs' if tabbed else 'standalone') and not v['transition'] and v['completed']]
+        if cold:
+            baseline=cold[0]['frames'][0]
+            for case in cold[1:]:
+                frame=case['frames'][0]
+                for axis in ('cell_width','cell_height'):
+                    if abs(frame[axis]-baseline[axis]*frame['actual_host_dpi']/baseline['actual_host_dpi'])>2:
+                        case['completed']=False
+                        case['error']=f'Cold-start {axis} did not scale: {baseline} -> {frame}'
+                        evidence['failures'].append(case['error'])
         if len(targets)>1:
             try:
                 assert change(baseline_percent)
@@ -171,6 +195,12 @@ finally:
     if primary(helper())['dpi']!=baseline_percent*96//100:
         restored=change(baseline_percent)
         if restored is None:evidence['failures'].append('Display restoration failed');evidence['completed']=False
+    bounds=primary(helper())['bounds']
+    if [bounds[2]-bounds[0],bounds[3]-bounds[1]]!=initial_size:
+        evidence['resolution_restoration']=helper('--set-size',*initial_size)
+        bounds=primary(helper())['bounds']
+        if [bounds[2]-bounds[0],bounds[3]-bounds[1]]!=initial_size:
+            evidence['failures'].append('Resolution restoration failed');evidence['completed']=False
     evidence['final_environment']=helper();save()
 print(json.dumps(evidence,indent=2))
 if not evidence['completed']:raise SystemExit(1)
