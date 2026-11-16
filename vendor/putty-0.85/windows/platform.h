@@ -142,6 +142,7 @@ typedef struct WinModalState WinModalState;
 WinModalState *win_modal_begin(HWND owner);
 void win_modal_end(WinModalState *state);
 bool win_modal_active(void);
+bool win_modal_redirect_activation(HWND hwnd, UINT message, WPARAM wp);
 bool win_modal_blocks_message(UINT message);
 INT_PTR win_modal_dialog_box(HINSTANCE instance, LPCTSTR resource, HWND owner, DLGPROC proc);
 int win_modal_message_box(HWND owner, LPCSTR text, LPCSTR caption, UINT style);

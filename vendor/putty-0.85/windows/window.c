@@ -2871,6 +2871,8 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
     int resize_action;
     WinGuiSeat *wgs = (WinGuiSeat *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
     if (!wgs) return sw_DefWindowProc(hwnd, message, wParam, lParam);
+    if (win_modal_redirect_activation(hwnd,message,wParam))
+        return message==WM_MOUSEACTIVATE ? MA_NOACTIVATEANDEAT : 0;
     if (win_modal_blocks_message(message)) {
         if (message==WM_DROPFILES) DragFinish((HDROP)wParam);
         return 0;

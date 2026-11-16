@@ -370,6 +370,8 @@ static void nemo_host_draw_label(HDC dc, NemoTabRect box, const wchar_t *text, C
 static LRESULT CALLBACK nemo_host_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 {
     WinGuiSeat *active=tab_host.active;
+    if (win_modal_redirect_activation(hwnd,msg,wp))
+        return msg==WM_MOUSEACTIVATE ? MA_NOACTIVATEANDEAT : 0;
     if (win_modal_blocks_message(msg)) {
         if (msg==WM_DROPFILES) DragFinish((HDROP)wp);
         return 0;

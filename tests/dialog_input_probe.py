@@ -10,6 +10,14 @@ u.IsWindowEnabled.argtypes=[w.HWND]
 u.PostMessageW.argtypes=[w.HWND,w.UINT,w.WPARAM,w.LPARAM]
 u.SetForegroundWindow.argtypes=[w.HWND]
 u.GetForegroundWindow.restype=w.HWND
+u.GetWindowThreadProcessId.argtypes=[w.HWND,c.POINTER(w.DWORD)]
+u.GetClassNameW.argtypes=[w.HWND,w.LPWSTR,c.c_int]
+
+def owned_dialog_active():
+    foreground=u.GetForegroundWindow();owner=w.DWORD();name=c.create_unicode_buffer(64)
+    u.GetWindowThreadProcessId(foreground,c.byref(owner))
+    u.GetClassNameW(foreground,name,len(name))
+    return owner.value==pid and name.value in ('#32770','PuTTYConfigBox') and u.IsWindowEnabled(foreground)
 
 if operation=='prepare':
     seat=instance['sessions'][0]
@@ -25,7 +33,8 @@ elif operation=='blocked':
     for seat in instance['sessions']:
         assert not u.IsWindowEnabled(seat['window']),seat
         u.SetForegroundWindow(seat['window'])
-        assert u.GetForegroundWindow()!=seat['window'],'disabled terminal became foreground'
+        # Cross-thread activation and the dialog redirect finish asynchronously.
+        wait_for(owned_dialog_active)
         for op,payload in [('input','BLOCKED'),('paste','BLOCKED'),
                            ('key',struct.pack('<II',ord('T'),3))]:
             try: api.request(endpoint,op,seat['id'],payload)

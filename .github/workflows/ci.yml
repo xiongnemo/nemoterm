@@ -160,6 +160,13 @@ jobs:
           New-Item -ItemType Directory dist -Force | Out-Null
           Copy-Item build-cluster/nemoterm.exe dist/
           ./scripts/fetch-conpty.ps1 -Architecture x64 -Destination dist
+      - name: Check modal dialogs before the extended renderer diagnostics
+        shell: pwsh
+        run: |
+          powershell.exe -NoProfile -File tests/dialog_window_smoke.ps1 -TabHost
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          powershell.exe -NoProfile -File tests/dialog_window_smoke.ps1
+          exit $LASTEXITCODE
       - name: Compare native frames and retain exact shaping inputs
         shell: pwsh
         env:

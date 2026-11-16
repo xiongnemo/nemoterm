@@ -18,8 +18,11 @@
 struct WinModalState {
     HWND owner, *disabled;
     size_t count;
+    struct WinModalState *previous;
 };
 static THREADLOCAL unsigned modal_depth;
+static THREADLOCAL WinModalState *modal_current;
+static THREADLOCAL UINT modal_focus_message;
 
 static void modal_disable(WinModalState *state, HWND hwnd)
 {
@@ -43,6 +46,9 @@ WinModalState *win_modal_begin(HWND owner)
     WinModalState *state=snew(WinModalState);
     memset(state,0,sizeof(*state));
     state->owner=owner ? GetAncestor(owner,GA_ROOT) : NULL;
+    state->previous=modal_current;modal_current=state;
+    if (!modal_focus_message)
+        modal_focus_message=RegisterWindowMessageA("Nemoterm.ModalFocus");
     modal_depth++;
     /* Save enabled state, so closing a nested dialog cannot enable its
      * terminal or an outer dialog prematurely. Other applications are free. */
@@ -54,6 +60,7 @@ WinModalState *win_modal_begin(HWND owner)
 void win_modal_end(WinModalState *state)
 {
     assert(modal_depth);modal_depth--;
+    assert(modal_current==state);modal_current=state->previous;
     for (size_t i=0;i<state->count;i++)
         if (IsWindow(state->disabled[i])) EnableWindow(state->disabled[i],TRUE);
     if (state->owner && IsWindowEnabled(state->owner)) SetActiveWindow(state->owner);
@@ -61,6 +68,45 @@ void win_modal_end(WinModalState *state)
 }
 
 bool win_modal_active(void) { return modal_depth!=0; }
+
+static BOOL CALLBACK modal_find_dialog(HWND hwnd, LPARAM context)
+{
+    char name[64];
+    if (IsWindowVisible(hwnd) && IsWindowEnabled(hwnd) &&
+        GetClassNameA(hwnd,name,sizeof(name)) &&
+        (!strcmp(name,"#32770") || !strcmp(name,"PuTTYConfigBox") ||
+         !strcmp(name,"PuTTYHostKeyDialog"))) {
+        *(HWND *)context=hwnd;return FALSE;
+    }
+    return TRUE;
+}
+
+bool win_modal_redirect_activation(HWND hwnd, UINT message, WPARAM wp)
+{
+    if (!win_modal_active()) return false;
+    if (message==WM_MOUSEACTIVATE || message==WM_SETFOCUS ||
+        (message==WM_ACTIVATE && LOWORD(wp)!=WA_INACTIVE)) {
+        /* SetForegroundWindow can activate even a disabled HWND. Redirect
+         * after that activation finishes, rather than re-entering it. */
+        if (modal_focus_message) PostMessage(hwnd,modal_focus_message,0,0);
+        return true;
+    }
+    if (!modal_focus_message || message!=modal_focus_message) return false;
+    HWND dialog=NULL;
+    for (WinModalState *state=modal_current;state && !dialog;state=state->previous) {
+        HWND popup=state->owner;
+        for (int depth=0;popup && depth<16;depth++) {
+            HWND next=GetLastActivePopup(popup);
+            if (!next || next==popup) break;
+            popup=next;
+        }
+        if (popup && IsWindowVisible(popup) && IsWindowEnabled(popup)) dialog=popup;
+    }
+    /* Covers initially unowned dialogs and the short creation interval. */
+    if (!dialog) EnumThreadWindows(GetCurrentThreadId(),modal_find_dialog,(LPARAM)&dialog);
+    if (dialog) {SetForegroundWindow(dialog);SetActiveWindow(dialog);}
+    return true;
+}
 
 bool win_modal_blocks_message(UINT message)
 {
