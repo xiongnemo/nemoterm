@@ -10,6 +10,10 @@ if ($env:GITHUB_ACTIONS -ne 'true' -or $env:RUNNER_ENVIRONMENT -ne 'github-hoste
 if ($Prefix -notmatch '^[a-z0-9-]+$') {throw 'Invalid evidence prefix'}
 Add-Type -AssemblyName UIAutomationClient
 Add-Type -AssemblyName UIAutomationTypes
+# Initialize the framework's standard Win32 proxies before FromHandle.
+# Otherwise a direct handle lookup can expose only HWND panes, omitting
+# tree items and control patterns even though the controls are visible.
+$desktop=[System.Windows.Automation.AutomationElement]::RootElement
 Add-Type @'
 using System;
 using System.Runtime.InteropServices;

@@ -159,8 +159,13 @@ def exercise(tabbed,start_percent,warm):
 try:
     # A larger advertised mode can expose higher real scales on a virtual
     # display. Never force an unadvertised mode or install a display driver.
-    if initial_size != [1920,1080] and any(m[:2]==[1920,1080] for m in primary(initial).get('display_modes',[])):
-        evidence['resolution_preparation']=helper('--set-size',1920,1080);save()
+    modes=[m[:2] for m in primary(initial).get('display_modes',[]) if m[0]>=1024 and m[1]>=768]
+    # Prefer logical desktop room in both axes. On this runner 1600x1200
+    # gives more vertical room for 200% than 1920x1080. Query again below;
+    # the selected resolution alone is not proof of any supported scale.
+    best=max(modes,key=lambda m:(min(m[0]/800,m[1]/600),m[0]*m[1]),default=initial_size)
+    if initial_size != best:
+        evidence['resolution_preparation']=helper('--set-size',*best);save()
     prepared=helper();evidence['prepared_environment']=prepared
     source=next((s for s in prepared['sources'] if s['device']==primary(prepared)['device']),None)
     available=source['supported_percentages'] if source else []

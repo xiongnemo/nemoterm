@@ -29,9 +29,10 @@ registered replay entry above calls the reusable workflow from the selected ref.
 ## What the checks prove
 
 **Real scaling:** enumerate active displays, DPI awareness, physical monitor
-bounds, work area, advertised resolution modes and supported DPI scales. If
-1920×1080 is advertised, try that temporary mode to make higher real scales
-available. Request only supported scales from 100%, 125%, 150%, 175%, 200%.
+bounds, work area, advertised resolution modes and supported DPI scales. Try
+the advertised mode with most logical desktop room in both axes (for example,
+1600×1200) to make higher real scales available. Request only supported scales
+from 100%, 125%, 150%, 175%, 200%.
 Verify the resulting DPI on the uninstrumented product's host, terminal view
 and settings dialog with `GetDpiForWindow`; API success alone is insufficient.
 
