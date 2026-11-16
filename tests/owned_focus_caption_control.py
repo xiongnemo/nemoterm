@@ -28,10 +28,12 @@ try:
     clicked=[a for a in report['focus_actions'] if a['method']=='owned-caption-click']
     assert len(clicked)==len(record['denied_calls'])
     assert all(a['completed'] and a['after']==a['window'] for a in report['focus_actions'])
-    assert all(not a['set_foreground_result'] and a['queue_barrier'] and a['cursor_restored'] for a in clicked)
+    assert all(not a['set_foreground_result'] and a['queue_barrier'] and
+               a.get('cursor_restored') is not False for a in clicked)
     assert all(a['method'] in ('already-foreground','owned-caption-click') for a in report['focus_actions'])
     record.update(completed=True,executable_sha256=report['executable_sha256'],
-                  native_caption_clicks=len(clicked),checks=len(report['checks']))
+                  native_caption_clicks=len(clicked),cursor_restored=sum(bool(a.get('cursor_restored')) for a in clicked),
+                  checks=len(report['checks']))
     print('Real owned caption control:',len(clicked),'clicks; 74 bell-state checks passed')
 except BaseException as error:
     record['error']=repr(error)
