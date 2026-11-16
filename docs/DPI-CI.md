@@ -35,6 +35,10 @@ the advertised mode with most logical desktop room in both axes (for example,
 from 100%, 125%, 150%, 175%, 200%.
 Verify the resulting DPI on the uninstrumented product's host, terminal view
 and settings dialog with `GetDpiForWindow`; API success alone is insufficient.
+The settings probe is a small native COM/UI Automation client, compiled only
+for CI. It avoids the hosted image's legacy .NET UIA fallback that exposed
+standard controls as generic panes and omitted tree nodes. No probe is linked
+into the shipped executable.
 
 The real suite tests GDI in standalone and tab modes, with fresh processes at
 each available scale and live scale changes while settings are already open.

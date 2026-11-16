@@ -99,10 +99,14 @@ def exercise(tabbed,start_percent,warm):
         evidence['cases'].append(case);save()
         try:
             hwnd=wait_for(lambda:find_window(process.pid));host=terminal_host(hwnd)
+            host_class=c.create_unicode_buffer(64);u.GetClassNameW(host,host_class,len(host_class))
+            case['actual_host_class']=host_class.value
+            assert host_class.value==('NemotermHost' if tabbed else 'Nemoterm'),case
+            case['active_renderer']=int(u.GetPropW(hwnd,'NemotermRenderer') or 0)
             wait_for(lambda:read_snapshot(report))
             assert u.GetDpiForWindow(host)==start_percent*96//100
             assert u.AreDpiAwarenessContextsEqual(u.GetWindowDpiAwarenessContext(host),c.c_void_p(-4)), 'Product is not PMv2 aware'
-            assert int(u.GetPropW(hwnd,'NemotermRenderer') or 0)==renderer_number+1,'Renderer fell back'
+            assert case['active_renderer']==renderer_number+1,'Renderer fell back'
             instance=wait_for(lambda:next(iter(api.discover(process.pid)),None));endpoint=instance['endpoint'];sid=instance['sessions'][0]['id']
             base_cell=None;base_dpi=None
             for percent in (targets+[baseline_percent] if warm else [start_percent]):

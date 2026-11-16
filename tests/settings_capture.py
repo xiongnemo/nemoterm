@@ -1,6 +1,4 @@
 """Capture only the owned settings dialog passed by settings_window_smoke.ps1."""
-import ctypes
-ctypes.windll.user32.SetProcessDpiAwarenessContext(ctypes.c_void_p(-4))
 from native_test_utils import c,w,u,capture,sys
 
 pid,hwnd=map(int,sys.argv[1:3])
