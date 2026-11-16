@@ -10,9 +10,6 @@ if ($env:GITHUB_ACTIONS -ne 'true' -or $env:RUNNER_ENVIRONMENT -ne 'github-hoste
 if ($Prefix -notmatch '^[a-z0-9-]+$') {throw 'Invalid evidence prefix'}
 Add-Type -AssemblyName UIAutomationClient
 Add-Type -AssemblyName UIAutomationTypes
-Add-Type -AssemblyName UIAutomationClientsideProviders
-[System.Windows.Automation.ClientSettings]::RegisterClientSideProviderAssembly(
- [UIAutomationClientsideProviders.UIAutomationClientSideProviders].Assembly.GetName())
 Add-Type @'
 using System;
 using System.Runtime.InteropServices;
@@ -61,7 +58,7 @@ function Select-Page([string[]]$path) {
 function Coordinates($r) {return @($r.Left,$r.Top,$r.Width,$r.Height)}
 $root=Split-Path $PSScriptRoot -Parent
 $result=@{completed=$false;expected_dpi=$ExpectedDpi;hwnd=$DialogHwnd;pages=@();ui_language='en';
- client_providers=[System.Windows.Automation.ClientSettings]::GetClientSideProviderDescriptionTable().Count}
+ powershell=$PSVersionTable.PSVersion.ToString();client_assembly=[System.Windows.Automation.AutomationElement].Assembly.FullName}
 $pages=@(
  @{id='profile';path=@('Profile');labels=@('New profile name','Add','Edit','Delete')},
  @{id='shell';path=@('Profile','Shell');labels=@('Choose shell on startup','Command (select Custom above):','Starting directory (blank inherits launcher):')},
