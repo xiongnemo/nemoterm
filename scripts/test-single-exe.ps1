@@ -52,6 +52,8 @@ try {
         if ($LASTEXITCODE) { throw "Single-executable native test failed: $name" }
         $checks.Add($name)
         if ($name -eq 'bell_modes') {
+            & python "$Destination/tests/test_owned_window_focus.py" 2>&1 | Tee-Object "$Destination/logs/owned-focus-controls.log"
+            if ($LASTEXITCODE) { throw 'Single-executable foreground queue controls failed' }
             & python "$Destination/tests/bell_window_state_smoke.py" 2>&1 | Tee-Object "$Destination/logs/bell-window-state.log"
             if ($LASTEXITCODE) { throw 'Single-executable bell ownership and focus test failed' }
             $checks.Add('bell-window-state')
