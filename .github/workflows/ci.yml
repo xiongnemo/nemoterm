@@ -202,6 +202,9 @@ jobs:
             research/renderer-*-clusters.txt
             research/tabs-close-repeat-*.json
             research/hyperlink-window-observed.json
+            research/dialog-*-observed.json
+            research/bell-settings.png
+            research/bell-overload-settings.png
             build/native-crashes/
             gl-lifetime-msvc.log
             handle-io-msvc.log

@@ -64,7 +64,7 @@ function Bounds($dialog,$labels) {
  }
 }
 try {
- New-Item $key | Out-Null
+ New-Item $key -Force | Out-Null
  # Old saved zero bindings exercise migration to the requested defaults.
  foreach ($item in @{NemoTabs=[int][bool]$TabHost;WarnOnClose=0;FontHeight=12;NemoZoomInBinding=0;NemoZoomOutBinding=0}.GetEnumerator()) {
   New-ItemProperty $key -Name $item.Key -Value $item.Value -PropertyType DWord | Out-Null
