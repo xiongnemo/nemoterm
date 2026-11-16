@@ -38,6 +38,8 @@ parser.add_argument('--kitty-unicode',action='store_true',
                     help='fill visible cells with independent Unicode image placements; requires --kitty-images')
 parser.add_argument('--probe-boundaries',action='store_true',
                     help='retain read-only owned procedure-entry/liveness snapshots around test probes')
+parser.add_argument('--probe-detach-mode',choices=('immediate','unload-first','after-interactions'),
+                    help='diagnostic-only probe lifetime comparison; ordinary tests keep their original path')
 parser.add_argument('--exception-observer',type=Path,
                     help='test-only external debugger executable; diagnostic only, not memory acceptance')
 observation=parser.add_mutually_exclusive_group()
@@ -72,6 +74,9 @@ if diagnostic and not args.local_heap_census and os.environ.get('CI')!='true':
     parser.error('Memory observers require --workload-memory on a dedicated CI runner')
 if args.exception_observer and (args.workload_memory or args.dense_clusters or diagnostic or args.resource_inventory):
     parser.error('Exception diagnosis must run separately from resource and memory observations')
+if args.probe_detach_mode and (args.workload_memory or args.dense_clusters or diagnostic or args.resource_inventory):
+    parser.error('Probe lifetime diagnosis must run separately from resource and memory observations')
+if args.probe_detach_mode:args.probe_boundaries=True
 if diagnostic:faulthandler.dump_traceback_later(180,exit=True)
 if args.workload_memory:args.dense_clusters=True
 prefix='local-heap-tabs' if args.local_heap_census else 'etw-tabs' if args.etw_memory_trace else 'virtual-tabs' if args.virtual_memory_trace else 'allocation-tabs' if args.allocation_census else 'workload-tabs' if args.workload_memory else 'cluster-tabs' if args.dense_clusters else 'tabs'
@@ -83,6 +88,7 @@ if args.kitty_unicode:prefix='unicode-'+prefix
 base_scene=scene
 if args.resource_inventory:prefix='inventory-tabs'
 if args.exception_observer:prefix='exception-tabs'
+if args.probe_detach_mode:prefix='probe-'+args.probe_detach_mode+'-'+prefix
 dense_memory_phase=args.dense_clusters
 def scene(text,colour):
     result=base_scene(text,colour)
@@ -132,6 +138,8 @@ if args.resource_inventory:
     evidence.update(diagnostic_completed=False,memory_acceptance=False,resource_inventory=[])
 if args.etw_memory_trace:evidence['kernel_etw_recording']=True
 if args.exception_observer:evidence.update(exception_diagnostic=True,memory_acceptance=False)
+if args.probe_detach_mode:
+    evidence.update(probe_lifetime_diagnostic=args.probe_detach_mode,memory_acceptance=False)
 with winreg.CreateKey(winreg.HKEY_CURRENT_USER,keypath) as key:
     for name,value in dict(WarnOnClose=0,CloseOnExit=1,NemoRenderer=
             {'gdi':0,'opengl':1,'directx':2}[args.renderer]).items():
@@ -403,6 +411,13 @@ try:
             evidence['pixel_capture']='owned-automation-api'
             boundary=None
             import frida
+            code_boundary=None
+            if args.probe_detach_mode:
+                from owned_code_boundary import OwnedCodeBoundary
+                code_boundary=OwnedCodeBoundary(process,job)
+                evidence['code_baseline']=code_boundary.identity
+                evidence['code_boundaries']=[code_boundary.snapshot('before-attach')]
+                evidence['probe_frida_version']=frida.__version__
             evidence['probe_attach']=dict(started_seconds=time.monotonic()-fixture_started)
             try:hover_session=frida.attach(process.pid)
             finally:evidence['probe_attach']['finished_seconds']=time.monotonic()-fixture_started
@@ -415,6 +430,7 @@ try:
                 evidence['probe_boundaries']=[]
             key_script=hover_session.create_script((root/'tests/agent_key_probe.js').read_text());key_script.load()
             if boundary:evidence['probe_boundaries'].append(boundary.snapshot('after-load'))
+            if code_boundary:evidence['code_boundaries'].append(code_boundary.snapshot('after-load'))
             def key(child,code,modifiers):
                 global serial
                 serial+=1;key_script.exports_sync.key(dict(id=serial,key=code,modifiers=modifiers))
@@ -482,11 +498,18 @@ try:
             assert evidence['hover_observations']['timers']
             evidence['phase']='detach-key-fault-hover-probes'
             if boundary:evidence['probe_boundaries'].append(boundary.snapshot('before-detach'))
-            detach_session(hover_session);hover_session=None
-            if boundary:evidence['probe_boundaries'].append(boundary.snapshot('after-detach'))
+            if code_boundary:evidence['code_boundaries'].append(code_boundary.snapshot('before-detach'))
+            if args.probe_detach_mode=='unload-first':
+                key_script.unload();hover_script.unload()
+                evidence['code_boundaries'].append(code_boundary.snapshot('after-script-unload'))
+            if args.probe_detach_mode!='after-interactions':
+                detach_session(hover_session);hover_session=None
+                if boundary:evidence['probe_boundaries'].append(boundary.snapshot('after-detach'))
+                if code_boundary:evidence['code_boundaries'].append(code_boundary.snapshot('after-detach'))
             evidence['phase']='synchronized-tab-transfer'
             select(first,0)
             if boundary:evidence['probe_boundaries'].append(boundary.snapshot('after-select'))
+            if code_boundary:evidence['code_boundaries'].append(code_boundary.snapshot('after-select'))
             output(first,scene('FROZEN FIRST','80;10;10'));time.sleep(.08)
             frozen=captures[0].capture(return_pixels=True)
             output(first,'\x1b[?2026h\x1b[2J\x1b[HLATER FRAME')
@@ -511,6 +534,12 @@ try:
                 assert '\x1b[8;'.encode().hex() in read_snapshot(child['report'])['hex']
             evidence['checks'].append('host resize updates both terminal grids')
             if actual==1:capture(host,f'{prefix}-{args.renderer}-{args.side}-host.png')
+            if args.probe_detach_mode=='after-interactions':
+                evidence['phase']='detach-after-interactions'
+                evidence['code_boundaries'].append(code_boundary.snapshot('before-delayed-detach'))
+                detach_session(hover_session);hover_session=None
+                evidence['probe_boundaries'].append(boundary.snapshot('after-delayed-detach'))
+                evidence['code_boundaries'].append(code_boundary.snapshot('after-delayed-detach'))
             evidence['phase']='close-capture-clients'
             for capture_helper in captures:capture_helper.close()
             captures=[]

@@ -16,11 +16,21 @@ int wmain(int argc, wchar_t **argv)
     void *handler;
     DWORD wait;
     SetErrorMode(SEM_FAILCRITICALERRORS | SEM_NOGPFAULTERRORBOX);
-    if (argc != 3) return 2;
+    if (argc != 3 && argc != 4) return 2;
     go = OpenEventW(SYNCHRONIZE, FALSE, argv[1]);
     if (!go) return 3;
     handler = AddVectoredExceptionHandler(1, handled);
     if (!handler) { CloseHandle(go); return 4; }
+    if (argc == 4) {
+        HANDLE ready = OpenEventW(EVENT_MODIFY_STATE, FALSE, argv[3]);
+        if (!ready || !SetEvent(ready)) {
+            if (ready) CloseHandle(ready);
+            RemoveVectoredExceptionHandler(handler);
+            CloseHandle(go);
+            return 8;
+        }
+        CloseHandle(ready);
+    }
     wait = WaitForSingleObject(go, 60000);
     CloseHandle(go);
     if (wait != WAIT_OBJECT_0) return 5;
