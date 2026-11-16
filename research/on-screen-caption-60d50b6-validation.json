@@ -1,0 +1,246 @@
+{
+  "run": {
+    "conclusion": "success",
+    "databaseId": 43796940288,
+    "headSha": "60d50b61b3a7f4eace1717bc6531d9060ee70fa7",
+    "jobs": [
+      {
+        "completedAt": "2026-11-16T03:15:23Z",
+        "conclusion": "success",
+        "databaseId": 133067786487,
+        "name": "bell-window-state (synchronized, 1)",
+        "startedAt": "2026-11-16T03:14:16Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-11-16T03:14:18Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-11-16T03:14:17Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-16T03:14:42Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+            "number": 2,
+            "startedAt": "2026-11-16T03:14:18Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-16T03:14:42Z",
+            "conclusion": "success",
+            "name": "Retain native crash diagnostics for the caption control",
+            "number": 3,
+            "startedAt": "2026-11-16T03:14:42Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-16T03:14:48Z",
+            "conclusion": "success",
+            "name": "Verify and download the explicitly identified native image",
+            "number": 4,
+            "startedAt": "2026-11-16T03:14:42Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-16T03:14:57Z",
+            "conclusion": "success",
+            "name": "Run python -m pip install frida==17.24.3",
+            "number": 5,
+            "startedAt": "2026-11-16T03:14:48Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-16T03:14:57Z",
+            "conclusion": "skipped",
+            "name": "Check foreground preparation against deferred queue controls",
+            "number": 6,
+            "startedAt": "2026-11-16T03:14:57Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-16T03:14:57Z",
+            "conclusion": "skipped",
+            "name": "Verify external exception capture and target survival",
+            "number": 7,
+            "startedAt": "2026-11-16T03:14:57Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-16T03:15:16Z",
+            "conclusion": "success",
+            "name": "Check focus, stacking, minimized and background-tab lifetime",
+            "number": 8,
+            "startedAt": "2026-11-16T03:14:57Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-16T03:15:17Z",
+            "conclusion": "success",
+            "name": "Collect caption-control application failure events",
+            "number": 9,
+            "startedAt": "2026-11-16T03:15:16Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-16T03:15:19Z",
+            "conclusion": "success",
+            "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+            "number": 10,
+            "startedAt": "2026-11-16T03:15:17Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-16T03:15:21Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+            "number": 20,
+            "startedAt": "2026-11-16T03:15:19Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-16T03:15:21Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 21,
+            "startedAt": "2026-11-16T03:15:21Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43796940288/job/133067786487"
+      },
+      {
+        "completedAt": "2026-11-16T03:14:14Z",
+        "conclusion": "skipped",
+        "databaseId": 133067787801,
+        "name": "msvc",
+        "startedAt": "2026-11-16T03:14:14Z",
+        "status": "completed",
+        "steps": [],
+        "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43796940288/job/133067787801"
+      },
+      {
+        "completedAt": "2026-11-16T03:14:14Z",
+        "conclusion": "skipped",
+        "databaseId": 133067787999,
+        "name": "udk-native",
+        "startedAt": "2026-11-16T03:14:14Z",
+        "status": "completed",
+        "steps": [],
+        "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43796940288/job/133067787999"
+      },
+      {
+        "completedAt": "2026-11-16T03:14:14Z",
+        "conclusion": "skipped",
+        "databaseId": 133067788115,
+        "name": "bell-native",
+        "startedAt": "2026-11-16T03:14:14Z",
+        "status": "completed",
+        "steps": [],
+        "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43796940288/job/133067788115"
+      },
+      {
+        "completedAt": "2026-11-16T03:14:14Z",
+        "conclusion": "skipped",
+        "databaseId": 133067788424,
+        "name": "linux",
+        "startedAt": "2026-11-16T03:14:14Z",
+        "status": "completed",
+        "steps": [],
+        "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43796940288/job/133067788424"
+      },
+      {
+        "completedAt": "2026-11-16T03:14:14Z",
+        "conclusion": "skipped",
+        "databaseId": 133067825178,
+        "name": "locator-native",
+        "startedAt": "2026-11-16T03:14:21Z",
+        "status": "completed",
+        "steps": [],
+        "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43796940288/job/133067825178"
+      }
+    ],
+    "status": "completed",
+    "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43796940288"
+  },
+  "artifact_id": 14194168994,
+  "archive": "on-screen-caption-60d50b6.zip",
+  "sha256": "5e61d756504bceb611693031219720f18cb5b677a8213b545880d04d1e5fef8e",
+  "bytes": 14696,
+  "files": [
+    {
+      "path": "bell-state-provenance.json",
+      "bytes": 354,
+      "sha256": "9539c6a7055cf7f11cdd06fa77f980322c01a1b55031ac99371ae2a48397a0b9"
+    },
+    {
+      "path": "bell-window-state.log",
+      "bytes": 134,
+      "sha256": "0ce0714da0749d24b22fd74908a6d93067aa9e78c90670d4445cd7096cdc3383"
+    },
+    {
+      "path": "build/native-crashes/application-errors.json",
+      "bytes": 4,
+      "sha256": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f"
+    },
+    {
+      "path": "research/bell-state-process-0-0-cover.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "research/bell-state-process-0-0-tabs.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "research/bell-state-process-0-1-cover.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "research/bell-state-process-0-1-tabs.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "research/bell-state-process-2-0-cover.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "research/bell-state-process-2-0-tabs.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "research/bell-state-process-2-1-cover.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "research/bell-state-process-2-1-tabs.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "research/bell-window-state-observed.json",
+      "bytes": 454224,
+      "sha256": "751a6d9ba2c86f068eb046eca5b5fb0677c477fc9a8f07e71ba3f30b29490b15"
+    },
+    {
+      "path": "research/owned-focus-caption-control.json",
+      "bytes": 4612,
+      "sha256": "f00afab1e06d1603c35e20e7e2a3b0f64be57ec300514f40a83ba49a5eeed2da"
+    }
+  ],
+  "image_sha256": "68424c75540640f6f37f8027d98985ddc65c82d2e66d00631439abc6faac93fd",
+  "checks": 74,
+  "caption_clicks": 44,
+  "spaced_repeated_clicks": 15,
+  "maximized_click_results": 4,
+  "natural_processes": 48,
+  "scope": "On-screen caption candidates and spaced repeated clicks pass on fixed image; some windows still become maximized. This is not complete product CI or local acceptance."
+}
