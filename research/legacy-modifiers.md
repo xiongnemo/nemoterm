@@ -92,7 +92,12 @@ mapper, configuration and capability regressions. `legacy-modifiers-ci.tar.gz`
 and its manifest retain original logs and artifact receipts; all source hashes
 match the exact Git content, with separately verified Windows CRLF checkout
 variants for four existing `.inc` files. Ordinary and single-image CI include
-the native fixture; those complete workflows remain pending. The outer
+the native fixture. The single-image workflow failed later while preparing
+foreground focus for the fourth bell-window profile; it is not a successful
+167-group checkpoint. The unchanged failed image passes four targeted
+[focus comparisons](bell-focus-029bfac.md), while the exact original failure
+remains unexplained. Corrected queue synchronization is now included in the
+test harness; complete CI must pass again before product acceptance. The outer
 portable CI job budget accounts for the roughly eight-minute new replay;
 existing product tests, deadlines and memory gates are unchanged.
 

@@ -40,7 +40,8 @@ try:
    assert evidence['tab_host']==args.tabs and host_class.value==('NemotermHost' if args.tabs else 'Nemoterm'),evidence
    if args.foreground or os.environ.get('GITHUB_ACTIONS')=='true':
     from owned_window_focus import focus_owned_window
-    evidence['foreground_preparation']=focus_owned_window(host,process.pid,allow_local=args.foreground)
+    evidence['foreground_preparation']={}
+    focus_owned_window(host,process.pid,allow_local=args.foreground,record=evidence['foreground_preparation'])
    session=frida.attach(process.pid);script=session.create_script((root/'tests/input_method_probe.js').read_text(encoding='utf-8-sig'))
    def received(message,data):messages.append(message)
    script.on('message',received);script.load();wait_for(lambda:any(m.get('payload',{}).get('event')=='ready' for m in messages))

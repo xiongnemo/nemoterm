@@ -83,7 +83,9 @@ try:
                             topmost=bool(u.GetWindowLongPtrW(host,-20)&8))
             def focus(window):
                 owner = next(p.pid for p,_,host,_,_ in children if host == window)
-                evidence['focus_actions'].append(focus_owned_window(window, owner))
+                record={}
+                evidence['focus_actions'].append(record)
+                focus_owned_window(window, owner, record=record)
             def phase(name,wire,expected=b''):
                 write_snapshot(control,dict(phase=name,preserve_mouse=True,sequence=wire.decode('utf-8')+'\x1b[5n'))
                 def received():
