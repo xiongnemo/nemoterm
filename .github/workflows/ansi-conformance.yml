@@ -11,6 +11,10 @@ on:
         description: Diagnostic bell-state comparison of legacy and synchronized foreground preparation
         type: boolean
         default: false
+      caption_control:
+        description: Force the real owned caption fallback by refusing only the controller activation request
+        type: boolean
+        default: false
       image_run:
         description: Completed bell-native run for the window-state fixture
         type: string
@@ -439,7 +443,12 @@ jobs:
           NEMOTERM_FOCUS_MODE: ${{ matrix.focus }}
         run: |
           $env:NEMOTERM_TEST_EXE = (Resolve-Path dist/nemoterm.exe).Path
-          python tests/bell_window_state_smoke.py 2>&1 | Tee-Object bell-window-state.log
+          if ('${{ inputs.caption_control }}' -eq 'true') {
+            if ('${{ inputs.focus_comparison }}' -eq 'true') { throw 'Choose comparison or caption control, not both' }
+            python tests/owned_focus_caption_control.py 2>&1 | Tee-Object bell-window-state.log
+          } else {
+            python tests/bell_window_state_smoke.py 2>&1 | Tee-Object bell-window-state.log
+          }
           exit $LASTEXITCODE
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
@@ -449,5 +458,6 @@ jobs:
             bell-state-provenance.json
             bell-window-state.log
             research/bell-window-state-observed.json
+            research/owned-focus-caption-control.json
           if-no-files-found: error
           retention-days: 60
