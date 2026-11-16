@@ -68,6 +68,21 @@ still show maximized windows, so the spacing is not claimed to eliminate
 maximization; the renderer remains stable through those changes. The original
 artifact and member hashes are retained in `on-screen-caption-60d50b6-validation.json`.
 
-This candidate is not an accepted distribution and does not resolve the separate
-historical MSVC tab-selection crash. Complete ordinary and single-image CI are
-still running, and exact-product local acceptance remains required.
+The exact product source `f3b5b6539fede4f13dfb2ef12c1ec9e1657a8fd8` has
+now passed [ordinary CI 43796092526](https://github.com/xiongnemo/nemoterm/actions/runs/43796092526)
+in all four jobs and [single-image CI 43796089119](https://github.com/xiongnemo/nemoterm/actions/runs/43796089119)
+in all 167 native check groups. The isolated 4,549,120-byte executable has
+SHA-256 `de2f9e105e9186cb99fd925f8824e0573ae144ff62954b63ab3cda7c15ff0d28`.
+The ordinary CI's densest GDI Unicode/Kitty tab workload recorded a frontend
+private working-set peak of 14,065,664 bytes, total working-set peak of
+44,990,464 bytes and private-commit peak of 17,076,224 bytes, with no sampler
+errors. These values describe the CI workload and its frontend process, not
+every possible local screen and font configuration.
+
+`d3d11-product-ci-validation.json` records the exact run, source, executable,
+check identities and verified artifact receipts. The three original GitHub
+ZIPs `d3d11-product-ci-{core-evidence,single-evidence,product}.zip` are retained;
+their GitHub SHA-256 digests, 9,095 ZIP member hashes and extracted receipt
+hashes were checked. This candidate is not an accepted distribution. Exact
+product local/physical acceptance and the separate historical MSVC
+tab-selection crash remain open; main and `dist/nemoterm.exe` are unchanged.
