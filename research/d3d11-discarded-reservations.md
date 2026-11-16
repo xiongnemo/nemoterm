@@ -41,12 +41,27 @@ old/new source, binaries, compiler identity, logs, dump interpretation and
 disassembly. Initial build-configuration and link errors are documented.
 
 The regression is part of Windows core build/test commands and the single-EXE
-build's frontend checks. Local MinGW validation passes; the fixed MSVC single
-image and the unchanged native caption sequence still require hosted replay.
+build's frontend checks. Local MinGW validation passes. The [fixed-image
+bell-native run 43787972196](https://github.com/xiongnemo/nemoterm/actions/runs/43787972196)
+builds one 4,549,120-byte EXE (SHA-256
+`68424c75540640f6f37f8027d98985ddc65c82d2e66d00631439abc6faac93fd`)
+and passes all 74 GDI/DirectX bell-state checks, with 48 natural process exits.
+The same image then passes the forced real-caption control in
+[run 43796351005](https://github.com/xiongnemo/nemoterm/actions/runs/43796351005):
+45 actual caption clicks, 74 checks and 48 natural exits. The first forced
+caption run at this source, 43796085724, also passed the 74 native checks and
+44 clicks but the controller failed afterward because it required a
+`cursor_restored` record on every click. That record is conditional: Windows
+may move the pointer during activation. The corrected assertion remains strict
+on real focus, exact replies, process exit and bell behavior. Original ZIPs,
+member hashes and source/image identities are retained in
+`d3d11-fixed-hosted-validation.json`.
+
 The reproduction's unintended double clicks and off-screen caption candidates
-are deliberately unchanged for this comparison. Correcting preparation before
-replaying the product fix would remove the original trigger.
+were deliberately unchanged for this comparison. Correcting preparation before
+replaying the product fix would remove the original trigger. Those test-helper
+behaviors are separate cleanup work.
 
 This candidate is not an accepted distribution and does not resolve the separate
-historical MSVC tab-selection crash. Complete CI, native fixed-image replay and
-exact-product local acceptance remain required.
+historical MSVC tab-selection crash. Complete ordinary and single-image CI are
+still running, and exact-product local acceptance remains required.
