@@ -1,0 +1,2562 @@
+{
+  "archive": {
+    "path": "set-tcap-reference.tar.gz",
+    "bytes": 2402154,
+    "sha256": "57cab3c8f658f3f540b3ce2e48596bacc8119d4e7124e15f48aea98979f04881"
+  },
+  "captures": [
+    {
+      "stage": "set-tcap-reference-02",
+      "cases": 60,
+      "steps": 458,
+      "identity": {
+        "source_commit": "5c75ead9a75d4b2e666ca06fa94503b5766ed93f",
+        "source_directory": "/tmp/nemoterm-tcap-reference-1vb67sq_/source",
+        "configure": [
+          "./configure",
+          "--enable-wide-chars",
+          "--enable-sixel-graphics",
+          "--enable-tcap-fkeys",
+          "--disable-toolbar",
+          "--disable-luit"
+        ],
+        "executable_sha256": "5cf13eb0677c8f0a930ed80c7871c80edf50e19d0ec74106b391a3569b9fa15c",
+        "global_input": false,
+        "clipboard_access": false,
+        "private_display": true
+      }
+    },
+    {
+      "stage": "set-tcap-reference-03",
+      "cases": 71,
+      "steps": 568,
+      "identity": {
+        "source_commit": "5c75ead9a75d4b2e666ca06fa94503b5766ed93f",
+        "source_directory": "/tmp/nemoterm-tcap-reference-1vb67sq_/source",
+        "configure": [
+          "./configure",
+          "--enable-wide-chars",
+          "--enable-sixel-graphics",
+          "--enable-tcap-fkeys",
+          "--disable-toolbar",
+          "--disable-luit"
+        ],
+        "executable_sha256": "5cf13eb0677c8f0a930ed80c7871c80edf50e19d0ec74106b391a3569b9fa15c",
+        "global_input": false,
+        "clipboard_access": false,
+        "private_display": true
+      }
+    }
+  ],
+  "library_control": {
+    "source_sha256": "53166abf5fa5f14671fbbb783dafd11bec4f12c9029ba947ad174c0465402498",
+    "executable_sha256": "d2ab0e3f12cd2522440822d282510422f4c8ba8f976302bc11540f2e3843b154",
+    "library_packages": "libncurses-dev:amd64\t6.5+20250216-2\nlibtinfo6:amd64\t6.5+20250216-2\n",
+    "dependencies": "\tlinux-vdso.so.1 (0x00007fffe8693000)\n\tlibtinfo.so.6 => /lib/x86_64-linux-gnu/libtinfo.so.6 (0x00007faf2140a000)\n\tlibc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007faf21210000)\n\t/lib64/ld-linux-x86-64.so.2 (0x00007faf2144e000)\n",
+    "cases": {
+      "vt100": {
+        "exit_code": 0,
+        "stderr": "",
+        "snapshots": [
+          {
+            "phase": "initial-xterm",
+            "current_database": true,
+            "strings": {
+              "kf1": "1b4f50",
+              "kf5": "1b5b31357e",
+              "kf12": "1b5b32347e",
+              "kcuu1": "1b4f41",
+              "khome": "1b4f48",
+              "kent": "1b4f4d"
+            }
+          },
+          {
+            "phase": "after-setup-selected",
+            "current_database": true,
+            "strings": {
+              "kf1": "1b4f50",
+              "kf5": "1b4f74",
+              "kf12": null,
+              "kcuu1": "1b4f41",
+              "khome": null,
+              "kent": "1b4f4d"
+            }
+          },
+          {
+            "phase": "after-delete-current",
+            "current_database": false,
+            "strings": {
+              "kf1": null,
+              "kf5": null,
+              "kf12": null,
+              "kcuu1": null,
+              "khome": null,
+              "kent": null
+            }
+          },
+          {
+            "phase": "after-setup-again",
+            "current_database": true,
+            "strings": {
+              "kf1": "1b4f50",
+              "kf5": "1b4f74",
+              "kf12": null,
+              "kcuu1": "1b4f41",
+              "khome": null,
+              "kent": "1b4f4d"
+            }
+          }
+        ]
+      },
+      "linux": {
+        "exit_code": 0,
+        "stderr": "",
+        "snapshots": [
+          {
+            "phase": "initial-xterm",
+            "current_database": true,
+            "strings": {
+              "kf1": "1b4f50",
+              "kf5": "1b5b31357e",
+              "kf12": "1b5b32347e",
+              "kcuu1": "1b4f41",
+              "khome": "1b4f48",
+              "kent": "1b4f4d"
+            }
+          },
+          {
+            "phase": "after-setup-selected",
+            "current_database": true,
+            "strings": {
+              "kf1": "1b5b5b41",
+              "kf5": "1b5b5b45",
+              "kf12": "1b5b32347e",
+              "kcuu1": "1b5b41",
+              "khome": "1b5b317e",
+              "kent": null
+            }
+          },
+          {
+            "phase": "after-delete-current",
+            "current_database": false,
+            "strings": {
+              "kf1": null,
+              "kf5": null,
+              "kf12": null,
+              "kcuu1": null,
+              "khome": null,
+              "kent": null
+            }
+          },
+          {
+            "phase": "after-setup-again",
+            "current_database": true,
+            "strings": {
+              "kf1": "1b5b5b41",
+              "kf5": "1b5b5b45",
+              "kf12": "1b5b32347e",
+              "kcuu1": "1b5b41",
+              "khome": "1b5b317e",
+              "kent": null
+            }
+          }
+        ]
+      },
+      "xterm-256color": {
+        "exit_code": 0,
+        "stderr": "",
+        "snapshots": [
+          {
+            "phase": "initial-xterm",
+            "current_database": true,
+            "strings": {
+              "kf1": "1b4f50",
+              "kf5": "1b5b31357e",
+              "kf12": "1b5b32347e",
+              "kcuu1": "1b4f41",
+              "khome": "1b4f48",
+              "kent": "1b4f4d"
+            }
+          },
+          {
+            "phase": "after-setup-selected",
+            "current_database": true,
+            "strings": {
+              "kf1": "1b4f50",
+              "kf5": "1b5b31357e",
+              "kf12": "1b5b32347e",
+              "kcuu1": "1b4f41",
+              "khome": "1b4f48",
+              "kent": "1b4f4d"
+            }
+          },
+          {
+            "phase": "after-delete-current",
+            "current_database": false,
+            "strings": {
+              "kf1": null,
+              "kf5": null,
+              "kf12": null,
+              "kcuu1": null,
+              "khome": null,
+              "kent": null
+            }
+          },
+          {
+            "phase": "after-setup-again",
+            "current_database": true,
+            "strings": {
+              "kf1": "1b4f50",
+              "kf5": "1b5b31357e",
+              "kf12": "1b5b32347e",
+              "kcuu1": "1b4f41",
+              "khome": "1b4f48",
+              "kent": "1b4f4d"
+            }
+          }
+        ]
+      },
+      "screen": {
+        "exit_code": 0,
+        "stderr": "",
+        "snapshots": [
+          {
+            "phase": "initial-xterm",
+            "current_database": true,
+            "strings": {
+              "kf1": "1b4f50",
+              "kf5": "1b5b31357e",
+              "kf12": "1b5b32347e",
+              "kcuu1": "1b4f41",
+              "khome": "1b4f48",
+              "kent": "1b4f4d"
+            }
+          },
+          {
+            "phase": "after-setup-selected",
+            "current_database": true,
+            "strings": {
+              "kf1": "1b4f50",
+              "kf5": "1b5b31357e",
+              "kf12": "1b5b32347e",
+              "kcuu1": "1b4f41",
+              "khome": "1b5b317e",
+              "kent": null
+            }
+          },
+          {
+            "phase": "after-delete-current",
+            "current_database": false,
+            "strings": {
+              "kf1": null,
+              "kf5": null,
+              "kf12": null,
+              "kcuu1": null,
+              "khome": null,
+              "kent": null
+            }
+          },
+          {
+            "phase": "after-setup-again",
+            "current_database": true,
+            "strings": {
+              "kf1": "1b4f50",
+              "kf5": "1b5b31357e",
+              "kf12": "1b5b32347e",
+              "kcuu1": "1b4f41",
+              "khome": "1b5b317e",
+              "kent": null
+            }
+          }
+        ]
+      },
+      "tmux": {
+        "exit_code": 0,
+        "stderr": "",
+        "snapshots": [
+          {
+            "phase": "initial-xterm",
+            "current_database": true,
+            "strings": {
+              "kf1": "1b4f50",
+              "kf5": "1b5b31357e",
+              "kf12": "1b5b32347e",
+              "kcuu1": "1b4f41",
+              "khome": "1b4f48",
+              "kent": "1b4f4d"
+            }
+          },
+          {
+            "phase": "after-setup-selected",
+            "current_database": true,
+            "strings": {
+              "kf1": "1b4f50",
+              "kf5": "1b5b31357e",
+              "kf12": "1b5b32347e",
+              "kcuu1": "1b4f41",
+              "khome": "1b5b317e",
+              "kent": null
+            }
+          },
+          {
+            "phase": "after-delete-current",
+            "current_database": false,
+            "strings": {
+              "kf1": null,
+              "kf5": null,
+              "kf12": null,
+              "kcuu1": null,
+              "khome": null,
+              "kent": null
+            }
+          },
+          {
+            "phase": "after-setup-again",
+            "current_database": true,
+            "strings": {
+              "kf1": "1b4f50",
+              "kf5": "1b5b31357e",
+              "kf12": "1b5b32347e",
+              "kcuu1": "1b4f41",
+              "khome": "1b5b317e",
+              "kent": null
+            }
+          }
+        ]
+      }
+    }
+  },
+  "files": [
+    {
+      "path": "set-tcap-reference-01/build.log",
+      "bytes": 29072,
+      "sha256": "14b958e5cf09e42d98212608b40d60508f2d715518b666ebe6444586fe852aee"
+    },
+    {
+      "path": "set-tcap-reference-01/controller-initial.py",
+      "bytes": 2217,
+      "sha256": "d049ae80a532ff000d8ee4e57ddc83dd27626e4b8ccd4e6e3bfe97e566b86851"
+    },
+    {
+      "path": "set-tcap-reference-02/build.log",
+      "bytes": 29072,
+      "sha256": "14b958e5cf09e42d98212608b40d60508f2d715518b666ebe6444586fe852aee"
+    },
+    {
+      "path": "set-tcap-reference-02/capture-set-tcap-reference.py",
+      "bytes": 2989,
+      "sha256": "15617799b667d7efb1bc2d362599a2c2392c0442a65f6d31ab2e316ce8f92016"
+    },
+    {
+      "path": "set-tcap-reference-02/IDENTITY.json",
+      "bytes": 480,
+      "sha256": "bc42cea6418ef480d2e0b412456dda1714bfdda59a483ab8f2e9e8833f92706f"
+    },
+    {
+      "path": "set-tcap-reference-02/preprocessor-defines.txt",
+      "bytes": 210229,
+      "sha256": "4ef9d38aaf795cb32f0fac3682af9f32bc62f6f245c023f385b0a83f63c5c6dd"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/default-alacritty-68d38cd4/child.json",
+      "bytes": 351,
+      "sha256": "38bf0c67cac54e6b7dc6317c8f5dddbea13d26aa688aeb3479200dd82edc5228"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/default-alacritty-68d38cd4/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/default-alacritty-68d38cd4/observed.json",
+      "bytes": 7710,
+      "sha256": "f826fa88574026977a9ce16cf0e4270adbbd3cbb2d28ca10f8609af835f22992"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/default-control-0d11dde8/child.json",
+      "bytes": 69,
+      "sha256": "4a0b8b8b77618318730fe5cb797d585de5f35416985228fd59640cfae047fe06"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/default-control-0d11dde8/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/default-control-0d11dde8/observed.json",
+      "bytes": 2296,
+      "sha256": "2592aba2bf5d50b2421de7aace2fb671b0d1befab08b47c44f853ca3135e7e8f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/default-dumb-14fbb849/child.json",
+      "bytes": 351,
+      "sha256": "38bf0c67cac54e6b7dc6317c8f5dddbea13d26aa688aeb3479200dd82edc5228"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/default-dumb-14fbb849/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/default-dumb-14fbb849/observed.json",
+      "bytes": 7685,
+      "sha256": "4acbe34d91304d5b230164db95608b0aeaca1b4186d3dc89bae08dd2e6beeb03"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/default-linux-ab8b5290/child.json",
+      "bytes": 351,
+      "sha256": "38bf0c67cac54e6b7dc6317c8f5dddbea13d26aa688aeb3479200dd82edc5228"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/default-linux-ab8b5290/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/default-linux-ab8b5290/observed.json",
+      "bytes": 7690,
+      "sha256": "cd75b8996e0cd619beb05a27a5fbd13cd543c3d124e47ac096a41f3df2d4dac1"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/default-rxvt-unicode-256color-305a5d7d/child.json",
+      "bytes": 351,
+      "sha256": "38bf0c67cac54e6b7dc6317c8f5dddbea13d26aa688aeb3479200dd82edc5228"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/default-rxvt-unicode-256color-305a5d7d/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/default-rxvt-unicode-256color-305a5d7d/observed.json",
+      "bytes": 7770,
+      "sha256": "e3e56193581a605c2cbc25a9c86298db62ef7163a6db04e9d9e75c4bcbf62c8c"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/default-screen-256color-4eb0510a/child.json",
+      "bytes": 351,
+      "sha256": "38bf0c67cac54e6b7dc6317c8f5dddbea13d26aa688aeb3479200dd82edc5228"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/default-screen-256color-4eb0510a/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/default-screen-256color-4eb0510a/observed.json",
+      "bytes": 7740,
+      "sha256": "a26297eb1b55a51f51985a36dd1cc7f84ea4d6b8c29b0b400896689d780cc0d9"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/default-screen-bbb8a0e4/child.json",
+      "bytes": 351,
+      "sha256": "38bf0c67cac54e6b7dc6317c8f5dddbea13d26aa688aeb3479200dd82edc5228"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/default-screen-bbb8a0e4/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/default-screen-bbb8a0e4/observed.json",
+      "bytes": 7695,
+      "sha256": "6c6edd0a70fc50973921e50fd9c0b0ad7c0dd925a2176b8b609e634f4feaa44a"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/default-tmux-256color-6b1a374b/child.json",
+      "bytes": 351,
+      "sha256": "38bf0c67cac54e6b7dc6317c8f5dddbea13d26aa688aeb3479200dd82edc5228"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/default-tmux-256color-6b1a374b/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/default-tmux-256color-6b1a374b/observed.json",
+      "bytes": 7730,
+      "sha256": "8e6d471ccfa58bd20c42b22126042edb6a3aa013778140f3d4c0d78bec67526d"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/default-tmux-28cf2dcd/child.json",
+      "bytes": 351,
+      "sha256": "38bf0c67cac54e6b7dc6317c8f5dddbea13d26aa688aeb3479200dd82edc5228"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/default-tmux-28cf2dcd/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/default-tmux-28cf2dcd/observed.json",
+      "bytes": 7685,
+      "sha256": "7384b503f422566334a06d1cc25b44ac859d93b6420e6e14ad993f6dc5d79f5d"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/default-vt100-15f255ba/child.json",
+      "bytes": 351,
+      "sha256": "38bf0c67cac54e6b7dc6317c8f5dddbea13d26aa688aeb3479200dd82edc5228"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/default-vt100-15f255ba/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/default-vt100-15f255ba/observed.json",
+      "bytes": 7690,
+      "sha256": "18b0e5b2986a11d5ee14d390a3e9d3e08ae6110891b0b008f63af4480a9d7b3a"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/default-vt220-cfbf1743/child.json",
+      "bytes": 351,
+      "sha256": "38bf0c67cac54e6b7dc6317c8f5dddbea13d26aa688aeb3479200dd82edc5228"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/default-vt220-cfbf1743/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/default-vt220-cfbf1743/observed.json",
+      "bytes": 7690,
+      "sha256": "c989774921e71de8eae8dec56a9cf05fe2efb88135a02db4d708e0cd0b0b59e6"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/default-vt525-32e68445/child.json",
+      "bytes": 351,
+      "sha256": "38bf0c67cac54e6b7dc6317c8f5dddbea13d26aa688aeb3479200dd82edc5228"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/default-vt525-32e68445/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/default-vt525-32e68445/observed.json",
+      "bytes": 7690,
+      "sha256": "05a84eaac1303894af54dc09bab3bf611c0748f2771a0f890821b3f57140bf69"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/default-xterm-256color-4733a8dc/child.json",
+      "bytes": 351,
+      "sha256": "38bf0c67cac54e6b7dc6317c8f5dddbea13d26aa688aeb3479200dd82edc5228"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/default-xterm-256color-4733a8dc/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/default-xterm-256color-4733a8dc/observed.json",
+      "bytes": 7735,
+      "sha256": "250d891a3e1fcfa45401402c8f31c51204df9f90eed8a11644d0467ff0c02be2"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/default-xterm-aaf9e644/child.json",
+      "bytes": 351,
+      "sha256": "38bf0c67cac54e6b7dc6317c8f5dddbea13d26aa688aeb3479200dd82edc5228"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/default-xterm-aaf9e644/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/default-xterm-aaf9e644/observed.json",
+      "bytes": 7690,
+      "sha256": "c2a0794380c71ecf5f3fb489bb8e817b760cf5fc613ac5b992a57a02c3480cdf"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/default-xterm-kitty-dff80491/child.json",
+      "bytes": 351,
+      "sha256": "38bf0c67cac54e6b7dc6317c8f5dddbea13d26aa688aeb3479200dd82edc5228"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/default-xterm-kitty-dff80491/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/default-xterm-kitty-dff80491/observed.json",
+      "bytes": 7720,
+      "sha256": "85c10f31387d7846a8bf2577b53684d902b90569aa2b1f85b08f8ac4433fc10e"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-hex-37-a41c48c3/child.json",
+      "bytes": 333,
+      "sha256": "a144e0ea54206c5a16bc15d6a537faa8baf40113a540876ee5a7c06b6c94513e"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-hex-37-a41c48c3/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-hex-37-a41c48c3/observed.json",
+      "bytes": 2603,
+      "sha256": "17d2bb273465137f1938fbd158adbc139b4bdcf8a44acc598eee06cd75d41095"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-hex-373637343331333033303b36633639366537353738-c1e5f9d5/child.json",
+      "bytes": 333,
+      "sha256": "a144e0ea54206c5a16bc15d6a537faa8baf40113a540876ee5a7c06b6c94513e"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-hex-373637343331333033303b36633639366537353738-c1e5f9d5/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-hex-373637343331333033303b36633639366537353738-c1e5f9d5/observed.json",
+      "bytes": 2683,
+      "sha256": "78103f344607a36d5407b21a42d56ffc33f47840504908390b18f830b3885857"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-hex-373637343331333033303d3331-5c9f4be1/child.json",
+      "bytes": 333,
+      "sha256": "a144e0ea54206c5a16bc15d6a537faa8baf40113a540876ee5a7c06b6c94513e"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-hex-373637343331333033303d3331-5c9f4be1/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-hex-373637343331333033303d3331-5c9f4be1/observed.json",
+      "bytes": 2651,
+      "sha256": "90794bd58e282c5b0d2666b6e1f6b2d92934a6bd343a96b35a3f7a4764011e9c"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-hex-3736373433313330333078-9d764fe2/child.json",
+      "bytes": 333,
+      "sha256": "a144e0ea54206c5a16bc15d6a537faa8baf40113a540876ee5a7c06b6c94513e"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-hex-3736373433313330333078-9d764fe2/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-hex-3736373433313330333078-9d764fe2/observed.json",
+      "bytes": 2643,
+      "sha256": "378b587ae9f566b21207c369a6bd214da6d31c9f5a79c25b8574ddf46957f205"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-hex-7a7a-733d8042/child.json",
+      "bytes": 333,
+      "sha256": "a144e0ea54206c5a16bc15d6a537faa8baf40113a540876ee5a7c06b6c94513e"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-hex-7a7a-733d8042/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-hex-7a7a-733d8042/observed.json",
+      "bytes": 2607,
+      "sha256": "b32ce8a40e0b823e29a040288408989bce16ebbaa03d583cd53cbb3c29c3e56a"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-name-0-34d14160/child.json",
+      "bytes": 333,
+      "sha256": "a144e0ea54206c5a16bc15d6a537faa8baf40113a540876ee5a7c06b6c94513e"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-name-0-34d14160/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-name-0-34d14160/observed.json",
+      "bytes": 2601,
+      "sha256": "fc9df8fe49dde9b3883dbb13d54d56f86b609316c927f9e50251dd452967e3fd"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-name-1-258a7936/child.json",
+      "bytes": 333,
+      "sha256": "a144e0ea54206c5a16bc15d6a537faa8baf40113a540876ee5a7c06b6c94513e"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-name-1-258a7936/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-name-1-258a7936/observed.json",
+      "bytes": 2713,
+      "sha256": "5828932b9e2a0c10040bc50316a9ebd5ab3f4c22ff66c2ab7aa4c8791dbe896f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-name-10-6ab4a468/child.json",
+      "bytes": 333,
+      "sha256": "a144e0ea54206c5a16bc15d6a537faa8baf40113a540876ee5a7c06b6c94513e"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-name-10-6ab4a468/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-name-10-6ab4a468/observed.json",
+      "bytes": 2646,
+      "sha256": "a2e4212a46979894a6ec9401e3d9782bdfeed22a03a04d56cdcea6f3c0114286"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-name-11-ccca4ca7/child.json",
+      "bytes": 333,
+      "sha256": "a144e0ea54206c5a16bc15d6a537faa8baf40113a540876ee5a7c06b6c94513e"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-name-11-ccca4ca7/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-name-11-ccca4ca7/observed.json",
+      "bytes": 2626,
+      "sha256": "f00abaf047291d2fc1223e4d586980854f8ac90b9152c49ae46dbc83ea5b54dd"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-name-12-d8a7a770/child.json",
+      "bytes": 333,
+      "sha256": "a144e0ea54206c5a16bc15d6a537faa8baf40113a540876ee5a7c06b6c94513e"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-name-12-d8a7a770/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-name-12-d8a7a770/observed.json",
+      "bytes": 2606,
+      "sha256": "d36b265c0716ff8a2cec7809c208aa9492cf3961ba434029e0849a578152806a"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-name-13-73e78d67/child.json",
+      "bytes": 333,
+      "sha256": "a144e0ea54206c5a16bc15d6a537faa8baf40113a540876ee5a7c06b6c94513e"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-name-13-73e78d67/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-name-13-73e78d67/observed.json",
+      "bytes": 2606,
+      "sha256": "b14e18bd6bc3cbbe637a19c3b4a0c074126cd61f903b2c948746abc0309fb390"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-name-14-e268b8bc/child.json",
+      "bytes": 333,
+      "sha256": "a144e0ea54206c5a16bc15d6a537faa8baf40113a540876ee5a7c06b6c94513e"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-name-14-e268b8bc/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-name-14-e268b8bc/observed.json",
+      "bytes": 2726,
+      "sha256": "c98aa14c9e679a1fa6b0751251fd48c7cde19d7df9ccd032960c2a5cbe9f619a"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-name-15-33cb1941/child.json",
+      "bytes": 333,
+      "sha256": "a144e0ea54206c5a16bc15d6a537faa8baf40113a540876ee5a7c06b6c94513e"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-name-15-33cb1941/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-name-15-33cb1941/observed.json",
+      "bytes": 2730,
+      "sha256": "a1025ff4446c06d36f938b37071b46772ebf6bee3c23adeb3cc316fe00ea0bef"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-name-2-c387b3a8/child.json",
+      "bytes": 333,
+      "sha256": "a144e0ea54206c5a16bc15d6a537faa8baf40113a540876ee5a7c06b6c94513e"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-name-2-c387b3a8/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-name-2-c387b3a8/observed.json",
+      "bytes": 2621,
+      "sha256": "0aad668df545016f13ae50ea02bb8123bb3797d50816a13f58b737adad8c3b01"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-name-3-4b7a181a/child.json",
+      "bytes": 333,
+      "sha256": "a144e0ea54206c5a16bc15d6a537faa8baf40113a540876ee5a7c06b6c94513e"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-name-3-4b7a181a/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-name-3-4b7a181a/observed.json",
+      "bytes": 2625,
+      "sha256": "64b7754296cdf3cb6c4a447c2b9374d30f3fb783218bcdbe0045769372120fd4"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-name-4-84118d10/child.json",
+      "bytes": 333,
+      "sha256": "a144e0ea54206c5a16bc15d6a537faa8baf40113a540876ee5a7c06b6c94513e"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-name-4-84118d10/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-name-4-84118d10/observed.json",
+      "bytes": 2641,
+      "sha256": "c023bb214d9039a62103fc7a1fbbd6b7f9afd66a979fd7c2bad1b4d7a23a32fa"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-name-5-dc31789c/child.json",
+      "bytes": 333,
+      "sha256": "a144e0ea54206c5a16bc15d6a537faa8baf40113a540876ee5a7c06b6c94513e"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-name-5-dc31789c/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-name-5-dc31789c/observed.json",
+      "bytes": 2645,
+      "sha256": "38df2e884eeb7cb2ced395732a0954aca151581d2ff72ce761a8d7c25cf60acb"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-name-6-53add107/child.json",
+      "bytes": 333,
+      "sha256": "a144e0ea54206c5a16bc15d6a537faa8baf40113a540876ee5a7c06b6c94513e"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-name-6-53add107/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-name-6-53add107/observed.json",
+      "bytes": 2645,
+      "sha256": "c66a5ce6822a5b043174288fd042efd5e30fd07cbd46fb40d09223d2bf4749e2"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-name-7-c11c397a/child.json",
+      "bytes": 333,
+      "sha256": "a144e0ea54206c5a16bc15d6a537faa8baf40113a540876ee5a7c06b6c94513e"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-name-7-c11c397a/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-name-7-c11c397a/observed.json",
+      "bytes": 2633,
+      "sha256": "980b81490e05fb222bc7509f3ea6e2040dc9b3f69318e21a30abeeee1aa30035"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-name-8-440909a5/child.json",
+      "bytes": 333,
+      "sha256": "a144e0ea54206c5a16bc15d6a537faa8baf40113a540876ee5a7c06b6c94513e"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-name-8-440909a5/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-name-8-440909a5/observed.json",
+      "bytes": 2629,
+      "sha256": "13f38502cf005d81b31d8934ae1369dc3e31dfc77ee2de1591692fa7b99002b2"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-name-9-bae6aad5/child.json",
+      "bytes": 333,
+      "sha256": "a144e0ea54206c5a16bc15d6a537faa8baf40113a540876ee5a7c06b6c94513e"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-name-9-bae6aad5/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/invalid-name-9-bae6aad5/observed.json",
+      "bytes": 2645,
+      "sha256": "ec9c3617ea43cb4c21e51e87125036504a5b63841600ca33f1b2dfbb4a7f376d"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/lifetime-alternate-3c5033b5/child.json",
+      "bytes": 333,
+      "sha256": "a144e0ea54206c5a16bc15d6a537faa8baf40113a540876ee5a7c06b6c94513e"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/lifetime-alternate-3c5033b5/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/lifetime-alternate-3c5033b5/observed.json",
+      "bytes": 2847,
+      "sha256": "816de7e9ae1e79405a6484dacc1dbd019ec2b298e2d8b05d74c46bd9d116ea75"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/lifetime-cursor-130bece8/child.json",
+      "bytes": 333,
+      "sha256": "a144e0ea54206c5a16bc15d6a537faa8baf40113a540876ee5a7c06b6c94513e"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/lifetime-cursor-130bece8/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/lifetime-cursor-130bece8/observed.json",
+      "bytes": 2820,
+      "sha256": "947a9ca3b8083614cfdda38b1b88e830f5df8df42aa60cf4a3b2e00cc7eb7ff2"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/lifetime-level-86701906/child.json",
+      "bytes": 333,
+      "sha256": "a144e0ea54206c5a16bc15d6a537faa8baf40113a540876ee5a7c06b6c94513e"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/lifetime-level-86701906/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/lifetime-level-86701906/observed.json",
+      "bytes": 2827,
+      "sha256": "9121db50bb347aa6b12a92f06dc9a628e95b70cc557eda20408c3780aab78222"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/lifetime-ris-e9b2925f/child.json",
+      "bytes": 333,
+      "sha256": "a144e0ea54206c5a16bc15d6a537faa8baf40113a540876ee5a7c06b6c94513e"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/lifetime-ris-e9b2925f/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/lifetime-ris-e9b2925f/observed.json",
+      "bytes": 2813,
+      "sha256": "51a9dd14644b25f48bfeeb4fb6643c3d3a67a43370fcb78f285dd82d7424fbba"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/lifetime-soft-6579e81c/child.json",
+      "bytes": 333,
+      "sha256": "a144e0ea54206c5a16bc15d6a537faa8baf40113a540876ee5a7c06b6c94513e"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/lifetime-soft-6579e81c/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/lifetime-soft-6579e81c/observed.json",
+      "bytes": 2818,
+      "sha256": "90cf021e82d0917c3b7ce845af45cae6dda28c7dcffdf60085e076202bacf9d0"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/policy-getter-denied-d122f942/child.json",
+      "bytes": 69,
+      "sha256": "68127bc81515f37fd2ef82d188e33a802459b27671ec9ae6ca2d2452ce2ea4e8"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/policy-getter-denied-d122f942/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/policy-getter-denied-d122f942/observed.json",
+      "bytes": 1840,
+      "sha256": "34ef61dc61eeefbb1ff0b320cdfe2dc98f1dbd44d09affa77b2571b060248ef1"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/policy-master-denied-ace9a5e4/child.json",
+      "bytes": 69,
+      "sha256": "68127bc81515f37fd2ef82d188e33a802459b27671ec9ae6ca2d2452ce2ea4e8"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/policy-master-denied-ace9a5e4/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/policy-master-denied-ace9a5e4/observed.json",
+      "bytes": 1797,
+      "sha256": "67f31ccffa65afedf4ff025f9dd97499c1a4668799e5c1c9d7b2545f0de71bb5"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/policy-master-override-07ab5853/child.json",
+      "bytes": 333,
+      "sha256": "a144e0ea54206c5a16bc15d6a537faa8baf40113a540876ee5a7c06b6c94513e"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/policy-master-override-07ab5853/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/policy-master-override-07ab5853/observed.json",
+      "bytes": 2945,
+      "sha256": "45d5407d36ddcf2e912f5f3f63afe08d5aa17502059ee6a18c3518011e295785"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/policy-setter-denied-a3f8fcca/child.json",
+      "bytes": 357,
+      "sha256": "c935cabd9d222b11cb33e2a6af2ecd69dcca739fdce13af54e3c11e487935442"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/policy-setter-denied-a3f8fcca/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/policy-setter-denied-a3f8fcca/observed.json",
+      "bytes": 2992,
+      "sha256": "c9733ed0c186d068e9011f2771db1e66b6e09b0812f503a9b4e4ecab2c9efafa"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/tcap-alacritty-14c9ed39/child.json",
+      "bytes": 335,
+      "sha256": "b64ad629f5ee544c1de188b9b3ff8f1cde3619ef6e2853cc440d142cffb7ee3b"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/tcap-alacritty-14c9ed39/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/tcap-alacritty-14c9ed39/observed.json",
+      "bytes": 7709,
+      "sha256": "47bdc3dc00b36efe1556fadb85e60d828424563252b0029c01e30e1d2f000958"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/tcap-control-97e4e692/child.json",
+      "bytes": 69,
+      "sha256": "60c137e499fde1bfbd3a014fc922102d0f477c8a93a8a4091dbca896d6b0ae40"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/tcap-control-97e4e692/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/tcap-control-97e4e692/observed.json",
+      "bytes": 2303,
+      "sha256": "056b59d60421dd239c2f46f04cb9a929e6c7528f4dfa63d16ace24db28bda4c5"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/tcap-dumb-e24859bf/child.json",
+      "bytes": 335,
+      "sha256": "b64ad629f5ee544c1de188b9b3ff8f1cde3619ef6e2853cc440d142cffb7ee3b"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/tcap-dumb-e24859bf/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/tcap-dumb-e24859bf/observed.json",
+      "bytes": 7616,
+      "sha256": "4f5f986fdee26a542df7aac7b3780499bda7c9becc738252935ccf9f48dc2bc5"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/tcap-linux-65396a3d/child.json",
+      "bytes": 335,
+      "sha256": "b64ad629f5ee544c1de188b9b3ff8f1cde3619ef6e2853cc440d142cffb7ee3b"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/tcap-linux-65396a3d/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/tcap-linux-65396a3d/observed.json",
+      "bytes": 7621,
+      "sha256": "94a710f6afa68e640be73a8826c189c932d642cc576a72293f3758e797af215b"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/tcap-rxvt-unicode-256color-cf8cf913/child.json",
+      "bytes": 335,
+      "sha256": "b64ad629f5ee544c1de188b9b3ff8f1cde3619ef6e2853cc440d142cffb7ee3b"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/tcap-rxvt-unicode-256color-cf8cf913/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/tcap-rxvt-unicode-256color-cf8cf913/observed.json",
+      "bytes": 7701,
+      "sha256": "6b29b28d8731405005fa5758a67f3f764a8c151dbd2f8bf3be0d1cc11ccf9b91"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/tcap-screen-256color-e52a332f/child.json",
+      "bytes": 335,
+      "sha256": "b64ad629f5ee544c1de188b9b3ff8f1cde3619ef6e2853cc440d142cffb7ee3b"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/tcap-screen-256color-e52a332f/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/tcap-screen-256color-e52a332f/observed.json",
+      "bytes": 7671,
+      "sha256": "cac04b8e5005abdf5cdd5e37a520fc9ecef3075300abf4d9d550f6aea65de363"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/tcap-screen-ddf4c645/child.json",
+      "bytes": 335,
+      "sha256": "b64ad629f5ee544c1de188b9b3ff8f1cde3619ef6e2853cc440d142cffb7ee3b"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/tcap-screen-ddf4c645/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/tcap-screen-ddf4c645/observed.json",
+      "bytes": 7626,
+      "sha256": "0ac7014ae61010edfb01e52c56884546d3f2faa2b9a8fa98fbddfa6a5ed2f39f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/tcap-tmux-256color-b340641c/child.json",
+      "bytes": 335,
+      "sha256": "b64ad629f5ee544c1de188b9b3ff8f1cde3619ef6e2853cc440d142cffb7ee3b"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/tcap-tmux-256color-b340641c/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/tcap-tmux-256color-b340641c/observed.json",
+      "bytes": 7661,
+      "sha256": "a6a4c40c0f47bdf6d4308f88044e85e974bbbe478f9b4218583a3467800de2a5"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/tcap-tmux-3d72a0f1/child.json",
+      "bytes": 335,
+      "sha256": "b64ad629f5ee544c1de188b9b3ff8f1cde3619ef6e2853cc440d142cffb7ee3b"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/tcap-tmux-3d72a0f1/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/tcap-tmux-3d72a0f1/observed.json",
+      "bytes": 7616,
+      "sha256": "673ff7df8a2324146817262aed214848ff93eff41e818ef120f50f70aa79c9e8"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/tcap-vt100-7965d844/child.json",
+      "bytes": 335,
+      "sha256": "b64ad629f5ee544c1de188b9b3ff8f1cde3619ef6e2853cc440d142cffb7ee3b"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/tcap-vt100-7965d844/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/tcap-vt100-7965d844/observed.json",
+      "bytes": 7621,
+      "sha256": "95d7bed3671cb65e7c26fe67e7586c28732b8e17624f98b3c45b3497bcf490af"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/tcap-vt220-e748b7da/child.json",
+      "bytes": 335,
+      "sha256": "b64ad629f5ee544c1de188b9b3ff8f1cde3619ef6e2853cc440d142cffb7ee3b"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/tcap-vt220-e748b7da/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/tcap-vt220-e748b7da/observed.json",
+      "bytes": 7621,
+      "sha256": "2cad9926b8fd545d30f77e8930f1499198f5c685212b7f13e2b97e38adc5d082"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/tcap-vt525-42fa82a8/child.json",
+      "bytes": 335,
+      "sha256": "b64ad629f5ee544c1de188b9b3ff8f1cde3619ef6e2853cc440d142cffb7ee3b"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/tcap-vt525-42fa82a8/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/tcap-vt525-42fa82a8/observed.json",
+      "bytes": 7689,
+      "sha256": "25dafcb452983d000e3de96c3eb094f86f62ef6d07ba8d61fdb1d0b5a49d7a85"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/tcap-xterm-256color-f288525c/child.json",
+      "bytes": 335,
+      "sha256": "b64ad629f5ee544c1de188b9b3ff8f1cde3619ef6e2853cc440d142cffb7ee3b"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/tcap-xterm-256color-f288525c/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/tcap-xterm-256color-f288525c/observed.json",
+      "bytes": 7666,
+      "sha256": "61d6bb24b7f8fbb2a8ef1b1f3abb16cbc3ec09cf673e5fe7175458257dde5f7a"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/tcap-xterm-6a0e0d59/child.json",
+      "bytes": 335,
+      "sha256": "b64ad629f5ee544c1de188b9b3ff8f1cde3619ef6e2853cc440d142cffb7ee3b"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/tcap-xterm-6a0e0d59/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/tcap-xterm-6a0e0d59/observed.json",
+      "bytes": 7621,
+      "sha256": "9493f4258fe4c521ff315262163f9ccd77a5f67a481292f5de6837d4aa99b906"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/tcap-xterm-kitty-e01fd9e9/child.json",
+      "bytes": 335,
+      "sha256": "b64ad629f5ee544c1de188b9b3ff8f1cde3619ef6e2853cc440d142cffb7ee3b"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/tcap-xterm-kitty-e01fd9e9/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm/tcap-xterm-kitty-e01fd9e9/observed.json",
+      "bytes": 7719,
+      "sha256": "7f370701e32b4eea5cdcff8a59e8b1627b4f0cec8bdeb9735f4a03e25353c28d"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm-charproc.c",
+      "bytes": 413168,
+      "sha256": "c59a06ec6a3a243bfd1547e11dd0aa38e189e3256644ca6cfc43dc6810a4d325"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm-config.log",
+      "bytes": 93598,
+      "sha256": "8ec950ee5940b1025f0327959575e8f052d667120ecdc6c9f0c5fb80c4a1cb5a"
+    },
+    {
+      "path": "set-tcap-reference-02/XTERM-COPYING",
+      "bytes": 2606,
+      "sha256": "f272fa007de2cffdb22b4df09e9a3aaec3555d5a6913229b70006ee137ab22b5"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm-ctlseqs.txt",
+      "bytes": 164037,
+      "sha256": "364c1c1987c85b1c1135e57a93e9008054f46d09a338de8dcc66ea9a7c613709"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm-input.c",
+      "bytes": 62876,
+      "sha256": "835790ac9df59bff9953a21a973497300cc85a2d63a9d2a0cd2ff75e860fdc7b"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm-misc.c",
+      "bytes": 204947,
+      "sha256": "002b41ed6c74fd36d8a06bc55d6128625ebb24c117307b3dfbb9045d152ff8db"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm-version.h",
+      "bytes": 2050,
+      "sha256": "63b6f571bc5e7b78d9cac29cf1418f0f4f9458bb2aab7b06399fa44e68a9ca91"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm-xterm.man",
+      "bytes": 333772,
+      "sha256": "6d3bdddbf3f8e26937276eaf19355372413e075851dad132f2b441e77fc40800"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm-xtermcap.c",
+      "bytes": 16921,
+      "sha256": "4b41264cbbc480e0a41acf2989617e0395fd45c3b7eae226f54bd9f07954bc40"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm-xtermcfg.h",
+      "bytes": 13730,
+      "sha256": "d86d6e10498610da1e565a6f2f91cb80d211f989cb6a118e3622db87f06cba45"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm.json",
+      "bytes": 354950,
+      "sha256": "b773d8112a077595a0ce1a4da176f9291df3373c12ce2fcb31caaec666a8790b"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm_locator_oracle.py",
+      "bytes": 16791,
+      "sha256": "22e62aeafeec438ff6d500673bc70483a3e6d3d7ce148404300ba595d41508a3"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm_set_tcap_oracle.py",
+      "bytes": 5549,
+      "sha256": "ec0267a3fe09d4e7cb4072fc8b408bb10c049e29085035c73b3bb30e5bf3ac20"
+    },
+    {
+      "path": "set-tcap-reference-02/xterm_udk_oracle.py",
+      "bytes": 12460,
+      "sha256": "1f0a00557b2d71737a82792080a7cf4bec805bb4a3a2db5afc2d6dfeb8c57e46"
+    },
+    {
+      "path": "set-tcap-reference-03/build.log",
+      "bytes": 29072,
+      "sha256": "14b958e5cf09e42d98212608b40d60508f2d715518b666ebe6444586fe852aee"
+    },
+    {
+      "path": "set-tcap-reference-03/capture-set-tcap-reference.py",
+      "bytes": 2989,
+      "sha256": "15617799b667d7efb1bc2d362599a2c2392c0442a65f6d31ab2e316ce8f92016"
+    },
+    {
+      "path": "set-tcap-reference-03/IDENTITY.json",
+      "bytes": 480,
+      "sha256": "bc42cea6418ef480d2e0b412456dda1714bfdda59a483ab8f2e9e8833f92706f"
+    },
+    {
+      "path": "set-tcap-reference-03/preprocessor-defines.txt",
+      "bytes": 210229,
+      "sha256": "4ef9d38aaf795cb32f0fac3682af9f32bc62f6f245c023f385b0a83f63c5c6dd"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/default-alacritty-68d38cd4/child.json",
+      "bytes": 351,
+      "sha256": "38bf0c67cac54e6b7dc6317c8f5dddbea13d26aa688aeb3479200dd82edc5228"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/default-alacritty-68d38cd4/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/default-alacritty-68d38cd4/observed.json",
+      "bytes": 7710,
+      "sha256": "f826fa88574026977a9ce16cf0e4270adbbd3cbb2d28ca10f8609af835f22992"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/default-control-0d11dde8/child.json",
+      "bytes": 69,
+      "sha256": "4a0b8b8b77618318730fe5cb797d585de5f35416985228fd59640cfae047fe06"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/default-control-0d11dde8/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/default-control-0d11dde8/observed.json",
+      "bytes": 2296,
+      "sha256": "2592aba2bf5d50b2421de7aace2fb671b0d1befab08b47c44f853ca3135e7e8f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/default-dumb-14fbb849/child.json",
+      "bytes": 351,
+      "sha256": "38bf0c67cac54e6b7dc6317c8f5dddbea13d26aa688aeb3479200dd82edc5228"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/default-dumb-14fbb849/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/default-dumb-14fbb849/observed.json",
+      "bytes": 7685,
+      "sha256": "4acbe34d91304d5b230164db95608b0aeaca1b4186d3dc89bae08dd2e6beeb03"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/default-linux-ab8b5290/child.json",
+      "bytes": 351,
+      "sha256": "38bf0c67cac54e6b7dc6317c8f5dddbea13d26aa688aeb3479200dd82edc5228"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/default-linux-ab8b5290/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/default-linux-ab8b5290/observed.json",
+      "bytes": 7690,
+      "sha256": "cd75b8996e0cd619beb05a27a5fbd13cd543c3d124e47ac096a41f3df2d4dac1"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/default-rxvt-unicode-256color-305a5d7d/child.json",
+      "bytes": 351,
+      "sha256": "38bf0c67cac54e6b7dc6317c8f5dddbea13d26aa688aeb3479200dd82edc5228"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/default-rxvt-unicode-256color-305a5d7d/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/default-rxvt-unicode-256color-305a5d7d/observed.json",
+      "bytes": 7770,
+      "sha256": "e3e56193581a605c2cbc25a9c86298db62ef7163a6db04e9d9e75c4bcbf62c8c"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/default-screen-256color-4eb0510a/child.json",
+      "bytes": 351,
+      "sha256": "38bf0c67cac54e6b7dc6317c8f5dddbea13d26aa688aeb3479200dd82edc5228"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/default-screen-256color-4eb0510a/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/default-screen-256color-4eb0510a/observed.json",
+      "bytes": 7740,
+      "sha256": "a26297eb1b55a51f51985a36dd1cc7f84ea4d6b8c29b0b400896689d780cc0d9"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/default-screen-bbb8a0e4/child.json",
+      "bytes": 351,
+      "sha256": "38bf0c67cac54e6b7dc6317c8f5dddbea13d26aa688aeb3479200dd82edc5228"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/default-screen-bbb8a0e4/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/default-screen-bbb8a0e4/observed.json",
+      "bytes": 7695,
+      "sha256": "6c6edd0a70fc50973921e50fd9c0b0ad7c0dd925a2176b8b609e634f4feaa44a"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/default-tmux-256color-6b1a374b/child.json",
+      "bytes": 351,
+      "sha256": "38bf0c67cac54e6b7dc6317c8f5dddbea13d26aa688aeb3479200dd82edc5228"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/default-tmux-256color-6b1a374b/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/default-tmux-256color-6b1a374b/observed.json",
+      "bytes": 7730,
+      "sha256": "8e6d471ccfa58bd20c42b22126042edb6a3aa013778140f3d4c0d78bec67526d"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/default-tmux-28cf2dcd/child.json",
+      "bytes": 351,
+      "sha256": "38bf0c67cac54e6b7dc6317c8f5dddbea13d26aa688aeb3479200dd82edc5228"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/default-tmux-28cf2dcd/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/default-tmux-28cf2dcd/observed.json",
+      "bytes": 7685,
+      "sha256": "7384b503f422566334a06d1cc25b44ac859d93b6420e6e14ad993f6dc5d79f5d"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/default-vt100-15f255ba/child.json",
+      "bytes": 351,
+      "sha256": "38bf0c67cac54e6b7dc6317c8f5dddbea13d26aa688aeb3479200dd82edc5228"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/default-vt100-15f255ba/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/default-vt100-15f255ba/observed.json",
+      "bytes": 7690,
+      "sha256": "18b0e5b2986a11d5ee14d390a3e9d3e08ae6110891b0b008f63af4480a9d7b3a"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/default-vt220-cfbf1743/child.json",
+      "bytes": 351,
+      "sha256": "38bf0c67cac54e6b7dc6317c8f5dddbea13d26aa688aeb3479200dd82edc5228"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/default-vt220-cfbf1743/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/default-vt220-cfbf1743/observed.json",
+      "bytes": 7690,
+      "sha256": "c989774921e71de8eae8dec56a9cf05fe2efb88135a02db4d708e0cd0b0b59e6"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/default-vt525-32e68445/child.json",
+      "bytes": 351,
+      "sha256": "38bf0c67cac54e6b7dc6317c8f5dddbea13d26aa688aeb3479200dd82edc5228"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/default-vt525-32e68445/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/default-vt525-32e68445/observed.json",
+      "bytes": 7690,
+      "sha256": "05a84eaac1303894af54dc09bab3bf611c0748f2771a0f890821b3f57140bf69"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/default-xterm-256color-4733a8dc/child.json",
+      "bytes": 351,
+      "sha256": "38bf0c67cac54e6b7dc6317c8f5dddbea13d26aa688aeb3479200dd82edc5228"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/default-xterm-256color-4733a8dc/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/default-xterm-256color-4733a8dc/observed.json",
+      "bytes": 7735,
+      "sha256": "250d891a3e1fcfa45401402c8f31c51204df9f90eed8a11644d0467ff0c02be2"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/default-xterm-aaf9e644/child.json",
+      "bytes": 351,
+      "sha256": "38bf0c67cac54e6b7dc6317c8f5dddbea13d26aa688aeb3479200dd82edc5228"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/default-xterm-aaf9e644/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/default-xterm-aaf9e644/observed.json",
+      "bytes": 7690,
+      "sha256": "c2a0794380c71ecf5f3fb489bb8e817b760cf5fc613ac5b992a57a02c3480cdf"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/default-xterm-kitty-dff80491/child.json",
+      "bytes": 351,
+      "sha256": "38bf0c67cac54e6b7dc6317c8f5dddbea13d26aa688aeb3479200dd82edc5228"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/default-xterm-kitty-dff80491/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/default-xterm-kitty-dff80491/observed.json",
+      "bytes": 7720,
+      "sha256": "85c10f31387d7846a8bf2577b53684d902b90569aa2b1f85b08f8ac4433fc10e"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-hex-37-a41c48c3/child.json",
+      "bytes": 357,
+      "sha256": "1d4eb0cec4fff5b96903465eef4c6b9c90782b116c229fcb2d16555f5ce01228"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-hex-37-a41c48c3/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-hex-37-a41c48c3/observed.json",
+      "bytes": 2889,
+      "sha256": "63f1af2b5f58ecf5fc3cbe274513d5e815e02f66e3926a6f40632b5893e1faa8"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-hex-373637343331333033303b36633639366537353738-c1e5f9d5/child.json",
+      "bytes": 357,
+      "sha256": "1d4eb0cec4fff5b96903465eef4c6b9c90782b116c229fcb2d16555f5ce01228"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-hex-373637343331333033303b36633639366537353738-c1e5f9d5/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-hex-373637343331333033303b36633639366537353738-c1e5f9d5/observed.json",
+      "bytes": 2969,
+      "sha256": "dadc10cd722e9871c41e90f8cc693dade04f9ff9f064bd015f4983c4017d8d31"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-hex-373637343331333033303d3331-5c9f4be1/child.json",
+      "bytes": 357,
+      "sha256": "1d4eb0cec4fff5b96903465eef4c6b9c90782b116c229fcb2d16555f5ce01228"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-hex-373637343331333033303d3331-5c9f4be1/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-hex-373637343331333033303d3331-5c9f4be1/observed.json",
+      "bytes": 2937,
+      "sha256": "bad0283ceedae2609405d60aeb43766cedc1126d6aacdb59896e1409fcf2a71e"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-hex-3736373433313330333078-9d764fe2/child.json",
+      "bytes": 357,
+      "sha256": "1d4eb0cec4fff5b96903465eef4c6b9c90782b116c229fcb2d16555f5ce01228"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-hex-3736373433313330333078-9d764fe2/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-hex-3736373433313330333078-9d764fe2/observed.json",
+      "bytes": 2929,
+      "sha256": "bcc6f954d1f8e7dc5c11b9296829d743a32ff53030363d8bc43828edbb9352c4"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-hex-7a7a-733d8042/child.json",
+      "bytes": 357,
+      "sha256": "1d4eb0cec4fff5b96903465eef4c6b9c90782b116c229fcb2d16555f5ce01228"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-hex-7a7a-733d8042/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-hex-7a7a-733d8042/observed.json",
+      "bytes": 2893,
+      "sha256": "95bb426798ff34e56139a75345da743b7d4cf3b50ba28c78bbdda895ea3813be"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-name-0-34d14160/child.json",
+      "bytes": 357,
+      "sha256": "1d4eb0cec4fff5b96903465eef4c6b9c90782b116c229fcb2d16555f5ce01228"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-name-0-34d14160/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-name-0-34d14160/observed.json",
+      "bytes": 2887,
+      "sha256": "5ea0811d02aa5473fe38a6129dab7db04fb8864051a72b4076efbcaff64647b0"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-name-1-258a7936/child.json",
+      "bytes": 357,
+      "sha256": "1d4eb0cec4fff5b96903465eef4c6b9c90782b116c229fcb2d16555f5ce01228"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-name-1-258a7936/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-name-1-258a7936/observed.json",
+      "bytes": 2999,
+      "sha256": "37f130af6c130b28c0063a52501840ecfe30ef8ce03fccc6ec3cdbc9b094eeab"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-name-10-6ab4a468/child.json",
+      "bytes": 357,
+      "sha256": "1d4eb0cec4fff5b96903465eef4c6b9c90782b116c229fcb2d16555f5ce01228"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-name-10-6ab4a468/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-name-10-6ab4a468/observed.json",
+      "bytes": 2932,
+      "sha256": "cf981c2c5412adb129c4e0f3ee35da97d55e7c7804675b13dbd6df40fbdb0d65"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-name-11-ccca4ca7/child.json",
+      "bytes": 357,
+      "sha256": "1d4eb0cec4fff5b96903465eef4c6b9c90782b116c229fcb2d16555f5ce01228"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-name-11-ccca4ca7/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-name-11-ccca4ca7/observed.json",
+      "bytes": 2912,
+      "sha256": "2c824343e0f50366e523eb39e593222f7c243f4e700654f230af061884339998"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-name-12-d8a7a770/child.json",
+      "bytes": 357,
+      "sha256": "1d4eb0cec4fff5b96903465eef4c6b9c90782b116c229fcb2d16555f5ce01228"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-name-12-d8a7a770/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-name-12-d8a7a770/observed.json",
+      "bytes": 2892,
+      "sha256": "16600c0a7ae940b354a65035732719f00caf337f71c574a933c5ead4d98c5aa1"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-name-13-73e78d67/child.json",
+      "bytes": 357,
+      "sha256": "1d4eb0cec4fff5b96903465eef4c6b9c90782b116c229fcb2d16555f5ce01228"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-name-13-73e78d67/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-name-13-73e78d67/observed.json",
+      "bytes": 2892,
+      "sha256": "fe6c8b634e3e15422bebe813e8375385bdd693e5b4082474c3fcdef5ba6ce314"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-name-14-e268b8bc/child.json",
+      "bytes": 357,
+      "sha256": "1d4eb0cec4fff5b96903465eef4c6b9c90782b116c229fcb2d16555f5ce01228"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-name-14-e268b8bc/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-name-14-e268b8bc/observed.json",
+      "bytes": 3012,
+      "sha256": "faf239ed48cfb8e2a65f11ab7575476f08faddf825091909d24cc2a01906eff3"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-name-15-33cb1941/child.json",
+      "bytes": 357,
+      "sha256": "1d4eb0cec4fff5b96903465eef4c6b9c90782b116c229fcb2d16555f5ce01228"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-name-15-33cb1941/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-name-15-33cb1941/observed.json",
+      "bytes": 3016,
+      "sha256": "ad959776666e4830907a382ec8721357cb6c4bcd7ebf99bdd29968e19bd7881e"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-name-2-c387b3a8/child.json",
+      "bytes": 357,
+      "sha256": "1d4eb0cec4fff5b96903465eef4c6b9c90782b116c229fcb2d16555f5ce01228"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-name-2-c387b3a8/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-name-2-c387b3a8/observed.json",
+      "bytes": 2907,
+      "sha256": "ace704d7ac4b5e1529d185e1b3205444c50735b1cad61c5ad009776738e94189"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-name-3-4b7a181a/child.json",
+      "bytes": 357,
+      "sha256": "1d4eb0cec4fff5b96903465eef4c6b9c90782b116c229fcb2d16555f5ce01228"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-name-3-4b7a181a/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-name-3-4b7a181a/observed.json",
+      "bytes": 2911,
+      "sha256": "8040ea5739132afc9f7b6a54bb43f87fdcf61e44f7eaad3407f611e6c5b4f09d"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-name-4-84118d10/child.json",
+      "bytes": 333,
+      "sha256": "9febd0c468bf3b35fa1a9ff205a4cfd5eae48a499740ecf2257291b5e3e5ad99"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-name-4-84118d10/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-name-4-84118d10/observed.json",
+      "bytes": 2879,
+      "sha256": "09280b9040d28e13641c62f858181957500606281b9e70d441af6a744a16ce7c"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-name-5-dc31789c/child.json",
+      "bytes": 357,
+      "sha256": "1d4eb0cec4fff5b96903465eef4c6b9c90782b116c229fcb2d16555f5ce01228"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-name-5-dc31789c/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-name-5-dc31789c/observed.json",
+      "bytes": 2931,
+      "sha256": "14002c6e3e474b15f6ec7028aeda0f42e513c359f5f41ceb964302ee20cd3b60"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-name-6-53add107/child.json",
+      "bytes": 357,
+      "sha256": "1d4eb0cec4fff5b96903465eef4c6b9c90782b116c229fcb2d16555f5ce01228"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-name-6-53add107/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-name-6-53add107/observed.json",
+      "bytes": 2931,
+      "sha256": "e33da04c449dd76f2987470b58acc3868f7fb0d83cfff592cd85d5519d057810"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-name-7-c11c397a/child.json",
+      "bytes": 357,
+      "sha256": "1d4eb0cec4fff5b96903465eef4c6b9c90782b116c229fcb2d16555f5ce01228"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-name-7-c11c397a/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-name-7-c11c397a/observed.json",
+      "bytes": 2919,
+      "sha256": "86b9474e993ee997b570bd3d6d5ca339aa1387c791635c4768ebb96eb7b77f05"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-name-8-440909a5/child.json",
+      "bytes": 357,
+      "sha256": "1d4eb0cec4fff5b96903465eef4c6b9c90782b116c229fcb2d16555f5ce01228"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-name-8-440909a5/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-name-8-440909a5/observed.json",
+      "bytes": 2915,
+      "sha256": "fc68f842b35b2c4ff827910633b79a6d4308536ff6f3d8ed2522429687920504"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-name-9-bae6aad5/child.json",
+      "bytes": 357,
+      "sha256": "1d4eb0cec4fff5b96903465eef4c6b9c90782b116c229fcb2d16555f5ce01228"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-name-9-bae6aad5/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/invalid-name-9-bae6aad5/observed.json",
+      "bytes": 2931,
+      "sha256": "514151427e6d5623f0d46adffd1ba4a5829e6d1b6f0055f4791a8d6c09299375"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/lifetime-alternate-3c5033b5/child.json",
+      "bytes": 333,
+      "sha256": "a144e0ea54206c5a16bc15d6a537faa8baf40113a540876ee5a7c06b6c94513e"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/lifetime-alternate-3c5033b5/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/lifetime-alternate-3c5033b5/observed.json",
+      "bytes": 2847,
+      "sha256": "816de7e9ae1e79405a6484dacc1dbd019ec2b298e2d8b05d74c46bd9d116ea75"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/lifetime-cursor-130bece8/child.json",
+      "bytes": 333,
+      "sha256": "a144e0ea54206c5a16bc15d6a537faa8baf40113a540876ee5a7c06b6c94513e"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/lifetime-cursor-130bece8/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/lifetime-cursor-130bece8/observed.json",
+      "bytes": 2820,
+      "sha256": "947a9ca3b8083614cfdda38b1b88e830f5df8df42aa60cf4a3b2e00cc7eb7ff2"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/lifetime-level-86701906/child.json",
+      "bytes": 333,
+      "sha256": "a144e0ea54206c5a16bc15d6a537faa8baf40113a540876ee5a7c06b6c94513e"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/lifetime-level-86701906/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/lifetime-level-86701906/observed.json",
+      "bytes": 2827,
+      "sha256": "9121db50bb347aa6b12a92f06dc9a628e95b70cc557eda20408c3780aab78222"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/lifetime-ris-e9b2925f/child.json",
+      "bytes": 333,
+      "sha256": "a144e0ea54206c5a16bc15d6a537faa8baf40113a540876ee5a7c06b6c94513e"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/lifetime-ris-e9b2925f/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/lifetime-ris-e9b2925f/observed.json",
+      "bytes": 2813,
+      "sha256": "51a9dd14644b25f48bfeeb4fb6643c3d3a67a43370fcb78f285dd82d7424fbba"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/lifetime-soft-6579e81c/child.json",
+      "bytes": 333,
+      "sha256": "a144e0ea54206c5a16bc15d6a537faa8baf40113a540876ee5a7c06b6c94513e"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/lifetime-soft-6579e81c/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/lifetime-soft-6579e81c/observed.json",
+      "bytes": 2818,
+      "sha256": "90cf021e82d0917c3b7ce845af45cae6dda28c7dcffdf60085e076202bacf9d0"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/policy-getter-denied-d122f942/child.json",
+      "bytes": 69,
+      "sha256": "b80509a75c0ef6665be4a4eb1989677bbd16fa1b8cfb188a3e870fe530320674"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/policy-getter-denied-d122f942/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/policy-getter-denied-d122f942/observed.json",
+      "bytes": 1840,
+      "sha256": "12a83b77d207eefd27cf63ed2a08590c51dc5edb7c2634d93ac74c6e5374da8b"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/policy-master-denied-ace9a5e4/child.json",
+      "bytes": 69,
+      "sha256": "ed783359ad7262dc1b2b41105bd9a7a4c31b41f4ac3726db7f7ce8daec7f34c7"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/policy-master-denied-ace9a5e4/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/policy-master-denied-ace9a5e4/observed.json",
+      "bytes": 1797,
+      "sha256": "4dd9d540c067653c52ec272476d52d8f83d377000a164276ad990e1723eff259"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/policy-master-override-07ab5853/child.json",
+      "bytes": 333,
+      "sha256": "9febd0c468bf3b35fa1a9ff205a4cfd5eae48a499740ecf2257291b5e3e5ad99"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/policy-master-override-07ab5853/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/policy-master-override-07ab5853/observed.json",
+      "bytes": 2945,
+      "sha256": "41e4ef3289fdab19c6760cccc10ea2c43a058c12ac7b86e600e0d6d7cebc29ef"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/policy-setter-denied-a3f8fcca/child.json",
+      "bytes": 357,
+      "sha256": "1d4eb0cec4fff5b96903465eef4c6b9c90782b116c229fcb2d16555f5ce01228"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/policy-setter-denied-a3f8fcca/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/policy-setter-denied-a3f8fcca/observed.json",
+      "bytes": 2992,
+      "sha256": "b921604f1c34f37d126584b09c9e9b409774024f1485c86b6d70bf1f1447b660"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/startup-dumb-52985e9c/child.json",
+      "bytes": 66,
+      "sha256": "886ca27f634085a78e085d46cf969f237c56baab5f260716b7510a5220f2aa85"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/startup-dumb-52985e9c/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/startup-dumb-52985e9c/observed.json",
+      "bytes": 4772,
+      "sha256": "38b9ae1097272aad6381f3d0841abb9a068e6e74bbbdce7e0bc95ca5b49e6390"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/startup-linux-84ed6324/child.json",
+      "bytes": 66,
+      "sha256": "886ca27f634085a78e085d46cf969f237c56baab5f260716b7510a5220f2aa85"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/startup-linux-84ed6324/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/startup-linux-84ed6324/observed.json",
+      "bytes": 4838,
+      "sha256": "09a7a323558c59706ca2ac9d8208f014c492d6d73e5a5136c6b7f1cda3b42ac6"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/startup-rxvt-unicode-256color-f50a952c/child.json",
+      "bytes": 70,
+      "sha256": "37c620323da9e515e94b40a588a7718db7745106eb24fcd10208343e3fda01d6"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/startup-rxvt-unicode-256color-f50a952c/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/startup-rxvt-unicode-256color-f50a952c/observed.json",
+      "bytes": 5046,
+      "sha256": "573b70526b92d37997a3356ff16689fd83818fa252f2966ecc051b50e193431d"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/startup-screen-256color-f12ffdba/child.json",
+      "bytes": 66,
+      "sha256": "886ca27f634085a78e085d46cf969f237c56baab5f260716b7510a5220f2aa85"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/startup-screen-256color-f12ffdba/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/startup-screen-256color-f12ffdba/observed.json",
+      "bytes": 4938,
+      "sha256": "6af5846f7bcb9566f5a0bae78b9e2cee79e5f308a1d4f84e92fd93ebbabe25ac"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/startup-screen-e07d40f8/child.json",
+      "bytes": 66,
+      "sha256": "886ca27f634085a78e085d46cf969f237c56baab5f260716b7510a5220f2aa85"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/startup-screen-e07d40f8/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/startup-screen-e07d40f8/observed.json",
+      "bytes": 4848,
+      "sha256": "37f95eb5b835cb6beb1db530eb7c8225d8dabde93bf36097fa0d4548d4c92516"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/startup-tmux-256color-1e6a7abc/child.json",
+      "bytes": 66,
+      "sha256": "886ca27f634085a78e085d46cf969f237c56baab5f260716b7510a5220f2aa85"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/startup-tmux-256color-1e6a7abc/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/startup-tmux-256color-1e6a7abc/observed.json",
+      "bytes": 4918,
+      "sha256": "2d09b536be5e1f144dea96b0d1551916e9c0b36e7c5108f090452949781470b3"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/startup-tmux-bf456bf1/child.json",
+      "bytes": 66,
+      "sha256": "886ca27f634085a78e085d46cf969f237c56baab5f260716b7510a5220f2aa85"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/startup-tmux-bf456bf1/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/startup-tmux-bf456bf1/observed.json",
+      "bytes": 4828,
+      "sha256": "893584e36bd8cef4d5099c47ab9578804da3baf0806521c577ee9869d2352852"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/startup-vt100-4ab3820e/child.json",
+      "bytes": 70,
+      "sha256": "37c620323da9e515e94b40a588a7718db7745106eb24fcd10208343e3fda01d6"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/startup-vt100-4ab3820e/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/startup-vt100-4ab3820e/observed.json",
+      "bytes": 4782,
+      "sha256": "23b1070f822cfd151082b8048296592d00a4e28e46411213fcf6c264fb6d1e58"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/startup-vt220-9ee08850/child.json",
+      "bytes": 66,
+      "sha256": "886ca27f634085a78e085d46cf969f237c56baab5f260716b7510a5220f2aa85"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/startup-vt220-9ee08850/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/startup-vt220-9ee08850/observed.json",
+      "bytes": 4826,
+      "sha256": "26518e4a5ff94b9a9308a81b9cee0173b8a985720eefce7b1eb6403721e7754a"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/startup-xterm-256color-6f5aafcb/child.json",
+      "bytes": 70,
+      "sha256": "37c620323da9e515e94b40a588a7718db7745106eb24fcd10208343e3fda01d6"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/startup-xterm-256color-6f5aafcb/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/startup-xterm-256color-6f5aafcb/observed.json",
+      "bytes": 4940,
+      "sha256": "c7f98d8e6ef283843287ac897718997a623afea55bcb441352f721bbcb923dfa"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/startup-xterm-f59d79f7/child.json",
+      "bytes": 70,
+      "sha256": "37c620323da9e515e94b40a588a7718db7745106eb24fcd10208343e3fda01d6"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/startup-xterm-f59d79f7/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/startup-xterm-f59d79f7/observed.json",
+      "bytes": 4850,
+      "sha256": "8f79652df9eaccaeb4a740f80fd2467cd8969dcaf9eb4aeac8fe9036ea92cc19"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/tcap-alacritty-14c9ed39/child.json",
+      "bytes": 335,
+      "sha256": "b64ad629f5ee544c1de188b9b3ff8f1cde3619ef6e2853cc440d142cffb7ee3b"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/tcap-alacritty-14c9ed39/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/tcap-alacritty-14c9ed39/observed.json",
+      "bytes": 7709,
+      "sha256": "47bdc3dc00b36efe1556fadb85e60d828424563252b0029c01e30e1d2f000958"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/tcap-control-97e4e692/child.json",
+      "bytes": 69,
+      "sha256": "60c137e499fde1bfbd3a014fc922102d0f477c8a93a8a4091dbca896d6b0ae40"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/tcap-control-97e4e692/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/tcap-control-97e4e692/observed.json",
+      "bytes": 2303,
+      "sha256": "056b59d60421dd239c2f46f04cb9a929e6c7528f4dfa63d16ace24db28bda4c5"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/tcap-dumb-e24859bf/child.json",
+      "bytes": 335,
+      "sha256": "b64ad629f5ee544c1de188b9b3ff8f1cde3619ef6e2853cc440d142cffb7ee3b"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/tcap-dumb-e24859bf/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/tcap-dumb-e24859bf/observed.json",
+      "bytes": 7616,
+      "sha256": "4f5f986fdee26a542df7aac7b3780499bda7c9becc738252935ccf9f48dc2bc5"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/tcap-linux-65396a3d/child.json",
+      "bytes": 335,
+      "sha256": "b64ad629f5ee544c1de188b9b3ff8f1cde3619ef6e2853cc440d142cffb7ee3b"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/tcap-linux-65396a3d/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/tcap-linux-65396a3d/observed.json",
+      "bytes": 7621,
+      "sha256": "94a710f6afa68e640be73a8826c189c932d642cc576a72293f3758e797af215b"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/tcap-rxvt-unicode-256color-cf8cf913/child.json",
+      "bytes": 335,
+      "sha256": "b64ad629f5ee544c1de188b9b3ff8f1cde3619ef6e2853cc440d142cffb7ee3b"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/tcap-rxvt-unicode-256color-cf8cf913/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/tcap-rxvt-unicode-256color-cf8cf913/observed.json",
+      "bytes": 7701,
+      "sha256": "6b29b28d8731405005fa5758a67f3f764a8c151dbd2f8bf3be0d1cc11ccf9b91"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/tcap-screen-256color-e52a332f/child.json",
+      "bytes": 335,
+      "sha256": "b64ad629f5ee544c1de188b9b3ff8f1cde3619ef6e2853cc440d142cffb7ee3b"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/tcap-screen-256color-e52a332f/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/tcap-screen-256color-e52a332f/observed.json",
+      "bytes": 7671,
+      "sha256": "cac04b8e5005abdf5cdd5e37a520fc9ecef3075300abf4d9d550f6aea65de363"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/tcap-screen-ddf4c645/child.json",
+      "bytes": 335,
+      "sha256": "b64ad629f5ee544c1de188b9b3ff8f1cde3619ef6e2853cc440d142cffb7ee3b"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/tcap-screen-ddf4c645/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/tcap-screen-ddf4c645/observed.json",
+      "bytes": 7626,
+      "sha256": "0ac7014ae61010edfb01e52c56884546d3f2faa2b9a8fa98fbddfa6a5ed2f39f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/tcap-tmux-256color-b340641c/child.json",
+      "bytes": 335,
+      "sha256": "b64ad629f5ee544c1de188b9b3ff8f1cde3619ef6e2853cc440d142cffb7ee3b"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/tcap-tmux-256color-b340641c/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/tcap-tmux-256color-b340641c/observed.json",
+      "bytes": 7661,
+      "sha256": "a6a4c40c0f47bdf6d4308f88044e85e974bbbe478f9b4218583a3467800de2a5"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/tcap-tmux-3d72a0f1/child.json",
+      "bytes": 335,
+      "sha256": "b64ad629f5ee544c1de188b9b3ff8f1cde3619ef6e2853cc440d142cffb7ee3b"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/tcap-tmux-3d72a0f1/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/tcap-tmux-3d72a0f1/observed.json",
+      "bytes": 7616,
+      "sha256": "673ff7df8a2324146817262aed214848ff93eff41e818ef120f50f70aa79c9e8"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/tcap-vt100-7965d844/child.json",
+      "bytes": 335,
+      "sha256": "b64ad629f5ee544c1de188b9b3ff8f1cde3619ef6e2853cc440d142cffb7ee3b"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/tcap-vt100-7965d844/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/tcap-vt100-7965d844/observed.json",
+      "bytes": 7621,
+      "sha256": "95d7bed3671cb65e7c26fe67e7586c28732b8e17624f98b3c45b3497bcf490af"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/tcap-vt220-e748b7da/child.json",
+      "bytes": 335,
+      "sha256": "b64ad629f5ee544c1de188b9b3ff8f1cde3619ef6e2853cc440d142cffb7ee3b"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/tcap-vt220-e748b7da/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/tcap-vt220-e748b7da/observed.json",
+      "bytes": 7621,
+      "sha256": "2cad9926b8fd545d30f77e8930f1499198f5c685212b7f13e2b97e38adc5d082"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/tcap-vt525-42fa82a8/child.json",
+      "bytes": 335,
+      "sha256": "b64ad629f5ee544c1de188b9b3ff8f1cde3619ef6e2853cc440d142cffb7ee3b"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/tcap-vt525-42fa82a8/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/tcap-vt525-42fa82a8/observed.json",
+      "bytes": 7689,
+      "sha256": "25dafcb452983d000e3de96c3eb094f86f62ef6d07ba8d61fdb1d0b5a49d7a85"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/tcap-xterm-256color-f288525c/child.json",
+      "bytes": 335,
+      "sha256": "b64ad629f5ee544c1de188b9b3ff8f1cde3619ef6e2853cc440d142cffb7ee3b"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/tcap-xterm-256color-f288525c/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/tcap-xterm-256color-f288525c/observed.json",
+      "bytes": 7666,
+      "sha256": "61d6bb24b7f8fbb2a8ef1b1f3abb16cbc3ec09cf673e5fe7175458257dde5f7a"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/tcap-xterm-6a0e0d59/child.json",
+      "bytes": 335,
+      "sha256": "b64ad629f5ee544c1de188b9b3ff8f1cde3619ef6e2853cc440d142cffb7ee3b"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/tcap-xterm-6a0e0d59/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/tcap-xterm-6a0e0d59/observed.json",
+      "bytes": 7621,
+      "sha256": "9493f4258fe4c521ff315262163f9ccd77a5f67a481292f5de6837d4aa99b906"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/tcap-xterm-kitty-e01fd9e9/child.json",
+      "bytes": 335,
+      "sha256": "b64ad629f5ee544c1de188b9b3ff8f1cde3619ef6e2853cc440d142cffb7ee3b"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/tcap-xterm-kitty-e01fd9e9/control.json",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm/tcap-xterm-kitty-e01fd9e9/observed.json",
+      "bytes": 7719,
+      "sha256": "7f370701e32b4eea5cdcff8a59e8b1627b4f0cec8bdeb9735f4a03e25353c28d"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm-charproc.c",
+      "bytes": 413168,
+      "sha256": "c59a06ec6a3a243bfd1547e11dd0aa38e189e3256644ca6cfc43dc6810a4d325"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm-config.log",
+      "bytes": 93598,
+      "sha256": "8ec950ee5940b1025f0327959575e8f052d667120ecdc6c9f0c5fb80c4a1cb5a"
+    },
+    {
+      "path": "set-tcap-reference-03/XTERM-COPYING",
+      "bytes": 2606,
+      "sha256": "f272fa007de2cffdb22b4df09e9a3aaec3555d5a6913229b70006ee137ab22b5"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm-ctlseqs.txt",
+      "bytes": 164037,
+      "sha256": "364c1c1987c85b1c1135e57a93e9008054f46d09a338de8dcc66ea9a7c613709"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm-executable",
+      "bytes": 3232336,
+      "sha256": "5cf13eb0677c8f0a930ed80c7871c80edf50e19d0ec74106b391a3569b9fa15c"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm-input.c",
+      "bytes": 62876,
+      "sha256": "835790ac9df59bff9953a21a973497300cc85a2d63a9d2a0cd2ff75e860fdc7b"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm-misc.c",
+      "bytes": 204947,
+      "sha256": "002b41ed6c74fd36d8a06bc55d6128625ebb24c117307b3dfbb9045d152ff8db"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm-version.h",
+      "bytes": 2050,
+      "sha256": "63b6f571bc5e7b78d9cac29cf1418f0f4f9458bb2aab7b06399fa44e68a9ca91"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm-xterm.man",
+      "bytes": 333772,
+      "sha256": "6d3bdddbf3f8e26937276eaf19355372413e075851dad132f2b441e77fc40800"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm-xtermcap.c",
+      "bytes": 16921,
+      "sha256": "4b41264cbbc480e0a41acf2989617e0395fd45c3b7eae226f54bd9f07954bc40"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm-xtermcfg.h",
+      "bytes": 13730,
+      "sha256": "d86d6e10498610da1e565a6f2f91cb80d211f989cb6a118e3622db87f06cba45"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm.json",
+      "bytes": 414745,
+      "sha256": "eee140a0c550d679939fc328d1f2b29c0e410c99005bf7d22cbd58b13d43d82a"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm_locator_oracle.py",
+      "bytes": 16791,
+      "sha256": "22e62aeafeec438ff6d500673bc70483a3e6d3d7ce148404300ba595d41508a3"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm_set_tcap_oracle.py",
+      "bytes": 5808,
+      "sha256": "aa4032238e74b3cbc7998236defc0b0368bd69a01f6290fe9fff65e66659802e"
+    },
+    {
+      "path": "set-tcap-reference-03/xterm_udk_oracle.py",
+      "bytes": 12460,
+      "sha256": "1f0a00557b2d71737a82792080a7cf4bec805bb4a3a2db5afc2d6dfeb8c57e46"
+    },
+    {
+      "path": "tcap-library-lifetime-01/build.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "tcap-library-lifetime-01/linux.jsonl",
+      "bytes": 647,
+      "sha256": "b17a43687ee1aa04870304b777e21162e32b6b2d95e8d4ee3101c3c61829a0d0"
+    },
+    {
+      "path": "tcap-library-lifetime-01/probe",
+      "bytes": 16520,
+      "sha256": "d2ab0e3f12cd2522440822d282510422f4c8ba8f976302bc11540f2e3843b154"
+    },
+    {
+      "path": "tcap-library-lifetime-01/probe-tcap-library.py",
+      "bytes": 1795,
+      "sha256": "e5e3b03344510e89fc9d84d80d7d7edd84ee7a4b458430f81d1f67716a515f95"
+    },
+    {
+      "path": "tcap-library-lifetime-01/results.json",
+      "bytes": 7215,
+      "sha256": "b60258888f1c73703cc7e36fd952f7f1e0d9b7234409e16dc5c097717f6d2417"
+    },
+    {
+      "path": "tcap-library-lifetime-01/screen.jsonl",
+      "bytes": 647,
+      "sha256": "95d77ea1ddb9469b7874840c3a093ae39b5e3c1611ded2d15b5ff23dfd9aa5ef"
+    },
+    {
+      "path": "tcap-library-lifetime-01/tcap_library_probe.c",
+      "bytes": 1455,
+      "sha256": "53166abf5fa5f14671fbbb783dafd11bec4f12c9029ba947ad174c0465402498"
+    },
+    {
+      "path": "tcap-library-lifetime-01/tmux.jsonl",
+      "bytes": 647,
+      "sha256": "95d77ea1ddb9469b7874840c3a093ae39b5e3c1611ded2d15b5ff23dfd9aa5ef"
+    },
+    {
+      "path": "tcap-library-lifetime-01/vt100.jsonl",
+      "bytes": 619,
+      "sha256": "d870979e3bcb41c1b0f72d831598b51ac96715b09eca4c7839784cedb9cab8c3"
+    },
+    {
+      "path": "tcap-library-lifetime-01/xterm-256color.jsonl",
+      "bytes": 651,
+      "sha256": "3e3ba6195c0c67999a383c6fb5f9750178e0e4e90f8ef4f8497e39d82a4df6dc"
+    },
+    {
+      "path": "final-source/research/set-tcap-reference.md",
+      "bytes": 5103,
+      "sha256": "21e2e7b38574ac4bcf4890c9bcc5e8485aca1037101ed83fc09eb54ad1e5507e"
+    },
+    {
+      "path": "final-source/tests/xterm_set_tcap_oracle.py",
+      "bytes": 5808,
+      "sha256": "aa4032238e74b3cbc7998236defc0b0368bd69a01f6290fe9fff65e66659802e"
+    },
+    {
+      "path": "final-source/tests/tcap_library_probe.c",
+      "bytes": 1455,
+      "sha256": "53166abf5fa5f14671fbbb783dafd11bec4f12c9029ba947ad174c0465402498"
+    },
+    {
+      "path": "retain.py",
+      "bytes": 2901,
+      "sha256": "dd1a29985e030dbe348fca525dea1ec6de2f240247c9eb7c94b5fd7d4be7f6e7"
+    }
+  ],
+  "scope": "Unmodified XTerm and independent ncurses observations only; no Nemoterm implementation or acceptance"
+}
