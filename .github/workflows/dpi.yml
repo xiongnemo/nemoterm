@@ -72,6 +72,8 @@ jobs:
           Enter-VsDevShell -VsInstallPath $vs -SkipAutomaticLocation -DevCmdArguments '-arch=x64 -host_arch=x64'
           cl /nologo /W4 /WX /EHsc /std:c++17 tests/dpi_display_probe.cpp /Febuild/dpi-check/build/dpi-display.exe /Fobuild/dpi-check/build/dpi-display.obj user32.lib
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          cl /nologo /W4 /WX /EHsc /std:c++17 tests/dpi_settings_probe.cpp /Febuild/dpi-check/build/dpi-settings.exe /Fobuild/dpi-check/build/dpi-settings.obj user32.lib ole32.lib oleaut32.lib uiautomationcore.lib uuid.lib
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
           & build/dpi-check/build/dpi-display.exe | Tee-Object build/dpi-check/research/display-environment.json
           exit $LASTEXITCODE
       - name: Synthetic terminal and input-method DPI transitions

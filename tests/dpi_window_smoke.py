@@ -64,11 +64,20 @@ def dialog_window(pid):
     u.EnumWindows(visit,0)
     return next(iter(found),None)
 def inspect_settings(process,hwnd,dpi,prefix):
-    result=subprocess.run(['powershell.exe','-NoProfile','-File',str(root/'tests/dpi_settings_probe.ps1'),
-        '-ProcessId',str(process.pid),'-DialogHwnd',str(hwnd),'-ExpectedDpi',str(dpi),'-Prefix',prefix],
-        capture_output=True,text=True,timeout=100)
-    (root/'research'/f'{prefix}-settings.log').write_text(result.stdout+result.stderr,encoding='utf-8')
-    assert result.returncode==0,(prefix,'settings assertions failed; see settings log')
+    evidence=dict(completed=False,expected_dpi=dpi,hwnd=hwnd,pages=[],ui_language='en',client='native UIAutomation')
+    try:
+        for page in ('profile','shell','bell','bell-overload','bindings','font','tabs'):
+            result=subprocess.run([str(helper_path.with_name('dpi-settings.exe')),str(process.pid),str(hwnd),str(dpi),page],
+                capture_output=True,text=True,timeout=20)
+            (root/'research'/f'{prefix}-{page}.log').write_text(result.stdout+result.stderr,encoding='utf-8')
+            observed=json.loads(result.stdout);evidence['pages'].append(observed)
+            observed['screenshot']=f'{prefix}-{page}.png'
+            capture(hwnd,observed['screenshot'])
+            assert result.returncode==0 and observed['completed'],observed
+        evidence['completed']=True
+    finally:
+        (root/'research'/f'{prefix}-settings.json').write_text(json.dumps(evidence,indent=2),encoding='utf-8')
+        u.PostMessageW(hwnd,0x111,2,0)
 
 initial=helper();evidence['initial_environment']=initial;save()
 baseline_percent=primary(initial)['dpi']*100//96
