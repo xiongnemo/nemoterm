@@ -48,7 +48,31 @@ retain failed actions, bounded foreground/PID transitions and error cleanup.
 The legacy path preserves the original action order but has additional
 observation overhead; it is not timing-identical to the original failed run.
 All bell, tab, focus-report, stacking and cleanup assertions are unchanged.
-No terminal production code or image is modified. Hosted results remain
-pending until downloaded and verified. A successful replay alone cannot turn
-the failed complete workflow into a successful checkpoint or explain the
-unrelated historical MSVC tab callback crash.
+No terminal production code or image is modified.
+
+## Hosted results
+
+[Run 43781694405](https://github.com/xiongnemo/nemoterm/actions/runs/43781694405)
+passes all four diagnostic jobs. Every replay preserves the same 74 bell-state
+assertions, records 56 successful focus preparations and closes 48 owned
+processes naturally. Both actual GDI and DirectX renderers pass, with normal
+and topmost windows. The four original artifact ZIPs, workflow log and
+`bell-focus-029bfac-hosted-validation.json` retain exact fixture/image identity,
+server digests and member hashes.
+
+| Preparation | Repetition | Caption clicks | Accepted but initially not foreground | Native checks |
+|---|---:|---:|---:|---:|
+| Legacy | 1 | 32 | 32 | 74 |
+| Legacy | 2 | 30 | 30 | 74 |
+| Synchronized | 1 | 0 | 36 | 74 |
+| Synchronized | 2 | 0 | 36 | 74 |
+
+All 72 delayed activations in the synchronized runs complete at the queue
+barrier, without fallback input. This establishes a concrete improvement to
+foreground preparation. The real caption fallback itself is covered by the
+deferred-input model here; these synchronized native runs never needed it.
+Neither legacy replay reproduces the original failure, so its exact cause
+remains unconfirmed. A successful replay does not turn the failed complete
+workflow into a successful checkpoint or explain the unrelated historical
+MSVC tab callback crash. Full product CI and exact-image local acceptance
+remain separate gates.

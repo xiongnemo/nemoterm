@@ -820,6 +820,8 @@ jobs:
       - name: Check bell ownership and real focus across GDI and DirectX tabs
         shell: pwsh
         run: |
+          python tests/test_owned_window_focus.py 2>&1 | Tee-Object test-results/owned-focus-controls.log
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python tests/bell_window_state_smoke.py 2>&1 | Tee-Object test-results/bell-window-state.log
           $testExit = $LASTEXITCODE
           Copy-Item research/bell-window-state-observed.json test-results/ -ErrorAction SilentlyContinue
