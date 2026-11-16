@@ -51,7 +51,16 @@ failed job log and ZIPs, the seven successes and eighth failure, exact image and
 sidecars, local source snapshots/replies, all hosted event records and observer
 controls. Every archived member is rehashed after compression.
 
-Further investigation needs an exception address/stack from a recurrence or
-a controlled comparison isolating the detached probes. No speculative product
-change, relaxed timeout, skipped assertion or accepted-image replacement has
-been made for this failure.
+The follow-up [probe lifetime comparison](tab-probe-lifetime-8655aae.md) runs
+six local and six hosted lifetimes without an external debugger. It compares
+immediate session detach, explicit script unload before detach, and retaining
+the probes through the interaction checks. All twelve pass the original nine
+checks and naturally drain their processes. Read-only executable-section
+snapshots show that some runtime patches can remain momentarily after detach
+returns, then disappear. No controlled variant produces a differing failure.
+
+This rules out neither a timing-sensitive product defect nor an instrumentation
+defect. Further diagnosis needs a recurrence with an exception address/stack or
+a new discriminating observation; repeating this same finite comparison does
+not explain the original crash. No speculative product change, relaxed timeout,
+skipped assertion or accepted-image replacement has been made for this failure.

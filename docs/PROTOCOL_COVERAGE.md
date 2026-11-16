@@ -18,6 +18,10 @@ The later `8655aae` development MSVC job has a separate
 [tab-selection access violation](../research/tab-select-msvc-8655aae.md).
 The exact failed image passes six local and twelve hosted diagnostic replays,
 but the cause remains unconfirmed. New keyboard checks do not resolve it.
+An additional [controlled probe comparison](../research/tab-probe-lifetime-8655aae.md)
+passes six local and six hosted lifetimes, comparing three unload timings with
+read-only code snapshots. It captures asynchronous cleanup but no crash or
+different outcome between variants; the original failure remains open.
 
 The development branch adds Kitty relative placements and Unicode placeholders.
 The lazy cell index passes all three component compilers and ordinary full CI at
