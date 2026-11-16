@@ -33,10 +33,16 @@ function Find($parent,[string]$name) {
  return $parent.FindFirst($scope,$condition)
 }
 function Dialog([string]$title) {
+ $owned=New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::ProcessIdProperty,$app.Id)
  $condition=New-Object System.Windows.Automation.AndCondition(
-  (New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::ProcessIdProperty,$app.Id)),
+  $owned,
   (New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::NameProperty,$title)))
- return Wait-Value {[System.Windows.Automation.AutomationElement]::RootElement.FindFirst([System.Windows.Automation.TreeScope]::Children,$condition)}
+ return Wait-Value {
+  foreach ($window in [System.Windows.Automation.AutomationElement]::RootElement.FindAll([System.Windows.Automation.TreeScope]::Children,$owned)) {
+   $found=$window.FindFirst([System.Windows.Automation.TreeScope]::Subtree,$condition)
+   if ($found) {return $found}
+  }
+ }
 }
 function Button($dialog,[string]$name) {(Wait-Value {Find $dialog $name}).GetCurrentPattern([System.Windows.Automation.InvokePattern]::Pattern).Invoke()}
 function Select-Node($dialog,[string]$name) {

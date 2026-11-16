@@ -86,12 +86,18 @@ function Find-Name($parent, [string]$name, [string]$class = '') {
     return $parent.FindFirst($scope, $condition)
 }
 function Dialog($process) {
+    $owned = New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::ProcessIdProperty, $process.Id)
     $condition = New-Object System.Windows.Automation.AndCondition(
-        (New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::ProcessIdProperty, $process.Id)),
+        $owned,
         (New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::ClassNameProperty, 'PuTTYConfigBox')))
     return Wait-Value {
         if ($process.HasExited) { throw "Settings exited before opening: $($process.ExitCode)" }
-        [System.Windows.Automation.AutomationElement]::RootElement.FindFirst([System.Windows.Automation.TreeScope]::Children, $condition)
+        # UIA nests an owned modal dialog under its terminal window. Search
+        # only this process's roots, covering startup and live settings.
+        foreach ($window in [System.Windows.Automation.AutomationElement]::RootElement.FindAll([System.Windows.Automation.TreeScope]::Children, $owned)) {
+            $found=$window.FindFirst([System.Windows.Automation.TreeScope]::Subtree,$condition)
+            if ($found) {return $found}
+        }
     }
 }
 function Select-Node($dialog, [string]$name) {
