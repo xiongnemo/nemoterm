@@ -22,7 +22,7 @@ with winreg.CreateKey(winreg.HKEY_CURRENT_USER,keypath) as key:
 try:
     with tempfile.TemporaryDirectory(prefix='nemoterm-gpu-lifecycle-') as tmp,OwnedJob() as job:
         tmp=Path(tmp);report=tmp/'report';control=tmp/'control';ui_report=tmp/'ui-report';ui_control=tmp/'ui-control'
-        process=job.spawn([str(exe),'-load',profile,'--cols','80','--rows','24','-e',sys.executable,
+        process=job.spawn([str(exe),'--no-tabs','-load',profile,'--cols','80','--rows','24','-e',sys.executable,
             str(root/'tests/mouse_fixture.py'),str(report),str(control),'300'],
             env=dict(os.environ,NEMOTERM_CONPTY='bundled'),creationflags=subprocess.CREATE_NO_WINDOW)
         handle=k.OpenProcess(0x410,False,process.pid);session=None;script=None;gpu=None

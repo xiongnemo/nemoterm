@@ -34,7 +34,7 @@ def solid(width, height):
 with profile() as profile_name, tempfile.TemporaryDirectory(prefix='nemoterm-sixel-font-') as directory:
     directory = Path(directory)
     report, control = directory/'report.json', directory/'control.json'
-    process = subprocess.Popen([str(exe), '-load', profile_name,
+    process = subprocess.Popen([str(exe),'--no-tabs', '-load', profile_name,
         '--cols', '40', '--rows', '12', '--font', args.font, '--font-size', '12',
         '-e', sys.executable, str(root/'tests/mouse_fixture.py'), str(report), str(control)],
         env=dict(os.environ, NEMOTERM_CONPTY='bundled'), creationflags=subprocess.CREATE_NO_WINDOW)

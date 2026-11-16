@@ -13,7 +13,7 @@ evidence=dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),che
 try:
     with tempfile.TemporaryDirectory(prefix='nemoterm-rectangle-') as directory:
         directory=Path(directory);report,control=directory/'report',directory/'control'
-        process=subprocess.Popen([str(exe),'-load',name,'--cols','40','--rows','12','-e',sys.executable,
+        process=subprocess.Popen([str(exe),'--no-tabs','-load',name,'--cols','40','--rows','12','-e',sys.executable,
             str(root/'tests/mouse_fixture.py'),str(report),str(control)],env=dict(os.environ,NEMOTERM_CONPTY='bundled'),creationflags=subprocess.CREATE_NO_WINDOW)
         handle=k.OpenProcess(0x410,False,process.pid);samples=[];stopped=threading.Event()
         def sample():

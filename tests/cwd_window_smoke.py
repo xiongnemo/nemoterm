@@ -86,7 +86,7 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-cwd-') as temporary:
         return child
 
     def launch(profile, directory=None):
-        args = [str(owned_exe), '-load', profile]
+        args = [str(owned_exe),'--no-tabs', '-load', profile]
         if directory is not None:
             args += ['--directory', str(directory)]
         args += ['-e', sys.executable, str(root/'tests/cwd_fixture.py'), str(mailbox)]

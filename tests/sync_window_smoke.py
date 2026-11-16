@@ -6,7 +6,7 @@ from native_test_utils import (root, c, w, u, k, hashlib, json, os, subprocess, 
 with tempfile.TemporaryDirectory(prefix='nemoterm-sync-') as directory:
     directory = Path(directory)
     report, control = directory/'report.json', directory/'control.json'
-    process = subprocess.Popen([str(root/'dist/nemoterm.exe'), '--cols', '80', '--rows', '24',
+    process = subprocess.Popen([str(root/'dist/nemoterm.exe'),'--no-tabs', '--cols', '80', '--rows', '24',
         '-e', sys.executable, str(root/'tests/mouse_fixture.py'), str(report), str(control)],
         env=dict(os.environ, NEMOTERM_CONPTY='bundled'), creationflags=subprocess.CREATE_NO_WINDOW)
     handle = k.OpenProcess(0x410, False, process.pid)

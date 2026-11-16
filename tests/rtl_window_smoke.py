@@ -29,7 +29,7 @@ try:
         try:
             with tempfile.TemporaryDirectory(prefix='nemoterm-rtl-') as tmp,OwnedJob() as job:
                 report,control=Path(tmp)/'report',Path(tmp)/'control'
-                process=job.spawn([str(exe),'-load',profile,'--automation','--font',args.font,'--cols','40','--rows','12',
+                process=job.spawn([str(exe),'--no-tabs','-load',profile,'--automation','--font',args.font,'--cols','40','--rows','12',
                     '-e',sys.executable,str(root/'tests/mouse_fixture.py'),str(report),str(control)],
                     env=dict(os.environ,NEMOTERM_CONPTY='bundled',NEMOTERM_TEST_EXACT_OUTPUT='1'),
                     creationflags=subprocess.CREATE_NO_WINDOW)

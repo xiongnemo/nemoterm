@@ -28,7 +28,7 @@ with winreg.CreateKey(winreg.HKEY_CURRENT_USER, keypath) as key:
 try:
     with tempfile.TemporaryDirectory(prefix='nemoterm-shell-marks-') as tmp:
         report, control = (Path(tmp)/n for n in ('report', 'control'))
-        process = subprocess.Popen([str(exe), '-load', profile, '--cols', '80', '--rows', '24', '-e',
+        process = subprocess.Popen([str(exe),'--no-tabs', '-load', profile, '--cols', '80', '--rows', '24', '-e',
             sys.executable, str(root/'tests/mouse_fixture.py'), str(report), str(control)],
             env=dict(os.environ, NEMOTERM_CONPTY='bundled', NEMOTERM_TEST_UTF8_INPUT='1'),
             creationflags=subprocess.CREATE_NO_WINDOW)

@@ -20,7 +20,7 @@ for vt in (False, True):
         with winreg.CreateKey(winreg.HKEY_CURRENT_USER,profile_path) as config:
             for name,value in dict(NemoWin32Input=1,WarnOnClose=0).items():
                 winreg.SetValueEx(config,name,0,winreg.REG_DWORD,value)
-        process = subprocess.Popen([str(root/'dist/nemoterm.exe'), '-load',profile,'--cols','80','--rows','24',
+        process = subprocess.Popen([str(root/'dist/nemoterm.exe'),'--no-tabs', '-load',profile,'--cols','80','--rows','24',
             '-e',sys.executable,str(root/'tests/win32_input_fixture.py'),str(report),str(control),
             *(['--vt'] if vt else [])], env=dict(os.environ,NEMOTERM_CONPTY='bundled'),
             creationflags=subprocess.CREATE_NO_WINDOW)

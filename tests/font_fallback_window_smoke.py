@@ -31,7 +31,7 @@ try:
     with tempfile.TemporaryDirectory(prefix='nemoterm-symbols-') as directory:
         directory = Path(directory); report, control = directory/'report', directory/'control'
         started=time.monotonic()
-        process = subprocess.Popen([str(exe), '-load', name, '--font', options.font, '--cols', '40', '--rows', '12',
+        process = subprocess.Popen([str(exe),'--no-tabs', '-load', name, '--font', options.font, '--cols', '40', '--rows', '12',
             '-e', sys.executable, str(root/'tests/mouse_fixture.py'), str(report), str(control),str(options.fixture_lifetime)],
             env=dict(os.environ, NEMOTERM_CONPTY='bundled'), creationflags=subprocess.CREATE_NO_WINDOW)
         handle = k.OpenProcess(0x410, False, process.pid)

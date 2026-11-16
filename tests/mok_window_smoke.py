@@ -20,7 +20,7 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-mok-') as directory:
                                NemoFormatOtherKeys=options.initial_format,
                                AltSpace=0,FullScreenOnAltEnter=0).items():
             winreg.SetValueEx(config,name,0,winreg.REG_DWORD,value)
-    process=subprocess.Popen([str(root/'dist/nemoterm.exe'),'-load',profile,'--cols','80','--rows','24',
+    process=subprocess.Popen([str(root/'dist/nemoterm.exe'),'--no-tabs','-load',profile,'--cols','80','--rows','24',
         *(['--font',options.font] if options.font else []),'-e',sys.executable,
         str(root/'tests/mouse_fixture.py'),str(report),str(control)],
         env=dict(os.environ,NEMOTERM_CONPTY='bundled'),creationflags=subprocess.CREATE_NO_WINDOW)

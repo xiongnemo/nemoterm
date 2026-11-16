@@ -218,7 +218,7 @@ def preference_checks():
             launches = directory/'launches'; launches.mkdir()
             with settings(launches, custom=disabled, disabled=disabled) as (scheme, profile), OwnedJob() as job:
                 report, control = directory/'report.json', directory/'control.json'
-                process = job.spawn([str(exe), '-load', profile,
+                process = job.spawn([str(exe),'--no-tabs', '-load', profile,
                     '--cols', '40', '--rows', '8', '--right-click', 'copy-paste', '-e', sys.executable,
                     str(root/'tests/mouse_fixture.py'), str(report), str(control)],
                     env=dict(os.environ, NEMOTERM_CONPTY='bundled'),
@@ -338,7 +338,7 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-hyperlink-') as directory:
     launches = directory/'launches'; launches.mkdir()
     with settings(launches) as (scheme, profile), OwnedJob() as job:
         report, control = directory/'report.json', directory/'control.json'
-        process = job.spawn([str(exe), '-load', profile,
+        process = job.spawn([str(exe),'--no-tabs', '-load', profile,
             '--cols', '40', '--rows', '12', '-e', sys.executable,
             str(root/'tests/mouse_fixture.py'), str(report), str(control)],
             env=dict(os.environ, NEMOTERM_CONPTY='bundled'), creationflags=subprocess.CREATE_NO_WINDOW)

@@ -13,7 +13,7 @@ u.GetCaretBlinkTime.restype = w.UINT
 with tempfile.TemporaryDirectory(prefix='nemoterm-query-') as directory:
     directory = Path(directory)
     report, control = directory/'report.json', directory/'control.json'
-    process = subprocess.Popen([str(root/'dist/nemoterm.exe'), '--cols', '40', '--rows', '12',
+    process = subprocess.Popen([str(root/'dist/nemoterm.exe'),'--no-tabs', '--cols', '40', '--rows', '12',
         '-e', sys.executable, str(root/'tests/mouse_fixture.py'), str(report), str(control)],
         env=dict(os.environ, NEMOTERM_CONPTY='bundled'), creationflags=subprocess.CREATE_NO_WINDOW)
     handle = k.OpenProcess(0x410, False, process.pid)
