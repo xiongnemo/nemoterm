@@ -131,6 +131,9 @@ typedef struct NemoPasteRequest {
 static Conf *nemo_duplicate_conf(WinGuiSeat *wgs)
 {
     Conf *copy=conf_copy(wgs->conf);
+    /* Editing another profile cannot change an existing HWND's host type.
+     * New and duplicated tabs must follow the window that owns the action. */
+    conf_set_bool(copy,CONF_nemo_tabs,wgs->tabbed);
     if (!conf_get_bool(copy,CONF_nemo_inherit_directory)) return copy;
     NemoCwd *cwd=&wgs->term->working_directory;
     char hostname[256]="",fqdn[256]="";DWORD n=sizeof(hostname);

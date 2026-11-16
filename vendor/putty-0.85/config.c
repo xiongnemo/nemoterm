@@ -2323,7 +2323,9 @@ void setup_config_box(struct controlbox *b, bool midsession,
         ssd->active_profile = ctrl_text(s, "Active profile", HELPCTX(no_help));
         ssd->active_profile->handler = sessionsaver_handler;
         ssd->active_profile->context = P(ssd);
-        ctrl_text(s, "Save and Apply keeps this profile for future launches. Shell changes start in a new tab.", HELPCTX(no_help));
+        ctrl_text(s, midsession ?
+                  "Save and Apply keeps this profile for future launches. Shell changes start in a new tab." :
+                  "Save and Open keeps this profile for future launches. Add copies the current settings.", HELPCTX(no_help));
     }
     ctrl_columns(s, 2, 75, 25);
     get_sesslist(&ssd->sesslist, true);

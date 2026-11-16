@@ -520,7 +520,7 @@ try {
     $fixture = Join-Path $PSScriptRoot 'mouse_fixture.py'
     # The child remains alive across several modal UIA rounds. Each operation
     # still has its own short deadline; this is only the owned child's ceiling.
-    $arguments = @('-load', $fixtureProfile, '--settings', '-e', ('"'+$python+'"'), ('"'+$fixture+'"'), ('"'+$report+'"'), ('"'+$controlFile+'"'), '300')
+    $arguments = @('-load', $fixtureProfile, '--automation', '--settings', '-e', ('"'+$python+'"'), ('"'+$fixture+'"'), ('"'+$report+'"'), ('"'+$controlFile+'"'), '300')
     $app = Start-Process -FilePath $exe -ArgumentList $arguments -PassThru
     $dialog = Dialog $app
     (Select-Node $dialog 'Profile').GetCurrentPattern([System.Windows.Automation.ExpandCollapsePattern]::Pattern).Expand()
@@ -664,6 +664,33 @@ try {
     Wait-Value { ![ShellSettingsNative]::IsWindow($handle) } | Out-Null
     $selectionColourChecks+=Check-SelectionColours 'selection-colour-live-apply' '' '5555/6666/7777' 'dddd/eeee/ffff'
     $attributeChecks+=Check-AttributeColours 'attribute-live-apply' '' (@('1010/2020/3030')+$attributeReplies[1..4])
+    function Read-Instance {
+        $instances=@(python "$root/tools/nemoterm_debug.py" discover --pid $app.Id | ConvertFrom-Json)
+        if ($LASTEXITCODE) {throw 'Owned automation discovery failed'}
+        if ($instances.Count -eq 1) {return $instances[0]}
+    }
+    # Edit another profile while a child is already running. Its stored launch
+    # mode must not move New/Duplicate Tab into a different kind of window.
+    [ShellSettingsNative]::PostMessageW($termHandle,0x111,[IntPtr]0x50,[IntPtr]::Zero) | Out-Null
+    $dialog=Dialog $app
+    (Find-Name $dialog 'New profile name' 'Edit').GetCurrentPattern([System.Windows.Automation.ValuePattern]::Pattern).SetValue($copyProfile)
+    Invoke-Button $dialog 'Add'
+    Wait-Value {Find-Name $dialog ('Active profile: '+$copyProfile)} | Out-Null
+    Set-ItemProperty -LiteralPath $copyPath -Name NemoTabs -Value ([int](!$TabHost))
+    Invoke-Button $dialog 'Edit'
+    Invoke-Button $dialog 'Save and Apply'
+    $instance=Wait-Value { $v=Read-Instance; if ($v -and $v.sessions[0].profile -eq $copyProfile) {$v} }
+    $originalSeat=$instance.sessions[0]
+    foreach ($command in $(if ($TabHost) {@(0x20,0x30)} else {@(0x30)})) {
+        [ShellSettingsNative]::PostMessageW($termHandle,0x111,[IntPtr]$command,[IntPtr]::Zero) | Out-Null
+        $instance=Wait-Value { $v=Read-Instance; if ($v -and $v.sessions.Count -eq 2) {$v} }
+        $added=@($instance.sessions | Where-Object id -ne $originalSeat.id)[0]
+        if ($added.profile -ne $copyProfile -or ($added.window -eq $originalSeat.window) -ne [bool]$TabHost -or
+            ($added.hwnd -ne $added.window) -ne [bool]$TabHost) {throw 'Live profile switch changed New/Duplicate Tab host type or identity'}
+        [ShellSettingsNative]::PostMessageW([IntPtr]$added.hwnd,0x10,[IntPtr]::Zero,[IntPtr]::Zero) | Out-Null
+        Wait-Value { $v=Read-Instance; $v -and $v.sessions.Count -eq 1 } | Out-Null
+    }
+    if ((Get-ItemProperty -LiteralPath $copyPath).NemoTabs -ne [int](!$TabHost)) {throw 'Runtime host type overwrote saved profile launch preference'}
     $evidence = @{executable_sha256=(Get-FileHash -LiteralPath $exe -Algorithm SHA256).Hash.ToLower();
         default_grid=@(160,48);tab_host=[bool]$TabHost;saved_tab_side=2;saved_tab_bindings=$tabBindings;saved_bindings=$customBindings;duplicate_binding_rejected=$true;live_renderer_changes=$rendererChanges;
         saved_shell_bindings=$customShellBindings;saved_renderer=2;initial_renderer=$initialRenderer;
@@ -672,7 +699,7 @@ try {
         saved_attribute_rgb=$attributeRGB;saved_attribute_modes=49;saved_attribute_keep_styles=1;attribute_colour_checks=$attributeChecks;
         saved_level=3;saved_format=1;copy_only_default=$true;saved_copy_and_paste=$true;
         reflow_default=$true;saved_reflow=$false;win32_default=$false;saved_win32=$true;cancel_exit=0;local_launch=$true;
-        checksum_default=$false;saved_checksum=$true;
+        checksum_default=$false;saved_checksum=$true;live_profile_switch_preserves_host=$true;
         hyperlink_settings_startup=$true;hyperlink_settings_live=$true;
         saved_shell='git-bash';saved_choose_shell=$true;explicit_command_overrides_shell=$true;
         saved_unicode_directory=$fixtureCwd;saved_directory_inheritance=$false;query=$observed}
