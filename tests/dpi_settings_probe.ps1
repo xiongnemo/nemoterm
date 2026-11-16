@@ -59,6 +59,8 @@ $pages=@(
  @{id='tabs';path=@('Window','Tabs');labels=@('Top','Bottom','Left','Right','Preview terminal on hover')}
 )
 try {
+ python "$PSScriptRoot/settings_capture.py" $ProcessId $DialogHwnd "$Prefix-initial.png"
+ if ($LASTEXITCODE) {throw 'Initial dialog capture failed'}
  foreach ($page in $pages) {
   Select-Page $page.path
   $actual=[DpiDialogNative]::GetDpiForWindow([IntPtr]$DialogHwnd)
@@ -77,7 +79,14 @@ try {
   if ($LASTEXITCODE) {throw 'Dialog capture failed'}
  }
  $result.completed=$true
-} catch {$result.error=$_.ToString();throw} finally {
+} catch {
+ $result.error=$_.ToString()
+ $result.visible_tree=@($dialog.FindAll($scope,[System.Windows.Automation.Condition]::TrueCondition) | ForEach-Object {
+  @{name=$_.Current.Name;class=$_.Current.ClassName;control=$_.Current.ControlType.ProgrammaticName;offscreen=$_.Current.IsOffscreen;rect=(Coordinates $_.Current.BoundingRectangle)}
+ })
+ python "$PSScriptRoot/settings_capture.py" $ProcessId $DialogHwnd "$Prefix-failure.png"
+ throw
+} finally {
  $result | ConvertTo-Json -Depth 12 | Set-Content "$root/research/$Prefix-settings.json" -Encoding UTF8
  # Post Cancel even on failure, so a failed assertion cannot strand its owner.
  [DpiDialogNative]::PostMessageW([IntPtr]$DialogHwnd,0x111,[IntPtr]2,[IntPtr]0) | Out-Null
