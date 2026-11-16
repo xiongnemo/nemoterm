@@ -91,8 +91,14 @@ static void nemo_binding_handler(dlgcontrol *ctrl, dlgparam *dlg, void *data, in
             (value & ~255) | chosen : (value & 255) | (chosen << 8);
         if (field != 2 && (candidate & 255)) {
             for (size_t i = 0; i < lenof(nemo_binding_options); i++) {
+                int other=conf_get_int(conf,nemo_binding_options[i]);
+                bool zoom=option==CONF_nemo_zoom_in_binding || option==CONF_nemo_zoom_out_binding;
+                bool other_zoom=nemo_binding_options[i]==CONF_nemo_zoom_in_binding ||
+                    nemo_binding_options[i]==CONF_nemo_zoom_out_binding;
                 if (option != nemo_binding_options[i] &&
-                    conf_get_int(conf, nemo_binding_options[i]) == candidate) {
+                    (other == candidate ||
+                     (zoom && nemo_zoom_key_binding(candidate,other&255,(other>>8)&7)) ||
+                     (other_zoom && nemo_zoom_key_binding(other,candidate&255,(candidate>>8)&7)))) {
                     dlg_error_msg(dlg, "This shortcut is already assigned to another action. Choose a different key or disable that action first.");
                     dlg_refresh(ctrl, dlg);
                     return;
@@ -118,6 +124,8 @@ static void nemo_bindings_reset(dlgcontrol *ctrl, dlgparam *dlg, void *data, int
     conf_set_int(conf, CONF_nemo_close_tab_binding, NEMO_BIND_KEY('W',3));
     conf_set_int(conf, CONF_nemo_next_tab_binding, NEMO_BIND_KEY(9,2));
     conf_set_int(conf, CONF_nemo_previous_tab_binding, NEMO_BIND_KEY(9,3));
+    conf_set_int(conf, CONF_nemo_zoom_in_binding, NEMO_BIND_KEY(0xbb,2));
+    conf_set_int(conf, CONF_nemo_zoom_out_binding, NEMO_BIND_KEY(0xbd,2));
     dlg_refresh(NULL, dlg);
 }
 
@@ -2575,7 +2583,8 @@ void setup_config_box(struct controlbox *b, bool midsession,
                       "Make default system alert sound", I(BELL_DEFAULT),
                       "Visual bell (flash window)", I(BELL_VISUAL));
 
-    s = ctrl_getset(b, "Terminal/Bell", "overload",
+    ctrl_settitle(b, "Terminal/Bell/Overload", "Bell overload protection");
+    s = ctrl_getset(b, "Terminal/Bell/Overload", "overload",
                     "Control the bell overload behaviour");
     ctrl_checkbox(s, "Bell is temporarily disabled when over-used", 'd',
                   HELPCTX(bell_overload),
@@ -2898,7 +2907,7 @@ void setup_config_box(struct controlbox *b, bool midsession,
     ctrl_droplist(s, "Wheel modifier", NO_SHORTCUT, 55, HELPCTX(no_help),
                   nemo_binding_handler, I(CONF_nemo_zoom_modifiers*4+2));
     ctrl_text(s, "When an application captures the mouse, add Shift to zoom. Ordinary and horizontal scrolling keep their normal behavior.", HELPCTX(no_help));
-    s = ctrl_getset(b, "Window/Bindings/Font", "keys", "Optional font shortcuts");
+    s = ctrl_getset(b, "Window/Bindings/Font", "keys", "Font shortcuts");
     const char *const zoom_binding_labels[][2] = {
         {"Increase modifiers", "Increase key"}, {"Decrease modifiers", "Decrease key"},
         {"Reset modifiers", "Reset key"}
@@ -2911,7 +2920,7 @@ void setup_config_box(struct controlbox *b, bool midsession,
             c->column = field;
         }
     ctrl_columns(s, 1, 100);
-    ctrl_text(s, "Font shortcuts start disabled. Zoom changes only the current terminal, keeps the window size, and does not save over your configured font. Reset restores that font.", HELPCTX(no_help));
+    ctrl_text(s, "Ctrl+Plus / Ctrl+Minus zoom by default; Ctrl+= and numeric keypad +/- also work. Zoom affects only this terminal and does not replace the saved font.", HELPCTX(no_help));
 
     ctrl_settitle(b, "Window/Bindings/Commands", "Shell integration shortcuts");
     s = ctrl_getset(b, "Window/Bindings/Commands", "keys", "Commands and output");

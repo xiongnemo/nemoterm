@@ -161,3 +161,5 @@ hashes, screenshots, failed fixture attempts and completed CI baselines.
 Windows implementation references: [named pipe access security](https://learn.microsoft.com/en-us/windows/win32/ipc/named-pipe-security-and-access-rights),
 [CreateNamedPipeW](https://learn.microsoft.com/en-us/windows/win32/api/namedpipeapi/nf-namedpipeapi-createnamedpipew),
 and [overlapped I/O](https://learn.microsoft.com/en-us/windows/win32/ipc/synchronous-and-overlapped-input-and-output).
+
+While an application dialog is open, terminal input, paste and key operations return status 4. Discovery and captures remain available. Closing the dialog restores input.

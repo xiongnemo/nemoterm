@@ -188,7 +188,8 @@ Window / Bindings 可修改快捷键和矩形选择修饰键；Window / Tabs 配
 字号缩放使用 `Ctrl+滚轮`：应用接管鼠标时，加 `Shift` 才强制缩放。
 缩放只改变当前终端，保持窗口外框大小；菜单可恢复默认字号，
 Window / Bindings / Font 可修改滚轮修饰键及放大、缩小、恢复快捷键。
-键盘快捷键默认关闭。Terminal / Bell 可选择系统声音、视觉闪烁或关闭响铃。
+键盘默认 `Ctrl++` / `Ctrl+-` 放大、缩小，也支持 `Ctrl+=` 和数字小键盘；可在 Bindings / Font 修改或禁用。Terminal / Bell 可选择响铃方式，过载限制在 Bell / Overload。
+设置、关于、日志及其子弹窗打开时，同一实例的终端窗口不可获得输入；关闭弹窗后恢复。
 字号像素、应用鼠标输入、标签隔离和真实响铃 API 已通过专项回归与完整 CI。
 Sarasa 字体在本机 GDI、OpenGL、DirectX 下的字号回归也已通过；
 此前 `69cd5a4` 本机测试的 Windows 提示音已获实际听感确认。物理滚轮和跨屏 DPI 仍需单独验证，

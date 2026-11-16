@@ -16,6 +16,8 @@ evidence=dict(completed=False,executable_sha256=hashlib.sha256(exe.read_bytes())
     cases={},startup_cases={},excluded={},profiles={})
 profile=dict(ShiftedArrowKeys=2,WarnOnClose=0,NemoRenderer=0,NemoTabs=0,CtrlShiftIns='none',
     AltF4=0,AltSpace=0,FullScreenOnAltEnter=0,CtrlAltKeys=1,ComposeKey=0,NemoWin32Input=1)
+# Preserve keypad protocol coverage with local zoom explicitly disabled.
+profile.update(NemoZoomInBinding=0,NemoZoomOutBinding=0,NemoZoomDefaultsVersion=1)
 u.PostMessageW.argtypes=[w.HWND,w.UINT,w.WPARAM,w.LPARAM]
 try:
     for keyboard in (6,8,7):

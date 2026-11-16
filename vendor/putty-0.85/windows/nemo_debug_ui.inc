@@ -176,6 +176,9 @@ static void nemo_debug_ui(NemoDebugRequest *r)
         if (!ok) nemo_debug_error(r,3,"capture failed or exceeds size limit");
         return;
     }
+    if (win_modal_active()) {
+        nemo_debug_error(r,4,"terminal input is blocked by an open dialog");return;
+    }
     if (!wgs->backend || !wgs->ldisc || wgs->session_closed) {
         nemo_debug_error(r,2,"session input is closed");return;
     }

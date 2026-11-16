@@ -45,7 +45,7 @@ def main():
         with saved_profile(profile) as profile_args,OwnedJob() as job:
             process=None;window=None;handle=None;presented=None
             try:
-                process=job.spawn([str(exe),*profile_args,'--automation','--cols','40','--rows','12',
+                process=job.spawn([str(exe),'--no-tabs',*profile_args,'--automation','--cols','40','--rows','12',
                     '--font',font,'-e',sys.executable,str(root/'tests/mouse_fixture.py'),str(report),str(control),'180'],
                     env=dict(os.environ,NEMOTERM_CONPTY='bundled',NEMOTERM_TEST_EXACT_OUTPUT='1'),
                     creationflags=subprocess.CREATE_NO_WINDOW)

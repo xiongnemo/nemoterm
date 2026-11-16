@@ -638,6 +638,16 @@ static void test_ctrl_rectangle(Mock *mk)
 static void test_zoom_policy(Mock *mk)
 {
     test_context(mk, "zoom leaves application Ctrl wheels alone; Shift forces local zoom");
+    IEQUAL(nemo_zoom_key_binding(0x2bb,0xbb,2),true);
+    IEQUAL(nemo_zoom_key_binding(0x2bb,0xbb,3),true);
+    IEQUAL(nemo_zoom_key_binding(0x2bb,0x6b,2),true);
+    IEQUAL(nemo_zoom_key_binding(0x2bd,0x6d,2),true);
+    IEQUAL(nemo_zoom_key_binding(0x2bd,0xbd,2),true);
+    IEQUAL(nemo_zoom_key_binding(0x2bd,0xbd,3),false);
+    IEQUAL(nemo_zoom_key_binding(0x2bb,0xbb,6),false);
+    IEQUAL(nemo_zoom_key_binding(0,0x6b,2),false);
+    IEQUAL(nemo_zoom_key_binding(0x37a,0xbb,2),false);
+    IEQUAL(nemo_zoom_key_binding(0x37a,0x7a,3),true);
     static const struct { int binding; unsigned keys; bool app, zoom; } cases[] = {
         {2,2,false,true}, {2,3,false,true}, {2,2,true,false}, {2,3,true,true},
         {2,0,false,false}, {2,1,false,false}, {2,6,false,false}, {2,7,true,false},

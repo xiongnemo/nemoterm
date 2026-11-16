@@ -70,7 +70,7 @@ static void open_link(WinGuiSeat *wgs, const char *uri)
         wchar_t message[128];
         swprintf(message, lenof(message), L"Could not open this link (Windows code %ld).",
                  (long)result);
-        MessageBoxW(wgs->term_hwnd, message, L"Nemoterm", MB_OK | MB_ICONERROR);
+        win_modal_message_box_w(wgs->term_hwnd, message, L"Nemoterm", MB_OK | MB_ICONERROR);
     }
 }
 

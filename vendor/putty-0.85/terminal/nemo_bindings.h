@@ -24,6 +24,18 @@ static inline bool nemo_rectangle_binding(int configured, bool shift, bool ctrl,
         (pressed & (unsigned)configured) == (unsigned)configured;
 }
 
+static inline bool nemo_zoom_key_binding(int binding, unsigned key, unsigned mods)
+{
+    if (nemo_binding_matches(binding,key,mods)) return true;
+    /* Main-keyboard + commonly requires Shift; accept Ctrl+= too. Numeric
+     * keypad +/- are aliases only for the default zoom bindings. */
+    return (binding==NEMO_BIND_KEY(0xbb,NEMO_BIND_CTRL) &&
+            ((key==0xbb && mods==(NEMO_BIND_CTRL|NEMO_BIND_SHIFT)) ||
+             (key==0x6b && mods==NEMO_BIND_CTRL))) ||
+           (binding==NEMO_BIND_KEY(0xbd,NEMO_BIND_CTRL) &&
+            key==0x6d && mods==NEMO_BIND_CTRL);
+}
+
 static inline bool nemo_zoom_wheel_binding(int configured, unsigned pressed,
                                          bool application_mouse)
 {

@@ -423,7 +423,7 @@ static bool start_backend(WinGuiSeat *wgs)
                             conf_dest(wgs->conf), error);
         }
         sfree(error);
-        MessageBox(wgs->term_hwnd, msg, str, MB_ICONERROR | MB_OK);
+        win_modal_message_box(wgs->term_hwnd, msg, str, MB_ICONERROR | MB_OK);
         sfree(str);
         sfree(msg);
         wgs->session_closed = true;
@@ -608,7 +608,7 @@ static WinGuiSeat *wgs_create(Conf *conf, int show)
 
     {
         if (wgs->tabbed && !nemo_host_create(conf,guess_width,guess_height)) {
-            MessageBoxA(NULL,"Unable to create tab host",appname,MB_OK|MB_ICONERROR);
+            win_modal_message_box(NULL,"Unable to create tab host",appname,MB_OK|MB_ICONERROR);
             wgs_cleanup(wgs);return NULL;
         }
         int winmode = (wgs->tabbed ? WS_CHILD|WS_CLIPSIBLINGS : WS_OVERLAPPEDWINDOW) | WS_VSCROLL;
@@ -665,7 +665,7 @@ static WinGuiSeat *wgs_create(Conf *conf, int show)
         if (!wgs->term_hwnd) {
             char *message = dupprintf("Unable to create terminal window: %s",
                                       win_strerror(GetLastError()));
-            MessageBoxA(GetActiveWindow(), message, appname, MB_OK | MB_ICONERROR);
+            win_modal_message_box(GetActiveWindow(), message, appname, MB_OK | MB_ICONERROR);
             sfree(message);
             sfree(uappname);
             wgs_cleanup(wgs);
@@ -996,7 +996,7 @@ int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmdline, int show)
     hr = CoInitialize(NULL);
     if (hr != S_OK && hr != S_FALSE) {
         char *str = dupprintf("%s Fatal Error", appname);
-        MessageBox(NULL, "Failed to initialize COM subsystem",
+        win_modal_message_box(NULL, "Failed to initialize COM subsystem",
                    str, MB_OK | MB_ICONEXCLAMATION);
         sfree(str);
         conf_free(conf);
@@ -1516,7 +1516,7 @@ static void win_seat_connection_fatal(Seat *seat, const char *msg)
     WinGuiSeat *wgs = container_of(seat, WinGuiSeat, seat);
     char *title = dupprintf("%s Fatal Error", appname);
     show_mouseptr(wgs, true);
-    MessageBox(wgs->term_hwnd, msg, title, MB_ICONERROR | MB_OK);
+    win_modal_message_box(wgs->term_hwnd, msg, title, MB_ICONERROR | MB_OK);
     sfree(title);
 
     if (conf_get_int(wgs->conf, CONF_close_on_exit) == FORCE_ON)
@@ -1534,7 +1534,7 @@ static void win_seat_nonfatal(Seat *seat, const char *msg)
     WinGuiSeat *wgs = container_of(seat, WinGuiSeat, seat);
     char *title = dupprintf("%s Error", appname);
     show_mouseptr(wgs, true);
-    MessageBox(wgs->term_hwnd, msg, title, MB_ICONERROR | MB_OK);
+    win_modal_message_box(wgs->term_hwnd, msg, title, MB_ICONERROR | MB_OK);
     sfree(title);
 }
 
@@ -1560,7 +1560,7 @@ void cmdline_error(const char *fmt, ...)
     message = dupvprintf(fmt, ap);
     va_end(ap);
     title = dupprintf("%s Command Line Error", appname);
-    MessageBox(find_window_for_msgbox(), message, title, MB_ICONERROR | MB_OK);
+    win_modal_message_box(find_window_for_msgbox(), message, title, MB_ICONERROR | MB_OK);
     sfree(message);
     sfree(title);
     exit(1);
@@ -2789,7 +2789,7 @@ static void exit_callback(void *vctx)
              * we should not generate this informational one. */
             if (exitcode != INT_MAX) {
                 show_mouseptr(wgs, true);
-                MessageBox(wgs->term_hwnd, "Connection closed by remote host",
+                win_modal_message_box(wgs->term_hwnd, "Connection closed by remote host",
                            appname, MB_OK | MB_ICONINFORMATION);
             }
         }
@@ -2871,6 +2871,10 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
     int resize_action;
     WinGuiSeat *wgs = (WinGuiSeat *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
     if (!wgs) return sw_DefWindowProc(hwnd, message, wParam, lParam);
+    if (win_modal_blocks_message(message)) {
+        if (message==WM_DROPFILES) DragFinish((HDROP)wParam);
+        return 0;
+    }
     if (!wgs->term && message!=WM_NCDESTROY && message!=WM_DESTROY)
         return sw_DefWindowProc(hwnd,message,wParam,lParam);
     if (wgs->tabbed && message==WM_SYSCOMMAND && wParam>=0xF000 &&
@@ -2892,7 +2896,7 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
                         additional ? additional : "");
         if (wgs->session_closed ||
             !conf_get_bool(wgs->conf, CONF_warn_on_close) ||
-            MessageBox(hwnd, msg, title,
+            win_modal_message_box(hwnd, msg, title,
                        MB_ICONWARNING | MB_OKCANCEL | MB_DEFBUTTON1)
             == IDOK)
             wgs_request_close(wgs);
@@ -3026,7 +3030,7 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
                 CloseHandle(pi.hThread);
             } else {
                 char *message=dupprintf("Could not create session: %s",win_strerror(error));
-                MessageBoxA(hwnd,message,"Nemoterm",MB_OK|MB_ICONERROR);sfree(message);
+                win_modal_message_box(hwnd,message,"Nemoterm",MB_OK|MB_ICONERROR);sfree(message);
             }
             sfree(command);
 
@@ -5542,8 +5546,8 @@ static int TranslateKey(WinGuiSeat *wgs, UINT message, WPARAM wParam,
             ((keystate[VK_CONTROL] & 0x80) ? NEMO_BIND_CTRL : 0) |
             (left_alt ? NEMO_BIND_ALT : 0);
         if (nemo_host_binding(wgs,original_key,modifiers)) return 0;
-        int zoom = nemo_binding_matches(conf_get_int(wgs->conf, CONF_nemo_zoom_in_binding), original_key, modifiers) ? 1 :
-            nemo_binding_matches(conf_get_int(wgs->conf, CONF_nemo_zoom_out_binding), original_key, modifiers) ? -1 :
+        int zoom = nemo_zoom_key_binding(conf_get_int(wgs->conf, CONF_nemo_zoom_in_binding), original_key, modifiers) ? 1 :
+            nemo_zoom_key_binding(conf_get_int(wgs->conf, CONF_nemo_zoom_out_binding), original_key, modifiers) ? -1 :
             nemo_binding_matches(conf_get_int(wgs->conf, CONF_nemo_zoom_reset_binding), original_key, modifiers) ? 2 : 0;
         if (zoom) {
             if (original_key < 256)
@@ -7076,7 +7080,7 @@ void modalfatalbox(const char *fmt, ...)
     va_end(ap);
     show_mouseptr(NULL, true);
     title = dupprintf("%s Fatal Error", appname);
-    MessageBox(find_window_for_msgbox(), message, title,
+    win_modal_message_box(find_window_for_msgbox(), message, title,
                MB_SYSTEMMODAL | MB_ICONERROR | MB_OK);
     sfree(message);
     sfree(title);
@@ -7096,7 +7100,7 @@ void nonfatal(const char *fmt, ...)
     va_end(ap);
     show_mouseptr(NULL, true);
     title = dupprintf("%s Error", appname);
-    MessageBox(find_window_for_msgbox(), message, title, MB_ICONERROR | MB_OK);
+    win_modal_message_box(find_window_for_msgbox(), message, title, MB_ICONERROR | MB_OK);
     sfree(message);
     sfree(title);
 }

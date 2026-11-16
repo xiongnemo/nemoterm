@@ -20,7 +20,7 @@ with winreg.CreateKey(winreg.HKEY_CURRENT_USER,keypath) as key:
 try:
     with tempfile.TemporaryDirectory(prefix='nemoterm-restart-') as tmp,OwnedJob() as job:
         tmp=Path(tmp);seen=set();session=None;serial=0
-        process=job.spawn([str(exe),'-load',profile,'--cols','60','--rows','16','-e',
+        process=job.spawn([str(exe),'--no-tabs','-load',profile,'--cols','60','--rows','16','-e',
             sys.executable,str(root/'tests/session_fixture.py'),str(tmp)],
             env=dict(os.environ,NEMOTERM_CONPTY='bundled'),creationflags=subprocess.CREATE_NO_WINDOW)
         def child(hwnd):

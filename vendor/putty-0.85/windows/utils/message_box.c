@@ -43,7 +43,7 @@ int message_box(HWND owner, LPCTSTR text, LPCTSTR caption, DWORD style,
     mbox.hInstance = hinst;
     mbox.dwLanguageId = LANG_NEUTRAL;
 
-    mbox.hwndOwner = message_box_owner = owner;
+    mbox.hwndOwner = message_box_owner = owner ? GetAncestor(owner,GA_ROOT) : NULL;
 
     wchar_t *wtext, *wcaption;
     if (utf8) {
@@ -62,7 +62,9 @@ int message_box(HWND owner, LPCTSTR text, LPCTSTR caption, DWORD style,
     if (helpctxid != 0 && has_help()) mbox.dwStyle |= MB_HELP;
     mbox.lpfnMsgBoxCallback = &message_box_help_callback;
 
+    WinModalState *modal=win_modal_begin(owner);
     int toret = MessageBoxIndirectW(&mbox);
+    win_modal_end(modal);
 
     sfree(wtext);
     sfree(wcaption);

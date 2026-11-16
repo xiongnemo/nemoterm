@@ -628,6 +628,7 @@ void save_open_settings(settings_w *sesskey, Conf *conf)
         strbuf_free(encoded);sfree(wide);sfree(utf8);
     }
     write_setting_i(sesskey, "Present", 1);
+    write_setting_i(sesskey, "NemoZoomDefaultsVersion", 1);
     p = "raw";
     {
         const struct BackendVtable *vt =
@@ -710,6 +711,14 @@ bool load_settings(const char *section, Conf *conf)
     sesskey = open_settings_r(section);
     bool exists = (sesskey != NULL);
     load_open_settings(sesskey, conf);
+    /* Older profiles saved the former disabled defaults. Upgrade those once;
+     * custom bindings survive, and a subsequent explicit Disabled stays so. */
+    if (read_setting_i(sesskey, "NemoZoomDefaultsVersion", 0) < 1) {
+        if (!conf_get_int(conf, CONF_nemo_zoom_in_binding))
+            conf_set_int(conf, CONF_nemo_zoom_in_binding, 0x2bb);
+        if (!conf_get_int(conf, CONF_nemo_zoom_out_binding))
+            conf_set_int(conf, CONF_nemo_zoom_out_binding, 0x2bd);
+    }
     close_settings_r(sesskey);
     conf_set_str(conf, CONF_nemo_profile, nemo_profile_name(section));
 

@@ -1102,10 +1102,10 @@ CONF_OPTION(nemo_zoom_modifiers,
     VALUE_TYPE(INT), DEFAULT_INT(2), SAVE_KEYWORD("NemoZoomModifiers"),
 )
 CONF_OPTION(nemo_zoom_in_binding,
-    VALUE_TYPE(INT), DEFAULT_INT(0), SAVE_KEYWORD("NemoZoomInBinding"),
+    VALUE_TYPE(INT), DEFAULT_INT(0x2bb), SAVE_KEYWORD("NemoZoomInBinding"),
 )
 CONF_OPTION(nemo_zoom_out_binding,
-    VALUE_TYPE(INT), DEFAULT_INT(0), SAVE_KEYWORD("NemoZoomOutBinding"),
+    VALUE_TYPE(INT), DEFAULT_INT(0x2bd), SAVE_KEYWORD("NemoZoomOutBinding"),
 )
 CONF_OPTION(nemo_zoom_reset_binding,
     VALUE_TYPE(INT), DEFAULT_INT(0), SAVE_KEYWORD("NemoZoomResetBinding"),

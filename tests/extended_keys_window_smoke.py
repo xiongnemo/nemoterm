@@ -14,6 +14,9 @@ evidence=dict(completed=False,executable_sha256=hashlib.sha256(exe.read_bytes())
     physical_input=False,clipboard_access=False,cases={},excluded={})
 profile=dict(LinuxFunctionKeys=6,ShiftedArrowKeys=2,WarnOnClose=0,NemoRenderer=0,NemoTabs=0,
              AltF4=0,AltSpace=0,FullScreenOnAltEnter=0,CtrlAltKeys=1,ComposeKey=0,NemoWin32Input=1)
+# This fixture compares application protocol bytes; default local zoom is
+# tested separately by dialog_window_smoke.ps1, including key-up consumption.
+profile.update(NemoZoomInBinding=0,NemoZoomOutBinding=0,NemoZoomDefaultsVersion=1)
 with saved_profile(profile) as profile_args, tempfile.TemporaryDirectory(prefix='nemoterm-extended-keys-') as directory, OwnedJob() as job:
     folder=Path(directory);report,control=folder/'report.json',folder/'control.json'
     process=job.spawn([str(exe),*profile_args,'--cols','80','--rows','24','-e',sys.executable,

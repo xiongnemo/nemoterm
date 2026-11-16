@@ -299,6 +299,7 @@ static INT_PTR CALLBACK LogProc(HWND hwnd, UINT msg,
 
     switch (msg) {
       case WM_INITDIALOG: {
+        logbox = hwnd;
         char *str = dupprintf("%s Event Log", appname);
         SetWindowText(hwnd, str);
         sfree(str);
@@ -322,8 +323,7 @@ static INT_PTR CALLBACK LogProc(HWND hwnd, UINT msg,
           case IDOK:
           case IDCANCEL:
             logbox = NULL;
-            SetActiveWindow(GetParent(hwnd));
-            DestroyWindow(hwnd);
+            EndDialog(hwnd,0);
             return 0;
           case IDN_COPY:
             if (HIWORD(wParam) == BN_CLICKED ||
@@ -370,8 +370,7 @@ static INT_PTR CALLBACK LogProc(HWND hwnd, UINT msg,
         return 0;
       case WM_CLOSE:
         logbox = NULL;
-        SetActiveWindow(GetParent(hwnd));
-        DestroyWindow(hwnd);
+        EndDialog(hwnd,0);
         return 0;
     }
     return 0;
@@ -447,11 +446,8 @@ static INT_PTR CALLBACK AboutProc(HWND hwnd, UINT msg,
             EndDialog(hwnd, true);
             return 0;
           case IDA_LICENCE:
-            EnableWindow(hwnd, 0);
-            DialogBox(hinst, MAKEINTRESOURCE(IDD_LICENCEBOX),
+            win_modal_dialog_box(hinst, MAKEINTRESOURCE(IDD_LICENCEBOX),
                       hwnd, LicenceProc);
-            EnableWindow(hwnd, 1);
-            SetActiveWindow(hwnd);
             return 0;
 
           case IDA_WEB:
@@ -669,7 +665,7 @@ static INT_PTR GenericMainDlgProc(HWND hwnd, UINT msg, WPARAM wParam,
             char *err = save_screenshot(
                 hwnd, dialog_box_demo_screenshot_filename);
             if (err) {
-                MessageBox(hwnd, err, "Demo screenshot failure",
+                win_modal_message_box(hwnd, err, "Demo screenshot failure",
                            MB_OK | MB_ICONERROR);
                 sfree(err);
             }
@@ -741,10 +737,7 @@ static INT_PTR GenericMainDlgProc(HWND hwnd, UINT msg, WPARAM wParam,
 
 void modal_about_box(HWND hwnd)
 {
-    EnableWindow(hwnd, 0);
-    DialogBox(hinst, MAKEINTRESOURCE(IDD_ABOUTBOX), hwnd, AboutProc);
-    EnableWindow(hwnd, 1);
-    SetActiveWindow(hwnd);
+    win_modal_dialog_box(hinst, MAKEINTRESOURCE(IDD_ABOUTBOX), hwnd, AboutProc);
 }
 
 void show_help(HWND hwnd)
@@ -816,7 +809,7 @@ bool do_reconfig(HWND hwnd, Conf *conf, int protcfginfo)
     pds->dp->shortcuts['g'] = true;          /* the treeview: `Cate&gory' */
 
     ret = ShinyDialogBox(hinst, MAKEINTRESOURCE(IDD_MAINBOX), "PuTTYConfigBox",
-                         NULL, GenericMainDlgProc, pds);
+                         hwnd, GenericMainDlgProc, pds);
 
     pds_free(pds);
 
@@ -877,17 +870,14 @@ static void win_gui_logging_error(LogPolicy *lp, const char *event)
 
 void showeventlog(HWND hwnd)
 {
-    if (!logbox) {
-        logbox = CreateDialog(hinst, MAKEINTRESOURCE(IDD_LOGBOX),
-                              hwnd, LogProc);
-        ShowWindow(logbox, SW_SHOWNORMAL);
-    }
-    SetActiveWindow(logbox);
+    if (logbox) { SetActiveWindow(logbox);return; }
+    win_modal_dialog_box(hinst, MAKEINTRESOURCE(IDD_LOGBOX), hwnd, LogProc);
+    logbox = NULL;
 }
 
 void showabout(HWND hwnd)
 {
-    DialogBox(hinst, MAKEINTRESOURCE(IDD_ABOUTBOX), hwnd, AboutProc);
+    win_modal_dialog_box(hinst, MAKEINTRESOURCE(IDD_ABOUTBOX), hwnd, AboutProc);
 }
 
 struct hostkey_dialog_ctx {
@@ -1242,7 +1232,7 @@ SeatPromptResult win_seat_confirm_weak_crypto_primitive(
     strbuf *dlg_text = strbuf_new();
     const char *dlg_title = process_seatdialogtext(dlg_text, NULL, text);
 
-    int mbret = MessageBox(NULL, dlg_text->s, dlg_title,
+    int mbret = win_modal_message_box(NULL, dlg_text->s, dlg_title,
                            MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON2);
     socket_reselect_all();
     strbuf_free(dlg_text);
@@ -1260,7 +1250,7 @@ SeatPromptResult win_seat_confirm_weak_cached_hostkey(
     strbuf *dlg_text = strbuf_new();
     const char *dlg_title = process_seatdialogtext(dlg_text, NULL, text);
 
-    int mbret = MessageBox(NULL, dlg_text->s, dlg_title,
+    int mbret = win_modal_message_box(NULL, dlg_text->s, dlg_title,
                            MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON2);
     socket_reselect_all();
     strbuf_free(dlg_text);
@@ -1345,7 +1335,7 @@ void old_keyfile_warning(void)
     msg = dupprintf(message, appname);
     title = dupprintf(mbtitle, appname);
 
-    MessageBox(NULL, msg, title, MB_OK);
+    win_modal_message_box(NULL, msg, title, MB_OK);
 
     socket_reselect_all();
 

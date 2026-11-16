@@ -370,6 +370,10 @@ static void nemo_host_draw_label(HDC dc, NemoTabRect box, const wchar_t *text, C
 static LRESULT CALLBACK nemo_host_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 {
     WinGuiSeat *active=tab_host.active;
+    if (win_modal_blocks_message(msg)) {
+        if (msg==WM_DROPFILES) DragFinish((HDROP)wp);
+        return 0;
+    }
     switch (msg) {
       case WM_DROPFILES: {
         POINT point;WinGuiSeat *target=active;
@@ -476,7 +480,7 @@ static LRESULT CALLBACK nemo_host_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp
             WinGuiSeat *w=nemo_host_item(i);
             warn|=!w->session_closed && conf_get_bool(w->conf,CONF_warn_on_close);
         }
-        if (warn && MessageBoxW(hwnd,L"Close this window and all its terminal tabs?",L"Nemoterm",
+        if (warn && win_modal_message_box_w(hwnd,L"Close this window and all its terminal tabs?",L"Nemoterm",
                                 MB_OKCANCEL|MB_ICONWARNING)!=IDOK) return 0;
         for (int i=nemo_host_count()-1;i>=0;i--) wgs_request_close(nemo_host_item(i));
         return 0;

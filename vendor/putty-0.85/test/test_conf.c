@@ -132,7 +132,7 @@ settings_w *open_settings_w(const char *sessionname, char **errmsg)
         int i=slot;
         profiles[i].exists = true; strcpy(profiles[i].name, sessionname);
         settings_w *sw = &profiles[i].write; memset(sw, 0, sizeof(*sw));
-        const char *keys[]={"TermWidth","NemoTabs","NemoShell","RemoteCommand","NemoRenderer"};
+        const char *keys[]={"TermWidth","NemoTabs","NemoShell","RemoteCommand","NemoRenderer","NemoZoomInBinding","NemoZoomOutBinding","NemoZoomDefaultsVersion"};
         sw->n=lenof(keys);
         for (size_t j=0; j<lenof(keys); j++) sw->si[j].key=keys[j];
         return sw;
@@ -938,8 +938,8 @@ void test_simple(void)
     test_bool_simple(CONF_nemo_right_click_paste, "RightClickCopyAndPaste", false);
     test_int_simple(CONF_nemo_copy_binding, "NemoCopyBinding", 0x343);
     test_int_simple(CONF_nemo_zoom_modifiers, "NemoZoomModifiers", 2);
-    test_int_simple(CONF_nemo_zoom_in_binding, "NemoZoomInBinding", 0);
-    test_int_simple(CONF_nemo_zoom_out_binding, "NemoZoomOutBinding", 0);
+    test_int_simple(CONF_nemo_zoom_in_binding, "NemoZoomInBinding", 0x2bb);
+    test_int_simple(CONF_nemo_zoom_out_binding, "NemoZoomOutBinding", 0x2bd);
     test_int_simple(CONF_nemo_zoom_reset_binding, "NemoZoomResetBinding", 0);
     test_int_simple(CONF_nemo_paste_binding, "NemoPasteBinding", 0x356);
     test_int_simple(CONF_nemo_copy_paste_binding, "NemoCopyPasteBinding", 0);
@@ -1177,6 +1177,16 @@ static void test_profiles(void)
     load_settings(NULL,a);PROFILE_CHECK(conf_get_int(a,CONF_width)==160);
     error=nemo_profile_delete("Default");PROFILE_CHECK(error);sfree(error);PROFILE_CHECK(nemo_profile_exists("Default"));
     error=nemo_profile_save(b," bad",true);PROFILE_CHECK(error);sfree(error);
+    settings_w *legacy=open_settings_w("Legacy",&error);PROFILE_CHECK(!error);
+    write_setting_i(legacy,"NemoZoomInBinding",0);
+    write_setting_i(legacy,"NemoZoomOutBinding",0x37b);
+    write_setting_i(legacy,"NemoZoomDefaultsVersion",0);close_settings_w(legacy);
+    load_settings("Legacy",a);
+    PROFILE_CHECK(conf_get_int(a,CONF_nemo_zoom_in_binding)==0x2bb);
+    PROFILE_CHECK(conf_get_int(a,CONF_nemo_zoom_out_binding)==0x37b);
+    conf_set_int(a,CONF_nemo_zoom_in_binding,0);
+    error=nemo_profile_save(a,"Legacy",false);PROFILE_CHECK(!error);sfree(error);
+    load_settings("Legacy",b);PROFILE_CHECK(conf_get_int(b,CONF_nemo_zoom_in_binding)==0);
     error=nemo_profile_delete("Work");PROFILE_CHECK(!error);sfree(error);PROFILE_CHECK(!nemo_profile_exists("Work"));
     profile_storage=false;conf_free(a);conf_free(b);
 #undef PROFILE_CHECK

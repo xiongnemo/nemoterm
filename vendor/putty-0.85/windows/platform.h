@@ -138,6 +138,15 @@ int ShinyDialogBox(HINSTANCE hinst, LPCTSTR tmpl, const char *winclass,
                    HWND hwndparent, ShinyDlgProc proc, void *ctx);
 void ShinyEndDialog(HWND hwnd, int ret);
 
+typedef struct WinModalState WinModalState;
+WinModalState *win_modal_begin(HWND owner);
+void win_modal_end(WinModalState *state);
+bool win_modal_active(void);
+bool win_modal_blocks_message(UINT message);
+INT_PTR win_modal_dialog_box(HINSTANCE instance, LPCTSTR resource, HWND owner, DLGPROC proc);
+int win_modal_message_box(HWND owner, LPCSTR text, LPCSTR caption, UINT style);
+int win_modal_message_box_w(HWND owner, LPCWSTR text, LPCWSTR caption, UINT style);
+
 void centre_window(HWND hwnd);
 
 #ifndef __WINE__
