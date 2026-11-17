@@ -1,7 +1,6 @@
 # Nemoterm
 
 [![Test and build](https://github.com/xiongnemo/nemoterm/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/xiongnemo/nemoterm/actions/workflows/ci.yml)
-[![Single executable](https://github.com/xiongnemo/nemoterm/actions/workflows/single-exe.yml/badge.svg?branch=main)](https://github.com/xiongnemo/nemoterm/actions/workflows/single-exe.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 面向 Windows 的轻量原生终端：C/C++、Win32 界面、可切换渲染器，提供单文件 `nemoterm.exe` 开发构建。
@@ -14,20 +13,10 @@ Nemoterm 是 **PuTTY 0.85 Windows pterm 的下游 fork**，沿用其终端核心
 本页描述所在分支的代码；下载产物按下面的提交和验证记录区分。已实现功能与测试边界见 [协议支持表](docs/PROTOCOLS.md)
 和 [需求与验证记录](docs/REQUIREMENTS.md)。
 
-最新预览 `1f4db22` 保留默认多标签和 profile 管理，修正 Bell 页遮挡，
-默认用 **Ctrl++ / Ctrl+-** 缩放字号，并在设置等弹窗打开期间阻止切回终端。
-准确的单 EXE 已通过两种窗口模式下的弹窗、键盘缩放和 profile 持久化专项测试；完整协议 CI 发布时仍在运行。
-[下载最新单 EXE](https://github.com/xiongnemo/nemoterm/actions/runs/43872383575/artifacts/14228757239) · [本轮验证记录](research/dialogs-font-zoom.md) · [profile 设计与此前验证](research/profiles-default-tabs.md)。
+最新语言预览 `e9c44e0` 提供 English / 简体中文 / 跟随 Windows，修正设置页布局，并保留默认多标签、profile 持久化与 Ctrl++ / Ctrl+- 字号缩放。准确单 EXE 已通过远程双语/DPI 专项；完整回归结果单独记录。
+[下载语言预览](https://github.com/xiongnemo/nemoterm/actions/runs/44010709664/artifacts/14296961710) · [语言与验证记录](research/i18n.md)。
 
-前一开发候选 `f3b5b65` 修复了 DirectX 绘制缓存越界，已通过四个普通 CI 任务和
-167 组单文件检查。[下载该单 EXE](https://github.com/xiongnemo/nemoterm/actions/runs/43796089119/artifacts/14196406797)。
-这份准确产物的六组本机验收也已通过：Sarasa 160×48 密集图片负载的 GDI 私有工作集
-峰值 **19.95 MB**、总工作集 **47.03 MB**，29,072 个图像单元及标签生命周期检查通过。
-前台交互验收因测试期间桌面重新锁屏而中断，尚未完成；原始证据、哈希和剩余范围见
-[本机验收记录](research/d3d11-local-f3b5b65.md)。
-
-下一轮交互测试的分组命令、实际键鼠步骤与证据模板见
-[交互验收操作单](docs/INTERACTION_ACCEPTANCE.md)。默认只列计划；准备脚本不打开窗口。
+所有自动测试已配置到 GitHub-hosted runner：完整 CI 统一调用协议、单 EXE、DPI 和 26 项交互验收，保留截图与原始日志，不依赖开发电脑的桌面或剪贴板。入口、依赖和验证边界见 [远程测试操作单](docs/INTERACTION_ACCEPTANCE.md)；实际运行结果见 [迁移记录](research/remote-test-migration.md)。
 
 支持 English / 简体中文 / 跟随 Windows 显示语言，在 **Window → Interface language** 中选择并保存，重启后生效。详见[界面语言说明](docs/I18N.md)。
 
@@ -45,68 +34,18 @@ Nemoterm 是 **PuTTY 0.85 Windows pterm 的下游 fork**，沿用其终端核心
 - **终端能力**：UTF-8、真彩色、Sixel、OSC 1337 图片与 GIF、Kitty 图片的直接传输子集、OSC 8 超链接、括号粘贴、同步输出，以及 kitty 键盘和 xterm modifyOtherKeys 的已实现子集。
 - **字体与设置**：原生设置窗口、当前标签字号缩放、声音或视觉响铃，按需加载的内嵌 Nerd 图标字体，独立的 Nemoterm 配置存储。
 
-Kitty 图片协议已接入 Windows 三层绘制，支持直接 RGB/RGBA/PNG 及 `o=z` 压缩传输、裁剪缩放、透明度、查询、放置和删除。
-下方单 EXE 已支持功能查询，并修复错误查询打断图片上传的问题；在本机 GDI、OpenGL、DirectX
-共通过 1,575 个像素与回包阶段，另通过 525 个直接读取 GDI 窗口客户区的阶段。
-该下载版尚不支持共享内存、文件传输、Kitty 动画、相对放置及 Unicode 占位。
-准确产物、内存样本与验证边界见[成品验证](research/kitty-query-transaction-product.md)；
-实现方式见[绘制接入记录](research/kitty-windows-compositor.md)。
-
-压缩传输已通过独立上游对照、严格 GCC/Clang/MSVC 检查、完整 CI 与下载成品的本机验收，
-沿用原有图像内存限额，不增加分发文件。见[压缩实现记录](research/kitty-compression.md)。
-
-开发分支已实现相对放置和 Unicode 占位，并修复密集图片单元缩放时的查找性能问题。
-含后续响铃、键盘及能力报告修复的完整普通 CI 和 160 组单文件检查已通过，包括新增密集图片负载。
-本机实测已恢复：启动尺寸与屏幕裁剪通过。160×48 Sarasa 密集图片负载曾超过 GDI
-内存目标；修复重复的显示缓存后，开发用 MinGW 版本完整通过，私有工作集峰值
-**18.48 MB**、总工作集 **39.97 MB**，29,072 个图片单元和十项标签/关闭检查全部通过。
-三种实际渲染器另通过 185 项像素检查。准确的 CI 单文件产物也已通过该 GDI 重负载：
-私有工作集峰值 **19.23 MB**、总工作集 **42.02 MB**，全部图片单元和生命周期检查通过。
-该单 EXE 也已通过三种实际渲染器及直接 GDI 窗口捕获的 185 项像素检查。
-密集 Unicode 图片的 DX 私有工作集达到 **27.11 MB**，超过目前 25 MB 回归上限。
-本机输入法 DPI 与剩余交互验收尚未完成，该版本尚未替换上述已验收版本；
-见[修复与本机证据](research/gdi-image-cache.md)及[原始失败记录](research/feature-policy-sarasa.md)。
-进度与原始失败记录见[Unicode 占位](research/kitty-unicode-placeholders.md)、
-[密集图片验证](research/unicode-dense-memory.md)和[关闭超时](research/unicode-single-profile-close.md)。
-
-更新的开发候选 `253855b` 已通过完整普通 CI 和 **163 组单文件检查**，
-同时包含配置转义、终端查询及标签窗口恢复等后续修复。
-[候选下载与原始 CI 记录](research/answerback-product-ci.md)对应一个 **4,544,512 字节**的 EXE，
-该准确 EXE 的本机 GDI 密集图片负载现已完整通过：私有工作集 **19.20 MB**、总工作集
-**41.83 MB**，29,072 个图片单元及全部生命周期检查通过。41 组后台验收已跑完，40 组通过；
-密集图片 DX 达到 **27.60 MB** 私有工作集，超过保留的 25 MB 回归线，其像素和退出检查均通过。
-这一失败原样保留，不继续追加 DX 内存优化；八组桌面/剪贴板验收仍待完成。
-上面的 19.23 MB／27.11 MB 数据属于先前的 `12ee33b` 产物，不能直接套用于这一版。
-
-开发分支另已接入 OSC 22 鼠标指针形状，支持应用设置、查询和主/备用屏栈。
-定向远程测试已验证 30 种 Windows 光标，以及 Shift 选择、链接和标签页之间的优先级；
-普通完整 CI 和单文件版 154 组检查均已通过，包括十二组图片负载的私有工作集检查。
-远端结果不替代本机大窗口验收，见[指针形状进度](research/pointer-shapes.md)。
+Kitty 图片支持直接 RGB/RGBA/PNG、压缩传输、裁剪、透明度、查询、放置/删除、相对放置和 Unicode 占位。文件/共享内存传输及 Kitty 动画尚未实现；具体限制和逐项证据见 [协议支持表](docs/PROTOCOLS.md)。
 
 ## 下载
 
-已通过 CI 的开发快照：[下载 `752f3be` 单文件产物](https://github.com/xiongnemo/nemoterm/actions/runs/43664330399/artifacts/14143105257)。
-常规 CI 与单文件 CI 已通过，单文件 CI 共 143 组检查；包含本机自动化接口、文件/图片输入、
-三种渲染器、Sixel、OSC 1337 图片/GIF、Kitty 压缩图片与功能查询子集、字号缩放与响铃。EXE 为 **4,515,840 字节**。
-产物预计于 **2026-12-15 02:16 UTC** 过期，SHA-256 与完整范围见 [验证记录](research/kitty-query-transaction-product.md)。
-下载成品已通过本机 GDI 与 DirectX 私有工作集检查；DX 当前内存表现已接受。见下方 [渲染与内存](#渲染与内存)。
-
-正在本机验收的更新版本：[下载 `253855b` 单 EXE](https://github.com/xiongnemo/nemoterm/actions/runs/43757506287/artifacts/14181225772)。
-它包含相对放置、Unicode 图片、OSC 22 指针、DEC 用户定义键、响铃修复、OSC 60/61/62
-能力报告、GDI 缓存修复，以及配置转义、终端查询和窗口恢复修复。
-两条完整 CI 与 **163 组单文件检查**均已通过，EXE 为 **4,544,512 字节**。
-该准确产物的 49 组本机验收尚未全部通过，尚未替换上方已验收版本。哈希、原始产物和
-完整验证范围见[候选记录](research/answerback-product-ci.md)；先前 `12ee33b` 的结果和失败
-继续保留在[缓存修复与产物记录](research/gdi-image-cache.md)。
-
-此前一次主分支 CI 的 MSVC 标签测试出现过访问冲突；当时产物的本机及定向 CI 复测通过，但原因尚未确定。见[故障记录](research/tab-probe-detach.md)。
+当前语言预览的准确产物和验证范围见 [语言预览记录](research/i18n.md)；远程完整回归与交互迁移结果见 [本轮记录](research/remote-test-migration.md)。历史产物保留在对应 research 记录中，不将旧版本结果套用于新 EXE。
 
 查找后续开发构建：
 
-1. 登录 GitHub，打开 [Single executable from source](https://github.com/xiongnemo/nemoterm/actions/workflows/single-exe.yml)。
-2. 筛选 `main` 分支，选择一次 **成功完成** 的运行。
-3. 查看同一提交的 [Test and build](https://github.com/xiongnemo/nemoterm/actions/workflows/ci.yml) 结果；两条工作流独立执行。
-4. 在运行页面的 **Artifacts** 中下载 `nemoterm-single-exe-x64-<commit>`，解压并运行 `nemoterm.exe`。
+1. 登录 GitHub，打开 [Test and build](https://github.com/xiongnemo/nemoterm/actions/workflows/ci.yml)。
+2. 选择目标分支的一次完整成功运行；`scope=dpi` 只执行 DPI 专项。
+3. 在 **Artifacts** 中下载 `nemoterm-single-exe-x64-<commit>`，解压并运行 `nemoterm.exe`。
+4. 同一运行包含单文件、协议、DPI 和交互任务；具体检查与原始证据见各 job 和 artifact。
 
 GitHub 网页下载 Actions 产物需要登录，见 [GitHub 下载说明](https://docs.github.com/en/actions/how-tos/manage-workflow-runs/download-workflow-artifacts)。
 产物有保留期限；过期后请选择较新的成功运行，或按下文从源码构建。
@@ -117,7 +56,7 @@ GitHub 网页下载 Actions 产物需要登录，见 [GitHub 下载说明](https
 | `single-exe-evidence-<commit>` | 构建日志与原生测试证据 |
 | `unverified-single-exe-x64-<commit>` | 失败运行保留的诊断版本，未通过该轮验收；保留 7 天 |
 
-另一条 [Test and build](https://github.com/xiongnemo/nemoterm/actions/workflows/ci.yml)
+同一条 [Test and build](https://github.com/xiongnemo/nemoterm/actions/workflows/ci.yml)
 会生成 `nemoterm-windows-x64-<commit>`。这是 MinGW 开发对照包，需要配套的
 OpenConsole / ConPTY 文件，不是单文件版本。该 CI 现在为 MinGW 前端配套同一提交
 构建的源码宿主，包含字节输入和光标回复同步修复；构建来源与哈希保存在包内清单。
@@ -162,7 +101,7 @@ Nemoterm 使用系统中已有的 shell；单文件产物不包含 PowerShell 7�
 - 检测到 WSL 发行版不代表其中一定安装了 Bash；显式指定的 shell 不存在时会报错。
 - `--directory "路径"` 指定启动目录，留空时继承启动器目录；Git Bash / WSL Bash 也接受各自的 POSIX 路径。
 - `-e` 后的内容作为自定义启动命令，优先于保存的 shell。**Nemoterm 参数应写在 `-e` 之前。**
-- 开发分支已修复 `-load` 覆盖前置 `--tabs`、字体及尺寸选项的问题；明确的命令行设置优先于保存配置，见[参数验证](research/command-line-profile.md)。上述 `12ee33b` 及更早下载版应将这些选项写在 `-load` 之后。
+- 明确的命令行设置优先于保存配置，包括 `--tabs`、字体及尺寸；见[参数验证](research/command-line-profile.md)。
 - 开发分支还修复了标签窗口在最小化期间接收尺寸请求后、恢复时内容区域偏小的问题，见[恢复尺寸验证](research/host-restore-size.md)。
 - 在 **Profile / Shell** 中选择 shell，使用 **Save and Apply** 保存当前 profile；`--profile "名称"` 可加载命名 profile。
 - **Profile / Shell** 用于编辑自定义命令和启动目录；命令行也可用 `--shell custom --shell-command "命令"`。
@@ -182,7 +121,7 @@ Nemoterm 使用系统中已有的 shell；单文件产物不包含 PowerShell 7�
 | 关闭鼠标下的标签 | 鼠标中键 |
 | 打开 OSC 8 链接 | `Ctrl+左键单击` |
 | 本地回滚 | `Shift+PageUp` / `Shift+PageDown` |
-| 当前标签字号放大 / 缩小 | `Ctrl+滚轮上 / 下`；应用接管鼠标时加 `Shift` |
+| 当前标签字号放大 / 缩小 | `Ctrl++` / `Ctrl+-`，或 `Ctrl+滚轮`；应用接管鼠标时滚轮需加 `Shift` |
 
 右键已选中的文本默认只复制；可在 Window / Selection 改为复制并粘贴，
 或使用 `--right-click copy-paste` 启动；`--right-click copy` 恢复仅复制。
@@ -229,12 +168,12 @@ GPU 模式使用 Windows 系统 DLL 与显卡驱动，不新增分发文件；�
 DirectX 的上限由用户于 2026-11-14 调整；历史测试仍保留当时的门槛与结果。
 2026-11-15 用户进一步确认：原来的内存目标针对 GDI，DX 已足够，无需继续追求约 50 MB 总工作集。
 控制台宿主、shell 和终端内应用是独立进程，量测时分别记录；这是优化目标，不是任意负载下的内存保证。
-下载的 `752f3be` 在本机 Sarasa、实际 160×48、双标签的 Sixel、PNG、GIF、Kitty 和压缩 Kitty 十组负载中，
+历史版本 `752f3be` 在本机 Sarasa、实际 160×48、双标签的 Sixel、PNG、GIF、Kitty 和压缩 Kitty 十组负载中，
 GDI 私有工作集最高 **17.32 MB**，DX 最高 **24.11 MB**。
 GDI 总工作集最高 **40.05 MB**，DX 最高 **59.69 MB**；约 50 MB 的总工作集目标仅用于 GDI。
 测试等待临时标签的两条 I/O 工作线程实际退出，并观察短暂 GUI 活动回落；启动和回落期间的内存样本均计入峰值。句柄和窗口资源的数值门槛保持不变，没有裁剪工作集。
 完整 CI 与下载成品复核均通过；其他显卡与长时间运行仍需验证。精确镜像、像素比较和样本见 [成品验证记录](research/kitty-query-transaction-product.md)；此前故障恢复记录见 [D3D11 验证](research/d3d11-ci.md)。
-CI 的 Consolas 窗口较小，其通过结果不能替代本机大窗口验收。
+常规内存回归与 Sarasa 交互矩阵的字体和负载不同，分别记录；历史本机内存样本不能套用于新构建。
 旧 Direct2D 版本的 30.63 MB 失败结果保留在 [此前验证记录](research/relative-cursor.md)；
 [分配诊断](research/local-directx-heap.md)、[初始化探针](research/graphics-initialization.md)、
 [Direct3D 11 实验](research/d3d11-copy.md) 和 [句柄调查](research/handle-lifetime.md) 保留了改动依据与未解决问题。
@@ -265,53 +204,24 @@ cd nemoterm
 
 ### 测试与 CI
 
-| 工作流 | 主分支上的检查与产物 |
+所有自动测试在 GitHub-hosted runner 上执行，使用一次性桌面和隔离配置。完整入口：
+
+```powershell
+gh workflow run ci.yml --ref <branch> -f scope=full
+gh run view <run-id>
+gh run download <run-id> --dir <new-evidence-directory>
+```
+
+| 工作流 | 检查与产物 |
 | --- | --- |
-| [Test and build](.github/workflows/ci.yml) | Windows 核心回归、MinGW 对照构建及原生集成测试，Linux ASan / UBSan；保留对照包和测试日志 |
-| [Single executable from source](.github/workflows/single-exe.yml) | MSVC 从源码构建单 EXE，在隔离目录执行原生协议、像素和客户端测试；保留单文件产物与测试证据 |
+| [Test and build](.github/workflows/ci.yml) | 汇总源码单 EXE、MinGW 对照包、C/C++ 与原生协议测试、MSVC 诊断、ASan/UBSan，以及以下复用任务 |
+| [Single executable](.github/workflows/single-exe.yml) | 对同一个 EXE 运行协议、像素、客户端、生命周期和内存套件，保留成品与证据 |
+| [Remote DPI](.github/workflows/dpi.yml) | 英文/中文、独立窗口/标签宿主、100–200% 真实缩放与动态切换 |
+| [Remote interaction](.github/workflows/remote-interaction.yml) | 26 项交互检查；固定 Sarasa、真实隔离客户端、六种 shell、日志与截图 |
 
-截至 **2026-11-14（Australia/Sydney）**，相关提交的运行结果为：
+只修改测试脚本时可回放已构建产物，并拒绝生产代码不匹配的镜像。分组命令、固定依赖、进程清理规则和物理设备验证边界见 [远程测试操作单](docs/INTERACTION_ACCEPTANCE.md)。
 
-| 运行位置 | Test and build | Single executable from source |
-| --- | --- | --- |
-| `9c22311`，Direct3D 11、启动与关闭流程 | [通过](https://github.com/xiongnemo/nemoterm/actions/runs/43550497901) | [通过，102 组检查](https://github.com/xiongnemo/nemoterm/actions/runs/43550497894) |
-| `f079f80`，相对光标定位与双宽行边界 | [通过](https://github.com/xiongnemo/nemoterm/actions/runs/43517911825) | [通过，99 组检查](https://github.com/xiongnemo/nemoterm/actions/runs/43517911793) |
-| `18e912d`，屏幕校准状态与 Sixel 清理 | [通过](https://github.com/xiongnemo/nemoterm/actions/runs/43515344353) | [通过，96 组检查](https://github.com/xiongnemo/nemoterm/actions/runs/43515344377) |
-| `37ef26d`，参数化样式查询与关闭流程验证 | [通过](https://github.com/xiongnemo/nemoterm/actions/runs/43508891431) | [通过，93 组检查](https://github.com/xiongnemo/nemoterm/actions/runs/43508892024) |
-| `4ed7e08`，样式能力查询及真实回放 | [通过](https://github.com/xiongnemo/nemoterm/actions/runs/43494224555) | [通过，93 组检查](https://github.com/xiongnemo/nemoterm/actions/runs/43494224840) |
-| `9370c1f`，上划线及查询、历史和像素验证 | [通过](https://github.com/xiongnemo/nemoterm/actions/runs/43491888532) | [通过，93 组检查](https://github.com/xiongnemo/nemoterm/actions/runs/43491888131) |
-| `abafbbf`，接口、文件/图片输入与转换修复 | [通过](https://github.com/xiongnemo/nemoterm/actions/runs/43482108469) | [通过，93 组检查](https://github.com/xiongnemo/nemoterm/actions/runs/43482108697) |
-| `4ab6939`，Unicode 路径修复 | [通过](https://github.com/xiongnemo/nemoterm/actions/runs/43481683098) | [通过，93 组检查](https://github.com/xiongnemo/nemoterm/actions/runs/43481683584) |
-| `2cdde9c`，本机自动化接口 | [通过](https://github.com/xiongnemo/nemoterm/actions/runs/43475227225) | [通过，90 组检查](https://github.com/xiongnemo/nemoterm/actions/runs/43475227426) |
-
-早期超时、宿主差异、UTF-8 转换和测试夹具失败都保留原始结果，见
-[原生 CI 修复记录](research/ci-fixture-recovery.md)、[输入验证](research/automation-input.md)
-与 [内存标准验证](research/memory-budget.md)。通过记录只覆盖相应提交与场景。
-页面顶部徽章按 `main` 分支显示；具体提交的测试范围、日志和产物以对应运行为准。
-
-本地核心与 MinGW 对照测试需要 `gcc.exe` 在 PATH 中：
-
-```powershell
-.\scripts\test.ps1 -Destination .\build\mingw-dist
-```
-
-这条命令也会构建 MinGW 对照包；示例将其放到 `build/mingw-dist`。
-单文件构建产物仍位于 `build/single-exe-dist`。
-
-单文件原生集成测试：
-
-```powershell
-python -m pip install frida==17.24.3 Pillow==13.0.0
-.\scripts\prepare-shutdown-observer.ps1
-.\scripts\test-single-exe.ps1 -Executable .\build\single-exe-dist\nemoterm.exe
-```
-
-结果默认写入 `build/single-exe-check`。重跑时用 `-Destination` 指定新的目录，脚本不会覆盖已有证据。
-上面的本地命令不包含 Codex 客户端测试；传入 `-CodexExecutable "路径\codex.exe"` 才会运行这些检查。
-CI 使用 `tools/codex-fixture` 锁定的客户端版本，并通过本地响应测试默认、内嵌及多标签界面。
-
-原生集成测试会打开窗口并测试输入和剪贴板，应在空闲桌面或专用测试环境运行。
-测试结果只适用于记录的提交、系统和场景；编译成功不代表运行验收通过。
+上游协议对照、句柄和分配诊断继续使用专用远程工作流。页面顶部徽章显示 `main`，开发分支的准确结论以对应 run 和 [本轮记录](research/remote-test-migration.md) 为准；编译成功不等于运行验收通过。
 
 ## 开发状态
 
