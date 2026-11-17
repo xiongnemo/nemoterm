@@ -42,6 +42,8 @@ gh workflow run protocol-reference.yml --ref <branch> -f family=terminfo-databas
 
 此入口固定 ncurses/XTerm 源码提交，由上游 `tic` 编译整个数据库、`libtinfo` 读取按键，再将编译后的只读 C 表逐项与原始观测比对。默认还运行独立 XTerm 启动键盘采集；仅修改数据导出或验证时，可加 `-f terminfo_skip_keys=true` 单独检查数据库。该专项不构建 Nemoterm，不作为产品协议或内存验收；证据及范围见 [数据库记录](../research/terminfo-database.md)。
 
+ReGIS 上游对照使用 `-f family=regis`。它明确启用固定版本 XTerm 的 ReGIS，在私有 Xvfb 显示中对 41 个场景分别发送整段和逐字节输入，保留原始回复、222 张初始/步骤截图、像素格式、编译开关及自然退出结果。脚本拒绝本机和 self-hosted runner。通过采集不代表 Nemoterm 已实现 ReGIS，范围和产物见 [ReGIS 对照记录](../research/vector-graphics-source-review.md)。
+
 ## 交互矩阵
 
 每组使用独立 Windows 2025 runner，最多同时运行五组；组内顺序执行并保留各自失败，不因另一组失败取消测试。`scripts/interaction_acceptance.py run` 拒绝本机及 self-hosted runner；`plan` 和 `prepare` 只处理清单和文件。
