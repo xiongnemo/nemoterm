@@ -76,6 +76,8 @@ static void permit(Mock *mk, bool enabled)
     conf_set_bool(mk->conf,CONF_nemo_osc52_write,enabled);
     conf_set_bool(mk->conf,CONF_nemo_osc52_read,enabled);
     conf_set_bool(mk->conf,CONF_nemo_allow_checksum,enabled);
+    conf_set_bool(mk->conf,CONF_nemo_allow_set_tcap,enabled);
+    conf_set_bool(mk->conf,CONF_nemo_allow_get_tcap,enabled);
     conf_set_int(mk->conf,CONF_remote_qtitle_action,enabled?TITLE_REAL:TITLE_NONE);
     term_reconfig(mk->term,mk->conf);
 }
@@ -108,7 +110,7 @@ static void parser(Mock *mk, bool bytewise)
         CASE("\033]62;allowColorOps \007","\033]62\007"),
         CASE("\033]62;allowColorOps;extra\007","\033]62\007"),
         CASE("\033]62;allowFontOps\007","\033]62\007"),
-        CASE("\033]62;allowTcapOps\007","\033]62;GetTcap\007"),
+        CASE("\033]62;allowTcapOps\007","\033]62;SetTcap,GetTcap\007"),
         CASE("\033]62;allowTitleOps\007","\033]62\007"),
         CASE("\033]62;allowMouseOps\007","\033]62;" MOUSE "\007"),
         CASE("\033]62;allowWindowOps\007","\033]62;" WINDOWS "\007"),
@@ -159,7 +161,7 @@ static void permissions(Mock *mk)
     permit(mk,false); initial_state(mk);
     test_context(mk,"live restrictions and actual denied operations");
     term_data_fragmented(mk->term,"\033]60\007\033]61;allowMouseOps\007\033]61;allowWindowOps\007");
-    RESPONSE(mk,"\033]60;allowColorOps,allowTcapOps\007"
+    RESPONSE(mk,"\033]60;allowColorOps\007"
         "\033]61;X10,Locator,VT200Click,VT200Hilite,AnyButton,AnyEvent,FocusEvent\007"
         "\033]61;SetWinPosition,SetWinSizePixels,SetWinSizeChars,GetIconTitle,GetWinTitle,PushTitle,PopTitle,SetWinLines,ColumnMode,GetSelection,SetSelection,GetChecksum,SetChecksum\007");
     term_data_fragmented(mk->term,"\033[8;30;100t\033]2;blocked\007\033[21t\033[17#y\033[?1004h");
@@ -201,6 +203,28 @@ static void permissions(Mock *mk)
     puts("Feature policy permissions: actual title, resize, focus, paste and selection gates");
 }
 
+static void termcap_permissions(Mock *mk)
+{
+    static const char *restrictions[] = {"SetTcap,GetTcap", "GetTcap", "SetTcap", ""};
+    conf_set_int(mk->conf, CONF_funky_type, FUNKY_TCAP);
+    for (unsigned mask = 0; mask < 4; mask++) {
+        conf_set_bool(mk->conf, CONF_nemo_allow_set_tcap, mask & 1);
+        conf_set_bool(mk->conf, CONF_nemo_allow_get_tcap, mask & 2);
+        term_reconfig(mk->term, mk->conf); initial_state(mk);
+        nemo_tcap_configure(mk->term, "xterm-256color");
+        test_context(mk, "independent termcap permissions %u", mask);
+        term_data_fragmented(mk->term, "\033]61;allowTcapOps\007\033]62;allowTcapOps\007");
+        strbuf *expected = strbuf_new();
+        put_fmt(expected, "\033]61%s%s\007\033]62;SetTcap,GetTcap\007",
+                *restrictions[mask] ? ";" : "", restrictions[mask]);
+        response(mk, expected->s, expected->len); strbuf_free(expected);
+        term_data_fragmented(mk->term, "\033P+p6c696e7578\033\\\033P+q6b6631\033\\\033[5n");
+        if (!(mask & 2)) RESPONSE(mk, "\033[0n");
+        else if (mask & 1) RESPONSE(mk, "\033P1+r6b6631=1b5b5b41\033\\\033[0n");
+        else RESPONSE(mk, "\033P1+r6b6631=1b4f50\033\\\033[0n");
+    }
+}
+
 int main(void)
 {
     Mock *mk=mock_new();
@@ -212,7 +236,7 @@ int main(void)
     conf_set_int(mk->conf,CONF_beep,BELL_DISABLED);
     mk->term=term_init(mk->conf,mk->ucsdata,&mk->tw);
     mk->ldisc=ldisc_create(mk->conf,mk->term,&mk->backend,&mk->seat);
-    formatter(mk); parser(mk,false); parser(mk,true); permissions(mk);
+    formatter(mk); parser(mk,false); parser(mk,true); permissions(mk); termcap_permissions(mk);
     bool failed=mk->any_test_failed; mock_free(mk);
     puts(failed?"Feature policy FAILED":"Feature policy passed");
     return failed?1:0;

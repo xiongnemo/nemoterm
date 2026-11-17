@@ -18,11 +18,14 @@ paste_denied = ('NUL,SOH,STX,ETX,EOT,ENQ,ACK,BEL,VT,FF,SO,SI,DLE,DC1,DC2,DC3,DC4
 all_categories = 'allowColorOps,allowMouseOps,allowPasteControls,allowTcapOps,allowTitleOps,allowWindowOps'
 profiles = {
     'permitted': dict(NoMouseReporting=0,NoRemoteResize=0,NoRemoteWinTitle=0,PasteControls=1,
-                      NemoOSC52Write=1,NemoOSC52Read=1,NemoAllowChecksum=1,RemoteQTitleAction=2),
+                      NemoOSC52Write=1,NemoOSC52Read=1,NemoAllowChecksum=1,RemoteQTitleAction=2,
+                      NemoAllowSetTcap=1,NemoAllowGetTcap=1),
     'restricted': dict(NoMouseReporting=1,NoRemoteResize=1,NoRemoteWinTitle=1,PasteControls=0,
-                       NemoOSC52Write=0,NemoOSC52Read=0,NemoAllowChecksum=0,RemoteQTitleAction=0),
+                       NemoOSC52Write=0,NemoOSC52Read=0,NemoAllowChecksum=0,RemoteQTitleAction=0,
+                       NemoAllowSetTcap=0,NemoAllowGetTcap=0),
     'normal': dict(NoMouseReporting=0,NoRemoteResize=0,NoRemoteWinTitle=0,PasteControls=0,
-                   NemoOSC52Write=1,NemoOSC52Read=0,NemoAllowChecksum=0,RemoteQTitleAction=1),
+                   NemoOSC52Write=1,NemoOSC52Read=0,NemoAllowChecksum=0,RemoteQTitleAction=1,
+                   NemoAllowSetTcap=0,NemoAllowGetTcap=1),
 }
 
 def query(number, payload=None, ending=ST):
@@ -32,8 +35,8 @@ def response(number, names='', ending=ST):
     return OSC+str(number)+(';' + names if names else '')+ending
 
 for name, settings in profiles.items():
-    allowed = (all_categories if name == 'permitted' else 'allowColorOps,allowTcapOps' if name == 'restricted'
-               else 'allowColorOps,allowMouseOps,allowTcapOps,allowTitleOps')
+    allowed = (all_categories if name == 'permitted' else 'allowColorOps' if name == 'restricted'
+               else 'allowColorOps,allowMouseOps,allowTitleOps')
     denied_window = ('' if name == 'permitted' else
         'SetWinPosition,SetWinSizePixels,SetWinSizeChars,GetIconTitle,GetWinTitle,PushTitle,PopTitle,'
         'SetWinLines,ColumnMode,GetSelection,SetSelection,GetChecksum,SetChecksum' if name == 'restricted' else
@@ -50,7 +53,9 @@ for name, settings in profiles.items():
         ('supported-window',query(62,'allowWindowOps'),response(62,windows)),
         ('window-alias',query(62,'allowWinOps'),response(62,windows)),
         ('font-unsupported',query(62,'allowFontOps'),response(62)),
-        ('get-tcap-only',query(62,'allowTcapOps'),response(62,'GetTcap')),
+        ('supported-tcap',query(62,'allowTcapOps'),response(62,'SetTcap,GetTcap')),
+        ('restricted-tcap',query(61,'allowTcapOps'),response(61,
+            '' if name == 'permitted' else 'SetTcap,GetTcap' if name == 'restricted' else 'SetTcap')),
         ('title-table-absent',query(62,'allowTitleOps'),response(62)),
         ('names-case-insensitive',query(62,'ALLOWCOLOROPS'),response(62,colors)),
         ('unknown-name',query(62,'unknown'),response(62)),

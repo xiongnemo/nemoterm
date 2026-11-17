@@ -401,7 +401,22 @@ static void test_independent_database_keys(Mock *mk)
                 put_byte(mk->to_backend, '\033');
             put_data(mk->to_backend, output, length);
         }
-        response(mk, tcap_key_reference[i].reply);
+        if (tcap_key_reference[i].startup_identity_bytes) {
+            /* -tn selected the reference keyboard AND its emulator identity.
+             * Our selector only changes keys; assert our TN independently,
+             * then compare every remaining original reference byte. */
+            static const char identity[] = "\033P1+r544e=787465726d2d323536636f6c6f72;";
+            size_t length = sizeof(identity)-1;
+            if (mk->to_backend->len < length || memcmp(mk->to_backend->s, identity, length)) {
+                report_fail(mk, __FILE__, __LINE__, "Keyboard selection changed emulator TN");
+            } else {
+                memmove(mk->to_backend->s, mk->to_backend->s+length, mk->to_backend->len-length);
+                strbuf_shrink_to(mk->to_backend, mk->to_backend->len-length);
+                response(mk, tcap_key_reference[i].reply+tcap_key_reference[i].startup_identity_bytes);
+            }
+        } else {
+            response(mk, tcap_key_reference[i].reply);
+        }
     }
 }
 

@@ -33,6 +33,7 @@ arrows = {0xff51:'D', 0xff52:'A', 0xff53:'C', 0xff54:'B'}
 editing = {0xff50:'SKK_HOME', 0xff55:'SKK_PGUP', 0xff56:'SKK_PGDN',
            0xff57:'SKK_END', 0xff63:'SKK_INSERT', 0xffff:'SKK_DELETE'}
 rows = []
+identity_rows = 0
 for name, case in data['cases'].items():
     if not case['completed'] or case['exit_code'] != 0:
         raise ValueError('Incomplete startup case')
@@ -64,15 +65,28 @@ for name, case in data['cases'].items():
         reply = bytes.fromhex(step['reply_hex'])
         reply = re.sub(rb'(\x1bP[01]\+r[^\x1b]*)',
                        lambda m: re.sub(rb'=[0-9a-fA-F]*', lambda h: h[0].lower(), m[0]), reply)
+        # -tn changes XTerm's startup TN as well as its keyboard database.
+        # Nemoterm's keyboard-only selector deliberately preserves emulator TN.
+        # Retain the complete original reply, but mark this exact prefix for a
+        # separate identity-policy assertion. All other bytes compare unchanged.
+        identity_bytes = 0
+        if reply.startswith(b'\x1bP1+r544e='):
+            prefix = b'\x1bP1+r544e=' + case['selected_terminal'].encode().hex().encode() + b';'
+            if not reply.startswith(prefix):
+                raise ValueError('Unexpected startup identity')
+            identity_bytes = len(prefix)
+            identity_rows += 1
         values = [literal(name), literal(case['selected_terminal']),
                   literal(bytes.fromhex(step['sequence_hex'])), literal(reply),
-                  str(index == 0).lower(), str(kind), code, str(resource), str(point), str(mods)]
+                  str(index == 0).lower(), str(kind), code, str(resource), str(point), str(mods),
+                  str(identity_bytes)]
         rows.append('    {' + ', '.join(values) + '},')
 if len(rows) != 1378:
     raise ValueError('Incomplete startup projection')
-header = ('/* Original hosted XTerm bytes and observed XKB identities; no synthesized answers. */\n'
+header = ('/* Original hosted XTerm bytes and observed XKB identities; no synthesized answers.\n'
+          ' * startup_identity_bytes marks the -tn identity prefix for a separate policy check. */\n'
           'static const struct { const char *name, *terminal, *sequence, *reply; bool reset;\n'
-          'unsigned kind; int code; unsigned resource, point, mods; } tcap_key_reference[] = {\n'
+          'unsigned kind; int code; unsigned resource, point, mods, startup_identity_bytes; } tcap_key_reference[] = {\n'
           + '\n'.join(rows) + '\n};\n')
 target = root/'tests/tcap_key_reference.h'
 if args.check:
@@ -80,4 +94,5 @@ if args.check:
         raise ValueError('Stale startup projection')
 else:
     target.write_text(header, encoding='utf-8')
-print(('Verified' if args.check else 'Generated'), len(rows), 'startup steps')
+print(('Verified' if args.check else 'Generated'), len(rows), 'startup steps;',
+      identity_rows, 'startup TN prefixes checked separately')

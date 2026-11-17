@@ -94,10 +94,15 @@ static const char *database_key(Terminal *term, char kind, int code, unsigned mo
     return NULL;
 }
 
-int nemo_tcap_key(Terminal *term, char kind, int code, unsigned modifiers,
-                  char output[64])
+static bool extended_resource(Terminal *term, unsigned resource)
 {
-    if (term->funky_type != FUNKY_TCAP || term->vt52_mode) return -1;
+    unsigned index = resource <= 3 ? resource-1 : 4; /* resource 7 */
+    return term->special_modify_keys[index].level == 4;
+}
+
+static int copy_database_key(Terminal *term, char kind, int code,
+                             unsigned modifiers, char output[64])
+{
     const char *value = database_key(term, kind, code, modifiers);
     if (!value) return -1;
     size_t length = strlen(value);
@@ -106,10 +111,24 @@ int nemo_tcap_key(Terminal *term, char kind, int code, unsigned modifiers,
     return (int)length;
 }
 
+int nemo_tcap_key(Terminal *term, char kind, int code, unsigned modifiers,
+                  char output[64])
+{
+    if (term->funky_type != FUNKY_TCAP || term->vt52_mode) return -1;
+    unsigned resource = kind == 'F' || (kind == 'E' && code == SKK_HELP) ? 2 :
+        kind == 'N' ? 3 : kind == 'S' ? 7 : 1;
+    /* XTerm handles explicit extended encoding before keyboardIsTermcap.
+     * The raw database only precedes the ordinary key formatter. */
+    if (extended_resource(term, resource)) return -1;
+    return copy_database_key(term, kind, code, modifiers, output);
+}
+
 int nemo_tcap_special_key(Terminal *term, unsigned resource, unsigned point,
                           unsigned modifiers, char output[64])
 {
     if (term->funky_type != FUNKY_TCAP || term->vt52_mode) return -1;
+    if ((resource != 2 && resource != 3 && resource != 7) ||
+        extended_resource(term, resource)) return -1;
     char kind = 0;
     int code = 0;
     if (resource == 7) {
@@ -149,7 +168,9 @@ int nemo_tcap_special_key(Terminal *term, unsigned resource, unsigned point,
             }
         }
     }
-    return kind && code ? nemo_tcap_key(term, kind, code, modifiers & 15, output) : -1;
+    /* Preserve the original resource when testing extended mode. Keypad Home
+     * is resource 3 even though its database lookup uses dedicated Home. */
+    return kind && code ? copy_database_key(term, kind, code, modifiers & 15, output) : -1;
 }
 
 /* Literal sequences from ncurses' ecma+ renditions. Keep
@@ -181,6 +202,7 @@ static int key_value(Terminal *term, CapKey key, char value[64])
          * falls back to the real key's DEL byte, but that byte is absent in
          * the synthetic query, so XTerm reports a present empty value. */
         if (key.kind == 'E' && key.code == SKK_DELETE &&
+            !extended_resource(term, 1) &&
             (!term->modify_keys.level || !key.modifiers) &&
             !database_key(term, key.kind, key.code, key.modifiers)) return 0;
         if (key.kind == 'N' && key.code >= '1' && key.code <= '9') {
