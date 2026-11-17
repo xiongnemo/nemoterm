@@ -45,6 +45,14 @@ the complete MinGW suite and 25/26 functional interaction cases pass. Its failed
 jobs are full-grid DirectX memory and shell cleanup; the diagnostic shell replay
 is a separate result. This candidate is not promoted as an all-green build.
 
+The hosted shell-lifetime workflow now reproduces the cleanup issue in six
+repeat runs on the unchanged `6247818` image: 13/72 ordinary cases and 3/72
+process-observed cases fail. Additional observation does not make these late
+exits pass. The controlled native child fixture also fails frontend teardown;
+the evidence does not yet establish a shared root cause. Exact run identities,
+controls and dumps are retained in the
+[Git Bash close investigation](../research/git-bash-close-race.md).
+
 The dated checkpoints below retain their original results and failures. Their
 requests to resume local desktop testing no longer describe the execution plan.
 Hosted tests do not retroactively pass historical memory failures or certify

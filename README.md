@@ -223,6 +223,8 @@ gh run download <run-id> --dir <new-evidence-directory>
 
 只修改测试脚本时可回放已构建产物，并拒绝生产代码不匹配的镜像。分组命令、固定依赖、进程清理规则和物理设备验证边界见 [远程测试操作单](docs/INTERACTION_ACCEPTANCE.md)。
 
+Git Bash 复制窗口的关闭残留现已能在专用远程回放中重复出现，问题仍未修复；完整结果、受控用例和失败转储见 [关闭调查记录](research/git-bash-close-race.md)。
+
 上游协议对照、句柄和分配诊断继续使用专用远程工作流。页面顶部徽章显示 `main`，开发分支的准确结论以对应 run 和 [本轮记录](research/remote-test-migration.md) 为准；编译成功不等于运行验收通过。
 
 ## 开发状态
