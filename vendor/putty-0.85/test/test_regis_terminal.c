@@ -31,7 +31,7 @@ static Mock *regis_mock(void)
     reset(mk);
     term_size(mk->term,12,40,0);
     term_set_cell_size(mk->term,6,13);
-    IEQUAL(term_regis_set_size(mk->term,160,120),true);
+    IEQUAL(term_regis_set_size(mk->term,160,120,160,120),true);
     return mk;
 }
 
@@ -77,7 +77,7 @@ static int framing_tests(void)
     feed_regis(mk,"\033P0pS(E)P[99,99]R(P)");
     IEQUAL(term_regis_pending(t),true);
     IEQUAL(mk->to_backend->len,0);
-    IEQUAL(term_regis_set_size(t,320,240),false);
+    IEQUAL(term_regis_set_size(t,320,240,320,240),false);
     feed_regis(mk,"\030");
     IEQUAL(term_regis_pending(t),false);
     IEQUAL(term_regis_memory(t),retained);
@@ -129,6 +129,23 @@ static int framing_tests(void)
     IEQUAL(term_regis_pending(t),false);
     feed_regis(mk,"\033P1pP[7,9]R(P)\033\\");
     IEQUAL(term_regis_last_result(t),NEMO_REGIS_OK);
+
+    test_context(mk,"address size growth preserves pixels and bounded sparse directories");
+    IEQUAL(term_regis_set_size(t,160,120,8192,8192),true);
+    feed_regis(mk,"\033P1pS(E)W(I3)P[20,20]V[120,20]\033\\");
+    IEQUAL(term_regis_memory(t)<100000,true);
+    feed_regis(mk,"\033P0pS(A[0,0][319,239])W(I2)P[20,200]V[120,200]\033\\");
+    IEQUAL(term_regis_last_result(t),NEMO_REGIS_OK);
+    expect_pixel(mk,20,20,0xff33cc33);
+    expect_pixel(mk,200,20,0xffcc2121);
+    expect_pixel(mk,200,200,0); /* newly exposed area remains transparent */
+    feed_regis(mk,"\033P0pS(A[0,0][299,99])S(E)S(A[0,0][319,239])\033\\");
+    IEQUAL(term_regis_last_result(t),NEMO_REGIS_OK);
+    expect_pixel(mk,20,20,0xff000000);
+    expect_pixel(mk,200,20,0xffcc2121); /* clearing a smaller extent preserves hidden ink */
+    expect_pixel(mk,200,200,0);
+    feed_regis(mk,"\033c");
+    IEQUAL(term_regis_memory(t),0);
     bool failed=mk->any_test_failed;
     mock_free(mk);
     puts(failed ? "ReGIS terminal framing FAILED" : "ReGIS terminal framing passed");

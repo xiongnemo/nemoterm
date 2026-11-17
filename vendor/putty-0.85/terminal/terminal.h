@@ -173,8 +173,9 @@ size_t term_regis_memory(const Terminal *);
 bool term_regis_pending(const Terminal *);
 const NemoRegis *term_regis_decoder(const Terminal *);
 NemoRegisResult term_regis_last_result(const Terminal *);
-/* Internal resource setter, also used for pinned upstream test geometry. */
-bool term_regis_set_size(Terminal *, unsigned width, unsigned height);
+/* Initial and maximum graphics resources, including pinned upstream geometry. */
+bool term_regis_set_size(Terminal *, unsigned width, unsigned height,
+                         unsigned max_width, unsigned max_height);
 size_t term_kitty_memory(const Terminal *);
 bool term_kitty_pending(const Terminal *);
 const NemoKittyCache *term_kitty_cache(const Terminal *, int screen);
@@ -194,7 +195,7 @@ struct terminal_tag {
     NemoIterm *iterm_pending;
     NemoTermKitty *kitty;
     NemoTermRegis *regis;
-    unsigned regis_width, regis_height;
+    unsigned regis_width, regis_height, regis_max_width, regis_max_height;
     bool kitty_apc;
     bool iterm_osc;
     unsigned sixel_header[3], sixel_header_index;

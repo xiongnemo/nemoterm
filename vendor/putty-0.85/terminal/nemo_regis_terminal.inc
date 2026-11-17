@@ -84,13 +84,17 @@ static void nemo_regis_clear(Terminal *term)
     term->regis=NULL;
 }
 
-bool term_regis_set_size(Terminal *term, unsigned width, unsigned height)
+bool term_regis_set_size(Terminal *term, unsigned width, unsigned height,
+                         unsigned max_width, unsigned max_height)
 {
-    if (!term || width<2 || height<2 || width>8192 || height>8192 ||
+    if (!term || width<2 || height<2 || max_width<width || max_height<height ||
+        max_width>8192 || max_height>8192 ||
         term_regis_pending(term)) return false;
-    if (term->regis_width==width && term->regis_height==height) return true;
+    if (term->regis_width==width && term->regis_height==height &&
+        term->regis_max_width==max_width && term->regis_max_height==max_height) return true;
     nemo_regis_clear(term);
     term->regis_width=width; term->regis_height=height;
+    term->regis_max_width=max_width; term->regis_max_height=max_height;
     return true;
 }
 
@@ -105,7 +109,8 @@ static bool nemo_regis_begin(Terminal *term)
         NemoRegisConfig config={0};
         config.width=term->regis_width ? term->regis_width : 800;
         config.height=term->regis_height ? term->regis_height : 480;
-        config.max_width=config.max_height=8192;
+        config.max_width=term->regis_max_width ? term->regis_max_width : 8192;
+        config.max_height=term->regis_max_height ? term->regis_max_height : 8192;
         config.colours=16; config.terminal_id=340;
         config.memory_limit=NEMO_SIXEL_DEFAULT_BUDGET;
         config.private_colours=term->sixel_private_palette;

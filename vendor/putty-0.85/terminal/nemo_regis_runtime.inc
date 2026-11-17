@@ -80,9 +80,12 @@ static void regis_deallocate(void *data)
 static void regis_free_tiles(Graphic *g)
 {
     if (!g || !g->tiles) return;
-    for (size_t i=0;i<(size_t)g->tile_columns*g->tile_rows;i++) {
-        regis_deallocate(g->tiles[i]);
-        g->tiles[i]=NULL;
+    for (unsigned y=0;y<g->tile_rows;y++) {
+        if (!g->tiles[y]) continue;
+        for (unsigned x=0;x<g->tile_columns;x++)
+            regis_deallocate(g->tiles[y][x]);
+        regis_deallocate(g->tiles[y]);
+        g->tiles[y]=NULL;
     }
 }
 
@@ -116,9 +119,12 @@ static Graphic *get_new_or_matching_graphic(NemoRegis *owner, int row, int col,
     g->page=page; g->screen=owner->screen; g->id=++owner->next_id;
     g->actual_width=width; g->actual_height=height;
     g->max_width=(int)owner->config.max_width; g->max_height=(int)owner->config.max_height;
-    g->tile_columns=((unsigned)width+31)/32;
-    g->tile_rows=((unsigned)height+31)/32;
-    g->tiles=regis_allocate(owner,(size_t)g->tile_columns*g->tile_rows*sizeof(*g->tiles));
+    /* S(A) can change actual dimensions without remapping the graphic. Keep
+     * the full supported coordinate range addressable, but allocate directory
+     * rows lazily so a small page does not pay for an 8192-square pointer grid. */
+    g->tile_columns=(owner->config.max_width+31)/32;
+    g->tile_rows=(owner->config.max_height+31)/32;
+    g->tiles=regis_allocate(owner,(size_t)g->tile_rows*sizeof(*g->tiles));
     g->background=COLOR_HOLE;
     g->valid_registers=owner->config.colours;
     g->color_registers=owner->config.private_colours ? g->private_registers : owner->shared;
@@ -137,26 +143,43 @@ static Graphic *get_new_or_matching_graphic(NemoRegis *owner, int row, int col,
     return g;
 }
 
+static RegisterNum regis_background(const Graphic *g, unsigned x, unsigned y)
+{
+    return x<g->background_width && y<g->background_height ? g->background : COLOR_HOLE;
+}
+
 static RegisterNum read_pixel(const Graphic *g, int x, int y)
 {
-    if (!g || x<0 || y<0 || x>=g->actual_width || y>=g->actual_height) return COLOR_HOLE;
-    RegisterNum *tile=g->tiles[(unsigned)y/32*g->tile_columns+(unsigned)x/32];
-    return tile ? tile[((unsigned)y&31)*32+((unsigned)x&31)] : g->background;
+    if (!g || x<0 || y<0 || x>=g->actual_width || y>=g->actual_height ||
+        x>=g->max_width || y>=g->max_height) return COLOR_HOLE;
+    RegisterNum **row=g->tiles[(unsigned)y/32];
+    RegisterNum *tile=row ? row[(unsigned)x/32] : NULL;
+    return tile ? tile[((unsigned)y&31)*32+((unsigned)x&31)] :
+        regis_background(g,(unsigned)x,(unsigned)y);
 }
 
 static void draw_solid_pixel(Graphic *g, int x, int y, unsigned colour)
 {
     if (!g) return;
     regis_tick(g->xw);
-    if (x<0 || y<0 || x>=g->actual_width || y>=g->actual_height) return;
+    if (x<0 || y<0 || x>=g->actual_width || y>=g->actual_height ||
+        x>=g->max_width || y>=g->max_height) return;
     if (colour>MAX_COLOR_REGISTERS && colour!=COLOR_HOLE) regis_abort(g->xw,NEMO_REGIS_INVALID);
-    RegisterNum **tile=&g->tiles[(unsigned)y/32*g->tile_columns+(unsigned)x/32];
+    unsigned tx=(unsigned)x/32, ty=(unsigned)y/32;
+    if (!g->tiles[ty]) {
+        if (colour==regis_background(g,(unsigned)x,(unsigned)y)) return;
+        g->tiles[ty]=regis_allocate(g->xw,(size_t)g->tile_columns*sizeof(**g->tiles));
+    }
+    RegisterNum **tile=&g->tiles[ty][tx];
     if (!*tile) {
-        if (colour==g->background) return;
+        if (colour==regis_background(g,(unsigned)x,(unsigned)y)) return;
         *tile=regis_allocate(g->xw,TILE_PIXELS*sizeof(**tile));
-        for (unsigned i=0;i<TILE_PIXELS;i++) (*tile)[i]=g->background;
+        for (unsigned i=0;i<TILE_PIXELS;i++)
+            (*tile)[i]=regis_background(g,tx*32+i%32,ty*32+i/32);
     }
     (*tile)[((unsigned)y&31)*32+((unsigned)x&31)]=(RegisterNum)colour;
+    g->content_width=Max(g->content_width,(unsigned)x+1);
+    g->content_height=Max(g->content_height,(unsigned)y+1);
     g->dirty=true;
 }
 
@@ -168,10 +191,14 @@ static void draw_solid_rectangle(Graphic *g, int x1, int y1, int x2, int y2, uns
     if (y1>y2) EXCHANGE(y1,y2,tmp);
     x1=Max(x1,0); y1=Max(y1,0);
     x2=Min(x2,g->actual_width-1); y2=Min(y2,g->actual_height-1);
-    if (x1==0 && y1==0 && x2==g->actual_width-1 && y2==g->actual_height-1) {
+    if (x1==0 && y1==0 && x2==g->actual_width-1 && y2==g->actual_height-1 &&
+        (unsigned)g->actual_width>=g->content_width &&
+        (unsigned)g->actual_height>=g->content_height) {
         regis_tick(g->xw);
         regis_free_tiles(g);
         g->background=(RegisterNum)colour;
+        g->content_width=g->background_width=(unsigned)g->actual_width;
+        g->content_height=g->background_height=(unsigned)g->actual_height;
         g->dirty=true;
         return;
     }

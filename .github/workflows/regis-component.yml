@@ -73,6 +73,10 @@ jobs:
           set -o pipefail
           cmake -S vendor/putty-0.85 -B build/regis-terminal -G Ninja -DCMAKE_C_COMPILER=${{ matrix.compiler }} -DPUTTY_GTK_VERSION=NONE -DPUTTY_GSSAPI=OFF '-DCMAKE_C_FLAGS=-g -O1 -fsanitize=address,undefined -fno-omit-frame-pointer' '-DCMAKE_EXE_LINKER_FLAGS=-fsanitize=address,undefined' 2>&1 | tee build/regis-component/terminal-configure.log
           cmake --build build/regis-terminal --target test_regis_terminal test_sixel_terminal test_cancellation_terminal --parallel 4 2>&1 | tee build/regis-component/terminal-build.log
+          mkdir -p build/regis-component/terminal-binaries
+          cp build/regis-terminal/test_regis_terminal build/regis-component/terminal-binaries/
+          sha256sum build/regis-terminal/test_regis_terminal build/regis-terminal/test_sixel_terminal build/regis-terminal/test_cancellation_terminal > build/regis-component/terminal-binaries/SHA256SUMS
+          git rev-parse HEAD > build/regis-component/terminal-binaries/fixture-commit.txt
       - name: Verify actual DCS framing, cancellation and shared image accounting
         env:
           ASAN_OPTIONS: detect_leaks=1:abort_on_error=1
@@ -82,14 +86,18 @@ jobs:
           build/regis-terminal/test_regis_terminal --self-test 2>&1 | tee build/regis-component/terminal-framing.log
           build/regis-terminal/test_sixel_terminal 2>&1 | tee build/regis-component/terminal-images.log
           build/regis-terminal/test_cancellation_terminal 2>&1 | tee build/regis-component/terminal-cancellation.log
-      - name: Replay unchanged scene streams through terminal.c over both transports
+      - name: Replay unchanged scene streams through terminal.c as whole writes
         if: ${{ !cancelled() }}
         env:
           ASAN_OPTIONS: detect_leaks=1:abort_on_error=1
           UBSAN_OPTIONS: halt_on_error=1
-        run: |
-          python3 tests/test_regis_reference.py --terminal --exe build/regis-terminal/test_regis_terminal --font-inputs build/regis-font-inputs/glyphs.bin --output build/regis-component/terminal-whole
-          python3 tests/test_regis_reference.py --terminal --bytewise --exe build/regis-terminal/test_regis_terminal --font-inputs build/regis-font-inputs/glyphs.bin --output build/regis-component/terminal-bytewise
+        run: python3 tests/test_regis_reference.py --terminal --exe build/regis-terminal/test_regis_terminal --font-inputs build/regis-font-inputs/glyphs.bin --output build/regis-component/terminal-whole
+      - name: Replay unchanged scene streams through terminal.c byte by byte
+        if: ${{ !cancelled() }}
+        env:
+          ASAN_OPTIONS: detect_leaks=1:abort_on_error=1
+          UBSAN_OPTIONS: halt_on_error=1
+        run: python3 tests/test_regis_reference.py --terminal --bytewise --exe build/regis-terminal/test_regis_terminal --font-inputs build/regis-font-inputs/glyphs.bin --output build/regis-component/terminal-bytewise
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
@@ -125,7 +133,11 @@ jobs:
           cmake -S vendor/putty-0.85 -B build/regis-terminal -G Ninja -DCMAKE_C_COMPILER=cl -DCMAKE_CXX_COMPILER=cl -DCMAKE_BUILD_TYPE=MinSizeRel '-DCMAKE_C_FLAGS=/std:c11 /utf-8' '-DCMAKE_C_FLAGS_MINSIZEREL=/O1 /Ob1 /Gy /Gw' -DCMAKE_POLICY_DEFAULT_CMP0091=NEW -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded -DPUTTY_GSSAPI=OFF 2>&1 | Tee-Object build/regis-component/terminal-configure.log
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           cmake --build build/regis-terminal --target pterm test_regis_terminal test_sixel_terminal test_cancellation_terminal --parallel 4 2>&1 | Tee-Object build/regis-component/terminal-build.log
-          exit $LASTEXITCODE
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          New-Item -ItemType Directory -Force build/regis-component/terminal-binaries | Out-Null
+          Copy-Item build/regis-terminal/test_regis_terminal.exe,build/regis-terminal/pterm.exe build/regis-component/terminal-binaries/
+          Get-FileHash build/regis-terminal/test_regis_terminal.exe,build/regis-terminal/test_sixel_terminal.exe,build/regis-terminal/test_cancellation_terminal.exe,build/regis-terminal/pterm.exe -Algorithm SHA256 | Select-Object Path,Hash | ConvertTo-Json | Set-Content build/regis-component/terminal-binaries/hashes.json
+          git rev-parse HEAD > build/regis-component/terminal-binaries/fixture-commit.txt
       - name: Check ownership, reentrant use and budgets
         run: build/regis-component/test-regis.exe --self-test 2>&1 | Tee-Object build/regis-component/ownership.log
       - name: Compare native Sarasa masks with offscreen TextOut and check GDI handle lifetime
@@ -145,13 +157,12 @@ jobs:
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           build/regis-terminal/test_cancellation_terminal.exe 2>&1 | Tee-Object build/regis-component/terminal-cancellation.log
           exit $LASTEXITCODE
-      - name: Replay unchanged scene streams through terminal.c over both transports
+      - name: Replay unchanged scene streams through terminal.c as whole writes
         if: ${{ !cancelled() }}
-        run: |
-          python tests/test_regis_reference.py --terminal --exe build/regis-terminal/test_regis_terminal.exe --font-inputs build/regis-font-inputs/glyphs.bin --output build/regis-component/terminal-whole
-          if ($LASTEXITCODE) { exit $LASTEXITCODE }
-          python tests/test_regis_reference.py --terminal --bytewise --exe build/regis-terminal/test_regis_terminal.exe --font-inputs build/regis-font-inputs/glyphs.bin --output build/regis-component/terminal-bytewise
-          exit $LASTEXITCODE
+        run: python tests/test_regis_reference.py --terminal --exe build/regis-terminal/test_regis_terminal.exe --font-inputs build/regis-font-inputs/glyphs.bin --output build/regis-component/terminal-whole
+      - name: Replay unchanged scene streams through terminal.c byte by byte
+        if: ${{ !cancelled() }}
+        run: python tests/test_regis_reference.py --terminal --bytewise --exe build/regis-terminal/test_regis_terminal.exe --font-inputs build/regis-font-inputs/glyphs.bin --output build/regis-component/terminal-bytewise
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:

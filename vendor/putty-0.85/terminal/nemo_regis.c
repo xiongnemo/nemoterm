@@ -42,10 +42,11 @@ typedef struct { short r, g, b; } ColorRegister;
 typedef NemoRegis *XtermWidget;
 typedef struct Graphic {
     NemoRegis *xw;
-    RegisterNum **tiles, background;
+    RegisterNum ***tiles, background;
     ColorRegister *color_registers;
     ColorRegister private_registers[MAX_COLOR_REGISTERS];
     unsigned tile_columns, tile_rows, valid_registers, id, page, screen;
+    unsigned background_width, background_height, content_width, content_height;
     int actual_width, actual_height, max_width, max_height;
     bool dirty, hidden, valid;
 } Graphic;

@@ -1,7 +1,8 @@
-"""Compare the native component with unchanged hosted XTerm bytes and pixels.
+"""Compare ReGIS decoder pixels with unchanged hosted XTerm bytes and pixels.
 
-This is not the terminal's DCS parser, Windows rendering or lifecycle test.
-Unsupported stream kinds are explicitly excluded from this component stage.
+The optional terminal mode exercises the real DCS parser. Neither mode checks
+Windows image placement or text/graphics lifecycle. Those streams remain
+explicit exclusions at this stage.
 """
 import argparse
 import hashlib
