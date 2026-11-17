@@ -1,0 +1,79 @@
+name: Historical XTerm reference collectors
+
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Install the reference build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libx11-dev libxt-dev libxaw7-dev libxft-dev libncurses-dev
+      - name: Build and identify the pinned unmodified XTerm
+        run: |
+          set -o pipefail
+          mkdir -p build/xterm-historical
+          git init /tmp/nemoterm-xterm-reference
+          git -C /tmp/nemoterm-xterm-reference remote add origin https://github.com/ThomasDickey/xterm-snapshots.git
+          git -C /tmp/nemoterm-xterm-reference fetch --depth 1 origin 5c75ead9a75d4b2e666ca06fa94503b5766ed93f
+          git -C /tmp/nemoterm-xterm-reference checkout --detach FETCH_HEAD
+          cd /tmp/nemoterm-xterm-reference
+          ./configure --enable-tcap-fkeys --enable-tcap-query 2>&1 | tee "$GITHUB_WORKSPACE/build/xterm-historical/configure.log"
+          make -j2 2>&1 | tee "$GITHUB_WORKSPACE/build/xterm-historical/build.log"
+          cc -dM -E -I. $(pkg-config --cflags xft) -include xtermcfg.h -include ptyx.h - </dev/null > "$GITHUB_WORKSPACE/build/xterm-historical/defines.txt"
+          grep -Eq '^#define OPT_TCAP_FKEYS 1$' "$GITHUB_WORKSPACE/build/xterm-historical/defines.txt"
+          grep -Eq '^#define OPT_TCAP_QUERY 1$' "$GITHUB_WORKSPACE/build/xterm-historical/defines.txt"
+          git rev-parse HEAD > "$GITHUB_WORKSPACE/build/xterm-historical/upstream-commit.txt"
+          cp xterm xtermcfg.h config.log "$GITHUB_WORKSPACE/build/xterm-historical/"
+          cd "$GITHUB_WORKSPACE/build/xterm-historical"
+          sha256sum xterm > executable-sha256.txt
+          ./xterm -version > version.txt
+          dpkg-query -W > packages.txt
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: historical-xterm-build-${{ github.sha }}
+          path: build/xterm-historical/
+          if-no-files-found: error
+          retention-days: 7
+  capture:
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        group: [state, editing, charset-mapping, charset-checksum, charset-state, charset-input, keys, set-tcap]
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: historical-xterm-build-${{ github.sha }}
+          path: build/xterm-historical
+      - name: Install private display and keyboard dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libxaw7 libxft2 libxtst6 libncurses6 xfonts-base xvfb x11-xkb-utils xdotool xclip ncurses-bin
+          cd build/xterm-historical
+          sha256sum --check executable-sha256.txt
+          chmod +x xterm
+      - name: Capture unchanged historical streams on private displays
+        env:
+          REFERENCE_GROUP: ${{ matrix.group }}
+        run: python3 scripts/capture-xterm-reference.py --group "$REFERENCE_GROUP" --xterm build/xterm-historical/xterm --output "build/reference-captures/$REFERENCE_GROUP"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: historical-xterm-${{ matrix.group }}-${{ github.sha }}
+          path: build/reference-captures/
+          if-no-files-found: error
+          retention-days: 30

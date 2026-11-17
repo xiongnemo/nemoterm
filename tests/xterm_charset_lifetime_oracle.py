@@ -34,11 +34,12 @@ def cases():
     }
 if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--output',type=Path,required=True)
+    p.add_argument('--xterm',default='/tmp/nemoterm-xterm-reference/xterm')
     a=p.parse_args();folder=a.output.with_suffix('');folder.mkdir(exist_ok=False);merged={}
     for name,sequence in cases().items():
         path=folder/(name+'.json')
         with path.with_suffix('.log').open('w') as log,redirect_stdout(log):
-            run_cases('/tmp/nemoterm-xterm-reference/xterm',path,{name:sequence},
+            run_cases(a.xterm,path,{name:sequence},
                 ['-ti','vt525','-xrm','*allowWindowOps: true','-xrm','*locale: false','-xrm','*wideChars: true'],
                 raw_replies=True,utf8_command_line=False)
         row=json.loads(path.read_text())
