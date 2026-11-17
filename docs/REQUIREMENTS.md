@@ -17,6 +17,19 @@ The 4,599,296-byte single image has SHA-256
 Both the single image and MinGW comparison pass their twelve existing memory
 workloads; their reports retain the actual fonts and screen-clamped grids.
 
+The interaction catalog now additionally requires twelve full 160x48 Sarasa
+memory workloads, rejecting a clamped grid. These are distinct from the earlier
+Consolas checks; exact product identity and results are tracked in the
+[full-grid record](../research/full-grid-memory-ci.md).
+
+Candidate `5a5dd7b` passes 169 single-image groups, all 26 interaction cases,
+24 bilingual DPI cases, compiler/sanitizer tests and the complete MinGW suite.
+Its expanded full run is **19/21**, not green: GDI dense-image sampling is below
+20 MB but two runs fail during subsequent active-tab capture; all six full-grid
+DirectX workloads exceed 25 MB. The exact failures, timings and candidate
+download are retained in the full-grid record. No accepted distribution is
+replaced based on these incomplete full-grid results.
+
 The dated checkpoints below retain their original results and failures. Their
 requests to resume local desktop testing no longer describe the execution plan.
 Hosted tests do not retroactively pass historical memory failures or certify

@@ -16,7 +16,7 @@ Nemoterm 是 **PuTTY 0.85 Windows pterm 的下游 fork**，沿用其终端核心
 最新验收快照 `2312edd` 已通过完整远程 CI：19 个任务全部成功，包含 169 组单 EXE 检查、26 项交互用例和 24 个中英文真实 DPI 场景。提供 English / 简体中文 / 跟随 Windows、默认多标签、profile 持久化与 Ctrl++ / Ctrl+- 字号缩放。
 [下载单文件快照](https://github.com/xiongnemo/nemoterm/actions/runs/44019109177/artifacts/14303645464) · [完整 CI](https://github.com/xiongnemo/nemoterm/actions/runs/44019109177) · [产物与验证记录](research/remote-test-migration.md)。
 
-所有自动测试已配置到 GitHub-hosted runner：完整 CI 统一调用协议、单 EXE、DPI 和 26 项交互验收，保留截图与原始日志，不依赖开发电脑的桌面或剪贴板。入口、依赖和验证边界见 [远程测试操作单](docs/INTERACTION_ACCEPTANCE.md)；实际运行结果见 [迁移记录](research/remote-test-migration.md)。
+所有自动测试已配置到 GitHub-hosted runner：完整 CI 统一调用协议、单 EXE、DPI、26 项交互和 12 项完整 Sarasa 网格负载，保留截图与原始日志，不依赖开发电脑的桌面或剪贴板。入口、依赖和验证边界见 [远程测试操作单](docs/INTERACTION_ACCEPTANCE.md)；实际运行结果见 [迁移记录](research/remote-test-migration.md)。
 
 支持 English / 简体中文 / 跟随 Windows 显示语言，在 **Window → Interface language** 中选择并保存，重启后生效。详见[界面语言说明](docs/I18N.md)。
 
@@ -174,6 +174,7 @@ GDI 总工作集最高 **40.05 MB**，DX 最高 **59.69 MB**；约 50 MB 的总�
 测试等待临时标签的两条 I/O 工作线程实际退出，并观察短暂 GUI 活动回落；启动和回落期间的内存样本均计入峰值。句柄和窗口资源的数值门槛保持不变，没有裁剪工作集。
 完整 CI 与下载成品复核均通过；其他显卡与长时间运行仍需验证。精确镜像、像素比较和样本见 [成品验证记录](research/kitty-query-transaction-product.md)；此前故障恢复记录见 [D3D11 验证](research/d3d11-ci.md)。
 常规内存回归与 Sarasa 交互矩阵的字体和负载不同，分别记录；历史本机内存样本不能套用于新构建。
+新增的完整 160×48 Sarasa 远程负载及其内存超限、后续修复结果见 [完整网格记录](research/full-grid-memory-ci.md)；较小网格的绿色 CI 不能替代这项验收。
 旧 Direct2D 版本的 30.63 MB 失败结果保留在 [此前验证记录](research/relative-cursor.md)；
 [分配诊断](research/local-directx-heap.md)、[初始化探针](research/graphics-initialization.md)、
 [Direct3D 11 实验](research/d3d11-copy.md) 和 [句柄调查](research/handle-lifetime.md) 保留了改动依据与未解决问题。
@@ -217,7 +218,7 @@ gh run download <run-id> --dir <new-evidence-directory>
 | [Test and build](.github/workflows/ci.yml) | 汇总源码单 EXE、MinGW 对照包、C/C++ 与原生协议测试、MSVC 诊断、ASan/UBSan，以及以下复用任务 |
 | [Single executable](.github/workflows/single-exe.yml) | 对同一个 EXE 运行协议、像素、客户端、生命周期和内存套件，保留成品与证据 |
 | [Remote DPI](.github/workflows/dpi.yml) | 英文/中文、独立窗口/标签宿主、100–200% 真实缩放与动态切换 |
-| [Remote interaction](.github/workflows/remote-interaction.yml) | 26 项交互检查；固定 Sarasa、真实隔离客户端、六种 shell、日志与截图 |
+| [Remote interaction](.github/workflows/remote-interaction.yml) | 26 项交互与 12 项完整 Sarasa 网格负载；真实隔离客户端、六种 shell、日志与截图 |
 
 只修改测试脚本时可回放已构建产物，并拒绝生产代码不匹配的镜像。分组命令、固定依赖、进程清理规则和物理设备验证边界见 [远程测试操作单](docs/INTERACTION_ACCEPTANCE.md)。
 

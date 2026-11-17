@@ -10,7 +10,7 @@
 gh workflow run ci.yml --ref <branch> -f scope=full
 ```
 
-`Test and build` 汇总 Linux ASan/UBSan、C/C++ 单元测试、MSVC 渲染诊断、MinGW 原生协议和像素测试、单 EXE 完整套件、profile 持久化、DPI/双语界面，以及下表的 26 项交互检查。单 EXE、DPI 和交互任务共用这次 source-host 构建的准确 EXE，并校验来源提交、大小及 SHA-256。
+`Test and build` 汇总 Linux ASan/UBSan、C/C++ 单元测试、MSVC 渲染诊断、MinGW 原生协议和像素测试、单 EXE 完整套件、profile 持久化、DPI/双语界面，以及下表的 38 项检查（26 项交互、12 项完整 Sarasa 网格负载）。单 EXE、DPI 和交互任务共用这次 source-host 构建的准确 EXE，并校验来源提交、大小及 SHA-256。
 
 只回放测试脚本，不重复编译：
 
@@ -40,6 +40,8 @@ gh workflow run font-zoom-replay.yml --ref <branch> -f suite=interaction -f sour
 | settings | 2 | 独立窗口和标签宿主的 profile CRUD、设置保存/重载 |
 | shells | 1 | pwsh、Windows PowerShell、BusyBox ash、Git Bash、WSL Bash、cmd |
 | bell | 2 | 声音 API、视觉响铃/恢复及关闭模式 |
+| memory-gdi | 6 | 完整 160×48 Sarasa 网格：文本、PNG、GIF、Kitty、压缩 Kitty、Unicode 图片的内存/像素/关闭回收 |
+| memory-directx | 6 | 相同六类负载，要求实际使用 DirectX，拒绝静默回退 |
 
 Sarasa Light 从固定 v2.3.1 压缩包安装，校验下载及实际字体名称，禁止静默换成替代字体。BusyBox 从固定源码提交交叉编译，记录成品 SHA-256 并附源码和许可证；Codex/OpenCode 使用 npm lock 文件固定实际原生客户端，保存客户端 EXE 哈希。WSL 在需要的组内安装 Ubuntu 24.04/WSL 1。shell 组要求六种 shell 全部检测成功并实际启动，不把“未安装”当通过。
 
@@ -55,6 +57,8 @@ Sarasa Light 从固定 v2.3.1 压缩包安装，校验下载及实际字体名�
 - 每次尝试的 `output.log`、`research/`、`build/`：截图、输入回执、像素/资源数据和失败证据。
 
 超时、断言失败或强制回收遗留进程均判失败。重跑创建新的 run/attempt，不覆盖旧失败。内存目标沿用既有 GDI 与可选 GPU 模式约定，不为了 runner 通过而放宽。
+
+`memory-*` 组只在托管 Runner 上选择其显卡驱动列出的较大显示模式，使用实际 100% DPI、固定 Sarasa Light 和显式 `--require-grid`。初始终端必须确实为 160×48 字符；被屏幕裁小就失败。记录实际工作区、字体、渲染器、网格和三项内存指标；先采样内存，再执行截图/注入检查，并在结束后恢复显示模式。可用 `-f 'groups=["memory-gdi","memory-directx"]'` 单独回放。原有 Consolas 小网格回归仍保留，不能替代这些完整网格负载。
 
 真实 Windows DPI 的 100/125/150/175/200% 冷启动和动态切换由独立 [DPI 工作流](DPI-CI.md) 覆盖；交互组的模拟 DPI 不替代它。
 
