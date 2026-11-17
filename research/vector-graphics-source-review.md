@@ -2,7 +2,8 @@
 
 This records source constraints and independent upstream observations, not
 implemented Nemoterm protocol support. The current production candidate
-remains `329019d`; its ongoing full regression is not superseded by this work.
+remains `329019d`; its [completed 21/22 regression](terminfo-product-regression.md)
+is not superseded by this work.
 
 ## Pinned upstream
 
@@ -79,18 +80,55 @@ Concrete observations include:
   Entering the alternate screen hides the drawing while keeping the reported
   graphics position; the captured round trip restores the image.
 
+## Page ownership and visible palette controls
+
+[Run 44092344809](https://github.com/xiongnemo/nemoterm/actions/runs/44092344809)
+at `9dfbf11354ce4efcfd5a26b3be5b5ca4435d520e` expands the same reference to
+55 scenes, 110 processes, 228 steps and 338 frames. It passes both transports
+with natural cleanup. Main/alternate-screen round trips retain their different
+green/red lines. ED2 clears the observed drawing; ED3 leaves it visible; EL2
+removes the intersecting one of two lines. CSI 3 S leaves one line visible,
+whereas CSI 3 T produces three visible lines in this particular capture. The
+raw observations are retained without treating that last effect as a normative
+scrolling rule or assigning a cause that the evidence does not establish.
+
+The shared-palette scenes in this build initially draw black on black. Those
+captures cannot establish visible recolouring and remain unchanged in the
+archive. [Run 44093439244](https://github.com/xiongnemo/nemoterm/actions/runs/44093439244)
+at `8c27acf991b067d259d80c528142786ee89f2794` adds six separate controls that
+explicitly define green before changing register 3. It also places the Sixel
+below the ReGIS page to avoid occlusion. Every new step must contain exactly
+101 visible line pixels or 600 visible Sixel pixels; a black frame cannot pass
+that control.
+
+The final collector passes **61 scenes, 122 processes, 264 steps and 386
+initial/step frames**, all using the identical XTerm binary recorded above.
+Whole and bytewise replies and RGB hashes match, all visibility controls pass,
+and every process exits naturally with zero status. With private registers
+enabled, the page sequence is green/red/green/red; with shared registers it is
+green/red/red/red. The two cross-protocol palette-change sequences retain their
+visible green pixels at the observed barriers in both modes. This establishes
+the captured display result, not the absence of shared internal register state
+or every later repaint behavior.
+
 These finite observations are not full ReGIS conformance. Input-device
 reports, font/alphabet loading, all curve/fill combinations, macrographs,
-cross-protocol palette interactions and resource exhaustion remain outside
-this initial reference. Tektronix still has no collector or implementation.
+exhaustive cross-protocol invalidation and resource exhaustion remain open.
+Tektronix still has no collector or implementation.
 
-[The evidence archive](regis-reference-evidence.zip) contains seven entries:
-the complete original GitHub artifact ZIP, final run/job/artifact metadata,
-download receipt, read-only analysis and a per-file hash manifest. The original
-ZIP is **2,273,098 bytes**, SHA-256
-`a74acee2ac5f2f1ffaabf88b9cf0e3fdcc7e5f49a5bb11d63a3d12646f7a1bcf`.
-The containing archive is **2,145,846 bytes**, SHA-256
-`bc572667666fd440fd071aa33d015707896f93531f4ec7168b4e84f76cdbd0f8`.
+[The evidence archive](regis-reference-evidence.zip) contains **21 entries**:
+all three complete original GitHub artifact ZIPs, each final run/job/artifact
+metadata, receipts and read-only analysis, two file-only archival helpers, and
+a per-file hash manifest. The original ZIP identities are:
+
+| Run | ZIP bytes | SHA-256 |
+| --- | ---: | --- |
+| 44088804952 | 2,273,098 | `a74acee2ac5f2f1ffaabf88b9cf0e3fdcc7e5f49a5bb11d63a3d12646f7a1bcf` |
+| 44092344809 | 2,368,798 | `90e0faf47d03c233d70769e0a3c6093c995725fb6b4ffe179dfe2a861243dbf4` |
+| 44093439244 | 2,411,073 | `f1cb288263b12e35be6ffc29b4edde6f71ee65054adabb1c105198ccdaf25b00` |
+
+The containing archive is **6,548,751 bytes**, SHA-256
+`364a3ae1a0a5f206fa634f4027b6958f0053df3bdc1d8cde8bf89b2b42d4357e`.
 Downloaded binary and source hashes were checked as files; no downloaded
 program was executed on the development computer.
 

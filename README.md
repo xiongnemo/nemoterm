@@ -13,8 +13,8 @@ Nemoterm 是 **PuTTY 0.85 Windows pterm 的下游 fork**，沿用其终端核心
 本页描述所在分支的代码；下载产物按下面的提交和验证记录区分。已实现功能与测试边界见 [协议支持表](docs/PROTOCOLS.md)
 和 [需求与验证记录](docs/REQUIREMENTS.md)。
 
-当前开发构建 `8084338` 已完成远程 CI，**21/22 个任务通过**：169 组单 EXE 检查、MinGW 完整套件、26 项交互、24 个中英文真实 DPI 场景及全部六项完整网格 GDI 负载均通过。唯一失败为 DirectX 完整网格负载超过 25 MB 私有工作集；GDI 峰值为 18.69 MB。
-[下载当前单文件开发构建](https://github.com/xiongnemo/nemoterm/actions/runs/44058990446/artifacts/14320479224) · [完整 CI](https://github.com/xiongnemo/nemoterm/actions/runs/44058990446) · [产物与验证记录](research/closed-console-regression.md)。
+当前开发构建 `329019d` 已完成远程 CI，**21/22 个任务通过**：170 组单 EXE 检查、MinGW 完整套件、26 项交互、24 个中英文真实 DPI 场景及全部六项完整网格 GDI 负载均通过。新增 Terminfo 键盘的 1,293 条原生输入流零差异。唯一失败为 DirectX 完整网格负载超过 25 MB 私有工作集；GDI 峰值为 18.82 MB。
+[下载当前单文件开发构建](https://github.com/xiongnemo/nemoterm/actions/runs/44083541137/artifacts/14332971661) · [完整 CI](https://github.com/xiongnemo/nemoterm/actions/runs/44083541137) · [产物与验证记录](research/terminfo-product-regression.md)。
 
 所有自动测试已配置到 GitHub-hosted runner：完整 CI 统一调用协议、单 EXE、DPI、26 项交互和 12 项完整 Sarasa 网格负载，保留截图与原始日志，不依赖开发电脑的桌面或剪贴板。入口、依赖和验证边界见 [远程测试操作单](docs/INTERACTION_ACCEPTANCE.md)；实际运行结果见 [迁移记录](research/remote-test-migration.md)。
 
@@ -38,7 +38,7 @@ Kitty 图片支持直接 RGB/RGBA/PNG、压缩传输、裁剪、透明度、查�
 
 ## 下载
 
-当前开发构建 `8084338` 的单 EXE 为 4,600,320 字节，带有上述 DirectX 内存限制；来源与 SHA-256 见 [本轮记录](research/closed-console-regression.md)。此前迁移基线 `2312edd` 为 19/19 全绿，但尚未包含后来新增的完整 Sarasa 网格门槛，见 [迁移基线](research/remote-test-migration.md)。历史语言预览保留在 [语言预览记录](research/i18n.md)，不将旧版本结果套用于新 EXE。
+当前开发构建 `329019d` 的单 EXE 为 4,800,000 字节，带有上述 DirectX 内存限制；来源与 SHA-256 见 [本轮记录](research/terminfo-product-regression.md)。此前迁移基线 `2312edd` 为 19/19 全绿，但尚未包含后来新增的完整 Sarasa 网格门槛，见 [迁移基线](research/remote-test-migration.md)。历史语言预览保留在 [语言预览记录](research/i18n.md)，不将旧版本结果套用于新 EXE。
 
 查找后续开发构建：
 
@@ -150,6 +150,7 @@ Sarasa 字体在本机 GDI、OpenGL、DirectX 下的字号回归也已通过；
 不带参数启动使用 Default，也可用 `--profile "名称"` 指定；Profile 菜单可以用所选 profile 新建标签。字体、颜色、绑定等即时应用，Profile / Shell 的 shell 和目录设置在新标签或下次启动生效。临时 `-e` 命令不会保存到 profile。配置保存在 `HKCU\Software\Nemo\Nemoterm`，与 PuTTY / pterm 分开；已有配置和 `-load` 继续兼容，旧 Default Settings 显示为 Default。
 
 OSC 52 剪贴板读取默认关闭，读写权限可在 Terminal / Clipboard 分别设置。
+需要按 Terminfo 数据库发送功能键时，在 **Terminal / Keyboard** 选择 **Terminfo**；其子页可设置启动终端名称，以及独立的查询和切换权限（默认允许查询、禁止应用切换）。设置随当前 profile 保存；详见 [Terminfo 说明](research/terminfo-database.md)。
 Shell Integration 的命令与输出导航需要 shell 输出 OSC 133 / 633 标记；程序不会自动修改 shell 配置。
 
 ## 渲染与内存

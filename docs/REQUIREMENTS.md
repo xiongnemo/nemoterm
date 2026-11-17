@@ -84,9 +84,12 @@ combinations and 24 bilingual real-DPI cases. The later `329019d` label-layout
 candidate passes 26 hosted interactions, 24 real bilingual DPI cases (572 page
 checks and 3,344 control checks), and all six full-grid Sarasa GDI workloads.
 GDI peaks at 18,817,024 private-WS bytes and 53,497,856 total-WS bytes. DirectX's
-six workloads fail the unchanged 25 MB gate, with natural cleanup. Its full
-single-image and MinGW suites are still running; the aggregate is not yet
-complete. Failed and cancelled runs remain retained, and `dist` is unchanged.
+six workloads fail the unchanged 25 MB gate, with natural cleanup. The completed
+aggregate is **21/22**: all 170 single-image groups and the complete MinGW suite
+pass, each including 1,293 exact native Terminfo streams with zero mismatches.
+The [final product record](../research/terminfo-product-regression.md) identifies
+downloads and the hosted notice-only portable repackage, which preserves all
+original files. Failed and cancelled runs remain retained; `dist` is unchanged.
 
 ## Current memory scope (user clarification, 2026-11-15 Sydney)
 

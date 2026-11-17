@@ -221,7 +221,8 @@ The retained keyboard screenshot also exposes truncated long keyboard-mode
 radio labels. `329019d` lays them out in two columns and moves the AltGr options
 to Keyboard/Extended, which joins the now **13-page** bilingual DPI matrix.
 Full product [run 44083541137](https://github.com/xiongnemo/nemoterm/actions/runs/44083541137)
-is in progress on this final source candidate, with all gates unchanged.
+has completed on this final source candidate, with all gates unchanged:
+**21 jobs pass; only full-grid DirectX memory fails**.
 Its single image is **4,800,000 bytes**, SHA-256
 `b4ed0f124b3e17d165b6c0d31c9a02a083477d556dd34ecbdb37d6d9db3458d7`.
 The downloaded image matches its source-host manifest without local execution.
@@ -252,29 +253,33 @@ gate; their functional checks and natural cleanup complete. These failures are
 retained, and the user's instruction to stop further DirectX memory tuning is
 unchanged. GDI remains below 20 MB private WS and approximately 50 MB total WS.
 
-At the retained snapshot, **19 jobs pass, one fails, and two are still running**:
-the full single-image and MinGW suites. This is not a completed aggregate or
-an all-green build. Earlier image results are not attributed to the pending
-jobs, and `dist` has not been replaced.
+The full single-image suite now passes **170 groups** and the complete MinGW
+suite also passes. Each exact executable passes **1,293 native Terminfo streams
+with zero mismatches**, retaining 85 named exclusions; permission combinations
+and persisted profile settings also pass. This completed **21/22** aggregate
+is not an all-green build, and `dist` has not been replaced. Exact downloads,
+portable notice completion and scope are in the
+[final product record](terminfo-product-regression.md).
 
 ## Integration evidence archive
 
-[The integration archive](tcap-integration-evidence.zip) retains 128 entries,
+[The integration archive](tcap-integration-evidence.zip) retains 179 entries,
 including final metadata, original failed component/native ZIPs, successful
 production-lookup and native-replay receipts, cancelled aggregate records,
 complete DPI JSON/logs and selected 200% screenshots. It additionally retains
-the explicitly named in-progress `44083541137` metadata snapshot and original
-interaction, GDI/DirectX memory, profile and lifetime artifact ZIPs. The two
-unfinished jobs are not counted as passing. Original download hashes
+the explicitly named earlier in-progress `44083541137` snapshot, final metadata,
+complete single-image/MinGW evidence, original interaction, GDI/DirectX memory,
+profile and lifetime artifact ZIPs, and both notice-package replays. Original download hashes
 remain in the receipt files; explicitly named `.selected.zip` files omit the
-rest of the successful DPI screenshots. Source-host binaries are omitted after
-file-only verification against their manifests. No downloaded program was run
+rest of the successful DPI screenshots. Source-host and package binaries are
+omitted after file-only verification; package metadata and file hashes remain.
+No downloaded program was run
 on the development computer.
 
-The archive is **14,152,027 bytes**, SHA-256
-`b8ab85510251c848a51cd2147b14f3ceacd9434ebf4cf661afbfb6a028e61118`.
-It is a component/native and partial aggregate checkpoint, not evidence that
-the two remaining full suites have completed.
+The archive is **20,689,733 bytes**, SHA-256
+`c978c3c8ae0776184faa38190fda77f2aeaab7c5bcc5f35713dd9b5a9f32d8e9`.
+It retains the completed component/native and full aggregate checkpoint,
+including the failed DirectX memory gate.
 
 ## Retained evidence
 
