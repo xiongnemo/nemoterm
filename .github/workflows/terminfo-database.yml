@@ -28,7 +28,10 @@ jobs:
           cp COPYING "$GITHUB_WORKSPACE/build/terminfo-source/COPYING.ncurses"
           cp misc/terminfo.src config.log "$GITHUB_WORKSPACE/build/terminfo-source/"
           progs/tic -V > "$GITHUB_WORKSPACE/build/terminfo-source/tic-version.txt"
-          sha256sum progs/tic lib/libtinfo.so > "$GITHUB_WORKSPACE/build/terminfo-source/tools-sha256.txt"
+          libraries=(lib/libtinfo*.so)
+          test "${#libraries[@]}" = 1 && test -f "${libraries[0]}"
+          sha256sum progs/tic "${libraries[0]}" > "$GITHUB_WORKSPACE/build/terminfo-source/tools-sha256.txt"
+          echo "NEMOTERM_TINFO_LIBRARY=$PWD/${libraries[0]}" >> "$GITHUB_ENV"
           git init "$RUNNER_TEMP/xterm"
           git -C "$RUNNER_TEMP/xterm" remote add origin https://github.com/ThomasDickey/xterm-snapshots.git
           git -C "$RUNNER_TEMP/xterm" fetch --depth 1 origin 5c75ead9a75d4b2e666ca06fa94503b5766ed93f
@@ -37,7 +40,7 @@ jobs:
       - name: Export and compile the read-only capability pool
         run: |
           export LD_LIBRARY_PATH="$RUNNER_TEMP/ncurses/lib"
-          python3 scripts/export-terminfo-database.py --library "$RUNNER_TEMP/ncurses/lib/libtinfo.so" --database build/terminfo-compiled --xtermcap build/terminfo-source/xtermcap.c --source build/terminfo-source/terminfo.src --output build/terminfo-export
+          python3 scripts/export-terminfo-database.py --library "$NEMOTERM_TINFO_LIBRARY" --database build/terminfo-compiled --xtermcap build/terminfo-source/xtermcap.c --source build/terminfo-source/terminfo.src --output build/terminfo-export
           cat > build/terminfo-export/size-probe.c <<'C'
           #include <stdio.h>
           #include "nemo_tcap_database.inc"
