@@ -12,7 +12,7 @@ import sys
 import time
 
 ROOT = Path(__file__).resolve().parents[1]
-FONT = 'SarasaTermSC Nerd Font Light'
+FONT = os.environ.get('NEMOTERM_TEST_FONT', 'SarasaTermSC Nerd Font Light')
 
 
 def catalog():

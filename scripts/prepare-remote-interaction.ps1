@@ -35,12 +35,15 @@ public static class FixtureFont {
 }
 '@
 if ([FixtureFont]::AddFontResourceW($font[0].FullName) -lt 1) { throw 'Sarasa registration failed' }
-$family='SarasaTermSC Nerd Font Light'
+$metadata=python "$PSScriptRoot/ci-font-name.py" $font[0].FullName | ConvertFrom-Json
+if ($LASTEXITCODE) { throw 'Unable to read pinned font identity' }
+$family=$metadata.family
+Write-Host "Pinned font: $($font[0].Name), Windows family: $family"
 $actual=[FixtureFont]::Verify($family)
 if ($actual -ne $family) { throw "Sarasa font substituted: $actual" }
 $evidence=[ordered]@{
     Runner=$env:RUNNER_NAME; ImageVersion=$env:ImageVersion
-    Font=[ordered]@{Url=$fontUrl;ArchiveSHA256=$fontHash;File=$font[0].Name;SHA256=(Get-FileHash $font[0].FullName).Hash.ToLowerInvariant();Requested=$family;Actual=$actual}
+    Font=[ordered]@{Url=$fontUrl;ArchiveSHA256=$fontHash;File=$font[0].Name;SHA256=(Get-FileHash $font[0].FullName).Hash.ToLowerInvariant();Requested=$family;Actual=$actual;Names=$metadata.names}
 }
 if ($Shells) {
     $busybox=Join-Path $destination 'busybox.exe'
