@@ -3,6 +3,7 @@
 #include "test_terminal.c"
 #undef main
 #include "../../../tests/tcap_query_reference.h"
+#include "../../../tests/tcap_key_reference.h"
 
 static void response(Mock *mk, const char *expected)
 {
@@ -353,6 +354,57 @@ static void test_independent_database_queries(Mock *mk)
     }
 }
 
+static void test_independent_database_keys(Mock *mk)
+{
+    conf_set_int(mk->conf, CONF_funky_type, FUNKY_TCAP);
+    conf_set_bool(mk->conf, CONF_bksp_is_delete, false);
+    conf_set_bool(mk->conf, CONF_no_applic_c, false);
+    conf_set_bool(mk->conf, CONF_no_applic_k, false);
+    conf_set_int(mk->conf, CONF_sharrow_type, SHARROW_BITMAP);
+    for (size_t i = 0; i < lenof(tcap_key_reference); i++) {
+        if (tcap_key_reference[i].reset) {
+            conf_set_str(mk->conf, CONF_nemo_tcap_name, tcap_key_reference[i].terminal);
+            term_reconfig(mk->term, mk->conf);
+            nemo_tcap_configure(mk->term, tcap_key_reference[i].terminal);
+            reset(mk);
+        }
+        test_context(mk, "independent startup %s step %zu", tcap_key_reference[i].name, i);
+        term_data_fragmented(mk->term, tcap_key_reference[i].sequence);
+        char output[64];
+        unsigned mods = tcap_key_reference[i].mods;
+        bool consumed_alt = false;
+        int length = 0, code = tcap_key_reference[i].code;
+        switch (tcap_key_reference[i].kind) {
+          case 1:
+            length = format_arrow_key(output, mk->term, code, mods&1, mods&4, mods&2, &consumed_alt);
+            break;
+          case 2:
+            length = format_small_keypad_key(output, mk->term, code, mods&1, mods&4, mods&2, &consumed_alt);
+            break;
+          case 3:
+            length = format_function_key(output, mk->term, code, mods&1, mods&4, mods&2, &consumed_alt);
+            break;
+          case 4: {
+            unsigned resource = tcap_key_reference[i].resource, point = tcap_key_reference[i].point;
+            length = nemo_tcap_special_key(mk->term, resource, point, mods, output);
+            if (length < 0) length = term_format_xterm_extended_key(mk->term, resource,
+                point, mods, output, sizeof(output));
+            if (length < 0) length = term_format_xterm_legacy_key(mk->term, resource,
+                point, mods, false, output, sizeof(output));
+            consumed_alt = true;
+            break;
+          }
+        }
+        if (length < 0) report_fail(mk, __FILE__, __LINE__, "Unhandled reference key");
+        else {
+            if (tcap_key_reference[i].kind && (mods&2) && !consumed_alt)
+                put_byte(mk->to_backend, '\033');
+            put_data(mk->to_backend, output, length);
+        }
+        response(mk, tcap_key_reference[i].reply);
+    }
+}
+
 int main(int argc, char **argv)
 {
     Mock *mk = mock_new();
@@ -380,6 +432,7 @@ int main(int argc, char **argv)
     test_legacy_keyboard(mk);
     test_database_selection(mk);
     test_independent_database_queries(mk);
+    test_independent_database_keys(mk);
     bool failed = mk->any_test_failed;
     mock_free(mk);
     puts(failed ? "Capability/keyboard suite FAILED" : "Capability/keyboard suite passed");

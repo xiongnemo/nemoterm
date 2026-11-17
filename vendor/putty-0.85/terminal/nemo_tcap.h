@@ -13,6 +13,8 @@ void nemo_tcap_configure(Terminal *term, const char *name);
 /* -1 means use the ordinary key formatter; zero is a present empty key. */
 int nemo_tcap_key(Terminal *term, char kind, int code, unsigned modifiers,
                   char output[64]);
+int nemo_tcap_special_key(Terminal *term, unsigned resource, unsigned codepoint,
+                          unsigned modifiers, char output[64]);
 
 /* Complete, bounded XTGETTCAP response, owned by the caller. */
 strbuf *nemo_tcap_reply(Terminal *term, const char *query, bool invalid);

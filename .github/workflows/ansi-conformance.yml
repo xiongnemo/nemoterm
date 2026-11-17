@@ -129,6 +129,7 @@ jobs:
       - name: Verify independent reference projection
         run: |
           python3 scripts/generate-tcap-query-reference.py --check
+          python3 scripts/generate-tcap-key-reference.py --check
           python3 scripts/generate-feature-policy-reference.py --check
           python3 scripts/generate-bell-reference.py --check
           python3 scripts/generate-udk-reference.py --check
@@ -186,6 +187,8 @@ jobs:
       - name: Verify independent reference projection
         run: |
           python scripts/generate-tcap-query-reference.py --check
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          python scripts/generate-tcap-key-reference.py --check
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python scripts/generate-feature-policy-reference.py --check
           if ($LASTEXITCODE) { exit $LASTEXITCODE }

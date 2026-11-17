@@ -13010,6 +13010,19 @@ int term_format_xterm_legacy_key(Terminal *term, unsigned resource,
     bool shift = mods & 1, ctrl = mods & 4;
     int code = 0, length = -1;
     char final = 0;
+    if (term->funky_type == FUNKY_TCAP && resource == 7 && term->modify_keys.level <= 0) {
+        /* The tcap profile's character fallback follows the normal XTerm
+         * backarrow/Tab path after a database miss. Shift alone does not flip
+         * Backspace; Control does. Explicit modified-key protocols run first. */
+        if (unicode == 8) {
+            encoded[0] = (term->bksp_is_delete != ctrl) ? 127 : 8;
+            length = 1;
+        } else if (unicode == 9) {
+            encoded[0] = '\t'; length = 1;
+        } else if (unicode == 0xe120) {
+            memcpy(encoded, "\033[Z", 3); length = 3;
+        }
+    }
     if (resource == 2) {
         if (unicode == 0xe26a) code = 28; /* Help */
         else if (unicode == 0xe267) code = 29; /* Menu */
@@ -13288,6 +13301,12 @@ int format_small_keypad_key(char *buf, Terminal *term, SmallKeypadKey key,
      * cannot turn a character into an editing key; modifyOtherKeys can. */
     if (term->funky_type == FUNKY_XTERM_LEGACY && !term->vt52_mode &&
         key == SKK_DELETE && term->special_modify_keys[0].level != 4 &&
+        (term->modify_keys.level == 0 || !(shift || ctrl || alt))) {
+        if (alt && consumed_alt) *consumed_alt = true;
+        buf[0] = 127;
+        return 1;
+    }
+    if (term->funky_type == FUNKY_TCAP && !term->vt52_mode && key == SKK_DELETE &&
         (term->modify_keys.level == 0 || !(shift || ctrl || alt))) {
         if (alt && consumed_alt) *consumed_alt = true;
         buf[0] = 127;

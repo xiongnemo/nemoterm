@@ -93,6 +93,7 @@ const char *nemo_ui_category(const char *path, const char *fallback)
         {"Profile", "category.profile"}, {"Profile/Logging", "category.logging"},
         {"Profile/Shell", "category.shell"}, {"Terminal", "category.terminal"},
         {"Terminal/Keyboard", "category.keyboard"}, {"Terminal/Keyboard/Extended", "category.extended"},
+        {"Terminal/Keyboard/Terminfo", "category.terminfo"},
         {"Terminal/Bell", "category.bell"}, {"Terminal/Bell/Overload", "category.overload"},
         {"Terminal/Features", "category.features"}, {"Terminal/Screen queries", "category.screen_queries"},
         {"Terminal/Hyperlinks", "category.hyperlinks"}, {"Terminal/Clipboard", "category.clipboard"},

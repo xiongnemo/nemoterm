@@ -5610,7 +5610,7 @@ static int TranslateKey(WinGuiSeat *wgs, UINT message, WPARAM wParam,
                     wgs->compose_keycode = wParam;
             }
             if (wParam == VK_APPS && !wgs->term->special_modify_keys_set &&
-                funky_type != FUNKY_XTERM_LEGACY)
+                funky_type != FUNKY_XTERM_LEGACY && funky_type != FUNKY_TCAP)
                 wgs->compose_keycode = wParam;
         }
 
@@ -5698,7 +5698,8 @@ static int TranslateKey(WinGuiSeat *wgs, UINT message, WPARAM wParam,
             return 0;
         }
 
-        if (wParam == VK_PRIOR && shift_state == 2 && funky_type != FUNKY_XTERM_216) {
+        if (wParam == VK_PRIOR && shift_state == 2 && funky_type != FUNKY_XTERM_216 &&
+            funky_type != FUNKY_TCAP) {
             SendMessage(wgs->term_hwnd, WM_VSCROLL, SB_LINEUP, 0);
             return 0;
         }
@@ -5706,7 +5707,8 @@ static int TranslateKey(WinGuiSeat *wgs, UINT message, WPARAM wParam,
             SendMessage(wgs->term_hwnd, WM_VSCROLL, SB_PAGEDOWN, 0);
             return 0;
         }
-        if (wParam == VK_NEXT && shift_state == 2 && funky_type != FUNKY_XTERM_216) {
+        if (wParam == VK_NEXT && shift_state == 2 && funky_type != FUNKY_XTERM_216 &&
+            funky_type != FUNKY_TCAP) {
             SendMessage(wgs->term_hwnd, WM_VSCROLL, SB_LINEDOWN, 0);
             return 0;
         }
@@ -5940,6 +5942,7 @@ static int TranslateKey(WinGuiSeat *wgs, UINT message, WPARAM wParam,
           small_keypad_key:
             /* Retain the old local behaviour in legacy keyboard modes. */
             if ((shift_state & 2) && funky_type != FUNKY_XTERM_216 && funky_type != FUNKY_XTERM_LEGACY &&
+                funky_type != FUNKY_TCAP &&
                 !wgs->term->special_modify_keys_set)
                 break;
 

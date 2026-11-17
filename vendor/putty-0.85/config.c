@@ -2531,7 +2531,8 @@ void setup_config_box(struct controlbox *b, bool midsession,
                       "SCO", I(FUNKY_SCO),
                       "Xterm 216+", I(FUNKY_XTERM_216),
                       "VT220 (UDK)", I(FUNKY_VT220),
-                      "Xterm legacy (X11R5)", I(FUNKY_XTERM_LEGACY));
+                      "Xterm legacy (X11R5)", I(FUNKY_XTERM_LEGACY),
+                      "Terminfo", I(FUNKY_TCAP));
     ctrl_radiobuttons(s, nemo_ui_text("keyboard.modified_arrows"), 'w', 2,
                       HELPCTX(keyboard_sharrow),
                       conf_radiobutton_handler,
@@ -2550,6 +2551,18 @@ void setup_config_box(struct controlbox *b, bool midsession,
                       HELPCTX(keyboard_appkeypad),
                       numeric_keypad_handler, P(NULL),
                       nemo_ui_text("common.normal"), I(0), nemo_ui_text("common.application"), I(1), "NetHack", I(2));
+
+    ctrl_settitle(b, "Terminal/Keyboard/Terminfo", nemo_ui_text("tcap.title"));
+    s = ctrl_getset(b, "Terminal/Keyboard/Terminfo", "database", nemo_ui_text("tcap.database"));
+    ctrl_editbox(s, nemo_ui_text("tcap.name"), 'n', 100, HELPCTX(no_help),
+                 conf_editbox_handler, I(CONF_nemo_tcap_name), I(1));
+    ctrl_text(s, nemo_ui_text("tcap.name_hint"), HELPCTX(no_help));
+    s = ctrl_getset(b, "Terminal/Keyboard/Terminfo", "permissions", nemo_ui_text("tcap.permissions"));
+    ctrl_checkbox(s, nemo_ui_text("tcap.allow_select"), 's', HELPCTX(no_help),
+                  conf_checkbox_handler, I(CONF_nemo_allow_set_tcap));
+    ctrl_checkbox(s, nemo_ui_text("tcap.allow_query"), 'q', HELPCTX(no_help),
+                  conf_checkbox_handler, I(CONF_nemo_allow_get_tcap));
+    ctrl_text(s, nemo_ui_text("tcap.lifetime_hint"), HELPCTX(no_help));
 
     ctrl_settitle(b, "Terminal/Keyboard/Extended", nemo_ui_text("keyboard.extended"));
     s = ctrl_getset(b, "Terminal/Keyboard/Extended", "modifiedcharacters",

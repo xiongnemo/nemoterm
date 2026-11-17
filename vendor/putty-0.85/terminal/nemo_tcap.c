@@ -106,6 +106,52 @@ int nemo_tcap_key(Terminal *term, char kind, int code, unsigned modifiers,
     return (int)length;
 }
 
+int nemo_tcap_special_key(Terminal *term, unsigned resource, unsigned point,
+                          unsigned modifiers, char output[64])
+{
+    if (term->funky_type != FUNKY_TCAP || term->vt52_mode) return -1;
+    char kind = 0;
+    int code = 0;
+    if (resource == 7) {
+        kind = 'S';
+        if (point == 8) code = 8;
+        else if (point == 0xe120) code = 9; /* ISO Left Tab, not ordinary Tab */
+    } else if (resource == 2 && point == 0xe26a) {
+        kind = 'E'; code = SKK_HELP;
+    } else if (resource == 3) {
+        /* XTerm converts keypad navigation to dedicated navigation before
+         * the database lookup. Num Lock digits retain their numeric identity. */
+        if (point >= 0xe295 && point <= 0xe29d) {
+            switch (point) {
+              case 0xe295: kind = 'E'; code = SKK_HOME; break;
+              case 0xe296: kind = 'A'; code = 'D'; break;
+              case 0xe297: kind = 'A'; code = 'A'; break;
+              case 0xe298: kind = 'A'; code = 'C'; break;
+              case 0xe299: kind = 'A'; code = 'B'; break;
+              case 0xe29a: kind = 'E'; code = SKK_PGUP; break;
+              case 0xe29b: kind = 'E'; code = SKK_PGDN; break;
+              case 0xe29c: kind = 'E'; code = SKK_END; break;
+              default: break;
+            }
+        } else if (point >= 0xe2b0 && point <= 0xe2b9) {
+            kind = 'N'; code = '0' + point-0xe2b0;
+        } else {
+            kind = 'N';
+            switch (point) {
+              case 0xe28d: code = '\r'; break;
+              case 0xe2aa: code = '*'; break;
+              case 0xe2ab: code = '+'; break;
+              case 0xe2ac: code = ','; break;
+              case 0xe2ad: code = '-'; break;
+              case 0xe2ae: code = '.'; break;
+              case 0xe2af: code = '/'; break;
+              default: break;
+            }
+        }
+    }
+    return kind && code ? nemo_tcap_key(term, kind, code, modifiers & 15, output) : -1;
+}
+
 /* Literal sequences from ncurses' ecma+ renditions. Keep
  * termcap aliases only where include/Caps defines them; extended names are
  * case sensitive (Smol/Rmol, unlike the lower-case standard names).
@@ -131,6 +177,12 @@ static int key_value(Terminal *term, CapKey key, char value[64])
             const char *plain = database_key(term, key.kind, key.code, 0);
             if (!shifted || (plain && !strcmp(plain, shifted))) return -1;
         }
+        /* Query injection has no character payload. A missing Delete key
+         * falls back to the real key's DEL byte, but that byte is absent in
+         * the synthetic query, so XTerm reports a present empty value. */
+        if (key.kind == 'E' && key.code == SKK_DELETE &&
+            (!term->modify_keys.level || !key.modifiers) &&
+            !database_key(term, key.kind, key.code, key.modifiers)) return 0;
         if (key.kind == 'N' && key.code >= '1' && key.code <= '9') {
             if (!strcmp(key.long_name, "ka1")) key.kind = 'E', key.code = SKK_HOME;
             if (!strcmp(key.long_name, "kc1")) key.kind = 'E', key.code = SKK_END;

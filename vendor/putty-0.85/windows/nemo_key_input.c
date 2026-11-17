@@ -68,7 +68,7 @@ void nemo_keyboard_prepare(WinGuiSeat *wgs, UINT message, WPARAM key, LPARAM lp,
     bool kitty = enhanced(wgs);
     bool raw = nemo_win32_input_active(wgs);
     bool active = kitty || raw || wgs->term->modify_keys.level > 0 || wgs->term->special_modify_keys_set ||
-        wgs->term->funky_type == FUNKY_XTERM_LEGACY;
+        wgs->term->funky_type == FUNKY_XTERM_LEGACY || wgs->term->funky_type == FUNKY_TCAP;
     if (!wgs->key_input && !active) return;
     if (!wgs->key_input) {
         wgs->key_input = snew(NemoKeyInput);
@@ -287,7 +287,8 @@ static bool modified_key_input(WinGuiSeat *wgs, unsigned vk, LPARAM lp,
 static bool extended_key_input(WinGuiSeat *wgs, unsigned vk, LPARAM lp,
                                const BYTE state[256], HeldKey *held)
 {
-    if ((!wgs->term->special_modify_keys_set && wgs->term->funky_type != FUNKY_XTERM_LEGACY) ||
+    if ((!wgs->term->special_modify_keys_set && wgs->term->funky_type != FUNKY_XTERM_LEGACY &&
+         wgs->term->funky_type != FUNKY_TCAP) ||
         wgs->compose_state) return false;
     unsigned key = specific_key(vk, lp), resource = 7, codepoint = 0;
     unsigned mods = modifiers(state), own_modifier = 0, other_key = 0;
@@ -348,9 +349,11 @@ static bool extended_key_input(WinGuiSeat *wgs, unsigned vk, LPARAM lp,
      * different held key for the same modifier still contributes its bit. */
     if (own_modifier && !(HIWORD(lp) & KF_REPEAT) && !(state[other_key] & 0x80))
         mods &= ~own_modifier;
-    char output[NEMO_MOK_ENCODED_MAX];
-    int length = term_format_xterm_extended_key(wgs->term, resource, codepoint,
-                                               mods, output, sizeof(output));
+    char output[64];
+    int length = nemo_tcap_special_key(wgs->term, resource, codepoint, mods, output);
+    if (length < 0)
+        length = term_format_xterm_extended_key(wgs->term, resource, codepoint,
+                                                mods, output, sizeof(output));
     if (length < 0)
         length = term_format_xterm_legacy_key(wgs->term, resource, codepoint,
             mods, (state[VK_NUMLOCK] & 1) != 0, output, sizeof(output));
