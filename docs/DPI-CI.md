@@ -53,7 +53,7 @@ into the shipped executable.
 
 The real suite tests GDI in English and Simplified Chinese, in standalone and tab modes, with fresh processes at
 each available scale and live scale changes while settings are already open.
-It checks Profile, Shell, Bell, Bell/Overload, Bindings, Font, Translation,
+It checks Profile, Shell, Keyboard, Keyboard/Terminfo, Keyboard/Extended, Bell, Bell/Overload, Bindings, Font, Translation,
 Translation/Line drawing, Tabs and Interface language controls
 against dialog boundaries and the footer, saves screenshots, compares terminal
 cell dimensions and fixed-size Sixel pixels, and checks that input still reaches

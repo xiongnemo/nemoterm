@@ -75,6 +75,15 @@ requests to resume local desktop testing no longer describe the execution plan.
 Hosted tests do not retroactively pass historical memory failures or certify
 physical devices, third-party IMEs or every unimplemented protocol family.
 
+Terminfo keyboard integration is tracked in the
+[database and setter record](../research/terminfo-database.md). The pinned
+production lookup passes all 622,172 upstream slots; three compiler jobs pass
+2,180 individual queries and 1,378 startup steps with an explicit TN identity
+boundary. Exact image `589faec` passes 1,293 native key streams, four permission
+combinations and 24 bilingual real-DPI cases. The later `329019d` label-layout
+candidate is running full hosted CI; its aggregate and memory results are not
+yet accepted. Failed and cancelled runs remain retained, and `dist` is unchanged.
+
 ## Current memory scope (user clarification, 2026-11-15 Sydney)
 
 The original **GDI <20 MB private working set / approximately 50 MB total

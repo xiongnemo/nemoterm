@@ -1,9 +1,10 @@
 # Complete pinned terminfo key database
 
-This is upstream research for XTSETTCAP. Nemoterm still does not implement that
-setter, and no production executable contains this new database yet. Export,
-compilation and runtime reference capture run only on GitHub-hosted Actions.
-Local work only edits source or reads downloaded records.
+This records the pinned upstream key database and the XTSETTCAP integration.
+The setter and optional Terminfo keyboard are now implemented in source;
+full native product acceptance is tracked below, separately from export and
+component checks. Export, builds, tests and runtime reference capture run only
+on GitHub-hosted Actions. Local work edits source or reads downloaded records.
 
 ## Source and transformation
 
@@ -17,9 +18,9 @@ are generated from Nemoterm's encoders.
 
 The exporter records setup failures, owns and releases each library terminal,
 then interns strings and deduplicates complete key profiles. Profile zero is
-`xterm-256color`. All arrays are `static const`; selection can eventually use a
-small per-terminal profile index without allocating thousands of key strings.
-This is a storage design, not evidence of runtime working-set usage.
+`xterm-256color`. All arrays are `static const`; selection uses one per-terminal
+profile index without allocating thousands of key strings. Array sizes alone
+are not evidence of runtime working-set usage.
 
 | Measurement | Result |
 | --- | ---: |
@@ -35,9 +36,9 @@ This is a storage design, not evidence of runtime working-set usage.
 
 `COPYING.ncurses`, the original `terminfo.src`, build/configuration logs,
 tool/library hashes and raw library observations accompany the generated data.
-Before production integration, retain the notices in the repository, portable
-package and the single executable's existing embedded notice resource. The
-export does not add a runtime ncurses dependency.
+The notices are retained in the repository, portable package recipe and the
+single executable's existing embedded notice resource. The database adds no
+runtime ncurses dependency.
 
 ## Compiled-table verification
 
@@ -108,10 +109,136 @@ or retains a new database successfully.
 
 These observations do not cover VT52, every keyboard layout or every physical
 key on all 2,854 aliases. Combined XTGETTCAP requests retain XTerm's early-stop
-semantics, so they are not an exhaustive query check. Integration still needs
-bounded setter parsing, permission/profile persistence, key/query mapping and
-native product regression, followed by GDI memory verification of the exact
-new executable. XTSETTCAP remains absent from supported-feature advertisements.
+semantics, so they are not an exhaustive query check. The subsequent independent
+query capture below addresses that gap for the ten captured startup names.
+
+## Source integration and component verification
+
+`590fc9e` adds the immutable table and bounded setter, and `582803f` connects
+the optional keyboard profile to Win32 input and bilingual settings. The
+default keyboard remains unchanged. Choose **Terminal / Keyboard / Terminfo**
+to configure the startup database and the independent request permissions;
+select **Terminfo** on the parent keyboard page to use its key strings.
+GetTcap defaults on and SetTcap defaults off. OSC 60/61/62 reports both gates.
+
+The setter accepts one hex-encoded name of at most 31 decoded bytes. Invalid,
+unknown, overlong or cancelled requests leave the selection unchanged. It
+rejects embedded NUL instead of adopting XTerm's prefix acceptance. Successful
+selection has no reply; errors use the existing bell policy. Resets and
+unrelated reconfiguration preserve the live selection. Saving a profile stores
+the configured startup name and permissions, not an application's temporary
+selection. Changing the startup name explicitly applies the new selection.
+An unknown configured startup name falls back to `xterm-256color`.
+
+The allocation-free production lookup API passes all **622,172** upstream
+alias/capability combinations under GCC ASan/UBSan in
+[run 44076036172](https://github.com/xiongnemo/nemoterm/actions/runs/44076036172).
+That run also regenerates the header from pinned upstream source and requires
+an exact match to the vendored bytes. The original artifact ZIP is 1,050,732
+bytes, SHA-256 `87e3c122065e8b168c6a463125ab24ca081b88d7b827e01587239d1b8cd16122`.
+
+[Independent query run 44074397164](https://github.com/xiongnemo/nemoterm/actions/runs/44074397164)
+captures all **2,180 individual queries** (218 names times ten terminals) and
+three physical controls. Separate requests prevent early-stop gaps. Its
+[retained original observations](tcap-query-reference.zip) have SHA-256
+`6ebcafe5f675b49e24803369be4c51b5da9ac4914861e5ba45946e9188bb9e3d`.
+The generated fixtures preserve original answers, normalizing only the case
+of ASCII hex digits in capability values. Physical key bytes remain exact.
+
+At `771f5a3`, [run 44078735638](https://github.com/xiongnemo/nemoterm/actions/runs/44078735638)
+passes the capability/keyboard suite under GCC, Clang and MSVC: the 2,180
+individual queries and all 1,378 startup steps, alongside setter/configuration
+regressions. This is a **component result**, not an all-green run: its newly
+added feature-policy tests fail because the preceding mock resize request was
+never acknowledged. `904a240` completes that fixture handshake. The original
+failure is retained.
+
+The subsequent [component run 44080443304](https://github.com/xiongnemo/nemoterm/actions/runs/44080443304)
+at fixture `baabe5e` passes **all three compiler jobs**, including the repaired
+permission checks. GCC and Clang use ASan/UBSan; MSVC supplies an independent
+Windows compiler check. This still does not validate settings-page lifetime or
+native key routing, which the separate hosted product jobs exercise.
+
+There are **45 explicit startup-identity comparisons**. Reference XTerm `-tn`
+sets both TN and the startup keyboard database. Nemoterm's keyboard selector
+preserves its emulator identity (`xterm-256color`), as does the upstream setter's
+intended scope. Fixtures keep the full original response, assert Nemoterm's TN
+separately, and compare all remaining original bytes. They do not claim complete
+TN parity with `xterm -tn linux` or silently rewrite reference answers.
+
+Two earlier failures are retained: [44076036326](https://github.com/xiongnemo/nemoterm/actions/runs/44076036326)
+found 37 missing-Delete query mismatches (XTerm's synthetic query is empty while
+the real key falls back to DEL). [44077432618](https://github.com/xiongnemo/nemoterm/actions/runs/44077432618)
+exposed extended-mode priority and the startup TN comparison boundary. Explicit
+modify*Keys level 4 now precedes raw database lookup; ordinary database hits
+still precede cursor/keypad mode formatting.
+
+The hosted native fixture projects **1,293** Windows-comparable streams. It
+lists 45 F35 steps without a Win32 key equivalent and 40 Shift+PageUp/PageDown
+steps reserved for local scroll; the core retains all 85. Injection targets
+only the owned UI thread and restores its keyboard state. Actual key messages,
+ConPTY bytes, barriers and natural process cleanup are checked. These injected
+messages do not certify arbitrary physical keyboard layouts.
+
+Initial full product [run 44079360773](https://github.com/xiongnemo/nemoterm/actions/runs/44079360773)
+at `904a240` is **cancelled after a recorded DPI failure**, superseded by a source
+fix. The twelve-page DPI matrix exposed the new text field passing an integer
+instead of the edit handler's string-type descriptor, causing settings to exit
+when opening Terminfo. Its source image is SHA-256
+`114e62d4ce9f7673cca6073537bdfb498e920d8d42fd7888f18aaae5f950365f`.
+All ten functional interaction groups, profile and shell-lifetime jobs passed
+before cancellation, but the incomplete single-image, MinGW and memory jobs
+are not accepted. The original DPI artifact is retained.
+
+The same image's [native replay 44080437288](https://github.com/xiongnemo/nemoterm/actions/runs/44080437288)
+fails at Shift+Insert: the disabled legacy clipboard action still swallowed the
+key before the application encoder. It separately passes 75 existing policy
+cases and all 28 new cases covering four independent SetTcap/GetTcap permission
+combinations. These successes do not make the keyboard replay green.
+
+`589faec` supplies the proper string descriptor and lets disabled Insert
+clipboard combinations reach the application. Enabled local copy/paste actions
+retain their existing dispatch. Its 4,800,000-byte source-built image has SHA-256
+`ec927024b3ff77d74379857f0ee226e45677fcea80d4cc4ccdfa635836ab7315`.
+
+On that exact image, [native replay 44082638389](https://github.com/xiongnemo/nemoterm/actions/runs/44082638389)
+at fixture `928b34c` **passes all 1,293 native streams with zero mismatches**, the
+75 existing policy cases and 28 independent termcap permission cases. All ten
+keyboard profiles complete with natural owned-job cleanup; the 85 documented
+native exclusions remain explicit. The fixture records complete key streams
+even when one comparison fails, then fails the overall check if any mismatch
+exists. It does not discard failures after completing a capture.
+
+The same image's [full run 44081569049](https://github.com/xiongnemo/nemoterm/actions/runs/44081569049)
+passes the real-DPI job: **24 cases, 528 page checks and 3,036 control checks**,
+including Terminfo in both languages and both window modes. The 200% Chinese
+Terminfo screenshot was also visually inspected. All ten functional interaction
+groups, profile, shell-lifetime and compiler/sanitizer jobs pass. The aggregate
+is **cancelled**, not a full acceptance: its remaining single-image, MinGW and
+memory jobs were superseded by the subsequent UI-layout source change.
+
+The retained keyboard screenshot also exposes truncated long keyboard-mode
+radio labels. `329019d` lays them out in two columns and moves the AltGr options
+to Keyboard/Extended, which joins the now **13-page** bilingual DPI matrix.
+Full product [run 44083541137](https://github.com/xiongnemo/nemoterm/actions/runs/44083541137)
+is in progress on this final source candidate, with all gates unchanged. Earlier
+image results are not attributed to it, and `dist` has not been replaced.
+
+## Integration evidence archive
+
+[The integration archive](tcap-integration-evidence.zip) retains 87 entries,
+including final metadata, original failed component/native ZIPs, successful
+production-lookup and native-replay receipts, cancelled aggregate records,
+complete DPI JSON/logs and selected 200% screenshots. Original download hashes
+remain in the receipt files; explicitly named `.selected.zip` files omit the
+rest of the successful DPI screenshots. Source-host binaries are omitted after
+file-only verification against their manifests. No downloaded program was run
+on the development computer.
+
+The archive is **10,339,316 bytes**, SHA-256
+`ce0b4f5a70c69094d33ff5e2d3b17c7a29a56693fd4ff04a5de1c00d214e6d11`.
+It is a component/native checkpoint, not evidence that the latest aggregate
+or its GDI memory checks have completed.
 
 ## Retained evidence
 
