@@ -97,7 +97,9 @@ def main():
         started = time.monotonic()
         with (folder / 'output.log').open('w') as log:
             process = subprocess.Popen(command, cwd=root, stdout=log,
-                                       stderr=subprocess.STDOUT, start_new_session=True)
+                                       stderr=subprocess.STDOUT, start_new_session=True,
+                                       env=dict(os.environ, NEMOTERM_XTERM_DIAGNOSTICS=str(
+                                           (folder / 'reference-diagnostics').resolve())))
             try:
                 row['exit_code'] = process.wait(timeout=600)
                 row['status'] = 'passed' if row['exit_code'] == 0 else 'failed'

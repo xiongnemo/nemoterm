@@ -4,6 +4,7 @@ Run under Linux/WSL with Xvfb and an explicitly selected XTerm executable.
 No messages or events are sent to the user's desktop.
 """
 import argparse
+from contextlib import ExitStack
 import hashlib
 import json
 import os
@@ -91,15 +92,25 @@ def main():
 
 
 def run_cases(xterm, output, cases, extra_args=(), *, raw_replies=False, utf8_command_line=True):
-    with tempfile.TemporaryDirectory(prefix='nemoterm-xterm-oracle-') as temporary:
+    with tempfile.TemporaryDirectory(prefix='nemoterm-xterm-oracle-') as temporary, ExitStack() as streams:
         folder=Path(temporary);report=folder/'report.json';control=folder/'control.json'
+        diagnostics=os.environ.get('NEMOTERM_XTERM_DIAGNOSTICS')
+        diagnostic_path=None
+        def stderr(name):
+            if not diagnostics:return subprocess.DEVNULL
+            base=Path(diagnostics);base.mkdir(parents=True,exist_ok=True)
+            return streams.enter_context((base/(Path(output).stem+'-'+name+'.log')).open('w'))
+        if diagnostics:
+            diagnostic_path=Path(diagnostics)/(Path(output).stem+'-processes.json')
         r,w=os.pipe()
         xvfb=subprocess.Popen(['Xvfb','-displayfd',str(w),'-screen','0','1024x768x24','-nolisten','tcp'],
-                              pass_fds=[w],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
-        os.close(w);display=os.read(r,100).decode().strip();os.close(r)
+                              pass_fds=[w],stdout=subprocess.DEVNULL,stderr=stderr('xvfb'))
+        os.close(w)
+        try:display=os.read(r,100).decode().strip()
+        finally:os.close(r)
         terminal=subprocess.Popen([xterm,'-geometry','80x24',*(['-u8'] if utf8_command_line else []),*extra_args,'-e',sys.executable,
             str(Path(__file__).resolve()),'--child',str(report),str(control)],
-            env=dict(os.environ,DISPLAY=':'+display),stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+            env=dict(os.environ,DISPLAY=':'+display),stdout=subprocess.DEVNULL,stderr=stderr('xterm'))
         results=dict(version=subprocess.check_output([xterm,'-version'],text=True).strip(),
             executable_sha256=hashlib.sha256(Path(xterm).read_bytes()).hexdigest(),cases={})
         try:
@@ -136,6 +147,12 @@ def run_cases(xterm, output, cases, extra_args=(), *, raw_replies=False, utf8_co
                         reply=response.decode())
                     print(name,repr(response.decode()),flush=True)
         finally:
+            if diagnostic_path:
+                diagnostic_path.write_text(json.dumps(dict(
+                    display=display,report_exists=report.exists(),
+                    xterm_exit_before_cleanup=terminal.poll(),
+                    xvfb_exit_before_cleanup=xvfb.poll(),
+                    error=repr(sys.exc_info()[1]) if sys.exc_info()[0] else None),indent=2)+'\n')
             Path(output).write_text(json.dumps(results,indent=2))
             terminal.terminate();terminal.wait(timeout=5)
             xvfb.terminate();xvfb.wait(timeout=5)
