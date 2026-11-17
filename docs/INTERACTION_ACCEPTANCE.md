@@ -20,7 +20,7 @@ gh workflow run font-zoom-replay.yml --ref <branch> -f suite=interaction -f sour
 
 `interaction` 可额外传 `-f 'groups=["shells","clipboard"]'` 只重跑指定组；留空执行全部。
 
-`suite` 还可选 `single`、`dpi`、`font-bell`、`ui-regression`、`shell-lifetime`。交互、single、DPI 和 shell-lifetime 回放允许源 run 的其他测试失败，但要求 source-host 构建成功；生产代码或构建配方与该产物不一致就拒绝回放。查看结果用 `gh run view <run-id>`；下载证据用 `gh run download <run-id> --dir <new-directory>`。
+`suite` 还可选 `single`、`dpi`、`font-bell`、`ui-regression`、`shell-lifetime`、`tcap`。回放允许源 run 的其他测试失败，但要求 source-host 构建成功；生产代码或构建配方与该产物不一致就拒绝回放。`tcap` 对同一单 EXE 检查数据库键盘的 1,293 条原生输入流及四种独立 SetTcap/GetTcap 权限组合；45 个 F35 用例缺少 Windows 物理映射，40 个 Shift+PageUp/PageDown 用例保留本地滚动绑定，均明确列出并由核心测试覆盖。查看结果用 `gh run view <run-id>`；下载证据用 `gh run download <run-id> --dir <new-directory>`。
 
 `shell-lifetime` 在同一个准确 EXE 上交替执行 12 次普通 Git Bash 复制/关闭和 12 次带进程观察的复制/关闭，随后执行 2 次正常连接对照和 4 次受控的延迟客户端检查。完整 CI 也会自动调用此工作流。每次保留独立结果；原先的 3 秒回收门槛不变。失败后额外观察 12 秒并采集遗留进程的命令行、线程和转储，只用于诊断，不能把失败改成通过。已发现的关闭残留及修复验证见 [Git Bash 关闭调查](../research/git-bash-close-race.md) 和 [关闭后连接检查](../research/closed-console-connections.md)。
 

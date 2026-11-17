@@ -72,3 +72,26 @@ for name, settings in profiles.items():
     run('feature-policy-'+name,(),extra_cases=cases,
         profile=dict(settings,WarnOnClose=0,Beep=0,NemoRenderer=0),
         source_reference='Nemo policy expectations; XTerm formatter reference retained separately')
+
+# Exercise the reports and actual request gates independently. These are
+# product permission contracts; they are not fabricated upstream observations.
+for mask in range(4):
+    allow_set, allow_get = bool(mask & 1), bool(mask & 2)
+    denied = ','.join(name for name, enabled in (('SetTcap', allow_set), ('GetTcap', allow_get)) if not enabled)
+    query_f1 = '\x1bP+q6b6631'+ST
+    initial = '\x1bP1+r6b6631=1b4f50'+ST if allow_get else ''
+    selected = ('\x1bP1+r6b6631='+('1b5b5b41' if allow_set else '1b4f50')+ST) if allow_get else ''
+    cases = [
+        ('restrictions', query(61,'allowTcapOps'), response(61,denied)),
+        ('supported', query(62,'allowTcapOps'), response(62,'SetTcap,GetTcap')),
+        ('startup', query_f1, initial),
+        ('select-linux', '\x1bP+p6c696e7578'+ST+query_f1, selected),
+        ('invalid-selection-retains-state', '\x1bP+pgg'+ST+query_f1, selected),
+        ('reset-retains-selection', '\x1bc'+query_f1, selected),
+        ('emulator-identity', '\x1bP+q544e'+ST,
+            '\x1bP1+r544e=787465726d2d323536636f6c6f72'+ST if allow_get else ''),
+    ]
+    run('feature-policy-tcap-'+str(mask), (), extra_cases=cases,
+        profile=dict(WarnOnClose=0,Beep=0,NemoRenderer=0,NemoTabs=0,LinuxFunctionKeys=9,
+                     NemoTcapName='xterm-256color',NemoAllowSetTcap=int(allow_set),NemoAllowGetTcap=int(allow_get)),
+        source_reference='Independent Nemoterm SetTcap/GetTcap permission contract')

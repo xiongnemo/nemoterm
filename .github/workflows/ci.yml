@@ -332,6 +332,10 @@ jobs:
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python scripts/generate-legacy-modifiers-reference.py --check
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          python scripts/generate-tcap-query-reference.py --check
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          python scripts/generate-tcap-key-reference.py --check
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python scripts/generate-cancellation-reference.py --check
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python scripts/generate-bell-reference.py --check
@@ -1185,6 +1189,8 @@ jobs:
           python3 scripts/generate-special-keys-reference.py --check
           python3 scripts/generate-extended-keys-reference.py --check
           python3 scripts/generate-legacy-modifiers-reference.py --check
+          python3 scripts/generate-tcap-query-reference.py --check
+          python3 scripts/generate-tcap-key-reference.py --check
           python3 scripts/generate-cancellation-reference.py --check
           python3 scripts/generate-kitty-compression-reference.py --check
           python3 scripts/generate-kitty-feature-reference.py --check

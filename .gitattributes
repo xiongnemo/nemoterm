@@ -15,3 +15,5 @@ CMakeLists.txt text eol=lf
 /research/protocol-reference-evidence/* -text
 /research/kitty-windows-evidence/* -text
 /research/ci-fixture-recovery-evidence/guarded-area-ea042bc-ordering.json -text
+# Retain the exact pinned upstream-generated database bytes on Windows too.
+/vendor/terminfo/nemo_tcap_database.inc -text
