@@ -24,6 +24,16 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  regis-core:
+    if: ${{ inputs.scope != 'dpi' }}
+    uses: ./.github/workflows/regis-component.yml
+  regis-window:
+    if: ${{ inputs.scope != 'dpi' }}
+    needs: source-host
+    uses: ./.github/workflows/regis-window.yml
+    with:
+      product_run: ${{ github.run_id }}
+      product_commit: ${{ github.sha }}
   source-host:
     name: Source-built console host for compiler comparison
     runs-on: windows-2025

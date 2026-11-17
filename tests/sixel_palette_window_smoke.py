@@ -42,7 +42,8 @@ def reset(private=True):
             CSI+'0m'+ESC+']11;rgb:0/0/0\x07'+CSI+'2J'+CSI+'3J'+CSI+'H')
 
 
-def main(background_exercise=None, *, suite_name=None, font='Consolas', before_exercise=None):
+def main(background_exercise=None, *, suite_name=None, font='Consolas', before_exercise=None,
+         profile_values=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--renderer', choices=('gdi', 'opengl', 'directx'), default='gdi')
     parser.add_argument('--presented-gdi', action='store_true', help='read the owned visible client DC; requires an interactive desktop')
@@ -68,9 +69,12 @@ def main(background_exercise=None, *, suite_name=None, font='Consolas', before_e
     try:
         with winreg.CreateKey(winreg.HKEY_CURRENT_USER, keypath) as key:
             profile_created = True
-            for name, value in dict(NemoRenderer=requested, WarnOnClose=0, CloseOnExit=1,
+            values=dict(NemoRenderer=requested, WarnOnClose=0, CloseOnExit=1,
                     MouseAutocopy=0, WindowBorder=BORDER, ScrollBar=0,
-                    ScrollBarFullScreen=0, FontHeight=12).items():
+                    ScrollBarFullScreen=0, FontHeight=12)
+            values.update(profile_values or {})
+            evidence['profile_values']=values
+            for name, value in values.items():
                 winreg.SetValueEx(key, name, 0, winreg.REG_DWORD, value)
         with OwnedJob() as job:
             process, window, presented = None, None, None
