@@ -190,7 +190,7 @@ void win_setup_config_box(struct controlbox *b, HWND *hwndp, bool has_help,
      * Windows has the AltGr key, which has various Windows-
      * specific options.
      */
-    s = ctrl_getset(b, "Terminal/Keyboard", "features",
+    s = ctrl_getset(b, "Terminal/Keyboard/Extended", "features",
                     nemo_ui_text("keyboard.extra"));
     ctrl_checkbox(s, nemo_ui_text("keyboard.altgr_compose"), 't',
                   HELPCTX(keyboard_compose),

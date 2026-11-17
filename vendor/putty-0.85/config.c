@@ -2519,7 +2519,7 @@ void setup_config_box(struct controlbox *b, bool midsession,
                       conf_radiobutton_bool_handler,
                       I(CONF_rxvt_homeend),
                       nemo_ui_text("keyboard.standard"), I(false), "rxvt", I(true));
-    ctrl_radiobuttons(s, nemo_ui_text("keyboard.functions"), 'f', 4,
+    ctrl_radiobuttons(s, nemo_ui_text("keyboard.functions"), 'f', 2,
                       HELPCTX(keyboard_funkeys),
                       conf_radiobutton_handler,
                       I(CONF_funky_type),
