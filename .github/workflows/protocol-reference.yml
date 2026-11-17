@@ -35,6 +35,7 @@ on:
           - pointer-window-replay
           - unicode-text-boundaries
           - historical-xterm
+          - terminfo-database
           - all
       pointer_run:
         description: Completed pointer workflow containing the exact single image to diagnose
@@ -56,6 +57,9 @@ permissions:
   actions: read
 
 jobs:
+  terminfo-database:
+    if: inputs.family == 'terminfo-database'
+    uses: ./.github/workflows/terminfo-database.yml
   historical-xterm:
     if: inputs.family == 'historical-xterm'
     uses: ./.github/workflows/xterm-historical.yml
@@ -72,7 +76,7 @@ jobs:
     with:
       skip_windows: ${{ inputs.family == 'pointer-components-linux' }}
   xterm-reference:
-    if: inputs.family != 'historical-xterm' && inputs.family != 'sidecar-wire' && inputs.family != 'kitty-graphics' && inputs.family != 'kitty-compression' && inputs.family != 'kitty-features' && inputs.family != 'kitty-query-errors' && inputs.family != 'kitty-relative' && inputs.family != 'kitty-unicode' && inputs.family != 'kitty-unicode-geometry' && inputs.family != 'kitty-pointer' && inputs.family != 'pointer-components' && inputs.family != 'pointer-components-linux' && inputs.family != 'pointer-window-replay'
+    if: inputs.family != 'terminfo-database' && inputs.family != 'historical-xterm' && inputs.family != 'sidecar-wire' && inputs.family != 'kitty-graphics' && inputs.family != 'kitty-compression' && inputs.family != 'kitty-features' && inputs.family != 'kitty-query-errors' && inputs.family != 'kitty-relative' && inputs.family != 'kitty-unicode' && inputs.family != 'kitty-unicode-geometry' && inputs.family != 'kitty-pointer' && inputs.family != 'pointer-components' && inputs.family != 'pointer-components-linux' && inputs.family != 'pointer-window-replay'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:

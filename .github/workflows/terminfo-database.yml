@@ -1,0 +1,72 @@
+name: Pinned terminal capability database
+
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  database:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Build pinned upstream tools and the complete database
+        run: |
+          set -o pipefail
+          mkdir -p build/terminfo-source
+          git init "$RUNNER_TEMP/ncurses"
+          git -C "$RUNNER_TEMP/ncurses" remote add origin https://github.com/ThomasDickey/ncurses-snapshots.git
+          git -C "$RUNNER_TEMP/ncurses" fetch --depth 1 origin 789942a72295ac37b53a8a167ba9a016325a9ef1
+          git -C "$RUNNER_TEMP/ncurses" checkout --detach FETCH_HEAD
+          cd "$RUNNER_TEMP/ncurses"
+          ./configure --with-shared --with-termlib --without-debug --without-ada --without-cxx --without-cxx-binding --without-tests 2>&1 | tee "$GITHUB_WORKSPACE/build/terminfo-source/configure.log"
+          make -j2 2>&1 | tee "$GITHUB_WORKSPACE/build/terminfo-source/build.log"
+          export LD_LIBRARY_PATH="$PWD/lib"
+          progs/tic -x -o "$GITHUB_WORKSPACE/build/terminfo-compiled" misc/terminfo.src 2>&1 | tee "$GITHUB_WORKSPACE/build/terminfo-source/tic.log"
+          cp COPYING "$GITHUB_WORKSPACE/build/terminfo-source/COPYING.ncurses"
+          cp misc/terminfo.src config.log "$GITHUB_WORKSPACE/build/terminfo-source/"
+          progs/tic -V > "$GITHUB_WORKSPACE/build/terminfo-source/tic-version.txt"
+          sha256sum progs/tic lib/libtinfo.so > "$GITHUB_WORKSPACE/build/terminfo-source/tools-sha256.txt"
+          git init "$RUNNER_TEMP/xterm"
+          git -C "$RUNNER_TEMP/xterm" remote add origin https://github.com/ThomasDickey/xterm-snapshots.git
+          git -C "$RUNNER_TEMP/xterm" fetch --depth 1 origin 5c75ead9a75d4b2e666ca06fa94503b5766ed93f
+          git -C "$RUNNER_TEMP/xterm" checkout --detach FETCH_HEAD
+          cp "$RUNNER_TEMP/xterm/xtermcap.c" "$GITHUB_WORKSPACE/build/terminfo-source/"
+      - name: Export and compile the read-only capability pool
+        run: |
+          export LD_LIBRARY_PATH="$RUNNER_TEMP/ncurses/lib"
+          python3 scripts/export-terminfo-database.py --library "$RUNNER_TEMP/ncurses/lib/libtinfo.so" --database build/terminfo-compiled --xtermcap build/terminfo-source/xtermcap.c --source build/terminfo-source/terminfo.src --output build/terminfo-export
+          cat > build/terminfo-export/size-probe.c <<'C'
+          #include <stdio.h>
+          #include "nemo_tcap_database.inc"
+          #define COUNT(a) (sizeof(a)/sizeof(*(a)))
+          int main(int argc, char **argv) {
+              (void)argv;
+              const NemoTcapDbName *n=&nemo_tcap_db_names[(unsigned)argc%COUNT(nemo_tcap_db_names)];
+              const NemoTcapDbProfile *p=&nemo_tcap_db_profiles[n->profile];
+              printf("name=%s capabilities=%u\n",nemo_tcap_db_bytes+n->name,p->count);
+              if (p->count) {
+                  const NemoTcapDbValue *v=&nemo_tcap_db_values[p->first];
+                  printf("first_key=%s first_value=%s\n",
+                      nemo_tcap_db_bytes+nemo_tcap_db_cap_names[v->cap],nemo_tcap_db_bytes+v->value);
+              }
+              printf("readonly_bytes=%zu\n",sizeof(nemo_tcap_db_bytes)+sizeof(nemo_tcap_db_cap_names)+
+                  sizeof(nemo_tcap_db_names)+sizeof(nemo_tcap_db_profiles)+sizeof(nemo_tcap_db_values));
+              return 0;
+          }
+          C
+          cc -std=c11 -Wall -Wextra -Werror -O2 build/terminfo-export/size-probe.c -o build/terminfo-export/size-probe
+          build/terminfo-export/size-probe > build/terminfo-export/size-probe.txt
+          size -A build/terminfo-export/size-probe > build/terminfo-export/sections.txt
+          nm -S build/terminfo-export/size-probe > build/terminfo-export/symbols.txt
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: terminfo-database-${{ github.sha }}
+          path: |
+            build/terminfo-source/
+            build/terminfo-export/
+          if-no-files-found: error
+          retention-days: 30
