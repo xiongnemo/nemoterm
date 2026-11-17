@@ -41,6 +41,10 @@ on:
         description: Completed pointer workflow containing the exact single image to diagnose
         type: string
         default: ''
+      terminfo_skip_keys:
+        description: Only regenerate and verify the terminfo database (no XTerm keyboard capture)
+        type: boolean
+        default: false
       historical_group:
         description: Optional subset of the historical-xterm collectors
         type: choice
@@ -60,6 +64,8 @@ jobs:
   terminfo-database:
     if: inputs.family == 'terminfo-database'
     uses: ./.github/workflows/terminfo-database.yml
+    with:
+      skip_keys: ${{ inputs.terminfo_skip_keys == true }}
   historical-xterm:
     if: inputs.family == 'historical-xterm'
     uses: ./.github/workflows/xterm-historical.yml

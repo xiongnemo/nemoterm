@@ -2,6 +2,10 @@ name: Pinned terminal capability database
 
 on:
   workflow_call:
+    inputs:
+      skip_keys:
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -64,7 +68,14 @@ jobs:
           build/terminfo-export/size-probe > build/terminfo-export/size-probe.txt
           size -A build/terminfo-export/size-probe > build/terminfo-export/sections.txt
           nm -S build/terminfo-export/size-probe > build/terminfo-export/symbols.txt
+      - name: Compare every compiled key with the upstream library observation
+        run: |
+          cc -std=c11 -Wall -Wextra -Werror -O2 -Ibuild/terminfo-export tests/tcap_database_export_probe.c -o build/terminfo-export/database-probe
+          build/terminfo-export/database-probe > build/terminfo-export/compiled-records.tsv
+          python3 scripts/verify-terminfo-export.py --observations build/terminfo-export/libtinfo-key-observations.json.gz --probe-output build/terminfo-export/compiled-records.tsv --output build/terminfo-export/verification.json
+          gzip -n build/terminfo-export/compiled-records.tsv
       - name: Build the independent startup-keyboard reference
+        if: inputs.skip_keys != true
         run: |
           set -o pipefail
           sudo apt-get update
@@ -76,6 +87,7 @@ jobs:
           ldd xterm > "$GITHUB_WORKSPACE/build/terminfo-source/xterm-libraries.txt"
           dpkg-query -W > "$GITHUB_WORKSPACE/build/terminfo-source/reference-packages.txt"
       - name: Observe successful termcap keyboards before implementing the setter
+        if: inputs.skip_keys != true
         timeout-minutes: 15
         run: |
           set -o pipefail
