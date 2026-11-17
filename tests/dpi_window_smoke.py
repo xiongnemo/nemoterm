@@ -73,8 +73,14 @@ def inspect_settings(process,hwnd,dpi,prefix):
             (root/'research'/f'{prefix}-{page}.log').write_text(result.stdout+result.stderr,encoding='utf-8')
             observed=json.loads(result.stdout);evidence['pages'].append(observed)
             observed['screenshot']=f'{prefix}-{page}.png'
-            capture(hwnd,observed['screenshot'])
+            try:
+                capture(hwnd,observed['screenshot'])
+            except Exception:
+                observed['screenshot_error']=traceback.format_exc()
+                observed['product_exit_code']=process.poll()
+                observed['settings_window_alive']=bool(u.IsWindow(hwnd))
             assert result.returncode==0 and observed['completed'],observed
+            assert 'screenshot_error' not in observed,observed
         evidence['completed']=True
     finally:
         (root/'research'/f'{prefix}-settings.json').write_text(json.dumps(evidence,indent=2),encoding='utf-8')
@@ -154,7 +160,9 @@ def exercise(tabbed,start_percent,warm):
                 save()
             case['completed']=True
         except Exception:
-            case['error']=traceback.format_exc();raise
+            case['error']=traceback.format_exc()
+            case['product_exit_code']=process.poll()
+            raise
         finally:
             settings=dialog_window(process.pid)
             if settings:u.PostMessageW(settings,0x111,2,0)

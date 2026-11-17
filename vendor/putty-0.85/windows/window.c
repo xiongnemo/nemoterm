@@ -5716,7 +5716,10 @@ static int TranslateKey(WinGuiSeat *wgs, UINT message, WPARAM wParam,
             term_scroll_to_selection(wgs->term, (wParam == VK_PRIOR ? 0 : 1));
             return 0;
         }
-        if (wParam == VK_INSERT && shift_state == 2) {
+        /* Disabled clipboard actions leave Insert combinations to the
+         * application, including the selected terminfo keyboard. */
+        if (wParam == VK_INSERT && shift_state == 2 &&
+            conf_get_int(wgs->conf, CONF_ctrlshiftins) != CLIPUI_NONE) {
             switch (conf_get_int(wgs->conf, CONF_ctrlshiftins)) {
               case CLIPUI_IMPLICIT:
                 break;          /* no need to re-copy to CLIP_LOCAL */
@@ -5729,7 +5732,8 @@ static int TranslateKey(WinGuiSeat *wgs, UINT message, WPARAM wParam,
             }
             return 0;
         }
-        if (wParam == VK_INSERT && shift_state == 1) {
+        if (wParam == VK_INSERT && shift_state == 1 &&
+            conf_get_int(wgs->conf, CONF_ctrlshiftins) != CLIPUI_NONE) {
             switch (conf_get_int(wgs->conf, CONF_ctrlshiftins)) {
               case CLIPUI_IMPLICIT:
                 term_request_paste(wgs->term, CLIP_LOCAL);

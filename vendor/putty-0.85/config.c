@@ -2555,7 +2555,7 @@ void setup_config_box(struct controlbox *b, bool midsession,
     ctrl_settitle(b, "Terminal/Keyboard/Terminfo", nemo_ui_text("tcap.title"));
     s = ctrl_getset(b, "Terminal/Keyboard/Terminfo", "database", nemo_ui_text("tcap.database"));
     ctrl_editbox(s, nemo_ui_text("tcap.name"), 'n', 100, HELPCTX(no_help),
-                 conf_editbox_handler, I(CONF_nemo_tcap_name), I(1));
+                 conf_editbox_handler, I(CONF_nemo_tcap_name), ED_STR);
     ctrl_text(s, nemo_ui_text("tcap.name_hint"), HELPCTX(no_help));
     s = ctrl_getset(b, "Terminal/Keyboard/Terminfo", "permissions", nemo_ui_text("tcap.permissions"));
     ctrl_checkbox(s, nemo_ui_text("tcap.allow_select"), 's', HELPCTX(no_help),
