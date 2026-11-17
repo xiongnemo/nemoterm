@@ -41,6 +41,13 @@ jobs:
           sha256sum xterm > executable-sha256.txt
           ./xterm -version > version.txt
           dpkg-query -W > packages.txt
+      - name: Retain independent ncurses database lifetime controls
+        run: |
+          cc -Wall -Wextra -Werror tests/tcap_library_probe.c -ltinfo -o build/xterm-historical/tcap-library-probe
+          sha256sum build/xterm-historical/tcap-library-probe > build/xterm-historical/tcap-library-sha256.txt
+          for term in vt100 linux xterm-256color screen tmux; do
+            build/xterm-historical/tcap-library-probe "$term" > "build/xterm-historical/tcap-library-$term.jsonl"
+          done
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
