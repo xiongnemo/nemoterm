@@ -49,6 +49,7 @@ if ($Shells) {
     $busybox=Join-Path $destination 'busybox.exe'
     $record=Get-Content "$root/build/interaction-busybox/busybox.json" -Raw | ConvertFrom-Json
     if ($record.Commit -ne '5f09fb446adf81d005f0aad9dc47eca19ac3b74c') { throw 'BusyBox source identity mismatch' }
+    if ($record.Configuration -ne 'mingw64u_defconfig') { throw 'Expected Unicode Windows BusyBox for Chinese paths' }
     Copy-Item "$root/build/interaction-busybox/busybox.exe" $busybox
     if ((Get-FileHash $busybox).Hash.ToLowerInvariant() -ne $record.SHA256) { throw 'BusyBox hash mismatch' }
     $destination | Out-File $env:GITHUB_PATH -Append -Encoding utf8

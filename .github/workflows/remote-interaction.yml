@@ -34,7 +34,9 @@ jobs:
           set -euo pipefail
           sudo apt-get update -qq
           sudo apt-get install -y gcc-mingw-w64-x86-64
-          make mingw64_defconfig
+          # The ANSI build loses Chinese paths before the shell can parse
+          # them. Use upstream's Unicode Windows configuration for UTF-8 tests.
+          make mingw64u_defconfig
           make -j2
           mkdir product
           cp busybox.exe LICENSE .config product/
@@ -44,6 +46,7 @@ jobs:
           p=pathlib.Path('product/busybox.exe')
           pathlib.Path('product/busybox.json').write_text(json.dumps(dict(
               Source='https://github.com/rmyorston/busybox-w32',
+              Configuration='mingw64u_defconfig',
               Commit=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),
               SHA256=hashlib.sha256(p.read_bytes()).hexdigest())),encoding='utf-8')
           PY
