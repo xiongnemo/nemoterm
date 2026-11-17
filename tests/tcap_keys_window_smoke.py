@@ -112,7 +112,7 @@ try:
                 observed['cleanup'] = job.finish()
                 assert not observed['cleanup']['terminated_remaining'] and observed['cleanup']['after']['active'] == 0
                 observed['completed'] = True
-                print('Terminfo keyboard', terminal, 'passed', flush=True)
+                print('Terminfo keyboard', terminal, 'capture completed', flush=True)
             finally:
                 observed['last_snapshot'] = read_snapshot(report)
                 if script:
