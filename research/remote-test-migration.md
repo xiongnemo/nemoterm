@@ -2,14 +2,35 @@
 
 All automated execution is assigned to GitHub-hosted runners. No test suite, terminal window, clipboard interaction or display change was executed on the developer desktop during this migration.
 
-## Product identity
+## Accepted full run
+
+[Run 44019109177](https://github.com/xiongnemo/nemoterm/actions/runs/44019109177) completed successfully: **19/19 jobs** at product and fixture commit `2312edd86e08c4454bde9f675af030ea3134d3e7`. No production source changed during this migration.
+
+The [downloadable single-executable artifact](https://github.com/xiongnemo/nemoterm/actions/runs/44019109177/artifacts/14303645464) contains only `nemoterm.exe`, **4,599,296 bytes**, SHA-256 **`dfb9c0093f18ce53ff056d850bc20defcbdeed89f179b4ced7f63a218aa65f6f`**. The downloaded ZIP was inspected without executing it; its SHA-256 is `68fdad78e9f79124057108b70c0f4bae9368a1c17cbb98e4309e1b75c5e0b781`.
+
+| Coverage | Final result |
+| --- | --- |
+| Isolated single executable | 169 groups passed, including native protocols, pixels, GPU recovery, modality, profiles, real Codex and twelve memory workloads. |
+| Hosted interaction catalog | 26/26 passed across ten groups; every case records the same product hash and fixture commit, with no forced cleanup. |
+| Real DPI | 24/24 cases passed: English/Chinese, standalone/tabs, five cold scales from 100% to 200%, and live 96→120→144→168→192→96 DPI transitions. |
+| DPI settings geometry | 44 frames, 440 page checks and 2,508 control checks passed containment, footer separation and text fitting; eight language preference/persistence checks passed. |
+| MinGW comparison | Complete native suite and all twelve memory workloads passed; legacy modifiers include 2,704 native cases plus 112 startup cases. |
+| Other aggregate jobs | Source host, MSVC diagnostics, Linux ASan/UBSan, profiles, interaction orchestration and pinned BusyBox build all passed. |
+
+The single-image, interaction and DPI receipts share the exact executable above. The separately built MinGW frontend has SHA-256 `3e3169a93b35e78c3175c42cd2a65b334ede9e499265f794e2c38622187ba8ae`; its results are not attributed to the single image. Existing native memory workloads use Consolas and retain their actual screen-clamped grids (the single-image run records 109×34 and 88×35). All gates passed unchanged; these runner measurements do not overwrite historical full-desktop Sarasa measurements. The interaction matrix separately uses the pinned Sarasa Light font.
+
+The retained 200% Chinese tab-host Bell and Translation screenshots were also visually inspected. Complete DPI screenshots and logs remain in [DPI artifact 14301175362](https://github.com/xiongnemo/nemoterm/actions/runs/44019109177/artifacts/14301175362); the complete single-image evidence is [artifact 14302564355](https://github.com/xiongnemo/nemoterm/actions/runs/44019109177/artifacts/14302564355).
+
+[The compact evidence archive](remote-test-migration-evidence.zip) retains 821 files, including an internal per-file hash index, final run/job/artifact metadata, downloaded-product verification, 26-case receipts, DPI JSON, selected screenshots, memory records and original failure/replay logs. It is **5,344,993 bytes**, SHA-256 **`5212b6626e02bc9e4faae0ad70e8bce993617c7d599d253d151bda4843536b3c`**. Complete originals remain in the linked Actions artifacts; the archive is an intentionally selected long-term record.
+
+## Initial replay identity
 
 Initial replays use source commit `24206a79d85b7b1428fe980ec70db067540ddb5a` from the successful source-host job in [run 44013160599](https://github.com/xiongnemo/nemoterm/actions/runs/44013160599). The single executable SHA-256 is `a84c6e7f8c57bb6c65cbcd1d2d2bedb50aafcce1cb7fb8c1cd466434e361169f`. Fixture commits are separate from product identity; replay rejects production/build changes.
 
 ## Migration
 
 - `ci.yml` full scope now calls the single-executable, real DPI/i18n and interaction reusable workflows, alongside the existing compiler/protocol/profile jobs.
-- `remote-interaction.yml` covers the former 26-case local catalog in ten isolated Windows groups, with original assertions and timeouts. It uploads per-case results, logs, screenshots and provenance even on failure.
+- `remote-interaction.yml` covers the former 26-case local catalog in ten isolated Windows groups, preserving functional assertions and bounded timeouts. It uploads per-case results, logs, screenshots and provenance even on failure; the evidence-driven OpenCode timeout change is described below.
 - The controller preserves CI identity and refuses non-hosted desktops. Windows PowerShell fixtures get their own module path instead of inheriting pwsh's modules.
 - The Sarasa v2.3.1 archive is pinned by SHA-256. Its actual English Windows Light family is `SarasaTermSC Nerd Light`, unlike the developer machine's older family name. The installer reads the TTF name table and verifies the actual GDI selection.
 - BusyBox uses upstream commit `5f09fb446adf81d005f0aad9dc47eca19ac3b74c`, cross-compiled with `mingw64u_defconfig` on a hosted Linux runner. Windows shell/drop jobs consume that exact artifact. This avoids the publisher download host's 403 response to hosted runners.

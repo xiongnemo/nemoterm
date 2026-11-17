@@ -1,5 +1,27 @@
 # Nemoterm requirements and evidence ledger
 
+## Current test execution policy (2026-11-17 Sydney)
+
+The user requires all automated tests to run on GitHub-hosted runners. The
+former desktop interaction catalog now runs remotely, including all six shells,
+real Codex/OpenCode image paste, clipboard/drop, selection, tabs, settings and
+bell checks. Test orchestration, pinned dependencies and exact-image replay are
+documented in the [remote test guide](INTERACTION_ACCEPTANCE.md); current run
+identities and results are in the [migration record](../research/remote-test-migration.md).
+
+[Full run 44019109177](https://github.com/xiongnemo/nemoterm/actions/runs/44019109177)
+passed all 19 jobs at `2312edd86e08c4454bde9f675af030ea3134d3e7`, including
+169 single-image groups, 26 interaction cases and 24 real bilingual DPI cases.
+The 4,599,296-byte single image has SHA-256
+`dfb9c0093f18ce53ff056d850bc20defcbdeed89f179b4ced7f63a218aa65f6f`.
+Both the single image and MinGW comparison pass their twelve existing memory
+workloads; their reports retain the actual fonts and screen-clamped grids.
+
+The dated checkpoints below retain their original results and failures. Their
+requests to resume local desktop testing no longer describe the execution plan.
+Hosted tests do not retroactively pass historical memory failures or certify
+physical devices, third-party IMEs or every unimplemented protocol family.
+
 ## Current memory scope (user clarification, 2026-11-15 Sydney)
 
 The original **GDI <20 MB private working set / approximately 50 MB total
@@ -13,7 +35,7 @@ remain unchanged; older statements treating that DX total as an unmet goal are
 superseded by this clarification. Continue feature compatibility and regression
 work. The user resumed local interactive desktop testing on 2026-11-16 Sydney.
 
-## Current combined candidate (2026-11-16 Sydney)
+## Historical combined candidate (2026-11-16 Sydney)
 
 Source `253855b481b2ccd6a13dae5490c42f19c8b9dd64` passes both complete
 workflows: all four ordinary CI jobs and **163 single-image groups**. Its

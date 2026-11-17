@@ -13,8 +13,8 @@ Nemoterm 是 **PuTTY 0.85 Windows pterm 的下游 fork**，沿用其终端核心
 本页描述所在分支的代码；下载产物按下面的提交和验证记录区分。已实现功能与测试边界见 [协议支持表](docs/PROTOCOLS.md)
 和 [需求与验证记录](docs/REQUIREMENTS.md)。
 
-最新语言预览 `e9c44e0` 提供 English / 简体中文 / 跟随 Windows，修正设置页布局，并保留默认多标签、profile 持久化与 Ctrl++ / Ctrl+- 字号缩放。准确单 EXE 已通过远程双语/DPI 专项；完整回归结果单独记录。
-[下载语言预览](https://github.com/xiongnemo/nemoterm/actions/runs/44010709664/artifacts/14296961710) · [语言与验证记录](research/i18n.md)。
+最新验收快照 `2312edd` 已通过完整远程 CI：19 个任务全部成功，包含 169 组单 EXE 检查、26 项交互用例和 24 个中英文真实 DPI 场景。提供 English / 简体中文 / 跟随 Windows、默认多标签、profile 持久化与 Ctrl++ / Ctrl+- 字号缩放。
+[下载单文件快照](https://github.com/xiongnemo/nemoterm/actions/runs/44019109177/artifacts/14303645464) · [完整 CI](https://github.com/xiongnemo/nemoterm/actions/runs/44019109177) · [产物与验证记录](research/remote-test-migration.md)。
 
 所有自动测试已配置到 GitHub-hosted runner：完整 CI 统一调用协议、单 EXE、DPI 和 26 项交互验收，保留截图与原始日志，不依赖开发电脑的桌面或剪贴板。入口、依赖和验证边界见 [远程测试操作单](docs/INTERACTION_ACCEPTANCE.md)；实际运行结果见 [迁移记录](research/remote-test-migration.md)。
 
@@ -38,7 +38,7 @@ Kitty 图片支持直接 RGB/RGBA/PNG、压缩传输、裁剪、透明度、查�
 
 ## 下载
 
-当前语言预览的准确产物和验证范围见 [语言预览记录](research/i18n.md)；远程完整回归与交互迁移结果见 [本轮记录](research/remote-test-migration.md)。历史产物保留在对应 research 记录中，不将旧版本结果套用于新 EXE。
+当前已验收快照为 `2312edd`，单 EXE 为 4,599,296 字节；来源、SHA-256 和完整回归范围见 [本轮记录](research/remote-test-migration.md)。历史语言预览保留在 [语言预览记录](research/i18n.md)，不将旧版本结果套用于新 EXE。
 
 查找后续开发构建：
 
