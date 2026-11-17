@@ -4,7 +4,35 @@ on:
 permissions:
   contents: read
 jobs:
+  font-inputs:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Capture upstream platform font input independently of terminal images
+        shell: bash
+        run: |
+          set -o pipefail
+          sudo apt-get update
+          sudo apt-get install -y libx11-dev libxft-dev xfonts-base xvfb xauth
+          mkdir -p build/regis-font-inputs
+          python3 scripts/generate-regis-font-probe.py --output build/regis-font-inputs/probe.c
+          gcc -std=c11 -O1 -Wall -Wextra -Werror build/regis-font-inputs/probe.c $(pkg-config --cflags --libs xft x11 fontconfig) -o build/regis-font-inputs/probe 2>&1 | tee build/regis-font-inputs/build.log
+          xvfb-run -a -s '-screen 0 1024x768x24 -nolisten tcp' build/regis-font-inputs/probe > build/regis-font-inputs/glyphs.bin 2> build/regis-font-inputs/fonts.log
+          dpkg-query -W > build/regis-font-inputs/packages.txt
+          git rev-parse HEAD > build/regis-font-inputs/fixture-commit.txt
+          sed -n 's/^font-file: //p' build/regis-font-inputs/fonts.log | sort -u | while IFS= read -r file; do sha256sum "$file"; done > build/regis-font-inputs/font-files-sha256.txt
+          cd build/regis-font-inputs
+          sha256sum probe.c probe glyphs.bin fonts.log > SHA256SUMS
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: regis-font-inputs-${{ github.sha }}
+          path: build/regis-font-inputs/
+          if-no-files-found: error
+          retention-days: 30
   linux:
+    needs: font-inputs
     runs-on: ubuntu-24.04
     timeout-minutes: 8
     strategy:
@@ -13,6 +41,11 @@ jobs:
         compiler: [gcc, clang]
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: regis-font-inputs-${{ github.sha }}
+          path: build/regis-font-inputs
+      - run: cd build/regis-font-inputs && sha256sum --check SHA256SUMS
       - run: python3 -m pip install pillow==11.3.0
       - name: Verify the generated parser and compile with sanitizers
         shell: bash
@@ -32,7 +65,7 @@ jobs:
         env:
           ASAN_OPTIONS: detect_leaks=1:abort_on_error=1
           UBSAN_OPTIONS: halt_on_error=1
-        run: python3 tests/test_regis_reference.py --exe build/regis-component/test-regis --output build/regis-component/reference
+        run: python3 tests/test_regis_reference.py --exe build/regis-component/test-regis --font-inputs build/regis-font-inputs/glyphs.bin --output build/regis-component/reference
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
@@ -41,11 +74,18 @@ jobs:
           if-no-files-found: error
           retention-days: 30
   windows:
+    needs: font-inputs
     runs-on: windows-2025
     timeout-minutes: 8
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: regis-font-inputs-${{ github.sha }}
+          path: build/regis-font-inputs
       - run: python -m pip install pillow==11.3.0
+      - name: Install the pinned Sarasa test face on the disposable runner
+        run: scripts/prepare-remote-interaction.ps1
       - name: Build the same native decoder with MSVC
         shell: pwsh
         run: |
@@ -55,12 +95,19 @@ jobs:
           Import-Module "$vs/Common7/Tools/Microsoft.VisualStudio.DevShell.dll"
           Enter-VsDevShell -VsInstallPath $vs -SkipAutomaticLocation -DevCmdArguments '-arch=x64 -host_arch=x64'
           cl /nologo /std:c17 /W4 /WX /Zi /Od /Ivendor/putty-0.85/terminal tests/test_regis.c vendor/putty-0.85/terminal/nemo_regis.c /Febuild/regis-component/test-regis.exe /Fobuild/regis-component/ 2>&1 | Tee-Object build/regis-component/build.log
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          cl /nologo /std:c17 /W4 /WX /Zi /Od /Ivendor/putty-0.85/terminal /Ivendor/putty-0.85/windows tests/test_regis_font_win.c vendor/putty-0.85/windows/nemo_regis_font.c vendor/putty-0.85/terminal/nemo_regis.c /Febuild/regis-component/test-regis-font.exe /Fobuild/regis-component/ /link gdi32.lib user32.lib 2>&1 | Tee-Object build/regis-component/font-build.log
           exit $LASTEXITCODE
       - name: Check ownership, reentrant use and budgets
         run: build/regis-component/test-regis.exe --self-test 2>&1 | Tee-Object build/regis-component/ownership.log
+      - name: Compare native Sarasa masks with offscreen TextOut and check GDI handle lifetime
+        run: |
+          Copy-Item build/interaction-dependencies/environment.json build/regis-component/font-environment.json
+          build/regis-component/test-regis-font.exe 2>&1 | Tee-Object build/regis-component/native-font.log
+          exit $LASTEXITCODE
       - name: Compare original XTerm replies and pixels
         if: ${{ !cancelled() }}
-        run: python tests/test_regis_reference.py --exe build/regis-component/test-regis.exe --output build/regis-component/reference
+        run: python tests/test_regis_reference.py --exe build/regis-component/test-regis.exe --font-inputs build/regis-font-inputs/glyphs.bin --output build/regis-component/reference
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:

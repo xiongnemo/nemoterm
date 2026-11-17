@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "regis_font_fixture.h"
 #ifdef _WIN32
 #include <fcntl.h>
 #include <io.h>
@@ -16,6 +17,7 @@ typedef struct Fixture {
     size_t length, reserved, peak;
     NemoRegis *other;
     int failures;
+    RegisFontInputs fonts;
 } Fixture;
 
 #define CHECK(x) do { if (!(x)) { fprintf(stderr,"%s:%d: %s\n",__FILE__,__LINE__,#x); failures++; } } while (0)
@@ -51,6 +53,13 @@ static NemoRegisConfig configuration(Fixture *fixture)
     c.memory_limit=4*1024*1024;
     c.user=fixture; c.resize_memory=memory; c.reply=reply;
     return c;
+}
+
+static bool glyph(void *ctx,const char *font,unsigned ch,unsigned maxw,unsigned maxh,
+                  unsigned char *pixels,size_t capacity,unsigned *width,unsigned *height)
+{
+    Fixture *fixture=ctx;
+    return font_input_glyph(&fixture->fonts,font,ch,maxw,maxh,pixels,capacity,width,height);
 }
 
 static int self_test(void)
@@ -120,6 +129,10 @@ int main(int argc,char **argv)
 #endif
     Fixture fixture={0};
     NemoRegisConfig config=configuration(&fixture);
+    if (argc==3 && !strcmp(argv[1],"--font-inputs")) {
+        if (!font_inputs_load(&fixture.fonts,argv[2])) return 7;
+        config.glyph=glyph;
+    } else if (argc!=1) return 8;
     NemoRegis *decoder=nemo_regis_new(&config);
     if (!decoder) return 3;
     char header[128];
@@ -147,5 +160,7 @@ int main(int argc,char **argv)
         fflush(stdout);
     }
     nemo_regis_free(decoder);
-    return fixture.failures || fixture.reserved ? 6 : 0;
+    fprintf(stderr,"font-inputs: calls=%u misses=%u\n",fixture.fonts.calls,fixture.fonts.misses);
+    font_inputs_free(&fixture.fonts);
+    return fixture.failures || fixture.reserved || fixture.fonts.misses ? 6 : 0;
 }

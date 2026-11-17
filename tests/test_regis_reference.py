@@ -21,6 +21,7 @@ def main():
     parser=argparse.ArgumentParser()
     parser.add_argument('--exe',required=True,type=Path)
     parser.add_argument('--output',required=True,type=Path)
+    parser.add_argument('--font-inputs',type=Path)
     args=parser.parse_args()
     args.output.mkdir(parents=True,exist_ok=True)
     with zipfile.ZipFile('research/regis-reference-evidence.zip') as outer:
@@ -29,6 +30,11 @@ def main():
     evidence=dict(scope=__doc__,executable_sha256=hashlib.sha256(args.exe.read_bytes()).hexdigest(),
                   fixture_commit=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),
                   cases={},excluded={},failures=[],completed=False)
+    command=[str(args.exe.resolve())]
+    if args.font_inputs:
+        command+=['--font-inputs',str(args.font_inputs.resolve())]
+        evidence['font_inputs_sha256']=hashlib.sha256(args.font_inputs.read_bytes()).hexdigest()
+        evidence['font_scope']='Pinned upstream Xft input masks; not the Windows native font provider.'
     pattern=rb'(?:\x1b\[\?1070([hl]))?\x1bP([0-9]+)p([^\x1b]*)\x1b\\'
     with zipfile.ZipFile(io.BytesIO(original)) as bundle:
         observed=json.loads(bundle.read('observations.json'))
@@ -43,7 +49,7 @@ def main():
                 if match[1]: wire+=b'C '+(b'1' if match[1]==b'h' else b'0')+b'\n'
                 body=match[3]
                 wire+=b'P '+match[2]+b' '+str(len(body)).encode()+b'\n'+body
-            process=subprocess.run([str(args.exe.resolve())],input=wire,capture_output=True,timeout=30)
+            process=subprocess.run(command,input=wire,capture_output=True,timeout=30)
             record=dict(exit_code=process.returncode,stderr=process.stderr.decode(errors='replace'),steps=[])
             evidence['cases'][name]=record
             if process.returncode:
