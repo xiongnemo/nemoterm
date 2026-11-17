@@ -123,6 +123,13 @@ def cases():
     add('unknown-report', regis('R(Z)', 1), regis('P[20,30]R(P)'))
     add('cancel-can', E+b'P1pP[70,80]'+b'\x18', regis('P[20,30]R(P)'))
     add('cancel-sub', E+b'P1pP[70,80]'+b'\x1a', regis('P[20,30]R(P)'))
+    # A following command terminates the final RGB number before ST. Keep
+    # these separate from the historical palette-only end-at-ST controls.
+    add('shared-palette-sixel-terminated', C+b'?1070l'+regis(
+        'S(E)S(M3(R20G80B20))W(I3)P[20,20]V[120,20]',1),
+        E+b'P0;1q#3;2;100;0;0#3'+ST,regis('R(P)'))
+    add('shared-palette-regis-recolour', C+b'?1070l'+E+b'P0;1q#3;2;20;80;20!100~'+ST,
+        regis('S(M3(R100G0B0))R(P)',1))
     return out
 
 

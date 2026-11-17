@@ -31,7 +31,7 @@ jobs:
           grep -Eq '^#define OPT_REGIS_GRAPHICS 1$' "$GITHUB_WORKSPACE/build/regis-reference/defines.txt"
           git rev-parse HEAD > "$GITHUB_WORKSPACE/build/regis-reference/upstream-commit.txt"
           cp xterm xtermcfg.h config.log "$GITHUB_WORKSPACE/build/regis-reference/"
-          for file in graphics_regis.c graphics_regis.h graphics.c graphics.h charproc.c VTPrsTbl.c ptyx.h ctlseqs.ms configure.in COPYING; do
+          for file in graphics_regis.c graphics_regis.h graphics_sixel.c graphics.c graphics.h charproc.c util.c fontutils.c xterm.h VTPrsTbl.c ptyx.h ctlseqs.ms configure.in COPYING; do
             cp "$file" "$GITHUB_WORKSPACE/build/regis-reference/source/"
           done
           cd "$GITHUB_WORKSPACE/build/regis-reference"

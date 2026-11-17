@@ -14,8 +14,6 @@ int main(int argc,char **argv)
     if (!d) return 3;
     XFontStruct *font=XLoadQueryFont(d,"fixed");
     if (!font || font->max_bounds.width!=6 || font->ascent+font->descent!=13) return 4;
-    XFontStruct *unicode=XLoadQueryFont(d,"-misc-fixed-medium-r-semicondensed--13-120-75-75-c-60-iso10646-1");
-    if (!unicode || unicode->max_bounds.width!=6 || unicode->ascent+unicode->descent!=13) return 4;
     int screen=DefaultScreen(d);
     Pixmap surface=XCreatePixmap(d,RootWindow(d,screen),6,13,(unsigned)DefaultDepth(d,screen));
     GC gc=XCreateGC(d,surface,0,NULL);
@@ -30,9 +28,18 @@ int main(int argc,char **argv)
             char byte=(char)code;
             XDrawString(d,surface,gc,0,font->ascent,&byte,1);
         } else {
-            XChar2b sub={0x24,0x26};
-            XSetFont(d,gc,unicode->fid);
-            XDrawString16(d,surface,gc,0,unicode->ascent,&sub,1);
+            /* The reference's fixed ISO8859-1 face has no U+2426. XTerm
+             * does not use XDrawString16's default '?' glyph: util.c's
+             * xtermDrawMissing draws a dashed bounding box. Preserve its
+             * geometry and xterm.h's CapProjecting/JoinMiter policy from
+             * pinned commit 5c75ead9a75d4b2e666ca06fa94503b5766ed93f.
+             * This probe has no terminal input or reference screenshots. */
+            if (font->max_byte1>=0x24) return 9;
+            int height=font->ascent+font->descent;
+            int thick=height/16>1 ? height/16 : 1;
+            XSetLineAttributes(d,gc,(unsigned)thick,LineOnOffDash,CapProjecting,JoinMiter);
+            XDrawRectangle(d,surface,gc,0,thick,(unsigned)(font->max_bounds.width-2*thick),
+                           (unsigned)(height-2*thick));
         }
         XImage *image=XGetImage(d,surface,0,0,6,13,AllPlanes,ZPixmap);
         if (!image) return 6;
@@ -46,11 +53,7 @@ int main(int argc,char **argv)
         char *name=XGetAtomName(d,(Atom)atom);
         if (name) { printf("fixed-font: %s\n",name); XFree(name); }
     }
-    if (XGetFontProperty(unicode,XA_FONT,&atom)) {
-        char *name=XGetAtomName(d,(Atom)atom);
-        if (name) { printf("unicode-font: %s\n",name); XFree(name); }
-    }
-    printf("cell: 6x13 ascent=%d descent=%d codes=256 plus U+2426\n",font->ascent,font->descent);
-    XFreeGC(d,gc); XFreePixmap(d,surface); XFreeFont(d,font); XFreeFont(d,unicode); XCloseDisplay(d);
+    printf("cell: 6x13 ascent=%d descent=%d codes=256 plus XTerm missing U+2426\n",font->ascent,font->descent);
+    XFreeGC(d,gc); XFreePixmap(d,surface); XFreeFont(d,font); XCloseDisplay(d);
     return 0;
 }
