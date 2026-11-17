@@ -63,7 +63,7 @@ jobs:
       fail-fast: false
       max-parallel: 4
       matrix:
-        group: ${{ fromJSON(inputs.group == 'all' && '["state","editing","charset-mapping","charset-checksum","charset-state","charset-input","keys","set-tcap"]' || format('["{0}"]', inputs.group)) }}
+        group: ${{ fromJSON(inputs.group == 'all' && '["state","editing","charset-mapping","charset-checksum","charset-state","charset-input","keys","legacy-default","legacy-legacy","legacy-vt220","set-tcap"]' || inputs.group == 'legacy-modifiers' && '["legacy-default","legacy-legacy","legacy-vt220"]' || format('["{0}"]', inputs.group)) }}
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093

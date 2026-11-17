@@ -44,7 +44,7 @@ on:
         description: Optional subset of the historical-xterm collectors
         type: choice
         default: all
-        options: [all, state, editing, charset-mapping, charset-checksum, charset-state, charset-input, keys, set-tcap]
+        options: [all, state, editing, charset-mapping, charset-checksum, charset-state, charset-input, keys, legacy-modifiers, legacy-default, legacy-legacy, legacy-vt220, set-tcap]
   push:
     paths:
       - 'tests/xterm_identity_oracle.py'

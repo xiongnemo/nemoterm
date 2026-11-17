@@ -53,9 +53,11 @@ GROUPS = {
     'keys': [
         ('modify-other-keys', 'xterm_mok_reference.py', []),
         ('extended-keys', 'xterm_extended_keys_oracle.py', []),
-        ('legacy-modifiers', 'xterm_legacy_modifiers_oracle.py', []),
         ('special-keys', 'xterm_special_keys_oracle.py', []),
     ],
+    **{f'legacy-{profile}': [(f'legacy-modifiers-{profile}',
+                            'xterm_legacy_modifiers_oracle.py', ['--profile', profile])]
+       for profile in ('default', 'legacy', 'vt220')},
     'set-tcap': [('set-tcap', 'xterm_set_tcap_oracle.py', [])],
 }
 

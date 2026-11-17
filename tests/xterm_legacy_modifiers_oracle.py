@@ -52,6 +52,7 @@ def cases():
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--xterm',required=True);parser.add_argument('--output',required=True)
+    parser.add_argument('--profile',choices=('all','default','legacy','vt220'),default='all')
     args=parser.parse_args();output=Path(args.output);folder=output.with_suffix('');folder.mkdir(exist_ok=False)
     r,w=os.pipe()
     xvfb=subprocess.Popen(['Xvfb','-displayfd',str(w),'-screen','0','1024x768x24','-nolisten','tcp'],
@@ -59,9 +60,16 @@ def main():
     os.close(w);display=':'+os.read(r,100).decode().strip();os.close(r)
     owner=ObservedDisplay(display);harness.Display=ObservedDisplay
     subprocess.run(['setxkbmap','-display',display,'-option','','-option','srvrkeys:none'],check=True)
-    specs=cases();names={a[1] for spec in specs.values() for s in spec['steps'] for a in s['actions']}
+    specs=cases()
+    if args.profile!='all':
+        # Every case already owns a fresh XTerm. Retain all literal and state
+        # controls in each shard; only independent profile cases are partitioned.
+        specs={name:spec for name,spec in specs.items() if name.startswith(
+            ('control-','state-',args.profile+'-'))}
+    names={a[1] for spec in specs.values() for s in spec['steps'] for a in s['actions']}
     result=dict(completed=False,version=subprocess.check_output([args.xterm,'-version'],text=True).strip(),
         executable_sha256=hashlib.sha256(Path(args.xterm).read_bytes()).hexdigest(),
+        requested_profile=args.profile,
         fixtures={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in
             [Path(__file__),*[Path(__file__).with_name(n) for n in ('xterm_udk_oracle.py',
                 'xterm_extended_keys_oracle.py','xterm_locator_oracle.py')]]},cases={})

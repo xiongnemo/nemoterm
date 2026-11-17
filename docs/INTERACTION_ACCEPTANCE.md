@@ -32,7 +32,7 @@ gh workflow run font-zoom-replay.yml --ref <branch> -f suite=interaction -f sour
 gh workflow run protocol-reference.yml --ref <branch> -f family=historical-xterm
 ```
 
-此入口覆盖 25 个原先没有直接 CI 入口的采集脚本，分八组执行 31 次采集，包括四批完整字符集映射、输入/粘贴、校验和、编辑、键盘和 XTSETTCAP 研究。它只构建一次固定提交的上游 XTerm，各组核对同一二进制哈希，在自己的 Xvfb 显示中执行。日志和新观测独立上传；不覆盖仓库内的历史参考数据，也不把采集成功当成 Nemoterm 已支持对应协议。运行控制器拒绝本机及 self-hosted runner。可用 `-f historical_group=keys` 等参数只重跑一组。
+此入口覆盖 25 个原先没有直接 CI 入口的采集脚本，分十一组执行 33 次采集，包括四批完整字符集映射、输入/粘贴、校验和、编辑、键盘和 XTSETTCAP 研究。它只构建一次固定提交的上游 XTerm，各组核对同一二进制哈希，在自己的 Xvfb 显示中执行。日志和新观测独立上传；不覆盖仓库内的历史参考数据，也不把采集成功当成 Nemoterm 已支持对应协议。运行控制器拒绝本机及 self-hosted runner。可用 `-f historical_group=keys` 等参数只重跑一组；`legacy-modifiers` 并行执行三个键盘配置分组，每组保留全部正常对照和状态检查。
 
 ## 交互矩阵
 
