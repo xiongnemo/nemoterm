@@ -13,7 +13,7 @@ Nemoterm 是 **PuTTY 0.85 Windows pterm 的下游 fork**，沿用其终端核心
 本页描述所在分支的代码；下载产物按下面的提交和验证记录区分。已实现功能与测试边界见 [协议支持表](docs/PROTOCOLS.md)
 和 [需求与验证记录](docs/REQUIREMENTS.md)。
 
-当前开发构建 `329019d` 已完成远程 CI，**21/22 个任务通过**：170 组单 EXE 检查、MinGW 完整套件、26 项交互、24 个中英文真实 DPI 场景及全部六项完整网格 GDI 负载均通过。新增 Terminfo 键盘的 1,293 条原生输入流零差异。唯一失败为 DirectX 完整网格负载超过 25 MB 私有工作集；GDI 峰值为 18.82 MB。
+当前开发构建 `329019d` 已完成远程 CI，**21/22 个任务通过**：170 组单 EXE 检查、MinGW 完整套件、26 项交互、24 个中英文真实 DPI 场景及全部六项完整网格 GDI 负载均通过。新增 Terminfo 键盘的 1,293 条原生输入流零差异。唯一失败为 DirectX 完整网格负载超过当时的 25 MB 私有工作集门槛；GDI 峰值为 18.82 MB。用户现已将 DirectX 上限调整为 **30 MB**，CI 门槛已更新，新一轮远程内存回放单独记录。
 [下载当前单文件开发构建](https://github.com/xiongnemo/nemoterm/actions/runs/44083541137/artifacts/14332971661) · [完整 CI](https://github.com/xiongnemo/nemoterm/actions/runs/44083541137) · [产物与验证记录](research/terminfo-product-regression.md)。
 
 所有自动测试已配置到 GitHub-hosted runner：完整 CI 统一调用协议、单 EXE、DPI、26 项交互和 12 项完整 Sarasa 网格负载，保留截图与原始日志，不依赖开发电脑的桌面或剪贴板。入口、依赖和验证边界见 [远程测试操作单](docs/INTERACTION_ACCEPTANCE.md)；实际运行结果见 [迁移记录](research/remote-test-migration.md)。
@@ -163,10 +163,10 @@ GPU 模式使用 Windows 系统 DLL 与显卡驱动，不新增分发文件；�
 | --- | --- |
 | GDI（默认） | GDI 绘制；前端私有工作集低于 20 MB，总工作集约 50 MB |
 | OpenGL（可选） | GPU 合成；允许超过上述内存目标 |
-| DirectX（可选） | Direct3D 11 合成；前端私有工作集上限 25 MB，当前内存表现已接受 |
+| DirectX（可选） | Direct3D 11 合成；前端私有工作集上限 30 MB |
 
-这里的 MB 按十进制字节计，20 MB 为 20,000,000 字节，25 MB 为 25,000,000 字节；私有工作集与私有提交量分别记录。
-DirectX 的上限由用户于 2026-11-14 调整；历史测试仍保留当时的门槛与结果。
+这里的 MB 按十进制字节计，20 MB 为 20,000,000 字节，30 MB 为 30,000,000 字节；私有工作集与私有提交量分别记录。
+DirectX 的上限由用户于 2026-11-18 调整为 30 MB；历史测试仍保留当时的门槛与结果。
 2026-11-15 用户进一步确认：原来的内存目标针对 GDI，DX 已足够，无需继续追求约 50 MB 总工作集。
 控制台宿主、shell 和终端内应用是独立进程，量测时分别记录；这是优化目标，不是任意负载下的内存保证。
 历史版本 `752f3be` 在本机 Sarasa、实际 160×48、双标签的 Sixel、PNG、GIF、Kitty 和压缩 Kitty 十组负载中，
