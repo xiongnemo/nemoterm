@@ -17,9 +17,10 @@ dependencies and global parser, spline and scratch state. It adds per-owner
 accounting, sparse indexed pages, request limits and a native glyph callback.
 Generated files preserve the upstream notices.
 
-This is an **unwired component**, not advertised terminal support. Framing,
-shared image ownership, erasure/scrolling, fonts and native acceptance still
-need integration. The hosted parser comparison passes its 70 original frames
-when supplied independent upstream Xft glyph inputs. Native Windows font
-validation is a separate gate; see `research/regis-native-component.md` for
-the retained failures, current results and remaining product integration.
+This is **development code, not advertised terminal support**. DCS framing,
+shared image accounting and Windows glyph callbacks are now connected.
+Image placement, rendering, erasure/scrolling and native acceptance remain
+unfinished. The hosted component comparison passes its 70 original frames
+with independent upstream Xft glyph inputs; native Windows font validation
+is a separate gate. See `research/regis-native-component.md` and
+`research/regis-terminal-input.md` for failures, current results and scope.

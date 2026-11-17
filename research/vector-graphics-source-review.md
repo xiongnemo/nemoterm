@@ -146,6 +146,7 @@ and product checks remain on GitHub-hosted runners.
 The [native component](regis-native-component.md) now has a per-owner parser
 and sparse pages. Its 70-frame parser projection passes with independent
 upstream font inputs; native Windows glyph validation is separate and the
-earlier failures are retained. It is not wired to terminal
-input or renderers. The coverage ledger continues to mark both families
-**Missing**; no new capability or product memory result is inferred.
+earlier failures are retained. [DCS input and shared accounting](regis-terminal-input.md)
+are connected in development source; image placement, native rendering and
+text/graphics lifecycle remain unfinished. The coverage ledger continues to
+mark both families **Missing**; no new capability or product memory result is inferred.

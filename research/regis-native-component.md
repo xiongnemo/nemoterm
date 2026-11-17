@@ -1,22 +1,25 @@
 # Native ReGIS component under development
 
 The repository now contains a native adaptation of the pinned XTerm ReGIS
-parser without X11 dependencies. It is **not connected to the production
-terminal parser or renderers** and adds no capability to the downloadable
-executable. Product-level ReGIS coverage remains missing.
+parser without X11 dependencies. The terminal DCS parser and per-terminal
+Windows glyph provider are connected in the development source. **Native
+image placement, rendering and text/graphics lifecycle are not integrated**;
+the downloadable executable has not been replaced. Product-level ReGIS
+coverage remains missing. See [the input integration record](regis-terminal-input.md).
 
 Parser state, spline context and temporary strings belong to one lazily created
 owner. Indexed pages use sparse 32x32 tiles and a uniform background instead
 of allocating full blank bitmaps. The memory budget counts the owner, pages,
-tiles, uploaded alphabets and input buffers. A reservation callback is ready
-for the terminal's shared image budget; that caller is not yet connected.
+tiles, uploaded alphabets and input buffers. The terminal adapter now reserves
+these resources against the same 4 MiB budget as Sixel, iTerm and Kitty images,
+including transient input-buffer growth and native font pixel storage.
 Errors release decoder resources before another request. Delay requests go to
 a scheduling callback; the component does not sleep.
 
 Input length, recursive depth, memory and counted parser/pixel visits have
 finite checks. This does not establish that every arithmetic, parser-progress
-or resource boundary has been audited; more stress coverage is needed before
-connecting the decoder to terminal input.
+or resource boundary has been audited; more coverage is required before
+shipping the integration as supported terminal functionality.
 
 ## Remote results
 
@@ -56,8 +59,10 @@ provider; each provider retains at most one DC, one font and one offscreen
 bitmap (at most 8,192 pixels / 32 KiB of pixel storage). It returns binary
 Latin-1 glyph masks in a common bounding box. The ReGIS parser handles text
 placement, rotation and scaling. Named-font extensions currently accept a
-Windows family name, not Fontconfig pattern syntax. This provider is still a
-component and is not installed in the production frontend's `TermWin` yet.
+Windows family name, not Fontconfig pattern syntax. The Windows `TermWin`
+callbacks now create a provider lazily from the profile's selected face and
+weight and release it on font changes, reset and terminal closure. The
+component tests below remain separate from native window acceptance.
 
 The native hosted test uses the pinned `SarasaTermSC Nerd Light` font. It
 compares the mask against a separate offscreen `TextOutW` DIB for each Latin-1
