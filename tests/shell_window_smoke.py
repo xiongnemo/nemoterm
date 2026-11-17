@@ -12,6 +12,9 @@ import urllib.parse
 
 exe = Path(os.environ.get('NEMOTERM_TEST_EXE', root/'dist/nemoterm.exe')).resolve()
 shells = json.loads(subprocess.check_output([str(exe),'--no-tabs', '--list-shells'], timeout=10))
+required = set(filter(None, os.environ.get('NEMOTERM_REQUIRED_SHELLS', '').split(',')))
+available = {shell['id'] for shell in shells if shell['available']}
+assert required <= available, dict(missing=sorted(required-available), detected=shells)
 profile = 'shell-test-' + uuid.uuid4().hex
 keypath = 'Software\\Nemo\\Nemoterm\\Sessions\\' + profile
 with winreg.CreateKey(winreg.HKEY_CURRENT_USER, keypath) as key:

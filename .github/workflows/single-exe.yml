@@ -1,19 +1,23 @@
 name: Single executable from source
 
 on:
-  push:
   workflow_dispatch:
+  workflow_call:
+    inputs:
+      product_run:
+        type: string
+        required: true
+      product_commit:
+        type: string
+        required: true
 
 permissions:
   contents: read
+  actions: read
 
 env:
   NEMOTERM_TEST_TRACEBACK_SECONDS: '60'
   NEMOTERM_SHUTDOWN_DEADLINE_SECONDS: '120'
-
-concurrency:
-  group: single-exe-${{ github.ref }}
-  cancel-in-progress: true
 
 jobs:
   single-exe:
@@ -25,12 +29,14 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           submodules: true
+          fetch-depth: 0
       - name: Retain native crash diagnostics on this disposable runner
         shell: pwsh
         run: ./scripts/native-crash-evidence.ps1
       - name: Verify pinned X11 colour data
         run: python scripts/generate-x11-colours.py --check
       - name: Build frontend and OpenConsole into the same image
+        if: ${{ inputs.product_run == '' }}
         shell: pwsh
         run: |
           $vswhere = "${env:ProgramFiles(x86)}/Microsoft Visual Studio/Installer/vswhere.exe"
@@ -38,6 +44,14 @@ jobs:
           Import-Module "$vs/Common7/Tools/Microsoft.VisualStudio.DevShell.dll"
           Enter-VsDevShell -VsInstallPath $vs -SkipAutomaticLocation -DevCmdArguments '-arch=x64 -host_arch=x64'
           ./scripts/build-single-exe.ps1 2>&1 | Tee-Object build-single-exe.log
+      - name: Reuse the exact source-host executable
+        if: ${{ inputs.product_run != '' }}
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PRODUCT_RUN: ${{ inputs.product_run }}
+          PRODUCT_COMMIT: ${{ inputs.product_commit }}
+        run: ./scripts/fetch-ci-product.ps1 -Run $env:PRODUCT_RUN -Commit $env:PRODUCT_COMMIT -Destination build/single-exe-dist
       - name: Install native instrumentation test dependency
         run: |
           python tests/process_tree_test.py
@@ -97,6 +111,7 @@ jobs:
         with:
           name: single-exe-evidence-${{ github.sha }}
           path: |
+            build/single-exe-dist/SOURCE-HOST.json
             build/shutdown-observer/
             build/profile-failure-dump/
             build-single-exe.log

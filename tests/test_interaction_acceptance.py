@@ -79,8 +79,15 @@ class AcceptanceTests(unittest.TestCase):
         (self.args.stage/'interaction_manual.py').write_text('# changed')
         with self.assertRaises(ValueError):runner.verify_stage(self.args.stage)
 
-    def test_execution_requires_explicit_desktop_flag(self):
-        with self.assertRaises(ValueError):runner.run(argparse.Namespace(desktop_ready=False))
+    def test_execution_rejects_local_and_self_hosted_desktops(self):
+        for environment in ({}, {'GITHUB_ACTIONS':'true','RUNNER_ENVIRONMENT':'self-hosted'}):
+            with patch.dict(runner.os.environ, environment, clear=True):
+                with self.assertRaises(ValueError):runner.run(argparse.Namespace())
+
+    def test_remote_runner_retains_ci_identity(self):
+        with patch.dict(runner.os.environ, {'GITHUB_ACTIONS':'true','RUNNER_ENVIRONMENT':'github-hosted'}):
+            runner.require_remote_runner()
+            self.assertEqual(runner.os.environ['GITHUB_ACTIONS'], 'true')
 
     def test_stop_only_writes_marker(self):
         self.prepare()

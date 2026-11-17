@@ -37,7 +37,7 @@ def main():
         with saved_profile(profile) as profile_args,OwnedJob() as job:
             process=window=session=script=saved=presented=None
             try:
-                argv=[str(exe),*profile_args,'--automation','--cols','40','--rows','12','--font',font,
+                argv=[str(exe),*profile_args,'--no-tabs','--automation','--cols','40','--rows','12','--font',font,
                       '-e',sys.executable,str(root/'tests/mouse_fixture.py'),str(report),str(control),'180']
                 evidence['command']=argv
                 process=job.spawn(argv,env=dict(os.environ,NEMOTERM_CONPTY='bundled',NEMOTERM_TEST_EXACT_OUTPUT='1'),

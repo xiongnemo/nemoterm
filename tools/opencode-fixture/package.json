@@ -1,0 +1,9 @@
+{
+  "name": "nemoterm-opencode-ui-fixture",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Pinned native client for isolated, loopback-only clipboard acceptance",
+  "dependencies": {
+    "opencode-windows-x64": "1.19.3"
+  }
+}

@@ -1,4 +1,4 @@
-"""Prepare and run reviewable Windows interaction acceptance. Default: plan only."""
+"""Prepare and run Windows interaction acceptance on GitHub-hosted runners."""
 from pathlib import Path
 import argparse
 import datetime
@@ -77,6 +77,11 @@ def selected(cases, groups=(), names=()):
     return [c for c in cases if (not groups and not names) or c['group'] in groups or c['id'] in names]
 
 
+def require_remote_runner():
+    if os.environ.get('GITHUB_ACTIONS') != 'true' or os.environ.get('RUNNER_ENVIRONMENT') != 'github-hosted':
+        raise ValueError('Execution requires a disposable GitHub-hosted runner')
+
+
 def desktop_ready():
     """Read-only check: caller must still reserve the desktop for the test."""
     if os.name != 'nt':
@@ -99,6 +104,8 @@ def desktop_ready():
     user.GetForegroundWindow.restype = c.c_void_p
     user.GetWindowThreadProcessId.argtypes = [c.c_void_p, c.POINTER(c.c_ulong)]
     pid = c.c_ulong(); window = user.GetForegroundWindow()
+    if not window and os.environ.get('RUNNER_ENVIRONMENT') == 'github-hosted':
+        return  # A fresh hosted desktop can have no foreground window yet.
     if not window or not user.GetWindowThreadProcessId(window, c.byref(pid)):
         raise RuntimeError('Cannot identify foreground desktop')
     kernel = c.WinDLL('kernel32', use_last_error=True)
@@ -178,8 +185,7 @@ def verify_stage(stage):
 
 
 def run(args):
-    if not args.desktop_ready:
-        raise ValueError('Execution needs --desktop-ready after reserving the desktop')
+    require_remote_runner()
     stage = args.stage.resolve(strict=True)
     identity = verify_stage(stage)
     cases = selected(load(stage/'plan.json'), args.group, args.case)
@@ -226,7 +232,6 @@ def run(args):
             env = dict(os.environ, NEMOTERM_TEST_EXE=str(attempt/'dist/nemoterm.exe'),
                        NEMOTERM_TEST_FONT=identity['font'], NEMOTERM_REQUIRE_DIRECTX='1',
                        NEMOTERM_TEST_TRACEBACK_SECONDS='60')
-            env.pop('CI', None); env.pop('GITHUB_ACTIONS', None)
             row = dict(id=case['id'], status='running', directory=attempt.relative_to(stage).as_posix(),
                        command=command, started_utc=datetime.datetime.now(datetime.timezone.utc).isoformat())
             results.append(row); save(stage/'results.json', results)
@@ -259,10 +264,13 @@ def run(args):
                         row['evidence'].update({folder+'/'+name: value for name, value in files(attempt/folder).items()})
                     save(stage/'results.json', results)
             print(case['id'], row['status'], flush=True)
+            print((attempt/'output.log').read_text(encoding='utf-8', errors='replace'), flush=True)
             if row['status'] != 'passed':
-                return 1
-    print('Selected native checks passed. Manual checklist remains separate.')
-    return 0
+                if not args.continue_on_failure:
+                    return 1
+    failed = [c['id'] for c in cases if next(r for r in reversed(results) if r['id'] == c['id'])['status'] != 'passed']
+    print('Failed checks:', failed)
+    return int(bool(failed))
 
 
 def main(argv=None):
@@ -279,7 +287,7 @@ def main(argv=None):
     p.add_argument('--stage', type=Path, required=True)
     p.add_argument('--group', action='append', default=[])
     p.add_argument('--case', action='append', default=[])
-    p.add_argument('--desktop-ready', action='store_true')
+    p.add_argument('--continue-on-failure', action='store_true')
     p.add_argument('--retry-failed', action='store_true')
     for command in ('status', 'stop'):
         p = sub.add_parser(command); p.add_argument('--stage', type=Path, required=True)

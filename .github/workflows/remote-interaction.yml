@@ -1,0 +1,113 @@
+name: Remote interaction acceptance
+
+on:
+  workflow_call:
+    inputs:
+      product_run:
+        type: string
+        required: true
+      product_commit:
+        type: string
+        required: true
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  orchestration:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - run: python tests/test_interaction_acceptance.py
+  interaction:
+    name: Interaction / ${{ matrix.group }}
+    runs-on: windows-2025
+    needs: orchestration
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      max-parallel: 5
+      matrix:
+        group: [input, selection, clipboard, agents, rendering, mouse, tabs, settings, shells, bell]
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+      - name: Verify and download the exact source-built executable
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PRODUCT_RUN: ${{ inputs.product_run }}
+          PRODUCT_COMMIT: ${{ inputs.product_commit }}
+        run: ./scripts/fetch-ci-product.ps1 -Run $env:PRODUCT_RUN -Commit $env:PRODUCT_COMMIT -Destination build/interaction-product
+      - name: Install pinned font and shell dependencies
+        shell: pwsh
+        env:
+          TEST_GROUP: ${{ matrix.group }}
+        run: ./scripts/prepare-remote-interaction.ps1 -Shells:($env:TEST_GROUP -in @('shells','clipboard'))
+      - name: Install WSL Bash for shell and drop coverage
+        if: ${{ matrix.group == 'shells' || matrix.group == 'clipboard' }}
+        uses: Vampire/setup-wsl@93178b0180b242d56261ad406ee3ee79f0624bae
+        with:
+          distribution: Ubuntu-24.04
+          wsl-version: 1
+          set-as-default: 'true'
+          update: 'false'
+          use-cache: 'false'
+      - name: Install native instrumentation
+        run: python -m pip install frida==17.24.3 Pillow==13.0.0
+      - name: Install pinned isolated client fixtures
+        if: ${{ matrix.group == 'agents' }}
+        run: |
+          npm ci --prefix tools/codex-fixture --ignore-scripts --no-audit --no-fund
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          npm ci --prefix tools/opencode-fixture --ignore-scripts --no-audit --no-fund
+          exit $LASTEXITCODE
+      - name: Freeze product, fixtures and client identities
+        shell: pwsh
+        env:
+          TEST_GROUP: ${{ matrix.group }}
+        run: |
+          $exe=(Resolve-Path build/interaction-product/nemoterm.exe).Path
+          $arguments=@('scripts/interaction_acceptance.py','prepare','--stage','build/interaction','--exe',$exe,'--sha256',(Get-FileHash $exe).Hash.ToLowerInvariant())
+          if ($env:TEST_GROUP -eq 'agents') {
+            foreach ($client in @('codex','opencode')) {
+              $images=@(Get-ChildItem "tools/$client-fixture/node_modules" -Recurse -Filter "$client.exe")
+              if ($images.Count -ne 1) { throw "Expected one pinned $client executable" }
+              $arguments+=@("--$client",$images[0].FullName)
+            }
+          }
+          python @arguments
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          if ($env:TEST_GROUP -eq 'shells') {
+            'NEMOTERM_REQUIRED_SHELLS=pwsh,powershell,cmd,busybox-ash,git-bash,wsl-bash' | Out-File $env:GITHUB_ENV -Append -Encoding utf8
+          }
+      - name: Run all cases in this group on the hosted desktop
+        shell: pwsh
+        env:
+          TEST_GROUP: ${{ matrix.group }}
+        run: python build/interaction/runner.py run --stage build/interaction --group $env:TEST_GROUP --continue-on-failure
+      - name: Publish case results
+        if: always()
+        shell: pwsh
+        run: |
+          if (Test-Path build/interaction/results.json) {
+            $results=Get-Content build/interaction/results.json -Raw | ConvertFrom-Json
+            '| Case | Result | Seconds |' | Out-File $env:GITHUB_STEP_SUMMARY -Append
+            '| --- | --- | ---: |' | Out-File $env:GITHUB_STEP_SUMMARY -Append
+            foreach ($case in $results) { "| $($case.id) | $($case.status) | $([int]$case.seconds) |" | Out-File $env:GITHUB_STEP_SUMMARY -Append }
+          }
+      - name: Retain identities, logs, screenshots and failure evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: interaction-${{ matrix.group }}-${{ github.run_id }}-${{ github.run_attempt }}
+          retention-days: 14
+          path: |
+            build/interaction-product/SOURCE-HOST.json
+            build/interaction-dependencies/environment.json
+            build/interaction/*.json
+            build/interaction/attempts/*/output.log
+            build/interaction/attempts/*/research/
+            build/interaction/attempts/*/build/

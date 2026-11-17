@@ -6,7 +6,7 @@ on:
       suite:
         description: UI checks to replay against the exact artifact
         type: choice
-        options: [font-bell, dpi]
+        options: [font-bell, dpi, interaction, single]
         default: font-bell
       source_commit:
         description: Full source commit of the source-console-host artifact
@@ -22,6 +22,18 @@ permissions:
   actions: read
 
 jobs:
+  interaction:
+    if: ${{ inputs.suite == 'interaction' }}
+    uses: ./.github/workflows/remote-interaction.yml
+    with:
+      product_run: ${{ inputs.source_run }}
+      product_commit: ${{ inputs.source_commit }}
+  single:
+    if: ${{ inputs.suite == 'single' }}
+    uses: ./.github/workflows/single-exe.yml
+    with:
+      product_run: ${{ inputs.source_run }}
+      product_commit: ${{ inputs.source_commit }}
   dpi:
     if: ${{ inputs.suite == 'dpi' }}
     uses: ./.github/workflows/dpi.yml
@@ -29,7 +41,7 @@ jobs:
       product_run: ${{ inputs.source_run }}
       product_commit: ${{ inputs.source_commit }}
   focused-replay:
-    if: ${{ inputs.suite != 'dpi' }}
+    if: ${{ inputs.suite == 'font-bell' }}
     runs-on: windows-2025
     timeout-minutes: 15
     env:

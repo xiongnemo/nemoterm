@@ -78,6 +78,9 @@ function Wait-Value([scriptblock]$Read) {
     throw 'Timed out waiting for owned settings fixture'
 }
 function Find-Name($parent, [string]$name, [string]$class = '') {
+    # English UIA names include the explicit mnemonic suffix introduced by i18n.
+    if ($name -eq 'Add') { $name = 'Add (N)' }
+    if ($name -eq 'Edit' -and !$class) { $name = 'Edit (L)' }
     $condition = New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::NameProperty, $name)
     if ($class) {
         $condition = New-Object System.Windows.Automation.AndCondition($condition,

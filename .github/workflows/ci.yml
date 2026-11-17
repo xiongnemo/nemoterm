@@ -61,9 +61,22 @@ jobs:
           retention-days: 7
           if-no-files-found: error
   dpi:
-    if: ${{ inputs.scope == 'dpi' }}
     needs: source-host
     uses: ./.github/workflows/dpi.yml
+    with:
+      product_run: ${{ github.run_id }}
+      product_commit: ${{ github.sha }}
+  interaction:
+    if: ${{ inputs.scope != 'dpi' }}
+    needs: source-host
+    uses: ./.github/workflows/remote-interaction.yml
+    with:
+      product_run: ${{ github.run_id }}
+      product_commit: ${{ github.sha }}
+  single:
+    if: ${{ inputs.scope != 'dpi' }}
+    needs: source-host
+    uses: ./.github/workflows/single-exe.yml
     with:
       product_run: ${{ github.run_id }}
       product_commit: ${{ github.sha }}
