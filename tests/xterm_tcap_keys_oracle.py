@@ -12,8 +12,10 @@ import os
 from pathlib import Path
 import subprocess
 
-from xterm_locator_oracle import Display, write
-from xterm_udk_oracle import capture_case, prepare_keyboard, step
+import xterm_udk_oracle as harness
+from xterm_extended_keys_oracle import ObservedDisplay, prepare_keyboard
+from xterm_locator_oracle import write
+from xterm_udk_oracle import step
 
 E = b'\x1b'
 C = E + b'['
@@ -90,7 +92,8 @@ def main():
     os.close(w)
     display = ':' + os.read(r, 100).decode().strip()
     os.close(r)
-    owner = Display(display)
+    owner = ObservedDisplay(display)
+    harness.Display = ObservedDisplay
     subprocess.run(['setxkbmap', '-display', display, '-option', '', '-option', 'srvrkeys:none'], check=True)
     result = dict(completed=False, executable_sha256=hashlib.sha256(Path(args.xterm).read_bytes()).hexdigest(),
                   database_observations_sha256=hashlib.sha256(args.database_observations.read_bytes()).hexdigest(),
@@ -100,7 +103,9 @@ def main():
     try:
         result['private_keyboard'] = prepare_keyboard(owner, set(KEYS) | {'Shift_L', 'Alt_L', 'Control_L'})
         for name, spec in specs.items():
-            observed = capture_case(args.xterm, display, name, spec, folder)
+            assert owner.x.XkbLockModifiers(owner.d, 256, 18, 0)
+            owner.x.XSync(owner.d, False)
+            observed = harness.capture_case(args.xterm, display, name, spec, folder)
             observed['selected_terminal'] = spec['selected_terminal']
             result['cases'][name] = observed
             write(args.output, result)
