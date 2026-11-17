@@ -175,6 +175,7 @@ GDI 总工作集最高 **40.05 MB**，DX 最高 **59.69 MB**；约 50 MB 的总�
 完整 CI 与下载成品复核均通过；其他显卡与长时间运行仍需验证。精确镜像、像素比较和样本见 [成品验证记录](research/kitty-query-transaction-product.md)；此前故障恢复记录见 [D3D11 验证](research/d3d11-ci.md)。
 常规内存回归与 Sarasa 交互矩阵的字体和负载不同，分别记录；历史本机内存样本不能套用于新构建。
 新增的完整 160×48 Sarasa 远程负载及其内存超限、后续修复结果见 [完整网格记录](research/full-grid-memory-ci.md)；较小网格的绿色 CI 不能替代这项验收。
+后续候选 `6247818` 合并了不可见图片定位符的绘制片段，六组完整网格 GDI 负载全部通过，密集图片私有工作集峰值为 19.32 MB，29,072 个像素比较完整通过。DX 内存超限和一次 shell 退出失败仍单独保留，具体见 [绘制修复与回归记录](research/kitty-placeholder-runs.md)。
 旧 Direct2D 版本的 30.63 MB 失败结果保留在 [此前验证记录](research/relative-cursor.md)；
 [分配诊断](research/local-directx-heap.md)、[初始化探针](research/graphics-initialization.md)、
 [Direct3D 11 实验](research/d3d11-copy.md) 和 [句柄调查](research/handle-lifetime.md) 保留了改动依据与未解决问题。

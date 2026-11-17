@@ -69,7 +69,9 @@ This replay sampled 6,393 times over 675.532 seconds: **18,849,792 private WS / 
 
 ## Remaining acceptance work
 
-All test execution, including both failures and the focused replay, took place on GitHub-hosted runners. The migration is operational. The reproducible full-grid GDI capture failure still needs diagnosis/fixing and a complete pixel/lifecycle pass. DirectX's six full-grid private-WS failures remain explicit under the unchanged 25 MB regression limit; no further DX memory optimization is claimed. Sampled memory reductions and successful component tests do not close either outstanding result.
+All test execution, including both failures and the focused replay, took place on GitHub-hosted runners. The migration is operational. At `5a5dd7b`, the reproducible full-grid GDI capture failure still needed diagnosis/fixing and a complete pixel/lifecycle pass. DirectX's six full-grid private-WS failures remain explicit under the unchanged 25 MB regression limit; no further DX memory optimization is claimed. Sampled memory reductions and successful component tests alone do not close either result.
+
+The subsequent [placeholder paint batching change](kitty-placeholder-runs.md) at product `6247818` passes all six full-grid GDI workloads: the dense case completes all 29,072 cell-centre comparisons, ten lifecycle checks and natural cleanup at 19,320,832 private-WS bytes. Its longest image request is 0.739134 seconds under the unchanged deadline. The linked follow-up preserves the old failures, compiler negative controls, new product identity and separate outstanding DX/shell results; it does not retroactively change the records above.
 
 ## Retained evidence
 

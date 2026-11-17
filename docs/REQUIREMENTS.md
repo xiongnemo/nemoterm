@@ -22,13 +22,28 @@ memory workloads, rejecting a clamped grid. These are distinct from the earlier
 Consolas checks; exact product identity and results are tracked in the
 [full-grid record](../research/full-grid-memory-ci.md).
 
-Candidate `5a5dd7b` passes 169 single-image groups, all 26 interaction cases,
+Earlier candidate `5a5dd7b` passes 169 single-image groups, all 26 interaction cases,
 24 bilingual DPI cases, compiler/sanitizer tests and the complete MinGW suite.
 Its expanded full run is **19/21**, not green: GDI dense-image sampling is below
 20 MB but two runs fail during subsequent active-tab capture; all six full-grid
 DirectX workloads exceed 25 MB. The exact failures, timings and candidate
 download are retained in the full-grid record. No accepted distribution is
 replaced based on these incomplete full-grid results.
+
+Candidate `6247818` batches hidden Kitty placeholder text runs. All three
+compiler component jobs pass, with 140 frontend runs instead of 7,362 for the
+same full-grid text. All six full 160x48 Sarasa GDI workloads now pass: the
+dense case peaks at 19,320,832 private-WS bytes and completes all 29,072 pixel
+comparisons and ten lifecycle checks with natural cleanup. Its longest capture
+request takes 0.739134 seconds under the unchanged deadline. Full-grid DirectX
+still fails the 25 MB bound. The original shell case also fails its cleanup
+gate; a diagnostic-only replay passes but does not prove that intermittent
+failure is fixed. Evidence and results are in the
+[paint-batching record](../research/kitty-placeholder-runs.md). The completed
+aggregate is **19/21**: all 169 single-image groups, 24 real bilingual DPI cases,
+the complete MinGW suite and 25/26 functional interaction cases pass. Its failed
+jobs are full-grid DirectX memory and shell cleanup; the diagnostic shell replay
+is a separate result. This candidate is not promoted as an all-green build.
 
 The dated checkpoints below retain their original results and failures. Their
 requests to resume local desktop testing no longer describe the execution plan.
