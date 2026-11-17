@@ -3,11 +3,12 @@
 #include <windows.h>
 #include <stdio.h>
 #include <wchar.h>
+#define ARRAY_LENGTH(a) (sizeof(a) / sizeof((a)[0]))
 
 static void report(const wchar_t *path, const char *text)
 {
     wchar_t temporary[32768];
-    swprintf_s(temporary, _countof(temporary), L"%s.tmp", path);
+    swprintf_s(temporary, ARRAY_LENGTH(temporary), L"%s.tmp", path);
     FILE *file = _wfopen(temporary, L"wb");
     if (!file) ExitProcess(21);
     fputs(text, file);
@@ -19,7 +20,7 @@ int wmain(int argc, wchar_t **argv)
 {
     if (argc != 3) return 2;
     if (!wcscmp(argv[1], L"child")) {
-        DWORD processes[64], count = GetConsoleProcessList(processes, _countof(processes));
+        DWORD processes[64], count = GetConsoleProcessList(processes, ARRAY_LENGTH(processes));
         DWORD received = 0;
         wchar_t ch;
         char text[256];
@@ -35,9 +36,9 @@ int wmain(int argc, wchar_t **argv)
     }
     if (wcscmp(argv[1], L"parent")) return 2;
     wchar_t self[32768], command[32768], child_report[32768];
-    if (!GetModuleFileNameW(NULL, self, _countof(self))) return 3;
-    swprintf_s(child_report, _countof(child_report), L"%s-child", argv[2]);
-    swprintf_s(command, _countof(command), L"\"%s\" child \"%s\"", self, child_report);
+    if (!GetModuleFileNameW(NULL, self, ARRAY_LENGTH(self))) return 3;
+    swprintf_s(child_report, ARRAY_LENGTH(child_report), L"%s-child", argv[2]);
+    swprintf_s(command, ARRAY_LENGTH(command), L"\"%s\" child \"%s\"", self, child_report);
     STARTUPINFOW startup = {0}; startup.cb = sizeof(startup);
     PROCESS_INFORMATION process = {0};
     if (!CreateProcessW(NULL, command, NULL, NULL, FALSE, CREATE_SUSPENDED,
