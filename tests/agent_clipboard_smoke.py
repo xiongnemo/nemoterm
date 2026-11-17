@@ -50,8 +50,14 @@ def main():
                 wait_for(lambda:marker in api.request(endpoint,'text',seat),timeout=20)
                 write_snapshot(control,dict(id=1,action='bitmap'))
                 wait_for(lambda:read_snapshot(report).get('clipboard_action')==1)
+                attachment_started=time.monotonic()
                 api.request(endpoint,'key',seat,struct.pack('<II',86,mods))
-                wait_for(lambda:'[Image' in api.request(endpoint,'text',seat),timeout=20)
+                # OpenCode launches Windows PowerShell/WinForms to read images.
+                # A fresh hosted runner exceeded 20 s, then painted the exact
+                # attachment while a separate reader control also succeeded.
+                wait_for(lambda:'[Image' in api.request(endpoint,'text',seat),
+                         timeout=60 if args.client=='opencode' else 20)
+                attachment_seconds=time.monotonic()-attachment_started
                 time.sleep(.2)
                 api.request(endpoint,'key',seat,struct.pack('<II',13,0))
                 def received():
@@ -73,6 +79,7 @@ def main():
                 assert not observed['errors'],observed
                 assert not observed['cleanup']['terminated_remaining'],observed['cleanup']
                 observed['binding']=name
+                observed['attachment_seconds']=attachment_seconds
                 write_snapshot(ROOT/f'research/agent-{args.client}-{name}.json',observed)
                 result['cases'].append(observed)
                 print(args.client+' '+name+': exact generated image received; natural cleanup',flush=True)
