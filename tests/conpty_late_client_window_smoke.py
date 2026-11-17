@@ -4,7 +4,7 @@ import uuid
 import winreg
 from native_test_utils import (root, c, w, k, u, os, sys, subprocess, Path,
     tempfile, time, hashlib, read_snapshot, write_snapshot, wait_for, find_window)
-from owned_job import OwnedJob
+from owned_job import OwnedJob, k
 from job_failure_snapshot import capture_job_failure
 
 if os.environ.get('GITHUB_ACTIONS') != 'true' or os.environ.get('RUNNER_ENVIRONMENT') != 'github-hosted':
@@ -17,6 +17,7 @@ exe = Path(os.environ['NEMOTERM_TEST_EXE']).resolve(strict=True)
 k.OpenThread.argtypes, k.OpenThread.restype = [w.DWORD, w.BOOL, w.DWORD], w.HANDLE
 k.GetProcessIdOfThread.argtypes, k.GetProcessIdOfThread.restype = [w.HANDLE], w.DWORD
 k.ResumeThread.argtypes, k.ResumeThread.restype = [w.HANDLE], w.DWORD
+u.PostMessageW.argtypes, u.PostMessageW.restype = [w.HWND, w.UINT, w.WPARAM, w.LPARAM], w.BOOL
 profile = 'late-console-'+uuid.uuid4().hex
 keypath = 'Software\\Nemo\\Nemoterm\\Sessions\\'+profile
 evidence = dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),
