@@ -107,6 +107,19 @@ def cases():
         add('page-palette-'+str(private), colour_mode+regis('S(E)W(I3)P[20,20]V[120,20]',1),
             regis('P(P1)S(P1)(E)S(M3(R100G0B0))P[20,80]V[120,80]'),
             regis('S(P0)R(P)'),regis('S(P1)R(P)'))
+        # This upstream build starts shared registers black. Keep the default
+        # observations above, and separately define green so palette effects
+        # cannot pass invisibly. Put Sixel below the ReGIS page to avoid overlap.
+        add('sixel-defined-palette-'+str(private), colour_mode+regis(
+            'S(E)S(M3(R20G80B20))W(I3)P[20,20]V[120,20]',1),
+            E+b'P0;1q#3;2;100;0;0'+ST,regis('R(P)'))
+        add('regis-defined-palette-'+str(private), colour_mode+C+b'11;1H'+
+            E+b'P0;1q#3;2;20;80;20!100~'+ST,
+            regis('S(M3(R100G0B0))R(P)',1))
+        add('page-defined-palette-'+str(private), colour_mode+regis(
+            'S(E)S(M3(R20G80B20))W(I3)P[20,20]V[120,20]',1),
+            regis('P(P1)S(P1)(E)S(M3(R100G0B0))P[20,80]V[120,80]'),
+            regis('S(P0)R(P)'),regis('S(P1)R(P)'))
     add('unknown-report', regis('R(Z)', 1), regis('P[20,30]R(P)'))
     add('cancel-can', E+b'P1pP[70,80]'+b'\x18', regis('P[20,30]R(P)'))
     add('cancel-sub', E+b'P1pP[70,80]'+b'\x1a', regis('P[20,30]R(P)'))
@@ -302,6 +315,12 @@ def verify_controls(observations):
             assert frames[1]['non_black_pixels'] > frames[0]['non_black_pixels']+40
             text = [s['frame'] for s in observations['control-text'][transport]['steps']]
             assert text[0]['rgb_sha256'] == text[2]['rgb_sha256'] != text[1]['rgb_sha256']
+            for private in (False,True):
+                for prefix,pixels in [('sixel',101),('regis',600),('page',101)]:
+                    name = prefix+'-defined-palette-'+str(private)
+                    visible = [s['frame']['non_black_pixels']
+                               for s in observations[name][transport]['steps']]
+                    assert visible and all(n==pixels for n in visible), (name,visible)
         except Exception:
             failures.append(dict(transport=transport, error=traceback.format_exc()))
     return failures
