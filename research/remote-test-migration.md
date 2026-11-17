@@ -2,6 +2,14 @@
 
 All automated execution is assigned to GitHub-hosted runners. No test suite, terminal window, clipboard interaction or display change was executed on the developer desktop during this migration.
 
+This page retains the initial migration baseline. The later expanded product
+regression at `8084338` completes **21/22 jobs**, with only full-grid DirectX
+memory failing; see the [final product record](closed-console-regression.md).
+The subsequent [reference collector migration](remote-reference-migration.md)
+also supplies hosted entry points and passing receipts for all 33 current
+invocations of 25 older XTerm collectors, plus independent ncurses controls.
+Original failures remain recorded in both follow-ups.
+
 ## Accepted full run
 
 [Run 44019109177](https://github.com/xiongnemo/nemoterm/actions/runs/44019109177) completed successfully: **19/19 jobs** at product and fixture commit `2312edd86e08c4454bde9f675af030ea3134d3e7`. No production source changed during this migration.
