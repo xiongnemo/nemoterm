@@ -429,6 +429,7 @@
     "error.profile_controls": "Profile names cannot contain control characters.",
     "error.profile_exists": "This profile already exists. Choose another name.",
     "error.default_delete": "The Default profile cannot be deleted.",
-    "error.profile_delete": "Unable to delete this profile."
+    "error.profile_delete": "Unable to delete this profile.",
+    "profile.title": "{app} profile settings"
   }
 }

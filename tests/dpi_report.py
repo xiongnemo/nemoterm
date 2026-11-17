@@ -15,7 +15,7 @@ lines=['# Remote DPI evidence','',
     '| Language | Renderer | Host | Start | Test | Actual window DPI sequence | Result |',
     '|---|---|---|---:|---|---|---|']
 real=list(root.glob('dpi-real-*.json'))
-if not real:lines+=['| — | — | — | — | No real-system evidence | NOT RUN |']
+if not real:lines+=['| — | — | — | — | — | No real-system evidence | NOT RUN |']
 gaps=[]
 for path in real:
     result=read(path)

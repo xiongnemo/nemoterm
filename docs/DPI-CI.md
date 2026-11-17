@@ -51,10 +51,10 @@ for CI. It avoids the hosted image's legacy .NET UIA fallback that exposed
 standard controls as generic panes and omitted tree nodes. No probe is linked
 into the shipped executable.
 
-The real suite tests GDI in standalone and tab modes, with fresh processes at
+The real suite tests GDI in English and Simplified Chinese, in standalone and tab modes, with fresh processes at
 each available scale and live scale changes while settings are already open.
 It checks Profile, Shell, Bell, Bell/Overload, Bindings, Font, Translation,
-Translation/Line drawing and Tabs controls
+Translation/Line drawing, Tabs and Interface language controls
 against dialog boundaries and the footer, saves screenshots, compares terminal
 cell dimensions and fixed-size Sixel pixels, and checks that input still reaches
 the child after closing settings. Owned processes must exit cleanly. Original
@@ -80,7 +80,7 @@ The Actions summary and `dpi-evidence-<run>-<attempt>` artifact contain:
 
 - `DPI-REPORT.md`: separate real and synthetic results, with coverage gaps.
 - `SOURCE-HOST.json`: exact product identity.
-- `display-environment.json` and `dpi-real-gdi.json`: capabilities, requested
+- `display-environment.json` and `dpi-real-gdi-{en,zh-CN}.json`: capabilities, requested
   changes, actual window DPI, cell geometry, cleanup and any failure traceback.
 - `*-settings.json`, logs and PNGs: page/control geometry and screenshots.
 - `synthetic-*/`: IMM/message evidence and per-scale screenshots.
@@ -89,5 +89,7 @@ Artifacts are retained for 14 days. Unsupported real scales remain uncovered;
 an advertised scale that fails to take effect fails the suite. A single monitor
 does not cover moves between monitors with different DPI. This suite does not
 certify physical GPU drivers, nested system dialogs, or real IME candidate UI.
-The current product has no integrated Chinese UI; the English settings checks
-do not constitute localization acceptance. See [the i18n plan](I18N.md).
+The separate `i18n-interaction.json` checks language persistence, Cancel, restart,
+per-launch override, Unicode profile names and translated menus on the same image.
+These checks do not certify complete translation of every inherited diagnostic.
+See [interface language support](I18N.md).

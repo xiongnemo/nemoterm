@@ -49,23 +49,47 @@ static void quoted(const std::wstring &s) {
     std::putchar('"');
 }
 static void rect(const RECT &r) {std::printf("[%ld,%ld,%ld,%ld]",r.left,r.top,r.right-r.left,r.bottom-r.top);}
+static bool text_fits(IUIAutomationElement *element) {
+    UIA_HWND native=0;check(element->get_CurrentNativeWindowHandle(&native));
+    HWND hwnd=(HWND)native;
+    wchar_t classname[64]={};GetClassNameW(hwnd,classname,64);
+    if(wcscmp(classname,L"Static"))return true;
+    LONG_PTR type=GetWindowLongPtrW(hwnd,GWL_STYLE)&SS_TYPEMASK;
+    if(type!=SS_LEFT && type!=SS_LEFTNOWORDWRAP)return true;
+    std::wstring text((size_t)GetWindowTextLengthW(hwnd)+1,L'\0');
+    GetWindowTextW(hwnd,&text[0],(int)text.size());
+    RECT area={};GetClientRect(hwnd,&area);RECT measured=area;
+    HDC dc=GetDC(hwnd);
+    HFONT font=(HFONT)SendMessageW(hwnd,WM_GETFONT,0,0);
+    HGDIOBJ old=SelectObject(dc,font);
+    UINT flags=DT_CALCRECT|DT_EDITCONTROL;
+    flags|=type==SS_LEFT?DT_WORDBREAK:DT_SINGLELINE;
+    DrawTextW(dc,text.c_str(),-1,&measured,flags);
+    SelectObject(dc,old);ReleaseDC(hwnd,dc);
+    return measured.bottom<=area.bottom+1 && measured.right<=area.right+1;
+}
 static IUIAutomationElement *find(IUIAutomation *uia,IUIAutomationElement *parent,const wchar_t *name) {
     Com<IUIAutomationCondition> condition;
-    check(uia->CreateTrueCondition(&condition.p));
     std::wstring wanted=display(name);
+    std::vector<IUIAutomationCondition *> variants;
+    const wchar_t *keys=L"ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    for(size_t index=0;index<=wcslen(keys);index++) {
+        std::wstring label=wanted;
+        if(index)label+=std::wstring(L" (")+keys[index-1]+L")";
+        VARIANT value;VariantInit(&value);value.vt=VT_BSTR;value.bstrVal=SysAllocString(label.c_str());
+        IUIAutomationCondition *entry=nullptr;
+        HRESULT result=uia->CreatePropertyCondition(UIA_NamePropertyId,value,&entry);
+        VariantClear(&value);
+        if(FAILED(result)) {for(auto *old:variants)old->Release();check(result);}
+        variants.push_back(entry);
+    }
+    HRESULT result=uia->CreateOrConditionFromNativeArray(variants.data(),(int)variants.size(),&condition.p);
+    for(auto *entry:variants)entry->Release();
+    check(result);
     for(int i=0;i<100;i++) {
-        Com<IUIAutomationElementArray> children;
-        check(parent->FindAll(TreeScope_Descendants,condition.p,&children.p));
-        int count=0;check(children->get_Length(&count));
-        for(int j=0;j<count;j++) {
-            Com<IUIAutomationElement> child;check(children->GetElement(j,&child.p));
-            BSTR label=nullptr;check(child->get_CurrentName(&label));
-            std::wstring value=label?label:L"";SysFreeString(label);
-            // Access-key suffix is part of the accessible name on Win32.
-            if(value.size()>=4 && value[value.size()-4]==' ' && value[value.size()-3]=='(' && value.back()==')')
-                value.resize(value.size()-4);
-            if(value==wanted) {child.p->AddRef();return child.p;}
-        }
+        IUIAutomationElement *found=nullptr;
+        check(parent->FindFirst(TreeScope_Descendants,condition.p,&found));
+        if(found)return found;
         Sleep(20);
     }
     std::string text;
@@ -139,12 +163,13 @@ int wmain(int argc,wchar_t **argv) {
                 r.left>=bounds.left && r.top>=bounds.top && r.right<=bounds.right && r.bottom<=bounds.bottom;
             bool bottom=!wcscmp(label,L"Save and Apply") || !wcscmp(label,L"Cancel");
             bool clear=bottom || r.bottom<=footer.top-2;
+            bool fits=text_fits(node.p);
             if(!first)std::putchar(',');
             first=false;
             std::printf("{\"label\":");quoted(label);std::printf(",\"rect\":");rect(r);
-            std::printf(",\"offscreen\":%s,\"contained\":%s,\"footer_clear\":%s}",
-                offscreen?"true":"false",contained?"true":"false",clear?"true":"false");
-            valid=valid && contained && clear;
+            std::printf(",\"offscreen\":%s,\"contained\":%s,\"footer_clear\":%s,\"text_fits\":%s}",
+                offscreen?"true":"false",contained?"true":"false",clear?"true":"false",fits?"true":"false");
+            valid=valid && contained && clear && fits;
         }
         std::putchar(']');controls_open=false;
         if(!valid)throw std::runtime_error("Control clipping or footer overlap");

@@ -56,7 +56,7 @@
     "category.encoding": "字符编码",
     "category.line_drawing": "画线字符",
     "category.tabs": "标签页",
-    "category.bindings": "快捷键与鼠标绑定",
+    "category.bindings": "快捷键",
     "category.font": "字号",
     "category.commands": "命令与输出",
     "category.selection": "选择",
@@ -429,6 +429,7 @@
     "error.profile_controls": "配置名称不能包含控制字符。",
     "error.profile_exists": "此配置名称已存在。请选择其他名称。",
     "error.default_delete": "不能删除 Default 默认配置。",
-    "error.profile_delete": "无法删除此配置。"
+    "error.profile_delete": "无法删除此配置。",
+    "profile.title": "{app} 配置方案设置"
   }
 }

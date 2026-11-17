@@ -2250,7 +2250,8 @@ void setup_config_box(struct controlbox *b, bool midsession,
     /*
      * The Session panel.
      */
-    str = dupprintf("%s %s settings", appname, ssd->profiles ? "profile" : "session");
+    str = ssd->profiles ? nemo_ui_format("profile.title", "app", appname, NULL, NULL) :
+        dupprintf("%s session settings", appname);
     ctrl_settitle(b, profile_panel, str);
     sfree(str);
 

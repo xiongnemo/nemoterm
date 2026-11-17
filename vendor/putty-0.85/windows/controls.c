@@ -423,7 +423,7 @@ void statictext(struct ctlpos *cp, const char *text, int lines, int id)
     r.bottom = STATICHEIGHT * lines;
     cp->ypos += r.bottom + GAPBETWEEN;
     doctl(cp, r, "STATIC",
-          WS_CHILD | WS_VISIBLE | SS_LEFTNOWORDWRAP,
+          WS_CHILD | WS_VISIBLE | SS_LEFT,
           0, text, id);
 }
 

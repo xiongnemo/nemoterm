@@ -198,7 +198,7 @@ static bool do_filereq_w(
     of.nMaxFile = filename_size;
 
     if (title) {
-        wchar_t *wtitle = dup_mb_to_wc(CP_ACP, title);
+        wchar_t *wtitle = dup_mb_to_wc(CP_UTF8, title);
         tofree2 = wtitle;
         of.lpstrTitle = wtitle;
     }
