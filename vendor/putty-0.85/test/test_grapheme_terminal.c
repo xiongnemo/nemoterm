@@ -286,6 +286,31 @@ static int cluster_test_char_width(TermWin *win, int uc) { return 1; }
 static void cluster_test_free_context(TermWin *win) {}
 static void cluster_test_cursor_pos(TermWin *win, int x, int y) {}
 
+typedef struct ClusterPaintRun {
+    int x,y,length;
+    unsigned long attr;
+    wchar_t text[8];
+} ClusterPaintRun;
+static ClusterPaintRun cluster_paint_runs[512];
+static unsigned cluster_paint_count,cluster_paint_units;
+static void cluster_test_draw_text(TermWin *win,int x,int y,wchar_t *text,int length,
+                                  unsigned long attr,int lattr,truecolour tc)
+{
+    if (cluster_paint_count<lenof(cluster_paint_runs)) {
+        ClusterPaintRun *r=&cluster_paint_runs[cluster_paint_count];
+        *r=(ClusterPaintRun){.x=x,.y=y,.length=length,.attr=attr};
+        memcpy(r->text,text,min((size_t)length,lenof(r->text))*sizeof(*text));
+    }
+    cluster_paint_count++;cluster_paint_units+=length;
+}
+static const ClusterPaintRun *cluster_paint_at(int x,int y)
+{
+    for (unsigned i=0;i<min(cluster_paint_count,lenof(cluster_paint_runs));i++)
+        if (cluster_paint_runs[i].x==x && cluster_paint_runs[i].y==y)
+            return &cluster_paint_runs[i];
+    return NULL;
+}
+
 static void test_image_placeholder_paint_cache(Mock *mk)
 {
     setup_cluster(mk,"image positional marks are not rendered-text cache data",48,160);
@@ -296,6 +321,7 @@ static void test_image_placeholder_paint_cache(Mock *mk)
     drawing.char_width=cluster_test_char_width;
     drawing.free_draw_ctx=cluster_test_free_context;
     drawing.set_cursor_pos=cluster_test_cursor_pos;
+    drawing.draw_text=cluster_test_draw_text;
     drawing.kitty_graphics=true;
     mk->tw.vt=&drawing;
     static const uint32_t image[]={0x10eeee,0x305,0x305};
@@ -306,7 +332,16 @@ static void test_image_placeholder_paint_cache(Mock *mk)
         char cursor[32];sprintf(cursor,"\033[%d;2H",y+1);
         term_data_fragmented(t,cursor);term_data_fragmented(t,row->s);
     }
-    strbuf_free(row);term_update(t);
+    strbuf_free(row);
+    term_data_fragmented(t,"\033[?25l");
+    cluster_paint_count=cluster_paint_units=0;
+    term_invalidate(t);term_update(t);
+    printf("Image placeholder paint: %u frontend runs for %u text units\n",
+           cluster_paint_count,cluster_paint_units);
+    IEQUAL(cluster_paint_units,48u*160u);
+    /* Invisible positional marks must not turn each blank into a separate
+     * frontend/image-composition request. Borders may use separate runs. */
+    IEQUAL(cluster_paint_count<=48u*3u,true);
     size_t allocated=0,extensions=0;
     for (int y=0;y<t->rows;y++) {
         allocated+=t->disptext[y]->size*sizeof(termchar);
@@ -331,6 +366,65 @@ static void test_image_placeholder_paint_cache(Mock *mk)
     term_data_fragmented(t,"\033[2;2H");output_scalars(t,image,lenof(image));term_update(t);
     IEQUAL(t->disptext[1]->chars[1].cc_next!=0,true);
     cluster_contents(mk,1,1,image,lenof(image));
+    mk->tw.vt=original;
+}
+
+static void test_image_placeholder_paint_boundaries(Mock *mk)
+{
+    const TermWinVtable *original=mk->tw.vt;
+    TermWinVtable drawing=*original;
+    drawing.setup_draw_ctx=cluster_test_draw_context;
+    drawing.char_width=cluster_test_char_width;
+    drawing.free_draw_ctx=cluster_test_free_context;
+    drawing.set_cursor_pos=cluster_test_cursor_pos;
+    drawing.draw_text=cluster_test_draw_text;
+    mk->tw.vt=&drawing;
+    static const uint32_t image[]={0x10eeee,0x305,0x305};
+    static const uint32_t accent[]={'e',0x301};
+    for (unsigned mode=0;mode<4;mode++) {
+        drawing.kitty_graphics=(mode&1)!=0;
+        setup_cluster(mk,"placeholder batching preserves visible boundaries",3,16);
+        Terminal *t=mk->term;
+        term_set_grapheme_clustering(t,(mode&2)!=0);
+        output_scalars(t,image,lenof(image));output_scalars(t,image,lenof(image));
+        output_scalars(t,accent,lenof(accent));
+        output_scalars(t,image,lenof(image));output_scalars(t,image,lenof(image));
+        term_data_fragmented(t,"Z\033[2;1H");
+        output_scalars(t,image,lenof(image));output_scalars(t,image,lenof(image));
+        term_data_fragmented(t,"\033[31m");output_scalars(t,image,lenof(image));
+        term_data_fragmented(t,"\033[0m\033[?25l");
+        cluster_paint_count=cluster_paint_units=0;
+        term_invalidate(t);term_update(t);
+        const ClusterPaintRun *a=cluster_paint_at(2,0),*b=cluster_paint_at(3,0);
+        IEQUAL(a!=NULL,true);IEQUAL(b!=NULL,true);
+        if (a) {
+            IEQUAL(a->length,2);IEQUAL(a->text[0],'e');IEQUAL(a->text[1],0x301);
+            IEQUAL((a->attr&TATTR_COMBINING)!=0,true);
+        }
+        const ClusterPaintRun *first=cluster_paint_at(0,0);
+        IEQUAL(first!=NULL,true);
+        if (first && drawing.kitty_graphics) {
+            IEQUAL(first->length,2);IEQUAL(first->text[0],' ');IEQUAL(first->text[1],' ');
+            IEQUAL((first->attr&TATTR_COMBINING)!=0,false);
+        } else if (first) {
+            IEQUAL((first->attr&TATTR_COMBINING)!=0,true);
+            IEQUAL(cluster_paint_at(1,0)!=NULL,true);
+            IEQUAL(cluster_paint_at(4,0)!=NULL,true);
+        }
+        const ClusterPaintRun *plain=cluster_paint_at(0,1),*red=cluster_paint_at(2,1);
+        IEQUAL(plain!=NULL,true);IEQUAL(red!=NULL,true);
+        if (plain && red) IEQUAL((plain->attr&ATTR_FGMASK)!=(red->attr&ATTR_FGMASK),true);
+        cluster_contents(mk,0,0,image,lenof(image));
+        cluster_contents(mk,2,0,accent,lenof(accent));
+        cluster_contents(mk,3,0,image,lenof(image));
+        /* Cursor highlighting still splits a run through adjacent blanks. */
+        term_data_fragmented(t,"\033[2;2H\033[?25h");t->has_focus=t->cblinker=true;
+        cluster_paint_count=cluster_paint_units=0;
+        term_invalidate(t);term_update(t);
+        const ClusterPaintRun *cursor=cluster_paint_at(1,1);
+        IEQUAL(cursor!=NULL,true);
+        if (cursor) IEQUAL((cursor->attr&ATTR_ACTCURS)!=0,true);
+    }
     mk->tw.vt=original;
 }
 
@@ -489,6 +583,7 @@ int main(void)
     test_reflow_and_rectangle(mk);test_repeat(mk);test_mode(mk);test_initial_policy(mk);test_bidi_cache(mk);
     test_double_size_clusters(mk);
     test_image_placeholder_paint_cache(mk);
+    test_image_placeholder_paint_boundaries(mk);
     bool failed=mk->any_test_failed;mock_free(mk);
     puts(failed?"Grapheme terminal suite FAILED":"Grapheme terminal suite passed");
     return failed?1:0;
