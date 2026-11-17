@@ -398,7 +398,10 @@ static void test_image_placeholder_paint_boundaries(Mock *mk)
         const ClusterPaintRun *a=cluster_paint_at(2,0),*b=cluster_paint_at(3,0);
         IEQUAL(a!=NULL,true);IEQUAL(b!=NULL,true);
         if (a) {
-            IEQUAL(a->length,2);IEQUAL(a->text[0],'e');IEQUAL(a->text[1],0x301);
+            /* Windows mock fonts can use PuTTY's direct-font byte form. */
+            unsigned base=a->text[0];
+            if (DIRECT_FONT(base)) base&=0xff;
+            IEQUAL(a->length,2);IEQUAL(base,'e');IEQUAL(a->text[1],0x301);
             IEQUAL((a->attr&TATTR_COMBINING)!=0,true);
         }
         const ClusterPaintRun *first=cluster_paint_at(0,0);
