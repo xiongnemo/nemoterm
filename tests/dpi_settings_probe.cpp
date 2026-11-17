@@ -60,12 +60,23 @@ static bool text_fits(IUIAutomationElement *element) {
     GetWindowTextW(hwnd,&text[0],(int)text.size());
     RECT area={};GetClientRect(hwnd,&area);RECT measured=area;
     HDC dc=GetDC(hwnd);
-    HFONT font=(HFONT)SendMessageW(hwnd,WM_GETFONT,0,0);
+    HFONT remote_font=(HFONT)SendMessageW(hwnd,WM_GETFONT,0,0);
+    LOGFONTW description={};
+    if(GetObjectW(remote_font,sizeof(description),&description)!=sizeof(description)) {
+        ReleaseDC(hwnd,dc);throw std::runtime_error("Cannot read target control font");
+    }
+    // GDI fonts are process-owned. Clone its description instead of selecting
+    // the other process's HFONT (which silently leaves the stock font active).
+    HFONT font=CreateFontIndirectW(&description);
+    if(!font) {ReleaseDC(hwnd,dc);throw std::runtime_error("Cannot clone target control font");}
     HGDIOBJ old=SelectObject(dc,font);
+    if(!old || old==HGDI_ERROR) {
+        DeleteObject(font);ReleaseDC(hwnd,dc);throw std::runtime_error("Cannot select measurement font");
+    }
     UINT flags=DT_CALCRECT|DT_EDITCONTROL;
     flags|=type==SS_LEFT?DT_WORDBREAK:DT_SINGLELINE;
     DrawTextW(dc,text.c_str(),-1,&measured,flags);
-    SelectObject(dc,old);ReleaseDC(hwnd,dc);
+    SelectObject(dc,old);DeleteObject(font);ReleaseDC(hwnd,dc);
     return measured.bottom<=area.bottom+1 && measured.right<=area.right+1;
 }
 static IUIAutomationElement *find(IUIAutomation *uia,IUIAutomationElement *parent,const wchar_t *name) {
