@@ -147,6 +147,7 @@ The [native component](regis-native-component.md) now has a per-owner parser
 and sparse pages. Its 70-frame parser projection passes with independent
 upstream font inputs; native Windows glyph validation is separate and the
 earlier failures are retained. [DCS input and shared accounting](regis-terminal-input.md)
-are connected in development source; image placement, native rendering and
-text/graphics lifecycle remain unfinished. The coverage ledger continues to
+are connected in development source. [Live image views](regis-image-views.md)
+now reach the Windows rendering path, but expanded lifecycle comparisons fail
+and native-window acceptance remains open. The coverage ledger continues to
 mark both families **Missing**; no new capability or product memory result is inferred.

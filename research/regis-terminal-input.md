@@ -90,12 +90,13 @@ original failed results remain unchanged.
 
 ## Remaining work
 
-The replay reads pixels from the decoder, not from a terminal window. Image
-placement and native rendering are not connected. Text erasure, scrolling,
-scrollback, hidden-page lifetime, graphics eviction and scheduling require
-integration and comparison with the remaining original reference scenes.
-Twenty-four of the 61 reference scenes are still explicit exclusions from
-this projection; no exclusion is a pass.
+This checkpoint's replay reads pixels from the decoder, not a terminal window.
+Subsequent [image-view integration](regis-image-views.md) connects retained
+graphics to the Windows drawing path and adds a 60-scene / 131-frame lifecycle
+comparison, which remains failed. Native-window acceptance, partial margins,
+scrollback, eviction pressure and scheduling remain open. Twenty-four of the
+61 original scenes remain explicit exclusions from this older 37-scene
+projection; the newer view gate is separate and does not erase those limits.
 
 Further arithmetic and parser-progress review and wider font/alphabet/curve
 coverage are needed. Tektronix remains unimplemented. No new frontend memory

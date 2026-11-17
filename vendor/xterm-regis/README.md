@@ -19,8 +19,10 @@ Generated files preserve the upstream notices.
 
 This is **development code, not advertised terminal support**. DCS framing,
 shared image accounting and Windows glyph callbacks are now connected.
-Image placement, rendering, erasure/scrolling and native acceptance remain
-unfinished. The hosted component comparison passes its 70 original frames
+Live image views now reach the Windows rendering path; expanded erasure and
+scroll comparisons remain failed, and native acceptance is unfinished.
+The hosted component comparison passes its 70 original frames
 with independent upstream Xft glyph inputs; native Windows font validation
 is a separate gate. See `research/regis-native-component.md` and
-`research/regis-terminal-input.md` for failures, current results and scope.
+`research/regis-terminal-input.md` and `research/regis-image-views.md` for
+failures, current results and scope.
