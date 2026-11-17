@@ -12,6 +12,8 @@
 
 static RegisFontInputs font_inputs;
 static TermWinVtable regis_vtable;
+static unsigned char grid_font[257][13][6];
+static bool grid_font_loaded;
 
 static bool mock_regis_glyph(TermWin *win,const char *font,unsigned ch,
     unsigned maxw,unsigned maxh,unsigned char *pixels,size_t capacity,
@@ -24,6 +26,7 @@ static bool mock_regis_glyph(TermWin *win,const char *font,unsigned ch,
 static Mock *regis_mock(void)
 {
     Mock *mk=mock_new();
+    mk->ucsdata->line_codepage=CP_UTF8;
     mk->tw.vt=&regis_vtable;
     mk->term=term_init(mk->conf,mk->ucsdata,&mk->tw);
     mk->ldisc=ldisc_create(mk->conf,mk->term,&mk->backend,&mk->seat);
@@ -31,6 +34,12 @@ static Mock *regis_mock(void)
     term_size(mk->term,12,40,0);
     term_set_cell_size(mk->term,6,13);
     IEQUAL(term_regis_set_size(mk->term,160,120,160,120),true);
+    /* Match the reference's VT340 resources: 16 registers; the upstream
+     * shared bank is calloc-initialized, while private banks use VT340 RGB.
+     * Product-default 256-register Sixel behaviour is tested separately. */
+    mk->term->sixel_register_count=16;
+    memset(mk->term->sixel_palette,0,sizeof(mk->term->sixel_palette));
+    mk->term->sixel_palette_valid=true;
     return mk;
 }
 
@@ -164,6 +173,12 @@ int main(int argc,char **argv)
             regis_vtable.regis_glyph=mock_regis_glyph;
         } else if (!strcmp(argv[i],"--bytewise")) bytewise=true;
         else if (!strcmp(argv[i],"--views")) views=true;
+        else if (!strcmp(argv[i],"--grid-font") && i+1<argc) {
+            FILE *font=fopen(argv[++i],"rb"); char magic[8];
+            if (!font || fread(magic,1,8,font)!=8 || memcmp(magic,"NEMOFIX2",8) ||
+                fread(grid_font,1,sizeof(grid_font),font)!=sizeof(grid_font) || fgetc(font)!=EOF) return 8;
+            fclose(font); grid_font_loaded=true;
+        }
         else return 4;
     }
 #ifdef _WIN32
@@ -190,7 +205,20 @@ int main(int argc,char **argv)
         for (unsigned y=0;y<120;y++) {
             uint32_t row[160]={0};
             if (!views) nemo_regis_read_row(decoder,page,y,0,row,160);
-            else for (NemoTermImage *im=mk->term->images;im;im=im->next) {
+            else {
+                termline *line=index234(mk->term->screen,y/13);
+                for (unsigned x=0;x<160;x++) {
+                    unsigned code=(unsigned)line->chars[x/6].chr;
+                    if ((code&CSET_MASK)==CSET_ASCII) code&=255;
+                    if (code==' ') continue;
+                    if (code==0x2426) code=256;
+                    if (!grid_font_loaded || code>256) {
+                        fprintf(stderr,"Unsupported fixed-grid input U+%04x\n",code); return 9;
+                    }
+                    if (grid_font[code][y%13][x%6]) row[x]=0xffffffff;
+                }
+            }
+            if (views) for (NemoTermImage *im=mk->term->images;im;im=im->next) {
                 if (im->screen!=mk->term->alt_which || !term_image_visible(im)) continue;
                 for (unsigned sy=0;sy<(unsigned)im->pixel_height;sy++) {
                     if (term_image_pixel_y(im,sy,mk->term->cell_height)!=(int64_t)y) continue;

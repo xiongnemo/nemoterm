@@ -19,11 +19,13 @@ jobs:
           python3 scripts/generate-regis-font-probe.py --output build/regis-font-inputs/probe.c
           gcc -std=c11 -O1 -Wall -Wextra -Werror build/regis-font-inputs/probe.c $(pkg-config --cflags --libs xft x11 fontconfig) -o build/regis-font-inputs/probe 2>&1 | tee build/regis-font-inputs/build.log
           xvfb-run -a -s '-screen 0 1024x768x24 -nolisten tcp' build/regis-font-inputs/probe build/regis-font-inputs/glyphs.bin build/regis-font-inputs/fonts.log
+          gcc -std=c11 -O1 -Wall -Wextra -Werror tests/regis_fixed_font_probe.c -lX11 -o build/regis-font-inputs/fixed-font-probe
+          xvfb-run -a -s '-screen 0 1024x768x24 -nolisten tcp' build/regis-font-inputs/fixed-font-probe build/regis-font-inputs/fixed-font.bin | tee build/regis-font-inputs/fixed-font.log
           dpkg-query -W > build/regis-font-inputs/packages.txt
           git rev-parse HEAD > build/regis-font-inputs/fixture-commit.txt
           sed -n 's/^font-file: //p' build/regis-font-inputs/fonts.log | sort -u | while IFS= read -r file; do sha256sum "$file"; done > build/regis-font-inputs/font-files-sha256.txt
           cd build/regis-font-inputs
-          sha256sum probe.c probe glyphs.bin fonts.log > SHA256SUMS
+          sha256sum probe.c probe glyphs.bin fonts.log fixed-font-probe fixed-font.bin fixed-font.log > SHA256SUMS
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
@@ -103,13 +105,13 @@ jobs:
         env:
           ASAN_OPTIONS: detect_leaks=1:abort_on_error=1
           UBSAN_OPTIONS: halt_on_error=1
-        run: python3 tests/test_regis_reference.py --terminal --views --exe build/regis-terminal/test_regis_terminal --font-inputs build/regis-font-inputs/glyphs.bin --output build/regis-component/views-whole
+        run: python3 tests/test_regis_reference.py --terminal --views --grid-font build/regis-font-inputs/fixed-font.bin --exe build/regis-terminal/test_regis_terminal --font-inputs build/regis-font-inputs/glyphs.bin --output build/regis-component/views-whole
       - name: Compare retained image views under bytewise input
         if: ${{ !cancelled() }}
         env:
           ASAN_OPTIONS: detect_leaks=1:abort_on_error=1
           UBSAN_OPTIONS: halt_on_error=1
-        run: python3 tests/test_regis_reference.py --terminal --views --bytewise --exe build/regis-terminal/test_regis_terminal --font-inputs build/regis-font-inputs/glyphs.bin --output build/regis-component/views-bytewise
+        run: python3 tests/test_regis_reference.py --terminal --views --bytewise --grid-font build/regis-font-inputs/fixed-font.bin --exe build/regis-terminal/test_regis_terminal --font-inputs build/regis-font-inputs/glyphs.bin --output build/regis-component/views-bytewise
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
@@ -177,10 +179,10 @@ jobs:
         run: python tests/test_regis_reference.py --terminal --bytewise --exe build/regis-terminal/test_regis_terminal.exe --font-inputs build/regis-font-inputs/glyphs.bin --output build/regis-component/terminal-bytewise
       - name: Compare retained image views and lifecycle with original XTerm scenes
         if: ${{ !cancelled() }}
-        run: python tests/test_regis_reference.py --terminal --views --exe build/regis-terminal/test_regis_terminal.exe --font-inputs build/regis-font-inputs/glyphs.bin --output build/regis-component/views-whole
+        run: python tests/test_regis_reference.py --terminal --views --grid-font build/regis-font-inputs/fixed-font.bin --exe build/regis-terminal/test_regis_terminal.exe --font-inputs build/regis-font-inputs/glyphs.bin --output build/regis-component/views-whole
       - name: Compare retained image views under bytewise input
         if: ${{ !cancelled() }}
-        run: python tests/test_regis_reference.py --terminal --views --bytewise --exe build/regis-terminal/test_regis_terminal.exe --font-inputs build/regis-font-inputs/glyphs.bin --output build/regis-component/views-bytewise
+        run: python tests/test_regis_reference.py --terminal --views --bytewise --grid-font build/regis-font-inputs/fixed-font.bin --exe build/regis-terminal/test_regis_terminal.exe --font-inputs build/regis-font-inputs/glyphs.bin --output build/regis-component/views-bytewise
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:

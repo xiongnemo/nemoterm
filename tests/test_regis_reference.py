@@ -23,6 +23,7 @@ def main():
     parser.add_argument('--exe',required=True,type=Path)
     parser.add_argument('--output',required=True,type=Path)
     parser.add_argument('--font-inputs',type=Path)
+    parser.add_argument('--grid-font',type=Path)
     parser.add_argument('--terminal',action='store_true',help='Feed original DCS/CSI bytes through terminal.c')
     parser.add_argument('--bytewise',action='store_true')
     parser.add_argument('--views',action='store_true',help='Compare actual retained image views, including lifecycle and Sixel')
@@ -44,6 +45,9 @@ def main():
     if args.views:
         assert args.terminal
         command+=['--views']
+    if args.grid_font:
+        command+=['--grid-font',str(args.grid_font.resolve())]
+        evidence['grid_font_sha256']=hashlib.sha256(args.grid_font.read_bytes()).hexdigest()
     if args.font_inputs:
         command+=['--font-inputs',str(args.font_inputs.resolve())]
         evidence['font_inputs_sha256']=hashlib.sha256(args.font_inputs.read_bytes()).hexdigest()
@@ -54,8 +58,8 @@ def main():
         for name,variants in observed['cases'].items():
             steps=variants['whole']['steps']
             matches=[re.fullmatch(pattern,bytes.fromhex(s['sequence_hex'])) for s in steps]
-            if args.views and name in ('control-text','control-capability'):
-                evidence['excluded'][name]='Ordinary text font rasterization or terminal identity control; outside graphics-view projection.'
+            if args.views and name=='control-capability':
+                evidence['excluded'][name]='Terminal identity control; ReGIS capability is not advertised yet.'
                 continue
             if not args.views and not all(matches):
                 evidence['excluded'][name]='Requires terminal CSI/Sixel/cancellation integration; original stream retained unchanged.'
