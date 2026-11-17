@@ -84,6 +84,29 @@ def cases():
                         ('alternate-roundtrip', C+b'?1049h'+C+b'?1049l')]:
         add('lifetime-'+name, regis('S(E)W(I3)P[30,40]V[100,40]R(P)', 1),
             reset+C+b'?25l'+regis('R(P)'))
+    add('alternate-page-ownership', regis('S(E)W(I3)P[20,20]V[120,20]', 1),
+        C+b'?1049h'+regis('W(I2)P[20,80]V[120,80]R(P)'),
+        C+b'?1049l'+regis('R(P)'), C+b'?1049h'+regis('R(P)'),
+        C+b'?1049l'+regis('R(P)'))
+    add('alternate-hidden-page', regis('S(E)W(I3)P(P1)P[20,20]V[120,20]', 1),
+        C+b'?1049h'+regis('S(P1)R(P)'), C+b'?1049l'+regis('S(P1)R(P)'))
+    for name, operation in [('erase-display', C+b'2J'), ('erase-history', C+b'3J'),
+                            ('erase-line', C+b'2;1H'+C+b'2K'),
+                            ('scroll-up', C+b'3S'), ('scroll-down', C+b'3T'),
+                            ('newline-scroll', C+b'12;1H'+b'\n')]:
+        add(name, regis('S(E)W(I3)P[20,20]V[120,20]P[20,80]V[120,80]',1),
+            operation, regis('R(P)'))
+    for private in (False,True):
+        colour_mode = C+b'?1070'+(b'h' if private else b'l')
+        # A palette-only Sixel changes the shared register without supplying
+        # an occluding bitmap. Reverse the direction in the separate scene.
+        add('sixel-palette-'+str(private), colour_mode+regis('S(E)W(I3)P[20,20]V[120,20]',1),
+            E+b'P0;1q#3;2;100;0;0'+ST, regis('R(P)'))
+        add('regis-palette-'+str(private), colour_mode+E+b'P0;1q#3!100~'+ST,
+            regis('S(M3(R100G0B0))R(P)',1))
+        add('page-palette-'+str(private), colour_mode+regis('S(E)W(I3)P[20,20]V[120,20]',1),
+            regis('P(P1)S(P1)(E)S(M3(R100G0B0))P[20,80]V[120,80]'),
+            regis('S(P0)R(P)'),regis('S(P1)R(P)'))
     add('unknown-report', regis('R(Z)', 1), regis('P[20,30]R(P)'))
     add('cancel-can', E+b'P1pP[70,80]'+b'\x18', regis('P[20,30]R(P)'))
     add('cancel-sub', E+b'P1pP[70,80]'+b'\x1a', regis('P[20,30]R(P)'))
