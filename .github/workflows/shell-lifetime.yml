@@ -1,6 +1,18 @@
 name: Repeated Git Bash lifetime on exact product
 
 on:
+  workflow_call:
+    inputs:
+      source_run:
+        required: true
+        type: string
+      source_commit:
+        required: true
+        type: string
+      iterations:
+        required: false
+        default: '12'
+        type: string
   workflow_dispatch:
     inputs:
       source_run:
