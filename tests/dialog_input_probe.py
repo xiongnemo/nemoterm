@@ -28,7 +28,8 @@ if operation=='prepare':
         api.request(endpoint,'key',added['id'],struct.pack('<II',9,2))
     instance=api.request(endpoint);instance['endpoint']=endpoint
 elif operation=='blocked':
-    report=Path(sys.argv[3]);before=read_snapshot(report).get('hex','')
+    report=Path(sys.argv[3])
+    before=wait_snapshot(lambda:read_snapshot(report),lambda v:'hex' in v)
     count=len(instance['sessions'])
     for seat in instance['sessions']:
         assert not u.IsWindowEnabled(seat['window']),seat
@@ -44,7 +45,10 @@ elif operation=='blocked':
         u.SendMessageW(seat['window'],0x111,0x20,0)
     time.sleep(.15)
     assert len(api.request(endpoint)['sessions'])==count
-    assert read_snapshot(report).get('hex','')==before,'modal input leaked into child'
+    after=wait_snapshot(lambda:read_snapshot(report),lambda v:'hex' in v)
+    with (root/'research'/f'dialog-blocked-{pid}.jsonl').open('a',encoding='utf-8') as output:
+        output.write(json.dumps(dict(before=before,after=after))+'\n')
+    assert after['hex']==before['hex'],('modal input changed',before,after)
 elif operation=='ready':
     assert all(u.IsWindowEnabled(s['window']) for s in instance['sessions'])
     seat=next(s for s in instance['sessions'] if s['active'])
@@ -62,7 +66,8 @@ elif operation=='zoom':
         api.request(endpoint,'key',seat['id'],struct.pack('<II',minus,2))
         wait_for(lambda:next(s for s in api.request(endpoint)['sessions'] if s['id']==seat['id'])['rows']==rows)
     time.sleep(.15)
-    assert read_snapshot(report)['hex']=='1b5b306e','zoom keys leaked through CSI-u'
+    final=wait_snapshot(lambda:read_snapshot(report),lambda v:'hex' in v)
+    assert final['hex']=='1b5b306e',('zoom keys leaked through CSI-u',final)
 elif operation=='finish':
     original=int(sys.argv[3])
     for seat in instance['sessions']:

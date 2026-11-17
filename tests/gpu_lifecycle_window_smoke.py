@@ -30,6 +30,7 @@ try:
             hwnd=wait_for(lambda:find_window(process.pid));wait_for(lambda:read_snapshot(report))
             driver=job.spawn(['powershell.exe','-NoProfile','-File',str(root/'tests/gpu_settings_driver.ps1'),
                 '-TargetProcess',str(process.pid),'-TargetWindow',str(hwnd),'-Control',str(ui_control),'-Report',str(ui_report)],
+                env={name:value for name,value in os.environ.items() if name.upper()!='PSMODULEPATH'},
                 creationflags=subprocess.CREATE_NO_WINDOW)
             wait_snapshot(lambda:read_snapshot(ui_report),lambda v:v.get('ready'),timeout=20)
             session=frida.attach(process.pid)

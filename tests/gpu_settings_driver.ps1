@@ -54,7 +54,13 @@ try {
    $names=@('GDI (low memory)','OpenGL (GPU composition)','DirectX (GPU composition)')
    if ($request.mode -notin 0,1,2) {throw 'Invalid renderer'}
    if (![GpuFixtureNative]::PostMessageW($window,0x111,[IntPtr]0x50,[IntPtr]::Zero)) {throw 'Reconfigure failed'}
-   $dialog=Wait-Value {[System.Windows.Automation.AutomationElement]::RootElement.FindFirst([System.Windows.Automation.TreeScope]::Children,$condition)}
+   $dialog=Wait-Value {
+    $owned=New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::ProcessIdProperty,$TargetProcess)
+    foreach ($root in [System.Windows.Automation.AutomationElement]::RootElement.FindAll([System.Windows.Automation.TreeScope]::Children,$owned)) {
+     $found=$root.FindFirst([System.Windows.Automation.TreeScope]::Subtree,$condition)
+     if ($found) {return $found}
+    }
+   }
    $node=Wait-Value {Find-Name $dialog 'Window'}
    $node.GetCurrentPattern([System.Windows.Automation.ExpandCollapsePattern]::Pattern).Expand()
    $node=Wait-Value {Find-Name $dialog 'Rendering'}
