@@ -130,6 +130,13 @@ def cases():
         E+b'P0;1q#3;2;100;0;0#3'+ST,regis('R(P)'))
     add('shared-palette-regis-recolour', C+b'?1070l'+E+b'P0;1q#3;2;20;80;20!100~'+ST,
         regis('S(M3(R100G0B0))R(P)',1))
+    add('alternate-restore-without-regis',regis(
+        'S(E)S(M3(R0G100B0))W(I3)P[20,20]V[120,20]P[20,80]V[120,80]',1),
+        C+b'?1049h'+regis('S(E)S(M3(R100G0B0))W(I3)P[20,40]V[120,40]'),
+        C+b'?1049l',regis('R(P)'))
+    add('margin-scroll-preservation',regis(
+        'S(E)S(M3(R0G100B0))W(I3)P[20,20]V[120,20]P[20,80]V[120,80]',1),
+        C+b'3;12r'+C+b'1S',regis('R(P)'))
     return out
 
 

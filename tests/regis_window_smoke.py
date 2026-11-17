@@ -85,6 +85,20 @@ def exercise(phase,block):
     check('hard-reset',ESC+'c'+CSI+'?25l',expected())
     expose('hard-reset-redraw',expected())
 
+    check('continued-alternate-before',setup,both)
+    check('continued-alternate-draw',CSI+'?1049h'+regis(
+        'S(E)S(M3(R100G0B0))W(I3)P[20,40]V[120,40]'),expected(line(40,'red')))
+    check('continued-alternate-restore',CSI+'?1049l',both)
+    expose('continued-alternate-restore-redraw',both)
+
+    check('margin-scroll-before',setup,both)
+    # Row one is outside this region. Scroll its lower line by one text row
+    # while preserving the upper line and its exact pixel coordinates.
+    top=20//ch+2
+    assert top*ch<=80 and 80-ch>20
+    check('margin-scroll',CSI+f'{top};12r'+CSI+'1S',expected(line(20),line(80-ch)))
+    expose('margin-scroll-redraw',expected(line(20),line(80-ch)))
+
 if __name__=='__main__':
     main(background_exercise=exercise,suite_name='regis-window',
          font=os.environ['NEMOTERM_TEST_FONT'],before_exercise=before,
