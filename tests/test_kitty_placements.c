@@ -306,6 +306,54 @@ static void relative_lifetime_boundaries(void)
     destroy(&f);
 }
 
+/* Full-grid allocation bound, independently of renderer/working-set noise. */
+static int compact_cell_memory(void)
+{
+    Fixture f;create(&f);
+    NemoKittyImage *image=load(&f,parse("i=42,f=24,s=10,v=20"),10,20);
+    put(&f,image,"a=p,p=1,U=1,c=1,r=1",0,0);
+    size_t baseline=nemo_kitty_placements_memory(f.places);
+    const unsigned columns=158,rows=46,count=columns*rows;
+    for (unsigned i=0;i<count;i++)
+        CHECK(nemo_kitty_placements_cell(f.places,42,1,0,0,1,
+            (int32_t)(i%columns+1),(int32_t)(i/columns+1),10,20));
+    CHECK(nemo_kitty_placements_count(f.places)==count+1);
+    CHECK(nemo_kitty_image_references(image)==count+1);
+    size_t derived_bytes=nemo_kitty_placements_memory(f.places)-baseline;
+    printf("Compact cell memory: %u cells, %zu derived bytes, %u byte bound\n",
+        count,derived_bytes,96*count);
+    fflush(stdout);
+    CHECK(derived_bytes<=96*count);
+    unsigned visible=0;
+    for (const NemoKittyPlacement *p=nemo_kitty_placements_first(f.places);p;
+         p=nemo_kitty_placement_next(p)) {
+        NemoKittyView v;
+        if (!nemo_kitty_placement_view(p,10,20,&v)) continue;
+        CHECK(v.image==image && v.id==42 && !v.placement && v.z==-1);
+        CHECK(v.left==(double)(visible%columns+1)*10 && v.right==v.left+10);
+        CHECK(v.top==(double)(visible/columns+1)*20 && v.bottom==v.top+20);
+        CHECK(v.source_left==0 && v.source_top==0 && v.source_right==10 && v.source_bottom==20);
+        visible++;
+    }
+    CHECK(visible==count);
+    f.limit=nemo_kitty_cache_memory(f.cache)+nemo_kitty_placements_memory(f.places);
+    CHECK(!nemo_kitty_placements_cell(f.places,42,1,0,0,1,0,0,10,20));
+    CHECK(nemo_kitty_placements_count(f.places)==count+1 && nemo_kitty_image_references(image)==count+1);
+    CHECK(nemo_kitty_placements_memory(f.places)==baseline+derived_bytes);
+    f.limit=BUDGET;
+    nemo_kitty_placements_remove_cells(f.places,1,23);
+    CHECK(nemo_kitty_placements_count(f.places)==count/2+1);
+    CHECK(nemo_kitty_image_references(image)==count/2+1);
+    CHECK(nemo_kitty_placements_memory(f.places)==baseline+derived_bytes/2);
+    nemo_kitty_placements_scroll(f.places,0,47,1,false,2000,10,20);
+    nemo_kitty_placements_rescale(f.places,12,24);
+    CHECK(nemo_kitty_placements_count(f.places)==1 && nemo_kitty_image_references(image)==1);
+    CHECK(nemo_kitty_placements_memory(f.places)==baseline);
+    destroy(&f);
+    printf("Compact cell geometry, admission, scroll and release passed\n");
+    return 0;
+}
+
 /* Opt-in component measurement, separate from correctness-suite timing.
  * This exercises the real placement owner without a window or renderer.
  * clock() units are retained; compare only matched compiler/runtime runs. */
@@ -373,6 +421,7 @@ static int benchmark_cells(void)
 int main(int argc,char **argv)
 {
     if (argc==2 && !strcmp(argv[1],"--benchmark-cells")) return benchmark_cells();
+    if (argc==2 && !strcmp(argv[1],"--compact-cell-memory")) return compact_cell_memory();
     CHECK(argc==1);
     unicode_lifetime_boundaries();
     unicode_index_lifetime();

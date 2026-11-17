@@ -164,6 +164,7 @@ jobs:
             vendor/putty-0.85/terminal/nemo_kitty.c \
             vendor/putty-0.85/terminal/nemo_raster.c -o kitty-placements-normal
           ./kitty-placements-normal 2>&1 | tee placements-normal.log
+          ./kitty-placements-normal --compact-cell-memory 2>&1 | tee placements-compact-memory.log
           ./kitty-placements-normal --benchmark-cells 2>&1 | tee placements-benchmark.jsonl
           git fetch --no-tags --depth=1 origin a7e40bdc698dfa268b2bebe8c426d82e7a2d9130
           git show a7e40bdc698dfa268b2bebe8c426d82e7a2d9130:vendor/putty-0.85/terminal/nemo_kitty_placements.c > placements-baseline.c
@@ -174,6 +175,11 @@ jobs:
             vendor/putty-0.85/terminal/nemo_zlib.c vendor/putty-0.85/terminal/puff/puff.c \
             vendor/putty-0.85/terminal/nemo_kitty.c vendor/putty-0.85/terminal/nemo_raster.c -o kitty-placements-baseline
           ./kitty-placements-baseline 2>&1 | tee placements-baseline-test.log
+          if ./kitty-placements-baseline --compact-cell-memory > placements-baseline-compact-memory.log 2>&1; then
+            echo 'The old allocation layout unexpectedly passed the compact-cell regression'
+            exit 1
+          fi
+          grep -q 'derived_bytes<=96\*count' placements-baseline-compact-memory.log
           ./kitty-placements-baseline --benchmark-cells 2>&1 | tee placements-baseline-benchmark.jsonl
           "$CC" -std=c99 -Wall -Wextra -Werror -pedantic -g -O1 -fsanitize=address,undefined -fno-omit-frame-pointer \
             -I vendor/putty-0.85/terminal tests/test_kitty_placements.c \
@@ -184,6 +190,7 @@ jobs:
             vendor/putty-0.85/terminal/nemo_kitty.c \
             vendor/putty-0.85/terminal/nemo_raster.c -o kitty-placements-sanitizers
           ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 ./kitty-placements-sanitizers 2>&1 | tee placements-sanitizers.log
+          ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 ./kitty-placements-sanitizers --compact-cell-memory 2>&1 | tee placements-compact-memory-sanitizers.log
           python3 scripts/generate-kitty-terminal-reference.py --check
           python3 scripts/generate-kitty-feature-reference.py --check
           python3 scripts/generate-kitty-query-error-reference.py --check
@@ -216,6 +223,7 @@ jobs:
             layout-normal.log
             layout-sanitizers.log
             placements-normal.log
+            placements-compact-memory*.log
             placements-benchmark.jsonl
             placements-baseline*
             placements-sanitizers.log
@@ -266,6 +274,8 @@ jobs:
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           ./kitty-placements.exe 2>&1 | Tee-Object placements-test.log
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          ./kitty-placements.exe --compact-cell-memory 2>&1 | Tee-Object placements-compact-memory.log
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
           ./kitty-placements.exe --benchmark-cells 2>&1 | Tee-Object placements-benchmark.jsonl
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           git fetch --no-tags --depth=1 origin a7e40bdc698dfa268b2bebe8c426d82e7a2d9130
@@ -277,6 +287,8 @@ jobs:
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           ./kitty-placements-baseline.exe 2>&1 | Tee-Object placements-baseline-test.log
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          ./kitty-placements-baseline.exe --compact-cell-memory 2>&1 | Tee-Object placements-baseline-compact-memory.log
+          if ($LASTEXITCODE -ne 1 -or -not (Select-String -LiteralPath placements-baseline-compact-memory.log -SimpleMatch 'derived_bytes<=96*count')) { throw 'Old allocation layout did not fail the expected memory regression' }
           ./kitty-placements-baseline.exe --benchmark-cells 2>&1 | Tee-Object placements-baseline-benchmark.jsonl
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python scripts/generate-kitty-compression-reference.py --check
@@ -316,6 +328,7 @@ jobs:
             layout-test.log
             placements-build.log
             placements-test.log
+            placements-compact-memory.log
             placements-benchmark.jsonl
             placements-baseline*
             zlib-*.log

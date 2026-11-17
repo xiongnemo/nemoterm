@@ -179,6 +179,8 @@ jobs:
           python scripts/generate-kitty-placement-reference.py --check
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           ./build-cluster/test_kitty_placements.exe 2>&1 | Tee-Object kitty-placements-msvc.log
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          ./build-cluster/test_kitty_placements.exe --compact-cell-memory 2>&1 | Tee-Object kitty-compact-memory-msvc.log
           if ($LASTEXITCODE) { throw 'Kitty placement tests failed' }
           ./build-cluster/test_raster.exe 2>&1 | Tee-Object raster-animation-msvc.log
           if ($LASTEXITCODE) { throw 'Raster animation tests failed' }
@@ -1217,6 +1219,8 @@ jobs:
           set -o pipefail
           ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 \
             ./test-kitty-placements 2>&1 | tee terminal-kitty-placements-sanitizers.log
+          ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 \
+            ./test-kitty-placements --compact-cell-memory 2>&1 | tee terminal-kitty-compact-memory-sanitizers.log
       - name: Test raster composition and timing with sanitizers
         run: |
           gcc -std=c99 -Wall -Wextra -Werror -pedantic -g -O1 \
