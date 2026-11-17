@@ -4,19 +4,38 @@
 #include <stdlib.h>
 #include <string.h>
 
+typedef enum NemoKittyPlacementKind {
+    NEMO_PLACEMENT_NORMAL, NEMO_PLACEMENT_VIRTUAL, NEMO_PLACEMENT_CELL
+} NemoKittyPlacementKind;
+
+/* A Unicode cell run has implicit id=0, z=-1 and rows=1, and cannot
+ * have a relative parent. Keep those ordinary-placement fields out of
+ * the thousands of derived records, without rounding source geometry. */
 struct NemoKittyPlacement {
     struct NemoKittyPlacement *next;
     NemoKittyImage *image;
-    int32_t column, row, z;
-    uint32_t id, columns, rows, offset_x, offset_y;
-    double source_x, source_y, source_width, source_height;
-    uint64_t sequence;
     NemoKittyPlacements *owner;
-    uint64_t parent;
-    int32_t parent_x, parent_y;
-    uint64_t prototype;
-    bool virtual;
+    uint64_t sequence, reference; /* parent, or prototype for a cell */
+    double source_x, source_y, source_width, source_height;
+    int32_t column, row;
+    uint32_t columns, offset_x, offset_y;
+    NemoKittyPlacementKind kind;
 };
+typedef struct NemoKittyObjectPlacement {
+    NemoKittyPlacement base;
+    int32_t z;
+    uint32_t id, rows;
+    int32_t parent_x, parent_y;
+} NemoKittyObjectPlacement;
+
+static bool is_cell(const NemoKittyPlacement *p) { return p->kind==NEMO_PLACEMENT_CELL; }
+static bool is_virtual(const NemoKittyPlacement *p) { return p->kind==NEMO_PLACEMENT_VIRTUAL; }
+static uint64_t parent_sequence(const NemoKittyPlacement *p) { return is_cell(p) ? 0 : p->reference; }
+static uint64_t prototype_sequence(const NemoKittyPlacement *p) { return is_cell(p) ? p->reference : 0; }
+static uint32_t placement_id(const NemoKittyPlacement *p) { return is_cell(p) ? 0 : ((const NemoKittyObjectPlacement *)p)->id; }
+static uint32_t placement_rows(const NemoKittyPlacement *p) { return is_cell(p) ? 1 : ((const NemoKittyObjectPlacement *)p)->rows; }
+static int32_t placement_z(const NemoKittyPlacement *p) { return is_cell(p) ? -1 : ((const NemoKittyObjectPlacement *)p)->z; }
+static size_t placement_bytes(const NemoKittyPlacement *p) { return is_cell(p) ? sizeof(*p) : sizeof(NemoKittyObjectPlacement); }
 typedef struct NemoKittyCellIndex {
     NemoKittyPlacement *virtual_index[NEMO_KITTY_PLACEMENT_MAX];
     NemoKittyPlacement *cell_insert[NEMO_KITTY_IMAGE_MAX];
@@ -97,17 +116,18 @@ static bool resolve(const NemoKittyPlacement *p, int64_t *column, int64_t *row)
 {
     int64_t x=0,y=0;
     unsigned depth=0;
-    while (p->parent) {
+    while (parent_sequence(p)) {
         if (depth++>=NEMO_KITTY_PARENT_DEPTH_MAX) return false;
-        x+=p->parent_x;y+=p->parent_y;
-        p=by_sequence(p->owner,p->parent);
+        const NemoKittyObjectPlacement *object=(const NemoKittyObjectPlacement *)p;
+        x+=object->parent_x;y+=object->parent_y;
+        p=by_sequence(p->owner,parent_sequence(p));
         if (!p) return false;
     }
     int32_t anchor_x=p->column,anchor_y=p->row;
-    if (p->virtual) {
+    if (is_virtual(p)) {
         bool found=false;
         for (const NemoKittyPlacement *q=p->owner->first;q;q=q->next) {
-            if (q->prototype!=p->sequence) continue;
+            if (prototype_sequence(q)!=p->sequence) continue;
             if (!found || q->column<anchor_x) anchor_x=q->column;
             if (!found || q->row<anchor_y) anchor_y=q->row;
             found=true;
@@ -121,9 +141,9 @@ static bool resolve(const NemoKittyPlacement *p, int64_t *column, int64_t *row)
 static bool ancestry_alive(const NemoKittyPlacement *p)
 {
     unsigned depth=0;
-    while (p->parent) {
+    while (parent_sequence(p)) {
         if (depth++>=NEMO_KITTY_PARENT_DEPTH_MAX) return false;
-        p=by_sequence(p->owner,p->parent);
+        p=by_sequence(p->owner,parent_sequence(p));
         if (!p) return false;
     }
     return true;
@@ -152,10 +172,10 @@ static void remove_view(NemoKittyPlacements *s, NemoKittyPlacement **link, bool 
     if (s->index) s->index->cell_insert_count=0;
     *link=p->next;
     if (!callback) nemo_kitty_image_reference(s->cache,p->image,false);
-    if (p->prototype) s->cells--;
-    if (p->virtual) virtual_remove(s,p);
+    if (is_cell(p)) s->cells--;
+    if (is_virtual(p)) virtual_remove(s,p);
     index_release_empty(s);
-    s->used-=sizeof(*p); s->count--; s->generation++;
+    s->used-=placement_bytes(p); s->count--; s->generation++;
     free(p);
 }
 
@@ -167,7 +187,7 @@ static void collect_orphans(NemoKittyPlacements *s)
         NemoKittyPlacement **link=&s->first;
         while (*link) {
             NemoKittyPlacement *p=*link;
-            if (p->parent && !ancestry_alive(p) &&
+            if (parent_sequence(p) && !ancestry_alive(p) &&
                 nemo_kitty_cache_release_orphan(s->cache,p->image)) {
                 remove_view(s,link,true);
                 changed=true;
@@ -209,12 +229,13 @@ static bool placement_view_at(const NemoKittyPlacement *p, uint32_t cw, uint32_t
                               int64_t column, int64_t row, NemoKittyView *out)
 {
     if (!p || !out || !cw || !ch || cw>NEMO_KITTY_AXIS_MAX || ch>NEMO_KITTY_AXIS_MAX) return false;
+    uint32_t rows=placement_rows(p);
     double left=(double)column*cw+p->offset_x, top=(double)row*ch+p->offset_y;
     double width=p->columns ? (double)p->columns*cw-p->offset_x :
-        p->rows ? ((double)p->rows*ch-p->offset_y)*p->source_width/p->source_height : p->source_width;
-    double height=p->rows ? (double)p->rows*ch-p->offset_y : width*p->source_height/p->source_width;
+        rows ? ((double)rows*ch-p->offset_y)*p->source_width/p->source_height : p->source_width;
+    double height=rows ? (double)rows*ch-p->offset_y : width*p->source_height/p->source_width;
     if (width<=0 || height<=0) return false;
-    *out=(NemoKittyView){p->image,nemo_kitty_image_id(p->image),p->id,p->z,
+    *out=(NemoKittyView){p->image,nemo_kitty_image_id(p->image),placement_id(p),placement_z(p),
         left,top,left+width,top+height,p->source_x,p->source_y,
         p->source_x+p->source_width,p->source_y+p->source_height};
     return true;
@@ -224,10 +245,10 @@ bool nemo_kitty_placement_view(const NemoKittyPlacement *p, uint32_t cw, uint32_
                                NemoKittyView *out)
 {
     int64_t column,row;
-    if (!p || p->virtual) return false;
-    if (p->prototype) {
-        const NemoKittyPlacement *prototype=virtual_by_sequence(p->owner,p->prototype);
-        if (!prototype || !prototype->virtual) return false;
+    if (!p || is_virtual(p)) return false;
+    if (is_cell(p)) {
+        const NemoKittyPlacement *prototype=virtual_by_sequence(p->owner,p->reference);
+        if (!prototype || !is_virtual(prototype)) return false;
     }
     return p && resolve(p,&column,&row) && placement_view_at(p,cw,ch,column,row,out);
 }
@@ -237,10 +258,11 @@ bool nemo_kitty_placement_view(const NemoKittyPlacement *p, uint32_t cw, uint32_
  * cells, so later font changes do not move the clipped edge into another row. */
 static bool footprint(const NemoKittyPlacement *p,uint32_t cw,uint32_t ch,uint32_t *cols,uint32_t *rows)
 {
-    double x=p->columns ? p->columns : (p->rows ?
-        ((double)p->rows*ch+p->offset_y)*p->source_width/p->source_height :
+    uint32_t height=placement_rows(p);
+    double x=p->columns ? p->columns : (height ?
+        ((double)height*ch+p->offset_y)*p->source_width/p->source_height :
         p->source_width+p->offset_x)/cw;
-    double y=p->rows ? p->rows : (p->columns ?
+    double y=height ? height : (p->columns ?
         ((double)p->columns*cw+p->offset_x)*p->source_height/p->source_width :
         p->source_height+p->offset_y)/ch;
     if (!(x>0 && y>0 && x<=UINT32_MAX && y<=UINT32_MAX)) return false;
@@ -250,17 +272,17 @@ static bool footprint(const NemoKittyPlacement *p,uint32_t cw,uint32_t ch,uint32
 static void insert(NemoKittyPlacements *s, NemoKittyPlacement *p)
 {
     NemoKittyPlacement **link=&s->first;
-    if (p->prototype) {
+    if (is_cell(p)) {
         unsigned i=0;
         while (i<s->index->cell_insert_count && s->index->cell_insert[i]->image!=p->image) i++;
         if (i<s->index->cell_insert_count) link=&s->index->cell_insert[i]->next;
         else if (i<NEMO_KITTY_IMAGE_MAX) s->index->cell_insert_count++;
         if (i<NEMO_KITTY_IMAGE_MAX) s->index->cell_insert[i]=p;
     }
-    int32_t z=p->z;
+    int32_t z=placement_z(p);
     uint64_t order=nemo_kitty_image_sequence(p->image);
     while (*link) {
-        int32_t other=(*link)->z;
+        int32_t other=placement_z(*link);
         uint64_t other_order=nemo_kitty_image_sequence((*link)->image);
         if (other>z || (other==z && (other_order>order ||
             (other_order==order && (*link)->sequence>p->sequence)))) break;
@@ -275,10 +297,10 @@ void nemo_kitty_placements_remove_cells(NemoKittyPlacements *s, int32_t first, i
     NemoKittyPlacement **link=&s->first;
     while (*link) {
         NemoKittyPlacement *p=*link;
-        bool discard=p->prototype && p->row>=first && p->row<=last;
-        if (p->prototype && !discard) {
-            const NemoKittyPlacement *prototype=virtual_by_sequence(s,p->prototype);
-            discard=!prototype || !prototype->virtual;
+        bool discard=is_cell(p) && p->row>=first && p->row<=last;
+        if (is_cell(p) && !discard) {
+            const NemoKittyPlacement *prototype=virtual_by_sequence(s,p->reference);
+            discard=!prototype || !is_virtual(prototype);
         }
         if (discard)
             remove_view(s,link,false);
@@ -295,7 +317,7 @@ void nemo_kitty_placements_erase_all(NemoKittyPlacements *s)
     NemoKittyPlacement **link=&s->first;
     while (*link) {
         NemoKittyPlacement *p=*link;
-        if (!p->virtual) {
+        if (!is_virtual(p)) {
             NemoKittyImage *image=p->image;
             remove_view(s,link,false);
             if (!nemo_kitty_image_id(image) && !nemo_kitty_image_references(image))
@@ -315,7 +337,8 @@ bool nemo_kitty_placements_cell(NemoKittyPlacements *s, uint32_t image_id,
     const NemoKittyPlacement *prototype=NULL;
     for (unsigned i=0;i<s->virtuals;i++) {
         const NemoKittyPlacement *q=s->index->virtual_index[i];
-        if (nemo_kitty_image_id(q->image)==image_id && (!placement_id || q->id==placement_id)) {
+        if (nemo_kitty_image_id(q->image)==image_id &&
+            (!placement_id || ((const NemoKittyObjectPlacement *)q)->id==placement_id)) {
             prototype=q;break;
         }
     }
@@ -323,14 +346,14 @@ bool nemo_kitty_placements_cell(NemoKittyPlacements *s, uint32_t image_id,
     NemoKittyImage *image=prototype->image;
     const NemoRaster *r=nemo_kitty_image_raster(image);
     uint32_t grid_columns=prototype->columns ? prototype->columns : (r->width-1)/cw+1;
-    uint32_t grid_rows=prototype->rows ? prototype->rows : (r->height-1)/ch+1;
+    uint32_t grid_rows=placement_rows(prototype) ? placement_rows(prototype) : (r->height-1)/ch+1;
     double box_width=(double)grid_columns*cw,box_height=(double)grid_rows*ch;
     double scale_x=box_width/r->width,scale_y=box_height/r->height;
     double scale=scale_x<scale_y ? scale_x : scale_y;
     double x=((double)image_column*cw-(box_width-r->width*scale)/2)/scale;
     double y=((double)image_row*ch-(box_height-r->height*scale)/2)/scale;
     double width=(double)columns*cw/scale,height=(double)ch/scale;
-    uint32_t offset_x=0,offset_y=0,rows=1;
+    uint32_t offset_x=0,offset_y=0;
     int64_t anchor_x=column,anchor_y=row;
     if (x<0) {
         double offset=-x*scale;
@@ -360,9 +383,11 @@ bool nemo_kitty_placements_cell(NemoKittyPlacements *s, uint32_t image_id,
     NemoKittyPlacement *p=malloc(sizeof(*p));
     if (!p) return false;
     if (!nemo_kitty_image_reference(s->cache,image,true)) { free(p);return false; }
-    *p=(NemoKittyPlacement){NULL,image,(int32_t)anchor_x,(int32_t)anchor_y,-1,0,
-        columns,rows,offset_x,offset_y,x,y,width,height,++s->sequence,s,0,0,0,
-        prototype->sequence,false};
+    *p=(NemoKittyPlacement){
+        .image=image,.owner=s,.sequence=++s->sequence,.reference=prototype->sequence,
+        .source_x=x,.source_y=y,.source_width=width,.source_height=height,
+        .column=(int32_t)anchor_x,.row=(int32_t)anchor_y,
+        .columns=columns,.offset_x=offset_x,.offset_y=offset_y,.kind=NEMO_PLACEMENT_CELL};
     s->used+=sizeof(*p);s->count++;s->cells++;s->generation++;
     insert(s,p);
     return true;
@@ -382,21 +407,21 @@ NemoKittyPlacementStatus nemo_kitty_placements_put(
     if (parent_id) {
         for (const NemoKittyPlacement *q=s->first;q;q=q->next)
             if (nemo_kitty_image_id(q->image)==parent_id &&
-                (!parent_view || q->id==parent_view) &&
+                (!parent_view || placement_id(q)==parent_view) &&
                 (!parent || q->sequence<parent->sequence)) parent=q;
         if (!parent) return NEMO_KITTY_PLACE_NO_PARENT;
     }
     uint32_t id=nemo_kitty_image_id(image) ? nemo_kitty_get(command,'p') : 0;
     NemoKittyPlacement **link=&s->first;
-    while (*link && (!id || (*link)->image!=image || (*link)->id!=id)) link=&(*link)->next;
+    while (*link && (!id || (*link)->image!=image || placement_id(*link)!=id)) link=&(*link)->next;
     NemoKittyPlacement *p=*link;
     if (parent && parent==p) return NEMO_KITTY_PLACE_INVALID;
     unsigned depth=1;
     for (const NemoKittyPlacement *q=parent;q;) {
         if (depth>NEMO_KITTY_PARENT_DEPTH_MAX) return NEMO_KITTY_PLACE_DEPTH;
         if (q==p) return NEMO_KITTY_PLACE_CYCLE;
-        if (!q->parent) break;
-        q=by_sequence(s,q->parent);
+        if (!parent_sequence(q)) break;
+        q=by_sequence(s,parent_sequence(q));
         if (!q) return NEMO_KITTY_PLACE_NO_PARENT;
         depth++;
     }
@@ -421,7 +446,7 @@ NemoKittyPlacementStatus nemo_kitty_placements_put(
         return status==NEMO_KITTY_LAYOUT_UNSUPPORTED ? NEMO_KITTY_PLACE_UNSUPPORTED :
             status==NEMO_KITTY_LAYOUT_LIMIT ? NEMO_KITTY_PLACE_LIMIT : NEMO_KITTY_PLACE_INVALID;
     uint64_t sequence=p ? p->sequence : 0;
-    size_t extra=(p ? 0 : sizeof(*p))+
+    size_t extra=(p ? 0 : sizeof(NemoKittyObjectPlacement))+
         (virtual && !s->index ? sizeof(NemoKittyCellIndex) : 0);
     if ((!p && (s->count-s->cells>=NEMO_KITTY_PLACEMENT_MAX || s->sequence==UINT64_MAX)) ||
         extra>s->budget-s->used ||
@@ -434,22 +459,25 @@ NemoKittyPlacementStatus nemo_kitty_placements_put(
     if (p) {
         if (s->index) s->index->cell_insert_count=0;
         *link=p->next;
-        if (p->virtual) virtual_remove(s,p);
+        if (is_virtual(p)) virtual_remove(s,p);
     }
     else {
-        p=malloc(sizeof(*p));
+        p=malloc(sizeof(NemoKittyObjectPlacement));
         if (!p) { free(index);return NEMO_KITTY_PLACE_NOMEM; }
         if (!nemo_kitty_image_reference(s->cache,image,true)) {
             free(p);free(index);return NEMO_KITTY_PLACE_NOT_FOUND;
         }
-        s->used+=sizeof(*p); s->count++;
+        s->used+=sizeof(NemoKittyObjectPlacement); s->count++;
         sequence=++s->sequence;
     }
     if (index) { s->index=index;s->used+=sizeof(*index); }
-    *p=(NemoKittyPlacement){NULL,image,column,row,g.z,id,
-        nemo_kitty_get(command,'c'),nemo_kitty_get(command,'r'),g.offset_x,g.offset_y,
-        g.source_x,g.source_y,g.source_width,g.source_height,sequence,s,
-        parent ? parent->sequence : 0,nemo_kitty_signed(command,'H'),nemo_kitty_signed(command,'V'),0,virtual};
+    *(NemoKittyObjectPlacement *)p=(NemoKittyObjectPlacement){
+        .base={.image=image,.owner=s,.sequence=sequence,.reference=parent ? parent->sequence : 0,
+            .source_x=g.source_x,.source_y=g.source_y,.source_width=g.source_width,.source_height=g.source_height,
+            .column=column,.row=row,.columns=nemo_kitty_get(command,'c'),
+            .offset_x=g.offset_x,.offset_y=g.offset_y,.kind=virtual ? NEMO_PLACEMENT_VIRTUAL : NEMO_PLACEMENT_NORMAL},
+        .z=g.z,.id=id,.rows=nemo_kitty_get(command,'r'),
+        .parent_x=nemo_kitty_signed(command,'H'),.parent_y=nemo_kitty_signed(command,'V')};
     if (virtual) { p->column=p->row=0;virtual_insert(s,p); }
     index_release_empty(s);
     insert(s,p); s->generation++;
@@ -488,11 +516,11 @@ NemoKittyPlacementStatus nemo_kitty_placements_delete(
     for (NemoKittyPlacement *p=s->first;p;p=p->next) {
         bool match=false;
         uint32_t cell_columns,cell_rows;
-        if (action=='i' || action=='n') match=p->image==target && (!id || p->id==id);
+        if (action=='i' || action=='n') match=p->image==target && (!id || placement_id(p)==id);
         else if (action=='r') {
             uint32_t image_id=nemo_kitty_image_id(p->image);
             match=image_id && image_id>=x && image_id<=y;
-        } else if (!p->virtual && !p->prototype && footprint(p,cw,ch,&cell_columns,&cell_rows)) {
+        } else if (p->kind==NEMO_PLACEMENT_NORMAL && footprint(p,cw,ch,&cell_columns,&cell_rows)) {
             double px=action=='c' ? cursor_column : (double)x-1;
             double py=action=='c' ? cursor_row : (double)y-1;
             bool inx=px>=p->column && px<(double)p->column+cell_columns;
@@ -502,10 +530,10 @@ NemoKittyPlacementStatus nemo_kitty_placements_delete(
                * those currently below or to the right of the viewport. */
               case 'a': match=(int64_t)p->row+cell_rows>0; break;
               case 'c': case 'p': match=inx && iny; break;
-              case 'q': match=inx && iny && p->z==nemo_kitty_signed(c,'z'); break;
+              case 'q': match=inx && iny && placement_z(p)==nemo_kitty_signed(c,'z'); break;
               case 'x': match=inx; break;
               case 'y': match=iny; break;
-              case 'z': match=p->z==nemo_kitty_signed(c,'z'); break;
+              case 'z': match=placement_z(p)==nemo_kitty_signed(c,'z'); break;
             }
         }
         if (match) selected[selection++]=p;
@@ -540,7 +568,7 @@ void nemo_kitty_placements_scroll(NemoKittyPlacements *s, int32_t top, int32_t b
     NemoKittyPlacement **link=&s->first;
     while (*link) {
         NemoKittyPlacement *p=*link; NemoKittyView v;uint32_t cols,rows;
-        if (p->virtual || !placement_view_at(p,cw,ch,p->column,p->row,&v) || !footprint(p,cw,ch,&cols,&rows) ||
+        if (is_virtual(p) || !placement_view_at(p,cw,ch,p->column,p->row,&v) || !footprint(p,cw,ch,&cols,&rows) ||
             (margins && (p->row<top || (int64_t)p->row+rows>(int64_t)bottom+1)) ||
             (!margins && lines<0 && (int64_t)p->row+rows<=0)) {
             link=&p->next; continue;
@@ -564,7 +592,8 @@ void nemo_kitty_placements_scroll(NemoKittyPlacements *s, int32_t top, int32_t b
                 double visible=((double)(rows-clipped)*ch-offset_y)*scale;
                 if (visible<source_height) source_height=visible;
             }
-            discard=source_height<=0 || clipped>=rows || (p->rows && clipped>=p->rows);
+            uint32_t explicit_rows=placement_rows(p);
+            discard=source_height<=0 || clipped>=rows || (explicit_rows && clipped>=explicit_rows);
         }
         if (discard) {
             NemoKittyImage *image=p->image;
@@ -575,7 +604,8 @@ void nemo_kitty_placements_scroll(NemoKittyPlacements *s, int32_t top, int32_t b
         }
         p->row=(int32_t)row;
         p->source_y=source_y;p->source_height=source_height;p->offset_y=offset_y;
-        if (p->rows) p->rows-=clipped;
+        /* A surviving derived run is one row: any whole-row clip discarded it. */
+        if (!is_cell(p) && placement_rows(p)) ((NemoKittyObjectPlacement *)p)->rows-=clipped;
         s->generation++; link=&p->next;
     }
     collect_orphans(s);
@@ -601,7 +631,7 @@ void nemo_kitty_placements_rows(NemoKittyPlacements *s, int32_t delta,
     NemoKittyPlacement **link=&s->first;
     while (*link) {
         NemoKittyPlacement *p=*link;
-        if (p->virtual) { link=&p->next;continue; }
+        if (is_virtual(p)) { link=&p->next;continue; }
         uint32_t cols,rows;
         int64_t row=(int64_t)p->row+delta;
         if (!footprint(p,cw,ch,&cols,&rows) || row<INT32_MIN || row>INT32_MAX ||
