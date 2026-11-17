@@ -8,6 +8,17 @@ and the real-DPI controller require `GITHUB_ACTIONS=true` and
 
 ## Run against an exact product
 
+For changed production code, **Test and build** can build a fresh single
+executable and run DPI acceptance against that exact artifact in one workflow:
+
+```powershell
+gh workflow run ci.yml --ref fix/legacy-key-modifiers-20261116 -f scope=dpi
+```
+
+The `dpi` scope runs the source-host build and the reusable DPI job. The default
+`full` scope and ordinary push/PR jobs keep their existing full-suite behavior.
+This targeted workflow is not a claim that all protocol or renderer tests ran.
+
 The existing **Windows UI artifact replay** workflow exposes `suite=dpi`:
 
 ```powershell
@@ -42,7 +53,8 @@ into the shipped executable.
 
 The real suite tests GDI in standalone and tab modes, with fresh processes at
 each available scale and live scale changes while settings are already open.
-It checks Profile, Shell, Bell, Bell/Overload, Bindings, Font and Tabs controls
+It checks Profile, Shell, Bell, Bell/Overload, Bindings, Font, Translation,
+Translation/Line drawing and Tabs controls
 against dialog boundaries and the footer, saves screenshots, compares terminal
 cell dimensions and fixed-size Sixel pixels, and checks that input still reaches
 the child after closing settings. Owned processes must exit cleanly. Original

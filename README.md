@@ -205,6 +205,9 @@ Sarasa 字体在本机 GDI、OpenGL、DirectX 下的字号回归也已通过；
 **Profile Settings**，调整字体、颜色、光标、回滚和渲染器。
 设置窗口的 **Profile** 页提供 **Add / Edit / Save / Delete**。首次启动自动创建不可删除的 **Default**；Add 会复制当前设置到新 profile，Edit 选择要编辑的 profile。**Save and Apply** 将设置保存到当前 profile 并应用到当前标签；Cancel 放弃尚未保存的编辑，已经点击 Add / Save / Delete 的操作保留。
 
+**Window / Translation** 管理终端字符编码和字符宽度；画线字符选项在它的 **Line drawing** 子页。
+界面语言切换尚未实现，目前没有语言设置入口；简体中文词表仍是[待接入的译稿](docs/I18N.md)，不代表当前 EXE 已支持中文界面。
+
 不带参数启动使用 Default，也可用 `--profile "名称"` 指定；Profile 菜单可以用所选 profile 新建标签。字体、颜色、绑定等即时应用，Profile / Shell 的 shell 和目录设置在新标签或下次启动生效。临时 `-e` 命令不会保存到 profile。配置保存在 `HKCU\Software\Nemo\Nemoterm`，与 PuTTY / pterm 分开；已有配置和 `-load` 继续兼容，旧 Default Settings 显示为 Default。
 
 OSC 52 剪贴板读取默认关闭，读写权限可在 Terminal / Clipboard 分别设置。

@@ -56,6 +56,8 @@ static const Page pages[]={
     {L"bell-overload",{L"Terminal",L"Bell",L"Overload"},{L"Bell is temporarily disabled when over-used",L"Seconds of silence required"}},
     {L"bindings",{L"Window",L"Bindings"},{L"Reset bindings",L"Rectangle modifier"}},
     {L"font",{L"Window",L"Bindings",L"Font"},{L"Increase key",L"Decrease key",L"Reset key"}},
+    {L"translation",{L"Window",L"Translation"},{L"Remote character set:",L"Treat CJK ambiguous characters as wide",L"Use grapheme cluster widths at startup",L"Caps Lock acts as Cyrillic switch"}},
+    {L"line-drawing",{L"Window",L"Translation",L"Line drawing"},{L"Use Unicode line drawing code points",L"Poor man's line drawing (+, - and |)",L"Font has XWindows encoding",L"Use font in both ANSI and OEM modes",L"Use font in OEM mode only",L"Copy and paste line drawing characters as lqqqk",L"Enable VT100 line drawing even in UTF-8 mode"}},
     {L"tabs",{L"Window",L"Tabs"},{L"Top",L"Bottom",L"Left",L"Right",L"Preview terminal on hover"}}
 };
 int wmain(int argc,wchar_t **argv) {

@@ -349,12 +349,21 @@ try {
     $grapheme=Wait-Value {Find-Name $dialog $graphemeLabel}
     $graphemeToggle=$grapheme.GetCurrentPattern([System.Windows.Automation.TogglePattern]::Pattern)
     if ($graphemeToggle.Current.ToggleState -ne [System.Windows.Automation.ToggleState]::Off) {throw 'Grapheme startup mode enabled by default'}
-    foreach ($translationControl in @($grapheme,(Find-Name $dialog 'Enable VT100 line drawing even in UTF-8 mode'))) {
+    foreach ($translationControl in @($grapheme,(Find-Name $dialog 'Caps Lock acts as Cyrillic switch'))) {
         if (!$translationControl -or $translationControl.Current.IsOffscreen -or !$bounds.Contains($translationControl.Current.BoundingRectangle)) {throw 'Translation control clipped'}
     }
     $graphemeToggle.Toggle()
     python "$PSScriptRoot/settings_capture.py" $app.Id $dialog.Current.NativeWindowHandle grapheme-settings.png
     if ($LASTEXITCODE) {throw 'Grapheme settings capture failed'}
+    (Find-Name $dialog 'Translation').GetCurrentPattern([System.Windows.Automation.ExpandCollapsePattern]::Pattern).Expand()
+    Select-Node $dialog 'Line drawing' | Out-Null
+    $footerTop=(Find-Name $dialog 'Save and Open').Current.BoundingRectangle.Top
+    foreach ($label in @('Use Unicode line drawing code points',"Poor man's line drawing (+, - and |)",'Font has XWindows encoding','Use font in both ANSI and OEM modes','Use font in OEM mode only','Copy and paste line drawing characters as lqqqk','Enable VT100 line drawing even in UTF-8 mode')) {
+        $node=Find-Name $dialog $label
+        if (!$node -or $node.Current.IsOffscreen -or !$bounds.Contains($node.Current.BoundingRectangle) -or $node.Current.BoundingRectangle.Bottom -gt $footerTop-2) {throw "Line drawing control clipped: $label"}
+    }
+    python "$PSScriptRoot/settings_capture.py" $app.Id $dialog.Current.NativeWindowHandle line-drawing-settings.png
+    if ($LASTEXITCODE) {throw 'Line drawing settings capture failed'}
     $defaultBindings=@(3,3,3,22,0,0,1)
     $customBindings=@(6,24,5,25,3,26,5)
     $combos=Binding-Controls $dialog $defaultBindings

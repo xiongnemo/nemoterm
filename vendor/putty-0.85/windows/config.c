@@ -294,7 +294,7 @@ void win_setup_config_box(struct controlbox *b, HWND *hwndp, bool has_help,
      * characters.
      */
     str = dupprintf("Adjust how %s displays line drawing characters", appname);
-    s = ctrl_getset(b, "Window/Translation", "linedraw", str);
+    s = ctrl_getset(b, "Window/Translation/Line drawing", "linedraw", str);
     sfree(str);
     {
         int i;

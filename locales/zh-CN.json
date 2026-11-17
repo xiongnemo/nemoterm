@@ -54,6 +54,7 @@
     "category.appearance": "外观",
     "category.behaviour": "行为",
     "category.encoding": "字符编码",
+    "category.line_drawing": "画线字符",
     "category.tabs": "标签页",
     "category.bindings": "快捷键与鼠标绑定",
     "category.font": "字号",

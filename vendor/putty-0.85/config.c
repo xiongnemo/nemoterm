@@ -2833,8 +2833,11 @@ void setup_config_box(struct controlbox *b, bool midsession,
     ctrl_text(s, "Keep joined emoji together when counting columns. Applications and terminal resets can change this mode.",
               HELPCTX(no_help));
 
+    /* Windows adds three more radio choices here. Keep the complete group
+     * on its own page so the final checkboxes cannot overlap the footer. */
+    ctrl_settitle(b, "Window/Translation/Line drawing", "Line drawing characters");
     str = dupprintf("Adjust how %s handles line drawing characters", appname);
-    s = ctrl_getset(b, "Window/Translation", "linedraw", str);
+    s = ctrl_getset(b, "Window/Translation/Line drawing", "linedraw", str);
     sfree(str);
     ctrl_radiobuttons(
         s, "Handling of line drawing characters:", NO_SHORTCUT,1,

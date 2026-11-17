@@ -4,6 +4,12 @@ on:
   push:
   pull_request:
   workflow_dispatch:
+    inputs:
+      scope:
+        description: Full suite or a fresh single executable with remote DPI checks
+        type: choice
+        options: [full, dpi]
+        default: full
 
 permissions:
   contents: read
@@ -51,7 +57,15 @@ jobs:
           path: build/source-console-host/
           retention-days: 7
           if-no-files-found: error
+  dpi:
+    if: ${{ inputs.scope == 'dpi' }}
+    needs: source-host
+    uses: ./.github/workflows/dpi.yml
+    with:
+      product_run: ${{ github.run_id }}
+      product_commit: ${{ github.sha }}
   profiles:
+    if: ${{ inputs.scope != 'dpi' }}
     name: Profiles and default tabs on the single executable
     needs: source-host
     runs-on: windows-2025
@@ -100,6 +114,7 @@ jobs:
             build/profile-check/research/
           retention-days: 14
   cluster-msvc-diagnostics:
+    if: ${{ inputs.scope != 'dpi' }}
     name: MSVC native renderer diagnostics
     runs-on: windows-2025
     timeout-minutes: 15
@@ -224,6 +239,7 @@ jobs:
             dist/conpty.dll
           retention-days: 14
   windows:
+    if: ${{ inputs.scope != 'dpi' }}
     name: Windows x64 tests and portable build
     needs: source-host
     runs-on: windows-latest
@@ -1098,6 +1114,7 @@ jobs:
           if-no-files-found: warn
 
   decoder-sanitizers:
+    if: ${{ inputs.scope != 'dpi' }}
     name: Terminal ASan and UBSan
     runs-on: ubuntu-latest
     timeout-minutes: 5
