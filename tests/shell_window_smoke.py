@@ -152,6 +152,18 @@ try:
                     if hwnd: send(hwnd, 'exit\r')
                     try: process.wait(timeout=5)
                     except subprocess.TimeoutExpired: process.terminate(); process.wait(timeout=5)
+    if distro := os.environ.get('NEMOTERM_TEST_WSL_DISTRO'):
+        assert os.environ.get('GITHUB_ACTIONS') == 'true' and os.environ.get('RUNNER_ENVIRONMENT') == 'github-hosted'
+        assert 'wsl-bash' in observed['launches']
+        # Every terminal and shell above has already exited. WSL 1 retains its
+        # Linux init processes in the controller's Job until the disposable
+        # distribution is stopped; these are fixture infrastructure, not tabs.
+        linux = subprocess.check_output(['wsl.exe','--distribution',distro,'--exec','ps','-eo','pid,ppid,comm'],
+            timeout=15, creationflags=subprocess.CREATE_NO_WINDOW).decode('utf-8-sig')
+        assert not any(line.split()[-1] in ('bash','ash') for line in linux.splitlines() if line.split()), linux
+        subprocess.run(['wsl.exe','--terminate',distro], check=True, timeout=30,
+                       capture_output=True, creationflags=subprocess.CREATE_NO_WINDOW)
+        observed['wsl_fixture_teardown'] = dict(distribution=distro, shells_exited=True, linux_processes=linux)
     (root/'research/shell-window-observed.json').write_text(json.dumps(observed, indent=2), encoding='utf-8')
 finally:
     winreg.DeleteKey(winreg.HKEY_CURRENT_USER, keypath)

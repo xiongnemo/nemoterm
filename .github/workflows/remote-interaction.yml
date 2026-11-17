@@ -147,6 +147,7 @@ jobs:
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           if ($env:TEST_GROUP -eq 'shells') {
             'NEMOTERM_REQUIRED_SHELLS=pwsh,powershell,cmd,busybox-ash,git-bash,wsl-bash' | Out-File $env:GITHUB_ENV -Append -Encoding utf8
+            'NEMOTERM_TEST_WSL_DISTRO=Ubuntu-24.04' | Out-File $env:GITHUB_ENV -Append -Encoding utf8
           }
       - name: Run all cases in this group on the hosted desktop
         shell: pwsh
