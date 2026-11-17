@@ -47,4 +47,20 @@ size_t nemo_regis_read_row(const NemoRegis *, unsigned page, unsigned y,
                           unsigned x, uint32_t *out, size_t count);
 bool nemo_regis_page_size(const NemoRegis *, unsigned page,
                           unsigned *width, unsigned *height);
+/* Stable graphics identities, in creation order, including hidden pages.
+ * A page number alone is insufficient after scrolling or changing dimensions. */
+typedef struct NemoRegisGraphic {
+    unsigned id, page, screen, width, height;
+    int row, column;
+    bool hidden;
+} NemoRegisGraphic;
+bool nemo_regis_graphic(const NemoRegis *, unsigned id, NemoRegisGraphic *);
+unsigned nemo_regis_next_graphic(const NemoRegis *, unsigned after);
+size_t nemo_regis_graphic_read_row(const NemoRegis *, unsigned id, unsigned y,
+                                  unsigned x, uint32_t *, size_t count);
+bool nemo_regis_active(const NemoRegis *);
+bool nemo_regis_drop_graphic(NemoRegis *, unsigned id);
+void nemo_regis_scroll(NemoRegis *, int rows);
+bool nemo_regis_erase(NemoRegis *, int64_t x, int64_t y, unsigned width,
+                      unsigned height, unsigned cell_width, unsigned cell_height);
 #endif

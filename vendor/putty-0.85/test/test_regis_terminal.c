@@ -1,6 +1,5 @@
 /* SPDX-License-Identifier: MIT
- * Real terminal DCS framing/ownership. This does not claim native image
- * placement or text/graphics lifecycle coverage; those gates follow later.
+ * Real terminal DCS framing, live indexed image views and ownership.
  */
 #define main upstream_terminal_test_main
 #include "test_terminal.c"
@@ -158,12 +157,13 @@ int main(int argc,char **argv)
     if (!actions || strcmp(actions,"true") || !hosted || strcmp(hosted,"github-hosted")) return 2;
     regis_vtable=mock_termwin_vt;
     if (argc==2 && !strcmp(argv[1],"--self-test")) return framing_tests();
-    bool bytewise=false;
+    bool bytewise=false,views=false;
     for (int i=1;i<argc;i++) {
         if (!strcmp(argv[i],"--font-inputs") && i+1<argc) {
             if (!font_inputs_load(&font_inputs,argv[++i])) return 3;
             regis_vtable.regis_glyph=mock_regis_glyph;
         } else if (!strcmp(argv[i],"--bytewise")) bytewise=true;
+        else if (!strcmp(argv[i],"--views")) views=true;
         else return 4;
     }
 #ifdef _WIN32
@@ -184,12 +184,24 @@ int main(int argc,char **argv)
         const NemoRegis *decoder=term_regis_decoder(mk->term);
         unsigned page=nemo_regis_display_page(decoder),width=0,height=0;
         nemo_regis_page_size(decoder,page,&width,&height);
-        printf("%u %zu %u %u %u %zu\n",(unsigned)term_regis_last_result(mk->term),
+        printf("%u %zu %u %u %u %zu\n",(unsigned)(decoder ? term_regis_last_result(mk->term) : NEMO_REGIS_OK),
                term_regis_memory(mk->term),page,width,height,mk->to_backend->len);
         fwrite(mk->to_backend->s,1,mk->to_backend->len,stdout);
         for (unsigned y=0;y<120;y++) {
             uint32_t row[160]={0};
-            nemo_regis_read_row(decoder,page,y,0,row,160);
+            if (!views) nemo_regis_read_row(decoder,page,y,0,row,160);
+            else for (NemoTermImage *im=mk->term->images;im;im=im->next) {
+                if (im->screen!=mk->term->alt_which || !term_image_visible(im)) continue;
+                for (unsigned sy=0;sy<(unsigned)im->pixel_height;sy++) {
+                    if (term_image_pixel_y(im,sy,mk->term->cell_height)!=(int64_t)y) continue;
+                    uint32_t pixels[NEMO_SIXEL_MAX_DIMENSION];
+                    size_t n=term_image_read_row(im,sy,0,pixels,im->pixel_width);
+                    int64_t left=(int64_t)im->x*mk->term->cell_width+im->pixel_x;
+                    for (size_t x=0;x<n;x++)
+                        if (left+(int64_t)x>=0 && left+(int64_t)x<160 && (pixels[x]>>24))
+                            row[left+x]=pixels[x];
+                }
+            }
             for (unsigned x=0;x<160;x++) {
                 unsigned char rgb[3]={(unsigned char)(row[x]>>16),(unsigned char)(row[x]>>8),(unsigned char)row[x]};
                 fwrite(rgb,1,3,stdout);

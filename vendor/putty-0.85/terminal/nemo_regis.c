@@ -41,6 +41,7 @@ typedef unsigned short RegisterNum;
 typedef struct { short r, g, b; } ColorRegister;
 typedef NemoRegis *XtermWidget;
 typedef struct Graphic {
+    struct Graphic *next;
     NemoRegis *xw;
     RegisterNum ***tiles, background;
     ColorRegister *color_registers;
@@ -48,6 +49,7 @@ typedef struct Graphic {
     unsigned tile_columns, tile_rows, valid_registers, id, page, screen;
     unsigned background_width, background_height, content_width, content_height;
     int actual_width, actual_height, max_width, max_height;
+    int charrow, charcol;
     bool dirty, hidden, valid;
 } Graphic;
 
@@ -79,9 +81,10 @@ NemoRegis *nemo_regis_new(const NemoRegisConfig *config)
 void nemo_regis_reset(NemoRegis *owner)
 {
     if (!owner || owner->active) return;
-    for (unsigned i=0;i<16;i++) {
-        regis_free_graphic(owner->pages[i]);
-        owner->pages[i] = NULL;
+    while (owner->graphics) {
+        Graphic *g=owner->graphics;
+        owner->graphics=g->next;
+        regis_free_graphic(g);
     }
     for (unsigned i=0;i<MAX_REGIS_ALPHABETS;i++)
         regis_deallocate(owner->context.alphabets[i].bytes);
@@ -169,19 +172,17 @@ bool nemo_regis_page_size(const NemoRegis *owner, unsigned page,
                           unsigned *width, unsigned *height)
 {
     if (!owner || page >= 8 || !width || !height) return false;
-    const Graphic *g = owner->pages[owner->screen*8+page];
+    const Graphic *g = regis_page(owner,page);
     if (!g) return false;
     *width = (unsigned)g->actual_width;
     *height = (unsigned)g->actual_height;
     return true;
 }
 
-size_t nemo_regis_read_row(const NemoRegis *owner, unsigned page, unsigned y,
-                          unsigned x, uint32_t *out, size_t count)
+static size_t regis_read_row(const Graphic *g, unsigned y, unsigned x,
+                             uint32_t *out, size_t count)
 {
-    if (!owner || page>=8 || !out) return 0;
-    const Graphic *g = owner->pages[owner->screen*8+page];
-    if (!g || y >= (unsigned)g->actual_height || x >= (unsigned)g->actual_width) return 0;
+    if (!g || !out || y >= (unsigned)g->actual_height || x >= (unsigned)g->actual_width) return 0;
     if (count > (unsigned)g->actual_width-x) count = (unsigned)g->actual_width-x;
     for (size_t i=0;i<count;i++) {
         unsigned index = read_pixel(g,(int)(x+i),(int)y);
@@ -191,4 +192,83 @@ size_t nemo_regis_read_row(const NemoRegis *owner, unsigned page, unsigned y,
                  ((uint32_t)(c.g*255/100)<<8) | (uint32_t)(c.b*255/100);
     }
     return count;
+}
+
+size_t nemo_regis_read_row(const NemoRegis *owner,unsigned page,unsigned y,
+                          unsigned x,uint32_t *out,size_t count)
+{ return regis_read_row(regis_page(owner,page),y,x,out,count); }
+
+bool nemo_regis_active(const NemoRegis *owner)
+{ return owner && owner->active; }
+
+unsigned nemo_regis_next_graphic(const NemoRegis *owner,unsigned after)
+{
+    for (const Graphic *g=owner ? owner->graphics : NULL;g;g=g->next)
+        if (g->id>after) return g->id;
+    return 0;
+}
+
+bool nemo_regis_graphic(const NemoRegis *owner,unsigned id,NemoRegisGraphic *info)
+{
+    const Graphic *g=regis_graphic(owner,id);
+    if (!g || !info) return false;
+    *info=(NemoRegisGraphic){g->id,g->page,g->screen,(unsigned)g->actual_width,
+        (unsigned)g->actual_height,g->charrow,g->charcol,g->hidden};
+    return true;
+}
+
+size_t nemo_regis_graphic_read_row(const NemoRegis *owner,unsigned id,unsigned y,
+                                  unsigned x,uint32_t *out,size_t count)
+{ return regis_read_row(regis_graphic(owner,id),y,x,out,count); }
+
+bool nemo_regis_drop_graphic(NemoRegis *owner,unsigned id)
+{
+    if (!owner || owner->active) return false;
+    Graphic **link=&owner->graphics;
+    while (*link && (*link)->id!=id) link=&(*link)->next;
+    if (!*link) return false;
+    Graphic *g=*link;
+    if (owner->context.destination_graphic==g) owner->context.destination_graphic=NULL;
+    if (owner->context.display_graphic==g) owner->context.display_graphic=NULL;
+    *link=g->next;
+    regis_free_graphic(g);
+    return true;
+}
+
+void nemo_regis_scroll(NemoRegis *owner,int rows)
+{
+    if (!owner || owner->active) return;
+    for (Graphic *g=owner->graphics;g;g=g->next)
+        if (!g->hidden && g->screen==owner->screen) {
+            int64_t row=(int64_t)g->charrow-rows;
+            g->charrow=(int)Max(INT_MIN+1,Min(INT_MAX,row));
+        }
+}
+
+bool nemo_regis_erase(NemoRegis *owner,int64_t x,int64_t y,unsigned width,
+                      unsigned height,unsigned cell_width,unsigned cell_height)
+{
+    if (!owner || owner->active || !width || !height) return true;
+    owner->active=true;
+    owner->result=NEMO_REGIS_OK;
+    owner->work=owner->config.work_limit ? owner->config.work_limit : REGIS_WORK_LIMIT;
+    if (!setjmp(owner->escape)) {
+        for (Graphic *g=owner->graphics;g;g=g->next) {
+            if (g->hidden || g->screen!=owner->screen) continue;
+            int64_t left=x-(int64_t)g->charcol*cell_width;
+            int64_t top=y-(int64_t)g->charrow*cell_height;
+            int x1=(int)Max(0,Min(g->actual_width,left));
+            int y1=(int)Max(0,Min(g->actual_height,top));
+            int x2=(int)Max(0,Min(g->actual_width,left+width));
+            int y2=(int)Max(0,Min(g->actual_height,top+height));
+            if (x1<x2 && y1<y2) draw_solid_rectangle(g,x1,y1,x2-1,y2-1,COLOR_HOLE);
+        }
+    }
+    owner->active=false;
+    if (owner->result!=NEMO_REGIS_OK) {
+        unsigned screen=owner->screen;
+        nemo_regis_reset(owner); owner->screen=screen;
+        return false;
+    }
+    return true;
 }

@@ -98,6 +98,18 @@ jobs:
           ASAN_OPTIONS: detect_leaks=1:abort_on_error=1
           UBSAN_OPTIONS: halt_on_error=1
         run: python3 tests/test_regis_reference.py --terminal --bytewise --exe build/regis-terminal/test_regis_terminal --font-inputs build/regis-font-inputs/glyphs.bin --output build/regis-component/terminal-bytewise
+      - name: Compare retained image views and lifecycle with original XTerm scenes
+        if: ${{ !cancelled() }}
+        env:
+          ASAN_OPTIONS: detect_leaks=1:abort_on_error=1
+          UBSAN_OPTIONS: halt_on_error=1
+        run: python3 tests/test_regis_reference.py --terminal --views --exe build/regis-terminal/test_regis_terminal --font-inputs build/regis-font-inputs/glyphs.bin --output build/regis-component/views-whole
+      - name: Compare retained image views under bytewise input
+        if: ${{ !cancelled() }}
+        env:
+          ASAN_OPTIONS: detect_leaks=1:abort_on_error=1
+          UBSAN_OPTIONS: halt_on_error=1
+        run: python3 tests/test_regis_reference.py --terminal --views --bytewise --exe build/regis-terminal/test_regis_terminal --font-inputs build/regis-font-inputs/glyphs.bin --output build/regis-component/views-bytewise
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
@@ -163,6 +175,12 @@ jobs:
       - name: Replay unchanged scene streams through terminal.c byte by byte
         if: ${{ !cancelled() }}
         run: python tests/test_regis_reference.py --terminal --bytewise --exe build/regis-terminal/test_regis_terminal.exe --font-inputs build/regis-font-inputs/glyphs.bin --output build/regis-component/terminal-bytewise
+      - name: Compare retained image views and lifecycle with original XTerm scenes
+        if: ${{ !cancelled() }}
+        run: python tests/test_regis_reference.py --terminal --views --exe build/regis-terminal/test_regis_terminal.exe --font-inputs build/regis-font-inputs/glyphs.bin --output build/regis-component/views-whole
+      - name: Compare retained image views under bytewise input
+        if: ${{ !cancelled() }}
+        run: python tests/test_regis_reference.py --terminal --views --bytewise --exe build/regis-terminal/test_regis_terminal.exe --font-inputs build/regis-font-inputs/glyphs.bin --output build/regis-component/views-bytewise
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:

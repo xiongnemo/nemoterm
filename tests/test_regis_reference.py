@@ -1,8 +1,8 @@
 """Compare ReGIS decoder pixels with unchanged hosted XTerm bytes and pixels.
 
-The optional terminal mode exercises the real DCS parser. Neither mode checks
-Windows image placement or text/graphics lifecycle. Those streams remain
-explicit exclusions at this stage.
+Terminal mode exercises the real DCS parser. View mode also composites the
+retained images through the same row accessors used by the Windows frontend,
+covering graphics lifecycle. This is not a native window screenshot check.
 """
 import argparse
 import hashlib
@@ -25,6 +25,7 @@ def main():
     parser.add_argument('--font-inputs',type=Path)
     parser.add_argument('--terminal',action='store_true',help='Feed original DCS/CSI bytes through terminal.c')
     parser.add_argument('--bytewise',action='store_true')
+    parser.add_argument('--views',action='store_true',help='Compare actual retained image views, including lifecycle and Sixel')
     args=parser.parse_args()
     args.output.mkdir(parents=True,exist_ok=True)
     with zipfile.ZipFile('research/regis-reference-evidence.zip') as outer:
@@ -35,10 +36,14 @@ def main():
                   cases={},excluded={},failures=[],completed=False)
     command=[str(args.exe.resolve())]
     evidence['terminal_parser']=args.terminal
+    evidence['image_views']=args.views
     evidence['transport']='bytewise' if args.bytewise else 'whole'
     if args.bytewise:
         assert args.terminal,'bytewise applies to the real terminal parser'
         command+=['--bytewise']
+    if args.views:
+        assert args.terminal
+        command+=['--views']
     if args.font_inputs:
         command+=['--font-inputs',str(args.font_inputs.resolve())]
         evidence['font_inputs_sha256']=hashlib.sha256(args.font_inputs.read_bytes()).hexdigest()
@@ -49,7 +54,10 @@ def main():
         for name,variants in observed['cases'].items():
             steps=variants['whole']['steps']
             matches=[re.fullmatch(pattern,bytes.fromhex(s['sequence_hex'])) for s in steps]
-            if not all(matches):
+            if args.views and name in ('control-text','control-capability'):
+                evidence['excluded'][name]='Ordinary text font rasterization or terminal identity control; outside graphics-view projection.'
+                continue
+            if not args.views and not all(matches):
                 evidence['excluded'][name]='Requires terminal CSI/Sixel/cancellation integration; original stream retained unchanged.'
                 continue
             wire=b''

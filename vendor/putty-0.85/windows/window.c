@@ -6398,9 +6398,9 @@ static void nemo_paint_legacy_images(WinGuiSeat *wgs)
     uint32_t *alpha_pixels = NULL;
     bool alpha_attempted = false;
     for (NemoTermImage *img = term->images; img; img = img->next) {
-        if (img->screen != term->alt_which)
+        if (img->screen != term->alt_which || !term_image_visible(img))
             continue;
-        if ((!img->source->bitmap && !img->source->raster.pixels) ||
+        if ((!img->source->bitmap && !img->source->raster.pixels && !img->source->regis) ||
             img->pixel_width <= 0 || img->pixel_width > NEMO_SIXEL_MAX_DIMENSION ||
             img->pixel_height <= 0)
             continue;

@@ -1,7 +1,5 @@
 /* SPDX-License-Identifier: MIT
- * Complete DCS transactions and per-terminal ReGIS ownership. Native image
- * placement/lifecycle integration follows separately; no capability claim
- * is made by this input adapter alone.
+ * Complete DCS transactions, per-terminal ownership and live image views.
  */
 #define NEMO_REGIS_INPUT_LIMIT (256U*1024U)
 #define NEMO_REGIS_FONT_RESERVE (65U*1024U)
@@ -12,9 +10,69 @@ struct NemoTermRegis {
     unsigned char *input;
     size_t length, capacity, decoder_bytes, font_reserve;
     unsigned mode;
-    bool pending;
+    bool pending, syncing;
     NemoRegisResult last_result;
 };
+
+static bool nemo_regis_views_locked(Terminal *term)
+{
+    return term->regis && (term->regis->syncing || nemo_regis_active(term->regis->decoder));
+}
+
+static void nemo_regis_sync_views(Terminal *term)
+{
+    if (!term->regis) return;
+    NemoRegis *decoder=term->regis->decoder;
+    term->regis->syncing=true;
+    NemoTermImage **link=&term->images;
+    while (*link) {
+        NemoTermImage *image=*link;
+        if (image->source->regis==decoder && !nemo_image_live(term,image))
+            nemo_image_remove(term,link);
+        else link=&image->next;
+    }
+    for (unsigned id=0;(id=nemo_regis_next_graphic(decoder,id))!=0;) {
+        bool found=false;
+        NemoTermImage **tail=&term->images;
+        for (;*tail;tail=&(*tail)->next)
+            if ((*tail)->source->regis==decoder && (*tail)->source->regis_id==id) found=true;
+        if (found) continue;
+        size_t bytes=sizeof(NemoTermImage)+sizeof(NemoImageSource);
+        if (!nemo_image_admit(term,nemo_image_pending(term),bytes)) {
+            nemo_regis_drop_graphic(decoder,id);
+            continue;
+        }
+        /* Admission may evict a preceding raster; locate the tail again. */
+        tail=&term->images;
+        while (*tail) tail=&(*tail)->next;
+        NemoTermImage *image=snew(NemoTermImage);
+        memset(image,0,sizeof(*image));
+        image->source=snew(NemoImageSource);
+        *image->source=(NemoImageSource){.references=1,.memory_bytes=sizeof(NemoImageSource),
+            .regis=decoder,.regis_id=id};
+        image->memory_bytes=sizeof(*image);
+        nemo_image_live(term,image);
+        *tail=image;
+        term->image_bytes+=bytes;
+    }
+    term->regis->syncing=false;
+}
+
+static void nemo_regis_erase_cells(Terminal *term,pos start,pos end)
+{
+    if (!term->regis) return;
+    NemoRegis *decoder=term->regis->decoder;
+    for (int y=max(0,start.y);y<=min(term->rows-1,end.y);y++) {
+        int left=y==start.y ? max(0,start.x) : 0;
+        int right=y==end.y ? min(term->cols,end.x) : term->cols;
+        if (right<=left) continue;
+        unsigned width=(unsigned)min((uint64_t)UINT_MAX,(uint64_t)(right-left)*term->cell_width);
+        if (!nemo_regis_erase(decoder,(int64_t)left*term->cell_width,
+                (int64_t)y*term->cell_height,width,(unsigned)term->cell_height,
+                (unsigned)term->cell_width,(unsigned)term->cell_height)) break;
+    }
+    nemo_regis_sync_views(term);
+}
 
 size_t term_regis_memory(const Terminal *term)
 {
@@ -75,6 +133,11 @@ static bool nemo_regis_native_glyph(void *ctx, const char *font, unsigned ch,
 static void nemo_regis_clear(Terminal *term)
 {
     if (!term->regis) return;
+    NemoTermImage **link=&term->images;
+    while (*link) {
+        if ((*link)->source->regis && (*link)->source->regis==term->regis->decoder) nemo_image_remove(term,link);
+        else link=&(*link)->next;
+    }
     nemo_regis_cancel_input(term);
     nemo_regis_free(term->regis->decoder);
     assert(!term->regis->decoder_bytes);
@@ -153,5 +216,6 @@ static void nemo_regis_complete(Terminal *term)
     NemoTermRegis *state=term->regis;
     state->last_result=nemo_regis_parse(state->decoder,state->mode,state->input,state->length);
     nemo_regis_cancel_input(term);
+    nemo_regis_sync_views(term);
     term_invalidate(term);
 }

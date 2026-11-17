@@ -1616,6 +1616,7 @@ static void term_schedule_vbell(Terminal *term, bool already_started,
 static void nemo_images_tick(Terminal *term, uint32_t now);
 static void nemo_kitty_cancel_input(Terminal *term);
 static void nemo_kitty_rescale(Terminal *term);
+static bool nemo_regis_views_locked(Terminal *term);
 static void nemo_image_timer(void *ctx, unsigned long now)
 {
     NemoImageTimer *timer = ctx;
@@ -1658,6 +1659,8 @@ static void nemo_image_remove(Terminal *term, NemoTermImage **link)
         term->image_bytes -= image->source->memory_bytes;
         nemo_sixel_free(image->source->bitmap);
         nemo_raster_free(&image->source->raster);
+        if (image->source->regis)
+            nemo_regis_drop_graphic(image->source->regis,image->source->regis_id);
         sfree(image->source);
     }
     for (unsigned i = 0; i < image->band_count; i++) sfree(image->mask_bands[i]);
@@ -1690,8 +1693,15 @@ static bool nemo_image_admit(void *ctx, size_t current, size_t extra)
     const size_t budget = NEMO_SIXEL_DEFAULT_BUDGET;
     if (current > budget || extra > budget - current) return false;
     bool changed = false;
-    while (term->images && term->image_bytes > budget - current - extra) {
-        nemo_image_remove(term, &term->images);
+    NemoTermImage **link=&term->images;
+    while (*link && term->image_bytes > budget - current - extra) {
+        if ((*link)->source->regis && nemo_regis_views_locked(term)) {
+            link=&(*link)->next; continue;
+        }
+        size_t regis_before=term_regis_memory(term);
+        nemo_image_remove(term, link);
+        size_t regis_after=term_regis_memory(term);
+        if (regis_before>regis_after) current-=min(current,regis_before-regis_after);
         changed = true;
     }
     if (changed) term_invalidate(term);
@@ -1743,9 +1753,22 @@ void term_set_cell_size(Terminal *term, int width, int height)
 
 int64_t term_image_pixel_y(const NemoTermImage *image, unsigned y, int cell_height)
 {
+    if (image->source->regis) {
+        NemoRegisGraphic g;
+        if (!nemo_regis_graphic(image->source->regis,image->source->regis_id,&g) ||
+            g.hidden || y>=g.height) return INT64_MIN;
+        return (int64_t)g.row*cell_height+y;
+    }
     if (y >= (unsigned)image->pixel_height || image->lines[y].anchor == INT_MIN)
         return INT64_MIN;
     return (int64_t)image->lines[y].anchor * cell_height + y;
+}
+
+bool term_image_visible(const NemoTermImage *image)
+{
+    if (!image->source->regis) return true;
+    NemoRegisGraphic g;
+    return nemo_regis_graphic(image->source->regis,image->source->regis_id,&g) && !g.hidden;
 }
 
 size_t term_image_read_row(const NemoTermImage *image, unsigned y, unsigned x,
@@ -1754,6 +1777,8 @@ size_t term_image_read_row(const NemoTermImage *image, unsigned y, unsigned x,
     if (y >= (unsigned)image->pixel_height ||
         x >= (unsigned)image->pixel_width || !count) return 0;
     size_t n = min(count, (size_t)image->pixel_width - x);
+    if (image->source->regis)
+        return nemo_regis_graphic_read_row(image->source->regis,image->source->regis_id,y,x,out,n);
     unsigned source_x = image->pixel_x + x;
     if (image->source->raster.pixels) {
         const NemoImageSource *src = image->source;
@@ -1843,6 +1868,15 @@ static bool nemo_image_erase_pixels(Terminal *term, NemoTermImage *image, int y,
 /* Refresh the cached top row and report whether any scanlines remain. */
 static bool nemo_image_live(Terminal *term, NemoTermImage *image)
 {
+    if (image->source->regis) {
+        NemoRegisGraphic g;
+        if (!nemo_regis_graphic(image->source->regis,image->source->regis_id,&g)) return false;
+        image->x=g.column; image->y=g.row; image->screen=(int)g.screen;
+        image->pixel_width=(int)g.width; image->pixel_height=(int)g.height;
+        image->last_y=(int)min((int64_t)INT_MAX,(int64_t)g.row+(g.height-1)/term->cell_height);
+        image->live_rows=(int)g.height;
+        return true;
+    }
     image->y = INT_MAX;
     image->last_y = INT_MIN;
     for (int y = 0; y < image->pixel_height; y++)
@@ -1863,6 +1897,7 @@ static void nemo_images_rows(Terminal *term, int screen,
     NemoTermImage **link = &term->images;
     while (*link) {
         NemoTermImage *image = *link;
+        if (image->source->regis) { link=&image->next; continue; }
         if (image->screen == screen) {
             for (int y = 0; y < image->pixel_height; y++) {
                 NemoImageRow *row = &image->lines[y];
@@ -1888,7 +1923,7 @@ static void nemo_images_rows(Terminal *term, int screen,
 static bool nemo_image_erase_range(Terminal *term, NemoTermImage *image, int y,
                                     pos start, pos end, int *left, int *right)
 {
-    if (image->screen != term->alt_which || image->lines[y].anchor == INT_MIN)
+    if (image->source->regis || image->screen != term->alt_which || image->lines[y].anchor == INT_MIN)
         return false;
     int64_t row = (int64_t)image->lines[y].anchor + y / term->cell_height;
     if (row < start.y || row > end.y) return false;
@@ -1904,7 +1939,7 @@ static bool nemo_image_erase_range(Terminal *term, NemoTermImage *image, int y,
 static size_t nemo_image_erase_need(Terminal *term, NemoTermImage *image,
                                    pos start, pos end)
 {
-    if (image->screen != term->alt_which ||
+    if (image->source->regis || image->screen != term->alt_which ||
         image->y > end.y || image->last_y < start.y) return 0;
     size_t needed = 0;
     for (unsigned band = 0; band < image->band_count; band++) {
@@ -1929,11 +1964,12 @@ static size_t nemo_image_erase_need(Terminal *term, NemoTermImage *image,
  * images, but must never invalidate an in-progress list iterator. */
 static void nemo_images_erase(Terminal *term, pos start, pos end)
 {
+    nemo_regis_erase_cells(term,start,end);
     bool changed = false;
     NemoTermImage **link = &term->images;
     while (*link) {
         NemoTermImage *image = *link;
-        if (image->screen != term->alt_which ||
+        if (image->source->regis || image->screen != term->alt_which ||
             image->y > end.y || image->last_y < start.y) {
             link = &image->next;
             continue;
@@ -1967,7 +2003,7 @@ static void nemo_images_erase(Terminal *term, pos start, pos end)
         changed = true;
     }
     for (NemoTermImage *image = term->images; image; image = image->next) {
-        if (image->screen != term->alt_which ||
+        if (image->source->regis || image->screen != term->alt_which ||
             image->y > end.y || image->last_y < start.y) continue;
         for (int y = 0; y < image->pixel_height; y++) {
             int left, right;
@@ -2073,7 +2109,7 @@ static unsigned nemo_image_column_cuts(Terminal *term, const NemoTermImage *imag
                                        int left, int right, int top, int bottom,
                                        int cuts[4])
 {
-    if (image->screen != term->alt_which || image->y > bottom || image->last_y < top)
+    if (image->source->regis || image->screen != term->alt_which || image->y > bottom || image->last_y < top)
         return 0;
     int64_t a = ((int64_t)left-image->x)*term->cell_width - image->pixel_x;
     int64_t b = ((int64_t)right-image->x)*term->cell_width - image->pixel_x;
@@ -2144,7 +2180,7 @@ static bool nemo_image_in_columns(Terminal *term, const NemoTermImage *image,
                                   int left, int right)
 {
     int64_t x = (int64_t)image->x*term->cell_width + image->pixel_x;
-    return image->screen == term->alt_which &&
+    return !image->source->regis && image->screen == term->alt_which &&
         x >= (int64_t)left*term->cell_width &&
         x+image->pixel_width <= (int64_t)right*term->cell_width;
 }
@@ -2218,12 +2254,17 @@ void term_scroll_images(Terminal *term, int left, int right, int top, int bottom
     top = max(0, top); bottom = min(term->rows-1, bottom);
     if (!lines || left >= right || top > bottom) return;
     lines = max(top-bottom-1, min(lines, bottom-top+1));
+    if (term->regis) {
+        nemo_regis_scroll(term->regis->decoder,lines);
+        nemo_regis_sync_views(term);
+    }
     bool partial = left != 0 || right != term->cols;
     if (partial || top || term->alt_which) sb = false;
     if (partial) nemo_images_split_columns(term, left, right, top, bottom);
     NemoTermImage **link = &term->images;
     while (*link) {
         NemoTermImage *image = *link;
+        if (image->source->regis) { link=&image->next; continue; }
         int64_t x = (int64_t)image->x*term->cell_width + image->pixel_x;
         bool inside = !partial || (x < (int64_t)right*term->cell_width &&
                                    x+image->pixel_width > (int64_t)left*term->cell_width);
@@ -4634,7 +4675,7 @@ static void nemo_reflow(Terminal *term, int rows, int cols, int savelines)
      * them can move them vertically, but must not merge or split scanlines.
      * DEC double-size and trusted rows are similar fixed-grid barriers. */
     for (NemoTermImage *im = term->images; im; im = im->next) {
-        if (im->screen) continue;
+        if (im->screen || im->source->regis) continue;
         for (int y = 0; y < im->pixel_height; y++) {
             if (im->lines[y].anchor == INT_MIN) continue;
             int64_t at = (int64_t)im->lines[y].anchor + y/term->cell_height;
@@ -4753,7 +4794,7 @@ static void nemo_reflow(Terminal *term, int rows, int cols, int savelines)
     sfree(r.marks);
     nemo_shell_marks_rows(&term->shell_marks, -newhistory, rows-1, 0);
     for (NemoTermImage *im = term->images; im; im = im->next) {
-        if (im->screen) continue;
+        if (im->screen || im->source->regis) continue;
         for (int y = 0; y < im->pixel_height; y++) {
             if (im->lines[y].anchor == INT_MIN) continue;
             int64_t at = (int64_t)im->lines[y].anchor + y/term->cell_height + history;

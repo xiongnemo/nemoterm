@@ -10,7 +10,7 @@ struct NemoRegis {
     NemoRegisConfig config;
     RegisGraphicsContext context;
     RegisParseState state;
-    Graphic *pages[16];
+    Graphic *graphics;
     ColorRegister shared[MAX_COLOR_REGISTERS];
     size_t bytes;
     uint64_t work;
@@ -100,23 +100,20 @@ static void regis_free_graphic(Graphic *g)
 static Graphic *get_new_or_matching_graphic(NemoRegis *owner, int row, int col,
                                             int width, int height, unsigned page)
 {
-    (void)row; (void)col;
     if (page>=8 || width<2 || height<2 || width>(int)owner->config.max_width ||
         height>(int)owner->config.max_height) regis_abort(owner,NEMO_REGIS_LIMIT);
-    unsigned slot=owner->screen*8+page;
-    Graphic *g=owner->pages[slot];
-    if (g && g->actual_width==width && g->actual_height==height) return g;
-    /* A page replacement has one owner; contexts are mapped again before use. */
-    if (g) {
-        if (owner->context.destination_graphic==g) owner->context.destination_graphic=NULL;
-        if (owner->context.display_graphic==g) owner->context.display_graphic=NULL;
-        regis_free_graphic(g);
-        owner->pages[slot]=NULL;
+    Graphic **tail=&owner->graphics;
+    for (;*tail;tail=&(*tail)->next) {
+        Graphic *g=*tail;
+        if (g->page==page && g->screen==owner->screen && g->charrow==row &&
+            g->charcol==col && g->actual_width==width && g->actual_height==height) return g;
     }
-    g=regis_allocate(owner,sizeof(*g));
-    owner->pages[slot]=g; /* ownership established before another allocation */
+    if (owner->next_id==UINT_MAX) regis_abort(owner,NEMO_REGIS_LIMIT);
+    Graphic *g=regis_allocate(owner,sizeof(*g));
+    *tail=g; /* ownership established before another allocation */
     g->xw=owner;
     g->page=page; g->screen=owner->screen; g->id=++owner->next_id;
+    g->charrow=row; g->charcol=col;
     g->actual_width=width; g->actual_height=height;
     g->max_width=(int)owner->config.max_width; g->max_height=(int)owner->config.max_height;
     /* S(A) can change actual dimensions without remapping the graphic. Keep
@@ -141,6 +138,23 @@ static Graphic *get_new_or_matching_graphic(NemoRegis *owner, int row, int col,
         }
     }
     return g;
+}
+
+static const Graphic *regis_graphic(const NemoRegis *owner,unsigned id)
+{
+    for (const Graphic *g=owner ? owner->graphics : NULL;g;g=g->next)
+        if (g->id==id) return g;
+    return NULL;
+}
+
+static const Graphic *regis_page(const NemoRegis *owner,unsigned page)
+{
+    if (!owner || page>=8) return NULL;
+    const Graphic *display=owner->context.display_graphic;
+    if (display && display->page==page && display->screen==owner->screen) return display;
+    for (const Graphic *g=owner->graphics;g;g=g->next)
+        if (g->page==page && g->screen==owner->screen && !g->charrow && !g->charcol) return g;
+    return NULL;
 }
 
 static RegisterNum regis_background(const Graphic *g, unsigned x, unsigned y)

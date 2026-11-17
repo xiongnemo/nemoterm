@@ -57,6 +57,8 @@ typedef struct NemoImageSource {
     size_t memory_bytes; /* decoder plus this shared owner, charged once */
     NemoRaster raster;
     unsigned display_width, display_height;
+    NemoRegis *regis; /* live indexed graphic; bytes charged to the decoder */
+    unsigned regis_id;
 } NemoImageSource;
 
 typedef struct NemoTermImage {
@@ -83,6 +85,7 @@ int64_t term_image_pixel_y(const NemoTermImage *, unsigned y, int cell_height);
 /* Read aspect-corrected raster pixels, applying the pixel erase mask. */
 size_t term_image_read_row(const NemoTermImage *, unsigned y, unsigned x,
                           uint32_t *, size_t count);
+bool term_image_visible(const NemoTermImage *);
 
 struct beeptime {
     struct beeptime *next;
