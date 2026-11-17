@@ -62,8 +62,10 @@ def main():
             original_files[name.name] = dict(bytes=len(data),sha256=digest(data))
     assert {'nemoterm.exe','OpenConsole.exe','conpty.dll','SHA256SUMS.txt','SOURCE-HOST.json'} <= original_files.keys()
     sums = (package/'SHA256SUMS.txt').read_text().splitlines()
-    frontend = [line.split()[0] for line in sums if line.split()[-1]=='nemoterm.exe']
-    assert frontend == [original_files['nemoterm.exe']['sha256']]
+    # GNU sha256sum uses a leading '*' for a file read in binary mode.
+    frontend = [match.group(1) for line in sums
+                if (match := re.fullmatch(r'([0-9a-f]{64}) [ *]nemoterm\.exe', line))]
+    assert frontend == [original_files['nemoterm.exe']['sha256']], 'Frontend checksum mismatch'
     host = json.loads((package/'SOURCE-HOST.json').read_text(encoding='utf-8-sig'))
     assert host['SourceCommit']==commit
     assert host['Executable']['SHA256']==original_files['OpenConsole.exe']['sha256']
