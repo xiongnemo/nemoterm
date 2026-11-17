@@ -11290,6 +11290,7 @@ static void do_paint(Terminal *term)
             if (in_preedit)
                 d = term->preedit_termline->chars + j - preedit_start;
 
+            bool image_placeholder = term->win->vt->kitty_graphics && d->chr == 0x10eeee;
             tattr = newline[j].attr;
             tchar = newline[j].chr;
 
@@ -11317,10 +11318,13 @@ static void do_paint(Terminal *term)
                 break_run = true;
 
             /*
-             * Break on both sides of any combined-character cell.
+             * Visible combining glyphs need a separate shaping run. Kitty
+             * positional marks are omitted from displayed text, so they
+             * must not split a row of adjacent image-placeholder blanks.
              */
-            if (d->cc_next != 0 ||
-                (j > 0 && d[-1].cc_next != 0))
+            if ((d->cc_next != 0 && !image_placeholder) ||
+                (j > 0 && d[-1].cc_next != 0 &&
+                 !(term->win->vt->kitty_graphics && d[-1].chr == 0x10eeee)))
                 break_run = true;
 
             /*
@@ -11384,7 +11388,7 @@ static void do_paint(Terminal *term)
              * marks in the last-painted-text cache on every dense row. */
             termchar image_blank;
             const termchar *display_char = d;
-            if (term->win->vt->kitty_graphics && d->chr == 0x10eeee) {
+            if (image_placeholder) {
                 image_blank = *d;
                 image_blank.cc_next = 0;
                 display_char = &image_blank;
@@ -11406,7 +11410,7 @@ static void do_paint(Terminal *term)
 #endif /* PLATFORM_IS_UTF16 */
             ch[ccount++] = (wchar_t) tchar;
 
-            if (d->cc_next && !(term->win->vt->kitty_graphics && d->chr==0x10eeee)) {
+            if (d->cc_next && !image_placeholder) {
                 termchar *dd = d;
 
                 while (dd->cc_next) {
