@@ -91,18 +91,20 @@ The [final product record](../research/terminfo-product-regression.md) identifie
 downloads and the hosted notice-only portable repackage, which preserves all
 original files. Failed and cancelled runs remain retained; `dist` is unchanged.
 
-## Current memory scope (user clarification, 2026-11-15 Sydney)
+## Current memory scope (user clarification, 2026-11-18 Sydney)
 
 The original **GDI <20 MB private working set / approximately 50 MB total
 working set** target applies to GDI. The user accepts the current DirectX
 footprint and explicitly stops further memory optimization toward the GDI
-target. Keep the earlier **DirectX ≤25 MB private working set** allowance as a
-regression limit, and keep the optional OpenGL exception. DirectX total working
+target. The user now sets **DirectX ≤30 MB private working set** as the
+regression limit, superseding the earlier 25 MB allowance. Keep the optional
+OpenGL exception. DirectX total working
 set is still recorded, but exceeding 50 MB is not an outstanding acceptance
 failure or an optimization task. Historical measurements and failures below
 remain unchanged; older statements treating that DX total as an unmet goal are
 superseded by this clarification. Continue feature compatibility and regression
-work. The user resumed local interactive desktop testing on 2026-11-16 Sydney.
+work. All current builds and tests remain on GitHub-hosted runners. The original
+25 MB results are retained; the new gate requires a separately identified replay.
 
 ## Historical combined candidate (2026-11-16 Sydney)
 
@@ -760,8 +762,8 @@ MIT-licensed PuTTY 0.85 C sources, not a promise that upstream already implement
   BusyBox ash, Git Bash and WSL Bash with installed distributions, retaining cmd
   as a fallback. Implemented: all six local shells passed real interactive launch
   and exit, with native settings save/reload; see `research/shell-selection.md`.
-* Per-window frontend private working set: **GDI <20 MB**, **DirectX <=25 MB**.
-  The user approved the DirectX allowance on 2026-11-14, with further optimization deferred.
+* Per-window frontend private working set: **GDI <20 MB**, **DirectX <=30 MB**.
+  The user updated the DirectX allowance on 2026-11-18, with further optimization deferred.
   Optional OpenGL retains its explicit exception. The approximately 50 MB total-working-set
   target applies only to GDI; the user accepted current DX memory on 2026-11-15.
   Record bytes, decimal MB and MiB; no forced working-set trimming.

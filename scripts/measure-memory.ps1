@@ -5,7 +5,7 @@ param([Parameter(Mandatory)][int]$ProcessId,
 $ErrorActionPreference = 'Stop'
 # This helper samples counters only. The caller must supply the observed
 # renderer, including any fallback, rather than the requested setting.
-$privateLimit = switch ($ActualRenderer) { 'gdi' {20000000}; 'directx' {25000000}; 'opengl' {$null} }
+$privateLimit = switch ($ActualRenderer) { 'gdi' {20000000}; 'directx' {30000000}; 'opengl' {$null} }
 $p = Get-CimInstance Win32_Process -Filter "ProcessId=$ProcessId"
 if (!$p -or $p.Name -ne 'nemoterm.exe') { throw 'Expected live nemoterm.exe PID' }
 $samples = @()

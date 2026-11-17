@@ -9,7 +9,7 @@ must be excluded by the calling fixture before applying these limits.
 def private_ws_policy(actual_renderer):
     if actual_renderer not in (1, 2, 3):
         raise ValueError(f'Unknown actual renderer: {actual_renderer}')
-    return dict(memory_limit_bytes={1: 20_000_000, 2: None, 3: 25_000_000}[actual_renderer],
+    return dict(memory_limit_bytes={1: 20_000_000, 2: None, 3: 30_000_000}[actual_renderer],
                 memory_limit_inclusive=actual_renderer == 3,
                 memory_limit_required=actual_renderer != 2)
 

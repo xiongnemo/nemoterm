@@ -12,8 +12,9 @@ class MemoryLimitsTest(unittest.TestCase):
     def test_directx_user_approved_budget(self):
         self.assertTrue(private_ws_passes(3, 22_409_216))
         self.assertTrue(private_ws_passes(3, 25_000_000))
-        self.assertFalse(private_ws_passes(3, 25_000_001))
-        self.assertFalse(private_ws_passes(3, 25_210_880))
+        self.assertTrue(private_ws_passes(3, 28_778_496))
+        self.assertTrue(private_ws_passes(3, 30_000_000))
+        self.assertFalse(private_ws_passes(3, 30_000_001))
 
     def test_optional_opengl_has_no_numeric_gate(self):
         self.assertIsNone(private_ws_passes(2, 67_000_000))
