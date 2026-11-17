@@ -72,6 +72,9 @@ static void nemo_regis_erase_cells(Terminal *term,pos start,pos end)
                 (unsigned)term->cell_width,(unsigned)term->cell_height)) break;
     }
     nemo_regis_sync_views(term);
+    /* Text cells can already be blank. Repaint their background so holes in
+     * a live graphic remove pixels from the previously presented frame. */
+    term_invalidate(term);
 }
 
 size_t term_regis_memory(const Terminal *term)
@@ -158,6 +161,7 @@ bool term_regis_set_size(Terminal *term, unsigned width, unsigned height,
     nemo_regis_clear(term);
     term->regis_width=width; term->regis_height=height;
     term->regis_max_width=max_width; term->regis_max_height=max_height;
+    term_invalidate(term);
     return true;
 }
 

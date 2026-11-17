@@ -15,7 +15,7 @@ jobs:
       - name: Install independent XTerm and private display dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y libx11-dev libxt-dev libxaw7-dev libxft-dev libncurses-dev libxtst6 xfonts-base xvfb python3-pil
+          sudo apt-get install -y libx11-dev libxt-dev libxaw7-dev libxft-dev libncurses-dev libxtst6 xfonts-base xvfb xauth python3-pil
       - name: Build pinned upstream with ReGIS explicitly enabled
         run: |
           set -o pipefail
@@ -41,7 +41,14 @@ jobs:
       - name: Capture original replies and stable pixels over both transports
         run: |
           set -o pipefail
-          /usr/bin/python3 tests/xterm_regis_oracle.py --xterm build/regis-reference/xterm --output build/regis-reference/observations.json 2>&1 | tee build/regis-reference/capture.log
+          /usr/bin/python3 tests/xterm_regis_oracle.py --xterm build/regis-reference/xterm --output build/regis-reference/observations.json --repaint 2>&1 | tee build/regis-reference/capture.log
+      - name: Capture independent fixed-grid font masks used by the reference
+        if: ${{ !cancelled() }}
+        run: |
+          set -o pipefail
+          gcc -std=c11 -O1 -Wall -Wextra -Werror tests/regis_fixed_font_probe.c -lX11 -o build/regis-reference/fixed-font-probe
+          xvfb-run -a -s '-screen 0 1024x768x24 -nolisten tcp' build/regis-reference/fixed-font-probe build/regis-reference/fixed-font.bin | tee build/regis-reference/fixed-font.log
+          sha256sum tests/regis_fixed_font_probe.c build/regis-reference/fixed-font-probe build/regis-reference/fixed-font.bin > build/regis-reference/fixed-font-sha256.txt
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:

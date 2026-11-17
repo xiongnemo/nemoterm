@@ -171,6 +171,11 @@ class Pixels(Display):
         self.x.XGetImage.restype = c.POINTER(XImage)
         self.x.XDestroyImage.argtypes = [c.POINTER(XImage)]
         self.x.XDestroyImage.restype = c.c_int
+        self.x.XClearArea.argtypes=[c.c_void_p,c.c_ulong,c.c_int,c.c_int,c.c_uint,c.c_uint,c.c_int]
+
+    def expose(self):
+        self.x.XClearArea(self.d,self.window,0,0,0,0,True)
+        self.x.XSync(self.d,False)
 
     def pixels(self, width, height):
         self.x.XSync(self.d, False)
@@ -213,7 +218,7 @@ class Pixels(Display):
         raise AssertionError(('Unsettled reference pixels', attempts))
 
 
-def capture_case(executable, display_name, name, wires, transport, base):
+def capture_case(executable, display_name, name, wires, transport, base, repaint=False):
     folder = base/(name+'-'+transport)
     folder.mkdir()
     report, control = folder/'child.json', folder/'control.json'
@@ -273,6 +278,13 @@ def capture_case(executable, display_name, name, wires, transport, base):
                 reply_hex=response[:-len(MARKER)].hex(),
                 wire_with_barrier_hex=(wire+C+b'5n').hex(),
                 reply_with_barrier_hex=response.hex(), frame=frame))
+            if repaint:
+                display.expose()
+                refreshed_barrier=command(b'')
+                refreshed=display.capture(width,height,folder/f'step-{index:02}-exposed.png')
+                result['steps'][-1].update(repaint=refreshed,
+                    repaint_barrier_hex=refreshed_barrier.hex(),
+                    repaint_changed=frame['rgb_sha256']!=refreshed['rgb_sha256'])
             write(folder/'observed.json', result)
         result['capture_completed'] = True
     except Exception:
@@ -333,6 +345,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--xterm',required=True)
     parser.add_argument('--output',required=True)
+    parser.add_argument('--repaint',action='store_true',help='Also capture a full Expose after each unchanged step')
     args = parser.parse_args()
     output = Path(args.output).resolve()
     output.parent.mkdir(parents=True,exist_ok=True)
@@ -345,7 +358,7 @@ def main():
         fixture_commit=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),
         fixture_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
         helper_sha256=hashlib.sha256(Path(__file__).with_name('xterm_locator_oracle.py').read_bytes()).hexdigest(),
-        cases={}, transport_mismatches=[], control_failures=[])
+        repaint=args.repaint,cases={}, transport_mismatches=[], control_failures=[])
     read_fd,write_fd = os.pipe()
     with (base/'xvfb.log').open('wb') as log:
         xvfb = subprocess.Popen(['Xvfb','-displayfd',str(write_fd),'-screen','0',
@@ -359,14 +372,15 @@ def main():
         for name,wires in cases().items():
             result['cases'][name] = {}
             for transport in ('whole','bytewise'):
-                observed = capture_case(str(executable),display_name,name,wires,transport,base)
+                observed = capture_case(str(executable),display_name,name,wires,transport,base,args.repaint)
                 result['cases'][name][transport] = observed
                 write(output,result)
                 print(name, transport, observed['completed'],
                       [s['reply_hex'] for s in observed['steps']],flush=True)
             whole,bytewise = (result['cases'][name][t] for t in ('whole','bytewise'))
             def comparable(row):
-                return [(s['sequence_hex'],s['reply_hex'],s['frame']['rgb_sha256']) for s in row['steps']]
+                return [(s['sequence_hex'],s['reply_hex'],s['frame']['rgb_sha256'],
+                         s.get('repaint',{}).get('rgb_sha256')) for s in row['steps']]
             if (not whole['completed'] or not bytewise['completed']
                     or comparable(whole) != comparable(bytewise)):
                 result['transport_mismatches'].append(name)
