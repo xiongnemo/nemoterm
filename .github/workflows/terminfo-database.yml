@@ -9,7 +9,7 @@ permissions:
 jobs:
   database:
     runs-on: ubuntu-24.04
-    timeout-minutes: 15
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
       - name: Build pinned upstream tools and the complete database
@@ -64,6 +64,24 @@ jobs:
           build/terminfo-export/size-probe > build/terminfo-export/size-probe.txt
           size -A build/terminfo-export/size-probe > build/terminfo-export/sections.txt
           nm -S build/terminfo-export/size-probe > build/terminfo-export/symbols.txt
+      - name: Build the independent startup-keyboard reference
+        run: |
+          set -o pipefail
+          sudo apt-get update
+          sudo apt-get install -y libx11-dev libxt-dev libxaw7-dev libxft-dev libncurses-dev libxtst6 xfonts-base xvfb x11-xkb-utils
+          cd "$RUNNER_TEMP/xterm"
+          ./configure --enable-tcap-fkeys --enable-tcap-query 2>&1 | tee "$GITHUB_WORKSPACE/build/terminfo-source/xterm-configure.log"
+          make -j2 2>&1 | tee "$GITHUB_WORKSPACE/build/terminfo-source/xterm-build.log"
+          sha256sum xterm > "$GITHUB_WORKSPACE/build/terminfo-source/xterm-sha256.txt"
+          ldd xterm > "$GITHUB_WORKSPACE/build/terminfo-source/xterm-libraries.txt"
+          dpkg-query -W > "$GITHUB_WORKSPACE/build/terminfo-source/reference-packages.txt"
+      - name: Observe successful termcap keyboards before implementing the setter
+        timeout-minutes: 15
+        run: |
+          set -o pipefail
+          export TERMINFO="$GITHUB_WORKSPACE/build/terminfo-compiled"
+          export TERMINFO_DIRS="$TERMINFO"
+          python3 tests/xterm_tcap_keys_oracle.py --xterm "$RUNNER_TEMP/xterm/xterm" --database-observations build/terminfo-export/libtinfo-key-observations.json.gz --output build/terminfo-export/startup-keys.json 2>&1 | tee build/terminfo-export/startup-keys.log
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
