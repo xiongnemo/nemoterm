@@ -49,6 +49,7 @@ jobs:
           PRODUCT_COMMIT: ${{ inputs.source_commit }}
         run: ./scripts/fetch-ci-product.ps1 -Run $env:PRODUCT_RUN -Commit $env:PRODUCT_COMMIT -Destination build/shell-product
       - name: Prepare the same pinned font and controller dependencies
+        id: prepare
         shell: pwsh
         run: |
           ./scripts/prepare-remote-interaction.ps1
@@ -59,6 +60,8 @@ jobs:
           python tests/job_failure_snapshot_test.py 2>&1 | Tee-Object build/job-failure-snapshot-controls.log
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           ./scripts/test-failure-dump.ps1 -Destination build/shell-dump-controls
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          cl /nologo /W4 /WX /std:c11 /O2 /MT /D_CRT_SECURE_NO_WARNINGS tests/conpty_late_client.c /Febuild/late-client.exe /Fobuild/late-client.obj
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           "NEMOTERM_JOB_FAILURE_DUMP=$((Resolve-Path build/shell-dump-controls/helper.exe).Path)" | Out-File $env:GITHUB_ENV -Append -Encoding utf8
       - name: Repeat duplicate close with and without process observation
@@ -71,6 +74,13 @@ jobs:
           $exe = (Resolve-Path build/shell-product/nemoterm.exe).Path
           python scripts/repeat-shell-lifetime.py --exe $exe --sha256 (Get-FileHash $exe).Hash.ToLowerInvariant() --destination build/shell-lifetime --iterations $env:ITERATIONS
           exit $LASTEXITCODE
+      - name: Resume a controlled late client after its terminal closes
+        if: ${{ !cancelled() && steps.prepare.outcome == 'success' }}
+        shell: pwsh
+        run: |
+          $env:NEMOTERM_TEST_EXE = (Resolve-Path build/shell-product/nemoterm.exe).Path
+          python tests/conpty_late_client_window_smoke.py --helper build/late-client.exe 2>&1 | Tee-Object build/late-client.log
+          exit $LASTEXITCODE
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
@@ -82,6 +92,9 @@ jobs:
             build/job-failure-snapshot-controls.log
             build/shell-dump-controls/*.log
             build/shell-dump-controls/controls/
+            build/late-client.log
+            research/conpty-late-client-observed.json
+            research/late-client-failure-*/
             build/shell-lifetime/summary.json
             build/shell-lifetime/*/identity.json
             build/shell-lifetime/*/plan.json
