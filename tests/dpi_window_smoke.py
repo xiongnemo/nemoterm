@@ -18,6 +18,7 @@ import nemoterm_debug as api
 parser=argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--display-helper',required=True,type=Path)
 parser.add_argument('--renderer',choices=('gdi','opengl','directx'),default='gdi')
+parser.add_argument('--ui-language',choices=('en','zh-CN'),default='en')
 args=parser.parse_args()
 helper_path=args.display_helper.resolve()
 exe=Path(os.environ['NEMOTERM_TEST_EXE']).resolve()
@@ -34,11 +35,11 @@ ENUM=c.WINFUNCTYPE(w.BOOL,w.HWND,w.LPARAM)
 u.EnumWindows.argtypes=[ENUM,w.LPARAM]
 renderer_number={'gdi':0,'opengl':1,'directx':2}[args.renderer]
 evidence=dict(completed=False,method='real system display scale; no injected DPI',renderer=args.renderer,
+    ui_language=args.ui_language,
     executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),fixture_commit=os.environ.get('GITHUB_SHA'),
     product_commit=os.environ.get('NEMOTERM_DPI_PRODUCT_COMMIT'),product_run=os.environ.get('NEMOTERM_DPI_PRODUCT_RUN'),
-    cases=[],attempts=[],coverage_gaps=['Mixed-DPI multi-monitor moves are not exercised by this single-monitor fixture',
-        'Chinese UI is not yet integrated into this product; UI assertions use English'],failures=[])
-evidence_path=root/'research'/f'dpi-real-{args.renderer}.json'
+    cases=[],attempts=[],coverage_gaps=['Mixed-DPI multi-monitor moves are not exercised by this single-monitor fixture'],failures=[])
+evidence_path=root/'research'/f'dpi-real-{args.renderer}-{args.ui_language}.json'
 
 def save(): evidence_path.write_text(json.dumps(evidence,indent=2),encoding='utf-8')
 def helper(*values):
@@ -64,10 +65,10 @@ def dialog_window(pid):
     u.EnumWindows(visit,0)
     return next(iter(found),None)
 def inspect_settings(process,hwnd,dpi,prefix):
-    evidence=dict(completed=False,expected_dpi=dpi,hwnd=hwnd,pages=[],ui_language='en',client='native UIAutomation')
+    evidence=dict(completed=False,expected_dpi=dpi,hwnd=hwnd,pages=[],ui_language=args.ui_language,client='native UIAutomation')
     try:
-        for page in ('profile','shell','bell','bell-overload','bindings','font','translation','line-drawing','tabs'):
-            result=subprocess.run([str(helper_path.with_name('dpi-settings.exe')),str(process.pid),str(hwnd),str(dpi),page],
+        for page in ('profile','shell','bell','bell-overload','bindings','font','translation','line-drawing','tabs','language'):
+            result=subprocess.run([str(helper_path.with_name('dpi-settings.exe')),str(process.pid),str(hwnd),str(dpi),page,args.ui_language],
                 capture_output=True,text=True,timeout=20)
             (root/'research'/f'{prefix}-{page}.log').write_text(result.stdout+result.stderr,encoding='utf-8')
             observed=json.loads(result.stdout);evidence['pages'].append(observed)
@@ -92,7 +93,7 @@ def exercise(tabbed,start_percent,warm):
     profile=dict(NemoTabs=int(tabbed),NemoRenderer=renderer_number,WarnOnClose=0,FontHeight=12,NemoWin32Input=0)
     with saved_profile(profile) as profile_args,tempfile.TemporaryDirectory(prefix='nemo-real-dpi-') as directory,OwnedJob() as job:
         report,control=Path(directory)/'report.json',Path(directory)/'control.json'
-        process=job.spawn([str(exe),'--automation',*profile_args,'--cols','40','--rows','12','--font','Consolas','-e',
+        process=job.spawn([str(exe),'--automation','--ui-language',args.ui_language,*profile_args,'--cols','40','--rows','12','--font','Consolas','-e',
             sys.executable,str(root/'tests/mouse_fixture.py'),str(report),str(control),'600'],
             env=dict(os.environ,NEMOTERM_CONPTY='bundled',NEMOTERM_TEST_EXACT_OUTPUT='1'),creationflags=subprocess.CREATE_NO_WINDOW)
         case=dict(host=kind,start_percent=start_percent,transition=warm,completed=False,frames=[])
@@ -111,7 +112,7 @@ def exercise(tabbed,start_percent,warm):
             base_cell=None;base_dpi=None
             for percent in (targets+[baseline_percent] if warm else [start_percent]):
                 dpi=percent*96//100
-                prefix=f'real-{args.renderer}-{kind}-'+('warm' if warm else 'cold')+f'-{percent}-{len(case["frames"])}'
+                prefix=f'real-{args.renderer}-{args.ui_language}-{kind}-'+('warm' if warm else 'cold')+f'-{percent}-{len(case["frames"])}'
                 # In warm cases the dialog already exists while Windows changes DPI.
                 u.PostMessageW(hwnd,0x111,0x50,0)
                 settings=wait_for(lambda:dialog_window(process.pid))

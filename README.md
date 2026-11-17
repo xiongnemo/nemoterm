@@ -29,7 +29,7 @@ Nemoterm 是 **PuTTY 0.85 Windows pterm 的下游 fork**，沿用其终端核心
 下一轮交互测试的分组命令、实际键鼠步骤与证据模板见
 [交互验收操作单](docs/INTERACTION_ACCEPTANCE.md)。默认只列计划；准备脚本不打开窗口。
 
-[界面国际化设计与简体中文译稿](docs/I18N.md)已整理，包含首批 289 条配对文案；尚未接入可执行文件，当前预览仍使用英文界面。
+支持 English / 简体中文 / 跟随 Windows 显示语言，在 **Window → Interface language** 中选择并保存，重启后生效。详见[界面语言说明](docs/I18N.md)。
 
 [下载](#下载) · [快速开始](#快速开始) · [渲染与内存](#渲染与内存) · [从源码构建](#从源码构建)
 
@@ -206,7 +206,7 @@ Sarasa 字体在本机 GDI、OpenGL、DirectX 下的字号回归也已通过；
 设置窗口的 **Profile** 页提供 **Add / Edit / Save / Delete**。首次启动自动创建不可删除的 **Default**；Add 会复制当前设置到新 profile，Edit 选择要编辑的 profile。**Save and Apply** 将设置保存到当前 profile 并应用到当前标签；Cancel 放弃尚未保存的编辑，已经点击 Add / Save / Delete 的操作保留。
 
 **Window / Translation** 管理终端字符编码和字符宽度；画线字符选项在它的 **Line drawing** 子页。
-界面语言切换尚未实现，目前没有语言设置入口；简体中文词表仍是[待接入的译稿](docs/I18N.md)，不代表当前 EXE 已支持中文界面。
+界面语言在独立的 **Window / Interface language（窗口 / 界面语言）** 页设置，保存后重启生效，所有 profile 共用；取消不保存。也可用 `--ui-language en|zh-CN|system` 临时覆盖本次启动。详见[界面语言说明](docs/I18N.md)。
 
 不带参数启动使用 Default，也可用 `--profile "名称"` 指定；Profile 菜单可以用所选 profile 新建标签。字体、颜色、绑定等即时应用，Profile / Shell 的 shell 和目录设置在新标签或下次启动生效。临时 `-e` 命令不会保存到 profile。配置保存在 `HKCU\Software\Nemo\Nemoterm`，与 PuTTY / pterm 分开；已有配置和 `-load` 继续兼容，旧 Default Settings 显示为 Default。
 

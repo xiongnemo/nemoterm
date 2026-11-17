@@ -482,7 +482,7 @@ static LRESULT CALLBACK nemo_host_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp
             WinGuiSeat *w=nemo_host_item(i);
             warn|=!w->session_closed && conf_get_bool(w->conf,CONF_warn_on_close);
         }
-        if (warn && win_modal_message_box_w(hwnd,L"Close this window and all its terminal tabs?",L"Nemoterm",
+        if (warn && win_modal_message_box(hwnd,nemo_ui_text("confirm.close_window"),"Nemoterm",
                                 MB_OKCANCEL|MB_ICONWARNING)!=IDOK) return 0;
         for (int i=nemo_host_count()-1;i>=0;i--) wgs_request_close(nemo_host_item(i));
         return 0;

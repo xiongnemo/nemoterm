@@ -22,6 +22,8 @@ add_library(utils STATIC
   ${GENERATED_COMMIT_C})
 add_dependencies(utils cmake_commit_c)
 add_subdirectory(utils)
+add_executable(test_ui ${CMAKE_SOURCE_DIR}/../../tests/test_ui.c utils/nemo_ui.c)
+target_include_directories(test_ui PRIVATE ${CMAKE_SOURCE_DIR})
 add_subdirectory(stubs)
 
 add_library(logging OBJECT

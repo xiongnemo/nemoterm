@@ -10,6 +10,7 @@
 #include <time.h>
 
 #include "putty.h"
+#include "nemo_ui.h"
 #include "ssh.h"
 #include "putty-rc.h"
 #include "win-gui-seat.h"
@@ -78,7 +79,7 @@ static PortableDialogStuff *pds_new(size_t nctrltrees)
         dp_add_tree(pds->dp, &pds->ctrltrees[i]);
     }
 
-    pds->dp->errtitle = dupprintf("%s Error", appname);
+    pds->dp->errtitle = nemo_ui_format("error.title", "app", appname, NULL, NULL);
 
     pds->initialised = false;
 
@@ -151,7 +152,7 @@ static void pds_initdialog_start(PortableDialogStuff *pds, HWND hwnd)
     pds->dp->hwnd = hwnd;
 
     if (pds->dp->wintitle)     /* apply override title, if provided */
-        SetWindowText(hwnd, pds->dp->wintitle);
+        nemo_ui_set_window_text(hwnd, pds->dp->wintitle);
 
     /* The portable dialog system generally includes the ability to
      * handle context help for particular controls. Enable the
@@ -300,8 +301,8 @@ static INT_PTR CALLBACK LogProc(HWND hwnd, UINT msg,
     switch (msg) {
       case WM_INITDIALOG: {
         logbox = hwnd;
-        char *str = dupprintf("%s Event Log", appname);
-        SetWindowText(hwnd, str);
+        char *str = nemo_ui_format("log.title", "app", appname, NULL, NULL);
+        nemo_ui_set_window_text(hwnd, str);
         sfree(str);
 
         static int tabs[4] = { 78, 108 };
@@ -381,8 +382,8 @@ static INT_PTR CALLBACK LicenceProc(HWND hwnd, UINT msg,
 {
     switch (msg) {
       case WM_INITDIALOG: {
-        char *str = dupprintf("%s Licence", appname);
-        SetWindowText(hwnd, str);
+        char *str = nemo_ui_format("licence.title", "app", appname, NULL, NULL);
+        nemo_ui_set_window_text(hwnd, str);
         sfree(str);
         SetDlgItemText(hwnd, IDA_TEXT, LICENCE_TEXT("\r\n\r\n"));
         HRSRC resource = FindResourceW(hinst, MAKEINTRESOURCEW(40000), MAKEINTRESOURCEW(10));
@@ -425,8 +426,11 @@ static INT_PTR CALLBACK AboutProc(HWND hwnd, UINT msg,
 
     switch (msg) {
       case WM_INITDIALOG: {
-        str = dupprintf("About %s", appname);
-        SetWindowText(hwnd, str);
+        nemo_ui_set_item_text(hwnd, IDA_LICENCE, nemo_ui_text("about.licence"));
+        nemo_ui_set_item_text(hwnd, IDA_WEB, nemo_ui_text("about.website"));
+        nemo_ui_set_item_text(hwnd, IDOK, nemo_ui_text("common.ok"));
+        str = nemo_ui_format("about.title", "app", appname, NULL, NULL);
+        nemo_ui_set_window_text(hwnd, str);
         sfree(str);
         char *buildinfo_text = buildinfo("\r\n");
         char *text = dupprintf(
@@ -490,7 +494,8 @@ struct treeview_faff {
 static HTREEITEM treeview_insert(struct treeview_faff *faff,
                                  int level, char *text, char *path)
 {
-    TVINSERTSTRUCT ins;
+    TVINSERTSTRUCTW ins;
+    wchar_t *wide = dup_mb_to_wc(CP_UTF8, nemo_ui_category(path, text));
     int i;
     HTREEITEM newitem;
     ins.hParent = (level > 0 ? faff->lastat[level - 1] : TVI_ROOT);
@@ -501,10 +506,11 @@ static HTREEITEM treeview_insert(struct treeview_faff *faff,
 #define INSITEM item
 #endif
     ins.INSITEM.mask = TVIF_TEXT | TVIF_PARAM;
-    ins.INSITEM.pszText = text;
-    ins.INSITEM.cchTextMax = strlen(text)+1;
+    ins.INSITEM.pszText = wide;
+    ins.INSITEM.cchTextMax = (int)wcslen(wide)+1;
     ins.INSITEM.lParam = (LPARAM)path;
-    newitem = TreeView_InsertItem(faff->treeview, &ins);
+    newitem = (HTREEITEM)SendMessageW(faff->treeview, TVM_INSERTITEMW, 0, (LPARAM)&ins);
+    sfree(wide);
     if (level > 0)
         TreeView_Expand(faff->treeview, faff->lastat[level - 1],
                         (level > 1 ? TVE_COLLAPSE : TVE_EXPAND));
@@ -559,12 +565,14 @@ static INT_PTR GenericMainDlgProc(HWND hwnd, UINT msg, WPARAM wParam,
             r.top = 3;
             r.bottom = r.top + 10;
             MapDialogRect(hwnd, &r);
-            tvstatic = CreateWindowEx(0, "STATIC", "Cate&gory:",
+            wchar_t *category = dup_mb_to_wc(CP_UTF8, nemo_ui_text("settings.category"));
+            tvstatic = CreateWindowExW(0, L"STATIC", category,
                                       WS_CHILD | WS_VISIBLE,
                                       r.left, r.top,
                                       r.right - r.left, r.bottom - r.top,
                                       hwnd, (HMENU) IDCX_TVSTATIC, hinst,
                                       NULL);
+            sfree(category);
             font = SendMessage(hwnd, WM_GETFONT, 0, 0);
             SendMessage(tvstatic, WM_SETFONT, font, MAKELPARAM(true, 0));
 
@@ -573,7 +581,7 @@ static INT_PTR GenericMainDlgProc(HWND hwnd, UINT msg, WPARAM wParam,
             r.top = 13;
             r.bottom = r.top + 219;
             MapDialogRect(hwnd, &r);
-            treeview = CreateWindowEx(WS_EX_CLIENTEDGE, WC_TREEVIEW, "",
+            treeview = CreateWindowExW(WS_EX_CLIENTEDGE, WC_TREEVIEWW, L"",
                                       WS_CHILD | WS_VISIBLE |
                                       WS_TABSTOP | TVS_HASLINES |
                                       TVS_DISABLEDRAGDROP | TVS_HASBUTTONS
@@ -675,7 +683,7 @@ static INT_PTR GenericMainDlgProc(HWND hwnd, UINT msg, WPARAM wParam,
 
       case WM_NOTIFY:
         if (LOWORD(wParam) == IDCX_TREEVIEW &&
-            ((LPNMHDR) lParam)->code == TVN_SELCHANGED) {
+            ((LPNMHDR) lParam)->code == TVN_SELCHANGEDW) {
             /*
              * Selection-change events on the treeview cause us to do
              * a flurry of control deletion and creation - but only
@@ -684,8 +692,7 @@ static INT_PTR GenericMainDlgProc(HWND hwnd, UINT msg, WPARAM wParam,
              * ignored.
              */
             HTREEITEM i;
-            TVITEM item;
-            char buffer[64];
+            TVITEMW item;
 
             if (!pds->initialised)
                 return 0;
@@ -695,10 +702,8 @@ static INT_PTR GenericMainDlgProc(HWND hwnd, UINT msg, WPARAM wParam,
             SendMessage (hwnd, WM_SETREDRAW, false, 0);
 
             item.hItem = i;
-            item.pszText = buffer;
-            item.cchTextMax = sizeof(buffer);
-            item.mask = TVIF_TEXT | TVIF_PARAM;
-            TreeView_GetItem(((LPNMHDR) lParam)->hwndFrom, &item);
+            item.mask = TVIF_PARAM;
+            SendMessageW(((LPNMHDR) lParam)->hwndFrom, TVM_GETITEMW, 0, (LPARAM)&item);
             {
                 /* Destroy all controls in the currently visible panel. */
                 int k;
@@ -771,7 +776,7 @@ bool do_config(Conf *conf)
     setup_config_box(pds->ctrlbox, false, protocol, 0);
     win_setup_config_box(pds->ctrlbox, &pds->dp->hwnd, has_help(), false, protocol);
 
-    pds->dp->wintitle = dupprintf("%s %s", appname, protocol < 0 ? "Profiles" : "Configuration");
+    pds->dp->wintitle = protocol < 0 ? nemo_ui_format("settings.startup_title", "app", appname, NULL, NULL) : dupprintf("%s Configuration", appname);
     pds->dp->data = conf;
 
     dlg_auto_set_fixed_pitch_flag(pds->dp);
@@ -800,8 +805,7 @@ bool do_reconfig(HWND hwnd, Conf *conf, int protcfginfo)
     win_setup_config_box(pds->ctrlbox, &pds->dp->hwnd, has_help(),
                          true, protocol);
 
-    pds->dp->wintitle = protocol < 0 ? dupprintf("%s - Profile: %s", appname,
-        conf_get_str(conf, CONF_nemo_profile)) : dupprintf("%s Reconfiguration", appname);
+    pds->dp->wintitle = protocol < 0 ? nemo_ui_format("settings.title", "app", appname, "profile", conf_get_str(conf, CONF_nemo_profile)) : dupprintf("%s Reconfiguration", appname);
     pds->dp->data = conf;
 
     dlg_auto_set_fixed_pitch_flag(pds->dp);
@@ -1057,7 +1061,7 @@ static INT_PTR HostKeyDialogProc(HWND hwnd, UINT msg,
         MakeDlgItemBorderless(hwnd, IDC_HK_TEXT);
         strbuf_free(dlg_text);
 
-        SetWindowText(hwnd, dlg_title);
+        nemo_ui_set_window_text(hwnd, dlg_title);
 
         if (!ctx->has_title) {
             HWND item = GetDlgItem(hwnd, IDC_HK_TITLE);

@@ -12,8 +12,8 @@ lines=['# Remote DPI evidence','',
     f'Product commit: `{os.environ.get("NEMOTERM_DPI_PRODUCT_COMMIT", "unavailable")}`',
     f'Fixture commit: `{os.environ.get("GITHUB_SHA", "local report")}`','',
     '## Real system scaling','',
-    '| Renderer | Host | Start | Test | Actual window DPI sequence | Result |',
-    '|---|---|---:|---|---|---|']
+    '| Language | Renderer | Host | Start | Test | Actual window DPI sequence | Result |',
+    '|---|---|---|---:|---|---|---|']
 real=list(root.glob('dpi-real-*.json'))
 if not real:lines+=['| — | — | — | — | No real-system evidence | NOT RUN |']
 gaps=[]
@@ -21,7 +21,7 @@ for path in real:
     result=read(path)
     for case in result['cases']:
         measured=', '.join(str(f['actual_host_dpi']) for f in case['frames']) or 'No measurement'
-        lines.append(f'| {result["renderer"]} | {case["host"]} | {case["start_percent"]}% | {"Live transition" if case["transition"] else "Cold start"} | {measured} | {"PASS" if case["completed"] else "FAIL"} |')
+        lines.append(f'| {result.get("ui_language", "en")} | {result["renderer"]} | {case["host"]} | {case["start_percent"]}% | {"Live transition" if case["transition"] else "Cold start"} | {measured} | {"PASS" if case["completed"] else "FAIL"} |')
     if not result['completed']:lines+=['',f'**Real-system suite failed:** see `{path.name}` and its log.','']
     gaps+=result['coverage_gaps']
 lines+=['','## Synthetic message coverage','',

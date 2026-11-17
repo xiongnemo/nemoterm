@@ -14,6 +14,22 @@
 #include <stdexcept>
 #include <string>
 #include <vector>
+#include "../vendor/putty-0.85/utils/nemo_ui_catalog.h"
+
+static bool chinese=false;
+static std::wstring display(const wchar_t *text) {
+    if(!chinese)return text;
+    int length=WideCharToMultiByte(CP_UTF8,0,text,-1,nullptr,0,nullptr,nullptr);
+    std::string en((size_t)length,'\0');
+    WideCharToMultiByte(CP_UTF8,0,text,-1,&en[0],length,nullptr,nullptr);
+    for(const auto &entry:nemo_ui_catalog)if(en.c_str()==std::string(entry.en)) {
+        int count=MultiByteToWideChar(CP_UTF8,0,entry.zh,-1,nullptr,0);
+        std::wstring value((size_t)count,L'\0');
+        MultiByteToWideChar(CP_UTF8,0,entry.zh,-1,&value[0],count);
+        value.resize(value.size()-1);return value;
+    }
+    return text;
+}
 
 template<class T> struct Com {
     T *p=nullptr;
@@ -34,14 +50,22 @@ static void quoted(const std::wstring &s) {
 }
 static void rect(const RECT &r) {std::printf("[%ld,%ld,%ld,%ld]",r.left,r.top,r.right-r.left,r.bottom-r.top);}
 static IUIAutomationElement *find(IUIAutomation *uia,IUIAutomationElement *parent,const wchar_t *name) {
-    VARIANT value;VariantInit(&value);value.vt=VT_BSTR;value.bstrVal=SysAllocString(name);
     Com<IUIAutomationCondition> condition;
-    HRESULT result=uia->CreatePropertyCondition(UIA_NamePropertyId,value,&condition.p);
-    VariantClear(&value);check(result);
+    check(uia->CreateTrueCondition(&condition.p));
+    std::wstring wanted=display(name);
     for(int i=0;i<100;i++) {
-        IUIAutomationElement *found=nullptr;
-        check(parent->FindFirst(TreeScope_Descendants,condition.p,&found));
-        if(found)return found;
+        Com<IUIAutomationElementArray> children;
+        check(parent->FindAll(TreeScope_Descendants,condition.p,&children.p));
+        int count=0;check(children->get_Length(&count));
+        for(int j=0;j<count;j++) {
+            Com<IUIAutomationElement> child;check(children->GetElement(j,&child.p));
+            BSTR label=nullptr;check(child->get_CurrentName(&label));
+            std::wstring value=label?label:L"";SysFreeString(label);
+            // Access-key suffix is part of the accessible name on Win32.
+            if(value.size()>=4 && value[value.size()-4]==' ' && value[value.size()-3]=='(' && value.back()==')')
+                value.resize(value.size()-4);
+            if(value==wanted) {child.p->AddRef();return child.p;}
+        }
         Sleep(20);
     }
     std::string text;
@@ -50,6 +74,7 @@ static IUIAutomationElement *find(IUIAutomation *uia,IUIAutomationElement *paren
 }
 struct Page {const wchar_t *id;std::vector<const wchar_t *> path,labels;};
 static const Page pages[]={
+    {L"language",{L"Window",L"Interface language"},{L"Language",L"Applies to all profiles after restarting Nemoterm.",L"This changes the interface language, not the terminal encoding or shell output."}},
     {L"profile",{L"Profile"},{L"New profile name",L"Add",L"Edit",L"Delete"}},
     {L"shell",{L"Profile",L"Shell"},{L"Choose shell on startup",L"Command (select Custom above):",L"Starting directory (blank inherits launcher):"}},
     {L"bell",{L"Terminal",L"Bell"},{L"Play a custom sound file",L"Browse...",L"Raise window on bell without taking keyboard focus",L"Ring when the application resets the terminal"}},
@@ -63,7 +88,8 @@ static const Page pages[]={
 int wmain(int argc,wchar_t **argv) {
     wchar_t actions[32]={},environment[32]={};
     GetEnvironmentVariableW(L"GITHUB_ACTIONS",actions,32);GetEnvironmentVariableW(L"RUNNER_ENVIRONMENT",environment,32);
-    if(argc!=5 || wcscmp(actions,L"true") || wcscmp(environment,L"github-hosted"))return 2;
+    if((argc!=5 && argc!=6 && argc!=8) || wcscmp(actions,L"true") || wcscmp(environment,L"github-hosted"))return 2;
+    chinese=argc>=6 && !wcscmp(argv[5],L"zh-CN");
     const Page *page=nullptr;
     for(const auto &p:pages)if(!wcscmp(argv[4],p.id))page=&p;
     if(!page)return 2;
@@ -122,6 +148,24 @@ int wmain(int argc,wchar_t **argv) {
         }
         std::putchar(']');controls_open=false;
         if(!valid)throw std::runtime_error("Control clipping or footer overlap");
+        if(!wcscmp(page->id,L"language")) {
+            HWND combo=FindWindowExW(hwnd,nullptr,L"ComboBox",nullptr);
+            if(!combo)throw std::runtime_error("Missing language selector");
+            int before=(int)SendMessageW(combo,CB_GETCURSEL,0,0);
+            if(argc==8) {
+                int choice=_wtoi(argv[6]);
+                if(choice<0 || choice>2)throw std::runtime_error("Invalid language choice");
+                SendMessageW(combo,CB_SETCURSEL,(WPARAM)choice,0);
+                SendMessageW(hwnd,WM_COMMAND,MAKEWPARAM(GetDlgCtrlID(combo),CBN_SELCHANGE),(LPARAM)combo);
+            }
+            std::printf(",\"language_before\":%d,\"language_after\":%d",before,(int)SendMessageW(combo,CB_GETCURSEL,0,0));
+            if(argc==8 && wcscmp(argv[7],L"stage")) {
+                Com<IUIAutomationElement> button;button.p=find(uia.p,dialog.p,!wcscmp(argv[7],L"save")?L"Save and Apply":L"Cancel");
+                Com<IUIAutomationInvokePattern> invoke;
+                check(button->GetCurrentPatternAs(UIA_InvokePatternId,IID_PPV_ARGS(&invoke.p)));
+                check(invoke->Invoke());
+            }
+        }
         completed=true;
     } catch(const std::exception &error) {
         if(controls_open)std::putchar(']');

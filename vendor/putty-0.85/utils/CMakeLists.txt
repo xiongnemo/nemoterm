@@ -1,4 +1,5 @@
 add_sources_from_current_dir(utils
+  nemo_ui.c
   antispoof.c
   backend_socket_log.c
   base64_decode_atom.c

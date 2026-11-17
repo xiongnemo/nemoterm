@@ -3,6 +3,7 @@
 #include "nemo_tcap.h"
 #include "nemo_shell.h"
 #include "nemo_debug.h"
+#include "nemo_ui.h"
 
 const unsigned cmdline_tooltype =
     TOOLTYPE_NONNETWORK |
@@ -17,6 +18,7 @@ void gui_term_process_cmdline(Conf *conf, char *cmdline)
     int tab_side = -1, cols = 0, rows = 0, scrollback = -1;
     int font_size = 0, right_click_paste = -1;
     char *font_name = NULL;
+    nemo_ui_init(nemo_ui_read_preference());
     do_defaults(NULL, conf);
     if (!nemo_profile_exists("Default")) {
         char *error = nemo_profile_save(conf, "Default", false);
@@ -35,6 +37,14 @@ void gui_term_process_cmdline(Conf *conf, char *cmdline)
         CmdlineArg *arg = arglist->args[arglistpos++];
         CmdlineArg *nextarg = arglist->args[arglistpos];
         const char *argstr = cmdline_arg_to_str(arg);
+        if (!strcmp(argstr, "--ui-language")) {
+            if (!nextarg) cmdline_error("option %s requires an argument", argstr);
+            int preference = nemo_ui_parse_language(cmdline_arg_to_utf8(nextarg));
+            if (preference < 0) cmdline_error("--ui-language expects system, en or zh-CN");
+            nemo_ui_init(preference);
+            arglistpos++;
+            continue;
+        }
         if (!strcmp(argstr, "--automation")) {
             nemo_debug_enabled = true;
             continue;
@@ -53,7 +63,7 @@ void gui_term_process_cmdline(Conf *conf, char *cmdline)
         }
         if (!strcmp(argstr, "--profile")) {
             if (!nextarg) cmdline_error("option %s requires an argument", argstr);
-            const char *name = cmdline_arg_to_str(nextarg);
+            const char *name = cmdline_arg_to_utf8(nextarg);
             if (!nemo_profile_exists(name)) cmdline_error("Unknown profile '%s'", name);
             do_defaults(nemo_profile_key(name), conf);
             arglistpos++;

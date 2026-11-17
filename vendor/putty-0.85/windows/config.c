@@ -10,6 +10,26 @@
 #include "dialog.h"
 #include "storage.h"
 #include "nemo_shell.h"
+#include "nemo_ui.h"
+
+static void ui_language_handler(dlgcontrol *ctrl, dlgparam *dlg, void *data, int event)
+{
+    (void)data;
+    if (event == EVENT_REFRESH) {
+        if (dlg->ui_language_pending < 0)
+            dlg->ui_language_original = dlg->ui_language_pending = nemo_ui_read_preference();
+        dlg_update_start(ctrl, dlg);
+        dlg_listbox_clear(ctrl, dlg);
+        dlg_listbox_addwithid(ctrl, dlg, nemo_ui_text("language.system"), NEMO_UI_SYSTEM);
+        dlg_listbox_addwithid(ctrl, dlg, nemo_ui_text("language.english"), NEMO_UI_EN);
+        dlg_listbox_addwithid(ctrl, dlg, nemo_ui_text("language.simplified_chinese"), NEMO_UI_ZH_CN);
+        dlg_listbox_select(ctrl, dlg, dlg->ui_language_pending);
+        dlg_update_done(ctrl, dlg);
+    } else if (event == EVENT_SELCHANGE) {
+        int index = dlg_listbox_index(ctrl, dlg);
+        if (index >= 0) dlg->ui_language_pending = dlg_listbox_getid(ctrl, dlg, index);
+    }
+}
 
 static void shell_list_free(void *v)
 {
@@ -24,17 +44,17 @@ static void shell_handler(dlgcontrol *ctrl, dlgparam *dlg, void *data, int event
         int selected = 0;
         dlg_update_start(ctrl, dlg);
         dlg_listbox_clear(ctrl, dlg);
-        dlg_listbox_addwithid(ctrl, dlg, "Automatic (pwsh, Windows PowerShell, cmd)", 0);
+        dlg_listbox_addwithid(ctrl, dlg, nemo_ui_text("shell.automatic"), 0);
         for (int i = 0; i < NEMO_SHELL_COUNT; i++) {
-            char *label = dupprintf("%s%s", nemo_shell_names[i], list->paths[i] ? "" : " (not installed)");
+            char *label = list->paths[i] ? dupstr(nemo_shell_names[i]) : nemo_ui_format("shell.not_installed", "shell", nemo_shell_names[i], NULL, NULL);
             dlg_listbox_addwithid(ctrl, dlg, label, i + 1);
             sfree(label);
             if (!strcmp(id, nemo_shell_ids[i])) selected = i + 1;
         }
-        dlg_listbox_addwithid(ctrl, dlg, "Custom command (Profile / Shell)", NEMO_SHELL_COUNT + 1);
+        dlg_listbox_addwithid(ctrl, dlg, nemo_ui_text("shell.custom_choice"), NEMO_SHELL_COUNT + 1);
         if (!strcmp(id, "custom")) selected = NEMO_SHELL_COUNT + 1;
         if (strcmp(id, "auto") && strcmp(id, "custom") && nemo_shell_index(id) < 0) {
-            char *label = dupprintf("Unavailable saved shell: %s", id);
+            char *label = nemo_ui_format("shell.unavailable", "shell", id, NULL, NULL);
             selected = NEMO_SHELL_COUNT + 2;
             dlg_listbox_addwithid(ctrl, dlg, label, selected);
             sfree(label);
@@ -93,21 +113,27 @@ void win_setup_config_box(struct controlbox *b, HWND *hwndp, bool has_help,
     char *str;
 
     if (protocol < 0) {
+        ctrl_settitle(b, "Window/Language", nemo_ui_text("language.title"));
+        s = ctrl_getset(b, "Window/Language", "language", nemo_ui_text("language.title"));
+        ctrl_droplist(s, nemo_ui_text("language.label"), NO_SHORTCUT, 100,
+                      HELPCTX(no_help), ui_language_handler, I(0));
+        ctrl_text(s, nemo_ui_text("language.restart_hint"), HELPCTX(no_help));
+        ctrl_text(s, nemo_ui_text("language.terminal_hint"), HELPCTX(no_help));
         NemoShellList *list = ctrl_alloc_with_free(b, sizeof(*list), shell_list_free);
         nemo_shell_detect(list);
-        s = ctrl_getset(b, "Profile/Shell", "shell", "Local shell");
-        ctrl_droplist(s, "Shell:", NO_SHORTCUT, 100, HELPCTX(no_help), shell_handler, P(list));
-        ctrl_checkbox(s, "Choose shell on startup", NO_SHORTCUT, HELPCTX(no_help),
+        s = ctrl_getset(b, "Profile/Shell", "shell", nemo_ui_text("shell.local"));
+        ctrl_droplist(s, nemo_ui_text("shell.label"), NO_SHORTCUT, 100, HELPCTX(no_help), shell_handler, P(list));
+        ctrl_checkbox(s, nemo_ui_text("shell.choose_on_startup"), NO_SHORTCUT, HELPCTX(no_help),
                       conf_checkbox_handler, I(CONF_nemo_choose_shell));
-        ctrl_settitle(b, "Profile/Shell", "Shell startup command");
-        s = ctrl_getset(b, "Profile/Shell", "command", "Custom shell");
-        ctrl_editbox(s, "Command (select Custom above):", 'm', 100, HELPCTX(no_help),
+        ctrl_settitle(b, "Profile/Shell", nemo_ui_text("shell.startup_command"));
+        s = ctrl_getset(b, "Profile/Shell", "command", nemo_ui_text("shell.custom"));
+        ctrl_editbox(s, nemo_ui_text("shell.command"), 'm', 100, HELPCTX(no_help),
                      conf_editbox_handler, I(CONF_nemo_shell_command), ED_STR);
-        ctrl_editbox(s, "Starting directory (blank inherits launcher):", NO_SHORTCUT, 100,
+        ctrl_editbox(s, nemo_ui_text("shell.directory"), NO_SHORTCUT, 100,
                      HELPCTX(no_help), conf_editbox_handler, I(CONF_nemo_starting_directory), ED_STR);
-        ctrl_checkbox(s, "Use reported directory for new or duplicated tabs", NO_SHORTCUT,
+        ctrl_checkbox(s, nemo_ui_text("shell.inherit_directory"), NO_SHORTCUT,
                       HELPCTX(no_help), conf_checkbox_handler, I(CONF_nemo_inherit_directory));
-        ctrl_text(s, "Save this profile to keep the shell and directory for new tabs and launches. -e overrides one launch.", HELPCTX(no_help));
+        ctrl_text(s, nemo_ui_text("shell.save_hint"), HELPCTX(no_help));
     }
 
     if (!midsession) {
@@ -115,11 +141,11 @@ void win_setup_config_box(struct controlbox *b, HWND *hwndp, bool has_help,
          * Add the About and Help buttons to the standard panel.
          */
         s = ctrl_getset(b, "", "", "");
-        c = ctrl_pushbutton(s, "About", 'a', HELPCTX(no_help),
+        c = ctrl_pushbutton(s, nemo_ui_text("common.about"), 'a', HELPCTX(no_help),
                             about_handler, P(hwndp));
         c->column = 0;
         if (has_help) {
-            c = ctrl_pushbutton(s, "Help", 'h', HELPCTX(no_help),
+            c = ctrl_pushbutton(s, nemo_ui_text("common.help"), 'h', HELPCTX(no_help),
                                 help_handler, P(hwndp));
             c->column = 1;
         }
@@ -130,8 +156,8 @@ void win_setup_config_box(struct controlbox *b, HWND *hwndp, bool has_help,
      * scrollbar_in_fullscreen is as well.
      */
     s = ctrl_getset(b, "Window", "scrollback",
-                    "Control the scrollback in the window");
-    ctrl_checkbox(s, "Display scrollbar in full screen mode", 'i',
+                    nemo_ui_text("window.scrollback"));
+    ctrl_checkbox(s, nemo_ui_text("window.fullscreen_scrollbar"), 'i',
                   HELPCTX(window_scrollback),
                   conf_checkbox_handler,
                   I(CONF_scrollbar_in_fullscreen));
@@ -165,11 +191,11 @@ void win_setup_config_box(struct controlbox *b, HWND *hwndp, bool has_help,
      * specific options.
      */
     s = ctrl_getset(b, "Terminal/Keyboard", "features",
-                    "Enable extra keyboard features:");
-    ctrl_checkbox(s, "AltGr acts as Compose key", 't',
+                    nemo_ui_text("keyboard.extra"));
+    ctrl_checkbox(s, nemo_ui_text("keyboard.altgr_compose"), 't',
                   HELPCTX(keyboard_compose),
                   conf_checkbox_handler, I(CONF_compose_key));
-    ctrl_checkbox(s, "Control-Alt is different from AltGr", 'd',
+    ctrl_checkbox(s, nemo_ui_text("keyboard.ctrlalt_distinct"), 'd',
                   HELPCTX(keyboard_ctrlalt),
                   conf_checkbox_handler, I(CONF_ctrlaltkeys));
 
@@ -190,7 +216,7 @@ void win_setup_config_box(struct controlbox *b, HWND *hwndp, bool has_help,
      * the interface, and template creation code is under no actual
      * obligation to use them.
      */
-    s = ctrl_getset(b, "Terminal/Bell", "style", "Set the style of bell");
+    s = ctrl_getset(b, "Terminal/Bell", "style", nemo_ui_text("bell.style"));
     {
         int i;
         for (i = 0; i < s->ncontrols; i++) {
@@ -202,9 +228,9 @@ void win_setup_config_box(struct controlbox *b, HWND *hwndp, bool has_help,
                 c->radio.buttons =
                     sresize(c->radio.buttons, c->radio.nbuttons, char *);
                 c->radio.buttons[c->radio.nbuttons-1] =
-                    dupstr("Play a custom sound file");
+                    dupstr(nemo_ui_text("bell.custom"));
                 c->radio.buttons[c->radio.nbuttons-2] =
-                    dupstr("Beep using the PC speaker");
+                    dupstr(nemo_ui_text("bell.speaker"));
                 c->radio.buttondata =
                     sresize(c->radio.buttondata, c->radio.nbuttons, intorptr);
                 c->radio.buttondata[c->radio.nbuttons-1] = I(BELL_WAVEFILE);
@@ -219,8 +245,8 @@ void win_setup_config_box(struct controlbox *b, HWND *hwndp, bool has_help,
             }
         }
     }
-    ctrl_filesel(s, "Custom sound file to play as a bell:", NO_SHORTCUT,
-                 FILTER_SOUND_FILES, false, "Select bell sound file",
+    ctrl_filesel(s, nemo_ui_text("bell.file"), NO_SHORTCUT,
+                 FILTER_SOUND_FILES, false, nemo_ui_text("bell.file_picker"),
                  HELPCTX(bell_style),
                  conf_filesel_handler, I(CONF_bell_wavefile));
 
@@ -228,17 +254,17 @@ void win_setup_config_box(struct controlbox *b, HWND *hwndp, bool has_help,
      * While we've got this box open, taskbar flashing on a bell is
      * also Windows-specific.
      */
-    ctrl_radiobuttons(s, "Taskbar/caption indication on bell:", 'i', 3,
+    ctrl_radiobuttons(s, nemo_ui_text("bell.indication"), 'i', 3,
                       HELPCTX(bell_taskbar),
                       conf_radiobutton_handler,
                       I(CONF_beep_ind),
-                      "Disabled", I(B_IND_DISABLED),
-                      "Flashing", I(B_IND_FLASH),
-                      "Steady", I(B_IND_STEADY));
-    ctrl_checkbox(s, "Raise window on bell without taking keyboard focus", NO_SHORTCUT,
+                      nemo_ui_text("common.disabled"), I(B_IND_DISABLED),
+                      nemo_ui_text("bell.flashing"), I(B_IND_FLASH),
+                      nemo_ui_text("bell.steady"), I(B_IND_STEADY));
+    ctrl_checkbox(s, nemo_ui_text("bell.raise"), NO_SHORTCUT,
                   HELPCTX(bell_taskbar),
                   conf_checkbox_handler, I(CONF_nemo_bell_raise));
-    ctrl_checkbox(s, "Ring when the application resets the terminal", NO_SHORTCUT,
+    ctrl_checkbox(s, nemo_ui_text("bell.on_reset"), NO_SHORTCUT,
                   HELPCTX(bell_style),
                   conf_checkbox_handler, I(CONF_nemo_bell_on_reset));
 
@@ -246,8 +272,8 @@ void win_setup_config_box(struct controlbox *b, HWND *hwndp, bool has_help,
      * The sunken-edge border is a Windows GUI feature.
      */
     s = ctrl_getset(b, "Window/Appearance", "border",
-                    "Adjust the window border");
-    ctrl_checkbox(s, "Sunken-edge border (slightly thicker)", 's',
+                    nemo_ui_text("appearance.border_group"));
+    ctrl_checkbox(s, nemo_ui_text("appearance.sunken_border"), 's',
                   HELPCTX(appearance_border),
                   conf_checkbox_handler, I(CONF_sunken_edge));
 
@@ -255,17 +281,17 @@ void win_setup_config_box(struct controlbox *b, HWND *hwndp, bool has_help,
      * Configurable font quality settings for Windows.
      */
     s = ctrl_getset(b, "Window/Appearance", "font",
-                    "Font settings");
-    ctrl_checkbox(s, "Allow selection of variable-pitch fonts", NO_SHORTCUT,
+                    nemo_ui_text("appearance.font_group"));
+    ctrl_checkbox(s, nemo_ui_text("appearance.variable_pitch"), NO_SHORTCUT,
                   HELPCTX(appearance_font), variable_pitch_handler, I(0));
-    ctrl_radiobuttons(s, "Font quality:", 'q', 2,
+    ctrl_radiobuttons(s, nemo_ui_text("appearance.font_quality"), 'q', 2,
                       HELPCTX(appearance_font),
                       conf_radiobutton_handler,
                       I(CONF_font_quality),
-                      "Antialiased", I(FQ_ANTIALIASED),
-                      "Non-Antialiased", I(FQ_NONANTIALIASED),
+                      nemo_ui_text("appearance.antialiased"), I(FQ_ANTIALIASED),
+                      nemo_ui_text("appearance.non_antialiased"), I(FQ_NONANTIALIASED),
                       "ClearType", I(FQ_CLEARTYPE),
-                      "Default", I(FQ_DEFAULT));
+                      nemo_ui_text("profile.default_display"), I(FQ_DEFAULT));
 
     /*
      * Cyrillic Lock is a horrid misfeature even on Windows, and
@@ -273,7 +299,7 @@ void win_setup_config_box(struct controlbox *b, HWND *hwndp, bool has_help,
      * platform (at least unless someone fixes it!).
      */
     s = ctrl_getset(b, "Window/Translation", "tweaks", NULL);
-    ctrl_checkbox(s, "Caps Lock acts as Cyrillic switch", 's',
+    ctrl_checkbox(s, nemo_ui_text("encoding.cyrillic"), 's',
                   HELPCTX(translation_cyrillic),
                   conf_checkbox_handler,
                   I(CONF_xlat_capslockcyr));
@@ -283,9 +309,8 @@ void win_setup_config_box(struct controlbox *b, HWND *hwndp, bool has_help,
      * from the operating system. Briefly document this.
      */
     s = ctrl_getset(b, "Window/Translation", "trans",
-                    "Character set translation on received data");
-    ctrl_text(s, "(Codepages supported by Windows but not listed here, "
-              "such as CP866 on many systems, can be entered manually)",
+                    nemo_ui_text("encoding.received"));
+    ctrl_text(s, nemo_ui_text("encoding.windows_hint"),
               HELPCTX(translation_codepage));
 
     /*
@@ -293,7 +318,7 @@ void win_setup_config_box(struct controlbox *b, HWND *hwndp, bool has_help,
      * additional options when working with line-drawing
      * characters.
      */
-    str = dupprintf("Adjust how %s displays line drawing characters", appname);
+    str = nemo_ui_format("encoding.line_title", "app", appname, NULL, NULL);
     s = ctrl_getset(b, "Window/Translation/Line drawing", "linedraw", str);
     sfree(str);
     {
@@ -307,11 +332,11 @@ void win_setup_config_box(struct controlbox *b, HWND *hwndp, bool has_help,
                 c->radio.buttons =
                     sresize(c->radio.buttons, c->radio.nbuttons, char *);
                 c->radio.buttons[c->radio.nbuttons-3] =
-                    dupstr("Font has XWindows encoding");
+                    dupstr(nemo_ui_text("encoding.xwindows"));
                 c->radio.buttons[c->radio.nbuttons-2] =
-                    dupstr("Use font in both ANSI and OEM modes");
+                    dupstr(nemo_ui_text("encoding.ansi_oem"));
                 c->radio.buttons[c->radio.nbuttons-1] =
-                    dupstr("Use font in OEM mode only");
+                    dupstr(nemo_ui_text("encoding.oem"));
                 c->radio.buttondata =
                     sresize(c->radio.buttondata, c->radio.nbuttons, intorptr);
                 c->radio.buttondata[c->radio.nbuttons-3] = I(VT_XWINDOWS);
@@ -338,8 +363,8 @@ void win_setup_config_box(struct controlbox *b, HWND *hwndp, bool has_help,
      * RTF paste is Windows-specific.
      */
     s = ctrl_getset(b, "Window/Selection/Copy", "format",
-                    "Formatting of copied characters");
-    ctrl_checkbox(s, "Copy to clipboard in RTF as well as plain text", 'f',
+                    nemo_ui_text("selection.formatting"));
+    ctrl_checkbox(s, nemo_ui_text("selection.rtf"), 'f',
                   HELPCTX(copy_rtf),
                   conf_checkbox_handler, I(CONF_rtf_paste));
 
@@ -349,14 +374,14 @@ void win_setup_config_box(struct controlbox *b, HWND *hwndp, bool has_help,
      * the right button instead.
      */
     s = ctrl_getset(b, "Window/Selection", "mouse",
-                    "Control use of mouse");
-    ctrl_radiobuttons(s, "Action of mouse buttons:", 'm', 1,
+                    nemo_ui_text("selection.mouse_group"));
+    ctrl_radiobuttons(s, nemo_ui_text("selection.buttons"), 'm', 1,
                       HELPCTX(selection_buttons),
                       conf_radiobutton_handler,
                       I(CONF_mouse_is_xterm),
-                      "Windows (Middle extends, Right brings up menu)", I(2),
-                      "Compromise (Middle extends, Right pastes)", I(0),
-                      "xterm (Right extends, Middle pastes)", I(1));
+                      nemo_ui_text("selection.windows"), I(2),
+                      nemo_ui_text("selection.compromise"), I(0),
+                      nemo_ui_text("selection.xterm"), I(1));
     /*
      * This really ought to go at the _top_ of its box, not the
      * bottom, so we'll just do some shuffling now we've set it
@@ -370,11 +395,11 @@ void win_setup_config_box(struct controlbox *b, HWND *hwndp, bool has_help,
      * Logical palettes don't even make sense anywhere except Windows.
      */
     s = ctrl_getset(b, "Window/Colours", "general",
-                    "General options for colour usage");
-    ctrl_checkbox(s, "Attempt to use logical palettes", 'l',
+                    nemo_ui_text("colours.general"));
+    ctrl_checkbox(s, nemo_ui_text("colours.palette"), 'l',
                   HELPCTX(colours_logpal),
                   conf_checkbox_handler, I(CONF_try_palette));
-    ctrl_checkbox(s, "Use system colours", 's',
+    ctrl_checkbox(s, nemo_ui_text("colours.system"), 's',
                   HELPCTX(colours_system),
                   conf_checkbox_handler, I(CONF_system_colour));
 
@@ -387,15 +412,15 @@ void win_setup_config_box(struct controlbox *b, HWND *hwndp, bool has_help,
     if (backvt)
         resize_forbidden = (backvt->flags & BACKEND_RESIZE_FORBIDDEN);
     if (!midsession || !resize_forbidden) {
-        s = ctrl_getset(b, "Window", "size", "Set the size of the window");
-        ctrl_radiobuttons(s, "When window is resized:", 'z', 1,
+        s = ctrl_getset(b, "Window", "size", nemo_ui_text("window.size"));
+        ctrl_radiobuttons(s, nemo_ui_text("window.resize"), 'z', 1,
                           HELPCTX(window_resize),
                           conf_radiobutton_handler,
                           I(CONF_resize_action),
-                          "Change the number of rows and columns", I(RESIZE_TERM),
-                          "Change the size of the font", I(RESIZE_FONT),
-                          "Change font size only when maximised", I(RESIZE_EITHER),
-                          "Forbid resizing completely", I(RESIZE_DISABLED));
+                          nemo_ui_text("window.resize_cells"), I(RESIZE_TERM),
+                          nemo_ui_text("window.resize_font"), I(RESIZE_FONT),
+                          nemo_ui_text("window.maximise_font"), I(RESIZE_EITHER),
+                          nemo_ui_text("window.forbid_resize"), I(RESIZE_DISABLED));
     }
 
     /*
@@ -404,19 +429,19 @@ void win_setup_config_box(struct controlbox *b, HWND *hwndp, bool has_help,
      * most of these options are Windows-specific.
      */
     s = ctrl_getset(b, "Window/Behaviour", "main", NULL);
-    ctrl_checkbox(s, "Window closes on ALT-F4", '4',
+    ctrl_checkbox(s, nemo_ui_text("behaviour.alt_f4"), '4',
                   HELPCTX(behaviour_altf4),
                   conf_checkbox_handler, I(CONF_alt_f4));
-    ctrl_checkbox(s, "System menu appears on ALT-Space", 'y',
+    ctrl_checkbox(s, nemo_ui_text("behaviour.alt_space"), 'y',
                   HELPCTX(behaviour_altspace),
                   conf_checkbox_handler, I(CONF_alt_space));
-    ctrl_checkbox(s, "System menu appears on ALT alone", 'l',
+    ctrl_checkbox(s, nemo_ui_text("behaviour.alt"), 'l',
                   HELPCTX(behaviour_altonly),
                   conf_checkbox_handler, I(CONF_alt_only));
-    ctrl_checkbox(s, "Ensure window is always on top", 'e',
+    ctrl_checkbox(s, nemo_ui_text("behaviour.on_top"), 'e',
                   HELPCTX(behaviour_alwaysontop),
                   conf_checkbox_handler, I(CONF_alwaysontop));
-    ctrl_checkbox(s, "Full screen on Alt-Enter", 'f',
+    ctrl_checkbox(s, nemo_ui_text("behaviour.fullscreen"), 'f',
                   HELPCTX(behaviour_altenter),
                   conf_checkbox_handler,
                   I(CONF_fullscreenonaltenter));

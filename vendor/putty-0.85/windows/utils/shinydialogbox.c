@@ -121,14 +121,17 @@ bool win_modal_blocks_message(UINT message)
 INT_PTR win_modal_dialog_box(HINSTANCE instance, LPCTSTR resource, HWND owner, DLGPROC proc)
 {
     WinModalState *state=win_modal_begin(owner);
-    INT_PTR result=DialogBox(instance,resource,state->owner,proc);
+    INT_PTR result=DialogBoxW(instance,(LPCWSTR)resource,state->owner,proc);
     win_modal_end(state);return result;
 }
 
 int win_modal_message_box(HWND owner, LPCSTR text, LPCSTR caption, UINT style)
 {
     WinModalState *state=win_modal_begin(owner);
-    int result=MessageBoxA(state->owner,text,caption,style);
+    wchar_t *wide_text = dup_mb_to_wc(CP_UTF8, text ? text : "");
+    wchar_t *wide_caption = dup_mb_to_wc(CP_UTF8, caption ? caption : "");
+    int result=MessageBoxW(state->owner,wide_text,wide_caption,style);
+    sfree(wide_text); sfree(wide_caption);
     win_modal_end(state);return result;
 }
 
@@ -188,9 +191,10 @@ int ShinyDialogBox(HINSTANCE hinst, LPCTSTR tmpl, const char *winclass,
      * name to match their template resource via the 'winclass'
      * parameter.
      */
-    WNDCLASS wc;
+    WNDCLASSW wc;
+    wchar_t *wide_class = dup_mb_to_wc(CP_UTF8, winclass);
     wc.style = CS_DBLCLKS | CS_SAVEBITS | CS_BYTEALIGNWINDOW;
-    wc.lpfnWndProc = DefDlgProc;
+    wc.lpfnWndProc = DefDlgProcW;
     wc.cbClsExtra = 0;
     wc.cbWndExtra = DLGWINDOWEXTRA + sizeof(LONG_PTR);
     wc.hInstance = hinst;
@@ -198,8 +202,9 @@ int ShinyDialogBox(HINSTANCE hinst, LPCTSTR tmpl, const char *winclass,
     wc.hCursor = LoadCursor(NULL, IDC_ARROW);
     wc.hbrBackground = (HBRUSH) (COLOR_BACKGROUND +1);
     wc.lpszMenuName = NULL;
-    wc.lpszClassName = winclass;
-    RegisterClass(&wc);
+    wc.lpszClassName = wide_class;
+    RegisterClassW(&wc);
+    sfree(wide_class);
 
     struct ShinyDialogBoxState state[1];
     state->ended = false;
@@ -209,16 +214,16 @@ int ShinyDialogBox(HINSTANCE hinst, LPCTSTR tmpl, const char *winclass,
 
     WinModalState *modal=win_modal_begin(hwndparent);
     sdb_tempstate = state;
-    HWND hwnd = CreateDialog(hinst, tmpl, modal->owner, ShinyRealDlgProc);
+    HWND hwnd = CreateDialogW(hinst, (LPCWSTR)tmpl, modal->owner, ShinyRealDlgProc);
     if (!hwnd) { sdb_tempstate=NULL;win_modal_end(modal);return -1; }
     SetWindowLongPtr(hwnd, DLGWINDOWEXTRA, (LONG_PTR)state);
     sdb_tempstate = NULL;
 
     MSG msg;
     int gm;
-    while ((gm = GetMessage(&msg, NULL, 0, 0)) > 0) {
-        if (!state->ended && !IsDialogMessage(hwnd, &msg))
-            DispatchMessage(&msg);
+    while ((gm = GetMessageW(&msg, NULL, 0, 0)) > 0) {
+        if (!state->ended && !IsDialogMessageW(hwnd, &msg))
+            DispatchMessageW(&msg);
         if (state->ended)
             break;
     }

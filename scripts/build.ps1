@@ -1,6 +1,8 @@
 param([switch]$Tests, [string]$Destination = '')
 $ErrorActionPreference = 'Stop'
 $root = Split-Path $PSScriptRoot -Parent
+& python "$PSScriptRoot/generate-ui-catalog.py" --check
+if ($LASTEXITCODE) { throw 'UI catalog validation failed' }
 if (!$Destination) { $Destination = Join-Path $root 'dist' }
 $Destination = [IO.Path]::GetFullPath($Destination)
 $cmake = Join-Path $root 'tools/python/cmake/data/bin/cmake.exe'

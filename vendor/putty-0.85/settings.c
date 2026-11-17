@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "putty.h"
+#include "nemo_ui.h"
 #include "storage.h"
 #ifndef NO_GSSAPI
 #include "ssh/gssc.h"
@@ -1120,14 +1121,14 @@ char *nemo_profile_save(Conf *conf, const char *name, bool create)
 {
     if (!name || !*name || strlen(name) > 128 ||
         name[0] == ' ' || name[strlen(name)-1] == ' ')
-        return dupstr("Enter a profile name of 1 to 128 bytes without outer spaces.");
+        return dupstr(nemo_ui_text("error.profile_name"));
     for (const unsigned char *p = (const unsigned char *)name; *p; p++)
         if (*p < 32 || *p == 127)
-            return dupstr("Profile names cannot contain control characters.");
+            return dupstr(nemo_ui_text("error.profile_controls"));
     char *target = dupstr(nemo_profile_name(name));
     if (create && (!strcmp(target, "Default") || nemo_profile_exists(target))) {
         sfree(target);
-        return dupstr("This profile already exists. Choose another name.");
+        return dupstr(nemo_ui_text("error.profile_exists"));
     }
     Conf *saved = conf_copy(conf);
     /* A command from -e belongs to this launch, never to a persistent profile.
@@ -1143,9 +1144,9 @@ char *nemo_profile_save(Conf *conf, const char *name, bool create)
 char *nemo_profile_delete(const char *name)
 {
     if (!strcmp(nemo_profile_name(name), "Default"))
-        return dupstr("The Default profile cannot be deleted.");
+        return dupstr(nemo_ui_text("error.default_delete"));
     del_settings(nemo_profile_key(name));
-    return nemo_profile_exists(name) ? dupstr("Unable to delete this profile.") : NULL;
+    return nemo_profile_exists(name) ? dupstr(nemo_ui_text("error.profile_delete")) : NULL;
 }
 
 static int sessioncmp(const void *av, const void *bv)

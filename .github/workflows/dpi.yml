@@ -31,7 +31,7 @@ concurrency:
 jobs:
   dpi:
     runs-on: windows-2025
-    timeout-minutes: 20
+    timeout-minutes: 25
     env:
       NEMOTERM_TEST_TRACEBACK_SECONDS: '60'
     steps:
@@ -95,7 +95,17 @@ jobs:
         if: ${{ !cancelled() && steps.probes.outcome == 'success' }}
         shell: pwsh
         run: |
-          python build/dpi-check/tests/dpi_window_smoke.py --display-helper build/dpi-check/build/dpi-display.exe --renderer gdi 2>&1 | Tee-Object build/dpi-check/research/dpi-real-gdi.log
+          $failed=0
+          foreach ($language in @('en','zh-CN')) {
+            python build/dpi-check/tests/dpi_window_smoke.py --display-helper build/dpi-check/build/dpi-display.exe --renderer gdi --ui-language $language 2>&1 | Tee-Object "build/dpi-check/research/dpi-real-gdi-$language.log"
+            if ($LASTEXITCODE) { $failed=1 }
+          }
+          exit $failed
+      - name: Interface language persistence, cancellation, restart and per-launch override
+        if: ${{ !cancelled() && steps.probes.outcome == 'success' }}
+        shell: pwsh
+        run: |
+          python build/dpi-check/tests/i18n_window_smoke.py --settings-helper build/dpi-check/build/dpi-settings.exe 2>&1 | Tee-Object build/dpi-check/research/i18n-interaction.log
           exit $LASTEXITCODE
       - name: Publish measured coverage and gaps
         if: always()

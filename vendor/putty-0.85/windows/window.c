@@ -14,6 +14,7 @@
 #define COMPILE_MULTIMON_STUBS
 
 #include "putty.h"
+#include "nemo_ui.h"
 #include "ssh.h"
 #include "terminal.h"
 #include "storage.h"
@@ -486,7 +487,7 @@ static void close_session(void *vctx)
      */
     for (i = 0; i < lenof(wgs->popup_menus); i++) {
         DeleteMenu(wgs->popup_menus[i].menu, IDM_RESTART, MF_BYCOMMAND);
-        InsertMenu(wgs->popup_menus[i].menu, IDM_DUPSESS,
+        nemo_ui_insert_menu(wgs->popup_menus[i].menu, IDM_DUPSESS,
                    MF_BYCOMMAND | MF_ENABLED, IDM_RESTART, "&Restart Terminal");
     }
 }
@@ -842,26 +843,26 @@ static WinGuiSeat *wgs_create(Conf *conf, int show)
 
         for (j = 0; j < lenof(wgs->popup_menus); j++) {
             m = wgs->popup_menus[j].menu;
-            AppendMenu(m, MF_ENABLED, IDM_COPY, "&Copy");
-            AppendMenu(m, MF_ENABLED, IDM_COPYPASTE, "Copy a&nd Paste");
-            AppendMenu(m, MF_ENABLED, IDM_PASTE, "&Paste");
+            nemo_ui_append_menu(m, MF_ENABLED, IDM_COPY, nemo_ui_text("menu.copy"));
+            nemo_ui_append_menu(m, MF_ENABLED, IDM_COPYPASTE, nemo_ui_text("menu.copy_paste"));
+            nemo_ui_append_menu(m, MF_ENABLED, IDM_PASTE, nemo_ui_text("menu.paste"));
         }
-        AppendMenu(wgs->popup_menus[CTXMENU].menu, MF_ENABLED,
-                   IDM_NEMO_OPEN_LINK, "&Open Link");
-        AppendMenu(wgs->popup_menus[CTXMENU].menu, MF_ENABLED,
-                   IDM_NEMO_COPY_LINK, "Copy Link &Address");
+        nemo_ui_append_menu(wgs->popup_menus[CTXMENU].menu, MF_ENABLED,
+                   IDM_NEMO_OPEN_LINK, nemo_ui_text("menu.open_link"));
+        nemo_ui_append_menu(wgs->popup_menus[CTXMENU].menu, MF_ENABLED,
+                   IDM_NEMO_COPY_LINK, nemo_ui_text("menu.copy_link"));
         for (j = 0; j < lenof(wgs->popup_menus); j++) {
             if (!wgs->popup_menus[j].menu) continue;
-            AppendMenu(wgs->popup_menus[j].menu, MF_GRAYED,
-                       IDM_COPYDIR, "Copy Working Directory URI");
+            nemo_ui_append_menu(wgs->popup_menus[j].menu, MF_GRAYED,
+                       IDM_COPYDIR, nemo_ui_text("menu.copy_directory"));
             HMENU shell_menu = CreatePopupMenu();
             wgs->popup_menus[j].shell_menu = shell_menu;
-            AppendMenu(shell_menu, MF_ENABLED, IDM_PREVPROMPT, "&Previous Prompt");
-            AppendMenu(shell_menu, MF_ENABLED, IDM_NEXTPROMPT, "&Next Prompt");
-            AppendMenu(shell_menu, MF_GRAYED, IDM_SELECTCOMMAND, "Select &Command");
-            AppendMenu(shell_menu, MF_GRAYED, IDM_SELECTOUTPUT, "Select &Output");
-            AppendMenu(wgs->popup_menus[j].menu, MF_POPUP | MF_ENABLED,
-                       (UINT_PTR)shell_menu, "Shell &Integration");
+            nemo_ui_append_menu(shell_menu, MF_ENABLED, IDM_PREVPROMPT, nemo_ui_text("menu.previous_prompt"));
+            nemo_ui_append_menu(shell_menu, MF_ENABLED, IDM_NEXTPROMPT, nemo_ui_text("menu.next_prompt"));
+            nemo_ui_append_menu(shell_menu, MF_GRAYED, IDM_SELECTCOMMAND, nemo_ui_text("menu.select_command"));
+            nemo_ui_append_menu(shell_menu, MF_GRAYED, IDM_SELECTOUTPUT, nemo_ui_text("menu.select_output"));
+            nemo_ui_append_menu(wgs->popup_menus[j].menu, MF_POPUP | MF_ENABLED,
+                       (UINT_PTR)shell_menu, nemo_ui_text("menu.shell_integration"));
         }
 
         wgs->savedsess_menu = CreateMenu();
@@ -870,30 +871,30 @@ static WinGuiSeat *wgs_create(Conf *conf, int show)
         for (j = 0; j < lenof(wgs->popup_menus); j++) {
             m = wgs->popup_menus[j].menu;
 
-            AppendMenu(m, MF_SEPARATOR, 0, 0);
-            AppendMenu(m, MF_ENABLED, IDM_SHOWLOG, "&Event Log");
-            AppendMenu(m, MF_SEPARATOR, 0, 0);
-            AppendMenu(m, MF_ENABLED, IDM_NEWSESS, "Ne&w Tab");
-            AppendMenu(m, MF_ENABLED, IDM_DUPSESS, "&Duplicate Tab");
-            AppendMenu(m, MF_POPUP | MF_ENABLED, (UINT_PTR)wgs->savedsess_menu,
-                       "&Profiles");
-            AppendMenu(m, MF_ENABLED, IDM_RECONF, "Profile &Settings...");
-            AppendMenu(m, MF_ENABLED, IDM_ZOOMIN, "Increase Font Size");
-            AppendMenu(m, MF_ENABLED, IDM_ZOOMOUT, "Decrease Font Size");
-            AppendMenu(m, MF_ENABLED, IDM_ZOOMRESET, "Reset Font Size");
-            AppendMenu(m, MF_SEPARATOR, 0, 0);
-            AppendMenu(m, MF_ENABLED, IDM_COPYALL, "C&opy All to Clipboard");
-            AppendMenu(m, MF_ENABLED, IDM_CLRSB, "C&lear Scrollback");
-            AppendMenu(m, MF_ENABLED, IDM_RESET, "Rese&t Terminal");
-            AppendMenu(m, MF_SEPARATOR, 0, 0);
-            AppendMenu(m, (conf_get_int(wgs->conf, CONF_resize_action)
+            nemo_ui_append_menu(m, MF_SEPARATOR, 0, 0);
+            nemo_ui_append_menu(m, MF_ENABLED, IDM_SHOWLOG, nemo_ui_text("menu.event_log"));
+            nemo_ui_append_menu(m, MF_SEPARATOR, 0, 0);
+            nemo_ui_append_menu(m, MF_ENABLED, IDM_NEWSESS, nemo_ui_text("menu.new_tab"));
+            nemo_ui_append_menu(m, MF_ENABLED, IDM_DUPSESS, nemo_ui_text("menu.duplicate_tab"));
+            nemo_ui_append_menu(m, MF_POPUP | MF_ENABLED, (UINT_PTR)wgs->savedsess_menu,
+                       nemo_ui_text("menu.profiles"));
+            nemo_ui_append_menu(m, MF_ENABLED, IDM_RECONF, nemo_ui_text("menu.settings"));
+            nemo_ui_append_menu(m, MF_ENABLED, IDM_ZOOMIN, nemo_ui_text("menu.zoom_in"));
+            nemo_ui_append_menu(m, MF_ENABLED, IDM_ZOOMOUT, nemo_ui_text("menu.zoom_out"));
+            nemo_ui_append_menu(m, MF_ENABLED, IDM_ZOOMRESET, nemo_ui_text("menu.zoom_reset"));
+            nemo_ui_append_menu(m, MF_SEPARATOR, 0, 0);
+            nemo_ui_append_menu(m, MF_ENABLED, IDM_COPYALL, nemo_ui_text("menu.copy_all"));
+            nemo_ui_append_menu(m, MF_ENABLED, IDM_CLRSB, nemo_ui_text("menu.clear_history"));
+            nemo_ui_append_menu(m, MF_ENABLED, IDM_RESET, nemo_ui_text("menu.reset_terminal"));
+            nemo_ui_append_menu(m, MF_SEPARATOR, 0, 0);
+            nemo_ui_append_menu(m, (conf_get_int(wgs->conf, CONF_resize_action)
                            == RESIZE_DISABLED) ? MF_GRAYED : MF_ENABLED,
-                       IDM_FULLSCREEN, "&Full Screen");
-            AppendMenu(m, MF_SEPARATOR, 0, 0);
+                       IDM_FULLSCREEN, nemo_ui_text("menu.fullscreen"));
+            nemo_ui_append_menu(m, MF_SEPARATOR, 0, 0);
             if (has_help())
-                AppendMenu(m, MF_ENABLED, IDM_HELP, "&Help");
-            str = dupprintf("&About %s", appname);
-            AppendMenu(m, MF_ENABLED, IDM_ABOUT, str);
+                nemo_ui_append_menu(m, MF_ENABLED, IDM_HELP, nemo_ui_text("menu.help"));
+            str = nemo_ui_format("menu.about", "app", appname, NULL, NULL);
+            nemo_ui_append_menu(m, MF_ENABLED, IDM_ABOUT, str);
             sfree(str);
         }
     }
@@ -1345,11 +1346,11 @@ static void update_savedsess_menu(WinGuiSeat *wgs)
          i < ((sesslist.nsessions <= MENU_SAVED_MAX) ? sesslist.nsessions
                                                        : MENU_SAVED_MAX);
          i++)
-        AppendMenu(wgs->savedsess_menu, MF_ENABLED,
+        nemo_ui_append_menu(wgs->savedsess_menu, MF_ENABLED,
                    IDM_SAVED_MIN + i*MENU_SAVED_STEP,
                    nemo_profile_name(sesslist.sessions[i]));
     if (sesslist.nsessions == 0)
-        AppendMenu(wgs->savedsess_menu, MF_GRAYED, IDM_SAVED_MIN,
+        nemo_ui_append_menu(wgs->savedsess_menu, MF_GRAYED, IDM_SAVED_MIN,
                    "(No profiles)");
 }
 
@@ -1377,14 +1378,14 @@ static void win_seat_update_specials_menu(Seat *seat)
             assert(IDM_SPECIAL_MIN + 0x10 * i < IDM_SPECIAL_MAX);
             switch (wgs->specials[i].code) {
               case SS_SEP:
-                AppendMenu(new_menu, MF_SEPARATOR, 0, 0);
+                nemo_ui_append_menu(new_menu, MF_SEPARATOR, 0, 0);
                 break;
               case SS_SUBMENU:
                 assert(nesting < 2);
                 nesting++;
                 saved_menu = new_menu; /* XXX lame stacking */
                 new_menu = CreatePopupMenu();
-                AppendMenu(saved_menu, MF_POPUP | MF_ENABLED,
+                nemo_ui_append_menu(saved_menu, MF_POPUP | MF_ENABLED,
                            (UINT_PTR) new_menu, wgs->specials[i].name);
                 break;
               case SS_EXITMENU:
@@ -1395,7 +1396,7 @@ static void win_seat_update_specials_menu(Seat *seat)
                 }
                 break;
               default:
-                AppendMenu(new_menu, MF_ENABLED, IDM_SPECIAL_MIN + 0x10 * i,
+                nemo_ui_append_menu(new_menu, MF_ENABLED, IDM_SPECIAL_MIN + 0x10 * i,
                            wgs->specials[i].name);
                 break;
             }
@@ -1415,10 +1416,10 @@ static void win_seat_update_specials_menu(Seat *seat)
             DeleteMenu(wgs->popup_menus[j].menu, IDM_SPECIALSEP, MF_BYCOMMAND);
         }
         if (new_menu) {
-            InsertMenu(wgs->popup_menus[j].menu, IDM_SHOWLOG,
+            nemo_ui_insert_menu(wgs->popup_menus[j].menu, IDM_SHOWLOG,
                        MF_BYCOMMAND | MF_POPUP | MF_ENABLED,
                        (UINT_PTR) new_menu, "S&pecial Command");
-            InsertMenu(wgs->popup_menus[j].menu, IDM_SHOWLOG,
+            nemo_ui_insert_menu(wgs->popup_menus[j].menu, IDM_SHOWLOG,
                        MF_BYCOMMAND | MF_SEPARATOR, IDM_SPECIALSEP, 0);
         }
     }
@@ -2889,7 +2890,7 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
       case WM_CLOSE: {
         char *title, *msg, *additional = NULL;
         show_mouseptr(wgs, true);
-        title = dupprintf("%s Exit Confirmation", appname);
+        title = nemo_ui_format("confirm.exit_title", "app", appname, NULL, NULL);
         if (wgs->backend && wgs->backend->vt->close_warn_text) {
             additional = wgs->backend->vt->close_warn_text(wgs->backend);
         }
@@ -2932,9 +2933,9 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
                 bool available = term_shell_mark_range(wgs->term, output, &start, &end) != 0;
                 bool clipped = available && (start.truncated || end.truncated);
                 UINT id = output ? IDM_SELECTOUTPUT : IDM_SELECTCOMMAND;
-                const char *label = output ? (clipped ? "Select &Output (Truncated)" : "Select &Output") :
-                    (clipped ? "Select &Command (Truncated)" : "Select &Command");
-                ModifyMenu(shell, id, MF_BYCOMMAND | MF_STRING |
+                const char *label = output ? (clipped ? nemo_ui_text("menu.output_truncated") : nemo_ui_text("menu.select_output")) :
+                    (clipped ? nemo_ui_text("menu.command_truncated") : nemo_ui_text("menu.select_command"));
+                nemo_ui_modify_menu(shell, id, MF_BYCOMMAND | MF_STRING |
                     (available ? MF_ENABLED : MF_GRAYED), id, label);
             }
         }

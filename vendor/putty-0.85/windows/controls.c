@@ -17,6 +17,7 @@
 #include <ctype.h>
 
 #include "putty.h"
+#include "nemo_ui.h"
 #include "misc.h"
 #include "dialog.h"
 
@@ -89,9 +90,13 @@ HWND doctl(struct ctlpos *cp, RECT r, const char *wclass, int wstyle,
      * without creating any actual controls.
      */
     if (cp->hwnd) {
-        ctl = CreateWindowEx(exstyle, wclass, wtext, wstyle,
+        wchar_t *wide_class = dup_mb_to_wc(CP_UTF8, wclass);
+        wchar_t *wide_text = dup_mb_to_wc(CP_UTF8, wtext ? wtext : "");
+        ctl = CreateWindowExW(exstyle, wide_class, wide_text, wstyle,
                              r.left, r.top, r.right, r.bottom,
                              cp->hwnd, (HMENU)(ULONG_PTR)wid, hinst, NULL);
+        sfree(wide_text);
+        sfree(wide_class);
         SendMessage(ctl, WM_SETFONT, cp->font, MAKELPARAM(true, 0));
 
         if (!strcmp(wclass, "LISTBOX")) {
@@ -389,82 +394,20 @@ void checkbox(struct ctlpos *cp, const char *text, int id)
 char *staticwrap(struct ctlpos *cp, HWND hwnd, const char *text, int *lines)
 {
     HDC hdc = GetDC(hwnd);
-    int width, nlines, j;
-    INT *pwidths, nfit;
-    SIZE size;
-    const char *p;
-    RECT r;
-    HFONT oldfont, newfont;
-
-    strbuf *sb = strbuf_new();
-    p = text;
-    pwidths = snewn(1+strlen(text), INT);
-
-    /*
-     * Work out the width the text will need to fit in, by doing
-     * the same adjustment that the `statictext' function itself
-     * will perform.
-     */
-    SetMapMode(hdc, MM_TEXT);          /* ensure logical units == pixels */
-    r.left = r.top = r.bottom = 0;
-    r.right = cp->width;
+    RECT r = {0, 0, cp->width, 0};
     MapDialogRect(hwnd, &r);
-    width = r.right;
-
-    nlines = 1;
-
-    /*
-     * We must select the correct font into the HDC before calling
-     * GetTextExtent*, or silly things will happen.
-     */
-    newfont = (HFONT)SendMessage(hwnd, WM_GETFONT, 0, 0);
-    oldfont = SelectObject(hdc, newfont);
-
-    while (*p) {
-        if (!GetTextExtentExPoint(hdc, p, strlen(p), width,
-                                  &nfit, pwidths, &size) ||
-            (size_t)nfit >= strlen(p)) {
-            /*
-             * Either GetTextExtentExPoint returned failure, or the
-             * whole of the rest of the text fits on this line.
-             * Either way, we stop wrapping, copy the remainder of
-             * the input string unchanged to the output, and leave.
-             */
-            put_datapl(sb, ptrlen_from_asciz(p));
-            break;
-        }
-
-        /*
-         * Now we search backwards along the string from `nfit',
-         * looking for a space at which to break the line. If we
-         * don't find one at all, that's fine - we'll just break
-         * the line at `nfit'.
-         */
-        for (j = nfit; j > 0; j--) {
-            if (isspace((unsigned char)p[j])) {
-                nfit = j;
-                break;
-            }
-        }
-
-        put_data(sb, p, nfit);
-        put_byte(sb, '\n');
-
-        p += nfit;
-        while (*p && isspace((unsigned char)*p))
-            p++;
-
-        nlines++;
-    }
-
+    HFONT font = (HFONT)SendMessage(hwnd, WM_GETFONT, 0, 0);
+    HFONT oldfont = SelectObject(hdc, font);
+    wchar_t *wide = dup_mb_to_wc(CP_UTF8, text);
+    TEXTMETRICW metrics;
+    GetTextMetricsW(hdc, &metrics);
+    DrawTextW(hdc, wide, -1, &r, DT_CALCRECT | DT_WORDBREAK | DT_EDITCONTROL | DT_NOPREFIX);
+    if (lines) *lines = metrics.tmHeight > 0 ?
+        max(1, (r.bottom + metrics.tmHeight - 1) / metrics.tmHeight) : 1;
+    sfree(wide);
     SelectObject(hdc, oldfont);
-    ReleaseDC(cp->hwnd, hdc);
-
-    if (lines) *lines = nlines;
-
-    sfree(pwidths);
-
-    return strbuf_to_str(sb);
+    ReleaseDC(hwnd, hdc);
+    return dupstr(text);
 }
 
 /*
@@ -1195,6 +1138,7 @@ static char *shortcut_escape(const char *text, char shortcut)
         }
         put_byte(sb, *p++);
     }
+    if (shortcut != NO_SHORTCUT) put_fmt(sb, " (&%c)", toupper((unsigned char)shortcut));
     return strbuf_to_str(sb);
 }
 
@@ -1533,7 +1477,7 @@ void winctrl_layout(struct dlgparam *dp, struct winctrls *wc,
             } else {
                 num_ids = 1;
                 editboxfw(&pos, false, true, NULL, 0, base_id);
-                SetDlgItemText(pos.hwnd, base_id, ctrl->label);
+                nemo_ui_set_item_text(pos.hwnd, base_id, ctrl->label);
                 MakeDlgItemBorderless(pos.hwnd, base_id);
             }
             break;
@@ -1670,7 +1614,7 @@ void winctrl_layout(struct dlgparam *dp, struct winctrls *wc,
             num_ids = 3;
             if (!ctrl->fileselect.just_button) {
                 editbutton(&pos, escaped, base_id, base_id+1,
-                           "Browse...", base_id+2);
+                           nemo_ui_text("common.browse"), base_id+2);
             } else {
                 button(&pos, escaped, base_id+2, false);
             }
@@ -1682,7 +1626,7 @@ void winctrl_layout(struct dlgparam *dp, struct winctrls *wc,
                                       ctrl->fontselect.shortcut);
             shortcuts[nshortcuts++] = ctrl->fontselect.shortcut;
             statictext(&pos, escaped, 1, base_id);
-            staticbtn(&pos, "", base_id+1, "Change...", base_id+2);
+            staticbtn(&pos, "", base_id+1, nemo_ui_text("common.change"), base_id+2);
             data = fontspec_new_default();
             sfree(escaped);
             break;
@@ -1845,13 +1789,14 @@ bool winctrl_handle_command(struct dlgparam *dp, UINT msg,
 
         SetMapMode(hdc, MM_TEXT);      /* ensure logical units == pixels */
 
-        GetTextExtentPoint32(hdc, (char *)c->data,
-                             strlen((char *)c->data), &s);
+        wchar_t *wide = dup_mb_to_wc(CP_UTF8, (char *)c->data);
+        GetTextExtentPoint32W(hdc, wide, (int)wcslen(wide), &s);
         DrawEdge(hdc, &r, EDGE_ETCHED, BF_ADJUST | BF_RECT);
-        TextOut(hdc,
+        TextOutW(hdc,
                 r.left + (r.right-r.left-s.cx)/2,
                 r.top + (r.bottom-r.top-s.cy)/2,
-                (char *)c->data, strlen((char *)c->data));
+                wide, (int)wcslen(wide));
+        sfree(wide);
 
         return true;
     }
@@ -1891,16 +1836,16 @@ bool winctrl_handle_command(struct dlgparam *dp, UINT msg,
             ctrl->editbox.has_list) {
             if (HIWORD(wParam) == CBN_SELCHANGE) {
                 int index, len;
-                char *text;
+                wchar_t *text;
 
-                index = SendDlgItemMessage(dp->hwnd, c->base_id+1,
+                index = SendDlgItemMessageW(dp->hwnd, c->base_id+1,
                                            CB_GETCURSEL, 0, 0);
-                len = SendDlgItemMessage(dp->hwnd, c->base_id+1,
+                len = SendDlgItemMessageW(dp->hwnd, c->base_id+1,
                                          CB_GETLBTEXTLEN, index, 0);
-                text = snewn(len+1, char);
-                SendDlgItemMessage(dp->hwnd, c->base_id+1, CB_GETLBTEXT,
+                text = snewn(len+1, wchar_t);
+                SendDlgItemMessageW(dp->hwnd, c->base_id+1, CB_GETLBTEXT,
                                    index, (LPARAM)text);
-                SetDlgItemText(dp->hwnd, c->base_id+1, text);
+                SetDlgItemTextW(dp->hwnd, c->base_id+1, text);
                 sfree(text);
                 ctrl->handler(ctrl, dp, dp->data, EVENT_VALCHANGE);
             } else if (HIWORD(wParam) == CBN_EDITCHANGE) {
@@ -2195,7 +2140,7 @@ void dlg_editbox_set(dlgcontrol *ctrl, dlgparam *dp, char const *text)
 {
     struct winctrl *c = dlg_findbyctrl(dp, ctrl);
     assert(c && c->ctrl->type == CTRL_EDITBOX);
-    SetDlgItemText(dp->hwnd, c->base_id+1, text);
+    nemo_ui_set_item_text(dp->hwnd, c->base_id+1, text);
 }
 
 void dlg_editbox_set_utf8(dlgcontrol *ctrl, dlgparam *dp, char const *text)
@@ -2211,7 +2156,7 @@ char *dlg_editbox_get(dlgcontrol *ctrl, dlgparam *dp)
 {
     struct winctrl *c = dlg_findbyctrl(dp, ctrl);
     assert(c && c->ctrl->type == CTRL_EDITBOX);
-    return GetDlgItemText_alloc(dp->hwnd, c->base_id+1);
+    return dlg_editbox_get_utf8(ctrl, dp);
 }
 
 char *dlg_editbox_get_utf8(dlgcontrol *ctrl, dlgparam *dp)
@@ -2269,7 +2214,9 @@ void dlg_listbox_add(dlgcontrol *ctrl, dlgparam *dp, char const *text)
              c->ctrl->editbox.has_list)));
     msg = (c->ctrl->type==CTRL_LISTBOX && c->ctrl->listbox.height!=0 ?
            LB_ADDSTRING : CB_ADDSTRING);
-    SendDlgItemMessage(dp->hwnd, c->base_id+1, msg, 0, (LPARAM)text);
+    wchar_t *wide = dup_mb_to_wc(CP_UTF8, text);
+    SendDlgItemMessageW(dp->hwnd, c->base_id+1, msg, 0, (LPARAM)wide);
+    sfree(wide);
 }
 
 /*
@@ -2292,7 +2239,9 @@ void dlg_listbox_addwithid(dlgcontrol *ctrl, dlgparam *dp,
            LB_ADDSTRING : CB_ADDSTRING);
     msg2 = (c->ctrl->type==CTRL_LISTBOX && c->ctrl->listbox.height!=0 ?
             LB_SETITEMDATA : CB_SETITEMDATA);
-    index = SendDlgItemMessage(dp->hwnd, c->base_id+1, msg, 0, (LPARAM)text);
+    wchar_t *wide = dup_mb_to_wc(CP_UTF8, text);
+    index = SendDlgItemMessageW(dp->hwnd, c->base_id+1, msg, 0, (LPARAM)wide);
+    sfree(wide);
     SendDlgItemMessage(dp->hwnd, c->base_id+1, msg2, index, (LPARAM)id);
 }
 
@@ -2350,7 +2299,7 @@ void dlg_text_set(dlgcontrol *ctrl, dlgparam *dp, char const *text)
 {
     struct winctrl *c = dlg_findbyctrl(dp, ctrl);
     assert(c && c->ctrl->type == CTRL_TEXT);
-    SetDlgItemText(dp->hwnd, c->base_id, text);
+    nemo_ui_set_item_text(dp->hwnd, c->base_id, text);
 }
 
 void dlg_label_change(dlgcontrol *ctrl, dlgparam *dp, char const *text)
@@ -2396,7 +2345,7 @@ void dlg_label_change(dlgcontrol *ctrl, dlgparam *dp, char const *text)
         unreachable("bad control type in label_change");
     }
     if (escaped) {
-        SetDlgItemText(dp->hwnd, id, escaped);
+        nemo_ui_set_item_text(dp->hwnd, id, escaped);
         sfree(escaped);
     }
 }
@@ -2519,7 +2468,7 @@ void dlg_beep(dlgparam *dp)
 
 void dlg_error_msg(dlgparam *dp, const char *msg)
 {
-    MessageBox(dp->hwnd, msg,
+    win_modal_message_box(dp->hwnd, msg,
                dp->errtitle ? dp->errtitle : NULL,
                MB_OK | MB_ICONERROR);
 }
@@ -2531,6 +2480,18 @@ void dlg_error_msg(dlgparam *dp, const char *msg)
  */
 void dlg_end(dlgparam *dp, int value)
 {
+    if (value && dp->ui_language_pending >= 0 &&
+        dp->ui_language_pending != dp->ui_language_original) {
+        unsigned long error = nemo_ui_save_preference(dp->ui_language_pending);
+        if (error) {
+            char number[24];
+            sprintf(number, "%lu", error);
+            char *text = nemo_ui_format("language.save_error", "code", number, NULL, NULL);
+            dlg_error_msg(dp, text);
+            sfree(text);
+            return;
+        }
+    }
     dp->ended = true;
     dp->endresult = value;
 }
@@ -2645,6 +2606,7 @@ void dp_init(struct dlgparam *dp)
     dp->hwnd = NULL;
     dp->wintitle = dp->errtitle = NULL;
     dp->fixed_pitch_fonts = true;
+    dp->ui_language_pending = dp->ui_language_original = -1;
 }
 
 void dp_add_tree(struct dlgparam *dp, struct winctrls *wc)

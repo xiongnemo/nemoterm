@@ -503,6 +503,7 @@ struct dlgparam {
     bool ended;                        /* has the dialog been ended? */
     int endresult;                     /* and if so, what was the result? */
     bool fixed_pitch_fonts;            /* are we constrained to fixed fonts? */
+    int ui_language_pending, ui_language_original; /* global, not profile data */
 };
 
 /*

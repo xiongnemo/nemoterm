@@ -7,6 +7,7 @@
 #include <stdlib.h>
 
 #include "putty.h"
+#include "nemo_ui.h"
 #include "dialog.h"
 #include "storage.h"
 #include "tree234.h"
@@ -45,16 +46,16 @@ static void nemo_binding_handler(dlgcontrol *ctrl, dlgparam *dlg, void *data, in
         dlg_update_start(ctrl, dlg);
         dlg_listbox_clear(ctrl, dlg);
         if (field != 1) {
-            static const char *const names[] = {
-                "None", "Shift", "Ctrl", "Ctrl+Shift", "Alt", "Alt+Shift", "Ctrl+Alt", "Ctrl+Alt+Shift"
+            const char *const names[] = {
+                nemo_ui_text("common.none"), "Shift", "Ctrl", "Ctrl+Shift", "Alt", "Alt+Shift", "Ctrl+Alt", "Ctrl+Alt+Shift"
             };
             for (int i = 0; i < 8; i++) {
                 if (field == 2 && i == NEMO_BIND_SHIFT) continue;
-                nemo_binding_item(ctrl, dlg, field == 2 && !i ? "Disabled" : names[i],
+                nemo_binding_item(ctrl, dlg, field == 2 && !i ? nemo_ui_text("common.disabled") : names[i],
                                   i, wanted, &index, &selected);
             }
         } else {
-            nemo_binding_item(ctrl, dlg, "Disabled", 0, wanted, &index, &selected);
+            nemo_binding_item(ctrl, dlg, nemo_ui_text("common.disabled"), 0, wanted, &index, &selected);
             for (int i = 'A'; i <= 'Z'; i++) {
                 char name[] = {(char)i, 0};
                 nemo_binding_item(ctrl, dlg, name, i, wanted, &index, &selected);
@@ -67,7 +68,7 @@ static void nemo_binding_handler(dlgcontrol *ctrl, dlgparam *dlg, void *data, in
                 char name[8]; sprintf(name, "F%d", i);
                 nemo_binding_item(ctrl, dlg, name, 0x6f+i, wanted, &index, &selected);
             }
-            static const struct { const char *name; int key; } special[] = {
+            const struct { const char *name; int key; } special[] = {
                 {"Insert",0x2d},{"Delete",0x2e},{"Home",0x24},{"End",0x23},
                 {"Page Up",0x21},{"Page Down",0x22},{"Up",0x26},{"Down",0x28},
                 {"Left",0x25},{"Right",0x27},{"Enter",0x0d},{"Tab",0x09},
@@ -99,7 +100,7 @@ static void nemo_binding_handler(dlgcontrol *ctrl, dlgparam *dlg, void *data, in
                     (other == candidate ||
                      (zoom && nemo_zoom_key_binding(candidate,other&255,(other>>8)&7)) ||
                      (other_zoom && nemo_zoom_key_binding(other,candidate&255,(candidate>>8)&7)))) {
-                    dlg_error_msg(dlg, "This shortcut is already assigned to another action. Choose a different key or disable that action first.");
+                    dlg_error_msg(dlg, nemo_ui_text("error.binding_conflict"));
                     dlg_refresh(ctrl, dlg);
                     return;
                 }
@@ -842,9 +843,9 @@ static void sshbug_handler(dlgcontrol *ctrl, dlgparam *dlg,
         int oldconf = conf_get_int(conf, ctrl->context.i);
         dlg_update_start(ctrl, dlg);
         dlg_listbox_clear(ctrl, dlg);
-        dlg_listbox_addwithid(ctrl, dlg, "Auto", AUTO);
-        dlg_listbox_addwithid(ctrl, dlg, "Off", FORCE_OFF);
-        dlg_listbox_addwithid(ctrl, dlg, "On", FORCE_ON);
+        dlg_listbox_addwithid(ctrl, dlg, nemo_ui_text("common.automatic"), AUTO);
+        dlg_listbox_addwithid(ctrl, dlg, nemo_ui_text("common.off"), FORCE_OFF);
+        dlg_listbox_addwithid(ctrl, dlg, nemo_ui_text("common.on"), FORCE_ON);
         switch (oldconf) {
           case AUTO:      dlg_listbox_select(ctrl, dlg, 0); break;
           case FORCE_OFF: dlg_listbox_select(ctrl, dlg, 1); break;
@@ -875,8 +876,8 @@ static void sshbug_handler_manual_only(dlgcontrol *ctrl, dlgparam *dlg,
         int oldconf = conf_get_int(conf, ctrl->context.i);
         dlg_update_start(ctrl, dlg);
         dlg_listbox_clear(ctrl, dlg);
-        dlg_listbox_addwithid(ctrl, dlg, "Off", FORCE_OFF);
-        dlg_listbox_addwithid(ctrl, dlg, "On", FORCE_ON);
+        dlg_listbox_addwithid(ctrl, dlg, nemo_ui_text("common.off"), FORCE_OFF);
+        dlg_listbox_addwithid(ctrl, dlg, nemo_ui_text("common.on"), FORCE_ON);
         switch (oldconf) {
           case FORCE_OFF: dlg_listbox_select(ctrl, dlg, 0); break;
           case FORCE_ON:  dlg_listbox_select(ctrl, dlg, 1); break;
@@ -928,7 +929,7 @@ static void profiles_handler(dlgcontrol *ctrl, dlgparam *dlg, Conf *conf,
     if (event == EVENT_REFRESH) {
         if (ctrl == ssd->editbox) dlg_editbox_set(ctrl, dlg, ssd->savedsession);
         else if (ctrl == ssd->active_profile) {
-            char *text = dupprintf("Active profile: %s", conf_get_str(conf, CONF_nemo_profile));
+            char *text = nemo_ui_format("profile.active", "profile", conf_get_str(conf, CONF_nemo_profile), NULL, NULL);
             dlg_text_set(ctrl, dlg, text); sfree(text);
         } else if (ctrl == ssd->listbox) {
             dlg_update_start(ctrl, dlg); dlg_listbox_clear(ctrl, dlg);
@@ -1332,7 +1333,7 @@ static void attribute_colour_handler(dlgcontrol *ctrl, dlgparam *dlg,
     if (event == EVENT_REFRESH) {
         ac->refreshing = true;
         if (ctrl == ac->which) {
-            static const char *const names[] = {"Bold", "Underline", "Blink", "Reverse", "Italic"};
+            const char *const names[] = {nemo_ui_text("attributes.bold"), nemo_ui_text("appearance.underline"), nemo_ui_text("attributes.blink"), nemo_ui_text("attributes.reverse"), nemo_ui_text("attributes.italic")};
             dlg_update_start(ctrl, dlg);
             dlg_listbox_clear(ctrl, dlg);
             for (unsigned i = 0; i < lenof(names); i++) dlg_listbox_add(ctrl, dlg, names[i]);
@@ -1400,27 +1401,27 @@ static void attribute_colour_controls(struct controlbox *box)
     struct attribute_colour_data *ac = ctrl_alloc(box, sizeof(*ac));
     memset(ac, 0, sizeof(*ac));
     /* Alt+A belongs to About at startup and Apply during reconfiguration. */
-    ac->which = ctrl_droplist(set, "Text attribute:", 't', 55, HELPCTX(no_help),
+    ac->which = ctrl_droplist(set, nemo_ui_text("attributes.label"), 't', 55, HELPCTX(no_help),
                               attribute_colour_handler, P(ac));
-    ac->flags[0] = ctrl_checkbox(set, "Use colour for this attribute", NO_SHORTCUT,
+    ac->flags[0] = ctrl_checkbox(set, nemo_ui_text("colours.attribute_enabled"), NO_SHORTCUT,
         HELPCTX(no_help), attribute_colour_handler, P(ac));
-    ac->flags[2] = ctrl_checkbox(set, "Keep its original text style", NO_SHORTCUT,
+    ac->flags[2] = ctrl_checkbox(set, nemo_ui_text("colours.attribute_keep_style"), NO_SHORTCUT,
         HELPCTX(no_help), attribute_colour_handler, P(ac));
-    ac->flags[1] = ctrl_checkbox(set, "Use a custom attribute colour", NO_SHORTCUT,
+    ac->flags[1] = ctrl_checkbox(set, nemo_ui_text("colours.attribute_custom"), NO_SHORTCUT,
         HELPCTX(no_help), attribute_colour_handler, P(ac));
     ctrl_columns(set, 3, 34, 33, 33);
-    const char *const labels[] = {"Red", "Green", "Blue"};
+    const char *const labels[] = {nemo_ui_text("common.red"), nemo_ui_text("common.green"), nemo_ui_text("common.blue")};
     for (unsigned i = 0; i < lenof(ac->rgb); i++) {
         ac->rgb[i] = ctrl_editbox(set, labels[i], NO_SHORTCUT, 50, HELPCTX(no_help),
                                  attribute_colour_handler, P(ac), P(NULL));
         ac->rgb[i]->column = i;
     }
     ctrl_columns(set, 1, 100);
-    ac->button = ctrl_pushbutton(set, "Choose attribute colour...", NO_SHORTCUT,
+    ac->button = ctrl_pushbutton(set, nemo_ui_text("colours.attribute_choose"), NO_SHORTCUT,
         HELPCTX(no_help), attribute_colour_handler, P(ac));
     ctrl_text(set, "Without a custom colour, use the configured text foreground.", HELPCTX(no_help));
     set = ctrl_getset(box, path, "priority", "Colour priority");
-    ac->flags[3] = ctrl_checkbox(set, "Override application text colours", NO_SHORTCUT,
+    ac->flags[3] = ctrl_checkbox(set, nemo_ui_text("colours.attribute_override"), NO_SHORTCUT,
         HELPCTX(no_help), attribute_colour_handler, P(ac));
     ctrl_text(set, "Applications can change attribute colours and modes during a session.", HELPCTX(no_help));
 }
@@ -2164,7 +2165,7 @@ void proxy_type_handler(dlgcontrol *ctrl, dlgparam *dlg,
             current_index++;                                    \
         } while (0)
 
-        ADD(PROXY_NONE, "None");
+        ADD(PROXY_NONE, nemo_ui_text("common.none"));
         ADD(PROXY_SOCKS5, "SOCKS 5");
         ADD(PROXY_SOCKS4, "SOCKS 4");
         ADD(PROXY_HTTP, "HTTP CONNECT");
@@ -2232,14 +2233,14 @@ void setup_config_box(struct controlbox *b, bool midsession,
     s = ctrl_getset(b, "", "", "");
     ctrl_columns(s, 5, 20, 20, 20, 20, 20);
     ssd->okbutton = ctrl_pushbutton(s,
-                                    (ssd->profiles ? (midsession ? "Save and Apply" : "Save and Open") :
-                                     (midsession ? "Apply" : "Open")),
+                                    (ssd->profiles ? (midsession ? nemo_ui_text("settings.save_apply") : nemo_ui_text("settings.save_open")) :
+                                     (midsession ? nemo_ui_text("common.apply") : "Open")),
                                     (char)(midsession ? 'a' : 'o'),
                                     HELPCTX(no_help),
                                     sessionsaver_handler, P(ssd));
     ssd->okbutton->button.isdefault = true;
     ssd->okbutton->column = ssd->profiles ? COLUMN_FIELD(2,2) : 3;
-    ssd->cancelbutton = ctrl_pushbutton(s, "Cancel", 'c', HELPCTX(no_help),
+    ssd->cancelbutton = ctrl_pushbutton(s, nemo_ui_text("common.cancel"), 'c', HELPCTX(no_help),
                                         sessionsaver_handler, P(ssd));
     ssd->cancelbutton->button.iscancel = true;
     ssd->cancelbutton->column = 4;
@@ -2325,19 +2326,19 @@ void setup_config_box(struct controlbox *b, bool midsession,
      * The Load/Save panel is available even in mid-session.
      */
     s = ctrl_getset(b, profile_panel, "savedsessions",
-                    ssd->profiles ? "Manage profiles" :
+                    ssd->profiles ? nemo_ui_text("profile.manage") :
                     midsession ? "Save the current session settings" : "Load, save or delete a stored session");
     if (ssd->profiles) {
-        ssd->active_profile = ctrl_text(s, "Active profile", HELPCTX(no_help));
+        ssd->active_profile = ctrl_text(s, nemo_ui_text("profile.active_label"), HELPCTX(no_help));
         ssd->active_profile->handler = sessionsaver_handler;
         ssd->active_profile->context = P(ssd);
         ctrl_text(s, midsession ?
-                  "Save and Apply keeps this profile for future launches. Shell changes start in a new tab." :
-                  "Save and Open keeps this profile for future launches. Add copies the current settings.", HELPCTX(no_help));
+                  nemo_ui_text("profile.save_apply_hint") :
+                  nemo_ui_text("profile.save_open_hint"), HELPCTX(no_help));
     }
     ctrl_columns(s, 2, 75, 25);
     get_sesslist(&ssd->sesslist, true);
-    ssd->editbox = ctrl_editbox(s, ssd->profiles ? "New profile name" : "Saved Sessions", 'e', 100,
+    ssd->editbox = ctrl_editbox(s, ssd->profiles ? nemo_ui_text("profile.new_name") : "Saved Sessions", 'e', 100,
                                 HELPCTX(session_saved),
                                 sessionsaver_handler, P(ssd), P(NULL));
     ssd->editbox->column = 0;
@@ -2351,7 +2352,7 @@ void setup_config_box(struct controlbox *b, bool midsession,
     ssd->listbox->column = 0;
     ssd->listbox->listbox.height = ssd->profiles ? 5 : 7;
     if (!midsession || ssd->profiles) {
-        ssd->loadbutton = ctrl_pushbutton(s, ssd->profiles ? "Edit" : "Load", 'l',
+        ssd->loadbutton = ctrl_pushbutton(s, ssd->profiles ? nemo_ui_text("common.edit") : "Load", 'l',
                                           HELPCTX(session_saved),
                                           sessionsaver_handler, P(ssd));
         ssd->loadbutton->column = 1;
@@ -2362,17 +2363,17 @@ void setup_config_box(struct controlbox *b, bool midsession,
          * shouldn't be a problem, but.) */
         ssd->loadbutton = NULL;
     }
-    /* "Save" button is permitted mid-session. */
-    ssd->savebutton = ctrl_pushbutton(s, "Save", 'v',
+    /* nemo_ui_text("common.save") button is permitted mid-session. */
+    ssd->savebutton = ctrl_pushbutton(s, nemo_ui_text("common.save"), 'v',
                                       HELPCTX(session_saved),
                                       sessionsaver_handler, P(ssd));
     ssd->savebutton->column = 1;
     if (ssd->profiles) {
-        ssd->addbutton = ctrl_pushbutton(s, "Add", 'n', HELPCTX(no_help), sessionsaver_handler, P(ssd));
+        ssd->addbutton = ctrl_pushbutton(s, nemo_ui_text("common.add"), 'n', HELPCTX(no_help), sessionsaver_handler, P(ssd));
         ssd->addbutton->column = 1;
     }
     if (!midsession || ssd->profiles) {
-        ssd->delbutton = ctrl_pushbutton(s, "Delete", 'd',
+        ssd->delbutton = ctrl_pushbutton(s, nemo_ui_text("common.delete"), 'd',
                                          HELPCTX(session_saved),
                                          sessionsaver_handler, P(ssd));
         ssd->delbutton->column = 1;
@@ -2383,18 +2384,18 @@ void setup_config_box(struct controlbox *b, bool midsession,
     ctrl_columns(s, 1, 100);
 
     s = ctrl_getset(b, profile_panel, "otheropts", NULL);
-    ctrl_radiobuttons(s, "Close window on exit:", 'x', 4,
+    ctrl_radiobuttons(s, nemo_ui_text("profile.close_on_exit"), 'x', 4,
                       HELPCTX(session_coe),
                       conf_radiobutton_handler,
                       I(CONF_close_on_exit),
-                      "Always", I(FORCE_ON),
-                      "Never", I(FORCE_OFF),
-                      "Only on clean exit", I(AUTO));
+                      nemo_ui_text("common.always"), I(FORCE_ON),
+                      nemo_ui_text("common.never"), I(FORCE_OFF),
+                      nemo_ui_text("profile.clean_exit"), I(AUTO));
 
     /*
      * The Session/Logging panel.
      */
-    ctrl_settitle(b, ssd->profiles ? "Profile/Logging" : "Session/Logging", "Options controlling terminal logging");
+    ctrl_settitle(b, ssd->profiles ? "Profile/Logging" : "Session/Logging", nemo_ui_text("logging.title"));
 
     s = ctrl_getset(b, ssd->profiles ? "Profile/Logging" : "Session/Logging", "main", NULL);
     /*
@@ -2411,33 +2412,32 @@ void setup_config_box(struct controlbox *b, bool midsession,
             sshlogname = NULL;         /* this will disable both buttons */
             sshrawlogname = NULL;      /* this will just placate optimisers */
         }
-        ctrl_radiobuttons(s, "Session logging:", NO_SHORTCUT, 2,
+        ctrl_radiobuttons(s, nemo_ui_text("logging.mode"), NO_SHORTCUT, 2,
                           HELPCTX(logging_main),
                           loggingbuttons_handler,
                           I(CONF_logtype),
-                          "None", 't', I(LGTYP_NONE),
-                          "Printable output", 'p', I(LGTYP_ASCII),
-                          "All session output", 'l', I(LGTYP_DEBUG),
+                          nemo_ui_text("common.none"), 't', I(LGTYP_NONE),
+                          nemo_ui_text("logging.printable"), 'p', I(LGTYP_ASCII),
+                          nemo_ui_text("logging.all"), 'l', I(LGTYP_DEBUG),
                           sshlogname, 's', I(LGTYP_PACKETS),
                           sshrawlogname, 'r', I(LGTYP_SSHRAW));
     }
-    ctrl_filesel(s, "Log file name:", 'f',
-                 FILTER_ALL_FILES, true, "Select session log file name",
+    ctrl_filesel(s, nemo_ui_text("logging.filename"), 'f',
+                 FILTER_ALL_FILES, true, nemo_ui_text("logging.picker"),
                  HELPCTX(logging_filename),
                  conf_filesel_handler, I(CONF_logfilename));
-    ctrl_text(s, "(Log file name can contain &Y, &M, &D for date,"
-              " &T for time, &H for host name, and &P for port number)",
+    ctrl_text(s, nemo_ui_text("logging.filename_hint"),
               HELPCTX(logging_filename));
-    ctrl_radiobuttons(s, "What to do if the log file already exists:", 'e', 1,
+    ctrl_radiobuttons(s, nemo_ui_text("logging.exists"), 'e', 1,
                       HELPCTX(logging_exists),
                       conf_radiobutton_handler, I(CONF_logxfovr),
-                      "Always overwrite it", I(LGXF_OVR),
-                      "Always append to the end of it", I(LGXF_APN),
-                      "Ask the user every time", I(LGXF_ASK));
-    ctrl_checkbox(s, "Flush log file frequently", 'u',
+                      nemo_ui_text("logging.overwrite"), I(LGXF_OVR),
+                      nemo_ui_text("logging.append"), I(LGXF_APN),
+                      nemo_ui_text("logging.ask"), I(LGXF_ASK));
+    ctrl_checkbox(s, nemo_ui_text("logging.flush"), 'u',
                   HELPCTX(logging_flush),
                   conf_checkbox_handler, I(CONF_logflush));
-    ctrl_checkbox(s, "Include header", 'i',
+    ctrl_checkbox(s, nemo_ui_text("logging.header"), 'i',
                   HELPCTX(logging_header),
                   conf_checkbox_handler, I(CONF_logheader));
 
@@ -2456,44 +2456,44 @@ void setup_config_box(struct controlbox *b, bool midsession,
     /*
      * The Terminal panel.
      */
-    ctrl_settitle(b, "Terminal", "Options controlling the terminal emulation");
+    ctrl_settitle(b, "Terminal", nemo_ui_text("terminal.title"));
 
-    s = ctrl_getset(b, "Terminal", "general", "Set various terminal options");
-    ctrl_checkbox(s, "Auto wrap mode initially on", 'w',
+    s = ctrl_getset(b, "Terminal", "general", nemo_ui_text("terminal.general"));
+    ctrl_checkbox(s, nemo_ui_text("terminal.wrap"), 'w',
                   HELPCTX(terminal_autowrap),
                   conf_checkbox_handler, I(CONF_wrap_mode));
-    ctrl_checkbox(s, "DEC Origin Mode initially on", 'd',
+    ctrl_checkbox(s, nemo_ui_text("terminal.origin"), 'd',
                   HELPCTX(terminal_decom),
                   conf_checkbox_handler, I(CONF_dec_om));
-    ctrl_checkbox(s, "Implicit CR in every LF", 'r',
+    ctrl_checkbox(s, nemo_ui_text("terminal.lf_cr"), 'r',
                   HELPCTX(terminal_lfhascr),
                   conf_checkbox_handler, I(CONF_lfhascr));
-    ctrl_checkbox(s, "Implicit LF in every CR", 'f',
+    ctrl_checkbox(s, nemo_ui_text("terminal.cr_lf"), 'f',
                   HELPCTX(terminal_crhaslf),
                   conf_checkbox_handler, I(CONF_crhaslf));
-    ctrl_checkbox(s, "Use background colour to erase screen", 'e',
+    ctrl_checkbox(s, nemo_ui_text("terminal.erase_background"), 'e',
                   HELPCTX(terminal_bce),
                   conf_checkbox_handler, I(CONF_bce));
-    ctrl_checkbox(s, "Enable blinking text", 'n',
+    ctrl_checkbox(s, nemo_ui_text("terminal.blink"), 'n',
                   HELPCTX(terminal_blink),
                   conf_checkbox_handler, I(CONF_blinktext));
-    ctrl_editbox(s, "Answerback to ^E:", 's', 100,
+    ctrl_editbox(s, nemo_ui_text("terminal.answerback"), 's', 100,
                  HELPCTX(terminal_answerback),
                  conf_editbox_handler, I(CONF_answerback), ED_STR);
 
-    s = ctrl_getset(b, "Terminal", "ldisc", "Line discipline options");
-    ctrl_radiobuttons(s, "Local echo:", 'l', 3,
+    s = ctrl_getset(b, "Terminal", "ldisc", nemo_ui_text("terminal.line_discipline"));
+    ctrl_radiobuttons(s, nemo_ui_text("terminal.local_echo"), 'l', 3,
                       HELPCTX(terminal_localecho),
                       conf_radiobutton_handler,I(CONF_localecho),
-                      "Auto", I(AUTO),
-                      "Force on", I(FORCE_ON),
-                      "Force off", I(FORCE_OFF));
-    ctrl_radiobuttons(s, "Local line editing:", 't', 3,
+                      nemo_ui_text("common.automatic"), I(AUTO),
+                      nemo_ui_text("common.force_on"), I(FORCE_ON),
+                      nemo_ui_text("common.force_off"), I(FORCE_OFF));
+    ctrl_radiobuttons(s, nemo_ui_text("terminal.local_edit"), 't', 3,
                       HELPCTX(terminal_localedit),
                       conf_radiobutton_handler,I(CONF_localedit),
-                      "Auto", I(AUTO),
-                      "Force on", I(FORCE_ON),
-                      "Force off", I(FORCE_OFF));
+                      nemo_ui_text("common.automatic"), I(AUTO),
+                      nemo_ui_text("common.force_on"), I(FORCE_ON),
+                      nemo_ui_text("common.force_off"), I(FORCE_OFF));
 
     s = ctrl_getset(b, "Terminal", "printing", "Remote-controlled printing");
     ctrl_combobox(s, "Printer to send ANSI printer output to:", 'p', 100,
@@ -2504,21 +2504,21 @@ void setup_config_box(struct controlbox *b, bool midsession,
      * The Terminal/Keyboard panel.
      */
     ctrl_settitle(b, "Terminal/Keyboard",
-                  "Options controlling the effects of keys");
+                  nemo_ui_text("keyboard.title"));
 
     s = ctrl_getset(b, "Terminal/Keyboard", "mappings",
-                    "Change the sequences sent by:");
-    ctrl_radiobuttons(s, "The Backspace key", 'b', 2,
+                    nemo_ui_text("keyboard.sequences"));
+    ctrl_radiobuttons(s, nemo_ui_text("keyboard.backspace"), 'b', 2,
                       HELPCTX(keyboard_backspace),
                       conf_radiobutton_bool_handler,
                       I(CONF_bksp_is_delete),
                       "Control-H", I(0), "Control-? (127)", I(1));
-    ctrl_radiobuttons(s, "The Home and End keys", 'e', 2,
+    ctrl_radiobuttons(s, nemo_ui_text("keyboard.home_end"), 'e', 2,
                       HELPCTX(keyboard_homeend),
                       conf_radiobutton_bool_handler,
                       I(CONF_rxvt_homeend),
-                      "Standard", I(false), "rxvt", I(true));
-    ctrl_radiobuttons(s, "The Function keys and keypad", 'f', 4,
+                      nemo_ui_text("keyboard.standard"), I(false), "rxvt", I(true));
+    ctrl_radiobuttons(s, nemo_ui_text("keyboard.functions"), 'f', 4,
                       HELPCTX(keyboard_funkeys),
                       conf_radiobutton_handler,
                       I(CONF_funky_type),
@@ -2531,78 +2531,76 @@ void setup_config_box(struct controlbox *b, bool midsession,
                       "Xterm 216+", I(FUNKY_XTERM_216),
                       "VT220 (UDK)", I(FUNKY_VT220),
                       "Xterm legacy (X11R5)", I(FUNKY_XTERM_LEGACY));
-    ctrl_radiobuttons(s, "Shift/Ctrl/Alt with the arrow keys", 'w', 2,
+    ctrl_radiobuttons(s, nemo_ui_text("keyboard.modified_arrows"), 'w', 2,
                       HELPCTX(keyboard_sharrow),
                       conf_radiobutton_handler,
                       I(CONF_sharrow_type),
-                      "Ctrl toggles app mode", I(SHARROW_APPLICATION),
-                      "xterm-style bitmap", I(SHARROW_BITMAP));
+                      nemo_ui_text("keyboard.ctrl_toggle"), I(SHARROW_APPLICATION),
+                      nemo_ui_text("keyboard.bitmap"), I(SHARROW_BITMAP));
 
     s = ctrl_getset(b, "Terminal/Keyboard", "appkeypad",
-                    "Application keypad settings:");
-    ctrl_radiobuttons(s, "Initial state of cursor keys:", 'r', 3,
+                    nemo_ui_text("keyboard.application"));
+    ctrl_radiobuttons(s, nemo_ui_text("keyboard.initial_cursor"), 'r', 3,
                       HELPCTX(keyboard_appcursor),
                       conf_radiobutton_bool_handler,
                       I(CONF_app_cursor),
-                      "Normal", I(0), "Application", I(1));
-    ctrl_radiobuttons(s, "Initial state of numeric keypad:", 'n', 3,
+                      nemo_ui_text("common.normal"), I(0), nemo_ui_text("common.application"), I(1));
+    ctrl_radiobuttons(s, nemo_ui_text("keyboard.initial_keypad"), 'n', 3,
                       HELPCTX(keyboard_appkeypad),
                       numeric_keypad_handler, P(NULL),
-                      "Normal", I(0), "Application", I(1), "NetHack", I(2));
+                      nemo_ui_text("common.normal"), I(0), nemo_ui_text("common.application"), I(1), "NetHack", I(2));
 
-    ctrl_settitle(b, "Terminal/Keyboard/Extended", "Extended character-key reporting");
+    ctrl_settitle(b, "Terminal/Keyboard/Extended", nemo_ui_text("keyboard.extended"));
     s = ctrl_getset(b, "Terminal/Keyboard/Extended", "modifiedcharacters",
-                    "Initial xterm character-key reporting:");
-    ctrl_radiobuttons(s, "Keys to report:", 'k', 2, HELPCTX(no_help),
+                    nemo_ui_text("keyboard.initial_reporting"));
+    ctrl_radiobuttons(s, nemo_ui_text("keyboard.report_keys"), 'k', 2, HELPCTX(no_help),
                       conf_radiobutton_handler, I(CONF_nemo_modify_other_keys),
-                      "Off", I(0), "Compatible", I(1), "Modified keys", I(2), "All keys", I(3));
-    ctrl_radiobuttons(s, "Sequence format:", 'f', 2, HELPCTX(no_help),
+                      nemo_ui_text("common.off"), I(0), nemo_ui_text("keyboard.compatible"), I(1), nemo_ui_text("keyboard.modified"), I(2), nemo_ui_text("keyboard.all"), I(3));
+    ctrl_radiobuttons(s, nemo_ui_text("keyboard.format"), 'f', 2, HELPCTX(no_help),
                       conf_radiobutton_handler, I(CONF_nemo_format_other_keys),
                       "xterm (27~)", I(0), "CSI-u", I(1));
-    ctrl_text(s, "Applications can change these settings. Kitty keyboard "
-              "enhancements take priority while enabled.", HELPCTX(no_help));
+    ctrl_text(s, nemo_ui_text("keyboard.priority_hint"), HELPCTX(no_help));
 #ifdef _WIN32
-    s = ctrl_getset(b, "Terminal/Keyboard/Extended", "windowskeys", "Windows console applications:");
-    ctrl_checkbox(s, "Preserve Windows key events (experimental)", 'w',
+    s = ctrl_getset(b, "Terminal/Keyboard/Extended", "windowskeys", nemo_ui_text("keyboard.windows"));
+    ctrl_checkbox(s, nemo_ui_text("keyboard.preserve_win32"), 'w',
                   HELPCTX(no_help), conf_checkbox_handler, I(CONF_nemo_win32_input));
-    ctrl_text(s, "Supports Shift+Enter in Windows console apps. Changes custom "
-              "key mappings; F21-F24 in plain VT apps are limited.", HELPCTX(no_help));
+    ctrl_text(s, nemo_ui_text("keyboard.win32_hint"), HELPCTX(no_help));
 #endif
 
     /*
      * The Terminal/Bell panel.
      */
     ctrl_settitle(b, "Terminal/Bell",
-                  "Options controlling the terminal bell");
+                  nemo_ui_text("bell.title"));
 
-    s = ctrl_getset(b, "Terminal/Bell", "style", "Set the style of bell");
-    ctrl_radiobuttons(s, "Action to happen when a bell occurs:", 'b', 1,
+    s = ctrl_getset(b, "Terminal/Bell", "style", nemo_ui_text("bell.style"));
+    ctrl_radiobuttons(s, nemo_ui_text("bell.action"), 'b', 1,
                       HELPCTX(bell_style),
                       conf_radiobutton_handler, I(CONF_beep),
-                      "None (bell disabled)", I(BELL_DISABLED),
-                      "Make default system alert sound", I(BELL_DEFAULT),
-                      "Visual bell (flash window)", I(BELL_VISUAL));
+                      nemo_ui_text("bell.none"), I(BELL_DISABLED),
+                      nemo_ui_text("bell.system"), I(BELL_DEFAULT),
+                      nemo_ui_text("bell.visual"), I(BELL_VISUAL));
 
-    ctrl_settitle(b, "Terminal/Bell/Overload", "Bell overload protection");
+    ctrl_settitle(b, "Terminal/Bell/Overload", nemo_ui_text("bell.overload.title"));
     s = ctrl_getset(b, "Terminal/Bell/Overload", "overload",
-                    "Control the bell overload behaviour");
-    ctrl_checkbox(s, "Bell is temporarily disabled when over-used", 'd',
+                    nemo_ui_text("bell.overload.group"));
+    ctrl_checkbox(s, nemo_ui_text("bell.overload.enable"), 'd',
                   HELPCTX(bell_overload),
                   conf_checkbox_handler, I(CONF_bellovl));
-    ctrl_editbox(s, "Over-use means this many bells...", 'm', 20,
+    ctrl_editbox(s, nemo_ui_text("bell.overload.count"), 'm', 20,
                  HELPCTX(bell_overload),
                  conf_editbox_handler, I(CONF_bellovl_n), ED_INT);
 
     static const struct conf_editbox_handler_type conf_editbox_tickspersec = {
         .type = EDIT_FIXEDPOINT, .denominator = TICKSPERSEC};
 
-    ctrl_editbox(s, "... in this many seconds", 't', 20,
+    ctrl_editbox(s, nemo_ui_text("bell.overload.interval"), 't', 20,
                  HELPCTX(bell_overload),
                  conf_editbox_handler, I(CONF_bellovl_t),
                  CP(&conf_editbox_tickspersec));
-    ctrl_text(s, "The bell is re-enabled after a few seconds of silence.",
+    ctrl_text(s, nemo_ui_text("bell.overload.hint"),
               HELPCTX(bell_overload));
-    ctrl_editbox(s, "Seconds of silence required", 's', 20,
+    ctrl_editbox(s, nemo_ui_text("bell.overload.silence"), 's', 20,
                  HELPCTX(bell_overload),
                  conf_editbox_handler, I(CONF_bellovl_s),
                  CP(&conf_editbox_tickspersec));
@@ -2611,90 +2609,84 @@ void setup_config_box(struct controlbox *b, bool midsession,
      * The Terminal/Features panel.
      */
     ctrl_settitle(b, "Terminal/Features",
-                  "Enabling and disabling advanced terminal features");
+                  nemo_ui_text("features.title"));
 
     s = ctrl_getset(b, "Terminal/Features", "main", NULL);
-    ctrl_checkbox(s, "Disable application cursor keys mode", 'u',
+    ctrl_checkbox(s, nemo_ui_text("features.cursor"), 'u',
                   HELPCTX(features_application),
                   conf_checkbox_handler, I(CONF_no_applic_c));
-    ctrl_checkbox(s, "Disable application keypad mode", 'k',
+    ctrl_checkbox(s, nemo_ui_text("features.keypad"), 'k',
                   HELPCTX(features_application),
                   conf_checkbox_handler, I(CONF_no_applic_k));
-    ctrl_checkbox(s, "Disable xterm-style mouse reporting", 'x',
+    ctrl_checkbox(s, nemo_ui_text("features.mouse"), 'x',
                   HELPCTX(features_mouse),
                   conf_checkbox_handler, I(CONF_no_mouse_rep));
-    ctrl_checkbox(s, "Disable remote-controlled terminal resizing", 's',
+    ctrl_checkbox(s, nemo_ui_text("features.resize"), 's',
                   HELPCTX(features_resize),
                   conf_checkbox_handler,
                   I(CONF_no_remote_resize));
-    ctrl_checkbox(s, "Disable switching to alternate terminal screen", 'w',
+    ctrl_checkbox(s, nemo_ui_text("features.alternate_screen"), 'w',
                   HELPCTX(features_altscreen),
                   conf_checkbox_handler, I(CONF_no_alt_screen));
-    ctrl_checkbox(s, "Disable remote-controlled window title changing", 't',
+    ctrl_checkbox(s, nemo_ui_text("features.title_change"), 't',
                   HELPCTX(features_retitle),
                   conf_checkbox_handler,
                   I(CONF_no_remote_wintitle));
-    ctrl_radiobuttons(s, "Response to remote title query (SECURITY):", 'q', 3,
+    ctrl_radiobuttons(s, nemo_ui_text("features.title_query"), 'q', 3,
                       HELPCTX(features_qtitle),
                       conf_radiobutton_handler,
                       I(CONF_remote_qtitle_action),
-                      "None", I(TITLE_NONE),
-                      "Empty string", I(TITLE_EMPTY),
-                      "Window title", I(TITLE_REAL));
-    ctrl_checkbox(s, "Disable remote-controlled clearing of scrollback", 'e',
+                      nemo_ui_text("common.none"), I(TITLE_NONE),
+                      nemo_ui_text("features.empty"), I(TITLE_EMPTY),
+                      nemo_ui_text("features.window_title"), I(TITLE_REAL));
+    ctrl_checkbox(s, nemo_ui_text("features.clear_history"), 'e',
                   HELPCTX(features_clearscroll),
                   conf_checkbox_handler,
                   I(CONF_no_remote_clearscroll));
-    ctrl_checkbox(s, "Disable destructive backspace on server sending ^?",'b',
+    ctrl_checkbox(s, nemo_ui_text("features.backspace"),'b',
                   HELPCTX(features_dbackspace),
                   conf_checkbox_handler, I(CONF_no_dbackspace));
-    ctrl_checkbox(s, "Disable remote-controlled character set configuration",
+    ctrl_checkbox(s, nemo_ui_text("features.charset"),
                   'r', HELPCTX(features_charset), conf_checkbox_handler,
                   I(CONF_no_remote_charset));
-    ctrl_checkbox(s, "Disable Arabic text shaping",
+    ctrl_checkbox(s, nemo_ui_text("features.arabic"),
                   'l', HELPCTX(features_arabicshaping), conf_checkbox_handler,
                   I(CONF_no_arabicshaping));
-    ctrl_checkbox(s, "Disable bidirectional text display",
+    ctrl_checkbox(s, nemo_ui_text("features.bidi"),
                   'd', HELPCTX(features_bidi), conf_checkbox_handler,
                   I(CONF_no_bidi));
-    ctrl_checkbox(s, "Disable bracketed paste mode",
+    ctrl_checkbox(s, nemo_ui_text("features.bracketed_paste"),
                   'p', HELPCTX(features_bracketed_paste), conf_checkbox_handler,
                   I(CONF_no_bracketed_paste));
 
-    ctrl_settitle(b, "Terminal/Screen queries", "Application screen queries");
-    s = ctrl_getset(b, "Terminal/Screen queries", "checksums", "Screen checksums");
-    ctrl_checkbox(s, "Allow applications to query screen checksums", 's',
+    ctrl_settitle(b, "Terminal/Screen queries", nemo_ui_text("screen_queries.title"));
+    s = ctrl_getset(b, "Terminal/Screen queries", "checksums", nemo_ui_text("screen_queries.checksums"));
+    ctrl_checkbox(s, nemo_ui_text("screen_queries.allow"), 's',
                   HELPCTX(no_help), conf_checkbox_handler, I(CONF_nemo_allow_checksum));
-    ctrl_text(s, "Returns checksums of current terminal cells to the running "
-              "session. Disabled by default.", HELPCTX(no_help));
+    ctrl_text(s, nemo_ui_text("screen_queries.hint"), HELPCTX(no_help));
 
-    ctrl_settitle(b, "Terminal/Hyperlinks", "Options controlling OSC 8 hyperlinks");
-    s = ctrl_getset(b, "Terminal/Hyperlinks", "hyperlinks", "Hyperlink actions");
-    ctrl_text(s, "Hover to see the address. Ctrl+click opens a link; "
-              "Ctrl+right-click provides link actions. Shift always selects text.",
+    ctrl_settitle(b, "Terminal/Hyperlinks", nemo_ui_text("hyperlinks.title"));
+    s = ctrl_getset(b, "Terminal/Hyperlinks", "hyperlinks", nemo_ui_text("hyperlinks.actions"));
+    ctrl_text(s, nemo_ui_text("hyperlinks.hint"),
               HELPCTX(no_help));
-    ctrl_checkbox(s, "Disable OSC 8 hyperlinks", 'd', HELPCTX(no_help),
+    ctrl_checkbox(s, nemo_ui_text("hyperlinks.disable"), 'd', HELPCTX(no_help),
                   conf_checkbox_handler, I(CONF_no_remote_hyperlinks));
     /* Alt+A belongs to About at startup and Apply during reconfiguration. */
-    ctrl_checkbox(s, "Allow registered custom URI schemes", 'r', HELPCTX(no_help),
+    ctrl_checkbox(s, nemo_ui_text("hyperlinks.custom_schemes"), 'r', HELPCTX(no_help),
                   conf_checkbox_handler, I(CONF_nemo_custom_url_schemes));
-    ctrl_text(s, "By default, links can open HTTP, HTTPS, FTP, mailto and local "
-              "Windows files. File links must name this computer, localhost or "
-              "an empty host. Other schemes require the option above.", HELPCTX(no_help));
+    ctrl_text(s, nemo_ui_text("hyperlinks.schemes_hint"), HELPCTX(no_help));
 
-    ctrl_settitle(b, "Terminal/Clipboard", "Application clipboard access");
-    s = ctrl_getset(b, "Terminal/Clipboard", "osc52", "OSC 52 clipboard access");
-    ctrl_checkbox(s, "Allow applications to copy text to the clipboard", 'w',
+    ctrl_settitle(b, "Terminal/Clipboard", nemo_ui_text("clipboard.title"));
+    s = ctrl_getset(b, "Terminal/Clipboard", "osc52", nemo_ui_text("clipboard.osc52"));
+    ctrl_checkbox(s, nemo_ui_text("clipboard.write"), 'w',
                   HELPCTX(no_help), conf_checkbox_handler, I(CONF_nemo_osc52_write));
-    ctrl_checkbox(s, "Allow applications to read clipboard text", 'r',
+    ctrl_checkbox(s, nemo_ui_text("clipboard.read"), 'r',
                   HELPCTX(no_help), conf_checkbox_handler, I(CONF_nemo_osc52_read));
-    ctrl_text(s, "Reading sends clipboard contents back to the running session, "
-              "including a remote host. It is disabled by default. "
-              "These options do not change your local copy and paste shortcuts.",
+    ctrl_text(s, nemo_ui_text("clipboard.read_hint"),
               HELPCTX(no_help));
 
     /* The Window panel. */
-    str = dupprintf("Options controlling %s's window", appname);
+    str = nemo_ui_format("window.title", "app", appname, NULL, NULL);
     ctrl_settitle(b, "Window", str);
     sfree(str);
 
@@ -2703,13 +2695,13 @@ void setup_config_box(struct controlbox *b, bool midsession,
         resize_forbidden = (backvt->flags & BACKEND_RESIZE_FORBIDDEN);
 
     if (!resize_forbidden || !midsession) {
-        s = ctrl_getset(b, "Window", "size", "Set the size of the window");
+        s = ctrl_getset(b, "Window", "size", nemo_ui_text("window.size"));
         ctrl_columns(s, 2, 50, 50);
-        c = ctrl_editbox(s, "Columns", 'm', 100,
+        c = ctrl_editbox(s, nemo_ui_text("window.columns"), 'm', 100,
                          HELPCTX(window_size),
                          conf_editbox_handler, I(CONF_width), ED_INT);
         c->column = 0;
-        c = ctrl_editbox(s, "Rows", 'r', 100,
+        c = ctrl_editbox(s, nemo_ui_text("window.rows"), 'r', 100,
                          HELPCTX(window_size),
                          conf_editbox_handler, I(CONF_height),ED_INT);
         c->column = 1;
@@ -2717,74 +2709,71 @@ void setup_config_box(struct controlbox *b, bool midsession,
     }
 
     s = ctrl_getset(b, "Window", "scrollback",
-                    "Control the scrollback in the window");
-    ctrl_editbox(s, "Lines of scrollback", 's', 50,
+                    nemo_ui_text("window.scrollback"));
+    ctrl_editbox(s, nemo_ui_text("window.history_lines"), 's', 50,
                  HELPCTX(window_scrollback),
                  conf_editbox_handler, I(CONF_savelines), ED_INT);
-    ctrl_checkbox(s, "Reflow main-screen text when columns change", 'f',
+    ctrl_checkbox(s, nemo_ui_text("window.reflow"), 'f',
                   HELPCTX(no_help), conf_checkbox_handler, I(CONF_nemo_reflow));
-    ctrl_checkbox(s, "Display scrollbar", 'd',
+    ctrl_checkbox(s, nemo_ui_text("window.scrollbar"), 'd',
                   HELPCTX(window_scrollback),
                   conf_checkbox_handler, I(CONF_scrollbar));
-    ctrl_checkbox(s, "Reset scrollback on keypress", 'k',
+    ctrl_checkbox(s, nemo_ui_text("window.scroll_on_key"), 'k',
                   HELPCTX(window_scrollback),
                   conf_checkbox_handler, I(CONF_scroll_on_key));
-    ctrl_checkbox(s, "Reset scrollback on display activity", 'p',
+    ctrl_checkbox(s, nemo_ui_text("window.scroll_on_output"), 'p',
                   HELPCTX(window_scrollback),
                   conf_checkbox_handler, I(CONF_scroll_on_disp));
-    ctrl_checkbox(s, "Push erased text into scrollback", 'e',
+    ctrl_checkbox(s, nemo_ui_text("window.keep_erased"), 'e',
                   HELPCTX(window_erased),
                   conf_checkbox_handler,
                   I(CONF_erase_to_scrollback));
 
-    ctrl_settitle(b, "Window/Rendering", "Rendering mode");
-    s = ctrl_getset(b, "Window/Rendering", "renderer", "Renderer");
+    ctrl_settitle(b, "Window/Rendering", nemo_ui_text("rendering.title"));
+    s = ctrl_getset(b, "Window/Rendering", "renderer", nemo_ui_text("rendering.renderer"));
     ctrl_radiobuttons(s, "", NO_SHORTCUT, 1, HELPCTX(no_help),
                      conf_radiobutton_handler, I(CONF_nemo_renderer),
-                     "GDI (low memory)", NO_SHORTCUT, I(0),
-                     "OpenGL (GPU composition)", NO_SHORTCUT, I(1),
-                     "DirectX (GPU composition)", NO_SHORTCUT, I(2));
-    ctrl_text(s, "GPU modes cache text textures and compose text and images on "
-              "the GPU. They use the installed graphics driver and can use "
-              "more memory. GDI is used if the selected GPU mode is unavailable.", HELPCTX(no_help));
-    ctrl_text(s, "Changes apply to this terminal. After using a GPU mode, restart "
-              "the window to fully release graphics driver memory.", HELPCTX(no_help));
+                     nemo_ui_text("rendering.gdi"), NO_SHORTCUT, I(0),
+                     nemo_ui_text("rendering.opengl"), NO_SHORTCUT, I(1),
+                     nemo_ui_text("rendering.directx"), NO_SHORTCUT, I(2));
+    ctrl_text(s, nemo_ui_text("rendering.memory_hint"), HELPCTX(no_help));
+    ctrl_text(s, nemo_ui_text("rendering.restart_hint"), HELPCTX(no_help));
 
     /*
      * The Window/Appearance panel.
      */
-    str = dupprintf("Configure the appearance of %s's window", appname);
+    str = nemo_ui_format("appearance.title", "app", appname, NULL, NULL);
     ctrl_settitle(b, "Window/Appearance", str);
     sfree(str);
 
     s = ctrl_getset(b, "Window/Appearance", "cursor",
-                    "Adjust the use of the cursor");
-    ctrl_radiobuttons(s, "Cursor appearance:", NO_SHORTCUT, 3,
+                    nemo_ui_text("appearance.cursor_group"));
+    ctrl_radiobuttons(s, nemo_ui_text("appearance.cursor"), NO_SHORTCUT, 3,
                       HELPCTX(appearance_cursor),
                       conf_radiobutton_handler,
                       I(CONF_cursor_type),
-                      "Block", 'l', I(CURSOR_BLOCK),
-                      "Underline", 'u', I(CURSOR_UNDERLINE),
-                      "Vertical line", 'v', I(CURSOR_VERTICAL_LINE));
-    ctrl_checkbox(s, "Cursor blinks", 'b',
+                      nemo_ui_text("appearance.block"), 'l', I(CURSOR_BLOCK),
+                      nemo_ui_text("appearance.underline"), 'u', I(CURSOR_UNDERLINE),
+                      nemo_ui_text("appearance.vertical"), 'v', I(CURSOR_VERTICAL_LINE));
+    ctrl_checkbox(s, nemo_ui_text("appearance.cursor_blink"), 'b',
                   HELPCTX(appearance_cursor),
                   conf_checkbox_handler, I(CONF_blink_cur));
 
     s = ctrl_getset(b, "Window/Appearance", "font",
-                    "Font settings");
-    ctrl_fontsel(s, "Font used in the terminal window", 'n',
+                    nemo_ui_text("appearance.font_group"));
+    ctrl_fontsel(s, nemo_ui_text("appearance.font"), 'n',
                  HELPCTX(appearance_font),
                  conf_fontsel_handler, I(CONF_font));
 
     s = ctrl_getset(b, "Window/Appearance", "mouse",
-                    "Adjust the use of the mouse pointer");
-    ctrl_checkbox(s, "Hide mouse pointer when typing in window", 'p',
+                    nemo_ui_text("appearance.mouse_group"));
+    ctrl_checkbox(s, nemo_ui_text("appearance.hide_pointer"), 'p',
                   HELPCTX(appearance_hidemouse),
                   conf_checkbox_handler, I(CONF_hide_mouseptr));
 
     s = ctrl_getset(b, "Window/Appearance", "border",
-                    "Adjust the window border");
-    ctrl_editbox(s, "Gap between text and window edge:", 'e', 20,
+                    nemo_ui_text("appearance.border_group"));
+    ctrl_editbox(s, nemo_ui_text("appearance.padding"), 'e', 20,
                  HELPCTX(appearance_border),
                  conf_editbox_handler,
                  I(CONF_window_border), ED_INT);
@@ -2797,17 +2786,17 @@ void setup_config_box(struct controlbox *b, bool midsession,
     sfree(str);
 
     s = ctrl_getset(b, "Window/Behaviour", "title",
-                    "Adjust the behaviour of the window title");
-    ctrl_editbox(s, "Window title:", 't', 100,
+                    nemo_ui_text("behaviour.title_group"));
+    ctrl_editbox(s, nemo_ui_text("behaviour.title"), 't', 100,
                  HELPCTX(appearance_title),
                  conf_editbox_handler, I(CONF_wintitle), ED_STR);
-    ctrl_checkbox(s, "Separate window and icon titles", 'i',
+    ctrl_checkbox(s, nemo_ui_text("behaviour.separate_titles"), 'i',
                   HELPCTX(appearance_title),
                   conf_checkbox_handler,
                   I(CHECKBOX_INVERT | CONF_win_name_always));
 
     s = ctrl_getset(b, "Window/Behaviour", "main", NULL);
-    ctrl_checkbox(s, "Warn before closing window", 'w',
+    ctrl_checkbox(s, nemo_ui_text("behaviour.warn_close"), 'w',
                   HELPCTX(behaviour_closewarn),
                   conf_checkbox_handler, I(CONF_warn_on_close));
 
@@ -2815,22 +2804,22 @@ void setup_config_box(struct controlbox *b, bool midsession,
      * The Window/Translation panel.
      */
     ctrl_settitle(b, "Window/Translation",
-                  "Options controlling character set translation");
+                  nemo_ui_text("encoding.title"));
 
     s = ctrl_getset(b, "Window/Translation", "trans",
-                    "Character set translation");
-    ctrl_combobox(s, "Remote character set:",
+                    nemo_ui_text("encoding.group"));
+    ctrl_combobox(s, nemo_ui_text("encoding.remote"),
                   'r', 100, HELPCTX(translation_codepage),
                   codepage_handler, P(NULL), P(NULL));
 
     s = ctrl_getset(b, "Window/Translation", "tweaks", NULL);
-    ctrl_checkbox(s, "Treat CJK ambiguous characters as wide", 'w',
+    ctrl_checkbox(s, nemo_ui_text("encoding.cjk_width"), 'w',
                   HELPCTX(translation_cjk_ambig_wide),
                   conf_checkbox_handler, I(CONF_cjk_ambig_wide));
-    ctrl_checkbox(s, "Use grapheme cluster widths at startup", NO_SHORTCUT,
+    ctrl_checkbox(s, nemo_ui_text("encoding.grapheme"), NO_SHORTCUT,
                   HELPCTX(no_help), conf_checkbox_handler,
                   I(CONF_nemo_grapheme_widths));
-    ctrl_text(s, "Keep joined emoji together when counting columns. Applications and terminal resets can change this mode.",
+    ctrl_text(s, nemo_ui_text("encoding.grapheme_hint"),
               HELPCTX(no_help));
 
     /* Windows adds three more radio choices here. Keep the complete group
@@ -2840,38 +2829,38 @@ void setup_config_box(struct controlbox *b, bool midsession,
     s = ctrl_getset(b, "Window/Translation/Line drawing", "linedraw", str);
     sfree(str);
     ctrl_radiobuttons(
-        s, "Handling of line drawing characters:", NO_SHORTCUT,1,
+        s, nemo_ui_text("encoding.line_handling"), NO_SHORTCUT,1,
         HELPCTX(translation_linedraw),
         conf_radiobutton_handler, I(CONF_vtmode),
-        "Use Unicode line drawing code points",'u',I(VT_UNICODE),
-        "Poor man's line drawing (+, - and |)",'p',I(VT_POORMAN));
-    ctrl_checkbox(s, "Copy and paste line drawing characters as lqqqk",'d',
+        nemo_ui_text("encoding.unicode_lines"),'u',I(VT_UNICODE),
+        nemo_ui_text("encoding.ascii_lines"),'p',I(VT_POORMAN));
+    ctrl_checkbox(s, nemo_ui_text("encoding.line_drawing_copy"),'d',
                   HELPCTX(selection_linedraw),
                   conf_checkbox_handler, I(CONF_rawcnp));
-    ctrl_checkbox(s, "Enable VT100 line drawing even in UTF-8 mode",'8',
+    ctrl_checkbox(s, nemo_ui_text("encoding.vt100_utf8"),'8',
                   HELPCTX(translation_utf8linedraw),
                   conf_checkbox_handler, I(CONF_utf8linedraw));
 
     /*
      * The Window/Selection panel.
      */
-    ctrl_settitle(b, "Window/Tabs", "Terminal tabs");
-    s = ctrl_getset(b, "Window/Tabs", "layout", "Tab bar");
+    ctrl_settitle(b, "Window/Tabs", nemo_ui_text("tabs.title"));
+    s = ctrl_getset(b, "Window/Tabs", "layout", nemo_ui_text("tabs.bar"));
     if (!midsession)
-        ctrl_checkbox(s, "Open terminals in tabs", NO_SHORTCUT, HELPCTX(no_help),
+        ctrl_checkbox(s, nemo_ui_text("tabs.enable"), NO_SHORTCUT, HELPCTX(no_help),
                       conf_checkbox_handler, I(CONF_nemo_tabs));
-    ctrl_radiobuttons(s, "Position", NO_SHORTCUT, 4, HELPCTX(no_help),
+    ctrl_radiobuttons(s, nemo_ui_text("tabs.position"), NO_SHORTCUT, 4, HELPCTX(no_help),
         conf_radiobutton_handler, I(CONF_nemo_tab_side),
-        "Top", NO_SHORTCUT, I(0), "Bottom", NO_SHORTCUT, I(1),
-        "Left", NO_SHORTCUT, I(2), "Right", NO_SHORTCUT, I(3));
-    ctrl_editbox(s, "Side bar width (96-DPI pixels)", NO_SHORTCUT, 40, HELPCTX(no_help),
+        nemo_ui_text("tabs.top"), NO_SHORTCUT, I(0), nemo_ui_text("tabs.bottom"), NO_SHORTCUT, I(1),
+        nemo_ui_text("tabs.left"), NO_SHORTCUT, I(2), nemo_ui_text("tabs.right"), NO_SHORTCUT, I(3));
+    ctrl_editbox(s, nemo_ui_text("tabs.side_width"), NO_SHORTCUT, 40, HELPCTX(no_help),
         conf_editbox_handler, I(CONF_nemo_tab_sidebar), ED_INT);
-    ctrl_checkbox(s, "Preview terminal on hover", NO_SHORTCUT, HELPCTX(no_help),
+    ctrl_checkbox(s, nemo_ui_text("tabs.preview"), NO_SHORTCUT, HELPCTX(no_help),
         conf_checkbox_handler, I(CONF_nemo_tab_preview));
-    s = ctrl_getset(b, "Window/Tabs", "bindings", "Tab shortcuts");
+    s = ctrl_getset(b, "Window/Tabs", "bindings", nemo_ui_text("tabs.shortcuts"));
     const char *const tab_binding_labels[][2] = {
-        {"New tab modifiers", "New tab key"}, {"Close tab modifiers", "Close tab key"},
-        {"Next tab modifiers", "Next tab key"}, {"Previous tab modifiers", "Previous tab key"}
+        {nemo_ui_text("tabs.new_modifiers"), nemo_ui_text("tabs.new_key")}, {nemo_ui_text("tabs.close_modifiers"), nemo_ui_text("tabs.close_key")},
+        {nemo_ui_text("tabs.next_modifiers"), nemo_ui_text("tabs.next_key")}, {nemo_ui_text("tabs.previous_modifiers"), nemo_ui_text("tabs.previous_key")}
     };
     ctrl_columns(s, 2, 50, 50);
     for (size_t i=0; i<lenof(tab_binding_labels); i++)
@@ -2882,12 +2871,12 @@ void setup_config_box(struct controlbox *b, bool midsession,
         }
     ctrl_columns(s, 1, 100);
 
-    ctrl_settitle(b, "Window/Bindings", "Keyboard and mouse bindings");
-    s = ctrl_getset(b, "Window/Bindings", "keys", "Keyboard shortcuts");
-    ctrl_text(s, "Choose Disabled to send the key to the application. AltGr remains available for text input.", HELPCTX(no_help));
+    ctrl_settitle(b, "Window/Bindings", nemo_ui_text("bindings.title"));
+    s = ctrl_getset(b, "Window/Bindings", "keys", nemo_ui_text("bindings.keyboard"));
+    ctrl_text(s, nemo_ui_text("bindings.disabled_hint"), HELPCTX(no_help));
     const char *const binding_labels[][2] = {
-        {"Copy modifiers", "Copy key"}, {"Paste modifiers", "Paste key"},
-        {"Copy and paste modifiers", "Copy and paste key"}
+        {nemo_ui_text("bindings.copy_modifiers"), nemo_ui_text("bindings.copy_key")}, {nemo_ui_text("bindings.paste_modifiers"), nemo_ui_text("bindings.paste_key")},
+        {nemo_ui_text("bindings.copy_paste_modifiers"), nemo_ui_text("bindings.copy_paste_key")}
     };
     ctrl_columns(s, 2, 50, 50);
     for (size_t i = 0; i < lenof(binding_labels); i++) {
@@ -2898,22 +2887,22 @@ void setup_config_box(struct controlbox *b, bool midsession,
         }
     }
     ctrl_columns(s, 1, 100);
-    s = ctrl_getset(b, "Window/Bindings", "mouse", "Mouse selection");
-    ctrl_droplist(s, "Rectangle modifier", NO_SHORTCUT, 55, HELPCTX(no_help),
+    s = ctrl_getset(b, "Window/Bindings", "mouse", nemo_ui_text("bindings.mouse"));
+    ctrl_droplist(s, nemo_ui_text("bindings.rectangle"), NO_SHORTCUT, 55, HELPCTX(no_help),
                   nemo_binding_handler, I(CONF_nemo_rectangle_modifiers*4+2));
-    ctrl_text(s, "Hold this modifier while dragging with the left button. Add Shift when an application captures the mouse.", HELPCTX(no_help));
-    ctrl_text(s, "Shift always forces local selection. Right-click behavior and the default selection shape are under Selection.", HELPCTX(no_help));
-    ctrl_pushbutton(s, "Reset bindings", NO_SHORTCUT, HELPCTX(no_help), nemo_bindings_reset, I(0));
+    ctrl_text(s, nemo_ui_text("bindings.rectangle_hint"), HELPCTX(no_help));
+    ctrl_text(s, nemo_ui_text("bindings.selection_hint"), HELPCTX(no_help));
+    ctrl_pushbutton(s, nemo_ui_text("bindings.reset"), NO_SHORTCUT, HELPCTX(no_help), nemo_bindings_reset, I(0));
 
-    ctrl_settitle(b, "Window/Bindings/Font", "Current terminal font size");
-    s = ctrl_getset(b, "Window/Bindings/Font", "wheel", "Mouse wheel zoom");
-    ctrl_droplist(s, "Wheel modifier", NO_SHORTCUT, 55, HELPCTX(no_help),
+    ctrl_settitle(b, "Window/Bindings/Font", nemo_ui_text("zoom.title"));
+    s = ctrl_getset(b, "Window/Bindings/Font", "wheel", nemo_ui_text("zoom.wheel"));
+    ctrl_droplist(s, nemo_ui_text("zoom.wheel_modifier"), NO_SHORTCUT, 55, HELPCTX(no_help),
                   nemo_binding_handler, I(CONF_nemo_zoom_modifiers*4+2));
-    ctrl_text(s, "When an application captures the mouse, add Shift to zoom. Ordinary and horizontal scrolling keep their normal behavior.", HELPCTX(no_help));
-    s = ctrl_getset(b, "Window/Bindings/Font", "keys", "Font shortcuts");
+    ctrl_text(s, nemo_ui_text("zoom.wheel_hint"), HELPCTX(no_help));
+    s = ctrl_getset(b, "Window/Bindings/Font", "keys", nemo_ui_text("zoom.keys"));
     const char *const zoom_binding_labels[][2] = {
-        {"Increase modifiers", "Increase key"}, {"Decrease modifiers", "Decrease key"},
-        {"Reset modifiers", "Reset key"}
+        {nemo_ui_text("zoom.increase_modifiers"), nemo_ui_text("zoom.increase_key")}, {nemo_ui_text("zoom.decrease_modifiers"), nemo_ui_text("zoom.decrease_key")},
+        {nemo_ui_text("zoom.reset_modifiers"), nemo_ui_text("zoom.reset_key")}
     };
     ctrl_columns(s, 2, 50, 50);
     for (size_t i = 0; i < lenof(zoom_binding_labels); i++)
@@ -2923,16 +2912,16 @@ void setup_config_box(struct controlbox *b, bool midsession,
             c->column = field;
         }
     ctrl_columns(s, 1, 100);
-    ctrl_text(s, "Ctrl+Plus / Ctrl+Minus zoom by default; Ctrl+= and numeric keypad +/- also work. Zoom affects only this terminal and does not replace the saved font.", HELPCTX(no_help));
+    ctrl_text(s, nemo_ui_text("zoom.hint"), HELPCTX(no_help));
 
-    ctrl_settitle(b, "Window/Bindings/Commands", "Shell integration shortcuts");
-    s = ctrl_getset(b, "Window/Bindings/Commands", "keys", "Commands and output");
-    ctrl_text(s, "Requires a shell configured to emit prompt markers. Shortcuts start disabled; use the Shell Integration menu or assign keys here.", HELPCTX(no_help));
+    ctrl_settitle(b, "Window/Bindings/Commands", nemo_ui_text("commands.title"));
+    s = ctrl_getset(b, "Window/Bindings/Commands", "keys", nemo_ui_text("commands.group"));
+    ctrl_text(s, nemo_ui_text("commands.hint"), HELPCTX(no_help));
     const char *const shell_binding_labels[][2] = {
-        {"Previous prompt modifiers", "Previous prompt key"},
-        {"Next prompt modifiers", "Next prompt key"},
-        {"Select command modifiers", "Select command key"},
-        {"Select output modifiers", "Select output key"}
+        {nemo_ui_text("commands.previous_modifiers"), nemo_ui_text("commands.previous_key")},
+        {nemo_ui_text("commands.next_modifiers"), nemo_ui_text("commands.next_key")},
+        {nemo_ui_text("commands.select_modifiers"), nemo_ui_text("commands.select_key")},
+        {nemo_ui_text("commands.output_modifiers"), nemo_ui_text("commands.output_key")}
     };
     ctrl_columns(s, 2, 50, 50);
     for (size_t i = 0; i < lenof(shell_binding_labels); i++) {
@@ -2944,48 +2933,48 @@ void setup_config_box(struct controlbox *b, bool midsession,
     }
     ctrl_columns(s, 1, 100);
     ctrl_text(s, "Selection uses the prompt you navigated to, or the latest completed range. Only retained history is included. Copy with your normal Copy shortcut.", HELPCTX(no_help));
-    ctrl_text(s, "These actions are inactive while a full-screen application uses the alternate screen.", HELPCTX(no_help));
+    ctrl_text(s, nemo_ui_text("commands.alternate_hint"), HELPCTX(no_help));
 
-    ctrl_settitle(b, "Window/Selection", "Options controlling copy and paste");
+    ctrl_settitle(b, "Window/Selection", nemo_ui_text("selection.title"));
 
     s = ctrl_getset(b, "Window/Selection", "mouse",
-                    "Control use of mouse");
-    ctrl_text(s, "Shift+drag always selects rendered terminal cells.",
+                    nemo_ui_text("selection.mouse_group"));
+    ctrl_text(s, nemo_ui_text("selection.shift_hint"),
               HELPCTX(selection_shiftdrag));
-    ctrl_radiobuttons(s, "Right-click selected text:", NO_SHORTCUT, 2,
+    ctrl_radiobuttons(s, nemo_ui_text("selection.right_click"), NO_SHORTCUT, 2,
                       HELPCTX(selection_clipactions),
                       conf_radiobutton_bool_handler,
                       I(CONF_nemo_right_click_paste),
-                      "Copy only", NO_SHORTCUT, I(false),
-                      "Copy and paste", NO_SHORTCUT, I(true));
+                      nemo_ui_text("selection.copy_only"), NO_SHORTCUT, I(false),
+                      nemo_ui_text("selection.copy_paste"), NO_SHORTCUT, I(true));
     ctrl_radiobuttons(s,
-                      "Default selection shape:",
+                      nemo_ui_text("selection.shape"),
                       NO_SHORTCUT, 2,
                       HELPCTX(selection_rect),
                       conf_radiobutton_bool_handler,
                       I(CONF_rect_select),
-                      "Normal", 'n', I(false),
-                      "Rectangular block", 'r', I(true));
+                      nemo_ui_text("common.normal"), 'n', I(false),
+                      nemo_ui_text("selection.rectangle"), 'r', I(true));
 
     s = ctrl_getset(b, "Window/Selection", "clipboards",
-                    "Assign copy/paste actions to clipboards");
+                    nemo_ui_text("selection.clipboards"));
     ctrl_checkbox(s, "Auto-copy selected text to "
                   CLIPNAME_EXPLICIT_OBJECT,
                   NO_SHORTCUT, HELPCTX(selection_autocopy),
                   conf_checkbox_handler, I(CONF_mouseautocopy));
-    clipboard_control(s, "Mouse paste action:", NO_SHORTCUT, 60,
+    clipboard_control(s, nemo_ui_text("selection.paste_action"), NO_SHORTCUT, 60,
                       HELPCTX(selection_clipactions),
                       CONF_mousepaste, CONF_mousepaste_custom);
     clipboard_control(s, "{Ctrl,Shift} + Ins:", NO_SHORTCUT, 60,
                       HELPCTX(selection_clipactions),
                       CONF_ctrlshiftins, CONF_ctrlshiftins_custom);
-    clipboard_control(s, "Copy/paste keyboard actions:", NO_SHORTCUT, 60,
+    clipboard_control(s, nemo_ui_text("selection.key_actions"), NO_SHORTCUT, 60,
                       HELPCTX(selection_clipactions),
                       CONF_ctrlshiftcv, CONF_ctrlshiftcv_custom);
 
     s = ctrl_getset(b, "Window/Selection", "paste",
-                    "Control pasting of text from clipboard to terminal");
-    ctrl_checkbox(s, "Permit control characters in pasted text",
+                    nemo_ui_text("selection.pasting"));
+    ctrl_checkbox(s, nemo_ui_text("selection.control_characters"),
                   NO_SHORTCUT, HELPCTX(selection_pastectrl),
                   conf_checkbox_handler, I(CONF_paste_controls));
 
@@ -2993,13 +2982,13 @@ void setup_config_box(struct controlbox *b, bool midsession,
      * The Window/Selection/Copy panel.
      */
     ctrl_settitle(b, "Window/Selection/Copy",
-                  "Options controlling copying from terminal to clipboard");
+                  nemo_ui_text("selection.copying"));
 
     s = ctrl_getset(b, "Window/Selection/Copy", "charclass",
-                    "Classes of character that group together");
+                    nemo_ui_text("selection.classes_group"));
     ccd = (struct charclass_data *)
         ctrl_alloc(b, sizeof(struct charclass_data));
-    ccd->listbox = ctrl_listbox(s, "Character classes:", 'e',
+    ccd->listbox = ctrl_listbox(s, nemo_ui_text("selection.classes"), 'e',
                                 HELPCTX(copy_charclasses),
                                 charclass_handler, P(ccd));
     ccd->listbox->listbox.multisel = 1;
@@ -3010,74 +2999,73 @@ void setup_config_box(struct controlbox *b, bool midsession,
     ccd->listbox->listbox.percentages[2] = 20;
     ccd->listbox->listbox.percentages[3] = 40;
     ctrl_columns(s, 2, 67, 33);
-    ccd->editbox = ctrl_editbox(s, "Set to class", 't', 50,
+    ccd->editbox = ctrl_editbox(s, nemo_ui_text("selection.class"), 't', 50,
                                 HELPCTX(copy_charclasses),
                                 charclass_handler, P(ccd), P(NULL));
     ccd->editbox->column = 0;
-    ccd->button = ctrl_pushbutton(s, "Set", 's',
+    ccd->button = ctrl_pushbutton(s, nemo_ui_text("selection.set"), 's',
                                   HELPCTX(copy_charclasses),
                                   charclass_handler, P(ccd));
     ccd->button->column = 1;
     ctrl_columns(s, 1, 100);
 
-    ctrl_settitle(b, "Window/Selection/Colours", "Selection colours");
+    ctrl_settitle(b, "Window/Selection/Colours", nemo_ui_text("selection.colours"));
     s = ctrl_getset(b, "Window/Selection/Colours", "general", NULL);
-    ctrl_text(s, "Leave custom colours off to use inverted text colours.", HELPCTX(no_help));
+    ctrl_text(s, nemo_ui_text("selection.colours_hint"), HELPCTX(no_help));
     {
-        const char *const background[] = {"Red", "Green", "Blue"};
-        const char *const foreground[] = {"Red", "Green", "Blue"};
-        selection_colour_controls(b, "background", "Selection background",
-            "Use custom background colour", "Choose background colour...",
+        const char *const background[] = {nemo_ui_text("common.red"), nemo_ui_text("common.green"), nemo_ui_text("common.blue")};
+        const char *const foreground[] = {nemo_ui_text("common.red"), nemo_ui_text("common.green"), nemo_ui_text("common.blue")};
+        selection_colour_controls(b, "background", nemo_ui_text("selection.background_group"),
+            nemo_ui_text("selection.custom_background"), nemo_ui_text("selection.choose_background"),
             CONF_nemo_selection_bg_enabled, CONF_nemo_selection_bg, background);
-        selection_colour_controls(b, "foreground", "Selected text",
-            "Use custom text colour", "Choose text colour...",
+        selection_colour_controls(b, "foreground", nemo_ui_text("selection.foreground_group"),
+            nemo_ui_text("selection.custom_text"), nemo_ui_text("selection.choose_text"),
             CONF_nemo_selection_fg_enabled, CONF_nemo_selection_fg, foreground);
     }
 
     /*
      * The Window/Colours panel.
      */
-    ctrl_settitle(b, "Window/Colours", "Options controlling use of colours");
+    ctrl_settitle(b, "Window/Colours", nemo_ui_text("colours.title"));
 
     s = ctrl_getset(b, "Window/Colours", "general",
-                    "General options for colour usage");
-    ctrl_checkbox(s, "Allow terminal to specify ANSI colours", 'i',
+                    nemo_ui_text("colours.general"));
+    ctrl_checkbox(s, nemo_ui_text("colours.ansi"), 'i',
                   HELPCTX(colours_ansi),
                   conf_checkbox_handler, I(CONF_ansi_colour));
-    ctrl_checkbox(s, "Allow terminal to use xterm 256-colour mode", '2',
+    ctrl_checkbox(s, nemo_ui_text("colours.indexed"), '2',
                   HELPCTX(colours_xterm256), conf_checkbox_handler,
                   I(CONF_xterm_256_colour));
-    ctrl_checkbox(s, "Allow terminal to use 24-bit colours", '4',
+    ctrl_checkbox(s, nemo_ui_text("colours.truecolour"), '4',
                   HELPCTX(colours_truecolour), conf_checkbox_handler,
                   I(CONF_true_colour));
-    ctrl_radiobuttons(s, "Indicate bolded text by changing:", 'b', 3,
+    ctrl_radiobuttons(s, nemo_ui_text("colours.bold"), 'b', 3,
                       HELPCTX(colours_bold),
                       conf_radiobutton_handler, I(CONF_bold_style),
-                      "The font", I(BOLD_STYLE_FONT),
-                      "The colour", I(BOLD_STYLE_COLOUR),
-                      "Both", I(BOLD_STYLE_FONT | BOLD_STYLE_COLOUR));
+                      nemo_ui_text("colours.font"), I(BOLD_STYLE_FONT),
+                      nemo_ui_text("colours.colour"), I(BOLD_STYLE_COLOUR),
+                      nemo_ui_text("colours.both"), I(BOLD_STYLE_FONT | BOLD_STYLE_COLOUR));
 
     str = dupprintf("Adjust the precise colours %s displays", appname);
     s = ctrl_getset(b, "Window/Colours", "adjust", str);
     sfree(str);
-    ctrl_text(s, "Select a colour from the list, and then click the"
-              " Modify button to change its appearance.",
+    ctrl_text(s, nemo_ui_text("colours.modify_hint"),
               HELPCTX(colours_config));
     ctrl_columns(s, 2, 67, 33);
     cd = (struct colour_data *)ctrl_alloc(b, sizeof(struct colour_data));
-    cd->listbox = ctrl_listbox(s, "Select a colour to adjust:", 'u',
+    cd->listbox = ctrl_listbox(s, nemo_ui_text("colours.select"), 'u',
                                HELPCTX(colours_config), colour_handler, P(cd));
     cd->listbox->column = 0;
     cd->listbox->listbox.height = 7;
-    c = ctrl_text(s, "RGB value:", HELPCTX(colours_config));
+    c = ctrl_text(s, nemo_ui_text("colours.rgb"), HELPCTX(colours_config));
     c->column = 1;
-    cd->redit = ctrl_editbox(s, "Red", 'r', 50, HELPCTX(colours_config),
+    cd->redit = ctrl_editbox(s, nemo_ui_text("common.red"), 'r', 50, HELPCTX(colours_config),
                              colour_handler, P(cd), P(NULL));
     cd->redit->column = 1;
-    cd->gedit = ctrl_editbox(s, "Green", 'n', 50, HELPCTX(colours_config),
+    cd->gedit = ctrl_editbox(s, nemo_ui_text("common.green"), 'n', 50, HELPCTX(colours_config),
                              colour_handler, P(cd), P(NULL));
     cd->gedit->column = 1;
-    cd->bedit = ctrl_editbox(s, "Blue", 'e', 50, HELPCTX(colours_config),
+    cd->bedit = ctrl_editbox(s, nemo_ui_text("common.blue"), 'e', 50, HELPCTX(colours_config),
                              colour_handler, P(cd), P(NULL));
     cd->bedit->column = 1;
     cd->button = ctrl_pushbutton(s, "Modify", 'm', HELPCTX(colours_config),
@@ -3119,7 +3107,7 @@ void setup_config_box(struct controlbox *b, bool midsession,
                               HELPCTX(connection_ipversion),
                               conf_radiobutton_handler,
                               I(CONF_addressfamily),
-                              "Auto", 'u', I(ADDRTYPE_UNSPEC),
+                              nemo_ui_text("common.automatic"), 'u', I(ADDRTYPE_UNSPEC),
                               "IPv4", '4', I(ADDRTYPE_IPV4),
                               "IPv6", '6', I(ADDRTYPE_IPV6));
 #endif
@@ -3192,7 +3180,7 @@ void setup_config_box(struct controlbox *b, bool midsession,
                                       HELPCTX(telnet_environ),
                                       environ_handler, P(ed), P(NULL));
             ed->valbox->column = 0;
-            ed->addbutton = ctrl_pushbutton(s, "Add", 'd',
+            ed->addbutton = ctrl_pushbutton(s, nemo_ui_text("common.add"), 'd',
                                             HELPCTX(telnet_environ),
                                             environ_handler, P(ed));
             ed->addbutton->column = 1;
@@ -3248,9 +3236,9 @@ void setup_config_box(struct controlbox *b, bool midsession,
                           HELPCTX(proxy_dns),
                           conf_radiobutton_handler,
                           I(CONF_proxy_dns),
-                          "No", I(FORCE_OFF),
-                          "Auto", I(AUTO),
-                          "Yes", I(FORCE_ON));
+                          nemo_ui_text("common.no"), I(FORCE_OFF),
+                          nemo_ui_text("common.automatic"), I(AUTO),
+                          nemo_ui_text("common.yes"), I(FORCE_ON));
         ctrl_editbox(s, "Username", 'u', 60,
                      HELPCTX(proxy_auth),
                      conf_editbox_handler,
@@ -3270,8 +3258,8 @@ void setup_config_box(struct controlbox *b, bool midsession,
                           HELPCTX(proxy_logging),
                           conf_radiobutton_handler,
                           I(CONF_proxy_log_to_term),
-                          "No", I(FORCE_OFF),
-                          "Yes", I(FORCE_ON),
+                          nemo_ui_text("common.no"), I(FORCE_OFF),
+                          nemo_ui_text("common.yes"), I(FORCE_ON),
                           "Only until session starts", I(AUTO));
     }
 
@@ -3658,7 +3646,7 @@ void setup_config_box(struct controlbox *b, bool midsession,
             ctrl_columns(s, 2, 75, 25);
             c = ctrl_text(s, "For selected mode, send:", HELPCTX(ssh_ttymodes));
             c->column = 0;
-            td->setbutton = ctrl_pushbutton(s, "Set", 's',
+            td->setbutton = ctrl_pushbutton(s, nemo_ui_text("selection.set"), 's',
                                             HELPCTX(ssh_ttymodes),
                                             ttymodes_handler, P(td));
             td->setbutton->column = 1;
@@ -3670,7 +3658,7 @@ void setup_config_box(struct controlbox *b, bool midsession,
             td->valradio = ctrl_radiobuttons(s, NULL, NO_SHORTCUT, 3,
                                              HELPCTX(ssh_ttymodes),
                                              ttymodes_handler, P(td),
-                                             "Auto", NO_SHORTCUT, P(NULL),
+                                             nemo_ui_text("common.automatic"), NO_SHORTCUT, P(NULL),
                                              "Nothing", NO_SHORTCUT, P(NULL),
                                              "This:", NO_SHORTCUT, P(NULL));
             td->valradio->column = 0;
@@ -3744,7 +3732,7 @@ void setup_config_box(struct controlbox *b, bool midsession,
         ctrl_text(s, "Add new forwarded port:", HELPCTX(ssh_tunnels_portfwd));
         /* You want to enter source, destination and type, _then_ hit Add.
          * Again, we adjust the tab order to reflect this. */
-        pfd->addbutton = ctrl_pushbutton(s, "Add", 'd',
+        pfd->addbutton = ctrl_pushbutton(s, nemo_ui_text("common.add"), 'd',
                                          HELPCTX(ssh_tunnels_portfwd),
                                          portfwd_handler, P(pfd));
         pfd->addbutton->column = 2;
@@ -3767,7 +3755,7 @@ void setup_config_box(struct controlbox *b, bool midsession,
             ctrl_radiobuttons(s, NULL, NO_SHORTCUT, 3,
                               HELPCTX(ssh_tunnels_portfwd_ipversion),
                               portfwd_handler, P(pfd),
-                              "Auto", 'u', I(ADDRTYPE_UNSPEC),
+                              nemo_ui_text("common.automatic"), 'u', I(ADDRTYPE_UNSPEC),
                               "IPv4", '4', I(ADDRTYPE_IPV4),
                               "IPv6", '6', I(ADDRTYPE_IPV6));
 #endif
@@ -3960,7 +3948,7 @@ void setup_config_box(struct controlbox *b, bool midsession,
                           HELPCTX(supdup_ascii),
                           conf_radiobutton_handler,
                           I(CONF_supdup_ascii_set),
-                          "None", I(SUPDUP_CHARSET_ASCII),
+                          nemo_ui_text("common.none"), I(SUPDUP_CHARSET_ASCII),
                           "ITS", I(SUPDUP_CHARSET_ITS),
                           "WAITS", I(SUPDUP_CHARSET_WAITS));
 
