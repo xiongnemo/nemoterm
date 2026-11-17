@@ -18,6 +18,11 @@ class CatalogTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             json.loads('{"same": 1, "same": 2}', object_pairs_hook=catalog.unique)
 
+    def test_escape_boundary_before_digits(self):
+        emitted = catalog.literal('中文89')
+        self.assertNotRegex(emitted, r'\\[0-7]{3}[89]')
+        self.assertTrue(emitted.isascii())
+
     def test_reject_format_specifiers(self):
         with self.assertRaises(ValueError): catalog.parameters('{app!r}')
         with self.assertRaises(ValueError): catalog.parameters('{0}')

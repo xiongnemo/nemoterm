@@ -8,7 +8,7 @@ from native_test_utils import *
 from owned_job import OwnedJob
 from protocol_oracle_window import saved_profile
 from contextlib import contextmanager
-import argparse, winreg
+import argparse, winreg, uuid
 
 parser=argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--settings-helper',required=True,type=Path)
@@ -21,10 +21,13 @@ u.GetClassNameW.argtypes=[w.HWND,w.LPWSTR,c.c_int]
 u.GetWindowTextW.argtypes=[w.HWND,w.LPWSTR,c.c_int]
 u.PostMessageW.argtypes=[w.HWND,w.UINT,w.WPARAM,w.LPARAM]
 u.IsWindowEnabled.argtypes=[w.HWND]
+u.GetSystemMenu.argtypes=[w.HWND,w.BOOL];u.GetSystemMenu.restype=w.HMENU
+u.GetMenuStringW.argtypes=[w.HMENU,w.UINT,w.LPWSTR,c.c_int,w.UINT]
 ENUM=c.WINFUNCTYPE(w.BOOL,w.HWND,w.LPARAM)
 u.EnumWindows.argtypes=[ENUM,w.LPARAM]
 ROOT_KEY=r'Software\Nemo\Nemoterm'
 evidence=dict(completed=False,checks=[],screenshots=[],ui=[],
+    memory=[],menus=[],
     executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),
     product_commit=os.environ.get('NEMOTERM_DPI_PRODUCT_COMMIT'))
 
@@ -52,16 +55,24 @@ def dialog_window(pid):
     return next(iter(found),None)
 
 @contextmanager
-def terminal(profile_args,language=None):
+def terminal(profile_args,language=None,child_arguments=None):
     with OwnedJob() as job:
         language_args=['--ui-language',language] if language else []
-        process=job.spawn([str(exe),*profile_args,*language_args,'--cols','40','--rows','12',
-                           '-e','cmd.exe','/d','/q'],
+        child=child_arguments or ['cmd.exe','/d','/q']
+        process=job.spawn([str(exe),*profile_args,*language_args,'--cols','40','--rows','12','-e',*child],
                           env=dict(os.environ,NEMOTERM_CONPTY='bundled'),creationflags=subprocess.CREATE_NO_WINDOW)
         hwnd=wait_for(lambda:find_window(process.pid))
+        handle=k.OpenProcess(0x410,False,process.pid)
+        try:evidence['memory'].append(dict(phase='startup',override=language,**memory_sample(handle)))
+        finally:k.CloseHandle(handle)
         yield process,hwnd
 
 def settings(process,terminal_hwnd,lang):
+    menu=u.GetSystemMenu(terminal_host(terminal_hwnd),False)
+    label=c.create_unicode_buffer(256)
+    assert u.GetMenuStringW(menu,0x50,label,len(label),0)>0
+    assert ('设置' in label.value) if lang=='zh-CN' else ('Settings' in label.value),label.value
+    evidence['menus'].append(dict(language=lang,profile_settings=label.value))
     u.PostMessageW(terminal_hwnd,0x111,0x50,0)
     hwnd=wait_for(lambda:dialog_window(process.pid))
     title=c.create_unicode_buffer(256);u.GetWindowTextW(hwnd,title,len(title))
@@ -143,6 +154,41 @@ try:
                 except FileNotFoundError:pass
                 else:raise AssertionError('Language preference leaked into a profile')
         evidence['checks'].append('UILanguage is global and absent from both profiles')
+        # The same public parser must leave option-looking child arguments intact.
+        with tempfile.TemporaryDirectory(prefix='nemo-ui-child-') as directory:
+            report=Path(directory)/'argv.json'
+            child=[sys.executable,'-c',
+                'import sys,json,time;from pathlib import Path;Path(sys.argv[1]).write_text(json.dumps(sys.argv[2:]));time.sleep(90)',
+                str(report),'--ui-language','zh-CN']
+            with terminal(first,child_arguments=child) as (process,term):
+                wait_for(report.exists)
+                assert json.loads(report.read_text())==['--ui-language','zh-CN']
+                hwnd=settings(process,term,'en')
+                probe(process,hwnd,'en',choice=0,action='cancel');closed(hwnd)
+        evidence['checks'].append('-e preserves option-looking child arguments without switching the UI')
+        # A UTF-8 profile identity must survive --profile, UI display and Save.
+        name='中文配置-'+uuid.uuid4().hex
+        encoded=''.join(chr(b) if 33<=b<=126 and chr(b) not in '\\*?%' else f'%{b:02X}' for b in name.encode('utf-8'))
+        path=ROOT_KEY+'\\Sessions\\'+encoded
+        try:
+            with winreg.CreateKey(winreg.HKEY_CURRENT_USER,path) as key:
+                winreg.SetValueEx(key,'NemoTabs',0,winreg.REG_DWORD,0)
+                winreg.SetValueEx(key,'WarnOnClose',0,winreg.REG_DWORD,0)
+            with terminal(['--profile',name],'zh-CN') as (process,term):
+                hwnd=settings(process,term,'zh-CN')
+                title=c.create_unicode_buffer(256);u.GetWindowTextW(hwnd,title,len(title))
+                assert name in title.value,title.value
+                probe(process,hwnd,'zh-CN',page='profile')
+                probe(process,hwnd,'zh-CN',choice=0,action='save');closed(hwnd)
+            with winreg.OpenKey(winreg.HKEY_CURRENT_USER,path) as key:
+                assert winreg.QueryValueEx(key,'Present')[0]==1
+            with terminal(['--profile',name],'en') as (process,term):
+                hwnd=settings(process,term,'en')
+                title=c.create_unicode_buffer(256);u.GetWindowTextW(hwnd,title,len(title))
+                assert name in title.value,title.value
+                probe(process,hwnd,'en',choice=0,action='cancel');closed(hwnd)
+        finally:winreg.DeleteKey(winreg.HKEY_CURRENT_USER,path)
+        evidence['checks'].append('Chinese profile identity survives CLI selection, Save and restart in both UI languages')
     evidence['completed']=True
 finally:
     if original is None:set_preference(None)
