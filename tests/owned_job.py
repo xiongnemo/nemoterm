@@ -141,7 +141,7 @@ class OwnedJob:
                 k.CloseHandle(handle)
         return handles
 
-    def finish(self, grace=2, observe_after_deadline=0):
+    def finish(self, grace=2, observe_after_deadline=0, failure_observer=None):
         if self.cleanup is not None:
             return self.cleanup
         if not 0 <= observe_after_deadline <= 30:
@@ -154,6 +154,7 @@ class OwnedJob:
         handles = self.member_handles()
         remaining_processes = []
         observation = []
+        failure_snapshot = None
         try:
             for handle in handles:
                 path = c.create_unicode_buffer(32768); length = w.DWORD(len(path))
@@ -189,6 +190,11 @@ class OwnedJob:
                         break
                     time.sleep(.02)
                 forced = active > 0
+            if forced and failure_observer:
+                try:
+                    failure_snapshot = failure_observer(self, handles)
+                except Exception as error:
+                    failure_snapshot = dict(error=repr(error))
             if forced and not k.TerminateJobObject(self.handle, 1):
                 raise c.WinError(c.get_last_error())
             deadline = time.monotonic()+5
@@ -209,6 +215,8 @@ class OwnedJob:
             self.cleanup.update(grace_exceeded=grace_exceeded, grace_seconds=grace,
                 diagnostic_observation_seconds=observe_after_deadline,
                 after_deadline=observation)
+        if failure_snapshot is not None:
+            self.cleanup['failure_snapshot'] = failure_snapshot
         return self.cleanup
 
     def __enter__(self):

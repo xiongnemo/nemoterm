@@ -31,7 +31,8 @@ def record_processes(phase, sid=None, root_pid=None, discover=False):
     """Retain identities across parent exit; diagnostics never stop a process."""
     if not observed['process_observer']:
         return
-    event = dict(phase=phase, shell=sid, seconds=round(time.monotonic()-started_at, 6))
+    event = dict(phase=phase, shell=sid, seconds=round(time.monotonic()-started_at, 6),
+                 windows_filetime=time.time_ns()//100+116444736000000000)
     try:
         if discover:
             for row in owned_processes(root_pid, exited=[]):
@@ -175,6 +176,7 @@ try:
                         observed['launches'][sid]['duplicate_directory'] = actual_duplicate
                         record_processes('duplicate-before-close', sid, process.pid, discover=True)
                     finally:
+                        observed['launches'][sid]['duplicate_close_filetime'] = time.time_ns()//100+116444736000000000
                         u.PostMessageW(duplicate_hwnd, 0x10, 0, 0)
                         wait_for(lambda: not u.IsWindow(duplicate_hwnd), timeout=10)
                         assert process.poll() is None

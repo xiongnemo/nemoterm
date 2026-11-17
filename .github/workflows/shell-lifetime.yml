@@ -55,12 +55,16 @@ jobs:
           python -m pip install frida==17.24.3 Pillow==13.0.0
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python tests/owned_job_test.py 2>&1 | Tee-Object build/owned-job-controls.log
-          exit $LASTEXITCODE
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          ./scripts/test-failure-dump.ps1 -Destination build/shell-dump-controls
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          "NEMOTERM_JOB_FAILURE_DUMP=$((Resolve-Path build/shell-dump-controls/helper.exe).Path)" | Out-File $env:GITHUB_ENV -Append -Encoding utf8
       - name: Repeat duplicate close with and without process observation
         shell: pwsh
         env:
           ITERATIONS: ${{ inputs.iterations }}
           NEMOTERM_JOB_FAILURE_OBSERVE_SECONDS: '12'
+          NEMOTERM_JOB_FAILURE_CAPTURE: '1'
         run: |
           $exe = (Resolve-Path build/shell-product/nemoterm.exe).Path
           python scripts/repeat-shell-lifetime.py --exe $exe --sha256 (Get-FileHash $exe).Hash.ToLowerInvariant() --destination build/shell-lifetime --iterations $env:ITERATIONS
@@ -73,6 +77,8 @@ jobs:
             build/shell-product/SOURCE-HOST.json
             build/interaction-dependencies/environment.json
             build/owned-job-controls.log
+            build/shell-dump-controls/*.log
+            build/shell-dump-controls/controls/
             build/shell-lifetime/summary.json
             build/shell-lifetime/*/identity.json
             build/shell-lifetime/*/plan.json

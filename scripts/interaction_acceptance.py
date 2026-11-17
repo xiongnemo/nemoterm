@@ -265,8 +265,15 @@ def run(args):
                     row.update(status='failed', error=repr(exc))
                 finally:
                     try:
+                        failure_observer = None
+                        if os.environ.get('NEMOTERM_JOB_FAILURE_CAPTURE') == '1':
+                            from job_failure_snapshot import capture_job_failure
+                            failure_observer = lambda owned, handles: capture_job_failure(
+                                owned, handles, attempt/'research/job-failure',
+                                os.environ.get('NEMOTERM_JOB_FAILURE_DUMP'))
                         row['cleanup'] = job.finish(grace=3, observe_after_deadline=
-                            float(os.environ.get('NEMOTERM_JOB_FAILURE_OBSERVE_SECONDS', '0')))
+                            float(os.environ.get('NEMOTERM_JOB_FAILURE_OBSERVE_SECONDS', '0')),
+                            failure_observer=failure_observer)
                     except Exception as exc:
                         row.update(status='failed', cleanup_error=repr(exc))
                     if row.get('cleanup', {}).get('terminated_remaining'):
