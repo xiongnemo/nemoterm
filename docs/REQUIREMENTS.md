@@ -106,6 +106,11 @@ superseded by this clarification. Continue feature compatibility and regression
 work. All current builds and tests remain on GitHub-hosted runners. The original
 25 MB results are retained; the new gate requires a separately identified replay.
 
+[Replay 44100194466](../research/directx-30mb.md) now passes all six full-grid
+DirectX workloads on the exact `329019d` image. Its private-WS peak is 29,421,568
+bytes (29.421568 MB / 28.058594 MiB); all post-memory checks complete with
+natural cleanup. The original 21/22 aggregate remains recorded under 25 MB.
+
 ## Historical combined candidate (2026-11-16 Sydney)
 
 Source `253855b481b2ccd6a13dae5490c42f19c8b9dd64` passes both complete

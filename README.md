@@ -13,7 +13,7 @@ Nemoterm 是 **PuTTY 0.85 Windows pterm 的下游 fork**，沿用其终端核心
 本页描述所在分支的代码；下载产物按下面的提交和验证记录区分。已实现功能与测试边界见 [协议支持表](docs/PROTOCOLS.md)
 和 [需求与验证记录](docs/REQUIREMENTS.md)。
 
-当前开发构建 `329019d` 已完成远程 CI，**21/22 个任务通过**：170 组单 EXE 检查、MinGW 完整套件、26 项交互、24 个中英文真实 DPI 场景及全部六项完整网格 GDI 负载均通过。新增 Terminfo 键盘的 1,293 条原生输入流零差异。唯一失败为 DirectX 完整网格负载超过当时的 25 MB 私有工作集门槛；GDI 峰值为 18.82 MB。用户现已将 DirectX 上限调整为 **30 MB**，CI 门槛已更新，新一轮远程内存回放单独记录。
+当前开发构建 `329019d` 的原完整 CI 为 **21/22**：170 组单 EXE 检查、MinGW 完整套件、26 项交互、24 个中英文真实 DPI 场景及六项完整网格 GDI 负载通过。新增 Terminfo 键盘的 1,293 条原生输入流零差异。唯一失败是当时的 DirectX 25 MB 门槛。用户改为 **30 MB** 后，同一 EXE 的[六项远程 DirectX 回放全部通过](research/directx-30mb.md)，私有工作集峰值为 **29.42 MB**；GDI 原峰值为 **18.82 MB**。原 CI 记录保持不变。
 [下载当前单文件开发构建](https://github.com/xiongnemo/nemoterm/actions/runs/44083541137/artifacts/14332971661) · [完整 CI](https://github.com/xiongnemo/nemoterm/actions/runs/44083541137) · [产物与验证记录](research/terminfo-product-regression.md)。
 
 所有自动测试已配置到 GitHub-hosted runner：完整 CI 统一调用协议、单 EXE、DPI、26 项交互和 12 项完整 Sarasa 网格负载，保留截图与原始日志，不依赖开发电脑的桌面或剪贴板。入口、依赖和验证边界见 [远程测试操作单](docs/INTERACTION_ACCEPTANCE.md)；实际运行结果见 [迁移记录](research/remote-test-migration.md)。
@@ -38,7 +38,7 @@ Kitty 图片支持直接 RGB/RGBA/PNG、压缩传输、裁剪、透明度、查�
 
 ## 下载
 
-当前开发构建 `329019d` 的单 EXE 为 4,800,000 字节，带有上述 DirectX 内存限制；来源与 SHA-256 见 [本轮记录](research/terminfo-product-regression.md)。此前迁移基线 `2312edd` 为 19/19 全绿，但尚未包含后来新增的完整 Sarasa 网格门槛，见 [迁移基线](research/remote-test-migration.md)。历史语言预览保留在 [语言预览记录](research/i18n.md)，不将旧版本结果套用于新 EXE。
+当前开发构建 `329019d` 的单 EXE 为 4,800,000 字节；来源与 SHA-256 见 [本轮记录](research/terminfo-product-regression.md)，新的 DirectX 30 MB 验收见[专项回放](research/directx-30mb.md)。此前迁移基线 `2312edd` 为 19/19 全绿，但尚未包含后来新增的完整 Sarasa 网格门槛，见 [迁移基线](research/remote-test-migration.md)。历史语言预览保留在 [语言预览记录](research/i18n.md)，不将旧版本结果套用于新 EXE。
 
 查找后续开发构建：
 

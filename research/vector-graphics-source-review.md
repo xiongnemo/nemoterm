@@ -63,8 +63,11 @@ format, all settling attempts and original PNGs are retained.
 Coverage includes entry/resume modes, absolute/relative/pixel-vector movement,
 position stacks, circles/arcs, fills, line patterns, writing styles, address
 ranges, RGB/HLS palettes, displayed/hidden pages, reset/alternate-screen state
-and CAN/SUB recovery. The single text scene explicitly uses the upstream
-missing-font glyph; it does not validate font selection or uploaded alphabets.
+and CAN/SUB recovery. The single text scene uses an empty font resource.
+Subsequent component comparison established that Xft still matches a system
+font: its pixels show `ABC`, not missing-glyph blocks. The historical case name
+`text-no-font` is retained, but does not prove that font loading was disabled.
+It does not validate all font selection or uploaded alphabets.
 The rectangle, circle, fill, RGB line and two page-selection images were
 visually inspected as well.
 
@@ -140,5 +143,7 @@ against these independent observations. Extend the reference matrix before
 claiming the additional families above. All compilation, reference execution
 and product checks remain on GitHub-hosted runners.
 
-The coverage ledger continues to mark both families **Missing**. No new
-capability is advertised and no memory result is inferred from this review.
+The [native component](regis-native-component.md) now has a per-owner parser
+and sparse pages, with a retained font mismatch. It is not wired to terminal
+input or renderers. The coverage ledger continues to mark both families
+**Missing**; no new capability or product memory result is inferred.

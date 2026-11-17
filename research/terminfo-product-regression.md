@@ -1,5 +1,10 @@
 # Full hosted regression after Terminfo keyboard integration
 
+Subsequent policy update: the user raised DirectX's allowance to 30 MB.
+[Replay 44100194466](directx-30mb.md) passes all six full-grid workloads on this
+exact image, peaking at 29.42 MB. The historical aggregate below remains 21/22
+under its original 25 MB limit.
+
 [Run 44083541137](https://github.com/xiongnemo/nemoterm/actions/runs/44083541137)
 completed at production commit `329019d65618bc547f9f52e8b7277f1800341184`:
 **21 jobs pass and one fails**. Only the full-grid DirectX memory job fails.
