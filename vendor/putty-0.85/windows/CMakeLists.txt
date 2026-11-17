@@ -70,6 +70,7 @@ add_sources_from_current_dir(guiterminal
   nemo_tabs_layout.c
   nemo_gl.c nemo_d2d.c nemo_d2d_api.cpp nemo_d3d11.c nemo_gpu.c
   nemo_font_cmap.c nemo_font_fallback.c
+  nemo_regis_font.c
   nemo_cluster.cpp
   nemo_link_ui.c nemo_clipboard.c nemo_key_input.c nemo_osc52_ui.c
   dialog.c controls.c config.c printing.c jump-list.c sizetip.c nemo_snapshot.c)
@@ -249,6 +250,15 @@ add_executable(test_sixel_terminal
   ${CMAKE_SOURCE_DIR}/stubs/no-timing.c
   no-jump-list.c)
 target_link_libraries(test_sixel_terminal
+  guiterminal settings eventloop utils ${platform_libraries})
+
+add_executable(test_regis_terminal
+  ${CMAKE_SOURCE_DIR}/test/test_regis_terminal.c
+  ${CMAKE_SOURCE_DIR}/stubs/no-gss.c
+  ${CMAKE_SOURCE_DIR}/stubs/no-storage.c
+  ${CMAKE_SOURCE_DIR}/stubs/no-timing.c
+  no-jump-list.c)
+target_link_libraries(test_regis_terminal
   guiterminal settings eventloop utils ${platform_libraries})
 
 add_executable(test_resize

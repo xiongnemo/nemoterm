@@ -114,6 +114,7 @@ struct WinGuiSeat {
     int vtmode;
 
     HFONT fonts[FONT_MAXNO];
+    struct NemoRegisFontWin *regis_font;
     LOGFONT lfont;
     bool fontflag[FONT_MAXNO];
     enum BoldMode bold_font_mode;

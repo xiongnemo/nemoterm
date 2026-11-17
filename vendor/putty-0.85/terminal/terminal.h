@@ -21,6 +21,7 @@
 #include "nemo_osc52.h"
 #include "nemo_win32_input.h"
 #include "nemo_pointer.h"
+#include "nemo_regis.h"
 
 /* Bounded cell extension storage; rationale is documented below. */
 #define CC_LIMIT 32
@@ -167,6 +168,13 @@ enum NemoProtectionMode {
 };
 
 typedef struct NemoTermKitty NemoTermKitty;
+typedef struct NemoTermRegis NemoTermRegis;
+size_t term_regis_memory(const Terminal *);
+bool term_regis_pending(const Terminal *);
+const NemoRegis *term_regis_decoder(const Terminal *);
+NemoRegisResult term_regis_last_result(const Terminal *);
+/* Internal resource setter, also used for pinned upstream test geometry. */
+bool term_regis_set_size(Terminal *, unsigned width, unsigned height);
 size_t term_kitty_memory(const Terminal *);
 bool term_kitty_pending(const Terminal *);
 const NemoKittyCache *term_kitty_cache(const Terminal *, int screen);
@@ -185,6 +193,8 @@ struct terminal_tag {
     NemoSixel *sixel_pending;
     NemoIterm *iterm_pending;
     NemoTermKitty *kitty;
+    NemoTermRegis *regis;
+    unsigned regis_width, regis_height;
     bool kitty_apc;
     bool iterm_osc;
     unsigned sixel_header[3], sixel_header_index;
@@ -397,7 +407,7 @@ struct terminal_tag {
         NEMO_APC_START, NEMO_APC_DATA, NEMO_APC_DROP,
         NEMO_APC_MAYBE_ST, NEMO_APC_MAYBE_ST_UTF8,
         NEMO_DCS_HEADER, NEMO_DCS_SIXEL, NEMO_DCS_QUERY_PREFIX,
-        NEMO_DCS_QUERY, NEMO_DCS_DROP, NEMO_DCS_UDK,
+        NEMO_DCS_QUERY, NEMO_DCS_DROP, NEMO_DCS_UDK, NEMO_DCS_REGIS,
         NEMO_DCS_MAYBE_ST, NEMO_DCS_MAYBE_ST_UTF8
     } termstate;
 

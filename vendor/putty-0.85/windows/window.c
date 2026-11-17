@@ -35,6 +35,7 @@
 #include "nemo_gpu.h"
 #include "nemo_kitty_paint.h"
 #include "nemo_wic.h"
+#include "nemo_regis_font.h"
 #include "nemo_tabs_host.h"
 #include "terminal/nemo_window_size.h"
 #include "tree234.h"
@@ -280,9 +281,33 @@ static void wintw_palette_set(TermWin *, unsigned, unsigned, const rgb *);
 static void wintw_palette_get_overrides(TermWin *, Terminal *);
 static void wintw_unthrottle(TermWin *win, size_t bufsize);
 
+static void wintw_regis_clear_font(TermWin *tw)
+{
+    WinGuiSeat *wgs=container_of(tw,WinGuiSeat,termwin);
+    nemo_regis_font_free(wgs->regis_font);
+    wgs->regis_font=NULL;
+}
+
+static bool wintw_regis_glyph(TermWin *tw,const char *font,unsigned ch,
+    unsigned maxw,unsigned maxh,unsigned char *pixels,size_t capacity,
+    unsigned *width,unsigned *height)
+{
+    WinGuiSeat *wgs=container_of(tw,WinGuiSeat,termwin);
+    if (!wgs->regis_font) {
+        LOGFONTW selected={0};
+        if (!wgs->fonts[FONT_NORMAL] ||
+            !GetObjectW(wgs->fonts[FONT_NORMAL],sizeof(selected),&selected)) return false;
+        wgs->regis_font=nemo_regis_font_new(selected.lfFaceName,selected.lfWeight);
+        if (!wgs->regis_font) return false;
+    }
+    return nemo_regis_font_glyph(wgs->regis_font,font,ch,maxw,maxh,pixels,capacity,width,height);
+}
+
 static const TermWinVtable windows_termwin_vt = {
     .kitty_graphics = true,
     .decode_image = nemo_wic_decode,
+    .regis_glyph = wintw_regis_glyph,
+    .regis_clear_font = wintw_regis_clear_font,
     .grapheme_clusters = true,
     .get_geometry = wintw_get_geometry,
     .get_pointer = wintw_get_pointer,
@@ -2142,6 +2167,7 @@ static void another_font(WinGuiSeat *wgs, int fontno)
 
 static void deinit_fonts(WinGuiSeat *wgs)
 {
+    wintw_regis_clear_font(&wgs->termwin);
     nemo_gpu_clear_cache(wgs->gpu);
     nemo_font_fallback_free(&wgs->font_fallback);
     int i;

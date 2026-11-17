@@ -116,8 +116,8 @@ static Graphic *get_new_or_matching_graphic(NemoRegis *owner, int row, int col,
     g->page=page; g->screen=owner->screen; g->id=++owner->next_id;
     g->actual_width=width; g->actual_height=height;
     g->max_width=(int)owner->config.max_width; g->max_height=(int)owner->config.max_height;
-    g->tile_columns=(owner->config.max_width+31)/32;
-    g->tile_rows=(owner->config.max_height+31)/32;
+    g->tile_columns=((unsigned)width+31)/32;
+    g->tile_rows=((unsigned)height+31)/32;
     g->tiles=regis_allocate(owner,(size_t)g->tile_columns*g->tile_rows*sizeof(*g->tiles));
     g->background=COLOR_HOLE;
     g->valid_registers=owner->config.colours;

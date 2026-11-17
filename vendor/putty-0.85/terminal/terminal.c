@@ -1703,22 +1703,25 @@ static bool nemo_image_live(Terminal *term, NemoTermImage *image);
 static size_t nemo_image_pending(Terminal *term)
 {
     return nemo_sixel_stats(term->sixel_pending).allocated_bytes +
-        nemo_iterm_memory(term->iterm_pending) + term_kitty_memory(term);
+        nemo_iterm_memory(term->iterm_pending) + term_kitty_memory(term) + term_regis_memory(term);
 }
 
 static bool nemo_sixel_admit(void *ctx, size_t current, size_t extra)
 {
     Terminal *term = ctx;
     return nemo_image_admit(term, current + nemo_iterm_memory(term->iterm_pending) +
-        term_kitty_memory(term), extra);
+        term_kitty_memory(term) + term_regis_memory(term), extra);
 }
 
 static bool nemo_inline_admit(void *ctx, size_t current, size_t extra)
 {
     Terminal *term = ctx;
     return nemo_image_admit(term, current +
-        nemo_sixel_stats(term->sixel_pending).allocated_bytes + term_kitty_memory(term), extra);
+        nemo_sixel_stats(term->sixel_pending).allocated_bytes + term_kitty_memory(term) +
+        term_regis_memory(term), extra);
 }
+
+#include "nemo_regis_terminal.inc"
 
 void term_set_cell_size(Terminal *term, int width, int height)
 {
@@ -1728,6 +1731,7 @@ void term_set_cell_size(Terminal *term, int width, int height)
     term_end_synchronized_update(term);
     nemo_sixel_free(term->sixel_pending);
     term->sixel_pending = NULL;
+    nemo_regis_cancel_input(term);
     term->cell_width = width;
     nemo_inline_cancel(term);
     term->cell_height = height;
@@ -3129,6 +3133,7 @@ static void nemo_restore_cursor_information(Terminal *term)
 
 static void nemo_dcs_payload_cancel(Terminal *term)
 {
+    nemo_regis_cancel_input(term);
     nemo_udk_cancel(term);
     sfree(term->dcs_tabs_pending);
     term->dcs_tabs_pending = NULL;
@@ -3236,6 +3241,7 @@ static bool nemo_dcs_byte(Terminal *term, unsigned char c)
 {
     /* CAN/SUB are handled by the common parser transaction cleanup. */
     if (c == 0x9c || (term->termstate == NEMO_DCS_MAYBE_ST && c == '\\')) {
+        nemo_regis_complete(term);
         nemo_udk_finish(term);
         if (term->dcs_query_active) {
             if (term->dcs_query_type == 'U') nemo_charset_assign_preferred(term);
@@ -3269,9 +3275,15 @@ static bool nemo_dcs_byte(Terminal *term, unsigned char c)
         return false;
     }
     if (term->termstate == NEMO_DCS_MAYBE_ST_UTF8) {
-        nemo_dcs_payload_cancel(term);
-        term->dcs_query_invalid = true;
-        nemo_sixel_cancel(term); term->termstate = NEMO_DCS_DROP;
+        if (term_regis_pending(term)) {
+            /* A Latin-1 byte C2 inside ReGIS text is ordinary data unless it
+             * precedes ST. Preserve it before processing this next byte. */
+            term->termstate=nemo_regis_input_byte(term,0xc2) ? NEMO_DCS_REGIS : NEMO_DCS_DROP;
+        } else {
+            nemo_dcs_payload_cancel(term);
+            term->dcs_query_invalid = true;
+            nemo_sixel_cancel(term); term->termstate = NEMO_DCS_DROP;
+        }
     }
     if (term->termstate == NEMO_DCS_QUERY && term->dcs_query_type == 'U') {
         /* UPSS designators are seven-bit string data. C0 bytes make the
@@ -3303,6 +3315,8 @@ static bool nemo_dcs_byte(Terminal *term, unsigned char c)
         } else if (c == 'q') {
             nemo_sixel_begin(term);
             term->termstate = term->sixel_pending ? NEMO_DCS_SIXEL : NEMO_DCS_DROP;
+        } else if (c == 'p' && term->sixel_header_index==0) {
+            term->termstate = nemo_regis_begin(term) ? NEMO_DCS_REGIS : NEMO_DCS_DROP;
         } else if (c == '|' && has_compat(VT220)) {
             term->udk_pending = strbuf_new();
             term->termstate = NEMO_DCS_UDK;
@@ -3353,6 +3367,8 @@ static bool nemo_dcs_byte(Terminal *term, unsigned char c)
                 term->termstate = NEMO_DCS_DROP;
             } else put_byte(term->udk_pending, c & 0x7f);
         }
+    } else if (term->termstate == NEMO_DCS_REGIS) {
+        if (!nemo_regis_input_byte(term,c)) term->termstate=NEMO_DCS_DROP;
     } else if (term->termstate == NEMO_DCS_SIXEL) {
         if (!nemo_sixel_feed(term->sixel_pending, &c, 1)) {
             nemo_sixel_cancel(term); term->termstate = NEMO_DCS_DROP;
@@ -3389,6 +3405,7 @@ static void power_on(Terminal *term, bool clear, bool keep_encoding)
     nemo_highlight_cancel(term, false);
     term_end_synchronized_update(term);
     nemo_images_clear(term);
+    nemo_regis_clear(term);
     nemo_kitty_cancel_input(term);
     nemo_kitty_clear_screen(term, 0, false);
     nemo_kitty_clear_screen(term, 1, true);
@@ -4406,6 +4423,7 @@ void term_free(Terminal *term)
     sfree(term->sgr_stack);
     term_end_synchronized_update(term);
     nemo_images_clear(term);
+    nemo_regis_clear(term);
     nemo_kitty_free_terminal(term);
     nemo_hyperlink_free(term->hyperlinks);
     nemo_cwd_clear(&term->working_directory);
@@ -4777,6 +4795,7 @@ void term_size(Terminal *term, int newrows, int newcols, int newsavelines)
      * follow text-row moves, without splitting raster rows or copying tiles. */
     nemo_sixel_cancel(term);
     nemo_inline_cancel(term);
+    nemo_regis_cancel_input(term);
     nemo_kitty_cancel_input(term);
 
     /* Behave sensibly if we're given zero (or negative) rows/cols */
@@ -5056,6 +5075,7 @@ static void swap_screen(Terminal *term, int which,
         }
 
         term->alt_which = which;
+        if (term->regis) nemo_regis_screen(term->regis->decoder,which);
         term->win_app_pointer_pending = true;
         term_schedule_update(term);
 

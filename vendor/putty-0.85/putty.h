@@ -1677,6 +1677,12 @@ struct TermWinVtable {
     /* Optional synchronous, bounded native image decoder. */
     bool (*decode_image)(TermWin *, const void *, size_t, NemoRaster *,
                          NemoRasterAdmission, void *);
+    /* Optional ReGIS glyph provider. Its owner plus retained and transient
+     * bitmap pixels must fit 65 KiB; the core reserves that shared-image
+     * budget before the first callback. No terminal re-entry is allowed. */
+    bool (*regis_glyph)(TermWin *, const char *, unsigned, unsigned, unsigned,
+                        unsigned char *, size_t, unsigned *, unsigned *);
+    void (*regis_clear_font)(TermWin *);
     /* This frontend can shape a complete bounded cluster in one grid cell. */
     bool grapheme_clusters;
     /* Optional, synchronous snapshot; must not draw, resize or allocate. */

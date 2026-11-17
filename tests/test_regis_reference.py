@@ -22,6 +22,8 @@ def main():
     parser.add_argument('--exe',required=True,type=Path)
     parser.add_argument('--output',required=True,type=Path)
     parser.add_argument('--font-inputs',type=Path)
+    parser.add_argument('--terminal',action='store_true',help='Feed original DCS/CSI bytes through terminal.c')
+    parser.add_argument('--bytewise',action='store_true')
     args=parser.parse_args()
     args.output.mkdir(parents=True,exist_ok=True)
     with zipfile.ZipFile('research/regis-reference-evidence.zip') as outer:
@@ -31,6 +33,11 @@ def main():
                   fixture_commit=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),
                   cases={},excluded={},failures=[],completed=False)
     command=[str(args.exe.resolve())]
+    evidence['terminal_parser']=args.terminal
+    evidence['transport']='bytewise' if args.bytewise else 'whole'
+    if args.bytewise:
+        assert args.terminal,'bytewise applies to the real terminal parser'
+        command+=['--bytewise']
     if args.font_inputs:
         command+=['--font-inputs',str(args.font_inputs.resolve())]
         evidence['font_inputs_sha256']=hashlib.sha256(args.font_inputs.read_bytes()).hexdigest()
@@ -45,7 +52,11 @@ def main():
                 evidence['excluded'][name]='Requires terminal CSI/Sixel/cancellation integration; original stream retained unchanged.'
                 continue
             wire=b''
-            for match in matches:
+            for match,step in zip(matches,steps):
+                if args.terminal:
+                    original_wire=bytes.fromhex(step['sequence_hex'])
+                    wire+=b'I '+str(len(original_wire)).encode()+b'\n'+original_wire
+                    continue
                 if match[1]: wire+=b'C '+(b'1' if match[1]==b'h' else b'0')+b'\n'
                 body=match[3]
                 wire+=b'P '+match[2]+b' '+str(len(body)).encode()+b'\n'+body
