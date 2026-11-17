@@ -387,6 +387,7 @@ try:
                     # Ordinary acceptance workflows must not turn green here.
                     raise SystemExit(2)
                 if args.kitty_unicode:
+                    evidence['phase']='post-memory-unicode-pixels'
                     from kitty_unicode_tab_workload import verify_images
                     evidence['post_memory_kitty_unicode']=[]
                     verify_images(process.pid,(first,second),select,evidence['post_memory_kitty_unicode'],

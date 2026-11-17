@@ -1,6 +1,7 @@
 """Dense Unicode-image cells for the existing uninjected two-tab memory gate."""
 import hashlib
 import struct
+import time
 from kitty_image_window_smoke import command
 from iterm_image_window_smoke import png
 from native_test_utils import root,sys,wait_for
@@ -45,11 +46,18 @@ def verify_images(pid,children,select,observations,prefix,grids):
                 last=None
                 def matches():
                     nonlocal last
-                    last=api.request(instance['endpoint'],'image',target['id'],struct.pack('<IIII',*patch))
+                    attempt=dict(completed=False)
+                    row_record['attempts'].append(attempt)
+                    started=time.perf_counter()
+                    try:
+                        last=api.request(instance['endpoint'],'image',target['id'],struct.pack('<IIII',*patch))
+                        attempt.update(completed=True,bytes=len(last))
+                    finally:
+                        attempt['seconds']=round(time.perf_counter()-started,6)
                     assert len(last)==54+patch[2]*4 and struct.unpack_from('<ii',last,18)==(patch[2],-1)
                     return all(last[54+(col*cw+cw//2)*4:57+(col*cw+cw//2)*4]==b'\xff\0\0'
                                for col in range(cols-2))
-                row_record=dict(row=row,patch=patch,matched=False)
+                row_record=dict(row=row,patch=patch,matched=False,attempts=[])
                 record['rows'].append(row_record)
                 try:
                     wait_for(matches);row_record['matched']=True
