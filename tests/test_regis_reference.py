@@ -27,14 +27,23 @@ def main():
     parser.add_argument('--terminal',action='store_true',help='Feed original DCS/CSI bytes through terminal.c')
     parser.add_argument('--bytewise',action='store_true')
     parser.add_argument('--views',action='store_true',help='Compare actual retained image views, including lifecycle and Sixel')
+    parser.add_argument('--shared-palette',action='store_true',
+                        help='Additional two-way palette scenes against separately retained XTerm full repaints')
     args=parser.parse_args()
     args.output.mkdir(parents=True,exist_ok=True)
-    with zipfile.ZipFile('research/regis-reference-evidence.zip') as outer:
-        original=outer.read('44093439244/14331564743.zip')
-    assert hashlib.sha256(original).hexdigest()=='f1cb288263b12e35be6ffc29b4edde6f71ee65054adabb1c105198ccdaf25b00'
+    if args.shared_palette:
+        assert args.terminal and args.views
+        original=Path('research/regis-repaint-reference.zip').read_bytes()
+        assert hashlib.sha256(original).hexdigest()=='ca9165f9d14cb8ef67840a3c46063fde3d4f9dc104ac58086bc9b125c79fac4f'
+    else:
+        with zipfile.ZipFile('research/regis-reference-evidence.zip') as outer:
+            original=outer.read('44093439244/14331564743.zip')
+        assert hashlib.sha256(original).hexdigest()=='f1cb288263b12e35be6ffc29b4edde6f71ee65054adabb1c105198ccdaf25b00'
     evidence=dict(scope=__doc__,executable_sha256=hashlib.sha256(args.exe.read_bytes()).hexdigest(),
                   fixture_commit=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),
                   cases={},excluded={},failures=[],completed=False)
+    evidence['reference_archive_sha256']=hashlib.sha256(original).hexdigest()
+    evidence['reference_frame']='repaint' if args.shared_palette else 'frame'
     command=[str(args.exe.resolve())]
     evidence['terminal_parser']=args.terminal
     evidence['image_views']=args.views
@@ -55,7 +64,13 @@ def main():
     pattern=rb'(?:\x1b\[\?1070([hl]))?\x1bP([0-9]+)p([^\x1b]*)\x1b\\'
     with zipfile.ZipFile(io.BytesIO(original)) as bundle:
         observed=json.loads(bundle.read('observations.json'))
+        if args.shared_palette:
+            assert observed['completed'] and not observed['transport_mismatches'] and not observed['control_failures']
+            assert {'shared-palette-sixel-terminated','shared-palette-regis-recolour'}<=observed['cases'].keys()
         for name,variants in observed['cases'].items():
+            if args.shared_palette and not name.startswith('shared-palette-'):
+                evidence['excluded'][name]='Outside the additional two-way shared-palette comparison; original gates remain separate.'
+                continue
             steps=variants['whole']['steps']
             matches=[re.fullmatch(pattern,bytes.fromhex(s['sequence_hex'])) for s in steps]
             if args.views and name=='control-capability':
@@ -84,13 +99,15 @@ def main():
                 status,memory,page,width,height,reply_length=map(int,output.readline().split())
                 reply=output.read(reply_length)
                 pixels=output.read(160*120*3)
-                source_name=f'observations/{name}-whole/{step["frame"]["file"]}'
+                reference_frame=step[evidence['reference_frame']]
+                source_name=f'observations/{name}-whole/{reference_frame["file"]}'
                 image=Image.open(io.BytesIO(bundle.read(source_name))).convert('RGB')
                 expected=image.crop((2,2,162,122)).tobytes()
                 mismatches=sum(pixels[i:i+3]!=expected[i:i+3] for i in range(0,len(expected),3))
                 item=dict(status=status,memory_bytes=memory,page=page,width=width,height=height,
                           reply_hex=reply.hex(),expected_reply_hex=step['reply_hex'],
                           rgb_sha256=hashlib.sha256(pixels).hexdigest(),
+                          reference_frame_file=reference_frame['file'],
                           reference_crop_sha256=hashlib.sha256(expected).hexdigest(),pixel_mismatches=mismatches)
                 record['steps'].append(item)
                 if status or reply.hex()!=step['reply_hex'] or mismatches:

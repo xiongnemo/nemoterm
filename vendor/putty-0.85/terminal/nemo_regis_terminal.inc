@@ -168,6 +168,10 @@ bool term_regis_set_size(Terminal *term, unsigned width, unsigned height,
 static bool nemo_regis_begin(Terminal *term)
 {
     nemo_regis_cancel_input(term);
+    if (!term->sixel_palette_valid) {
+        nemo_sixel_default_palette(term->sixel_palette);
+        term->sixel_palette_valid=true;
+    }
     if (!term->regis) {
         if (!nemo_image_admit(term,nemo_image_pending(term),sizeof(NemoTermRegis))) return false;
         term->regis=calloc(1,sizeof(*term->regis));
@@ -181,6 +185,8 @@ static bool nemo_regis_begin(Terminal *term)
         config.colours=16; config.terminal_id=340;
         config.memory_limit=NEMO_SIXEL_DEFAULT_BUDGET;
         config.private_colours=term->sixel_private_palette;
+        config.shared_palette=term->sixel_palette;
+        config.shared_palette_size=NEMO_SIXEL_PALETTE_SIZE;
         config.user=term->regis; config.resize_memory=nemo_regis_reserve;
         config.reply=nemo_regis_send; config.glyph=nemo_regis_native_glyph;
         term->regis->decoder=nemo_regis_new(&config);

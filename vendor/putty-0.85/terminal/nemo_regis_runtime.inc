@@ -240,12 +240,31 @@ static void copy_overlapping_area(Graphic *g, int sx, int sy, int dx, int dy,
 static void fetch_color_register(Graphic *g, unsigned index, ColorRegister *out)
 { *out=g->color_registers[index%g->valid_registers]; }
 
+static void regis_import_shared_palette(NemoRegis *owner)
+{
+    if (!owner->config.shared_palette) return;
+    for (unsigned i=0;i<owner->config.shared_palette_size;i++) {
+        uint32_t c=owner->config.shared_palette[i];
+        /* Recover percentages from either truncated or rounded RGB bytes.
+         * Rendering uses the original bytes, without another quantization. */
+        owner->shared[i]=(ColorRegister){
+            (short)((((c>>16)&255)*100+127)/255),
+            (short)((((c>>8)&255)*100+127)/255),
+            (short)(((c&255)*100+127)/255)};
+    }
+}
+
 static void update_color_register(Graphic *g, unsigned index, int r, int green, int b)
 {
-    ColorRegister *colour=&g->color_registers[index%g->valid_registers];
+    index%=g->valid_registers;
+    ColorRegister *colour=&g->color_registers[index];
     colour->r=(short)Min(100,Max(0,r));
     colour->g=(short)Min(100,Max(0,green));
     colour->b=(short)Min(100,Max(0,b));
+    if (g->color_registers==g->xw->shared && g->xw->config.shared_palette)
+        g->xw->config.shared_palette[index]=UINT32_C(0xff000000) |
+            ((uint32_t)(colour->r*255/100)<<16) |
+            ((uint32_t)(colour->g*255/100)<<8) | (uint32_t)(colour->b*255/100);
     g->dirty=true;
 }
 

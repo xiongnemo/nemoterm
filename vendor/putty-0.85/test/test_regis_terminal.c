@@ -38,7 +38,8 @@ static Mock *regis_mock(void)
      * shared bank is calloc-initialized, while private banks use VT340 RGB.
      * Product-default 256-register Sixel behaviour is tested separately. */
     mk->term->sixel_register_count=16;
-    memset(mk->term->sixel_palette,0,sizeof(mk->term->sixel_palette));
+    for (unsigned i=0;i<NEMO_SIXEL_PALETTE_SIZE;i++)
+        mk->term->sixel_palette[i]=UINT32_C(0xff000000);
     mk->term->sixel_palette_valid=true;
     return mk;
 }
@@ -65,6 +66,50 @@ static void expect_pixel(Mock *mk,unsigned y,unsigned x,uint32_t expected)
     uint32_t pixel=0;
     IEQUAL(nemo_regis_read_row(decoder,nemo_regis_display_page(decoder),y,x,&pixel,1),1);
     IEQUAL(pixel,expected);
+}
+
+static void check_shared_graphics(Mock *mk)
+{
+    Terminal *t=mk->term;
+    test_context(mk,"ReGIS and Sixel retain one live colour bank");
+    feed_regis(mk,"\033c\033[?1070l\033P1pS(E)S(M3(R20G80B20))W(I3)P[20,20]V[120,20]\033\\");
+    expect_pixel(mk,20,20,0xff33cc33);
+    feed_regis(mk,"\033P0;1q#3;2;100;0;0#3~\033\\");
+    expect_pixel(mk,20,20,0xffff0000);
+    NemoSixel *shared=NULL;
+    for (NemoTermImage *image=t->images;image;image=image->next)
+        if (image->source->bitmap) shared=image->source->bitmap;
+    IEQUAL(shared!=NULL,true);
+    uint32_t pixel=0;
+    IEQUAL(nemo_sixel_read_row(shared,0,0,&pixel,1),1);
+    IEQUAL(pixel,0xffff0000);
+    feed_regis(mk,"\033P0pS(M3(R0G0B100))\033\\");
+    expect_pixel(mk,20,20,0xff0000ff);
+    IEQUAL(nemo_sixel_read_row(shared,0,0,&pixel,1),1);
+    IEQUAL(pixel,0xff0000ff);
+
+    test_context(mk,"mode changes keep existing graphic bindings and cancelled Sixel colours");
+    feed_regis(mk,"\033[?1070h\033P0pS(M3(R100G0B0))\033\\");
+    IEQUAL(nemo_sixel_read_row(shared,0,0,&pixel,1),1);
+    IEQUAL(pixel,0xffff0000); /* matching ReGIS page remains shared */
+    feed_regis(mk,"\033P0;1q#3;2;0;0;100#3\030");
+    expect_pixel(mk,20,20,0xffff0000); /* cancelled private definition stays private */
+    feed_regis(mk,"\033[?1070l\033P0;1q#3;2;0;0;100#3\030");
+    expect_pixel(mk,20,20,0xff0000ff); /* completed shared definition survives CAN */
+    IEQUAL(nemo_sixel_read_row(shared,0,0,&pixel,1),1);
+    IEQUAL(pixel,0xff0000ff);
+
+    test_context(mk,"shared registers belong to one terminal and RIS releases image owners");
+    Mock *other=regis_mock();
+    feed_regis(other,"\033[?1070l\033P1pS(M3(R20G80B20))W(I3)P[20,20]V[120,20]\033\\");
+    expect_pixel(other,20,20,0xff33cc33);
+    expect_pixel(mk,20,20,0xff0000ff);
+    IEQUAL(other->any_test_failed,false);
+    mock_free(other);
+    feed_regis(mk,"\033c");
+    IEQUAL(t->image_bytes,0);
+    IEQUAL(term_regis_memory(t),0);
+    IEQUAL(t->sixel_palette_valid,false);
 }
 
 static int framing_tests(void)
@@ -154,6 +199,7 @@ static int framing_tests(void)
     expect_pixel(mk,200,200,0);
     feed_regis(mk,"\033c");
     IEQUAL(term_regis_memory(t),0);
+    check_shared_graphics(mk);
     bool failed=mk->any_test_failed;
     mock_free(mk);
     puts(failed ? "ReGIS terminal framing FAILED" : "ReGIS terminal framing passed");

@@ -63,7 +63,7 @@ static unsigned percent(unsigned p)
     return (p * 255 + 50) / 100;
 }
 
-static void default_palette(NemoSixel *s)
+void nemo_sixel_default_palette(uint32_t palette[256])
 {
     static const unsigned char dec[16][3] = {
         {0, 0, 0}, {20, 20, 80}, {80, 13, 13}, {20, 80, 20},
@@ -74,15 +74,15 @@ static void default_palette(NemoSixel *s)
     static const unsigned char level[6] = {0, 95, 135, 175, 215, 255};
     unsigned i;
     for (i = 0; i < 16; i++)
-        s->palette[i] = rgb(percent(dec[i][0]), percent(dec[i][1]),
+        palette[i] = rgb(percent(dec[i][0]), percent(dec[i][1]),
                             percent(dec[i][2]));
     for (i = 16; i < 232; i++) {
         unsigned n = i - 16;
-        s->palette[i] = rgb(level[n / 36], level[(n / 6) % 6], level[n % 6]);
+        palette[i] = rgb(level[n / 36], level[(n / 6) % 6], level[n % 6]);
     }
     for (i = 232; i < 256; i++) {
         unsigned v = 8 + (i - 232) * 10;
-        s->palette[i] = rgb(v, v, v);
+        palette[i] = rgb(v, v, v);
     }
 }
 
@@ -122,7 +122,7 @@ void nemo_sixel_reset(NemoSixel *s, bool transparent)
     s->transparent = transparent;
     s->aspect_vertical = s->aspect_horizontal = 1;
     s->register_count = NEMO_SIXEL_PALETTE_SIZE;
-    default_palette(s);
+    nemo_sixel_default_palette(s->palette);
 }
 
 NemoSixel *nemo_sixel_init(size_t budget_bytes, bool transparent)

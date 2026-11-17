@@ -19,6 +19,11 @@ typedef struct NemoRegisConfig {
     size_t memory_limit; /* includes owner, pages, tiles, fonts and input */
     uint64_t work_limit; /* per complete request, zero selects the default */
     bool private_colours;
+    /* Optional caller-owned, opaque ARGB bank shared with other protocols.
+     * Keep it alive until this owner is freed. Mode changes affect new
+     * graphics only. Reads resolve live bytes; reset never clears this bank. */
+    uint32_t *shared_palette;
+    unsigned shared_palette_size; /* colours..1024 when shared_palette is set */
     void *user;
     /* Reserve/release the entire owner's footprint in the caller's shared
      * image budget. Releases cannot fail; growing reservations can fail. */

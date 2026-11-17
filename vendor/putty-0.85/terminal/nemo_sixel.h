@@ -71,6 +71,8 @@ void nemo_sixel_set_aspect(NemoSixel *s, unsigned vertical, unsigned horizontal)
  * Palette updates can recolor finished images without changing their pixels. */
 void nemo_sixel_get_palette(const NemoSixel *s, uint32_t palette[256]);
 void nemo_sixel_set_palette(NemoSixel *s, const uint32_t palette[256]);
+/* Initialize the terminal's shared bank without creating an image decoder. */
+void nemo_sixel_default_palette(uint32_t palette[256]);
 
 /* Bind an initialized opaque AARRGGBB palette before feeding the image.
  * The caller owns this array and must keep it alive until the decoder is freed

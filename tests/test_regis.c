@@ -113,6 +113,30 @@ static int self_test(void)
         nemo_regis_free(first);
     }
     CHECK(!a.reserved && !a.failures);
+    memset(&a,0,sizeof(a));
+    ca=configuration(&a);
+    uint32_t shared[16]={0};
+    ca.private_colours=false; ca.shared_palette=shared; ca.shared_palette_size=15;
+    CHECK(nemo_regis_new(&ca)==NULL && !a.reserved);
+    ca.shared_palette_size=16;
+    first=nemo_regis_new(&ca);
+    CHECK(first!=NULL);
+    if (first) {
+        CHECK(nemo_regis_parse(first,1,sample,sizeof(sample)-1)==NEMO_REGIS_OK);
+        /* A shared register may be changed by another decoder between reads.
+         * Preserve every byte value, including values outside percent steps. */
+        for (unsigned i=0;i<256;i++) {
+            shared[3]=UINT32_C(0xff000000)|(i<<16)|((255-i)<<8)|i;
+            CHECK(nemo_regis_read_row(first,0,20,20,row,1)==1 && row[0]==shared[3]);
+        }
+        const char define[]="S(M3(R13G53B26))";
+        CHECK(nemo_regis_parse(first,0,define,sizeof(define)-1)==NEMO_REGIS_OK);
+        CHECK(shared[3]==UINT32_C(0xff218742));
+        nemo_regis_reset(first);
+        CHECK(shared[3]==UINT32_C(0xff218742));
+        nemo_regis_free(first);
+    }
+    CHECK(!a.reserved && !a.failures);
     fprintf(stderr,"ReGIS ownership/budget checks: failures=%d base=%zu\n",failures,base);
     return failures ? 1 : 0;
 }

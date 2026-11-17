@@ -62,6 +62,8 @@ NemoRegis *nemo_regis_new(const NemoRegisConfig *config)
         config->max_width < config->width || config->max_height < config->height ||
         config->max_width > 8192 || config->max_height > 8192 ||
         config->colours < 2 || config->colours > MAX_COLOR_REGISTERS ||
+        (config->shared_palette && (config->shared_palette_size < config->colours ||
+                                    config->shared_palette_size > MAX_COLOR_REGISTERS)) ||
         config->memory_limit < sizeof(NemoRegis) ||
         config->memory_limit > REGIS_MEMORY_LIMIT)
         return NULL;
@@ -127,6 +129,7 @@ NemoRegisResult nemo_regis_parse(NemoRegis *owner, unsigned mode,
     owner->work = owner->config.work_limit ? owner->config.work_limit : REGIS_WORK_LIMIT;
     owner->depth = 0;
     owner->reply_length = 0;
+    regis_import_shared_palette(owner);
     if (!setjmp(owner->escape)) {
         owner->input = regis_allocate(owner,length+1);
         if (length) memcpy(owner->input,data,length);
@@ -187,6 +190,11 @@ static size_t regis_read_row(const Graphic *g, unsigned y, unsigned x,
     for (size_t i=0;i<count;i++) {
         unsigned index = read_pixel(g,(int)(x+i),(int)y);
         if (index>=MAX_COLOR_REGISTERS) { out[i]=0; continue; }
+        if (g->color_registers==g->xw->shared && g->xw->config.shared_palette &&
+            index<g->xw->config.shared_palette_size) {
+            out[i]=g->xw->config.shared_palette[index] | UINT32_C(0xff000000);
+            continue;
+        }
         ColorRegister c = g->color_registers[index];
         out[i] = UINT32_C(0xff000000) | ((uint32_t)(c.r*255/100)<<16) |
                  ((uint32_t)(c.g*255/100)<<8) | (uint32_t)(c.b*255/100);
