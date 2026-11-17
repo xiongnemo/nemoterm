@@ -17,7 +17,7 @@ identity = b'\x1bP1+r544e=787465726d2d323536636f6c6f72;'
 evidence = dict(completed=False, executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),
     reference_sha256=hashlib.sha256(reference_path.read_bytes()).hexdigest(),
     physical_input=False, clipboard_access=False, thread_keyboard_state_restored=True,
-    cases={}, excluded={}, profiles={}, identity_policy=reference['identity_policy'])
+    cases={}, excluded={}, profiles={}, mismatches={}, identity_policy=reference['identity_policy'])
 profile = dict(ShiftedArrowKeys=2, WarnOnClose=0, NemoRenderer=0, NemoTabs=0,
     CtrlShiftIns='none', AltF4=0, AltSpace=0, FullScreenOnAltEnter=0, CtrlAltKeys=1,
     ComposeKey=0, NemoWin32Input=0, LinuxFunctionKeys=9, BackspaceIsDelete=0,
@@ -97,7 +97,11 @@ try:
                     evidence['cases'][name] = wire.hex()
                     before, keys, tail = wire.split(marker)
                     compare_before(record, before)
-                    assert not tail and keys == bytes.fromhex(record['key_reply_hex']), (name, keys.hex(), record)
+                    assert not tail, (name, wire.hex())
+                    if keys != bytes.fromhex(record['key_reply_hex']):
+                        evidence['mismatches'][name] = dict(actual_hex=keys.hex(), expected_hex=record['key_reply_hex'])
+                        if len(evidence['mismatches']) <= 20:
+                            print('Key mismatch:', name, evidence['mismatches'][name], flush=True)
                     if len(evidence['cases']) % 200 == 0:
                         print('Native terminfo streams:', len(evidence['cases']), flush=True)
                 script.unload(); script = None
@@ -118,6 +122,7 @@ try:
                 observed.setdefault('cleanup', job.finish(grace=0))
     assert len(evidence['cases']) == reference['native_count']
     assert len(evidence['cases'])+len(evidence['excluded']) == reference['count']
+    assert not evidence['mismatches'], evidence['mismatches']
     evidence['completed'] = True
     print('Native terminfo:', len(evidence['cases']), 'streams;', len(evidence['excluded']), 'explicit native exclusions')
 finally:
