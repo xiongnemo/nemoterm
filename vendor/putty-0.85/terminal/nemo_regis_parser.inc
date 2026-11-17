@@ -1217,7 +1217,7 @@ plotCubicBezier(RegisGraphicsContext *context, int x0, int y0, int x1, int y1,
 #endif
     /* sub-divide curve at gradient sign changes */
     if (xa == 0) {		/* horizontal */
-	if (labs(xc) < 2 * labs(xb))
+	if (llabs(xc) < 2 * llabs(xb))
 	    t[n++] = (double) xc / (2.0 * (double) xb);		/* one change */
     } else if (t1 > 0.0) {	/* two changes */
 	t2 = sqrt(t1);
@@ -1230,7 +1230,7 @@ plotCubicBezier(RegisGraphicsContext *context, int x0, int y0, int x1, int y1,
     }
     t1 = (double) (yb * yb - ya * yc);
     if (ya == 0) {		/* vertical */
-	if (labs(yc) < 2 * labs(yb))
+	if (llabs(yc) < 2 * llabs(yb))
 	    t[n++] = (double) yc / (2.0 * (double) yb);		/* one change */
     } else if (t1 > 0.0) {	/* two changes */
 	t2 = sqrt(t1);
@@ -6769,6 +6769,7 @@ parse_regis_items(RegisParseState *state, RegisGraphicsContext *context)
 	    unsigned glyph_size;
 
 	    val = strtoul(state->temp, NULL, 16);
+	    (void)val;
 	    TRACE(("found row %u for glyph %u: \"%s\" value %02lx (%lu)\n",
 		   state->load_row, state->load_glyph, state->temp, val, val));
 
@@ -6811,7 +6812,7 @@ parse_regis_items(RegisParseState *state, RegisGraphicsContext *context)
                 unsigned pixel = byte * 8 + bit, nibble = pixel / 4;
                 if (pixel < context->alphabets[state->load_index].pixw && nibble < digit) {
                     unsigned char ch = (unsigned char)state->temp[nibble];
-                    unsigned value = ch <= '9' ? ch-'0' : (unsigned)tolower(ch)-'a'+10;
+                    unsigned value = ch <= '9' ? (unsigned)(ch-'0') : (unsigned)tolower(ch)-'a'+10;
                     if (value & (8U >> (pixel & 3))) result |= 128U >> bit;
                 }
             }

@@ -1,6 +1,7 @@
 /* SPDX-License-Identifier: MIT
  * See nemo_regis_parser.inc and nemo_regis_colour.inc for upstream notices.
  */
+#define _CRT_SECURE_NO_WARNINGS
 #include "nemo_regis.h"
 #include <assert.h>
 #include <ctype.h>
@@ -13,14 +14,14 @@
 #include <string.h>
 
 #define M_PI 3.14159265358979323846
+#define M_SQRT2 1.41421356237309504880
+#define MAX_I_DELAY 32767
 #define TRACE(args) ((void)0)
 #define CharOf(c) ((unsigned char)(c))
 #define IsSpace(c) isspace(CharOf(c))
 #define xBIT(n) (1U << (n))
-#define MIN2(a,b) ((a)<(b)?(a):(b))
-#define MAX2(a,b) ((a)>(b)?(a):(b))
-#define Min MIN2
-#define Max MAX2
+#define Min(a,b) ((a)<(b)?(a):(b))
+#define Max(a,b) ((a)>(b)?(a):(b))
 #define EXCHANGE(a,b,tmp) ((tmp)=(a),(a)=(b),(b)=(tmp))
 #define True true
 #define False false
@@ -35,6 +36,7 @@
 #define REGIS_WORK_LIMIT UINT64_C(16000000)
 typedef unsigned char Char;
 typedef bool Boolean;
+typedef bool Bool;
 typedef unsigned short RegisterNum;
 typedef struct { short r, g, b; } ColorRegister;
 typedef NemoRegis *XtermWidget;

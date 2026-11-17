@@ -1,6 +1,7 @@
 /* SPDX-License-Identifier: MIT
  * Native decoder driver: the Python harness supplies original upstream data.
  */
+#define _CRT_SECURE_NO_WARNINGS
 #include "nemo_regis.h"
 #include <stdio.h>
 #include <stdlib.h>

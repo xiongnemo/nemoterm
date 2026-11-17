@@ -1,6 +1,11 @@
 /* SPDX-License-Identifier: MIT
  * Native adapters. Included after the upstream parser's private state types.
  */
+#ifdef _MSC_VER
+#pragma warning(push)
+/* jmp_buf deliberately gives this heap-owned structure 16-byte alignment. */
+#pragma warning(disable:4324)
+#endif
 struct NemoRegis {
     NemoRegisConfig config;
     RegisGraphicsContext context;
@@ -16,9 +21,12 @@ struct NemoRegis {
     char tempstr[1024], reply_buffer[4096], *input;
     size_t reply_length;
 };
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
 
 typedef union RegisAllocation {
-    max_align_t alignment;
+    long double alignment; /* covers every allocation type used by this module */
     struct { NemoRegis *owner; size_t size; } record;
 } RegisAllocation;
 
