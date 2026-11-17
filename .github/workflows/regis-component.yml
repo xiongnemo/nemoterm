@@ -135,8 +135,8 @@ jobs:
           cmake --build build/regis-terminal --target pterm test_regis_terminal test_sixel_terminal test_cancellation_terminal --parallel 4 2>&1 | Tee-Object build/regis-component/terminal-build.log
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           New-Item -ItemType Directory -Force build/regis-component/terminal-binaries | Out-Null
-          Copy-Item build/regis-terminal/test_regis_terminal.exe,build/regis-terminal/pterm.exe build/regis-component/terminal-binaries/
-          Get-FileHash build/regis-terminal/test_regis_terminal.exe,build/regis-terminal/test_sixel_terminal.exe,build/regis-terminal/test_cancellation_terminal.exe,build/regis-terminal/pterm.exe -Algorithm SHA256 | Select-Object Path,Hash | ConvertTo-Json | Set-Content build/regis-component/terminal-binaries/hashes.json
+          Copy-Item build/regis-terminal/test_regis_terminal.exe,build/regis-terminal/nemoterm.exe build/regis-component/terminal-binaries/
+          Get-FileHash build/regis-terminal/test_regis_terminal.exe,build/regis-terminal/test_sixel_terminal.exe,build/regis-terminal/test_cancellation_terminal.exe,build/regis-terminal/nemoterm.exe -Algorithm SHA256 | Select-Object Path,Hash | ConvertTo-Json | Set-Content build/regis-component/terminal-binaries/hashes.json
           git rev-parse HEAD > build/regis-component/terminal-binaries/fixture-commit.txt
       - name: Check ownership, reentrant use and budgets
         run: build/regis-component/test-regis.exe --self-test 2>&1 | Tee-Object build/regis-component/ownership.log
