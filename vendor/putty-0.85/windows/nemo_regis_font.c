@@ -75,7 +75,7 @@ static bool glyph_metrics(HDC dc, unsigned character, GLYPHMETRICS *metrics)
     WORD index;
     return GetGlyphIndicesW(dc, &ch, 1, &index, GGI_MARK_NONEXISTING_GLYPHS) != GDI_ERROR &&
         index != 0xffff &&
-        GetGlyphOutlineW(dc, character, GGO_METRICS, metrics, 0, NULL, &identity) != GDI_ERROR;
+        GetGlyphOutlineW(dc, character, GGO_BITMAP, metrics, 0, NULL, &identity) != GDI_ERROR;
 }
 
 static bool select_font(NemoRegisFontWin *provider, const wchar_t *family,
@@ -173,8 +173,8 @@ bool nemo_regis_font_glyph(void *ctx, const char *font, unsigned character,
         if (stride > sizeof(bits)/gm.gmBlackBoxY) return false;
         DWORD length = GetGlyphOutlineW(provider->dc, character, GGO_BITMAP, &gm,
                                         sizeof(bits), bits, &identity);
-        if (length == GDI_ERROR || length < stride*gm.gmBlackBoxY) return false;
-        for (unsigned yy = 0; yy < gm.gmBlackBoxY; yy++)
+        if (length == GDI_ERROR || (length && length < stride*gm.gmBlackBoxY)) return false;
+        for (unsigned yy = 0; length && yy < gm.gmBlackBoxY; yy++)
             for (unsigned xx = 0; xx < gm.gmBlackBoxX; xx++)
                 pixels[((unsigned)y+yy)*provider->width+(unsigned)x+xx] =
                     (bits[yy*stride+xx/8] & (128U >> (xx%8))) != 0;

@@ -41,6 +41,21 @@ static unsigned compare_textout(const NemoRegisFontInfo *info, unsigned ch,
             mismatches = 0;
             for (size_t i=0; i<(size_t)info->width*info->height; i++)
                 if ((bits[i]&0xffffffU ? 1 : 0) != pixels[i]) mismatches++;
+            if (mismatches) {
+                char name[128];
+                snprintf(name,sizeof(name),"build/regis-component/difference-%u-%u.pgm",ch,info->pixel_height);
+                FILE *file=fopen(name,"wb");
+                if (file) {
+                    fprintf(file,"P5\n%u %u\n255\n",info->width*2,info->height);
+                    for (unsigned y=0;y<info->height;y++) {
+                        for (unsigned x=0;x<info->width;x++) fputc(pixels[y*info->width+x] ? 255 : 0,file);
+                        for (unsigned x=0;x<info->width;x++) fputc(bits[y*info->width+x]&0xffffffU ? 255 : 0,file);
+                    }
+                    fclose(file);
+                }
+                printf("font metrics: ch=%u height=%d left=%d top=%d box=%ux%u\n",ch,
+                       info->pixel_height,info->left,info->top,info->width,info->height);
+            }
         }
         SelectObject(dc, previous_font); SelectObject(dc, previous_bitmap);
     }
@@ -121,7 +136,7 @@ int main(void)
             memset(pixels,0xa5,sizeof(pixels));
             bool ok=nemo_regis_font_glyph(first,"",ch,sizes[s][0],sizes[s][1],pixels,8192,&w,&h);
             CHECK(ok);
-            if (!ok) continue;
+            if (!ok) { fprintf(stderr,"glyph unavailable: ch=%u max=%ux%u\n",ch,sizes[s][0],sizes[s][1]); continue; }
             CHECK(w && h && w<=sizes[s][0] && h<=sizes[s][1] && w*h<=8192);
             for (size_t i=(size_t)w*h;i<sizeof(pixels);i++) CHECK(pixels[i]==0xa5);
             NemoRegisFontInfo info;

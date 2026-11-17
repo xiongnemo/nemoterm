@@ -43,11 +43,14 @@ typedef struct { XtermWidget xw; } Graphic;
 typedef struct { Graphic *destination_graphic; } RegisGraphicsContext;
 '''
 main = r'''
-int main(void)
+int main(int argc, char **argv)
 {
     const char *actions = getenv("GITHUB_ACTIONS"), *hosted = getenv("RUNNER_ENVIRONMENT");
     if (!actions || strcmp(actions,"true") || !hosted || strcmp(hosted,"github-hosted"))
         return 2;
+    if (argc!=3) return 8;
+    FILE *output=fopen(argv[1],"wb"), *metadata=fopen(argv[2],"w");
+    if (!output || !metadata) return 9;
     Display *display = XOpenDisplay(NULL);
     if (!display) return 3;
     XVisualInfo visual = {0}; visual.visual = DefaultVisual(display, DefaultScreen(display));
@@ -56,32 +59,34 @@ int main(void)
     Graphic graphic = {&widget};
     RegisGraphicsContext context = {&graphic};
     const unsigned sizes[][2] = {{8,10},{8,20},{16,30},{24,45},{32,60}};
-    fputs("NREGF1\n", stdout);
+    fputs("NREGF1\n", output);
     for (size_t i=0; i<sizeof(sizes)/sizeof(sizes[0]); i++) {
         unsigned width=0,height=0; Char pixels[8192];
         if (!get_xft_bitmap_of_character(&context,"",'A',sizes[i][0],sizes[i][1],
                                          pixels,sizeof(pixels),&width,&height) || !width || !height)
             return 4;
-        printf("F %u %u 8192 %u %u\n",sizes[i][0],sizes[i][1],width,height);
+        fprintf(output,"F %u %u 8192 %u %u\n",sizes[i][0],sizes[i][1],width,height);
         for (unsigned ch=0;ch<256;ch++) {
             unsigned w=0,h=0;
             if (!get_xft_bitmap_of_character(&context,"",(int)ch,sizes[i][0],sizes[i][1],
                                              pixels,sizeof(pixels),&w,&h) || w!=width || h!=height)
                 return 5;
-            if (fwrite(pixels,1,w*h,stdout)!=w*h) return 6;
+            if (fwrite(pixels,1,w*h,output)!=w*h) return 6;
         }
     }
     for (unsigned i=0;i<FONT_SIZE_CACHE_SIZE;i++) {
         if (!font_cache[i].font_data) continue;
         FcChar8 *file=NULL; char pattern[2048];
         if (XftNameUnparse(font_cache[i].font_data->pattern,pattern,sizeof(pattern)))
-            fprintf(stderr,"font-pattern: %s\n",pattern);
+            fprintf(metadata,"font-pattern: %s\n",pattern);
         if (FcPatternGetString(font_cache[i].font_data->pattern,FC_FILE,0,&file)==FcResultMatch)
-            fprintf(stderr,"font-file: %s\n",file);
+            fprintf(metadata,"font-file: %s\n",file);
         close_xft_font(&widget,font_cache[i].font_data);
     }
     XCloseDisplay(display);
-    return ferror(stdout) ? 7 : 0;
+    int result=ferror(output) || ferror(metadata) ? 7 : 0;
+    if (fclose(output) || fclose(metadata)) result=7;
+    return result;
 }
 '''
 args.output.parent.mkdir(parents=True, exist_ok=True)

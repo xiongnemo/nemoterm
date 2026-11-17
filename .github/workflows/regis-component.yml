@@ -18,7 +18,7 @@ jobs:
           mkdir -p build/regis-font-inputs
           python3 scripts/generate-regis-font-probe.py --output build/regis-font-inputs/probe.c
           gcc -std=c11 -O1 -Wall -Wextra -Werror build/regis-font-inputs/probe.c $(pkg-config --cflags --libs xft x11 fontconfig) -o build/regis-font-inputs/probe 2>&1 | tee build/regis-font-inputs/build.log
-          xvfb-run -a -s '-screen 0 1024x768x24 -nolisten tcp' build/regis-font-inputs/probe > build/regis-font-inputs/glyphs.bin 2> build/regis-font-inputs/fonts.log
+          xvfb-run -a -s '-screen 0 1024x768x24 -nolisten tcp' build/regis-font-inputs/probe build/regis-font-inputs/glyphs.bin build/regis-font-inputs/fonts.log
           dpkg-query -W > build/regis-font-inputs/packages.txt
           git rev-parse HEAD > build/regis-font-inputs/fixture-commit.txt
           sed -n 's/^font-file: //p' build/regis-font-inputs/fonts.log | sort -u | while IFS= read -r file; do sha256sum "$file"; done > build/regis-font-inputs/font-files-sha256.txt
