@@ -120,32 +120,6 @@ def patch_initial_window_visibility():
             "        _suppressVisibilityChange.load(std::memory_order_relaxed))")
 
 
-def patch_closed_console_connections():
-    # A child created before close can finish its initial console connection
-    # after ProcessCtrlEvents took the close-event client snapshot. Such a
-    # client must not revive the closed PTY or hold its output pipe open.
-    # Both the close transition and this admission check hold LockConsole.
-    replace(DEST / "src/host/VtIo.hpp",
-            "        void SendCloseEvent();",
-            "        void SendCloseEvent();\n"
-            "        // Caller must hold the console lock.\n"
-            "        bool IsClosing() const noexcept { return _closeEventSent; }")
-    replace(DEST / "src/server/IoDispatchers.cpp",
-            "    CONSOLE_API_CONNECTINFO Cac;\n"
-            "    Status = ConsoleInitializeConnectInfo(pReceiveMsg, &Cac);",
-            """    // Closing is final even if a child retained an inherited console
-    // reference before the terminal went away. Reject its late attachment
-    // before allocating client state; normal launcher delegation is unchanged.
-    if (gci.GetVtIo()->IsClosing())
-    {
-        Status = STATUS_PIPE_DISCONNECTED;
-        return pReceiveMsg;
-    }
-
-    CONSOLE_API_CONNECTINFO Cac;
-    Status = ConsoleInitializeConnectInfo(pReceiveMsg, &Cac);""")
-
-
 def main():
     actual = subprocess.check_output(["git", "-C", str(UPSTREAM), "rev-parse", "HEAD"], text=True).strip()
     if actual != REVISION:
@@ -284,7 +258,6 @@ def main():
     patch_input_dcs_fragments()
     patch_cursor_sync_fragments()
     patch_initial_window_visibility()
-    patch_closed_console_connections()
 
     # No COM handoff registration or legacy conhost loading
     # is needed for a host reached only through our inherited ConDrv handle.
