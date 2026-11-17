@@ -141,6 +141,36 @@ static void check_alternate_visibility(Mock *mk)
     IEQUAL(term_regis_memory(t),0);
 }
 
+static void check_graphic_margins(Mock *mk)
+{
+    Terminal *t=mk->term;
+    const char *setup="\033c\033P1pS(E)W(I3)P[20,20]V[120,20]P[20,80]V[120,80]\033\\";
+    test_context(mk,"vertical margins preserve graphic pixels outside the scroll region");
+    feed_regis(mk,setup);
+    feed_regis(mk,"\033[3;12r\033[1S");
+    expect_pixel(mk,20,20,0xff33cc33);
+    expect_pixel(mk,67,20,0xff33cc33);
+    expect_pixel(mk,80,20,0xff000000);
+    expect_pixel(mk,110,20,0); /* source below the graphic's extent is a hole */
+    test_context(mk,"horizontal margins split indexed pixels without moving outside columns");
+    feed_regis(mk,setup);
+    term_scroll_images(t,5,15,0,11,1,false); /* x=[30,90), move up 13 pixels */
+    check_regis_accounting(mk);
+    expect_pixel(mk,20,20,0xff33cc33);
+    expect_pixel(mk,7,40,0xff33cc33);
+    expect_pixel(mk,20,40,0xff000000);
+    expect_pixel(mk,20,100,0xff33cc33);
+    term_scroll_images(t,5,15,0,11,-1,false);
+    check_regis_accounting(mk);
+    expect_pixel(mk,20,20,0xff33cc33);
+    expect_pixel(mk,20,40,0xff33cc33);
+    expect_pixel(mk,7,40,0);
+    expect_pixel(mk,20,100,0xff33cc33);
+    feed_regis(mk,"\033c");
+    IEQUAL(t->image_bytes,0);
+    IEQUAL(term_regis_memory(t),0);
+}
+
 static int framing_tests(void)
 {
     Mock *mk=regis_mock();
@@ -230,6 +260,7 @@ static int framing_tests(void)
     IEQUAL(term_regis_memory(t),0);
     check_shared_graphics(mk);
     check_alternate_visibility(mk);
+    check_graphic_margins(mk);
     bool failed=mk->any_test_failed;
     mock_free(mk);
     puts(failed ? "ReGIS terminal framing FAILED" : "ReGIS terminal framing passed");

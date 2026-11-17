@@ -66,6 +66,10 @@ size_t nemo_regis_graphic_read_row(const NemoRegis *, unsigned id, unsigned y,
 bool nemo_regis_active(const NemoRegis *);
 bool nemo_regis_drop_graphic(NemoRegis *, unsigned id);
 void nemo_regis_scroll(NemoRegis *, int rows);
+/* Scroll only the half-open character rectangle; leave pixels outside it
+ * unchanged and make newly exposed pixels transparent. Hidden pages stay put. */
+bool nemo_regis_scroll_region(NemoRegis *, int left, int top, int right, int bottom,
+                              int rows, unsigned cell_width, unsigned cell_height);
 bool nemo_regis_erase(NemoRegis *, int64_t x, int64_t y, unsigned width,
                       unsigned height, unsigned cell_width, unsigned cell_height);
 #endif

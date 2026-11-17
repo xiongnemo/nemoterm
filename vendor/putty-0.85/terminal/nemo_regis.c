@@ -262,6 +262,49 @@ void nemo_regis_scroll(NemoRegis *owner,int rows)
         }
 }
 
+bool nemo_regis_scroll_region(NemoRegis *owner,int left,int top,int right,int bottom,
+                              int rows,unsigned cell_width,unsigned cell_height)
+{
+    if (!owner || owner->active || !rows || left>=right || top>=bottom ||
+        !cell_width || !cell_height) return true;
+    owner->active=true;
+    owner->result=NEMO_REGIS_OK;
+    owner->work=owner->config.work_limit ? owner->config.work_limit : REGIS_WORK_LIMIT;
+    if (!setjmp(owner->escape)) {
+        for (Graphic *g=owner->graphics;g;g=g->next) {
+            if (g->hidden || g->screen!=owner->screen) continue;
+            int64_t x1=((int64_t)left-g->charcol)*cell_width;
+            int64_t x2=((int64_t)right-g->charcol)*cell_width;
+            int64_t y1=((int64_t)top-g->charrow)*cell_height;
+            int64_t y2=((int64_t)bottom-g->charrow)*cell_height;
+            int xlow=(int)Max(0,Min(g->actual_width,x1));
+            int xhigh=(int)Max(0,Min(g->actual_width,x2));
+            int ylow=(int)Max(0,Min(g->actual_height,y1));
+            int yhigh=(int)Max(0,Min(g->actual_height,y2));
+            if (xlow>=xhigh || ylow>=yhigh) continue;
+            int direction=rows>0 ? 1 : -1;
+            int start=rows>0 ? ylow : yhigh-1;
+            int stop=rows>0 ? yhigh : ylow-1;
+            for (int y=start;y!=stop;y+=direction) {
+                int64_t source=(int64_t)y+(int64_t)rows*cell_height;
+                for (int x=xlow;x<xhigh;x++) {
+                    unsigned colour=COLOR_HOLE;
+                    if (source>=y1 && source<y2 && source>=0 && source<g->actual_height)
+                        colour=read_pixel(g,x,(int)source);
+                    draw_solid_pixel(g,x,y,colour);
+                }
+            }
+        }
+    }
+    owner->active=false;
+    if (owner->result!=NEMO_REGIS_OK) {
+        unsigned screen=owner->screen;
+        nemo_regis_reset(owner); owner->screen=screen;
+        return false;
+    }
+    return true;
+}
+
 bool nemo_regis_erase(NemoRegis *owner,int64_t x,int64_t y,unsigned width,
                       unsigned height,unsigned cell_width,unsigned cell_height)
 {

@@ -2254,11 +2254,15 @@ void term_scroll_images(Terminal *term, int left, int right, int top, int bottom
     top = max(0, top); bottom = min(term->rows-1, bottom);
     if (!lines || left >= right || top > bottom) return;
     lines = max(top-bottom-1, min(lines, bottom-top+1));
+    bool partial = left != 0 || right != term->cols;
     if (term->regis) {
-        nemo_regis_scroll(term->regis->decoder,lines);
+        if (!partial && !top && bottom==term->rows-1)
+            nemo_regis_scroll(term->regis->decoder,lines);
+        else
+            nemo_regis_scroll_region(term->regis->decoder,left,top,right,bottom+1,
+                lines,(unsigned)term->cell_width,(unsigned)term->cell_height);
         nemo_regis_sync_views(term);
     }
-    bool partial = left != 0 || right != term->cols;
     if (partial || top || term->alt_which) sb = false;
     if (partial) nemo_images_split_columns(term, left, right, top, bottom);
     NemoTermImage **link = &term->images;
