@@ -38,6 +38,7 @@ on:
           - terminfo-database
           - regis
           - regis-core
+          - regis-product
           - all
       pointer_run:
         description: Completed pointer workflow containing the exact single image to diagnose
@@ -67,6 +68,47 @@ permissions:
   actions: read
 
 jobs:
+  regis-product-source:
+    if: inputs.family == 'regis-product'
+    name: Source-built console host for compiler comparison
+    runs-on: windows-2025
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          submodules: true
+      - name: Build the current frontend and console host into one image
+        shell: pwsh
+        run: |
+          $vswhere = "${env:ProgramFiles(x86)}/Microsoft Visual Studio/Installer/vswhere.exe"
+          $vs = & $vswhere -latest -products '*' -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+          Import-Module "$vs/Common7/Tools/Microsoft.VisualStudio.DevShell.dll"
+          Enter-VsDevShell -VsInstallPath $vs -SkipAutomaticLocation -DevCmdArguments '-arch=x64 -host_arch=x64'
+          ./scripts/build-single-exe.ps1 -Destination build/source-console-host
+          $image = Get-Item -LiteralPath build/source-console-host/nemoterm.exe
+          [ordered]@{
+            SourceCommit = (git rev-parse HEAD).Trim()
+            MicrosoftTerminalCommit = (git -C vendor/microsoft-terminal rev-parse HEAD).Trim()
+            OverlaySHA256 = (Get-FileHash scripts/prepare-single-exe.py -Algorithm SHA256).Hash.ToLowerInvariant()
+            EntrySHA256 = (Get-FileHash native/single_exe/entry.cpp -Algorithm SHA256).Hash.ToLowerInvariant()
+            Executable = [ordered]@{
+              SHA256 = (Get-FileHash -LiteralPath $image.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
+              Bytes = $image.Length
+            }
+          } | ConvertTo-Json -Depth 4 | Set-Content build/source-console-host/SOURCE-HOST.json -Encoding utf8
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: source-console-host-x64-${{ github.sha }}
+          path: build/source-console-host/
+          if-no-files-found: error
+          retention-days: 30
+  regis-product-window:
+    needs: regis-product-source
+    if: inputs.family == 'regis-product'
+    uses: ./.github/workflows/regis-window.yml
+    with:
+      product_run: ${{ github.run_id }}
+      product_commit: ${{ github.sha }}
   regis-core:
     if: inputs.family == 'regis-core'
     uses: ./.github/workflows/regis-component.yml
@@ -95,7 +137,7 @@ jobs:
     with:
       skip_windows: ${{ inputs.family == 'pointer-components-linux' }}
   xterm-reference:
-    if: inputs.family != 'regis-core' && inputs.family != 'regis' && inputs.family != 'terminfo-database' && inputs.family != 'historical-xterm' && inputs.family != 'sidecar-wire' && inputs.family != 'kitty-graphics' && inputs.family != 'kitty-compression' && inputs.family != 'kitty-features' && inputs.family != 'kitty-query-errors' && inputs.family != 'kitty-relative' && inputs.family != 'kitty-unicode' && inputs.family != 'kitty-unicode-geometry' && inputs.family != 'kitty-pointer' && inputs.family != 'pointer-components' && inputs.family != 'pointer-components-linux' && inputs.family != 'pointer-window-replay'
+    if: inputs.family != 'regis-product' && inputs.family != 'regis-core' && inputs.family != 'regis' && inputs.family != 'terminfo-database' && inputs.family != 'historical-xterm' && inputs.family != 'sidecar-wire' && inputs.family != 'kitty-graphics' && inputs.family != 'kitty-compression' && inputs.family != 'kitty-features' && inputs.family != 'kitty-query-errors' && inputs.family != 'kitty-relative' && inputs.family != 'kitty-unicode' && inputs.family != 'kitty-unicode-geometry' && inputs.family != 'kitty-pointer' && inputs.family != 'pointer-components' && inputs.family != 'pointer-components-linux' && inputs.family != 'pointer-window-replay'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
