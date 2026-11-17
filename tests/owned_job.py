@@ -141,15 +141,19 @@ class OwnedJob:
                 k.CloseHandle(handle)
         return handles
 
-    def finish(self, grace=2):
+    def finish(self, grace=2, observe_after_deadline=0):
         if self.cleanup is not None:
             return self.cleanup
+        if not 0 <= observe_after_deadline <= 30:
+            raise ValueError('Post-deadline observation must be between 0 and 30 seconds')
         deadline = time.monotonic()+grace
         while (before := self.accounting())['active'] and time.monotonic() < deadline:
             time.sleep(.02)
         forced = before['active'] > 0
+        grace_exceeded = forced
         handles = self.member_handles()
         remaining_processes = []
+        observation = []
         try:
             for handle in handles:
                 path = c.create_unicode_buffer(32768); length = w.DWORD(len(path))
@@ -160,6 +164,31 @@ class OwnedJob:
                 if k.GetExitCodeProcess(handle, c.byref(status)):
                     record['exit_code'] = status.value
                 remaining_processes.append(record)
+            if forced and observe_after_deadline:
+                # This is evidence after an already failed deadline, never an
+                # extension that turns late natural exit into an acceptance.
+                started = time.monotonic()
+                previous = None
+                while True:
+                    active = self.accounting()['active']
+                    states = []
+                    for handle in handles:
+                        code = w.DWORD()
+                        known = k.GetExitCodeProcess(handle, c.byref(code))
+                        states.append(dict(pid=k.GetProcessId(handle),
+                            signaled=k.WaitForSingleObject(handle, 0) == 0,
+                            exit_code=code.value if known else None))
+                    elapsed = time.monotonic()-started
+                    state = (active, states)
+                    done = not active or elapsed >= observe_after_deadline
+                    if state != previous or done:
+                        observation.append(dict(seconds=round(elapsed, 6), active=active,
+                                                processes=states))
+                        previous = state
+                    if done:
+                        break
+                    time.sleep(.02)
+                forced = active > 0
             if forced and not k.TerminateJobObject(self.handle, 1):
                 raise c.WinError(c.get_last_error())
             deadline = time.monotonic()+5
@@ -176,6 +205,10 @@ class OwnedJob:
                 k.CloseHandle(handle)
         self.cleanup = dict(before=before, after=after, terminated_remaining=forced,
                             remaining_processes=remaining_processes)
+        if observe_after_deadline:
+            self.cleanup.update(grace_exceeded=grace_exceeded, grace_seconds=grace,
+                diagnostic_observation_seconds=observe_after_deadline,
+                after_deadline=observation)
         return self.cleanup
 
     def __enter__(self):

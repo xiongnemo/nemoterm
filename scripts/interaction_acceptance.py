@@ -265,12 +265,16 @@ def run(args):
                     row.update(status='failed', error=repr(exc))
                 finally:
                     try:
-                        row['cleanup'] = job.finish(grace=3)
+                        row['cleanup'] = job.finish(grace=3, observe_after_deadline=
+                            float(os.environ.get('NEMOTERM_JOB_FAILURE_OBSERVE_SECONDS', '0')))
                     except Exception as exc:
                         row.update(status='failed', cleanup_error=repr(exc))
                     if row.get('cleanup', {}).get('terminated_remaining'):
                         row['status'] = 'failed'
                         row['forced_cleanup'] = 'Only this job was stopped; clipboard restoration may be incomplete'
+                    if row.get('cleanup', {}).get('grace_exceeded'):
+                        row['status'] = 'failed'
+                        row['deadline_exceeded'] = 'Late natural exit remains a failed acceptance'
                     if digest(attempt/'dist/nemoterm.exe') != identity['executable_sha256']:
                         row.update(status='failed', image_changed=True)
                     row['seconds'] = time.monotonic()-started

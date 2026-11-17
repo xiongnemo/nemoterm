@@ -59,6 +59,33 @@ class OwnedJobTests(unittest.TestCase):
             self.assertEqual(process.wait(timeout=5), 0)
             self.assertFalse(job.finish()['terminated_remaining'])
 
+    def test_late_natural_exit_remains_a_deadline_failure(self):
+        with OwnedJob() as job:
+            process = job.spawn([sys.executable, '-c',
+                'import time; print("ready",flush=True); time.sleep(.5)'],
+                stdout=subprocess.PIPE, text=True, creationflags=subprocess.CREATE_NO_WINDOW)
+            try:
+                self.assertEqual(process.stdout.readline().strip(), 'ready')
+                cleanup = job.finish(grace=0, observe_after_deadline=3)
+                self.assertTrue(cleanup['grace_exceeded'])
+                self.assertFalse(cleanup['terminated_remaining'])
+                self.assertGreater(cleanup['before']['active'], 0)
+                self.assertEqual(cleanup['after_deadline'][-1]['active'], 0)
+                self.assertEqual(process.wait(timeout=5), 0)
+            finally:
+                process.stdout.close()
+
+    def test_post_deadline_observation_still_bounds_a_stuck_process(self):
+        with OwnedJob() as job:
+            process = job.spawn([sys.executable, '-c', 'import time; time.sleep(30)'],
+                                creationflags=subprocess.CREATE_NO_WINDOW)
+            cleanup = job.finish(grace=0, observe_after_deadline=.1)
+            self.assertTrue(cleanup['grace_exceeded'])
+            self.assertTrue(cleanup['terminated_remaining'])
+            self.assertGreater(cleanup['after_deadline'][-1]['active'], 0)
+            self.assertEqual(cleanup['after']['active'], 0)
+            self.assertEqual(process.wait(timeout=5), 1)
+
 
 if __name__ == '__main__':
     unittest.main()

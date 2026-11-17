@@ -27,6 +27,7 @@ def main():
     if digest(exe) != args.sha256:
         raise ValueError('Product SHA-256 mismatch')
     evidence = dict(executable_sha256=args.sha256, iterations_per_mode=args.iterations,
+        failure_observation_seconds=float(os.environ.get('NEMOTERM_JOB_FAILURE_OBSERVE_SECONDS', '0')),
         fixture_commit=subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip(),
         completed=False, cases=[])
     os.environ['NEMOTERM_TEST_SHELL'] = 'git-bash'
