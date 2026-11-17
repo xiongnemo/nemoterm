@@ -74,10 +74,16 @@ the requested operation.
 
 A Windows single EXE needs an embedded, versioned database rather than relying
 on a Unix installation. A compact read-only capability pool and per-terminal
-entry index can keep unused entries off the private heap. The current reference
-host has only 41 distinct installed database files (73,822 bytes); that is a
-measurement of this minimal installation, not the size or coverage of the full
-ncurses database. Dataset selection/licensing, complete key-name mapping,
+entry index can keep unused entries off the private heap. The original reference
+host had only 41 distinct installed database files (73,822 bytes); that was a
+measurement of that minimal installation, not the full ncurses database.
+The subsequent [complete pinned database export](terminfo-database.md) compiles
+2,931 aliases and retains 2,854 entries accepted by upstream libtinfo, with all
+77 rejected names recorded. Its 218 key capabilities occupy 192,401 bytes of
+read-only C tables. Every compiled alias/key pair matches the original library
+observation, including absent keys and present empty values. These are database
+verification results, not a Nemoterm implementation or working-set measurement.
+License embedding, complete input key-name mapping,
 permission settings, lifecycle, malformed input, native key/query consistency
 and GDI working-set verification remain implementation work. The feature must
 remain absent from OSC 60/61/62 advertisements until it actually exists.

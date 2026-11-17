@@ -220,6 +220,7 @@ gh run download <run-id> --dir <new-evidence-directory>
 | [Single executable](.github/workflows/single-exe.yml) | 对同一个 EXE 运行协议、像素、客户端、生命周期和内存套件，保留成品与证据 |
 | [Remote DPI](.github/workflows/dpi.yml) | 英文/中文、独立窗口/标签宿主、100–200% 真实缩放与动态切换 |
 | [Remote interaction](.github/workflows/remote-interaction.yml) | 26 项交互与 12 项完整 Sarasa 网格负载；真实隔离客户端、六种 shell、日志与截图 |
+| [Independent protocol reference](.github/workflows/protocol-reference.yml) | 固定上游版本的独立观测；包含历史 XTerm 采集与完整 ncurses 按键数据库验证，手动专项入口 |
 
 只修改测试脚本时可回放已构建产物，并拒绝生产代码不匹配的镜像。分组命令、固定依赖、进程清理规则和物理设备验证边界见 [远程测试操作单](docs/INTERACTION_ACCEPTANCE.md)。
 

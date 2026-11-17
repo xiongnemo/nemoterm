@@ -34,6 +34,14 @@ gh workflow run protocol-reference.yml --ref <branch> -f family=historical-xterm
 
 此入口覆盖 25 个原先没有直接 CI 入口的采集脚本，分十一组执行 33 次采集，包括四批完整字符集映射、输入/粘贴、校验和、编辑、键盘和 XTSETTCAP 研究。它只构建一次固定提交的上游 XTerm，各组核对同一二进制哈希，在自己的 Xvfb 显示中执行。日志和新观测独立上传；不覆盖仓库内的历史参考数据，也不把采集成功当成 Nemoterm 已支持对应协议。运行控制器拒绝本机及 self-hosted runner。可用 `-f historical_group=keys` 等参数只重跑一组；`legacy-modifiers` 并行执行三个键盘配置分组，每组保留全部正常对照和状态检查。
 
+完整 ncurses 数据库及 termcap 键盘研究也在托管 Runner 上执行：
+
+```powershell
+gh workflow run protocol-reference.yml --ref <branch> -f family=terminfo-database
+```
+
+此入口固定 ncurses/XTerm 源码提交，由上游 `tic` 编译整个数据库、`libtinfo` 读取按键，再将编译后的只读 C 表逐项与原始观测比对。默认还运行独立 XTerm 启动键盘采集；仅修改数据导出或验证时，可加 `-f terminfo_skip_keys=true` 单独检查数据库。该专项不构建 Nemoterm，不作为产品协议或内存验收；证据及范围见 [数据库记录](../research/terminfo-database.md)。
+
 ## 交互矩阵
 
 每组使用独立 Windows 2025 runner，最多同时运行五组；组内顺序执行并保留各自失败，不因另一组失败取消测试。`scripts/interaction_acceptance.py run` 拒绝本机及 self-hosted runner；`plan` 和 `prepare` 只处理清单和文件。
