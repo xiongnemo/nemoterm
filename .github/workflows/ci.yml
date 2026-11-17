@@ -658,6 +658,13 @@ jobs:
           $testExit = $LASTEXITCODE
           Copy-Item research/legacy-modifiers-observed.json test-results/ -ErrorAction SilentlyContinue
           exit $testExit
+      - name: Compare terminfo keyboards through ConPTY
+        shell: pwsh
+        run: |
+          python tests/tcap_keys_window_smoke.py 2>&1 | Tee-Object test-results/tcap-keys-native.log
+          $testExit = $LASTEXITCODE
+          Copy-Item research/tcap-keys-observed.json test-results/ -ErrorAction SilentlyContinue
+          exit $testExit
       - name: Test embedded icon fallback, resize and RTL allocation lifetime
         shell: pwsh
         run: |

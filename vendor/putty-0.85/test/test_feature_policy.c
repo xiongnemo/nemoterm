@@ -200,6 +200,12 @@ static void permissions(Mock *mk)
     RESPONSE(mk,"\033]52;0;Yg==\007");
     IEQUAL(mk->term->win_resize_pending,WIN_RESIZE_NEED_SEND);
     IEQUAL(mk->term->win_resize_pending_w,100); IEQUAL(mk->term->win_resize_pending_h,30);
+    /* A real frontend acknowledges this request before further input. The
+     * no-op mock must complete that handshake too, or subsequent fixtures
+     * remain paused behind the resize barrier. */
+    term_update(mk->term);
+    IEQUAL(mk->term->win_resize_pending,WIN_RESIZE_AWAIT_REPLY);
+    term_resize_request_completed(mk->term);
     puts("Feature policy permissions: actual title, resize, focus, paste and selection gates");
 }
 

@@ -46,7 +46,7 @@ try {
     & powershell.exe -NoProfile -File "$Destination/tests/dialog_window_smoke.ps1" 2>&1 | Tee-Object "$Destination/logs/dialog-standalone.log"
     if ($LASTEXITCODE) { throw 'Standalone dialog and keyboard zoom checks failed' }
     $checks.Add('dialog-standalone')
-    $tests += 'c1_controls', 'startup_visibility', 'iterm_reports', 'font_zoom', 'bell', 'bell_visual', 'image_rectangle', 'control_cancellation', 'feature_policy', 'legacy_parameter', 'answerback_config', 'osc_colour_sequence', 'special_keys', 'extended_keys', 'legacy_modifiers'
+    $tests += 'c1_controls', 'startup_visibility', 'iterm_reports', 'font_zoom', 'bell', 'bell_visual', 'image_rectangle', 'control_cancellation', 'feature_policy', 'legacy_parameter', 'answerback_config', 'osc_colour_sequence', 'special_keys', 'extended_keys', 'legacy_modifiers', 'tcap_keys'
     # Physical pointer and keyboard input is restricted to the disposable CI desktop.
     if ($env:GITHUB_ACTIONS -eq 'true') { $tests += 'locator', 'udk', 'bell_modes' }
     foreach ($name in $tests) {
