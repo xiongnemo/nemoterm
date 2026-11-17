@@ -1,0 +1,67 @@
+name: Repeated Git Bash lifetime on exact product
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_run:
+        description: Core run containing the successful source-host build
+        required: true
+        type: string
+      source_commit:
+        description: Full source commit of that product
+        required: true
+        type: string
+      iterations:
+        description: Repetitions per observer mode, from 1 to 32
+        required: true
+        default: '12'
+        type: string
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  lifetime:
+    runs-on: windows-2025
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+      - name: Download and verify the exact single executable
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PRODUCT_RUN: ${{ inputs.source_run }}
+          PRODUCT_COMMIT: ${{ inputs.source_commit }}
+        run: ./scripts/fetch-ci-product.ps1 -Run $env:PRODUCT_RUN -Commit $env:PRODUCT_COMMIT -Destination build/shell-product
+      - name: Prepare the same pinned font and controller dependencies
+        shell: pwsh
+        run: |
+          ./scripts/prepare-remote-interaction.ps1
+          python -m pip install frida==17.24.3 Pillow==13.0.0
+          exit $LASTEXITCODE
+      - name: Repeat duplicate close with and without process observation
+        shell: pwsh
+        env:
+          ITERATIONS: ${{ inputs.iterations }}
+        run: |
+          $exe = (Resolve-Path build/shell-product/nemoterm.exe).Path
+          python scripts/repeat-shell-lifetime.py --exe $exe --sha256 (Get-FileHash $exe).Hash.ToLowerInvariant() --destination build/shell-lifetime --iterations $env:ITERATIONS
+          exit $LASTEXITCODE
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: shell-lifetime-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            build/shell-product/SOURCE-HOST.json
+            build/interaction-dependencies/environment.json
+            build/shell-lifetime/summary.json
+            build/shell-lifetime/*/identity.json
+            build/shell-lifetime/*/plan.json
+            build/shell-lifetime/*/results.json
+            build/shell-lifetime/*/attempts/*/output.log
+            build/shell-lifetime/*/attempts/*/research/
+          retention-days: 30
+          if-no-files-found: error

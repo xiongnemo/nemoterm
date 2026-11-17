@@ -21,13 +21,16 @@ keypath = 'Software\\Nemo\\Nemoterm\\Sessions\\' + profile
 with winreg.CreateKey(winreg.HKEY_CURRENT_USER, keypath) as key:
     winreg.SetValueEx(key, 'WarnOnClose', 0, winreg.REG_DWORD, 0)
 observed = dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),
-                detected=shells, launches={}, process_lifetime=[])
+                detected=shells, launches={}, process_lifetime=[],
+                process_observer=os.environ.get('NEMOTERM_SHELL_PROCESS_OBSERVER', '1') != '0')
 tracked_processes = {}
 started_at = time.monotonic()
 
 
 def record_processes(phase, sid=None, root_pid=None, discover=False):
     """Retain identities across parent exit; diagnostics never stop a process."""
+    if not observed['process_observer']:
+        return
     event = dict(phase=phase, shell=sid, seconds=round(time.monotonic()-started_at, 6))
     try:
         if discover:
