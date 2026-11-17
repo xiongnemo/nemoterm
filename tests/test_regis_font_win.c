@@ -109,6 +109,8 @@ static void decoder_frame(NemoRegisFontWin *provider)
         for (unsigned y=0;y<120;y++) {
             uint32_t row[160]={0};
             CHECK(nemo_regis_read_row(decoder,0,y,0,row,160)==160);
+            if (y>=60 && y<80)
+                for (unsigned x=47;x<56;x++) CHECK(row[x]==0xff000000);
             for (unsigned x=0;x<160;x++) {
                 unsigned char rgb[3]={(unsigned char)(row[x]>>16),(unsigned char)(row[x]>>8),(unsigned char)row[x]};
                 if (row[x]==0xff33cc33) foreground++;
@@ -162,7 +164,15 @@ int main(void)
         CHECK(nemo_regis_font_glyph(first,"",'A',8,20,pixels,8192,&w,&h));
         CHECK(nemo_regis_font_glyph(second,"",'g',16,30,pixels,8192,&w,&h));
     }
-    CHECK(GetGuiResources(GetCurrentProcess(),GR_GDIOBJECTS)==before+4);
+    unsigned char first_mask[8192];
+    CHECK(nemo_regis_font_glyph(first,"",'A',8,20,first_mask,sizeof(first_mask),&w,&h));
+    unsigned first_width=w,first_height=h;
+    CHECK(nemo_regis_font_glyph(first,"Consolas",'A',8,20,pixels,8192,&w,&h));
+    NemoRegisFontInfo named;
+    CHECK(nemo_regis_font_info(first,&named) && !wcscmp(named.family,L"Consolas"));
+    CHECK(nemo_regis_font_glyph(first,"",'A',8,20,pixels,8192,&w,&h));
+    CHECK(w==first_width && h==first_height && !memcmp(first_mask,pixels,(size_t)w*h));
+    CHECK(GetGuiResources(GetCurrentProcess(),GR_GDIOBJECTS)==before+6);
     CHECK(!nemo_regis_font_glyph(first,"\xff",'A',8,20,pixels,8192,&w,&h));
     CHECK(!w && !h);
     CHECK(!nemo_regis_font_glyph(first,"Nemoterm Missing Face 719",'A',8,20,pixels,8192,&w,&h));

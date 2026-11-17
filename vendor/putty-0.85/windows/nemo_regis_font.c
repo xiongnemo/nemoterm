@@ -15,6 +15,8 @@
 
 struct NemoRegisFontWin {
     HDC dc;
+    HBITMAP bitmap;
+    HGDIOBJ original_bitmap;
     HFONT font;
     HGDIOBJ original;
     wchar_t family[LF_FACESIZE], cached_family[LF_FACESIZE];
@@ -50,7 +52,13 @@ void nemo_regis_font_free(NemoRegisFontWin *provider)
 {
     if (!provider) return;
     discard_font(provider);
-    if (provider->dc) DeleteDC(provider->dc);
+    if (provider->dc) {
+        if (provider->bitmap) {
+            SelectObject(provider->dc, provider->original_bitmap);
+            DeleteObject(provider->bitmap);
+        }
+        DeleteDC(provider->dc);
+    }
     free(provider);
 }
 
@@ -89,6 +97,22 @@ static bool select_font(NemoRegisFontWin *provider, const wchar_t *family,
         provider->dc = CreateCompatibleDC(NULL);
         if (!provider->dc) return false;
         provider->original = GetCurrentObject(provider->dc, OBJ_FONT);
+        /* Match the frontend's colour surface when GDI realizes the font;
+         * a new memory DC initially has a monochrome stock bitmap. */
+        BITMAPINFO bitmap = {0};
+        bitmap.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
+        bitmap.bmiHeader.biWidth = 1; bitmap.bmiHeader.biHeight = -1;
+        bitmap.bmiHeader.biPlanes = 1; bitmap.bmiHeader.biBitCount = 32;
+        bitmap.bmiHeader.biCompression = BI_RGB;
+        void *bits = NULL;
+        provider->bitmap = CreateDIBSection(provider->dc, &bitmap, DIB_RGB_COLORS, &bits, NULL, 0);
+        if (!provider->bitmap) { DeleteDC(provider->dc); provider->dc=NULL; return false; }
+        provider->original_bitmap = SelectObject(provider->dc, provider->bitmap);
+        if (!provider->original_bitmap || provider->original_bitmap == HGDI_ERROR) {
+            DeleteObject(provider->bitmap); DeleteDC(provider->dc);
+            provider->dc=NULL; provider->bitmap=NULL;
+            return false;
+        }
     }
     /* Like the upstream Xft search, cap font size and use a finite descending
      * search. No terminal-supplied coordinate can cause an unbounded search. */
