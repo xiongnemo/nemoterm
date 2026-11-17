@@ -111,6 +111,18 @@ jobs:
             if ($LASTEXITCODE) { exit $LASTEXITCODE }
           }
           ./scripts/prepare-remote-interaction.ps1 -Shells:($env:TEST_GROUP -in @('shells','clipboard'))
+      - name: Prepare a real desktop large enough for 160 by 48 Sarasa cells
+        if: ${{ matrix.group == 'memory-gdi' || matrix.group == 'memory-directx' }}
+        shell: pwsh
+        run: |
+          $vswhere="${env:ProgramFiles(x86)}/Microsoft Visual Studio/Installer/vswhere.exe"
+          $vs=& $vswhere -latest -products '*' -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+          Import-Module "$vs/Common7/Tools/Microsoft.VisualStudio.DevShell.dll"
+          Enter-VsDevShell -VsInstallPath $vs -SkipAutomaticLocation -DevCmdArguments '-arch=x64 -host_arch=x64'
+          cl /nologo /W4 /WX /EHsc /std:c++17 tests/dpi_display_probe.cpp /Febuild/interaction-dependencies/dpi-display.exe /Fobuild/interaction-dependencies/dpi-display.obj user32.lib
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          ./scripts/prepare-full-grid-display.ps1
+          'NEMOTERM_REQUIRE_DIRECTX=1' | Out-File $env:GITHUB_ENV -Append -Encoding utf8
       - name: Install WSL Bash for shell and drop coverage
         if: ${{ matrix.group == 'shells' || matrix.group == 'clipboard' }}
         uses: Vampire/setup-wsl@4c48163d9f981914dd8caa0fc335fe19cca5bff4 # v7.2.0 built distribution
@@ -164,6 +176,10 @@ jobs:
             '| --- | --- | ---: |' | Out-File $env:GITHUB_STEP_SUMMARY -Append
             foreach ($case in $results) { "| $($case.id) | $($case.status) | $([int]$case.seconds) |" | Out-File $env:GITHUB_STEP_SUMMARY -Append }
           }
+      - name: Restore the runner display and retain actual display modes
+        if: ${{ always() && (matrix.group == 'memory-gdi' || matrix.group == 'memory-directx') }}
+        shell: pwsh
+        run: ./scripts/prepare-full-grid-display.ps1 -Restore
       - name: Retain identities, logs, screenshots and failure evidence
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
@@ -172,7 +188,7 @@ jobs:
           retention-days: 14
           path: |
             build/interaction-product/SOURCE-HOST.json
-            build/interaction-dependencies/environment.json
+            build/interaction-dependencies/*.json
             build/interaction/*.json
             build/interaction/attempts/*/output.log
             build/interaction/attempts/*/research/

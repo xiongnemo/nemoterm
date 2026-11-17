@@ -20,6 +20,8 @@ parser.add_argument('--side',choices=('top','bottom','left','right'),default='to
 parser.add_argument('--font',default='Consolas' if os.environ.get('CI')=='true' else 'SarasaTermSC Nerd Font Light')
 parser.add_argument('--cols',type=int,default=160)
 parser.add_argument('--rows',type=int,default=48)
+parser.add_argument('--require-grid',action='store_true',
+                    help='Fail if the initial grid is clamped below the requested columns/rows')
 parser.add_argument('--session-seconds',type=int,default=300,
                     help='Bounded child lifetime; large local grids may need more than the CI default')
 parser.add_argument('--dense-clusters',action='store_true')
@@ -130,6 +132,7 @@ def windows(pid,kind,parent=None,visible=False):
 fixture_started=time.monotonic()
 evidence=dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),renderer=args.renderer,
               side=args.side,font=args.font,requested_grid=[args.cols,args.rows],dense_clusters=args.dense_clusters,
+              exact_grid_required=args.require_grid,
               session_seconds=args.session_seconds,
               completed=False,checks=[],memory_instrumented=injected_observer,
               automation_enabled=True,phase='startup')
@@ -273,6 +276,9 @@ try:
             first=new_child([])
             menu_checks=TabMenuChecks(host,evidence);menu_checks.observe(first['hwnd'])
             size=read_snapshot(first['report']);evidence['actual_grid']=[size['columns'],size['rows']]
+            if args.require_grid:
+                evidence['exact_grid_passed']=evidence['actual_grid']==evidence['requested_grid']
+                assert evidence['exact_grid_passed'],('Requested grid was clamped',evidence['requested_grid'],evidence['actual_grid'])
             output(first,'\x1b]0;First terminal\x07'+scene('TAB ONE','80;20;20'))
             actual=int(u.GetPropW(first['hwnd'],'NemotermRenderer') or 0)
             evidence['actual_renderer']=actual

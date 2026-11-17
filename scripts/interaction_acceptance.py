@@ -46,6 +46,17 @@ def catalog():
     add('shells', 'shells', 'shell_window_smoke.py', effects='available local shells; isolated fixture commands')
     add('bell-api', 'bell', 'bell_window_smoke.py', effects='system sound')
     add('bell-visual', 'bell', 'bell_visual_window_smoke.py', effects='visual flash')
+    workloads = [('text', []), ('inline', ['--inline-images']),
+        ('animated', ['--animated-images']), ('kitty', ['--kitty-images']),
+        ('compressed-kitty', ['--kitty-images', '--kitty-compression']),
+        ('unicode-kitty', ['--kitty-images', '--kitty-unicode'])]
+    for renderer, side in [('gdi', 'top'), ('directx', 'left')]:
+        for name, image_args in workloads:
+            add('full-grid-'+name+'-'+renderer, 'memory-'+renderer, 'tabs_window_smoke.py',
+                ['--renderer', renderer, '--side', side, '--font', FONT,
+                 '--cols', '160', '--rows', '48', '--require-grid', '--session-seconds', '900',
+                 '--workload-memory']+image_args,
+                'full Sarasa grid; uninjected memory sampling; image pixels; tab lifetime')
     return cases
 
 

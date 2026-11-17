@@ -43,9 +43,21 @@ class AcceptanceTests(unittest.TestCase):
 
     def test_catalog_has_unique_real_fixtures(self):
         cases = runner.catalog()
-        self.assertEqual(len(cases), 26)
-        self.assertEqual(len({c['id'] for c in cases}), 26)
+        self.assertEqual(len(cases), 38)
+        self.assertEqual(len({c['id'] for c in cases}), 38)
         for case in cases:self.assertTrue((ROOT/'tests'/case['script']).is_file())
+
+    def test_full_grid_memory_requires_sarasa_and_unclamped_size(self):
+        for renderer in ('gdi', 'directx'):
+            cases=runner.selected(runner.catalog(), ['memory-'+renderer])
+            self.assertEqual(len(cases), 6)
+            for case in cases:
+                args=case['args']
+                self.assertIn('--require-grid', args)
+                self.assertIn('--workload-memory', args)
+                for option, expected in [('--font', runner.FONT), ('--cols', '160'),
+                                         ('--rows', '48'), ('--renderer', renderer)]:
+                    self.assertEqual(args[args.index(option)+1], expected)
 
     def test_unknown_selection_rejected(self):
         with self.assertRaises(ValueError):runner.selected(runner.catalog(), ['typo'])
