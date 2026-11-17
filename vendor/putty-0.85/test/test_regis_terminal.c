@@ -112,6 +112,35 @@ static void check_shared_graphics(Mock *mk)
     IEQUAL(t->sixel_palette_valid,false);
 }
 
+static void check_alternate_visibility(Mock *mk)
+{
+    Terminal *t=mk->term;
+    test_context(mk,"alternate screen preserves main graphic visibility without a new DCS");
+    feed_regis(mk,"\033c\033P1pS(E)W(I3)P[20,20]V[120,20]\033\\");
+    unsigned main_id=0,alt_id=0;
+    for (NemoTermImage *image=t->images;image;image=image->next)
+        if (image->source->regis && image->screen==0 && term_image_visible(image))
+            main_id=image->source->regis_id;
+    IEQUAL(main_id!=0,true);
+    feed_regis(mk,"\033[?1049h\033P0pS(E)W(I2)P[20,40]V[120,40]\033\\");
+    for (NemoTermImage *image=t->images;image;image=image->next)
+        if (image->source->regis && image->screen==1 && term_image_visible(image))
+            alt_id=image->source->regis_id;
+    IEQUAL(alt_id!=0 && alt_id!=main_id,true);
+    feed_regis(mk,"\033[?1049l");
+    NemoRegisGraphic info;
+    IEQUAL(nemo_regis_graphic(term_regis_decoder(t),main_id,&info),true);
+    IEQUAL(info.hidden,false);
+    expect_pixel(mk,20,20,0xff33cc33);
+    feed_regis(mk,"\033[?47h");
+    IEQUAL(nemo_regis_graphic(term_regis_decoder(t),alt_id,&info),true);
+    IEQUAL(info.hidden,false);
+    expect_pixel(mk,40,20,0xffcc2121);
+    feed_regis(mk,"\033c");
+    IEQUAL(t->image_bytes,0);
+    IEQUAL(term_regis_memory(t),0);
+}
+
 static int framing_tests(void)
 {
     Mock *mk=regis_mock();
@@ -200,6 +229,7 @@ static int framing_tests(void)
     feed_regis(mk,"\033c");
     IEQUAL(term_regis_memory(t),0);
     check_shared_graphics(mk);
+    check_alternate_visibility(mk);
     bool failed=mk->any_test_failed;
     mock_free(mk);
     puts(failed ? "ReGIS terminal framing FAILED" : "ReGIS terminal framing passed");

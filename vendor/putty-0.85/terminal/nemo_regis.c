@@ -110,7 +110,16 @@ void nemo_regis_free(NemoRegis *owner)
 
 void nemo_regis_screen(NemoRegis *owner, unsigned alternate)
 {
-    if (owner && !owner->active) owner->screen = alternate != 0;
+    if (!owner || owner->active) return;
+    unsigned screen=alternate!=0;
+    if (owner->screen!=screen) {
+        /* Parser coordinates and page numbers survive an alternate-screen
+         * switch, but mapping the next request must not hide a graphic in
+         * the screen we just left. Retained visibility belongs to each bank. */
+        owner->context.destination_graphic=NULL;
+        owner->context.display_graphic=NULL;
+        owner->screen=screen;
+    }
 }
 
 void nemo_regis_private_colours(NemoRegis *owner, bool enabled)
