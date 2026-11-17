@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
     inputs:
       suite:
-        description: UI checks to replay against the exact artifact
+        description: Checks or notice-only packaging against the exact artifact
         type: choice
-        options: [font-bell, dpi, interaction, single, ui-regression, shell-lifetime, tcap]
+        options: [font-bell, dpi, interaction, single, ui-regression, shell-lifetime, tcap, portable-notices]
         default: font-bell
       source_commit:
         description: Full source commit of the source-console-host artifact
@@ -26,6 +26,12 @@ permissions:
   actions: read
 
 jobs:
+  portable-notices:
+    if: ${{ inputs.suite == 'portable-notices' }}
+    uses: ./.github/workflows/portable-package-replay.yml
+    with:
+      source_run: ${{ inputs.source_run }}
+      source_commit: ${{ inputs.source_commit }}
   shell-lifetime:
     if: ${{ inputs.suite == 'shell-lifetime' }}
     uses: ./.github/workflows/shell-lifetime.yml

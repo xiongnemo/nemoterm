@@ -1,6 +1,14 @@
 name: Complete portable package notices
 
 on:
+  workflow_call:
+    inputs:
+      source_run:
+        required: true
+        type: string
+      source_commit:
+        required: true
+        type: string
   workflow_dispatch:
     inputs:
       source_run:
