@@ -39,6 +39,9 @@ jobs:
           $vs = & $vswhere -latest -products '*' -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
           Import-Module "$vs/Common7/Tools/Microsoft.VisualStudio.DevShell.dll"
           Enter-VsDevShell -VsInstallPath $vs -SkipAutomaticLocation -DevCmdArguments '-arch=x64 -host_arch=x64'
+          New-Item -ItemType Directory -Force build/ui-preflight | Out-Null
+          cl /nologo /W4 /WX /EHsc /std:c++17 tests/dpi_settings_probe.cpp /Febuild/ui-preflight/dpi-settings.exe /Fobuild/ui-preflight/dpi-settings.obj user32.lib ole32.lib oleaut32.lib uiautomationcore.lib uuid.lib
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
           ./scripts/build-single-exe.ps1 -Destination build/source-console-host
           $image = Get-Item -LiteralPath build/source-console-host/nemoterm.exe
           [ordered]@{

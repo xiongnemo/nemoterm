@@ -25,9 +25,9 @@ def parameters(text):
 
 
 def literal(text):
-    # MSVC C4125 also warns about an 8/9 following a complete three-digit
-    # octal escape. Encode those digits too, so escapes end at a backslash.
-    return '"' + ''.join(chr(b) if 32 <= b < 127 and b not in (34, 56, 57, 92)
+    # MSVC C4125 warns about any digit following a complete three-digit
+    # octal escape. Encode all digits too, so escapes end at a backslash.
+    return '"' + ''.join(chr(b) if 32 <= b < 127 and b not in (34, 92) and not 48 <= b <= 57
                          else f"\\{b:03o}" for b in text.encode("utf-8")) + '"'
 
 
