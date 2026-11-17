@@ -221,24 +221,60 @@ The retained keyboard screenshot also exposes truncated long keyboard-mode
 radio labels. `329019d` lays them out in two columns and moves the AltGr options
 to Keyboard/Extended, which joins the now **13-page** bilingual DPI matrix.
 Full product [run 44083541137](https://github.com/xiongnemo/nemoterm/actions/runs/44083541137)
-is in progress on this final source candidate, with all gates unchanged. Earlier
-image results are not attributed to it, and `dist` has not been replaced.
+is in progress on this final source candidate, with all gates unchanged.
+Its single image is **4,800,000 bytes**, SHA-256
+`b4ed0f124b3e17d165b6c0d31c9a02a083477d556dd34ecbdb37d6d9db3458d7`.
+The downloaded image matches its source-host manifest without local execution.
+
+This exact image passes all **26 functional interaction cases**, with natural
+process cleanup, and all **24 real bilingual DPI cases**: 44 frames, **572 page
+checks and 3,344 control checks**. The English and Chinese 200% Keyboard,
+Terminfo and Extended screenshots were visually inspected; the long radio
+labels fit and the footer remains separate. Profile, shell-lifetime, MSVC
+diagnostics and sanitizer jobs also pass.
+
+All six full **160x48 Sarasa GDI** workloads pass, including their subsequent
+pixel/lifetime checks and natural cleanup. The actual font is
+`SarasaTermSC Nerd Light`, the requested grid is not clamped, and memory samples
+are uninjected. Frontend peaks in bytes are:
+
+| Workload | GDI private WS | GDI total WS | GDI private commit | DirectX private WS |
+| --- | ---: | ---: | ---: | ---: |
+| Text/history | 16,142,336 | 49,455,104 | 18,214,912 | 25,436,160 |
+| Inline PNG | 17,408,000 | 52,043,776 | 19,963,904 | 27,004,928 |
+| Animated GIF | 17,100,800 | 51,720,192 | 19,369,984 | 27,348,992 |
+| Kitty PNG | 17,285,120 | 52,043,776 | 20,250,624 | 26,591,232 |
+| Compressed Kitty | 17,051,648 | 51,716,096 | 19,390,464 | 26,759,168 |
+| Unicode Kitty cells | 18,817,024 | 53,497,856 | 22,224,896 | 28,778,496 |
+
+All six DirectX workloads fail the unchanged 25,000,000-byte private working-set
+gate; their functional checks and natural cleanup complete. These failures are
+retained, and the user's instruction to stop further DirectX memory tuning is
+unchanged. GDI remains below 20 MB private WS and approximately 50 MB total WS.
+
+At the retained snapshot, **19 jobs pass, one fails, and two are still running**:
+the full single-image and MinGW suites. This is not a completed aggregate or
+an all-green build. Earlier image results are not attributed to the pending
+jobs, and `dist` has not been replaced.
 
 ## Integration evidence archive
 
-[The integration archive](tcap-integration-evidence.zip) retains 87 entries,
+[The integration archive](tcap-integration-evidence.zip) retains 128 entries,
 including final metadata, original failed component/native ZIPs, successful
 production-lookup and native-replay receipts, cancelled aggregate records,
-complete DPI JSON/logs and selected 200% screenshots. Original download hashes
+complete DPI JSON/logs and selected 200% screenshots. It additionally retains
+the explicitly named in-progress `44083541137` metadata snapshot and original
+interaction, GDI/DirectX memory, profile and lifetime artifact ZIPs. The two
+unfinished jobs are not counted as passing. Original download hashes
 remain in the receipt files; explicitly named `.selected.zip` files omit the
 rest of the successful DPI screenshots. Source-host binaries are omitted after
 file-only verification against their manifests. No downloaded program was run
 on the development computer.
 
-The archive is **10,339,316 bytes**, SHA-256
-`ce0b4f5a70c69094d33ff5e2d3b17c7a29a56693fd4ff04a5de1c00d214e6d11`.
-It is a component/native checkpoint, not evidence that the latest aggregate
-or its GDI memory checks have completed.
+The archive is **14,152,027 bytes**, SHA-256
+`b8ab85510251c848a51cd2147b14f3ceacd9434ebf4cf661afbfb6a028e61118`.
+It is a component/native and partial aggregate checkpoint, not evidence that
+the two remaining full suites have completed.
 
 ## Retained evidence
 

@@ -81,8 +81,12 @@ production lookup passes all 622,172 upstream slots; three compiler jobs pass
 2,180 individual queries and 1,378 startup steps with an explicit TN identity
 boundary. Exact image `589faec` passes 1,293 native key streams, four permission
 combinations and 24 bilingual real-DPI cases. The later `329019d` label-layout
-candidate is running full hosted CI; its aggregate and memory results are not
-yet accepted. Failed and cancelled runs remain retained, and `dist` is unchanged.
+candidate passes 26 hosted interactions, 24 real bilingual DPI cases (572 page
+checks and 3,344 control checks), and all six full-grid Sarasa GDI workloads.
+GDI peaks at 18,817,024 private-WS bytes and 53,497,856 total-WS bytes. DirectX's
+six workloads fail the unchanged 25 MB gate, with natural cleanup. Its full
+single-image and MinGW suites are still running; the aggregate is not yet
+complete. Failed and cancelled runs remain retained, and `dist` is unchanged.
 
 ## Current memory scope (user clarification, 2026-11-15 Sydney)
 
