@@ -40,6 +40,11 @@ on:
         description: Completed pointer workflow containing the exact single image to diagnose
         type: string
         default: ''
+      historical_group:
+        description: Optional subset of the historical-xterm collectors
+        type: choice
+        default: all
+        options: [all, state, editing, charset-mapping, charset-checksum, charset-state, charset-input, keys, set-tcap]
   push:
     paths:
       - 'tests/xterm_identity_oracle.py'
@@ -54,6 +59,8 @@ jobs:
   historical-xterm:
     if: inputs.family == 'historical-xterm'
     uses: ./.github/workflows/xterm-historical.yml
+    with:
+      group: ${{ inputs.historical_group || 'all' }}
   pointer-window-replay:
     if: inputs.family == 'pointer-window-replay'
     uses: ./.github/workflows/pointer-window-replay.yml

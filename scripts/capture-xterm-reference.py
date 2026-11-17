@@ -51,6 +51,7 @@ GROUPS = {
         ('charset-input-upss', 'xterm_charset_input_oracle.py', ['--upss-only', '--paste-only']),
     ],
     'keys': [
+        ('modify-other-keys', 'xterm_mok_reference.py', []),
         ('extended-keys', 'xterm_extended_keys_oracle.py', []),
         ('legacy-modifiers', 'xterm_legacy_modifiers_oracle.py', []),
         ('special-keys', 'xterm_special_keys_oracle.py', []),
@@ -109,13 +110,20 @@ def main():
         if observed.exists():
             payload = observed.read_bytes()
             row['observed_sha256'] = hashlib.sha256(payload).hexdigest()
-            data = json.loads(payload)
-            row['cases'] = len(data.get('cases', {}))
-            row['reported_completed'] = data.get('completed')
-            if (data.get('executable_sha256') != result['executable_sha256']
-                    or row['cases'] == 0 or data.get('completed') is False):
+            try:
+                data = json.loads(payload)
+                row['cases'] = len(data.get('cases', {}))
+                if script == 'xterm_mok_reference.py':
+                    row['cases'] = (sum(len(v) for v in data['keys'].values())
+                                    + sum(len(v) for v in data['masks'].values())
+                                    + len(data['queries']))
+                row['reported_completed'] = data.get('completed')
+                if (data.get('executable_sha256') != result['executable_sha256']
+                        or row['cases'] == 0 or data.get('completed') is False):
+                    raise ValueError('Incomplete or mismatched reference capture')
+            except (ValueError, KeyError, TypeError) as error:
                 row['status'] = 'failed'
-                row['validation_error'] = 'Incomplete or mismatched reference capture'
+                row['validation_error'] = str(error)
         else:
             row['status'] = 'failed'
             row['validation_error'] = 'No reference observation was produced'

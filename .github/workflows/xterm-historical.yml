@@ -2,6 +2,10 @@ name: Historical XTerm reference collectors
 
 on:
   workflow_call:
+    inputs:
+      group:
+        type: string
+        default: all
 
 permissions:
   contents: read
@@ -52,7 +56,7 @@ jobs:
       fail-fast: false
       max-parallel: 4
       matrix:
-        group: [state, editing, charset-mapping, charset-checksum, charset-state, charset-input, keys, set-tcap]
+        group: ${{ fromJSON(inputs.group == 'all' && '["state","editing","charset-mapping","charset-checksum","charset-state","charset-input","keys","set-tcap"]' || format('["{0}"]', inputs.group)) }}
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
