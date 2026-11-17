@@ -9,6 +9,10 @@ on:
       product_commit:
         type: string
         required: true
+      groups:
+        type: string
+        required: false
+        default: ''
 
 permissions:
   contents: read
@@ -51,9 +55,27 @@ jobs:
           retention-days: 14
   orchestration:
     runs-on: ubuntu-latest
+    outputs:
+      groups: ${{ steps.groups.outputs.groups }}
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
       - run: python tests/test_interaction_acceptance.py
+      - name: Validate the selected groups
+        id: groups
+        env:
+          TEST_GROUPS: ${{ inputs.groups }}
+        run: |
+          python - <<'PY'
+          import json,os,sys
+          sys.path.insert(0,'scripts')
+          from interaction_acceptance import catalog, selected
+          groups=json.loads(os.environ['TEST_GROUPS']) if os.environ['TEST_GROUPS'] else list(dict.fromkeys(c['group'] for c in catalog()))
+          if not isinstance(groups,list) or not groups or not all(isinstance(g,str) for g in groups) or len(groups)!=len(set(groups)):
+              raise ValueError('Expected a nonempty JSON array of unique group names')
+          selected(catalog(),groups)
+          with open(os.environ['GITHUB_OUTPUT'],'a',encoding='utf-8') as out:
+              out.write('groups='+json.dumps(groups)+'\n')
+          PY
   interaction:
     name: Interaction / ${{ matrix.group }}
     runs-on: windows-2025
@@ -63,7 +85,7 @@ jobs:
       fail-fast: false
       max-parallel: 5
       matrix:
-        group: [input, selection, clipboard, agents, rendering, mouse, tabs, settings, shells, bell]
+        group: ${{ fromJSON(needs.orchestration.outputs.groups) }}
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
@@ -88,7 +110,7 @@ jobs:
           ./scripts/prepare-remote-interaction.ps1 -Shells:($env:TEST_GROUP -in @('shells','clipboard'))
       - name: Install WSL Bash for shell and drop coverage
         if: ${{ matrix.group == 'shells' || matrix.group == 'clipboard' }}
-        uses: Vampire/setup-wsl@93178b0180b242d56261ad406ee3ee79f0624bae
+        uses: Vampire/setup-wsl@4c48163d9f981914dd8caa0fc335fe19cca5bff4 # v7.2.0 built distribution
         with:
           distribution: Ubuntu-24.04
           wsl-version: 1

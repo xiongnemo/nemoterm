@@ -16,6 +16,10 @@ on:
         description: Successful Test and build run containing that artifact
         type: string
         required: true
+      groups:
+        description: Optional JSON array of interaction groups; empty runs all
+        type: string
+        required: false
 
 permissions:
   contents: read
@@ -28,6 +32,7 @@ jobs:
     with:
       product_run: ${{ inputs.source_run }}
       product_commit: ${{ inputs.source_commit }}
+      groups: ${{ inputs.groups }}
   single:
     if: ${{ inputs.suite == 'single' }}
     uses: ./.github/workflows/single-exe.yml
