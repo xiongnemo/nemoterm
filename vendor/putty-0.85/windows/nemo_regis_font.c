@@ -75,7 +75,7 @@ static bool glyph_metrics(HDC dc, unsigned character, GLYPHMETRICS *metrics)
     WORD index;
     return GetGlyphIndicesW(dc, &ch, 1, &index, GGI_MARK_NONEXISTING_GLYPHS) != GDI_ERROR &&
         index != 0xffff &&
-        GetGlyphOutlineW(dc, character, GGO_BITMAP, metrics, 0, NULL, &identity) != GDI_ERROR;
+        GetGlyphOutlineW(dc, index, GGO_BITMAP | GGO_GLYPH_INDEX, metrics, 0, NULL, &identity) != GDI_ERROR;
 }
 
 static bool select_font(NemoRegisFontWin *provider, const wchar_t *family,
@@ -158,10 +158,16 @@ bool nemo_regis_font_glyph(void *ctx, const char *font, unsigned character,
         memcpy(family, provider->family, sizeof(family));
     }
     if (!select_font(provider, family, maxw, maxh, capacity)) return false;
-    GLYPHMETRICS gm;
-    if (!glyph_metrics(provider->dc, character, &gm)) return false;
     size_t count = (size_t)provider->width * provider->height;
     memset(pixels, 0, count);
+    /* GDI's outline query can report GDI_ERROR for blank space. These two
+     * Latin-1 spaces have advance but no ink; keep a valid empty cell. */
+    if (character == 32 || character == 160) {
+        *width = provider->width; *height = provider->height;
+        return true;
+    }
+    GLYPHMETRICS gm;
+    if (!glyph_metrics(provider->dc, character, &gm)) return false;
     if (gm.gmBlackBoxX && gm.gmBlackBoxY) {
         if (gm.gmBlackBoxX > provider->width || gm.gmBlackBoxY > provider->height) return false;
         int x = gm.gmptGlyphOrigin.x-provider->left;
@@ -171,7 +177,11 @@ bool nemo_regis_font_glyph(void *ctx, const char *font, unsigned character,
         unsigned char bits[GLYPH_CAPACITY];
         size_t stride = ((size_t)gm.gmBlackBoxX+31)/32*4;
         if (stride > sizeof(bits)/gm.gmBlackBoxY) return false;
-        DWORD length = GetGlyphOutlineW(provider->dc, character, GGO_BITMAP, &gm,
+        WCHAR ch = (WCHAR)character;
+        WORD index;
+        if (GetGlyphIndicesW(provider->dc, &ch, 1, &index, GGI_MARK_NONEXISTING_GLYPHS) == GDI_ERROR ||
+            index == 0xffff) return false;
+        DWORD length = GetGlyphOutlineW(provider->dc, index, GGO_BITMAP | GGO_GLYPH_INDEX, &gm,
                                         sizeof(bits), bits, &identity);
         if (length == GDI_ERROR || (length && length < stride*gm.gmBlackBoxY)) return false;
         for (unsigned yy = 0; length && yy < gm.gmBlackBoxY; yy++)

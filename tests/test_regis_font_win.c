@@ -55,6 +55,16 @@ static unsigned compare_textout(const NemoRegisFontInfo *info, unsigned ch,
                 }
                 printf("font metrics: ch=%u height=%d left=%d top=%d box=%ux%u\n",ch,
                        info->pixel_height,info->left,info->top,info->width,info->height);
+                WORD glyph=0xffff;
+                if (GetGlyphIndicesW(dc,&text,1,&glyph,GGI_MARK_NONEXISTING_GLYPHS)!=GDI_ERROR && glyph!=0xffff) {
+                    memset(bits,0,(size_t)info->width*info->height*sizeof(*bits));
+                    if (ExtTextOutW(dc,-info->left,-info->top,ETO_GLYPH_INDEX,NULL,(const WCHAR *)&glyph,1,NULL) && GdiFlush()) {
+                        unsigned raw_differences=0;
+                        for (size_t i=0;i<(size_t)info->width*info->height;i++)
+                            raw_differences+=(bits[i]&0xffffffU ? 1 : 0)!=pixels[i];
+                        printf("explicit glyph diagnostic: ch=%u index=%u differences=%u\n",ch,(unsigned)glyph,raw_differences);
+                    }
+                }
             }
         }
         SelectObject(dc, previous_font); SelectObject(dc, previous_bitmap);
