@@ -6,6 +6,9 @@ on:
       skip_keys:
         type: boolean
         default: false
+      queries_only:
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -89,11 +92,15 @@ jobs:
       - name: Observe successful termcap keyboards before implementing the setter
         if: inputs.skip_keys != true
         timeout-minutes: 15
+        env:
+          TCAP_QUERIES_ONLY: ${{ inputs.queries_only && '1' || '0' }}
         run: |
           set -o pipefail
           export TERMINFO="$GITHUB_WORKSPACE/build/terminfo-compiled"
           export TERMINFO_DIRS="$TERMINFO"
-          python3 tests/xterm_tcap_keys_oracle.py --xterm "$RUNNER_TEMP/xterm/xterm" --database-observations build/terminfo-export/libtinfo-key-observations.json.gz --output build/terminfo-export/startup-keys.json 2>&1 | tee build/terminfo-export/startup-keys.log
+          arguments=()
+          if [ "$TCAP_QUERIES_ONLY" = 1 ]; then arguments+=(--queries-only); fi
+          python3 tests/xterm_tcap_keys_oracle.py "${arguments[@]}" --xterm "$RUNNER_TEMP/xterm/xterm" --database-observations build/terminfo-export/libtinfo-key-observations.json.gz --output build/terminfo-export/startup-keys.json 2>&1 | tee build/terminfo-export/startup-keys.log
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:

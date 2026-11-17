@@ -30,7 +30,7 @@ QUERY = E + b'P+q' + b';'.join(name.hex().encode() for name in (
     b'kP', b'kent', b'kb', b'kB')) + E + b'\\'
 
 
-def cases(available):
+def cases(available, query_names=None):
     result = {}
     translations = ['-xrm', 'XTerm*VT100.translations: #replace\\n<KeyPress>: insert-seven-bit()']
 
@@ -41,6 +41,17 @@ def cases(available):
     add('control-xterm-f1', 'xterm-256color', [step(key='F1', modifiers=())])
     add('control-linux-f1', 'linux', [step(key='F1', modifiers=())])
     add('control-linux-f5', 'linux', [step(key='F5', modifiers=())])
+    if query_names is not None:
+        # Separate requests preserve observations after an unavailable name;
+        # batching fresh windows also stays inside the child's lifetime bound.
+        for terminal in REQUIRED + ADDITIONAL:
+            if terminal not in available:
+                continue
+            for start in range(0, len(query_names), 24):
+                add(terminal + '-query-batch-' + str(start//24), terminal,
+                    [dict(**step(E+b'P+q'+name.encode().hex().encode()+E+b'\\'),
+                          requested_capability=name) for name in query_names[start:start+24]])
+        return result
     for terminal in REQUIRED:
         add(terminal + '-queries', terminal, [step(QUERY)])
         for key in KEYS:
@@ -75,16 +86,18 @@ def main():
     parser.add_argument('--xterm', required=True)
     parser.add_argument('--database-observations', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--queries-only', action='store_true')
     args = parser.parse_args()
     if os.environ.get('RUNNER_ENVIRONMENT') != 'github-hosted':
         parser.error('Reference capture requires a GitHub-hosted runner')
     with gzip.open(args.database_observations, 'rt') as source:
-        available = json.load(source)['terminals']
+        database = json.load(source)
+        available = database['terminals']
     if not set(REQUIRED) <= available.keys():
         raise RuntimeError('A required startup database is missing')
     folder = args.output.with_suffix('')
     folder.mkdir(parents=True, exist_ok=False)
-    specs = cases(available)
+    specs = cases(available, database['capabilities'] if args.queries_only else None)
     r, w = os.pipe()
     server = subprocess.Popen(['Xvfb', '-displayfd', str(w), '-screen', '0', '1024x768x24',
                                '-nolisten', 'tcp'], pass_fds=[w],
@@ -96,6 +109,7 @@ def main():
     harness.Display = ObservedDisplay
     subprocess.run(['setxkbmap', '-display', display, '-option', '', '-option', 'srvrkeys:none'], check=True)
     result = dict(completed=False, executable_sha256=hashlib.sha256(Path(args.xterm).read_bytes()).hexdigest(),
+                  capture='individual-queries' if args.queries_only else 'startup-keys',
                   database_observations_sha256=hashlib.sha256(args.database_observations.read_bytes()).hexdigest(),
                   unavailable=[name for name in ADDITIONAL if name not in available], cases={})
     controls = {'control-xterm-f1': b'\x1bOP', 'control-linux-f1': b'\x1b[[A',

@@ -45,6 +45,10 @@ on:
         description: Only regenerate and verify the terminfo database (no XTerm keyboard capture)
         type: boolean
         default: false
+      terminfo_queries:
+        description: Capture each terminfo capability query separately instead of the physical-key matrix
+        type: boolean
+        default: false
       historical_group:
         description: Optional subset of the historical-xterm collectors
         type: choice
@@ -66,6 +70,7 @@ jobs:
     uses: ./.github/workflows/terminfo-database.yml
     with:
       skip_keys: ${{ inputs.terminfo_skip_keys == true }}
+      queries_only: ${{ inputs.terminfo_queries == true }}
   historical-xterm:
     if: inputs.family == 'historical-xterm'
     uses: ./.github/workflows/xterm-historical.yml
