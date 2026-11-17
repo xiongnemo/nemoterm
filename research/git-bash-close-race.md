@@ -1,5 +1,10 @@
 # Git Bash duplicate-close investigation — 2026-11-17
 
+Follow-up: [the closed-console correction](closed-console-connections.md) at
+`8084338` passes all 30 hosted lifetime cases. The same-fixture old-product
+control still fails all four delayed connections. The original image's
+failures below remain unchanged; the new full aggregate is still running.
+
 ## Product and original failure
 
 All diagnosis runs use the exact single executable from source `62478182996cc0957800f2d03aa009382f86d7fe`, 4,599,808 bytes, SHA-256 `294912cf11f5cc5be92148ba95435415dabe40c32ea62345d35d5625872bb89f`. Builds, native controls, test execution and capture take place only on GitHub-hosted runners. Local work edits source and inspects downloaded evidence.

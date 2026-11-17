@@ -53,6 +53,16 @@ the evidence does not yet establish a shared root cause. Exact run identities,
 controls and dumps are retained in the
 [Git Bash close investigation](../research/git-bash-close-race.md).
 
+Candidate `8084338` rejects a console connection after the host has entered
+its closing state, under the existing console lock. Its new mandatory hosted
+lifetime job passes 24 Git Bash repetitions and six native controls, all with
+natural private-job drainage. The same fixture on the old product passes both
+normal controls and fails all four delayed connections, each of which reports
+one connected client after parent exit. Full CI remains in progress; this is
+not an all-green product claim. The exact
+image and acceptance receipts are in the
+[closed-console record](../research/closed-console-connections.md).
+
 The dated checkpoints below retain their original results and failures. Their
 requests to resume local desktop testing no longer describe the execution plan.
 Hosted tests do not retroactively pass historical memory failures or certify

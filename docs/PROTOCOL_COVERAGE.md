@@ -1,5 +1,27 @@
 # Protocol coverage and remaining gaps
 
+## Current verification policy (2026-11-17)
+
+All automated builds and tests run on GitHub-hosted runners. The
+[remote migration checkpoint](../research/remote-test-migration.md) at `2312edd`
+passes 19/19 jobs, including 169 single-image groups, 26 interaction cases and
+24 real bilingual DPI cases. Later full-grid Sarasa checks expose failures
+that the earlier screen-clamped grids did not cover; see the
+[full-grid record](../research/full-grid-memory-ci.md).
+
+Candidate `6247818` passes all six full-grid GDI workloads, but its full run is
+19/21 because DirectX exceeds 25 MB and Git Bash sometimes survives closure.
+The [closed-console correction](../research/closed-console-connections.md) at
+`8084338` passes 24 hosted Git Bash lifetimes and six native closure controls;
+its complete aggregate remains in progress. These finite checks do not turn
+the partial or missing protocol families below into complete xterm support.
+
+The dated product checkpoints below retain their original scope. Statements
+about pending local acceptance or permission to use the development desktop
+are historical; they do not override the remote-only policy above.
+
+## Earlier product checkpoints
+
 This is an audited inventory of the current development sources, not a claim
 of complete xterm compatibility. The accepted `dist/nemoterm.exe` on `main`
 has an older source identity; consult the artifact records in `research/`.
