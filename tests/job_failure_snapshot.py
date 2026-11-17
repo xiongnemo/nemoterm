@@ -8,6 +8,8 @@ import time
 from console_process_utils import ProcessEntry, creation_time
 from owned_job import k
 
+k.Process32FirstW.argtypes = k.Process32NextW.argtypes = [w.HANDLE, c.POINTER(ProcessEntry)]
+
 
 class BorrowedProcess:
     def __init__(self, handle):

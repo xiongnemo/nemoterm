@@ -56,6 +56,8 @@ jobs:
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python tests/owned_job_test.py 2>&1 | Tee-Object build/owned-job-controls.log
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          python tests/job_failure_snapshot_test.py 2>&1 | Tee-Object build/job-failure-snapshot-controls.log
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
           ./scripts/test-failure-dump.ps1 -Destination build/shell-dump-controls
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           "NEMOTERM_JOB_FAILURE_DUMP=$((Resolve-Path build/shell-dump-controls/helper.exe).Path)" | Out-File $env:GITHUB_ENV -Append -Encoding utf8
@@ -77,6 +79,7 @@ jobs:
             build/shell-product/SOURCE-HOST.json
             build/interaction-dependencies/environment.json
             build/owned-job-controls.log
+            build/job-failure-snapshot-controls.log
             build/shell-dump-controls/*.log
             build/shell-dump-controls/controls/
             build/shell-lifetime/summary.json
