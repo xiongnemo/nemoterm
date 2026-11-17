@@ -397,6 +397,8 @@ jobs:
           cp vendor/nerd-fonts/LICENSE dist/LICENSE-Nerd-Symbols.txt
           cp vendor/nerd-fonts/NOTICE.txt dist/LICENSE-Nerd-Components.txt
           cp tools/unicode/18.0.0/LICENSE.txt dist/LICENSE-Unicode.txt
+          cp tools/x11/xorg-server-21.1.16/LICENSE.txt dist/LICENSE-X11-Colours.txt
+          cp vendor/terminfo/COPYING.ncurses dist/LICENSE-Ncurses.txt
           cp README.md dist/
           printf 'Commit: %s\nBuilt: %s\n' "$GITHUB_SHA" "$(date -u +%FT%TZ)" > dist/BUILD-INFO.txt
           gcc --version >> dist/BUILD-INFO.txt

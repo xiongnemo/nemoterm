@@ -1,0 +1,45 @@
+name: Complete portable package notices
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_run:
+        description: Completed full CI run with a passing MinGW job
+        required: true
+        type: string
+      source_commit:
+        description: Exact source commit of the tested portable package
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  package:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+      - name: Preserve tested binaries and complete the notice files
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SOURCE_RUN: ${{ inputs.source_run }}
+          SOURCE_COMMIT: ${{ inputs.source_commit }}
+        run: python3 scripts/repackage-portable-notices.py
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: nemoterm-portable-notices-${{ inputs.source_commit }}-${{ github.run_id }}
+          path: build/portable-notices/package/
+          if-no-files-found: error
+          retention-days: 30
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: portable-notices-evidence-${{ github.run_id }}
+          path: build/portable-notices/*.json
+          if-no-files-found: error
+          retention-days: 30
