@@ -26,8 +26,8 @@ output = root/'research/conpty-late-client-observed.json'
 try:
     with winreg.CreateKey(winreg.HKEY_CURRENT_USER, keypath) as key:
         winreg.SetValueEx(key, 'WarnOnClose', 0, winreg.REG_DWORD, 0)
-    for iteration in range(4):
-        case = dict(iteration=iteration+1, passed=False); evidence['cases'].append(case)
+    for iteration, mode in enumerate(['before-close']*2 + ['after-parent-exit']*4):
+        case = dict(iteration=iteration+1, mode=mode, passed=False); evidence['cases'].append(case)
         with tempfile.TemporaryDirectory(prefix='nemoterm-late-client-') as temporary, OwnedJob() as job:
             report = Path(temporary)/'parent.json'
             process = job.spawn([str(exe), '--no-tabs', '-load', profile, '-e',
@@ -46,6 +46,13 @@ try:
                     member = w.BOOL()
                     assert k.IsProcessInJob(handle, job.handle, c.byref(member)) and member.value
                 assert k.GetProcessIdOfThread(thread) == info['child']
+                if mode == 'before-close':
+                    case['previous_suspend_count'] = k.ResumeThread(thread)
+                    assert case['previous_suspend_count'] == 1
+                    case['child_before_close'] = wait_for(
+                        lambda: read_snapshot(Path(str(report)+'-child')), timeout=10)
+                    assert case['child_before_close']['connected'] >= 2
+                    assert case['child_before_close']['phase'] == 'before-read'
                 case['close_requested_filetime'] = time.time_ns()//100+116444736000000000
                 assert u.PostMessageW(hwnd, 0x10, 0, 0)
                 # The parent's exit witnesses delivery of the close request.
@@ -55,10 +62,11 @@ try:
                 assert k.WaitForSingleObject(parent, 10000) == 0
                 case['parent_exit_observed_filetime'] = time.time_ns()//100+116444736000000000
                 case['frontend_exit_before_resume'] = process.poll()
-                assert k.WaitForSingleObject(child, 0) == 258
-                case['resume_filetime'] = time.time_ns()//100+116444736000000000
-                case['previous_suspend_count'] = k.ResumeThread(thread)
-                assert case['previous_suspend_count'] == 1
+                if mode == 'after-parent-exit':
+                    assert k.WaitForSingleObject(child, 0) == 258
+                    case['resume_filetime'] = time.time_ns()//100+116444736000000000
+                    case['previous_suspend_count'] = k.ResumeThread(thread)
+                    assert case['previous_suspend_count'] == 1
                 case['frontend_exit'] = process.wait(timeout=10)
                 assert case['frontend_exit'] == 0
                 case['cleanup'] = job.finish(grace=3, observe_after_deadline=12,
@@ -75,6 +83,7 @@ try:
                         root/'research'/f'late-client-failure-{iteration+1}',
                         os.environ.get('NEMOTERM_JOB_FAILURE_DUMP')))
             finally:
+                case['child_report'] = read_snapshot(Path(str(report)+'-child'))
                 case.setdefault('cleanup', job.finish(grace=0))
                 process.wait(timeout=5)
                 for handle in (parent, child, thread):
