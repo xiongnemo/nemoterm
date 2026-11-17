@@ -1,0 +1,411 @@
+{
+  "completed": true,
+  "fixture_commit": "3526ff13d5f6f9cb28a2af4be320be43f691561d",
+  "ncurses_commit": "789942a72295ac37b53a8a167ba9a016325a9ef1",
+  "xterm_commit": "5c75ead9a75d4b2e666ca06fa94503b5766ed93f",
+  "source_sha256": "bcb90c7305f035decb1532479f5cb163e8f70f6349a5cdd632c8183deab341c0",
+  "xtermcap_sha256": "4b41264cbbc480e0a41acf2989617e0395fd45c3b7eae226f54bd9f07954bc40",
+  "library_sha256": "def3afe723e179a2dfa3e0f692f013bab65bd7be719c859ea9ef3f63ef08dca7",
+  "header_sha256": "809c721a29b66764ee109420be1ff18cde3e3248f3dde8f78e8474700d9eaadc",
+  "compiled_names": 2931,
+  "selectable_names": 2854,
+  "unavailable": [
+    {
+      "name": "1730-lm",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "630-lm",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "8510",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "aj",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "aj830",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "aj832",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "ci8510",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "citoh",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "citoh-6lpi",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "citoh-8lpi",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "citoh-comp",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "citoh-elite",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "citoh-pica",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "citoh-prop",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "citoh-ps",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "decwriter",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "diablo",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "diablo-lm",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "diablo1620",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "diablo1620-m8",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "diablo1640",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "diablo1640-lm",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "diablo1640-m8",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "diablo1720",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "diablo1730",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "diablo1740",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "diablo1740-lm",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "diablo450",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "diablo630",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "dtc300s",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "dumb-emacs-ansi",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "dw",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "dw1",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "dw2",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "dw3",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "dw4",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "gsi",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "ibm327x",
+      "status": -1,
+      "error": 0
+    },
+    {
+      "name": "ips",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "ipsi",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "la120",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "ln03",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "ln03-w",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "lpr",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "nec",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "nec5520",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "printer",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "pt210",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "qume",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "qume5",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "spinwriter",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "terminet",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "terminet1200",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "terminet300",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "ti700",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "ti703",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "ti703-w",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "ti707",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "ti707-w",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "ti733",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "ti735",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "ti745",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "ti800",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "tn1200",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "tn300",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "tty33",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "tty35",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "tty37",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "tty43",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "unknown",
+      "status": -1,
+      "error": 0
+    },
+    {
+      "name": "x1700",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "x1700-lm",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "x1720",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "x1750",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "xerox",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "xerox-lm",
+      "status": -1,
+      "error": 1
+    },
+    {
+      "name": "xerox1720",
+      "status": -1,
+      "error": 1
+    }
+  ],
+  "capabilities": 218,
+  "unique_profiles": 516,
+  "sparse_values": 15846,
+  "pool_bytes": 37801,
+  "maximum_key": {
+    "bytes": 7,
+    "terminal": "zutty-256color",
+    "capability": "kf60"
+  },
+  "readonly_bytes": 192401,
+  "default_profile": 0,
+  "source": "Upstream tic database and upstream libtinfo string lookup"
+}

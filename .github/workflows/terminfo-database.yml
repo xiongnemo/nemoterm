@@ -73,8 +73,9 @@ jobs:
           nm -S build/terminfo-export/size-probe > build/terminfo-export/symbols.txt
       - name: Compare every compiled key with the upstream library observation
         run: |
-          cc -std=c11 -Wall -Wextra -Werror -O2 -Ibuild/terminfo-export tests/tcap_database_export_probe.c -o build/terminfo-export/database-probe
-          build/terminfo-export/database-probe > build/terminfo-export/compiled-records.tsv
+          cmp build/terminfo-export/nemo_tcap_database.inc vendor/terminfo/nemo_tcap_database.inc
+          cc -std=c11 -Wall -Wextra -Werror -O1 -g -fsanitize=address,undefined -Ibuild/terminfo-export -Ivendor/putty-0.85/terminal tests/tcap_database_export_probe.c vendor/putty-0.85/terminal/nemo_tcap_db.c -o build/terminfo-export/database-probe
+          ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 build/terminfo-export/database-probe > build/terminfo-export/compiled-records.tsv
           python3 scripts/verify-terminfo-export.py --observations build/terminfo-export/libtinfo-key-observations.json.gz --probe-output build/terminfo-export/compiled-records.tsv --output build/terminfo-export/verification.json
           gzip -n build/terminfo-export/compiled-records.tsv
       - name: Build the independent startup-keyboard reference

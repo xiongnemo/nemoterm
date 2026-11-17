@@ -192,6 +192,7 @@ struct terminal_tag {
     char dcs_query_type;
     unsigned dcs_query_len;
     char dcs_query[NEMO_DCS_QUERY_SIZE];
+    unsigned tcap_profile; /* immutable database index; survives terminal resets */
     unsigned char *dcs_tabs_pending;
     size_t dcs_tabs_bytes;
     unsigned dcs_tab_value;

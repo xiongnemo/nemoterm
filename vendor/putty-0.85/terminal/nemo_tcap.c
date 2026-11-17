@@ -46,6 +46,66 @@ static const CapKey extended[] = {
     {NULL, "kpZRO", 'N', '0', 0},
 };
 
+void nemo_tcap_configure(Terminal *term, const char *name)
+{
+    int profile = nemo_tcap_db_find(name, strlen(name));
+    term->tcap_profile = profile < 0 ? 0 : (unsigned)profile;
+}
+
+static const char *database_key(Terminal *term, char kind, int code, unsigned mods)
+{
+    const char *value;
+    char name[16];
+    if (kind == 'F') {
+        /* XTerm's physical table ends at F35. Higher query entries use
+         * synthetic codes and continue through its ordinary key formatter. */
+        if (mods || code < 1 || code > 35) return NULL;
+        sprintf(name, "kf%d", code);
+        return nemo_tcap_db_value(term->tcap_profile, name);
+    }
+    if (kind == 'S') {
+        if (mods) return NULL;
+        const char *cap = code == 8 ? "kbs" : code == 9 ? "kcbt" :
+            code == 12 ? "kclr" : code == 26 ? "kund" : NULL;
+        return cap ? nemo_tcap_db_value(term->tcap_profile, cap) : NULL;
+    }
+    if (kind == 'N' && !mods && code >= '1' && code <= '9') {
+        sprintf(name, "kp%c", code);
+        return nemo_tcap_db_value(term->tcap_profile, name);
+    }
+    for (size_t i = 0; i < lenof(keys); i++) {
+        const CapKey *key = &keys[i];
+        /* ka1/ka3/kc1/kc3 name navigation positions, not numeric keys. */
+        if (key->kind == 'N' && key->code != '\r') continue;
+        if (key->kind == kind && key->code == code && key->modifiers == mods &&
+            (value = nemo_tcap_db_value(term->tcap_profile, key->long_name)) != NULL)
+            return value;
+    }
+    if (mods >= 1 && mods <= 7) {
+        for (size_t i = 0; i < lenof(extended); i++) {
+            const CapKey *key = &extended[i];
+            if (key->kind != kind || key->code != code) continue;
+            if (mods == 1) strcpy(name, key->long_name);
+            else sprintf(name, "%s%u", key->long_name, mods+1);
+            if ((value = nemo_tcap_db_value(term->tcap_profile, name)) != NULL)
+                return value;
+        }
+    }
+    return NULL;
+}
+
+int nemo_tcap_key(Terminal *term, char kind, int code, unsigned modifiers,
+                  char output[64])
+{
+    if (term->funky_type != FUNKY_TCAP || term->vt52_mode) return -1;
+    const char *value = database_key(term, kind, code, modifiers);
+    if (!value) return -1;
+    size_t length = strlen(value);
+    if (length >= 64) return -1;
+    memcpy(output, value, length);
+    return (int)length;
+}
+
 /* Literal sequences from ncurses' ecma+ renditions. Keep
  * termcap aliases only where include/Caps defines them; extended names are
  * case sensitive (Smol/Rmol, unlike the lower-case standard names).
@@ -65,6 +125,19 @@ static const struct { const char *name, *alias, *value; } renditions[] = {
 
 static int key_value(Terminal *term, CapKey key, char value[64])
 {
+    if (term->funky_type == FUNKY_TCAP && key.long_name) {
+        if (key.modifiers == 1) {
+            const char *shifted = nemo_tcap_db_value(term->tcap_profile, key.long_name);
+            const char *plain = database_key(term, key.kind, key.code, 0);
+            if (!shifted || (plain && !strcmp(plain, shifted))) return -1;
+        }
+        if (key.kind == 'N' && key.code >= '1' && key.code <= '9') {
+            if (!strcmp(key.long_name, "ka1")) key.kind = 'E', key.code = SKK_HOME;
+            if (!strcmp(key.long_name, "kc1")) key.kind = 'E', key.code = SKK_END;
+            if (!strcmp(key.long_name, "ka3")) key.kind = 'E', key.code = SKK_PGUP;
+            if (!strcmp(key.long_name, "kc3")) key.kind = 'E', key.code = SKK_PGDN;
+        }
+    }
     bool shift = key.modifiers & 1, alt = key.modifiers & 2;
     bool ctrl = key.modifiers & 4, consumed_alt = false;
     int len;
@@ -77,11 +150,15 @@ static int key_value(Terminal *term, CapKey key, char value[64])
         break;
       case 'E':
         if (ctrl && term->funky_type != FUNKY_XTERM_216 &&
-            term->funky_type != FUNKY_XTERM_LEGACY && !term->special_modify_keys_set) return -1;
+            term->funky_type != FUNKY_XTERM_LEGACY && term->funky_type != FUNKY_TCAP &&
+            !term->special_modify_keys_set) return -1;
         len = format_small_keypad_key(value, term, key.code, shift, ctrl, alt, &consumed_alt);
         break;
       case 'N':
-        if (term->special_modify_keys_set || term->funky_type == FUNKY_XTERM_LEGACY) {
+        len = nemo_tcap_key(term, 'N', key.code, key.modifiers, value);
+        if (len >= 0) { consumed_alt = alt; break; }
+        if (term->special_modify_keys_set || term->funky_type == FUNKY_XTERM_LEGACY ||
+            term->funky_type == FUNKY_TCAP) {
             unsigned point = 0xe280 + (unsigned char)key.code;
             len = term_format_xterm_extended_key(term, 3, point, key.modifiers, value, 64);
             if (len < 0) len = term_format_xterm_legacy_key(term, 3, point, key.modifiers, false, value, 64);
@@ -97,7 +174,7 @@ static int key_value(Terminal *term, CapKey key, char value[64])
         break;
       default: return -1;
     }
-    if (!len) return -1;
+    if (!len && term->funky_type != FUNKY_TCAP) return -1;
     if (alt && !consumed_alt) {
         memmove(value+1, value, len);
         value[0] = '\033';
@@ -129,14 +206,26 @@ static int capability(Terminal *term, const char *name, char value[64])
         }
     }
     if (!strcmp(name, "kb") || !strcmp(name, "kbs")) {
+        int length = nemo_tcap_key(term, 'S', 8, 0, value);
+        if (length >= 0) return length;
         value[0] = term->bksp_is_delete ? '\177' : '\010';
         return 1;
     }
     if (!strcmp(name, "kB") || !strcmp(name, "kcbt")) {
+        int length = nemo_tcap_key(term, 'S', 9, 0, value);
+        if (length >= 0) return length;
         memcpy(value, "\033[Z", 3);
         return 3;
     }
-    if (!strcmp(name, "&8") || !strcmp(name, "kund")) return -1;
+    if (!strcmp(name, "&8") || !strcmp(name, "kund")) {
+        int length = nemo_tcap_key(term, 'S', 26, 0, value);
+        return length < 0 && term->funky_type == FUNKY_TCAP ? 0 : length;
+    }
+    if (term->funky_type == FUNKY_TCAP &&
+        (!strcmp(name, "kC") || !strcmp(name, "kclr"))) {
+        int length = nemo_tcap_key(term, 'S', 12, 0, value);
+        return length < 0 ? 0 : length;
+    }
 
     size_t n = strlen(name);
     int function = 0;
@@ -197,6 +286,21 @@ static bool decode_name(const char *data, size_t len, char name[32])
         name[i/2] = c;
     }
     name[len/2] = '\0';
+    return true;
+}
+
+bool nemo_tcap_set(Terminal *term, const char *encoded_name, bool invalid)
+{
+    if (invalid) return false;
+    size_t length = 0;
+    while (length < 64 && encoded_name[length]) length++;
+    char name[32];
+    if (!decode_name(encoded_name, length, name)) return false;
+    for (const char *p = name; *p; p++)
+        if (*p <= ' ' || strchr("\\|,:'\"", *p)) return false;
+    int profile = nemo_tcap_db_find(name, length/2);
+    if (profile < 0) return false;
+    term->tcap_profile = (unsigned)profile;
     return true;
 }
 

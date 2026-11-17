@@ -11,6 +11,8 @@ static void nemo_report_feature_policy(Terminal *term, bool bel)
 #define BIT(n) NEMO_FEATURE_BIT(n)
     p.supported[NEMO_FEATURE_COLOR] = BIT(1)|BIT(2)|BIT(3);
     p.supported[NEMO_FEATURE_TCAP] = BIT(2); /* XTGETTCAP, not XTSETTCAP */
+    if (!conf_get_bool(term->conf, CONF_nemo_allow_get_tcap))
+        p.restricted[NEMO_FEATURE_TCAP] = BIT(2);
     p.supported[NEMO_FEATURE_MOUSE] = (BIT(12)-1) & ~BIT(0);
     if (!vt->get_pointer) p.supported[NEMO_FEATURE_MOUSE] &= ~BIT(2);
     /* The local gate suppresses tracking/focus reports. Encoding selection and

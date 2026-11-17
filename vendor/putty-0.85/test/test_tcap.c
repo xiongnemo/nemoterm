@@ -2,13 +2,21 @@
 #define main upstream_terminal_test_main
 #include "test_terminal.c"
 #undef main
+#include "../../../tests/tcap_query_reference.h"
 
 static void response(Mock *mk, const char *expected)
 {
     size_t len = strlen(expected);
-    if (len != mk->to_backend->len || memcmp(expected, mk->to_backend->s, len))
+    if (len != mk->to_backend->len || memcmp(expected, mk->to_backend->s, len)) {
         report_fail(mk, __FILE__, __LINE__, "capability reply differs: %zu expected, %zu actual bytes",
                     len, mk->to_backend->len);
+        fputs("expected: ", stdout);
+        for (size_t i = 0; i < len; i++) printf("%02x", (unsigned char)expected[i]);
+        fputs("\nactual:   ", stdout);
+        for (size_t i = 0; i < mk->to_backend->len; i++)
+            printf("%02x", (unsigned char)mk->to_backend->s[i]);
+        putchar('\n');
+    }
     strbuf_clear(mk->to_backend);
 }
 
@@ -270,6 +278,81 @@ static void test_legacy_keyboard(Mock *mk)
     reset(mk);
 }
 
+static void test_database_selection(Mock *mk)
+{
+    conf_set_int(mk->conf, CONF_funky_type, FUNKY_TCAP);
+    conf_set_bool(mk->conf, CONF_no_applic_c, false);
+    conf_set_bool(mk->conf, CONF_no_applic_k, false);
+    conf_set_bool(mk->conf, CONF_bksp_is_delete, false);
+    conf_set_bool(mk->conf, CONF_nemo_allow_set_tcap, false);
+    conf_set_str(mk->conf, CONF_nemo_tcap_name, "xterm-256color");
+    term_reconfig(mk->term, mk->conf); reset(mk);
+    term_data_fragmented(mk->term, "\033P+p6c696e7578\033\\");
+    query(mk, "kf1", "\033OP"); /* permission denied */
+    conf_set_bool(mk->conf, CONF_nemo_allow_set_tcap, true);
+    term_reconfig(mk->term, mk->conf);
+    term_data_fragmented(mk->term, "\033P+p6c696e7578\033\\");
+    query(mk, "kf1", "\033[[A"); query(mk, "TN", "xterm-256color");
+    unsigned selected = mk->term->tcap_profile;
+    static const char *bad[] = {"", "0", "gg", "00", "20", "1b", "7f", "ff",
+        "6c696e7578007878", "6e6f2d737563682d6461746162617365", "6c696e7578;",
+        "5c", "7c", "2c", "3a", "27", "22",
+        "6161616161616161616161616161616161616161616161616161616161616161"};
+    for (size_t i = 0; i < lenof(bad); i++) {
+        test_context(mk, "invalid selector %s", bad[i]);
+        strbuf *wire = strbuf_new(); put_fmt(wire, "\033P+p%s\033\\", bad[i]);
+        term_data_fragmented(mk->term, wire->s); strbuf_free(wire);
+        IEQUAL(mk->term->tcap_profile, selected); response(mk, "");
+    }
+    static const char *interrupt[] = {"\030", "\032", "\033[0m"};
+    for (size_t i = 0; i < lenof(interrupt); i++) {
+        term_data_fragmented(mk->term, "\033P+p7674313030");
+        term_data_fragmented(mk->term, interrupt[i]);
+        IEQUAL(mk->term->tcap_profile, selected);
+        term_data_fragmented(mk->term, "\033[5n"); response(mk, "\033[0n");
+    }
+    term_data_fragmented(mk->term, "\033P+p");
+    for (int i = 0; i < 10000; i++) term_data(mk->term, "6", 1);
+    IEQUAL(mk->term->dcs_query_len, 62);
+    term_data_fragmented(mk->term, "\033\\\033[5n"); response(mk, "\033[0n");
+    IEQUAL(mk->term->tcap_profile, selected);
+    static const char *resets[] = {"\033c", "\033[!p", "\033[?1049h\033[?1049l"};
+    for (size_t i = 0; i < lenof(resets); i++) {
+        term_data_fragmented(mk->term, resets[i]);
+        IEQUAL(mk->term->tcap_profile, selected); query(mk, "kf1", "\033[[A");
+    }
+    term_reconfig(mk->term, mk->conf); /* unrelated settings preserve live selection */
+    IEQUAL(mk->term->tcap_profile, selected);
+    conf_set_str(mk->conf, CONF_nemo_tcap_name, "vt100");
+    term_reconfig(mk->term, mk->conf); query(mk, "kf1", "\033OP");
+    conf_set_bool(mk->conf, CONF_nemo_allow_get_tcap, false);
+    term_reconfig(mk->term, mk->conf);
+    term_data_fragmented(mk->term, "\033P+p6c696e7578\033\\\033P+q6b6631\033\\\033[5n");
+    response(mk, "\033[0n"); IEQUAL(mk->term->tcap_profile, selected);
+    conf_set_bool(mk->conf, CONF_nemo_allow_get_tcap, true);
+    term_reconfig(mk->term, mk->conf); query(mk, "kf1", "\033[[A");
+    conf_set_int(mk->conf, CONF_funky_type, FUNKY_XTERM_216);
+    term_reconfig(mk->term, mk->conf); query(mk, "kf1", "\033OP");
+}
+
+static void test_independent_database_queries(Mock *mk)
+{
+    conf_set_int(mk->conf, CONF_funky_type, FUNKY_TCAP);
+    conf_set_bool(mk->conf, CONF_bksp_is_delete, false);
+    for (size_t i = 0; i < lenof(tcap_query_reference); i++) {
+        conf_set_str(mk->conf, CONF_nemo_tcap_name, tcap_query_reference[i].terminal);
+        term_reconfig(mk->term, mk->conf);
+        /* Select explicitly too: reconfig intentionally preserves a live
+         * selection when the configured startup name is unchanged. */
+        nemo_tcap_configure(mk->term, tcap_query_reference[i].terminal);
+        reset(mk);
+        test_context(mk, "independent database %s %s", tcap_query_reference[i].terminal,
+                     tcap_query_reference[i].capability);
+        term_data_fragmented(mk->term, tcap_query_reference[i].query);
+        response(mk, tcap_query_reference[i].reply);
+    }
+}
+
 int main(int argc, char **argv)
 {
     Mock *mk = mock_new();
@@ -295,6 +378,8 @@ int main(int argc, char **argv)
     test_renditions(mk);
     test_keyboard(mk);
     test_legacy_keyboard(mk);
+    test_database_selection(mk);
+    test_independent_database_queries(mk);
     bool failed = mk->any_test_failed;
     mock_free(mk);
     puts(failed ? "Capability/keyboard suite FAILED" : "Capability/keyboard suite passed");

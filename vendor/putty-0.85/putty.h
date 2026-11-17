@@ -484,7 +484,8 @@ enum {
     FUNKY_SCO,
     FUNKY_XTERM_216,
     FUNKY_VT220,
-    FUNKY_XTERM_LEGACY
+    FUNKY_XTERM_LEGACY,
+    FUNKY_TCAP
 };
 
 enum {

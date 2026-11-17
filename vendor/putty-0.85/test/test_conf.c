@@ -811,7 +811,8 @@ void test_simple(void)
     test_int_translated(CONF_funky_type, "LinuxFunctionKeys", FUNKY_XTERM_216,
                         FUNKY_TILDE, 0, FUNKY_LINUX, 1, FUNKY_XTERM, 2,
                         FUNKY_VT400, 3, FUNKY_VT100P, 4, FUNKY_SCO, 5,
-                        FUNKY_XTERM_216, 6, FUNKY_VT220, 7, FUNKY_XTERM_LEGACY, 8, -1);
+                        FUNKY_XTERM_216, 6, FUNKY_VT220, 7, FUNKY_XTERM_LEGACY, 8,
+                        FUNKY_TCAP, 9, -1);
     test_int_translated(CONF_sharrow_type, "ShiftedArrowKeys",
                         SHARROW_BITMAP,
                         SHARROW_APPLICATION, 0, SHARROW_BITMAP, 1, -1);
@@ -835,6 +836,9 @@ void test_simple(void)
     test_bool_simple(CONF_nemo_grapheme_widths, "NemoGraphemeWidths", false);
     test_bool_simple(CONF_nemo_osc52_read, "NemoOSC52Read", false);
     test_bool_simple(CONF_nemo_allow_checksum, "NemoAllowChecksum", false);
+    test_bool_simple(CONF_nemo_allow_set_tcap, "NemoAllowSetTcap", false);
+    test_bool_simple(CONF_nemo_allow_get_tcap, "NemoAllowGetTcap", true);
+    test_str_simple(CONF_nemo_tcap_name, "NemoTcapName", "xterm-256color");
     test_int_simple(CONF_nemo_modify_other_keys, "NemoModifyOtherKeys", 0);
     test_int_simple(CONF_nemo_format_other_keys, "NemoFormatOtherKeys", 0);
     test_bool_simple(CONF_nemo_custom_url_schemes, "NemoCustomURLSchemes", false);

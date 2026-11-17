@@ -3246,7 +3246,11 @@ static bool nemo_dcs_byte(Terminal *term, unsigned char c)
                 for (int i = 0; i < term->tabs_size; i++)
                     term->tabs[i] = (size_t)i/8 < term->dcs_tabs_bytes &&
                         (term->dcs_tabs_pending[i/8] & (1u << (i%8))) != 0;
-            } else if (term->ldisc) {
+            } else if (term->dcs_query_type == 'p') {
+                if (conf_get_bool(term->conf, CONF_nemo_allow_set_tcap) &&
+                    !nemo_tcap_set(term, term->dcs_query, term->dcs_query_invalid))
+                    nemo_bell(term);
+            } else if (term->ldisc && conf_get_bool(term->conf, CONF_nemo_allow_get_tcap)) {
                 strbuf *reply = nemo_tcap_reply(term, term->dcs_query,
                                                term->dcs_query_invalid);
                 nemo_protocol_send(term, reply->s, reply->len);
@@ -3306,9 +3310,11 @@ static bool nemo_dcs_byte(Terminal *term, unsigned char c)
     } else if (term->termstate == NEMO_DCS_QUERY_PREFIX) {
         if ((c == 'u' && term->dcs_query_type == 'U' && has_compat(VT320)) ||
             (c == 'q' && (term->dcs_query_type == '$' || term->dcs_query_type == '+')) ||
+            (c == 'p' && term->dcs_query_type == '+') ||
             (c == 't' && has_compat(VT320) &&
              (term->dcs_query_type == '1' || term->dcs_query_type == '2'))) {
             term->dcs_query_active = true;
+            if (c == 'p') term->dcs_query_type = 'p';
             term->termstate = NEMO_DCS_QUERY;
             if (term->dcs_query_type == '2') {
                 term->dcs_tabs_bytes = ((size_t)term->tabs_size+7)/8;
@@ -3331,6 +3337,7 @@ static bool nemo_dcs_byte(Terminal *term, unsigned char c)
                 return true;
             }
             unsigned limit = term->dcs_query_type == 'U' ? 2 :
+                term->dcs_query_type == 'p' ? 62 :
                 term->dcs_query_type == '$' ? 63 : NEMO_DCS_QUERY_SIZE-1;
             if (c > '~' || term->dcs_query_len >= limit)
                 term->dcs_query_invalid = true;
@@ -3791,6 +3798,9 @@ void term_pre_reconfig(Terminal *term, Conf *conf)
  */
 void term_reconfig(Terminal *term, Conf *conf)
 {
+    if (strcmp(conf_get_str(term->conf, CONF_nemo_tcap_name),
+               conf_get_str(conf, CONF_nemo_tcap_name)))
+        nemo_tcap_configure(term, conf_get_str(conf, CONF_nemo_tcap_name));
     if (conf_get_int(term->conf, CONF_beep_ind) != conf_get_int(conf, CONF_beep_ind))
         term->bell_is_urgent = conf_get_int(conf, CONF_beep_ind) != B_IND_DISABLED;
     if (conf_get_bool(term->conf, CONF_nemo_bell_raise) != conf_get_bool(conf, CONF_nemo_bell_raise))
@@ -4330,6 +4340,7 @@ Terminal *term_init(Conf *myconf, struct unicode_data *ucsdata, TermWin *win)
     term->win = win;
     term->ucsdata = ucsdata;
     term->conf = conf_copy(myconf);
+    nemo_tcap_configure(term, conf_get_str(myconf, CONF_nemo_tcap_name));
     term->compatibility_level = TM_PUTTY;
     term->ansi_level = 3;
     strcpy(term->id_string, "\033[?62;4;22c");
@@ -12931,7 +12942,8 @@ static bool nemo_legacy_keyboard(Terminal *term)
 
 static bool nemo_xterm_keyboard(Terminal *term)
 {
-    return term->funky_type == FUNKY_XTERM_216 || nemo_legacy_keyboard(term);
+    return term->funky_type == FUNKY_XTERM_216 || term->funky_type == FUNKY_TCAP ||
+        nemo_legacy_keyboard(term);
 }
 
 static bool nemo_legacy_modifiers(Terminal *term, unsigned category)
@@ -13072,6 +13084,12 @@ int term_format_xterm_legacy_key(Terminal *term, unsigned resource,
 int format_arrow_key(char *buf, Terminal *term, int xkey,
                      bool shift, bool ctrl, bool alt, bool *consumed_alt)
 {
+    int tcap = nemo_tcap_key(term, 'A', xkey,
+        (shift ? 1u : 0) | (alt ? 2u : 0) | (ctrl ? 4u : 0), buf);
+    if (tcap >= 0) {
+        if (alt && consumed_alt) *consumed_alt = true;
+        return tcap;
+    }
     char *p = buf;
 
     if (term->vt52_mode)
@@ -13160,6 +13178,13 @@ int format_function_key(char *buf, Terminal *term, int key_number,
                 shift = alt = false;
             }
         } else if (mode->level < 0) index += (shift ? 12 : 0) + (ctrl ? 24 : 0);
+        int tcap = nemo_tcap_key(term, 'F', index,
+            (mode->level < 0 ? 0 : (shift ? 1u : 0) | (ctrl ? 4u : 0)) |
+            (alt ? 2u : 0), buf);
+        if (tcap >= 0) {
+            if (alt && consumed_alt) *consumed_alt = true;
+            return tcap;
+        }
         int code = index <= 20 ? key_number_to_tilde_code[index] : 42 + index-21;
         bool pf = term->funky_type != FUNKY_XTERM_LEGACY && code >= 11 && code <= 14;
         int length = nemo_format_special_key(buf, mode, 0xe2be + key_number-1,
@@ -13232,6 +13257,12 @@ int format_small_keypad_key(char *buf, Terminal *term, SmallKeypadKey key,
                             bool shift, bool ctrl, bool alt,
                             bool *consumed_alt)
 {
+    int tcap = nemo_tcap_key(term, 'E', key,
+        (shift ? 1u : 0) | (alt ? 2u : 0) | (ctrl ? 4u : 0), buf);
+    if (tcap >= 0) {
+        if (alt && consumed_alt) *consumed_alt = true;
+        return tcap;
+    }
     char *p = buf;
 
     int code;
@@ -13248,7 +13279,8 @@ int format_small_keypad_key(char *buf, Terminal *term, SmallKeypadKey key,
       default: unreachable("bad small keypad key enum value");
     }
 
-    if ((term->funky_type == FUNKY_XTERM_216 || term->funky_type == FUNKY_XTERM_LEGACY) &&
+    if ((term->funky_type == FUNKY_XTERM_216 || term->funky_type == FUNKY_XTERM_LEGACY ||
+         term->funky_type == FUNKY_TCAP) &&
         (key == SKK_HOME || key == SKK_END))
         return format_arrow_key(buf, term, key == SKK_HOME ? 'H' : 'F',
                                 shift, ctrl, alt, consumed_alt);
@@ -13316,10 +13348,12 @@ int format_small_keypad_key(char *buf, Terminal *term, SmallKeypadKey key,
 int format_numeric_keypad_key(char *buf, Terminal *term, char key,
                               bool shift, bool ctrl)
 {
+    int tcap = nemo_tcap_key(term, 'N', key, (shift ? 1u : 0) | (ctrl ? 4u : 0), buf);
+    if (tcap >= 0) return tcap;
     char *p = buf;
     bool app_keypad = (term->app_keypad_keys && !term->no_applic_k);
     bool xterm_keypad = term->funky_type == FUNKY_XTERM ||
-                       term->funky_type == FUNKY_XTERM_216;
+                       term->funky_type == FUNKY_XTERM_216 || term->funky_type == FUNKY_TCAP;
 
     if (term->nethack_keypad && (key >= '1' && key <= '9')) {
         static const char nh_base[] = "bjnh.lyku";

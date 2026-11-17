@@ -128,6 +128,7 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
       - name: Verify independent reference projection
         run: |
+          python3 scripts/generate-tcap-query-reference.py --check
           python3 scripts/generate-feature-policy-reference.py --check
           python3 scripts/generate-bell-reference.py --check
           python3 scripts/generate-udk-reference.py --check
@@ -146,6 +147,7 @@ jobs:
           set -euo pipefail
           "$CC" --version > compiler.txt
           sha256sum vendor/putty-0.85/test/test_feature_policy.c vendor/putty-0.85/terminal/nemo_feature_policy.c vendor/putty-0.85/terminal/nemo_feature_policy.h vendor/putty-0.85/terminal/nemo_feature_policy_terminal.inc tests/feature_policy_reference.h vendor/putty-0.85/test/test_bell_modes.c tests/bell_modes_reference.h vendor/putty-0.85/conf.h vendor/putty-0.85/windows/config.c vendor/putty-0.85/terminal/nemo_udk_terminal.inc vendor/putty-0.85/test/test_udk_terminal.c tests/udk_reference.h vendor/putty-0.85/conf-enums.h vendor/putty-0.85/config.c vendor/putty-0.85/terminal/nemo_locator_terminal.inc vendor/putty-0.85/putty.h vendor/putty-0.85/windows/window.c vendor/putty-0.85/test/test_locator_terminal.c tests/locator_reference.h vendor/putty-0.85/terminal/terminal.{c,h} vendor/putty-0.85/test/test_ansi_terminal.c tests/ansi_conformance_reference.h vendor/putty-0.85/terminal/nemo_kitty_terminal.inc vendor/putty-0.85/test/test_cancellation_terminal.c tests/control_cancellation_reference.h > sources.sha256
+          sha256sum vendor/putty-0.85/terminal/nemo_tcap_db.{c,h} vendor/terminfo/nemo_tcap_database.inc tests/tcap_query_reference.h >> sources.sha256
           sha256sum vendor/putty-0.85/test/test_osc_colour.c tests/osc_colour_sequence_reference.h >> sources.sha256
           sha256sum vendor/putty-0.85/test/test_mok.c tests/special_keys_reference.h >> sources.sha256
           sha256sum tests/extended_keys_reference.h vendor/putty-0.85/putty.h >> sources.sha256
@@ -183,6 +185,8 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
       - name: Verify independent reference projection
         run: |
+          python scripts/generate-tcap-query-reference.py --check
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python scripts/generate-feature-policy-reference.py --check
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python scripts/generate-bell-reference.py --check

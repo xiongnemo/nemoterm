@@ -323,6 +323,7 @@ def main():
         ROOT / "vendor/nerd-fonts/LICENSE", ROOT / "vendor/nerd-fonts/NOTICE.txt",
         ROOT / "tools/unicode/18.0.0/LICENSE.txt",
         ROOT / "tools/x11/xorg-server-21.1.16/LICENSE.txt",
+        ROOT / "vendor/terminfo/COPYING.ncurses",
         ROOT / "vendor/putty-0.85/terminal/puff/puff.h"))
     (DEST / "src/host/exe/nemo-licenses.txt").write_text(notices, encoding="utf-8")
     (DEST / "src/host/exe/nemo-licenses.rc").write_text(

@@ -659,6 +659,21 @@ CONF_OPTION(nemo_allow_checksum, /* DECRQCRA screen contents readback */
     DEFAULT_BOOL(false),
     SAVE_KEYWORD("NemoAllowChecksum"),
 )
+CONF_OPTION(nemo_allow_set_tcap,
+    VALUE_TYPE(BOOL),
+    DEFAULT_BOOL(false),
+    SAVE_KEYWORD("NemoAllowSetTcap"),
+)
+CONF_OPTION(nemo_allow_get_tcap,
+    VALUE_TYPE(BOOL),
+    DEFAULT_BOOL(true),
+    SAVE_KEYWORD("NemoAllowGetTcap"),
+)
+CONF_OPTION(nemo_tcap_name,
+    VALUE_TYPE(STR),
+    DEFAULT_STR("xterm-256color"),
+    SAVE_KEYWORD("NemoTcapName"),
+)
 CONF_OPTION(no_remote_charset, /* disable remote charset config */
     VALUE_TYPE(BOOL),
     DEFAULT_BOOL(false),
