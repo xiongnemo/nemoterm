@@ -61,7 +61,7 @@ children are resumed with an initial suspend count of one; the frontend exits
 zero and no child phase report is produced. This is consistent with rejection
 before its `wmain`, not a claim about an unrecorded child exit status.
 
-The complete aggregate is still running. A separate
+A separate
 [negative-control run 44060474431](https://github.com/xiongnemo/nemoterm/actions/runs/44060474431)
 uses the same six-case fixture with the exact old product. Control branch
 `test/closed-console-negative-20261117` restores only the old host preparation
@@ -84,15 +84,18 @@ process-observed repetitions fail in this control run.
 
 The positive [lifetime artifact 14317856571](https://github.com/xiongnemo/nemoterm/actions/runs/44058990446/artifacts/14317856571)
 retains the exact new image identity and all 30 natural-cleanup receipts.
-The ordinary six-shell interaction group, profiles, actual DPI, sanitizer and
-MSVC jobs also pass in the new run. At this checkpoint 18/22 aggregate jobs
-pass; MinGW, the complete single-image suite and the two full-grid memory groups
-remain live. The original failures and DirectX memory gate remain intact;
-this is not complete protocol or full-product acceptance.
+The completed aggregate is **21/22**. All 169 single-image groups, the complete
+MinGW suite, 26 interaction cases, 24 real bilingual DPI cases and all six
+full-grid GDI workloads pass. Only the unchanged 25 MB full-grid DirectX memory
+gate fails. The [full regression record](closed-console-regression.md) retains
+the exact measurements, final metadata and downloadable development artifact.
+The original failures remain intact; this is not complete protocol or
+all-green full-product acceptance.
 
 The [retained lifetime archive](closed-console-lifetime-evidence.zip) contains
 316 records plus an internal per-file SHA-256 manifest: both completed
 lifetime artifacts, the new product manifest and completed job/run metadata.
 It is 1,343,264 bytes, SHA-256
 `997e84e155fcfd64d89d4d7ca38fcd5b1e80fad02f972e91756563ad5604ef0b`.
-The archive does not claim to contain the unfinished aggregate's final results.
+The archive contains lifetime evidence only; final aggregate results are
+retained separately in the full regression record.

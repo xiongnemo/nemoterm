@@ -13,8 +13,8 @@ Nemoterm 是 **PuTTY 0.85 Windows pterm 的下游 fork**，沿用其终端核心
 本页描述所在分支的代码；下载产物按下面的提交和验证记录区分。已实现功能与测试边界见 [协议支持表](docs/PROTOCOLS.md)
 和 [需求与验证记录](docs/REQUIREMENTS.md)。
 
-最新验收快照 `2312edd` 已通过完整远程 CI：19 个任务全部成功，包含 169 组单 EXE 检查、26 项交互用例和 24 个中英文真实 DPI 场景。提供 English / 简体中文 / 跟随 Windows、默认多标签、profile 持久化与 Ctrl++ / Ctrl+- 字号缩放。
-[下载单文件快照](https://github.com/xiongnemo/nemoterm/actions/runs/44019109177/artifacts/14303645464) · [完整 CI](https://github.com/xiongnemo/nemoterm/actions/runs/44019109177) · [产物与验证记录](research/remote-test-migration.md)。
+当前开发构建 `8084338` 已完成远程 CI，**21/22 个任务通过**：169 组单 EXE 检查、MinGW 完整套件、26 项交互、24 个中英文真实 DPI 场景及全部六项完整网格 GDI 负载均通过。唯一失败为 DirectX 完整网格负载超过 25 MB 私有工作集；GDI 峰值为 18.69 MB。
+[下载当前单文件开发构建](https://github.com/xiongnemo/nemoterm/actions/runs/44058990446/artifacts/14320479224) · [完整 CI](https://github.com/xiongnemo/nemoterm/actions/runs/44058990446) · [产物与验证记录](research/closed-console-regression.md)。
 
 所有自动测试已配置到 GitHub-hosted runner：完整 CI 统一调用协议、单 EXE、DPI、26 项交互和 12 项完整 Sarasa 网格负载，保留截图与原始日志，不依赖开发电脑的桌面或剪贴板。入口、依赖和验证边界见 [远程测试操作单](docs/INTERACTION_ACCEPTANCE.md)；实际运行结果见 [迁移记录](research/remote-test-migration.md)。
 
@@ -38,7 +38,7 @@ Kitty 图片支持直接 RGB/RGBA/PNG、压缩传输、裁剪、透明度、查�
 
 ## 下载
 
-当前已验收快照为 `2312edd`，单 EXE 为 4,599,296 字节；来源、SHA-256 和完整回归范围见 [本轮记录](research/remote-test-migration.md)。历史语言预览保留在 [语言预览记录](research/i18n.md)，不将旧版本结果套用于新 EXE。
+当前开发构建 `8084338` 的单 EXE 为 4,600,320 字节，带有上述 DirectX 内存限制；来源与 SHA-256 见 [本轮记录](research/closed-console-regression.md)。此前迁移基线 `2312edd` 为 19/19 全绿，但尚未包含后来新增的完整 Sarasa 网格门槛，见 [迁移基线](research/remote-test-migration.md)。历史语言预览保留在 [语言预览记录](research/i18n.md)，不将旧版本结果套用于新 EXE。
 
 查找后续开发构建：
 
@@ -223,7 +223,7 @@ gh run download <run-id> --dir <new-evidence-directory>
 
 只修改测试脚本时可回放已构建产物，并拒绝生产代码不匹配的镜像。分组命令、固定依赖、进程清理规则和物理设备验证边界见 [远程测试操作单](docs/INTERACTION_ACCEPTANCE.md)。
 
-Git Bash 关闭残留已通过专用远程回放定位；候选 `8084338` 拒绝关闭后的新控制台连接，24 次 Git Bash 关闭及 6 次原生对照均自然回收。相同测试在旧版上仍复现 4/4 延迟连接卡死；完整 CI 仍在运行，见 [关闭修复记录](research/closed-console-connections.md)。[原始失败证据](research/git-bash-close-race.md) 保留。
+Git Bash 关闭残留已通过专用远程回放定位；候选 `8084338` 拒绝关闭后的新控制台连接，24 次 Git Bash 关闭及 6 次原生对照均自然回收。相同测试在旧版上仍复现 4/4 延迟连接卡死；完整 CI 为 21/22，唯一失败是 DirectX 内存门槛，见 [关闭修复记录](research/closed-console-connections.md)。[原始失败证据](research/git-bash-close-race.md) 保留。
 
 上游协议对照、句柄和分配诊断继续使用专用远程工作流。页面顶部徽章显示 `main`，开发分支的准确结论以对应 run 和 [本轮记录](research/remote-test-migration.md) 为准；编译成功不等于运行验收通过。
 

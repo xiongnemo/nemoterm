@@ -13,7 +13,10 @@ Candidate `6247818` passes all six full-grid GDI workloads, but its full run is
 19/21 because DirectX exceeds 25 MB and Git Bash sometimes survives closure.
 The [closed-console correction](../research/closed-console-connections.md) at
 `8084338` passes 24 hosted Git Bash lifetimes and six native closure controls;
-its complete aggregate remains in progress. These finite checks do not turn
+its complete aggregate is 21/22, with only full-grid DirectX memory failing.
+All 169 single-image groups, the MinGW suite, 26 interactions, 24 DPI cases and
+six full-grid GDI workloads pass; see the [final regression](../research/closed-console-regression.md).
+These finite checks do not turn
 the partial or missing protocol families below into complete xterm support.
 
 The dated product checkpoints below retain their original scope. Statements

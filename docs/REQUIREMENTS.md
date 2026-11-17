@@ -58,10 +58,17 @@ its closing state, under the existing console lock. Its new mandatory hosted
 lifetime job passes 24 Git Bash repetitions and six native controls, all with
 natural private-job drainage. The same fixture on the old product passes both
 normal controls and fails all four delayed connections, each of which reports
-one connected client after parent exit. Full CI remains in progress; this is
-not an all-green product claim. The exact
+one connected client after parent exit. Completed full CI is **21/22**: all
+169 single-image groups, the MinGW suite, 26 interactions, 24 DPI cases and six
+full-grid GDI workloads pass; only full-grid DirectX memory fails. GDI's highest
+private working set is 18,690,048 bytes. The exact
 image and acceptance receipts are in the
 [closed-console record](../research/closed-console-connections.md).
+Final product downloads and measurements are in the
+[full regression record](../research/closed-console-regression.md). The older
+reference collectors also have hosted entry points; their new observations
+and retained failures are tracked in the
+[reference migration record](../research/remote-reference-migration.md).
 
 The dated checkpoints below retain their original results and failures. Their
 requests to resume local desktop testing no longer describe the execution plan.
