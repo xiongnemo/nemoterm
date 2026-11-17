@@ -17,6 +17,8 @@ struct NemoRegisFontWin {
     HDC dc;
     HBITMAP bitmap;
     HGDIOBJ original_bitmap;
+    uint32_t *bitmap_pixels;
+    unsigned bitmap_width, bitmap_height;
     HFONT font;
     HGDIOBJ original;
     wchar_t family[LF_FACESIZE], cached_family[LF_FACESIZE];
@@ -64,7 +66,8 @@ void nemo_regis_font_free(NemoRegisFontWin *provider)
 
 size_t nemo_regis_font_bytes(const NemoRegisFontWin *provider)
 {
-    return provider ? sizeof(*provider) : 0;
+    return provider ? sizeof(*provider) +
+        (size_t)provider->bitmap_width*provider->bitmap_height*sizeof(uint32_t) : 0;
 }
 
 bool nemo_regis_font_info(const NemoRegisFontWin *provider, NemoRegisFontInfo *info)
@@ -86,6 +89,28 @@ static bool glyph_metrics(HDC dc, unsigned character, GLYPHMETRICS *metrics)
         GetGlyphOutlineW(dc, index, GGO_BITMAP | GGO_GLYPH_INDEX, metrics, 0, NULL, &identity) != GDI_ERROR;
 }
 
+static bool resize_surface(NemoRegisFontWin *provider, unsigned width, unsigned height)
+{
+    if (!width || !height || width > GLYPH_CAPACITY/height) return false;
+    if (provider->bitmap && provider->bitmap_width==width && provider->bitmap_height==height)
+        return true;
+    BITMAPINFO info = {0};
+    info.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
+    info.bmiHeader.biWidth = (LONG)width; info.bmiHeader.biHeight = -(LONG)height;
+    info.bmiHeader.biPlanes = 1; info.bmiHeader.biBitCount = 32;
+    info.bmiHeader.biCompression = BI_RGB;
+    uint32_t *pixels = NULL;
+    HBITMAP bitmap = CreateDIBSection(provider->dc, &info, DIB_RGB_COLORS, (void **)&pixels, NULL, 0);
+    if (!bitmap) return false;
+    HGDIOBJ previous = SelectObject(provider->dc, bitmap);
+    if (!previous || previous==HGDI_ERROR) { DeleteObject(bitmap); return false; }
+    if (provider->bitmap) DeleteObject(provider->bitmap);
+    else provider->original_bitmap = previous;
+    provider->bitmap = bitmap; provider->bitmap_pixels = pixels;
+    provider->bitmap_width = width; provider->bitmap_height = height;
+    return true;
+}
+
 static bool select_font(NemoRegisFontWin *provider, const wchar_t *family,
                         unsigned maxw, unsigned maxh, size_t capacity)
 {
@@ -99,18 +124,8 @@ static bool select_font(NemoRegisFontWin *provider, const wchar_t *family,
         provider->original = GetCurrentObject(provider->dc, OBJ_FONT);
         /* Match the frontend's colour surface when GDI realizes the font;
          * a new memory DC initially has a monochrome stock bitmap. */
-        BITMAPINFO bitmap = {0};
-        bitmap.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
-        bitmap.bmiHeader.biWidth = 1; bitmap.bmiHeader.biHeight = -1;
-        bitmap.bmiHeader.biPlanes = 1; bitmap.bmiHeader.biBitCount = 32;
-        bitmap.bmiHeader.biCompression = BI_RGB;
-        void *bits = NULL;
-        provider->bitmap = CreateDIBSection(provider->dc, &bitmap, DIB_RGB_COLORS, &bits, NULL, 0);
-        if (!provider->bitmap) { DeleteDC(provider->dc); provider->dc=NULL; return false; }
-        provider->original_bitmap = SelectObject(provider->dc, provider->bitmap);
-        if (!provider->original_bitmap || provider->original_bitmap == HGDI_ERROR) {
-            DeleteObject(provider->bitmap); DeleteDC(provider->dc);
-            provider->dc=NULL; provider->bitmap=NULL;
+        if (!resize_surface(provider,1,1)) {
+            DeleteDC(provider->dc); provider->dc=NULL;
             return false;
         }
     }
@@ -190,29 +205,20 @@ bool nemo_regis_font_glyph(void *ctx, const char *font, unsigned character,
         *width = provider->width; *height = provider->height;
         return true;
     }
-    GLYPHMETRICS gm;
-    if (!glyph_metrics(provider->dc, character, &gm)) return false;
-    if (gm.gmBlackBoxX && gm.gmBlackBoxY) {
-        if (gm.gmBlackBoxX > provider->width || gm.gmBlackBoxY > provider->height) return false;
-        int x = gm.gmptGlyphOrigin.x-provider->left;
-        int y = -gm.gmptGlyphOrigin.y-provider->top;
-        if (x < 0 || y < 0 || (unsigned)x > provider->width-gm.gmBlackBoxX ||
-            (unsigned)y > provider->height-gm.gmBlackBoxY) return false;
-        unsigned char bits[GLYPH_CAPACITY];
-        size_t stride = ((size_t)gm.gmBlackBoxX+31)/32*4;
-        if (stride > sizeof(bits)/gm.gmBlackBoxY) return false;
-        WCHAR ch = (WCHAR)character;
-        WORD index;
-        if (GetGlyphIndicesW(provider->dc, &ch, 1, &index, GGI_MARK_NONEXISTING_GLYPHS) == GDI_ERROR ||
-            index == 0xffff) return false;
-        DWORD length = GetGlyphOutlineW(provider->dc, index, GGO_BITMAP | GGO_GLYPH_INDEX, &gm,
-                                        sizeof(bits), bits, &identity);
-        if (length == GDI_ERROR || (length && length < stride*gm.gmBlackBoxY)) return false;
-        for (unsigned yy = 0; length && yy < gm.gmBlackBoxY; yy++)
-            for (unsigned xx = 0; xx < gm.gmBlackBoxX; xx++)
-                pixels[((unsigned)y+yy)*provider->width+(unsigned)x+xx] =
-                    (bits[yy*stride+xx/8] & (128U >> (xx%8))) != 0;
-    }
+    WCHAR ch = (WCHAR)character;
+    WORD index;
+    if (GetGlyphIndicesW(provider->dc, &ch, 1, &index, GGI_MARK_NONEXISTING_GLYPHS) == GDI_ERROR ||
+        index == 0xffff || !resize_surface(provider,provider->width,provider->height)) return false;
+    /* GGO_BITMAP and actual GDI drawing disagree for some hinted composite
+     * glyphs in Sarasa. Render the selected glyph, as Xft does upstream, then
+     * copy its mask. Never use a hand-adjusted offset or an accent exception. */
+    memset(provider->bitmap_pixels,0,count*sizeof(uint32_t));
+    SetBkMode(provider->dc,TRANSPARENT);
+    SetTextColor(provider->dc,RGB(255,255,255));
+    SetTextAlign(provider->dc,TA_LEFT | TA_BASELINE | TA_NOUPDATECP);
+    if (!ExtTextOutW(provider->dc,-provider->left,-provider->top,ETO_GLYPH_INDEX,
+                     NULL,(const WCHAR *)&index,1,NULL) || !GdiFlush()) return false;
+    for (size_t i=0;i<count;i++) pixels[i]=(provider->bitmap_pixels[i]&0xffffffU)!=0;
     *width = provider->width; *height = provider->height;
     return true;
 }

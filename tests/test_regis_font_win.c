@@ -21,8 +21,9 @@ static unsigned compare_textout(const NemoRegisFontInfo *info, unsigned ch,
     if (!dc) return UINT_MAX;
     BITMAPINFO bitmap = {0};
     bitmap.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
-    bitmap.bmiHeader.biWidth = (LONG)info->width;
-    bitmap.bmiHeader.biHeight = -(LONG)info->height;
+    unsigned surface_width=info->width+8,surface_height=info->height+8;
+    bitmap.bmiHeader.biWidth = (LONG)surface_width;
+    bitmap.bmiHeader.biHeight = -(LONG)surface_height;
     bitmap.bmiHeader.biPlanes = 1; bitmap.bmiHeader.biBitCount = 32;
     bitmap.bmiHeader.biCompression = BI_RGB;
     uint32_t *bits = NULL;
@@ -33,14 +34,20 @@ static unsigned compare_textout(const NemoRegisFontInfo *info, unsigned ch,
     unsigned mismatches = UINT_MAX;
     if (dib && font && bits) {
         HGDIOBJ previous_bitmap = SelectObject(dc, dib), previous_font = SelectObject(dc, font);
-        memset(bits, 0, (size_t)info->width*info->height*sizeof(*bits));
+        memset(bits, 0, (size_t)surface_width*surface_height*sizeof(*bits));
         SetBkMode(dc, TRANSPARENT); SetTextColor(dc, RGB(255,255,255));
         SetTextAlign(dc, TA_LEFT | TA_BASELINE | TA_NOUPDATECP);
         WCHAR text = (WCHAR)ch;
-        if (TextOutW(dc, -info->left, -info->top, &text, 1) && GdiFlush()) {
+        if (TextOutW(dc, 4-info->left, 4-info->top, &text, 1) && GdiFlush()) {
             mismatches = 0;
-            for (size_t i=0; i<(size_t)info->width*info->height; i++)
-                if ((bits[i]&0xffffffU ? 1 : 0) != pixels[i]) mismatches++;
+            for (unsigned y=0;y<surface_height;y++) {
+                for (unsigned x=0;x<surface_width;x++) {
+                    unsigned ink=(bits[y*surface_width+x]&0xffffffU)!=0;
+                    if (x>=4 && y>=4 && x<4+info->width && y<4+info->height)
+                        mismatches+=ink!=pixels[(y-4)*info->width+x-4];
+                    else mismatches+=ink; /* Detect ink clipped by the provider's bounds. */
+                }
+            }
             if (mismatches) {
                 char name[128];
                 snprintf(name,sizeof(name),"build/regis-component/difference-%u-%u.pgm",ch,info->pixel_height);
@@ -49,7 +56,7 @@ static unsigned compare_textout(const NemoRegisFontInfo *info, unsigned ch,
                     fprintf(file,"P5\n%u %u\n255\n",info->width*2,info->height);
                     for (unsigned y=0;y<info->height;y++) {
                         for (unsigned x=0;x<info->width;x++) fputc(pixels[y*info->width+x] ? 255 : 0,file);
-                        for (unsigned x=0;x<info->width;x++) fputc(bits[y*info->width+x]&0xffffffU ? 255 : 0,file);
+                        for (unsigned x=0;x<info->width;x++) fputc(bits[(y+4)*surface_width+x+4]&0xffffffU ? 255 : 0,file);
                     }
                     fclose(file);
                 }
@@ -57,11 +64,12 @@ static unsigned compare_textout(const NemoRegisFontInfo *info, unsigned ch,
                        info->pixel_height,info->left,info->top,info->width,info->height);
                 WORD glyph=0xffff;
                 if (GetGlyphIndicesW(dc,&text,1,&glyph,GGI_MARK_NONEXISTING_GLYPHS)!=GDI_ERROR && glyph!=0xffff) {
-                    memset(bits,0,(size_t)info->width*info->height*sizeof(*bits));
-                    if (ExtTextOutW(dc,-info->left,-info->top,ETO_GLYPH_INDEX,NULL,(const WCHAR *)&glyph,1,NULL) && GdiFlush()) {
+                    memset(bits,0,(size_t)surface_width*surface_height*sizeof(*bits));
+                    if (ExtTextOutW(dc,4-info->left,4-info->top,ETO_GLYPH_INDEX,NULL,(const WCHAR *)&glyph,1,NULL) && GdiFlush()) {
                         unsigned raw_differences=0;
-                        for (size_t i=0;i<(size_t)info->width*info->height;i++)
-                            raw_differences+=(bits[i]&0xffffffU ? 1 : 0)!=pixels[i];
+                        for (unsigned y=0;y<info->height;y++)
+                            for (unsigned x=0;x<info->width;x++)
+                                raw_differences+=(bits[(y+4)*surface_width+x+4]&0xffffffU ? 1 : 0)!=pixels[y*info->width+x];
                         printf("explicit glyph diagnostic: ch=%u index=%u differences=%u\n",ch,(unsigned)glyph,raw_differences);
                     }
                 }
