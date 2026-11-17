@@ -9,7 +9,7 @@ $record=gh run view $Run --repo $env:GITHUB_REPOSITORY --json headSha,jobs | Con
 if ($LASTEXITCODE -or $record.headSha -ne $Commit) { throw 'Source run identity mismatch' }
 $source=@($record.jobs | Where-Object { $_.name -eq 'Source-built console host for compiler comparison' -and $_.conclusion -eq 'success' })
 if ($source.Count -ne 1) { throw 'Expected a successful source-host build job' }
-git diff --quiet $Commit HEAD -- vendor native scripts/build.ps1 scripts/build-single-exe.ps1 scripts/prepare-single-exe.py
+git diff --quiet $Commit HEAD -- vendor native locales scripts/build.ps1 scripts/build-single-exe.ps1 scripts/prepare-single-exe.py scripts/generate-ui-catalog.py
 if ($LASTEXITCODE) { throw 'Production differs; select a fresh source-host artifact' }
 gh run download $Run --repo $env:GITHUB_REPOSITORY --name "source-console-host-x64-$Commit" --dir $Destination
 if ($LASTEXITCODE) { throw 'Product download failed' }

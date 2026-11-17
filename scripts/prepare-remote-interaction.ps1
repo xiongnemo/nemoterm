@@ -47,12 +47,12 @@ $evidence=[ordered]@{
 }
 if ($Shells) {
     $busybox=Join-Path $destination 'busybox.exe'
-    $busyboxUrl='https://frippery.org/files/busybox/busybox-w64-FRP-6354-g5f09fb446.exe'
-    $busyboxHash='95343c871869cc0ab57ecec26b2f9af0370eb9c954f7e5ddd017163e4e0d09a0'
-    Invoke-WebRequest $busyboxUrl -OutFile $busybox
-    if ((Get-FileHash $busybox).Hash.ToLowerInvariant() -ne $busyboxHash) { throw 'BusyBox hash mismatch' }
+    $record=Get-Content "$root/build/interaction-busybox/busybox.json" -Raw | ConvertFrom-Json
+    if ($record.Commit -ne '5f09fb446adf81d005f0aad9dc47eca19ac3b74c') { throw 'BusyBox source identity mismatch' }
+    Copy-Item "$root/build/interaction-busybox/busybox.exe" $busybox
+    if ((Get-FileHash $busybox).Hash.ToLowerInvariant() -ne $record.SHA256) { throw 'BusyBox hash mismatch' }
     $destination | Out-File $env:GITHUB_PATH -Append -Encoding utf8
-    $evidence.BusyBox=[ordered]@{Url=$busyboxUrl;SHA256=$busyboxHash}
+    $evidence.BusyBox=$record
 }
 $evidence | ConvertTo-Json -Depth 5 | Set-Content "$destination/environment.json" -Encoding utf8
 "NEMOTERM_TEST_FONT=$family" | Out-File $env:GITHUB_ENV -Append -Encoding utf8

@@ -15,6 +15,40 @@ permissions:
   actions: read
 
 jobs:
+  busybox:
+    name: Build pinned BusyBox shell fixture
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          repository: rmyorston/busybox-w32
+          ref: 5f09fb446adf81d005f0aad9dc47eca19ac3b74c
+      - name: Cross-compile the upstream Windows configuration
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y gcc-mingw-w64-x86-64
+          make mingw64_defconfig
+          make -j2
+          mkdir product
+          cp busybox.exe LICENSE .config product/
+          git archive --format=tar.gz HEAD > product/source.tar.gz
+          python - <<'PY'
+          import hashlib,json,pathlib,subprocess
+          p=pathlib.Path('product/busybox.exe')
+          pathlib.Path('product/busybox.json').write_text(json.dumps(dict(
+              Source='https://github.com/rmyorston/busybox-w32',
+              Commit=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),
+              SHA256=hashlib.sha256(p.read_bytes()).hexdigest())),encoding='utf-8')
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: interaction-busybox-${{ github.run_id }}-${{ github.run_attempt }}
+          path: product/
+          include-hidden-files: true
+          retention-days: 14
   orchestration:
     runs-on: ubuntu-latest
     steps:
@@ -23,7 +57,7 @@ jobs:
   interaction:
     name: Interaction / ${{ matrix.group }}
     runs-on: windows-2025
-    needs: orchestration
+    needs: [orchestration, busybox]
     timeout-minutes: 45
     strategy:
       fail-fast: false
@@ -45,7 +79,13 @@ jobs:
         shell: pwsh
         env:
           TEST_GROUP: ${{ matrix.group }}
-        run: ./scripts/prepare-remote-interaction.ps1 -Shells:($env:TEST_GROUP -in @('shells','clipboard'))
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if ($env:TEST_GROUP -in @('shells','clipboard')) {
+            gh run download $env:GITHUB_RUN_ID --repo $env:GITHUB_REPOSITORY --name "interaction-busybox-$env:GITHUB_RUN_ID-$env:GITHUB_RUN_ATTEMPT" --dir build/interaction-busybox
+            if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          }
+          ./scripts/prepare-remote-interaction.ps1 -Shells:($env:TEST_GROUP -in @('shells','clipboard'))
       - name: Install WSL Bash for shell and drop coverage
         if: ${{ matrix.group == 'shells' || matrix.group == 'clipboard' }}
         uses: Vampire/setup-wsl@93178b0180b242d56261ad406ee3ee79f0624bae

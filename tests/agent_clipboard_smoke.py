@@ -77,6 +77,13 @@ def main():
                 result['cases'].append(observed)
                 print(args.client+' '+name+': exact generated image received; natural cleanup',flush=True)
             except BaseException:
+                if args.client == 'opencode':
+                    try:
+                        write_snapshot(control,dict(id=90,action='clipboard-probe'))
+                        probe=wait_for(lambda:read_snapshot(report).get('clipboard_probe'),timeout=35)
+                        print('Clipboard reader control:', json.dumps(probe), flush=True)
+                    except Exception as exc:
+                        print('Clipboard reader control failed:', repr(exc), flush=True)
                 try:
                     (case/'failure.txt').write_text(api.request(endpoint,'text',seat),encoding='utf-8')
                     (case/'failure.png').write_bytes(api.png_from_bmp(api.request(endpoint,'image',seat)))

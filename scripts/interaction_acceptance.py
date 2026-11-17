@@ -232,6 +232,10 @@ def run(args):
             env = dict(os.environ, NEMOTERM_TEST_EXE=str(attempt/'dist/nemoterm.exe'),
                        NEMOTERM_TEST_FONT=identity['font'], NEMOTERM_REQUIRE_DIRECTX='1',
                        NEMOTERM_TEST_TRACEBACK_SECONDS='60')
+            if case['script'].endswith('.ps1'):
+                # The controller is started by pwsh; Windows PowerShell must
+                # rebuild its own module search path for Get-FileHash, etc.
+                env = {k: v for k, v in env.items() if k.upper() != 'PSMODULEPATH'}
             row = dict(id=case['id'], status='running', directory=attempt.relative_to(stage).as_posix(),
                        command=command, started_utc=datetime.datetime.now(datetime.timezone.utc).isoformat())
             results.append(row); save(stage/'results.json', results)

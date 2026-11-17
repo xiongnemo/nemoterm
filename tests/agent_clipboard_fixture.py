@@ -254,6 +254,26 @@ enabled = false
                             if saved:
                                 saved.restore();saved=None
                             report['clipboard_restored']=True
+                        elif action == 'clipboard-probe':
+                            # Failure-only control: run the same WinForms reader
+                            # used by OpenCode, retaining startup/error evidence.
+                            reader = ('Add-Type -AssemblyName System.Windows.Forms; '
+                                      '$img = [System.Windows.Forms.Clipboard]::GetImage(); '
+                                      'if ($img) { $ms = New-Object System.IO.MemoryStream; '
+                                      '$img.Save($ms, [System.Drawing.Imaging.ImageFormat]::Png); '
+                                      '[System.Convert]::ToBase64String($ms.ToArray()) }')
+                            started = time.monotonic()
+                            try:
+                                check = subprocess.run(['powershell.exe','-NonInteractive','-NoProfile','-command',reader],
+                                    env=env, cwd=work, capture_output=True, timeout=30,
+                                    creationflags=subprocess.CREATE_NO_WINDOW)
+                                report['clipboard_probe'] = dict(exit_code=check.returncode,
+                                    stdout=check.stdout.decode('utf-8', errors='replace'),
+                                    stderr=check.stderr.decode('utf-8', errors='replace'))
+                            except subprocess.TimeoutExpired as exc:
+                                report['clipboard_probe'] = dict(timeout=True,
+                                    stdout=repr(exc.stdout), stderr=repr(exc.stderr))
+                            report['clipboard_probe']['seconds']=time.monotonic()-started
                         elif action == 'finish':
                             break
                     write_snapshot(folder/'observed.json', report)
