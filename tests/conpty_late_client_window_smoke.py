@@ -48,13 +48,19 @@ try:
                 assert k.GetProcessIdOfThread(thread) == info['child']
                 case['close_requested_filetime'] = time.time_ns()//100+116444736000000000
                 assert u.PostMessageW(hwnd, 0x10, 0, 0)
-                case['frontend_exit'] = process.wait(timeout=10)
-                assert case['frontend_exit'] == 0
-                assert k.WaitForSingleObject(parent, 1000) == 0
+                # The parent's exit witnesses delivery of the close request.
+                # A suspended inherited client can itself delay frontend
+                # teardown; waiting for that teardown before resuming it
+                # prevents this control from reaching the intended boundary.
+                assert k.WaitForSingleObject(parent, 10000) == 0
+                case['parent_exit_observed_filetime'] = time.time_ns()//100+116444736000000000
+                case['frontend_exit_before_resume'] = process.poll()
                 assert k.WaitForSingleObject(child, 0) == 258
                 case['resume_filetime'] = time.time_ns()//100+116444736000000000
                 case['previous_suspend_count'] = k.ResumeThread(thread)
                 assert case['previous_suspend_count'] == 1
+                case['frontend_exit'] = process.wait(timeout=10)
+                assert case['frontend_exit'] == 0
                 case['cleanup'] = job.finish(grace=3, observe_after_deadline=12,
                     failure_observer=lambda owned, handles: capture_job_failure(owned, handles,
                         root/'research'/f'late-client-failure-{iteration+1}',
@@ -64,6 +70,10 @@ try:
                                       case['cleanup']['terminated_remaining'])
             except Exception as error:
                 case['error'] = repr(error)
+                case['cleanup'] = job.finish(grace=0,
+                    failure_observer=lambda owned, handles: capture_job_failure(owned, handles,
+                        root/'research'/f'late-client-failure-{iteration+1}',
+                        os.environ.get('NEMOTERM_JOB_FAILURE_DUMP')))
             finally:
                 case.setdefault('cleanup', job.finish(grace=0))
                 process.wait(timeout=5)
