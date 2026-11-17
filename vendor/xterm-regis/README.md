@@ -19,5 +19,7 @@ Generated files preserve the upstream notices.
 
 This is an **unwired component**, not advertised terminal support. Framing,
 shared image ownership, erasure/scrolling, fonts and native acceptance still
-need integration. The hosted comparison currently retains a font mismatch as
-a failure; see `research/regis-native-component.md`.
+need integration. The hosted parser comparison passes its 70 original frames
+when supplied independent upstream Xft glyph inputs. Native Windows font
+validation is a separate gate; see `research/regis-native-component.md` for
+the retained failures, current results and remaining product integration.

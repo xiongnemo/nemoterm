@@ -144,6 +144,8 @@ claiming the additional families above. All compilation, reference execution
 and product checks remain on GitHub-hosted runners.
 
 The [native component](regis-native-component.md) now has a per-owner parser
-and sparse pages, with a retained font mismatch. It is not wired to terminal
+and sparse pages. Its 70-frame parser projection passes with independent
+upstream font inputs; native Windows glyph validation is separate and the
+earlier failures are retained. It is not wired to terminal
 input or renderers. The coverage ledger continues to mark both families
 **Missing**; no new capability or product memory result is inferred.
