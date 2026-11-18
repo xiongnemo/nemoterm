@@ -68,7 +68,7 @@ def dialog_window(pid):
 def inspect_settings(process,hwnd,dpi,prefix):
     evidence=dict(completed=False,expected_dpi=dpi,hwnd=hwnd,pages=[],ui_language=args.ui_language,client='native UIAutomation')
     try:
-        pages=(args.settings_page,) if args.settings_page else ('profile','shell','keyboard','terminfo','extended','bell','bell-overload','bindings','font','rendering','translation','line-drawing','tabs','language')
+        pages=(args.settings_page,) if args.settings_page else ('profile','shell','keyboard','terminfo','extended','bell','bell-overload','bindings','font','font-access','rendering','translation','line-drawing','tabs','language')
         for page in pages:
             result=subprocess.run([str(helper_path.with_name('dpi-settings.exe')),str(process.pid),str(hwnd),str(dpi),page,args.ui_language],
                 capture_output=True,text=True,timeout=20)
