@@ -9,6 +9,10 @@ on:
       product_commit:
         required: true
         type: string
+      rendering_only:
+        required: false
+        type: boolean
+        default: false
   workflow_dispatch:
     inputs:
       product_run:
@@ -25,7 +29,7 @@ permissions:
   actions: read
 
 concurrency:
-  group: dpi-${{ github.ref }}
+  group: dpi-${{ github.run_id }}-${{ github.run_attempt }}
   cancel-in-progress: false
 
 jobs:
@@ -78,6 +82,7 @@ jobs:
           & build/dpi-check/build/dpi-display.exe | Tee-Object build/dpi-check/research/display-environment.json
           exit $LASTEXITCODE
       - name: Synthetic terminal and input-method DPI transitions
+        if: ${{ !inputs.rendering_only }}
         shell: pwsh
         run: |
           python -m pip install frida==17.24.3
@@ -93,22 +98,26 @@ jobs:
           }
       - name: Actual system scaling, cold starts, live settings and terminal pixels
         if: ${{ !cancelled() && steps.probes.outcome == 'success' }}
+        env:
+          RENDERING_ONLY: ${{ inputs.rendering_only }}
         shell: pwsh
         run: |
           $failed=0
+          $selection=@()
+          if ($env:RENDERING_ONLY -eq 'true') { $selection=@('--settings-page', 'rendering') }
           foreach ($language in @('en','zh-CN')) {
-            python build/dpi-check/tests/dpi_window_smoke.py --display-helper build/dpi-check/build/dpi-display.exe --renderer gdi --ui-language $language 2>&1 | Tee-Object "build/dpi-check/research/dpi-real-gdi-$language.log"
+            python build/dpi-check/tests/dpi_window_smoke.py --display-helper build/dpi-check/build/dpi-display.exe --renderer gdi --ui-language $language @selection 2>&1 | Tee-Object "build/dpi-check/research/dpi-real-gdi-$language.log"
             if ($LASTEXITCODE) { $failed=1 }
           }
           exit $failed
       - name: Interface language persistence, cancellation, restart and per-launch override
-        if: ${{ !cancelled() && steps.probes.outcome == 'success' }}
+        if: ${{ !cancelled() && !inputs.rendering_only && steps.probes.outcome == 'success' }}
         shell: pwsh
         run: |
           python build/dpi-check/tests/i18n_window_smoke.py --settings-helper build/dpi-check/build/dpi-settings.exe 2>&1 | Tee-Object build/dpi-check/research/i18n-interaction.log
           exit $LASTEXITCODE
       - name: Publish measured coverage and gaps
-        if: always()
+        if: ${{ always() && !inputs.rendering_only }}
         shell: pwsh
         run: python tests/dpi_report.py --evidence build/dpi-check/research
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02

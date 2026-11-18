@@ -19,6 +19,7 @@ parser=argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--display-helper',required=True,type=Path)
 parser.add_argument('--renderer',choices=('gdi','opengl','directx'),default='gdi')
 parser.add_argument('--ui-language',choices=('en','zh-CN'),default='en')
+parser.add_argument('--settings-page',choices=('rendering',))
 args=parser.parse_args()
 helper_path=args.display_helper.resolve()
 exe=Path(os.environ['NEMOTERM_TEST_EXE']).resolve()
@@ -35,7 +36,7 @@ ENUM=c.WINFUNCTYPE(w.BOOL,w.HWND,w.LPARAM)
 u.EnumWindows.argtypes=[ENUM,w.LPARAM]
 renderer_number={'gdi':0,'opengl':1,'directx':2}[args.renderer]
 evidence=dict(completed=False,method='real system display scale; no injected DPI',renderer=args.renderer,
-    ui_language=args.ui_language,
+    ui_language=args.ui_language,settings_page=args.settings_page,
     executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),fixture_commit=os.environ.get('GITHUB_SHA'),
     product_commit=os.environ.get('NEMOTERM_DPI_PRODUCT_COMMIT'),product_run=os.environ.get('NEMOTERM_DPI_PRODUCT_RUN'),
     cases=[],attempts=[],coverage_gaps=['Mixed-DPI multi-monitor moves are not exercised by this single-monitor fixture'],failures=[])
@@ -67,7 +68,8 @@ def dialog_window(pid):
 def inspect_settings(process,hwnd,dpi,prefix):
     evidence=dict(completed=False,expected_dpi=dpi,hwnd=hwnd,pages=[],ui_language=args.ui_language,client='native UIAutomation')
     try:
-        for page in ('profile','shell','keyboard','terminfo','extended','bell','bell-overload','bindings','font','rendering','translation','line-drawing','tabs','language'):
+        pages=(args.settings_page,) if args.settings_page else ('profile','shell','keyboard','terminfo','extended','bell','bell-overload','bindings','font','rendering','translation','line-drawing','tabs','language')
+        for page in pages:
             result=subprocess.run([str(helper_path.with_name('dpi-settings.exe')),str(process.pid),str(hwnd),str(dpi),page,args.ui_language],
                 capture_output=True,text=True,timeout=20)
             (root/'research'/f'{prefix}-{page}.log').write_text(result.stdout+result.stderr,encoding='utf-8')
@@ -81,6 +83,9 @@ def inspect_settings(process,hwnd,dpi,prefix):
                 observed['settings_window_alive']=bool(u.IsWindow(hwnd))
             assert result.returncode==0 and observed['completed'],observed
             assert 'screenshot_error' not in observed,observed
+            if page=='rendering':
+                caps=[c['rect'] for c in observed['controls'] if c['label'].startswith(('Continue unfinished','Move ReGIS'))]
+                assert len(caps)==2 and caps[0][1]+caps[0][3]<caps[1][1],caps
         evidence['completed']=True
     finally:
         (root/'research'/f'{prefix}-settings.json').write_text(json.dumps(evidence,indent=2),encoding='utf-8')
