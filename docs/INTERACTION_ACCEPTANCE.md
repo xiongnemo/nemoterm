@@ -24,6 +24,8 @@ gh workflow run font-zoom-replay.yml --ref <branch> -f suite=interaction -f sour
 
 `suite=wsl-sixel` 用 Ubuntu 的 `img2sixel` 经 WSL 终端输出一张彩色 PNG，保存实际 Sixel 字节并用 `sixel2png` 独立解码。分别核验真实 GDI、DirectX 对应位置的每个像素、四边一像素范围、重绘及清除后的结果，同时保留工具版本、文件摘要和原始截图。工具只安装在 runner 上。
 
+`suite=wsl-vim` 在两个 TERM 条目和实际 GDI、DirectX 下启动 Vim。普通鼠标点击须改变 Vim 自己报告的光标，Shift 拖选须复制完整中文字且不移动 Vim 光标；窗口两次改尺寸后 Vim 与前端应报告同一网格；最后用快捷键粘贴，验证保存文件的 UTF-8 字节和退出后的画面。
+
 `suite=profile-env` 可让 `--profile 名称` 和 Windows 跳转列表所用的 `@名称` 各启动一次父环境未设和一次父环境设置了不同 `TERM` 的子进程，读取其真实 `TERM`、`COLORTERM`、`TERM_PROGRAM`。
 
 `f628d89` 单文件预览的[完整回放和内存数据](../research/right-button-release.md#complete-interaction-replay)为 74/74。另一个 MinGW 便携构建出现[混合 profile 关闭超时](../research/mixed-profile-close-f628d89.md)；`tabs-close-replay.yml` 的 `profiles-mingw` 和 `profiles-api-mingw` 使用原失败产物，分别回放带探针和内置自动化的操作。

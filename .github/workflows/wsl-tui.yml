@@ -36,7 +36,7 @@ jobs:
           set-as-default: 'true'
           update: 'false'
           use-cache: 'false'
-          additional-packages: ${{ inputs.suite == 'sixel' && 'libsixel-bin' || 'less' }}
+          additional-packages: ${{ inputs.suite == 'sixel' && 'libsixel-bin' || inputs.suite == 'vim' && 'vim' || 'less' }}
       - name: Prepare font and fixture
         shell: pwsh
         run: |
@@ -48,13 +48,16 @@ jobs:
       - name: Compare a real WSL image against the libsixel decoder on GDI and DirectX
         if: inputs.suite == 'sixel'
         run: python build/wsl-check/tests/wsl_sixel_image.py
+      - name: Exercise ordinary mouse, forced selection, paste and window resize in WSL Vim
+        if: inputs.suite == 'vim'
+        run: python build/wsl-check/tests/wsl_vim_interaction.py
       - name: Read the WSL terminal type and exercise direct and recorded less
         if: inputs.suite == 'pager'
         run: python build/wsl-check/tests/shell_window_smoke.py
       - if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
-          name: ${{ inputs.suite == 'sixel' && 'wsl-sixel' || 'wsl-tui' }}-${{ github.run_id }}-${{ github.run_attempt }}
+          name: ${{ inputs.suite == 'sixel' && 'wsl-sixel' || inputs.suite == 'vim' && 'wsl-vim' || 'wsl-tui' }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
             build/wsl-check/research/
             build/wsl-product/SOURCE-HOST.json

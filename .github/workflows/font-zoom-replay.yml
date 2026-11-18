@@ -6,7 +6,7 @@ on:
       suite:
         description: Checks or notice-only packaging against the exact artifact
         type: choice
-        options: [font-bell, dpi, interaction, single, ui-regression, shell-lifetime, tcap, portable-notices, regis-window, pointer-colour, colour-input, unicode-boundary, picture-keys, image-timing, image-reference, pterm-memory, profile-dump, profile-env, wsl-tui, wsl-sixel]
+        options: [font-bell, dpi, interaction, single, ui-regression, shell-lifetime, tcap, portable-notices, regis-window, pointer-colour, colour-input, unicode-boundary, picture-keys, image-timing, image-reference, pterm-memory, profile-dump, profile-env, wsl-tui, wsl-sixel, wsl-vim]
         default: font-bell
       source_commit:
         description: Full source commit of the source-console-host artifact
@@ -27,12 +27,12 @@ permissions:
 
 jobs:
   wsl-tui:
-    if: ${{ inputs.suite == 'wsl-tui' || inputs.suite == 'wsl-sixel' }}
+    if: ${{ inputs.suite == 'wsl-tui' || inputs.suite == 'wsl-sixel' || inputs.suite == 'wsl-vim' }}
     uses: ./.github/workflows/wsl-tui.yml
     with:
       run: ${{ inputs.source_run }}
       commit: ${{ inputs.source_commit }}
-      suite: ${{ inputs.suite == 'wsl-sixel' && 'sixel' || 'pager' }}
+      suite: ${{ inputs.suite == 'wsl-sixel' && 'sixel' || inputs.suite == 'wsl-vim' && 'vim' || 'pager' }}
   profile-dump:
     if: ${{ inputs.suite == 'profile-dump' }}
     runs-on: windows-2025
