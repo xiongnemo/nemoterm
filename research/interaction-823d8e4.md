@@ -24,3 +24,5 @@
 | 子进程显式 `xterm` | 8 | `5 8` | `ESC [ 6 ; 9 R` |
 
 `TERM` 兼容性和原版 XTerm 的逐帧一致性分开报告：[原始 ReGIS 比对](regis-six-frames.md)仍有五帧不同。完整协议的实现与缺口见[支持表](../docs/PROTOCOLS.md)。
+
+Windows 跳转列表用 `@配置名` 快捷启动。它与 `--profile 配置名` 在 `823d8e4` 上并不等价：[修复前回放 44333547537](profile-term-before-823d8e4.zip) 中四个子进程均自然退出。两个普通启动都得到了正确的三个变量。`@` 启动在父环境没有设置变量时三个变量全部缺失；当父环境设置了 `TERM=dumb` 时，子进程保留了 `dumb` 和另两个不相关的父值。该包中的 `identity.json` 和 `profile-term-environment.json` 是此回放证据；同包内早先的其他协议观察并非本次测试。`1fef0e3` 将三个变量的设置移到解析快捷启动之前；该修复的全量 CI 为 [44333779700](https://github.com/xiongnemo/nemoterm/actions/runs/44333779700)。

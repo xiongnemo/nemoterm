@@ -220,8 +220,13 @@ jobs:
         run: |
           python tests/gpu_lifecycle_window_smoke.py 2>&1 | Tee-Object build/focused-evidence/gpu-lifecycle.log
           exit $LASTEXITCODE
+      - name: Retain the child environment observations
+        if: ${{ always() && inputs.suite == 'profile-env' }}
+        shell: pwsh
+        run: |
+          if (Test-Path research/profile-term-environment.json) { Copy-Item -LiteralPath research/profile-term-environment.json -Destination build/focused-evidence/ }
       - name: Retain complete observations
-        if: always()
+        if: ${{ always() && inputs.suite != 'profile-env' }}
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Force build/focused-evidence | Out-Null
@@ -231,7 +236,7 @@ jobs:
           Copy-Item research/dialog-*.json*, research/gpu-lifecycle-* build/focused-evidence/ -ErrorAction SilentlyContinue
           Copy-Item research/font-zoom-observed.json, research/tabs-profiles-observed.json, research/bell-mode-*-observed.json build/focused-evidence/ -ErrorAction SilentlyContinue
           Copy-Item research/visual-bell-observed.json, research/visual-bell-*.png build/focused-evidence/ -ErrorAction SilentlyContinue
-          Copy-Item research/profile-term-environment.json, research/tcap-keys-observed.json, research/feature-policy-*-observed.json build/focused-evidence/ -ErrorAction SilentlyContinue
+          Copy-Item research/tcap-keys-observed.json, research/feature-policy-*-observed.json build/focused-evidence/ -ErrorAction SilentlyContinue
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
