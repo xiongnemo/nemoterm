@@ -96,6 +96,13 @@ def cases():
             regis('S(E)W(I3)P[20,20]V[120,20]',1), enter,
             C+b'2;1H'+b'ALT'+regis('W(I2)P[20,80]V[120,80]R(P)'),
             leave, enter, regis('R(P)'), enter, C+b'2J', regis('R(P)'), leave)
+    # Write away from the graphic, then enter again while ALT still has content.
+    # A plain leave/re-enter would not discriminate clear-on-entry from clear-on-exit.
+    for mode in (1047,1049):
+        prefix=C+b'?'+str(mode).encode(); enter=prefix+b'h'; leave=prefix+b'l'
+        add(f'nonempty-alt-repeat-{mode}', C+b'1;35HM1X', enter,
+            C+b'1;35HA2Y'+regis('S(E)W(I2)P[20,80]V[120,80]',1),
+            enter, leave, leave, enter, leave)
     add('alternate-hidden-page', regis('S(E)W(I3)P(P1)P[20,20]V[120,20]', 1),
         C+b'?1049h'+regis('S(P1)R(P)'), C+b'?1049l'+regis('S(P1)R(P)'))
     for name, operation in [('erase-display', C+b'2J'), ('erase-history', C+b'3J'),

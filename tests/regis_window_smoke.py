@@ -8,6 +8,7 @@ if os.environ.get('GITHUB_ACTIONS')!='true' or os.environ.get('RUNNER_ENVIRONMEN
     raise SystemExit('Native ReGIS checks require a GitHub-hosted runner')
 
 from sixel_palette_window_smoke import main, reset, ESC, CSI, DCS, ST, BORDER, COLS, ROWS
+from sixel_palette_window_smoke import api
 from native_test_utils import u, w, c
 
 u.RedrawWindow.argtypes=[w.HWND,c.c_void_p,w.HANDLE,w.UINT]
@@ -74,6 +75,33 @@ def exercise(phase,block):
     check('restore-first-page',regis('S(P0)'),both)
     check('alternate-screen',CSI+'?1049h'+regis('S(E)S(M3(R100G0B0))W(I3)P[20,40]V[120,40]',1),expected(line(40,'red')))
     check('restore-main-screen',CSI+'?1049l',both)
+
+    # Check both actual text cells and independent graphic pixels. Markers are
+    # placed outside the pixel ROI so the font cannot change the geometric test.
+    assert 34*cw >= roi['width']
+    alt_line=expected(line(80,'red'))
+    markers={'main':'M1X','alt':'A2Y','empty':''}
+    text_pos=CSI+'1;35H'
+    def bank(name,wire,pixels,which):
+        check(name,wire,pixels)
+        text=api.request(context['endpoint'],'text',context['session']['id'])
+        observed={m for m in markers.values() if m and m in text}
+        want={markers[which]} if markers[which] else set()
+        record=context['checks'][-1]
+        record.update(expected_markers=sorted(want),observed_markers=sorted(observed))
+        assert observed==want,(name,observed,want)
+    for mode in (1047,1049):
+        tag=f'alt-{mode}-'; enter=CSI+f'?{mode}h'; leave=CSI+f'?{mode}l'
+        bank(tag+'main',reset()+text_pos+markers['main'],expected(),'main')
+        bank(tag+'enter',enter,expected(),'empty')
+        bank(tag+'write',text_pos+markers['alt']+regis(
+            'S(E)S(M2(R100G0B0))W(I2)P[20,80]V[120,80]',1),alt_line,'alt')
+        bank(tag+'repeat',enter,alt_line if mode==1047 else expected(),
+             'alt' if mode==1047 else 'empty')
+        bank(tag+'leave',leave,expected(),'main')
+        bank(tag+'redundant-leave',leave,expected(),'main')
+        bank(tag+'reenter',enter,expected(),'empty')
+        bank(tag+'finish',leave,expected(),'main')
 
     check('shared-regis-before',reset(False)+regis('S(E)S(M3(R0G100B0))W(I3)P[20,20]V[120,20]',1),expected(line(20)))
     red=expected(line(20,'red'))
