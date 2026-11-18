@@ -241,6 +241,29 @@ def main():
             if saved:saved.restore()
             winreg.DeleteKey(winreg.HKEY_CURRENT_USER,registry)
             write_snapshot(ROOT/f'research/drop-{args.renderer}-observed.json',result)
+    if distro := os.environ.get('NEMOTERM_TEST_WSL_DISTRO'):
+        # The Windows process trees for every terminal and the Bash witness
+        # have already drained. WSL1's per-distribution init/relay may outlive
+        # the last Linux command in the outer runner job. Only stop the
+        # disposable hosted distribution after independently inventorying it.
+        assert (distro=='Ubuntu-24.04' and os.environ.get('GITHUB_ACTIONS')=='true'
+                and os.environ.get('RUNNER_ENVIRONMENT')=='github-hosted')
+        assert result['wsl_objects']['distro']==distro
+        assert len(result['cleanup'])==6 and all(c['after']['active']==0 and
+            not c['terminated_remaining'] for c in result['cleanup'])
+        wsl=locations['wsl-bash']
+        linux=subprocess.check_output([wsl,'--distribution',distro,'--exec','ps','-eo','pid=,ppid=,comm='],
+            timeout=15,creationflags=subprocess.CREATE_NO_WINDOW).decode('utf-8-sig')
+        procs=[line.strip().split(None,2) for line in linux.splitlines() if line.strip()]
+        lifecycle=result['wsl_fixture_teardown']=dict(distribution=distro,processes=procs,stopped=False)
+        write_snapshot(ROOT/f'research/drop-{args.renderer}-observed.json',result)
+        assert any(pid=='1' and comm.startswith('init') for pid,_,comm in procs),linux
+        assert any(comm=='ps' for _,_,comm in procs),linux
+        assert all(comm in ('init','SessionLeader','ps') or (pid=='1' and comm.startswith('init('))
+                   for pid,_,comm in procs),linux
+        subprocess.run([wsl,'--terminate',distro],check=True,capture_output=True,
+                       timeout=30,creationflags=subprocess.CREATE_NO_WINDOW)
+        lifecycle['stopped']=True
     result['completed']=True
     write_snapshot(ROOT/f'research/drop-{args.renderer}-observed.json',result)
     print(json.dumps(result,indent=2))
