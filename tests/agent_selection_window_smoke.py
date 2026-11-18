@@ -285,10 +285,10 @@ def main():
                         return modal['foreground']==host and modal['focus']==hwnd
                     wait_for(focused);modal['clipboard_intact']=clipboard_text(hwnd)==copied
                     assert modal['clipboard_intact']
-                    for ch in SELECTION_PREFIX:
-                        if 'A'<=ch<='Z': desktop.chord(0x10,ord(ch))
-                        elif ch=='_': desktop.chord(0x10,0xbd)
-                        else: assert ch==' ';desktop.chord(0x20)
+                    for letter in SELECTION_PREFIX:
+                        if 'A'<=letter<='Z': desktop.chord(0x10,ord(letter))
+                        elif letter=='_': desktop.chord(0x10,0xbd)
+                        else: assert letter==' ';desktop.chord(0x20)
                     wait_for(lambda:SELECTION_PREFIX.rstrip() in text());modal['typed_prefix']=SELECTION_PREFIX
                 else:
                     api.request(endpoint,'input',seat,SELECTION_PREFIX)
