@@ -66,7 +66,8 @@ try:
                 old_identity=original['identity'];old_pid=original['pid']
                 write_snapshot(original['control'],dict(stop=True))
                 if args.native_dialogs:
-                    evidence['dialogs'].append(acknowledge_disconnect(process.pid,hwnd,other_hwnd))
+                    modal=dict(cycle=index);evidence['dialogs'].append(modal)
+                    acknowledge_disconnect(process.pid,hwnd,other_hwnd,modal)
                 menu=u.GetSystemMenu(hwnd,False)
                 wait_for(lambda:u.GetMenuState(menu,0x40,0)!=0xffffffff,timeout=15)
                 assert u.IsWindow(hwnd) and u.IsWindow(other_hwnd) and process.poll() is None
