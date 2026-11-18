@@ -556,9 +556,12 @@ jobs:
             if ($testExit) { exit $testExit }
           }
           python tests/session_restart_window_smoke.py
-          $testExit = $LASTEXITCODE
+          $instrumentedExit = $LASTEXITCODE
           Copy-Item research/session-restart-observed.json test-results/ -ErrorAction SilentlyContinue
-          exit $testExit
+          python tests/session_restart_window_smoke.py --native-dialogs
+          $nativeExit = $LASTEXITCODE
+          Copy-Item research/session-restart-native-observed.json test-results/ -ErrorAction SilentlyContinue
+          if ($instrumentedExit) { exit $instrumentedExit }; exit $nativeExit
       - name: Test native tab host, previews and shared GPU lifetime
         shell: pwsh
         run: |
