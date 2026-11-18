@@ -26,6 +26,13 @@ from owned_job import OwnedJob
 from fixture_io import write_snapshot, read_snapshot
 
 
+# Used only by the explicit selection fixture. The provider records equality to
+# fixed text, not the contents of other client request metadata.
+SELECTION_TRIGGER = 'NEMOTERM_SELECTION_SOURCE'
+SELECTION_TEXT = 'NEMOTERM_SELECT 中文 e\u0301 \uf120 \U000f0001 END'
+SELECTION_PREFIX = 'NEMOTERM_SUBMIT '
+
+
 class Provider(ThreadingHTTPServer):
     daemon_threads = True
 
@@ -49,12 +56,14 @@ class Handler(BaseHTTPRequestHandler):
             request = json.loads(self.rfile.read(size))
             assert request['model'] == 'nemoterm-image-fixture'
             assert request.get('stream') is True
-            images, text = [], []
+            images, text, latest_user_parts = [], [], []
             for item in request.get('input', request.get('messages', [])):
                 if item.get('role') != 'user':
                     continue
+                latest_user_parts = []
                 content = item.get('content', [])
                 if isinstance(content, str):
+                    latest_user_parts.append(content)
                     text.extend(re.findall(r'NEMOTERM_[A-Z0-9_]+',content))
                     continue
                 for part in content:
@@ -77,8 +86,10 @@ class Handler(BaseHTTPRequestHandler):
                                            if data.startswith(b'\x89PNG\r\n\x1a\n') else None))
                     elif part.get('type') in ('input_text', 'text'):
                         value = part.get('text', '')
+                        latest_user_parts.append(value)
                         text.extend(re.findall(r'NEMOTERM_[A-Z0-9_]+',value))
-            self.server.requests.append(dict(path=self.path, images=images, text=text,
+            selected=SELECTION_PREFIX+SELECTION_TEXT in latest_user_parts
+            self.server.requests.append(dict(selection_received=selected, path=self.path, images=images, text=text,
                                               advertised_tools=len(request.get('tools', [])),
                                               tool_names=[t.get('name',t.get('function',{}).get('name',t.get('type')))
                                                           for t in request.get('tools', [])]))
@@ -88,6 +99,8 @@ class Handler(BaseHTTPRequestHandler):
             self.send_header('Connection', 'close')
             self.end_headers()
             answer = 'NEMOTERM_IMAGE_ACCEPTED' if images else 'NEMOTERM_TEXT_ACCEPTED'
+            if self.server.selection and SELECTION_TRIGGER in latest_user_parts:
+                answer = SELECTION_TEXT
             if self.path.endswith('chat/completions'):
                 for delta, finish in [({'role': 'assistant', 'content': answer}, None), ({}, 'stop')]:
                     value = dict(id='chatcmpl-fixture', object='chat.completion.chunk', created=int(time.time()),
@@ -155,6 +168,7 @@ def main():
     parser.add_argument('--terminal', required=True)
     parser.add_argument('--directory', required=True)
     parser.add_argument('--automation', action='store_true')
+    parser.add_argument('--selection-directx', action='store_true')
     parser.add_argument('--font',default='SarasaTermSC Nerd Font Light')
     args = parser.parse_args()
     folder = Path(args.directory).resolve()
@@ -179,9 +193,12 @@ def main():
     profile = 'image-fixture-'+uuid.uuid4().hex
     registry = 'Software\\Nemo\\Nemoterm\\Sessions\\'+profile
     with winreg.CreateKey(winreg.HKEY_CURRENT_USER, registry) as key:
+        if args.selection_directx:
+            winreg.SetValueEx(key, 'NemoRenderer', 0, winreg.REG_DWORD, 2)
         winreg.SetValueEx(key, 'WarnOnClose', 0, winreg.REG_DWORD, 0)
         winreg.SetValueEx(key, 'CloseOnExit', 0, winreg.REG_DWORD, 1)
     server = Provider()
+    server.selection=args.selection_directx
     thread = threading.Thread(target=server.serve_forever, daemon=True); thread.start()
     base = f'http://127.0.0.1:{server.server_port}/v1'
     if args.client == 'codex':
