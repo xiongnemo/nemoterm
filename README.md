@@ -13,7 +13,7 @@ Nemoterm 是 **PuTTY 0.85 Windows pterm 的下游 fork**，沿用其终端核心
 本页描述所在分支的代码；下载产物按下面的提交和验证记录区分。已实现功能与测试边界见 [协议支持表](docs/PROTOCOLS.md)
 和 [需求与验证记录](docs/REQUIREMENTS.md)。
 
-[试用 `fa6f10f` 单文件预览](https://github.com/xiongnemo/nemoterm/actions/runs/44260021672/artifacts/14407324758)：修复了默认私有调色板在 Sixel 图片结束时意外改色。真实 OpenCode 在 GDI 和 DirectX 下都验证了默认右键仅复制、开启选项后一次右键复制并粘贴。[交互实测与内存](research/opencode-right-click.md) · [图片修复前后对比](research/private-sixel-terminator.md)。
+[试用 `fa6f10f` 单文件预览](https://github.com/xiongnemo/nemoterm/actions/runs/44260021672/artifacts/14407324758)：修复了默认私有调色板在 Sixel 图片结束时意外改色。同一个 EXE 在一次远程回放中通过 [50/50 项交互与内存检查](research/interaction-fa6f10f-50.json)，包括真实 OpenCode 在 GDI 和 DirectX 下的右键仅复制、复制并粘贴。该轮满屏负载私有工作集峰值：GDI **19.45 MB**、DirectX **29.67 MB**。[窗口截图与测量说明](research/opencode-right-click.md) · [图片修复前后对比](research/private-sixel-terminator.md)。
 
 [调色板修复预览 `9ece5e0`](https://github.com/xiongnemo/nemoterm/actions/runs/44256389198/artifacts/14406012996) 修复了 Sixel 在颜色定义尚未结束时把其他图形改色的问题。该 EXE 在同一次托管 Windows 回归中通过 46 项交互与内存检查；六项满屏负载的私有工作集峰值是 GDI **19.67 MB**、DirectX **29.29 MB**。[实际窗口截图、仍有差异的 6 帧和原始记录](research/shared-register-terminator.md)。
 
