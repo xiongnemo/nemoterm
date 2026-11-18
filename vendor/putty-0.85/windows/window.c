@@ -2902,6 +2902,13 @@ static void wm_size_resize_term(WinGuiSeat *wgs, LPARAM lParam)
 /* An OS timer runs only while a local selection is held outside the grid.
  * It belongs to the terminal view, not the shared tab host or application. */
 #define NEMO_SELECTION_SCROLL_TIMER 0x4e535343u
+static bool nemo_selection_held(const Terminal *term)
+{
+    /* Shift taking over an application press establishes the anchor. The
+     * next timer-driven drag must be able to extend that new selection. */
+    return term->selstate == ABOUT_TO || term->selstate == DRAGGING;
+}
+
 static void nemo_stop_selection_scroll(WinGuiSeat *wgs, HWND hwnd)
 {
     if (wgs->selection_scroll_active) {
@@ -3581,14 +3588,14 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
             bool outside = drag_y < 0 || drag_y >= wgs->term->rows;
             /* Fresh motion updates the horizontal endpoint immediately. Once
              * armed, scroll speed follows the timer rather than mouse noise. */
-            int input_y = wgs->selection_scroll_active && wgs->term->selstate == DRAGGING ?
+            int input_y = wgs->selection_scroll_active && nemo_selection_held(wgs->term) ?
                 max(0, min(drag_y, wgs->term->rows-1)) : drag_y;
             term_mouse_pixels(wgs->term, b, translate_button(wgs, b), MA_DRAG,
                        TO_CHR_X(X_POS(lParam)), input_y,
                        X_POS(lParam)-wgs->offset_width,
                        Y_POS(lParam)-wgs->offset_height, wParam & MK_SHIFT,
                        wParam & MK_CONTROL, is_alt_pressed());
-            if (b == MBT_LEFT && outside && wgs->term->selstate == DRAGGING) {
+            if (b == MBT_LEFT && outside && nemo_selection_held(wgs->term)) {
                 wgs->selection_scroll_pos = lParam;
                 wgs->selection_scroll_keys = wParam;
                 if (!wgs->selection_scroll_active)
@@ -4403,7 +4410,7 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
             int y = TO_CHR_Y(Y_POS(pos));
             if (wgs->closing || !wgs_active(wgs) || !IsWindowVisible(hwnd) ||
                 !IsWindowEnabled(wgs_window(wgs)) || GetCapture() != hwnd ||
-                term->selstate != DRAGGING || (y >= 0 && y < term->rows)) {
+                !nemo_selection_held(term) || (y >= 0 && y < term->rows)) {
                 nemo_stop_selection_scroll(wgs, hwnd);
                 return 0;
             }
