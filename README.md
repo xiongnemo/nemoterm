@@ -13,6 +13,8 @@ Nemoterm 是 **PuTTY 0.85 Windows pterm 的下游 fork**，沿用其终端核心
 本页描述所在分支的代码；下载产物按下面的提交和验证记录区分。已实现功能与测试边界见 [协议支持表](docs/PROTOCOLS.md)
 和 [需求与验证记录](docs/REQUIREMENTS.md)。
 
+[单文件预览 `a9c8150`](https://github.com/xiongnemo/nemoterm/actions/runs/44338343977/artifacts/14443251390) 修复了调试接口把方向键当作数字小键盘的问题。以 `TERM=xterm` 和 `xterm-256color` 运行真实 WSL `less`，用系统键盘和调试接口都能向下滚动、翻页、搜索并在退出后恢复原屏；[八组回放与六组真实客户端选区记录](research/interaction-a9c8150.md)。以下较早版本的内存和汇总成绩只对应各自的 EXE。
+
 [单文件预览 `823d8e4`](https://github.com/xiongnemo/nemoterm/actions/runs/44326592417/artifacts/14436873149)：同一 EXE 的 **74/74 项交互验收通过**，160×48 压力测试私有工作集峰值为 GDI **19.41 MB**、DirectX **29.69 MB**。真实 WSL 应用已按 `TERM=xterm` 和 `xterm-256color` 两种条目完成光标回读。见[交互、内存与终端能力记录](research/interaction-823d8e4.md)；历史 ReGIS 逐帧对照仍有五帧不同。
 
 [中文选区修复预览 `a985632`](https://github.com/xiongnemo/nemoterm/actions/runs/44314169646/artifacts/14431328444)：Shift 拖选从汉字的右半格开始也会复制完整的字，矩形选区按每行实际字宽处理。Codex、Claude Code、OpenCode 均已在 GDI 和 DirectX 上用系统鼠标与剪贴板验证；见[修复前后截图、实测与内存](research/wide-selection-boundaries.md)。同时修复了[重复切入备用屏时文字和图形被清空](research/alternate-1047.md)。本版交互验收 72/74；12 项满屏压力测试全部通过（GDI 私有工作集最高 19.26 MB，DirectX 28.95 MB）。剩余两项是 Codex 刚出现输入框时贴图。
