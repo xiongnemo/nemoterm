@@ -95,6 +95,43 @@ def same_directory(actual, expected, sid):
         actual = actual[5] + ':' + actual[6:]
     return os.path.samefile(actual, expected)
 
+def wsl_terminfo_roundtrip(hwnd, folder, evidence):
+    # Run inside the selected WSL shell. Neither the fixture nor tput sets
+    # TERM for the first row. The second row is scoped to one child process.
+    script = folder/'terminfo.sh'
+    script.write_bytes(r"""set -eu
+cd -- "$(dirname -- "$0")"
+exec >terminfo.log 2>&1
+old=$(stty -g </dev/tty)
+trap 'stty "$old" </dev/tty; : >terminfo.done' EXIT
+stty -echo -icanon min 1 time 0 </dev/tty
+printf 'inherited=%s\n' "${TERM-}"
+for which in inherited xterm; do
+  (
+    if [ "$which" = xterm ]; then export TERM=xterm; row=5; col=8; else row=2; col=3; fi
+    printf '%s-colors=' "$which"; tput colors
+    # tput coordinates start at zero. The actual terminal must reply with
+    # one-based coordinates. Capturing tput output alone would not prove this.
+    tput cup "$row" "$col" >/dev/tty
+    printf '\033[6n' >/dev/tty
+    reply=''; IFS= read -r -t 5 -d R reply </dev/tty
+    printf '%s-reply=' "$which"; printf '%sR' "$reply" | od -An -tx1 | tr -d ' \n'; printf '\n'
+  )
+done
+printf 'complete=yes\n'
+""".encode('ascii'))
+    send(hwnd, 'bash '+shlex.quote(shell_path(script, 'wsl-bash'))+'\r')
+    log = folder/'terminfo.log'
+    try:
+        wait_for((folder/'terminfo.done').exists, timeout=20)
+    finally:
+        evidence['log'] = log.read_text(encoding='utf-8', errors='replace') if log.exists() else None
+    rows = dict(line.split('=', 1) for line in (evidence['log'] or '').splitlines() if '=' in line)
+    assert rows.get('inherited') == 'xterm-256color' and rows.get('inherited-colors') == '256', rows
+    assert rows.get('inherited-reply') == b'\x1b[3;4R'.hex() and rows.get('xterm-reply') == b'\x1b[6;9R'.hex(), rows
+    assert rows.get('complete') == 'yes', rows
+
+
 def terminal_windows():
     result = {}
     @c.WINFUNCTYPE(w.BOOL, w.HWND, w.LPARAM)
@@ -181,6 +218,9 @@ try:
                         wait_for(lambda: not u.IsWindow(duplicate_hwnd), timeout=10)
                         assert process.poll() is None
                         record_processes('duplicate-window-closed', sid, process.pid)
+                if sid == 'wsl-bash':
+                    wsl_terminfo_roundtrip(hwnd, Path(temporary),
+                        observed['launches'][sid].setdefault('terminfo', {}))
                 print('Shell launch passed:', sid, flush=True)
                 send(hwnd, 'exit\r')
                 process.wait(timeout=10)

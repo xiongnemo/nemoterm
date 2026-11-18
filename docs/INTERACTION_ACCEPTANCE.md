@@ -2,6 +2,8 @@
 
 所有自动测试在 GitHub-hosted runner 上执行。开发电脑只编辑源码、提交、调度 Actions 和下载证据；不需要启动测试终端、接管焦点或修改本机剪贴板。
 
+这里的 xterm 兼容性指应用在 `TERM=xterm` 或 `xterm-256color` 下能够正确交互。Nemoterm 的 Windows 启动代码设置 `TERM=xterm-256color` 和 `TERM_PROGRAM=nemoterm`。`shells` 组在实际 WSL Bash 中读取继承的 `TERM`，再用系统 `tput` 分别按默认条目和显式 `TERM=xterm` 移动光标，以终端返回的位置验收。这个检查覆盖名称、颜色能力查询和光标寻址；它不是所有 terminfo 能力的认证。原版 XTerm 的特定 ReGIS 逐帧对照单独报告，不代表普通 TUI 的兼容性；原失败记录仍保留。
+
 ## 入口
 
 完整回归（包含重新构建）：
