@@ -156,6 +156,22 @@ def main():
                         parsed=raw.decode('utf-8').rstrip('\0').split('\0')
                         assert parsed==[p.replace('\\','/') for p in paths],(shell,parsed,paths)
                     result['shell_argument_checks'][shell]='actual shell parsed exact arguments'
+                elif shell=='cmd':
+                    # cmd /s /c strips exactly one pair of outer quotes. Pass a
+                    # Unicode command line and leave the terminal's observed
+                    # argument expression intact inside it, including the &.
+                    probe=folder/'read-dropped-args.py'
+                    probe.write_text('import json,sys\nfrom pathlib import Path\n'
+                        'a,b=sys.argv[1:]\nprint(json.dumps([a,b,Path(a).read_text(),'
+                        '(Path(b)/"folder-marker").read_text()]))\n',encoding='ascii')
+                    shell_prefix=subprocess.list2cmdline([locations[shell],'/d','/q','/v:off','/s','/c'])
+                    child_prefix=subprocess.list2cmdline([sys.executable,'-I',str(probe)])
+                    command=shell_prefix+' "'+child_prefix+' '+expression+'"'
+                    raw=shell_output(command,shell)
+                    parsed=json.loads(raw.decode('ascii'))
+                    assert parsed==[*paths,file_marker,folder_marker],parsed
+                    result['cmd_objects']=dict(file=parsed[0],directory=parsed[1],file_marker=parsed[2],folder_marker=parsed[3])
+                    result['shell_argument_checks'][shell]='cmd passed both exact paths to a child which opened them'
                 elif shell=='wsl-bash' and os.environ.get('NEMOTERM_TEST_WSL_DISTRO'):
                     # Feed Bash precisely the expression received from the drop,
                     # then make it open both original Windows filesystem objects.
