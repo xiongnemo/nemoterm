@@ -137,3 +137,16 @@ jobs:
             build/interaction/attempts/*/output.log
             build/interaction/attempts/*/research/
             build/interaction/attempts/*/build/
+      - name: Publish inputs for the combined interaction report
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: interaction-receipt-${{ matrix.group }}-${{ github.run_id }}-${{ github.run_attempt }}
+          if-no-files-found: error
+          retention-days: 14
+          path: |
+            build/interaction-product/SOURCE-HOST.json
+            build/interaction/identity.json
+            build/interaction/results.json
+            build/interaction/attempts/full-grid-*/research/*-memory.json
+            build/interaction/attempts/full-grid-*/research/*-observed.json

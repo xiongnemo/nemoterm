@@ -104,3 +104,33 @@ jobs:
       shell_fixtures: true
       product_run: ${{ inputs.product_run }}
       product_commit: ${{ inputs.product_commit }}
+  report:
+    name: Verify and publish the combined interaction report
+    if: ${{ !cancelled() && needs.orchestration.result == 'success' }}
+    needs: [orchestration, independent, with-shells]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Download group receipts from this attempt
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          pattern: interaction-receipt-*-${{ github.run_id }}-${{ github.run_attempt }}
+          path: build/group-receipts
+      - name: Check all requested cases against the same executable
+        if: ${{ !cancelled() }}
+        env:
+          INDEPENDENT: ${{ needs.orchestration.outputs.independent_groups }}
+          SHELL_BACKED: ${{ needs.orchestration.outputs.shell_groups }}
+          INDEPENDENT_STATUS: ${{ needs.independent.result }}
+          SHELL_STATUS: ${{ needs.with-shells.result }}
+          PRODUCT_COMMIT: ${{ inputs.product_commit }}
+          PRODUCT_RUN: ${{ inputs.product_run }}
+        run: python scripts/summarize_interaction.py
+      - name: Retain the report even for missing or failed cases
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: interaction-report-${{ github.run_id }}-${{ github.run_attempt }}
+          path: build/interaction-report.json
+          if-no-files-found: error
+          retention-days: 30
