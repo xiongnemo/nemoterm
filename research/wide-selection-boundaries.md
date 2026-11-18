@@ -10,4 +10,12 @@ The single executable from `a985632` is 4,860,416 bytes, SHA-256 `0ea3aa4ccefcee
 
 In [real-client replay `44315241832`](wide-selection-real-clients-a985632.zip), Codex, Claude Code and OpenCode each requested application mouse tracking. Each used a real system Shift-drag at 160×48 with the pinned Sarasa Light font, once on GDI and once on DirectX. Press on the right half of `中`, release on the left half of `文`: all six showed a four-cell highlight, both adjacent guard cells remained unchanged, and Ctrl+Shift+C copied exactly `中文`. Each subsequently selected and pasted the original longer reply and obtained the expected loopback provider receipt. The highest sampled frontend private working set during those six sessions was 12,095,488 bytes on GDI and 21,848,064 on DirectX. These samples are separate from dense graphics stress. Original artifact `14431644860`, SHA-256 `6f73129e2fa5cbf96d45c4dcf3f0f9eac1cabdbdb01e65f82418ac2832ee80a3`.
 
+Frontend private working set in those same interactions (decimal MB, one session per cell):
+
+| Agent | GDI at submit | GDI sampled peak | DirectX at submit | DirectX sampled peak |
+| --- | ---: | ---: | ---: | ---: |
+| codex | 6.54 | 6.89 | 12.62 | 21.85 |
+| opencode | 6.59 | 12.10 | 12.49 | 17.39 |
+| claude | 6.63 | 8.63 | 12.50 | 17.39 |
+
 For this exact preview the [REA static PE import record](rea-a985632-imports.json.gz) decoded 669 standard and 11 delayed function imports, with no WebView2, CEF, Electron or WebKit module declared. During those six agent sessions, all twelve startup/submission module and process snapshots also found none of the known browser runtime names checked by `tests/frontend_runtime_snapshot.py`. The PE import table alone cannot exclude dynamically loaded or statically embedded code. The renderer, input and window implementation is native; the shell and agent child processes are accounted separately. For the original pterm comparison see [the binary and memory investigation](pterm-findings.md).

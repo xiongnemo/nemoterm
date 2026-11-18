@@ -1,5 +1,7 @@
 # Nemoterm requirements and evidence ledger
 
+For the November 19 working preview, see the [two-renderer clipboard and actual-agent results](../research/wide-selection-boundaries.md), [alternate-screen text and graphics results](../research/alternate-1047.md), and [outstanding reference frames](../research/regis-six-frames.md). Acceptance uses frontend private working set: GDI strictly below 20,000,000 bytes, DirectX at most 30,000,000 bytes. Earlier limits and failures below describe their original runs.
+
 ## Current test execution policy (2026-11-17 Sydney)
 
 The user requires all automated tests to run on GitHub-hosted runners. The
