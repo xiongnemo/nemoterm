@@ -55,13 +55,15 @@ def main():
     exe=Path(os.environ.get('NEMOTERM_TEST_EXE',ROOT/'dist/nemoterm.exe')).resolve()
     folder=Path(tempfile.mkdtemp(prefix='file-drop-',dir=ROOT/'build'))
     paths=[str(folder/"space ' 中文 & $name.txt"),str(folder/'folder with spaces')]
-    Path(paths[0]).write_text('owned fixture',encoding='utf-8');Path(paths[1]).mkdir()
+    file_marker, folder_marker = (uuid.uuid4().hex for _ in range(2))
+    Path(paths[0]).write_bytes(file_marker.encode()); Path(paths[1]).mkdir()
+    (Path(paths[1])/'folder-marker').write_bytes(folder_marker.encode())
     result=dict(exe_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),renderer=args.renderer,
                 folder=str(folder),checks=[],cleanup=[],requested_font=args.font)
     detected=json.loads(subprocess.check_output([str(exe),'--list-shells'],creationflags=subprocess.CREATE_NO_WINDOW))
     locations={v['id']:v['path'] for v in detected if v['available']}
     result['shell_argument_checks']={}
-    def shell_output(command,shell):
+    def shell_output(command,shell,*,script=None):
         # Keep the original 20-second deadline and subprocess configuration.
         # A shell-parser failure is distinct from the preceding terminal wire
         # check; retain it even if the independent process never returns.
@@ -70,7 +72,7 @@ def main():
         write_snapshot(ROOT/f'research/drop-{args.renderer}-observed.json',result)
         start=time.monotonic()
         try:
-            raw=subprocess.check_output(command,creationflags=subprocess.CREATE_NO_WINDOW,timeout=20)
+            raw=subprocess.check_output(command,input=script,creationflags=subprocess.CREATE_NO_WINDOW,timeout=20)
             record.update(completed=True,stdout_hex=raw.hex())
             return raw
         except subprocess.TimeoutExpired as exc:
@@ -154,6 +156,21 @@ def main():
                         parsed=raw.decode('utf-8').rstrip('\0').split('\0')
                         assert parsed==[p.replace('\\','/') for p in paths],(shell,parsed,paths)
                     result['shell_argument_checks'][shell]='actual shell parsed exact arguments'
+                elif shell=='wsl-bash' and os.environ.get('NEMOTERM_TEST_WSL_DISTRO'):
+                    # Feed Bash precisely the expression received from the drop,
+                    # then make it open both original Windows filesystem objects.
+                    # No host path conversion is used to open the reference data.
+                    distro=os.environ['NEMOTERM_TEST_WSL_DISTRO']
+                    script=('set -eu\nset -- '+expression+'\n'+
+                        '[[ $# -eq 2 && -f "$1" && -d "$2" ]]\n'+
+                        "printf '%s\\0' \"$@\"\ncat -- \"$1\" \"$2/folder-marker\"\n").encode('utf-8')
+                    raw=shell_output([locations[shell],'--distribution',distro,'--exec','/bin/bash',
+                                      '--noprofile','--norc','-s'],shell,script=script)
+                    file_arg,dir_arg,contents=raw.split(b'\0')
+                    assert file_arg and dir_arg and contents==(file_marker+folder_marker).encode()
+                    result['wsl_objects']=dict(distro=distro,file=file_arg.decode(),directory=dir_arg.decode(),
+                            file_marker=file_marker,folder_marker=folder_marker,readback=contents.decode())
+                    result['shell_argument_checks'][shell]='WSL Bash opened exact file and directory from the dropped text'
                 else:result['shell_argument_checks'][shell]='wire quoting checked; actual shell parsing not exercised'
                 # The host also accepts drops, including its tab strip.
                 handle=block(drop_data(paths,(10,10)))
