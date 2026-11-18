@@ -2,10 +2,16 @@
 from native_test_utils import (root,c,w,u,k,hashlib,json,os,subprocess,sys,tempfile,
     Path,read_snapshot,write_snapshot,wait_snapshot,wait_for,find_window,find_windows)
 from owned_job import OwnedJob
-import frida
+from session_dialog_observer import acknowledge_disconnect, owned_windows
+import argparse
+import time
 import uuid
 import winreg
 
+parser=argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--native-dialogs',action='store_true',help='use the real owned disconnect dialog, without hooking the process')
+args=parser.parse_args()
+if not args.native_dialogs:import frida
 exe=Path(os.environ.get('NEMOTERM_TEST_EXE',root/'dist/nemoterm.exe')).resolve()
 profile='session-restart-'+uuid.uuid4().hex
 keypath='Software\\Nemo\\Nemoterm\\Sessions\\'+profile
@@ -13,7 +19,8 @@ u.GetPropW.argtypes,u.GetPropW.restype=[w.HWND,w.LPCWSTR],w.HANDLE
 u.GetSystemMenu.argtypes,u.GetSystemMenu.restype=[w.HWND,w.BOOL],w.HMENU
 u.GetMenuState.argtypes,u.GetMenuState.restype=[w.HMENU,w.UINT,w.UINT],w.UINT
 evidence=dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),
-    completed=False,cycles=[],instrumented=True,clipboard='synthetic request; real clipboard untouched')
+    completed=False,cycles=[],instrumented=not args.native_dialogs,
+    clipboard='not exercised' if args.native_dialogs else 'synthetic request; real clipboard untouched', dialogs=[])
 with winreg.CreateKey(winreg.HKEY_CURRENT_USER,keypath) as key:
     for name,value in dict(WarnOnClose=0,CloseOnExit=0,NemoRenderer=0).items():
         winreg.SetValueEx(key,name,0,winreg.REG_DWORD,value)
@@ -50,36 +57,55 @@ try:
             before=set(find_windows(process.pid));u.SendMessageW(hwnd,0x111,0x30,0)
             other_hwnd=wait_for(lambda:next(iter(set(find_windows(process.pid))-before),None))
             other=child(other_hwnd);output(other,'OTHER')
-            session=frida.attach(process.pid)
-            script=session.create_script((root/'tests/session_faults.js').read_text())
-            errors=[];script.on('message',lambda message,data:errors.append(message) if message['type']=='error' else None)
-            script.load();script.exports_sync.inactive_dialogs()
+            if not args.native_dialogs:
+                session=frida.attach(process.pid)
+                script=session.create_script((root/'tests/session_faults.js').read_text())
+                errors=[];script.on('message',lambda message,data:errors.append(message) if message['type']=='error' else None)
+                script.load();script.exports_sync.inactive_dialogs()
             for index in range(4):
                 old_identity=original['identity'];old_pid=original['pid']
                 write_snapshot(original['control'],dict(stop=True))
+                if args.native_dialogs:
+                    evidence['dialogs'].append(acknowledge_disconnect(process.pid,hwnd,other_hwnd))
                 menu=u.GetSystemMenu(hwnd,False)
                 wait_for(lambda:u.GetMenuState(menu,0x40,0)!=0xffffffff,timeout=15)
                 assert u.IsWindow(hwnd) and u.IsWindow(other_hwnd) and process.poll() is None
                 output(other,'ACTIVE-WHILE-OTHER-INACTIVE')
-                script.exports_sync.paste(hex(hwnd),hex(old_identity),'DISCONNECTED')
+                if not args.native_dialogs:script.exports_sync.paste(hex(hwnd),hex(old_identity),'DISCONNECTED')
                 u.SendMessageW(hwnd,0x111,0x40,0)
                 original=child(hwnd)
                 assert original['identity'] and original['identity']!=old_identity
                 assert original['pid']!=old_pid
                 output(original,'RESTARTED')
-                script.exports_sync.paste(hex(hwnd),hex(old_identity),'OLD-SHELL')
-                assert b'OLD-SHELL'.hex() not in barrier(original)['hex']
-                script.exports_sync.paste(hex(hwnd),hex(original['identity']),'NEW-SHELL')
-                assert b'NEW-SHELL'.hex() in barrier(original)['hex']
-                assert b'NEW-SHELL'.hex() not in barrier(other)['hex']
+                if args.native_dialogs:
+                    token=('RESTART-KEYS-%d'%index).encode()
+                    for byte in token:u.SendMessageW(hwnd,0x102,byte,0)
+                    assert token.hex() in barrier(original)['hex']
+                    assert token.hex() not in barrier(other)['hex']
+                else:
+                    script.exports_sync.paste(hex(hwnd),hex(old_identity),'OLD-SHELL')
+                    assert b'OLD-SHELL'.hex() not in barrier(original)['hex']
+                    script.exports_sync.paste(hex(hwnd),hex(original['identity']),'NEW-SHELL')
+                    assert b'NEW-SHELL'.hex() in barrier(original)['hex']
+                    assert b'NEW-SHELL'.hex() not in barrier(other)['hex']
                 evidence['cycles'].append(dict(index=index,old_session=old_identity,
                     new_session=original['identity'],old_pid=old_pid,new_pid=original['pid']))
-            evidence['instrumentation']=script.exports_sync.status()
-            assert len(evidence['instrumentation']['hits'])==4 and not errors
+            if args.native_dialogs:assert len(evidence['dialogs'])==4
+            else:
+                evidence['instrumentation']=script.exports_sync.status()
+                assert len(evidence['instrumentation']['hits'])==4 and not errors
             u.PostMessageW(hwnd,0x10,0,0);wait_for(lambda:not u.IsWindow(hwnd))
             output(other,'STILL-RUNNING-AFTER-RESTARTED-SEAT-CLOSE')
-            session.detach();session=None
-            u.PostMessageW(other_hwnd,0x10,0,0);assert process.wait(timeout=15)==0
+            if session:session.detach();session=None
+            evidence['last_close']=dict(hwnd=other_hwnd,posted=bool(u.PostMessageW(other_hwnd,0x10,0,0)))
+            assert evidence['last_close']['posted']
+            start=time.monotonic()
+            try:assert process.wait(timeout=15)==0
+            except subprocess.TimeoutExpired:
+                evidence['last_close'].update(windows=owned_windows(process.pid),job=job.accounting(),
+                    children=[read_snapshot(path) for path in tmp.glob('*.exit.json')])
+                raise
+            finally:evidence['last_close']['elapsed_seconds']=time.monotonic()-start
             evidence['owned_job_cleanup']=job.finish(grace=5)
             assert not evidence['owned_job_cleanup']['terminated_remaining']
             evidence['completed']=True
@@ -88,9 +114,10 @@ try:
                 try:session.detach()
                 except frida.InvalidOperationError:pass
             evidence['frontend_exit']=process.poll()
-            evidence.setdefault('owned_job_cleanup',job.finish(grace=0))
+            if 'owned_job_cleanup' not in evidence:evidence['owned_job_cleanup']=job.finish(grace=0)
 finally:
     if sys.exc_info()[0]:evidence['error']=repr(sys.exc_info()[1])
     winreg.DeleteKey(winreg.HKEY_CURRENT_USER,keypath)
-    (root/'research/session-restart-observed.json').write_text(json.dumps(evidence,indent=2))
+    name='session-restart-native-observed.json' if args.native_dialogs else 'session-restart-observed.json'
+    (root/'research'/name).write_text(json.dumps(evidence,indent=2))
 print('Session restart and paste isolation passed:',len(evidence['cycles']),'cycles')
