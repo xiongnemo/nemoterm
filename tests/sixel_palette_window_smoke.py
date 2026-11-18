@@ -129,12 +129,14 @@ def main(background_exercise=None, *, suite_name=None, font='Consolas', before_e
                                 width=count, height=height, colour=colour)
 
                 def phase(name, sequence, regions, *, stable_seconds=0, expected_reply=None,
-                          expected_error_reply=None):
+                          expected_error_reply=None, grid=(COLS, ROWS)):
+                    width, height = grid[0]*cw+2*BORDER, grid[1]*ch+2*BORDER
                     serial = len(evidence['checks'])+1
                     record = dict(name=name, sequence=sequence, sequence_hex=sequence.encode().hex(),
                         barrier_sequence_hex=(CSI+'5n').encode().hex(), input_barrier=serial,
-                        regions=regions, matched=False, stable_seconds=stable_seconds)
+                        regions=regions, matched=False, stable_seconds=stable_seconds, expected_grid=list(grid))
                     evidence['checks'].append(record)
+                    wait_snapshot(current, lambda v: (v.get('columns'),v.get('rows')) == grid)
                     write_snapshot(control, dict(phase=name, sequence=sequence,
                         preserve_mouse=True, input_barrier=serial))
                     value = wait_snapshot(current, lambda v: v.get('phase') == name and
@@ -155,7 +157,7 @@ def main(background_exercise=None, *, suite_name=None, font='Consolas', before_e
                         assert observed.startswith(prefix) and observed.endswith(suffix),record
                         detail=observed[len(prefix):-len(suffix)]
                         assert detail and b'\x1b' not in detail,record
-                    assert [value['columns'], value['rows']] == [COLS, ROWS], value
+                    assert (value['columns'], value['rows']) == grid, value
                     # Later rectangles overwrite earlier ones, so a one-pixel
                     # foreground can be specified over a full background ROI.
                     wanted_pixels = {}

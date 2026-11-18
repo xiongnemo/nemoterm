@@ -7,10 +7,12 @@ import os
 if os.environ.get('GITHUB_ACTIONS')!='true' or os.environ.get('RUNNER_ENVIRONMENT')!='github-hosted':
     raise SystemExit('Native ReGIS checks require a GitHub-hosted runner')
 
-from sixel_palette_window_smoke import main, reset, ESC, CSI, DCS, ST, BORDER
+from sixel_palette_window_smoke import main, reset, ESC, CSI, DCS, ST, BORDER, COLS, ROWS
 from native_test_utils import u, w, c
 
 u.RedrawWindow.argtypes=[w.HWND,c.c_void_p,w.HANDLE,w.UINT]
+u.GetWindowRect.argtypes=[w.HWND,c.POINTER(w.RECT)]
+u.SetWindowPos.argtypes=[w.HWND,w.HWND,c.c_int,c.c_int,c.c_int,c.c_int,w.UINT]
 context={}
 
 def before(evidence):
@@ -116,6 +118,27 @@ def exercise(phase,block):
             check(case+'-erase-saved',CSI+'3J',live)
         check(case+'-reverse-scroll',CSI+'3T',expected(line(80)))
         expose(case+'-redraw',expected(line(80)))
+
+    # Resizing from the bottom puts existing main-screen rows into temporary
+    # history; growing the window pulls the same rows back. With the cursor
+    # at the top, the same pair of resizes should leave these pixels in place.
+    hwnd=context['session']['window']
+    rect=w.RECT()
+    assert u.GetWindowRect(hwnd,c.byref(rect))
+    outer_w,outer_h=rect.right-rect.left,rect.bottom-rect.top
+    for at_bottom in (True,False):
+        case='resize-'+('saved' if at_bottom else 'blank-tail')
+        check(case+'-setup',setup+CSI+f'{ROWS if at_bottom else 1};1H',both)
+        short=ROWS-2
+        assert short*ch>=120
+        assert u.SetWindowPos(hwnd,None,0,0,outer_w,outer_h-2*ch,0x16)
+        moved=expected(line(20-2*ch),line(80-2*ch)) if at_bottom else both
+        phase(case+'-shrink','',moved,expected_reply=b'',grid=(COLS,short))
+        assert u.RedrawWindow(context['session']['hwnd'],None,None,0x185)
+        phase(case+'-shrink-redraw','',moved,expected_reply=b'',grid=(COLS,short))
+        assert u.SetWindowPos(hwnd,None,0,0,outer_w,outer_h,0x16)
+        check(case+'-grow','',both)
+        expose(case+'-grow-redraw',both)
 
 if __name__=='__main__':
     main(background_exercise=exercise,suite_name='regis-window',
