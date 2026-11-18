@@ -217,9 +217,11 @@ try:
             emit(first_child,'\x1b[2J\x1b[H','0')
             expect('automatic text pointer','text',first)
             if args.colour_reference:
-                from pointer_colour_comparison import compare_cursor_colours
+                from pointer_colour_comparison import compare_cursor_colours, check_colour_tabs
                 compare_cursor_colours(args.colour_reference, first_child, first, out, evidence,
                                        native_cursor, pointer_png, point_in, emit, publish)
+                check_colour_tabs(api, endpoint, host, first, first_child, child_for, out, evidence,
+                                  native_cursor, pointer_png, point_in, emit, publish)
             else:
                 for shape in names:
                     emit(first_child,'\x1b]22;'+shape+'\x1b\\',shape)
