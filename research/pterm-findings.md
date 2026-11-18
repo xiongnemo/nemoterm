@@ -148,3 +148,6 @@ The [ten-run original archive](pterm-codex-pair-3da2fc3.zip) and [per-frontend t
 `b7f4bfa` 的[同机十次对照](pterm-codex-pair-b7f4bfa.zip)来自 `44405220813`，制品 `14473254184`，SHA-256 `386d9847da16ab880c5ee95818c1eaf66c1a0bc931211be6a9c9f42f6d500b47`。正序、逆序各一次，真实 Codex 收到相同的回环回复，10 个前端都自然退出。回复后私有工作集中位数：原版 pterm **3.75–3.78 MB**，单标签 GDI **5.05–5.08 MB**，单标签 DirectX **9.71–9.76 MB**（十进制 MB）。不计子进程；不是图像和历史缓冲压力峰值。运行时列出的前端模块与所观察进程未命中所查的浏览器引擎名称。[本文件的 REA 静态导入证据](rea-b7f4bfa-imports.json.gz)与 `3da2fc3` 逐项比较 DLL 名、函数名和序号均相同：81 个常规 DLL 描述符、669 项常规函数、1 个 ICU 延迟加载描述符及 11 项延迟导入。
 
 两次 pterm 的文件哈希均与开发机 Scoop 的 `0.85/pterm.exe` 相同（`8580a3df4afe7696758c1cef43d0e88e3db5fd41c35c60166241aee72dd3ba3b`）。以回复后驻留页快照解释这些数字：pterm 总工作集 **21.83–22.59 MB**，其中 **18.08–18.81 MB** 的页面可共享，私有分配对应的驻留页只有 **2.79–2.81 MB**，主 EXE 映像自身的私有驻留页为 20,480 字节。相同回复下，Nemoterm 单标签 GDI 的私有分配驻留页为 **3.30–3.33 MB**，DirectX 为 **7.77–7.82 MB**。这是按 Windows 工作集页属性分类的观察；“可共享”不保证当时已有第二个进程使用该页，“私有分配”也不能仅凭这些数据细分到某个堆、字体或图形驱动。
+
+
+`6ee2996` 单文件的[十次同机 Codex 对照](pterm-paired-6ee2996.zip)仍使用本机 Scoop pterm 的相同哈希。在两次 pterm 回环回复后的页面清单中，总工作集 21.84–22.61 MB、私有工作集 3.78–3.79 MB；**18.06–18.81 MB 可共享**。pterm 自身 EXE 的私有驻留映像页均为 20,480 B，私有分配的驻留页为 2.82–2.83 MB。相同工况下，Nemoterm 默认 GDI 单标签为 5.04–5.10 MB、DirectX 单标签为 9.68–9.71 MB（均为前端私有工作集）。[对应新文件的 REA 导入证据](rea-6ee2996-imports.json.gz)没有新增 DLL、函数名或序号。完整产品 SHA 与测量边界见[本版记录](regis-discovery.md)。
