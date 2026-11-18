@@ -33,6 +33,8 @@ class DesktopInput:
         u.SendInput.argtypes=[w.UINT,c.POINTER(Input),c.c_int]
         u.WindowFromPoint.argtypes,u.WindowFromPoint.restype=[w.POINT],w.HWND
         u.GetForegroundWindow.restype=w.HWND
+        u.GetParent.argtypes,u.GetParent.restype=[w.HWND],w.HWND
+        u.SendMessageTimeoutW.argtypes=[w.HWND,w.UINT,w.WPARAM,w.LPARAM,w.UINT,w.UINT,c.POINTER(c.c_size_t)]
         u.GetWindowThreadProcessId.argtypes=[w.HWND,c.POINTER(w.DWORD)]
         u.GetGUIThreadInfo.argtypes=[w.DWORD,c.POINTER(ThreadInfo)]
         u.ClientToScreen.argtypes=[w.HWND,c.POINTER(w.POINT)]
@@ -74,8 +76,15 @@ class DesktopInput:
             state=self.state();name=c.create_unicode_buffer(100)
             if hit:u.GetClassNameW(hit,name,len(name))
             obs=dict(point=[actual.x,actual.y],hit=hit,window_class=name.value,focus=state.focus,capture=state.capture)
+            accepts=hit==self.hwnd
+            # WindowFromPoint in the controller can return the renderer even
+            # though its same-thread WM_NCHITTEST delegates actual input.
+            if hit and name.value=='NemotermDirect3D11' and u.GetParent(hit)==self.hwnd and u.GetWindowThreadProcessId(hit,None)==self.thread:
+                reply=c.c_size_t();coords=(p.x&0xffff)|((p.y&0xffff)<<16)
+                if u.SendMessageTimeoutW(hit,0x84,0,coords,2,300,c.byref(reply)):
+                    obs['render_hit_test']=c.c_ssize_t(reply.value).value;accepts=obs['render_hit_test']==-1
             if not r['observations'] or r['observations'][-1]!=obs:r['observations'].append(obs)
-            return (actual.x,actual.y)==(p.x,p.y) and hit==self.hwnd
+            return (actual.x,actual.y)==(p.x,p.y) and accepts
         wait_for(arrived);return [p.x,p.y]
     def drag(self,x0,x1,y,highlight):
         self.record['start']=self.point(x0,y);self.event(0x10,True);self.event(None,True)

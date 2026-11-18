@@ -170,9 +170,14 @@ def main():
             evidence['memory_policy']=private_ws_policy(actual)
             assert all(private_ws_passes(actual,v['private_ws']) for v in evidence['frontend_samples']),evidence['frontend_samples']
             write_snapshot(control,dict(id=2,action='restore'));wait_for(lambda:child().get('clipboard_restored'))
-            for _ in range(2):
-                try:key(67,2)
+            evidence['exit_keys']=[]
+            for index in range(2):
+                if proc.poll() is not None or not u.IsWindow(hwnd):break
+                try:
+                    if desktop:desktop.chord(0x11,67)
+                    else:key(67,2)
                 except (OSError,EOFError):break
+                evidence['exit_keys'].append(dict(index=index,system=bool(desktop)))
                 time.sleep(.2)
             assert proc.wait(timeout=20)==0
             observed=read_snapshot(report);assert not observed['errors'] and not observed['cleanup']['terminated_remaining'],observed
