@@ -146,3 +146,5 @@ gh workflow run font-zoom-replay.yml --ref fix/legacy-key-modifiers-20261116 -f 
 ```
 
 [六次运行的数字和截图](../research/pterm-findings.md#同一台-runner-上的真实-codex-对照)。
+
+在 `agents-grid` 的六个真实客户端／渲染器组合中，系统鼠标另从「中」的右半格拖到「文」的左半格；要求四格全部高亮、紧邻两格不变、Ctrl+Shift+C 复制为「中文」。然后仍须完成原有整条回复的选择、复制、粘贴与 HTTP 核对。该检查覆盖 160×48 并使用固定 Sarasa Light 字体。每次结果只对回放的那份 EXE 有效。

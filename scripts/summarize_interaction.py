@@ -44,6 +44,11 @@ def agent_grid_case(path,row,identity):
             and child['terminal_sha256']==identity['executable_sha256'] and child['client_sha256']==identity['clients'][client]['sha256']
             and child['cleanup']['terminated_remaining'] is False and (sess['cols'],sess['rows'])==(160,48)
             and sess['renderer']+1==actual,'agent identity, renderer, grid, or cleanup mismatch')
+    wide=obs['wide_system_copy'];left,right=wide['columns'];paint=obs['wide_highlight']
+    require(wide['copied']==wide['text']=='中文' and right-left==3 and wide['down']==left+1
+            and wide['up']==right-1 and paint['cells']==4 and paint['source']!=paint['selected']
+            and paint['min_selected_ratio']>=.5 and min(paint['guard_ratios'])>=.9,
+            'incomplete wide-cell system drag, highlight, or clipboard result')
     samples=trace['samples'];stages=obs['frontend_samples']
     require(not trace['errors'] and len(samples)>=2 and all(a['seconds']<b['seconds'] for a,b in zip(samples,samples[1:]))
             and [s['phase'] for s in stages]==['startup','reply','copy','composer','submitted'],'incomplete agent workload samples')

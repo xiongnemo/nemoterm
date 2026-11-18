@@ -203,20 +203,40 @@ def main():
             # Check the source background in every selected cell (including the
             # spaces) and confirm it stays unchanged in both neighbouring cells.
             last_bmp=None
-            def highlight_frame():
+            def highlight_frame(left=first,right=last,record='highlight'):
                 nonlocal last_bmp
                 last_bmp,after=strip()
-                colours=Counter(q for a,b in zip(source[1:-1],after[1:-1])
+                lo,hi=left-first+1,right-first+1
+                colours=Counter(q for a,b in zip(source[lo:hi+1],after[lo:hi+1])
                                 for p,q in zip(a,b) if p==bg)
                 if not colours:return
                 target=colours.most_common(1)[0][0];ratios=[]
                 for i,(a,b) in enumerate(zip(source,after)):
                     probe=[q for p,q in zip(a,b) if p==bg]
-                    wanted=bg if i in (0,len(source)-1) else target
+                    wanted=target if lo<=i<=hi else bg
                     ratios.append(sum(q==wanted for q in probe)/len(probe) if probe else 0)
-                evidence['highlight']=dict(source=bg,selected=target,cells=last-first+1,
-                    min_selected_ratio=min(ratios[1:-1]),guard_ratios=[ratios[0],ratios[-1]])
-                if target!=bg and min(ratios[1:-1])>=.5 and min(ratios[0],ratios[-1])>=.9:return last_bmp
+                inside=min(ratios[lo:hi+1]); guards=[ratios[lo-1],ratios[hi+1]]
+                evidence[record]=dict(source=bg,selected=target,cells=right-left+1,
+                    min_selected_ratio=inside,guard_ratios=guards)
+                if target!=bg and inside>=.5 and min(guards)>=.9:return last_bmp
+            if args.default_grid:
+                # Use the real client's reply. Press the right half of 中, stop
+                # on the left half of 文 and require all four cells highlighted.
+                assert desktop and sample_text.count('中文')==1
+                left=first+width(sample_text.split('中文',1)[0]);right=left+3
+                proof=evidence['wide_system_copy']=dict(text='中文',columns=[left,right],
+                    down=left+1,up=right-1,row=row)
+                probe=lambda:highlight_frame(left,right,'wide_highlight')
+                try:
+                    desktop.drag(ox+(left+1)*cw+cw//2,ox+(right-1)*cw+cw//2,oy+row*ch+ch//2,probe)
+                    frame('wide-selected',wait_for(probe))
+                except Exception:
+                    if last_bmp: frame('wide-unmatched',last_bmp)
+                    raise
+                seq=u.GetClipboardSequenceNumber();press(67,3)
+                wait_for(lambda:u.GetClipboardSequenceNumber()!=seq)
+                proof['copied']=clipboard_text(hwnd)
+                assert proof['copied']=='中文',proof
             if desktop:desktop.drag(ox+first*cw+cw//2,ox+last*cw+cw//2,oy+row*ch+ch//2,highlight_frame)
             else:u.SendMessageW(hwnd,0x201,5,pos(first));u.SendMessageW(hwnd,0x200,5,pos(last));u.SendMessageW(hwnd,0x202,4,pos(last))
             try:frame('selected',wait_for(highlight_frame))
