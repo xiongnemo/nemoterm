@@ -3441,6 +3441,9 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
                 press = true;
                 break;
               case WM_RBUTTONDOWN:
+                /* This press belongs to the application. A previous local
+                 * copy or menu may have released over a different window. */
+                wgs->nemo_consumed_right_click = false;
                 button = MBT_RIGHT;
                 wParam |= MK_RBUTTON;
                 press = true;
