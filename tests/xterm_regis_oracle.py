@@ -168,6 +168,15 @@ def cases():
             add('private-register-'+label+'-'+end,
                 C+b'?1070h'+C+b'2;4H'+E+b'P0;1q'+prefix+b'#1;2;0;100;0'+delimiter+ST,
                 C+b'6;4H'+E+b'P0;1q#1;2;0;100;0!16~'+ST)
+    # Repeat four within-picture cases in one terminal, exactly as the native
+    # fixture does. RIS between pictures is distinct from a fresh process.
+    private_reset=(E+b'c'+C+b'?25l'+C+b'?80l'+C+b'?1070h'+C+b'0m'+
+                   E+b']11;rgb:0/0/0\x07'+C+b'2J'+C+b'3J'+C+b'H')
+    chain=[]
+    for payload in (b'#1;2;100;0;0!8~#2;2;100;0;0!8~', b'#1;2;100;0;0!16~$#2;2;0;0;100!8~'):
+        for delimiter in (b'',b'$'):
+            chain.append(private_reset+C+b'2;4H'+E+b'P0;1q'+payload+b'#1;2;0;100;0'+delimiter+ST)
+    add('private-reset-chain',*chain)
     # A new DCS should make its first payload byte observable separately from
     # the colour of the previous graphic. Use two colours deliberately unlike
     # the reference's default register 3 and capture all later reads as well.
