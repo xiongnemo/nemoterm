@@ -92,6 +92,20 @@ jobs:
             if ($LASTEXITCODE) { $failed += $kind }
           }
           if ($failed.Count) { throw "Sixel profile pixel failures: $($failed -join ', ')" }
+      - name: Compare alternate graphics after text and ReGIS queries on the main screen
+        if: ${{ !cancelled() && steps.image.outcome == 'success' && steps.font.outcome == 'success' }}
+        env:
+          CAPTURE_MODE: ${{ matrix.mode }}
+        shell: pwsh
+        run: |
+          $arguments = @('--renderer', $env:CAPTURE_MODE)
+          if ($env:CAPTURE_MODE -eq 'presented-gdi') { $arguments = @('--renderer','gdi','--presented-gdi') }
+          $failed = @()
+          foreach ($query in 'text','graphics') {
+            python tests/regis_alt_remap_window.py $query @arguments
+            if ($LASTEXITCODE) { $failed += $query }
+          }
+          if ($failed.Count) { throw "ReGIS alternate remap failures: $($failed -join ', ')" }
       - name: Retain all observations including failures
         if: always()
         shell: pwsh

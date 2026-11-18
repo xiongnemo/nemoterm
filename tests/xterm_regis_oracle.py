@@ -103,6 +103,14 @@ def cases():
         add(f'nonempty-alt-repeat-{mode}', C+b'1;35HM1X', enter,
             C+b'1;35HA2Y'+regis('S(E)W(I2)P[20,80]V[120,80]',1),
             enter, leave, leave, enter, leave)
+    # A text status query and a ReGIS query make different mappings. Split
+    # switches, queries and erasures into separate captured frames.
+    for queried in (False, True):
+        add('alt-remap-'+('graphics' if queried else 'text'),
+            regis('S(E)S(M3(R0G100B0))W(I3)P[20,20]V[120,20]',1), C+b'?1049h',
+            regis('S(E)S(M2(R100G0B0))W(I2)P[20,80]V[120,80]R(P)'), C+b'?1049l',
+            regis('R(P)') if queried else C+b'6n', C+b'?1049h', regis('R(P)'),
+            C+b'2J', regis('R(P)'), C+b'?1049l', regis('R(P)'))
     add('alternate-hidden-page', regis('S(E)W(I3)P(P1)P[20,20]V[120,20]', 1),
         C+b'?1049h'+regis('S(P1)R(P)'), C+b'?1049l'+regis('S(P1)R(P)'))
     for name, operation in [('erase-display', C+b'2J'), ('erase-history', C+b'3J'),
