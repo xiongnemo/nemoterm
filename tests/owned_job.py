@@ -114,7 +114,7 @@ class OwnedJob:
             raise c.WinError(c.get_last_error())
         return dict(total=value.total, active=value.active, terminated=value.terminated)
 
-    def member_handles(self):
+    def member_handles(self, unavailable=None):
         # Membership is queried from the private job, not historical parent IDs.
         capacity = 32
         while capacity <= 4096:
@@ -133,11 +133,17 @@ class OwnedJob:
         for pid in ids:
             handle = k.OpenProcess(0x101000, False, pid)  # synchronize, query limited
             if not handle:
-                continue  # a short-lived child may have exited meanwhile
+                if unavailable is not None:
+                    unavailable.append(dict(pid=pid, operation="OpenProcess", winerror=c.get_last_error()))
+                continue  # membership can change after the job query
             member = w.BOOL()
-            if k.IsProcessInJob(handle, self.handle, c.byref(member)) and member.value:
+            ok = k.IsProcessInJob(handle, self.handle, c.byref(member))
+            if ok and member.value:
                 handles.append(handle)
             else:
+                if unavailable is not None:
+                    unavailable.append(dict(pid=pid, operation="IsProcessInJob",
+                                            member=bool(member.value), winerror=0 if ok else c.get_last_error()))
                 k.CloseHandle(handle)
         return handles
 
