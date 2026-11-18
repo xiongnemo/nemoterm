@@ -45,8 +45,16 @@ def main():
             api.request(endpoint,'key',second['id'],struct.pack('<II',9,2));wait_for(lambda:any(s['active'] and s['id']==first['id'] for s in api.request(endpoint)['sessions']))
             assert set_or_query(one,'reactivated',None,alt)==other_size
             d['actual_renderer']=int(u.GetPropW(first['hwnd'],'NemotermRenderer') or 0);assert d['actual_renderer']==(1 if ren=='gdi' else 3)
+            for action in ('save','revoke'):
+                driver=job.spawn(['powershell.exe','-NoProfile','-File',str(root/'tests/font_ops_settings.ps1'),
+                    '-TargetProcess',str(p.pid),'-TargetWindow',str(first['hwnd']),'-Action',action],creationflags=subprocess.CREATE_NO_WINDOW)
+                assert driver.wait(timeout=65)==0,action
+                after=alt if action=='save' else base
+                assert set_or_query(one,'settings-'+action,None,after)==(other_size if action=='save' else before)
+            assert set_or_query(one,'revoked-write',alt,base)==before
             with winreg.OpenKey(winreg.HKEY_CURRENT_USER,'Software\\Nemo\\Nemoterm\\Sessions\\'+profile[1]) as key:
                 d['saved_font']=winreg.QueryValueEx(key,'Font')[0];assert d['saved_font']==base
+                assert winreg.QueryValueEx(key,'NemoAllowGetFont')[0]==1 and winreg.QueryValueEx(key,'NemoAllowSetFont')[0]==0
             for rr in [one,two]:write_snapshot(folder/(rr.name.removesuffix('.report.json')+'.control.json'),dict(stop=True))
             assert p.wait(timeout=15)==0;d['cleanup']=job.finish();assert not d['cleanup']['terminated_remaining'];d['completed']=True
     except Exception:d['error']=traceback.format_exc();raise
