@@ -212,6 +212,33 @@ def isolated_home(folder):
     return home,work,env
 
 
+def codex_command(client_exe,home,work,env,base):
+    env['CODEX_HOME'] = str(home)
+    config = f'''model = "nemoterm-image-fixture"
+model_provider = "nemoterm_fixture"
+check_for_update_on_startup = false
+sandbox_mode = "read-only"
+approval_policy = "never"
+web_search = "disabled"
+[features]
+shell_tool = false
+apply_patch_freeform = false
+multi_agent = false
+[model_providers.nemoterm_fixture]
+name = "Nemoterm image fixture"
+base_url = "{base}"
+wire_api = "responses"
+requires_openai_auth = false
+[analytics]
+enabled = false
+[feedback]
+enabled = false
+'''
+    config += '\n[projects.'+json.dumps(str(work))+']\ntrust_level = "trusted"\n'
+    (home/'config.toml').write_text(config, encoding='utf-8')
+    return [client_exe, '--no-daemon', '--cd', str(work)]
+
+
 def claude_command(client_exe,folder,home,work,env,base):
     # The runner supplies an empty home and a local-only dummy API key.
     # No account, extensions, MCP servers, external provider, or tool calls.
@@ -277,30 +304,7 @@ def main():
         assert args.selection_renderer
         command=claude_command(args.client_exe,folder,home,work,env,base)
     elif args.client == 'codex':
-        env['CODEX_HOME'] = str(home)
-        config = f'''model = "nemoterm-image-fixture"
-model_provider = "nemoterm_fixture"
-check_for_update_on_startup = false
-sandbox_mode = "read-only"
-approval_policy = "never"
-web_search = "disabled"
-[features]
-shell_tool = false
-apply_patch_freeform = false
-multi_agent = false
-[model_providers.nemoterm_fixture]
-name = "Nemoterm image fixture"
-base_url = "{base}"
-wire_api = "responses"
-requires_openai_auth = false
-[analytics]
-enabled = false
-[feedback]
-enabled = false
-'''
-        config += '\n[projects.'+json.dumps(str(work))+']\ntrust_level = "trusted"\n'
-        (home/'config.toml').write_text(config, encoding='utf-8')
-        command = [args.client_exe, '--no-daemon', '--cd', str(work)]
+        command=codex_command(args.client_exe,home,work,env,base)
     else:
         config = dict(model='nemoterm_fixture/nemoterm-image-fixture',
                       small_model='nemoterm_fixture/nemoterm-image-fixture', enabled_providers=['nemoterm_fixture'],

@@ -6,7 +6,7 @@ on:
       suite:
         description: Checks or notice-only packaging against the exact artifact
         type: choice
-        options: [font-bell, dpi, interaction, single, ui-regression, shell-lifetime, tcap, portable-notices, regis-window, pointer-colour, colour-input, unicode-boundary, picture-keys, image-timing]
+        options: [font-bell, dpi, interaction, single, ui-regression, shell-lifetime, tcap, portable-notices, regis-window, pointer-colour, colour-input, unicode-boundary, picture-keys, image-timing, image-reference]
         default: font-bell
       source_commit:
         description: Full source commit of the source-console-host artifact
@@ -32,6 +32,9 @@ jobs:
     with:
       product_run: ${{ inputs.source_run }}
       product_commit: ${{ inputs.source_commit }}
+  image-reference:
+    if: ${{ inputs.suite == 'image-reference' }}
+    uses: ./.github/workflows/codex-image-reference.yml
   image-timing:
     if: ${{ inputs.suite == 'image-timing' }}
     uses: ./.github/workflows/codex-image-timing.yml
