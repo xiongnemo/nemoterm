@@ -128,6 +128,14 @@ def cases():
     add('shared-palette-sixel-terminated', C+b'?1070l'+regis(
         'S(E)S(M3(R20G80B20))W(I3)P[20,20]V[120,20]',1),
         E+b'P0;1q#3;2;100;0;0#3'+ST,regis('R(P)'))
+    # Read the register through a *new* Sixel below the ReGIS line. An old
+    # graphic can remain stale until Expose even when the register changed.
+    for prefix, ink in [('empty', b''), ('painted', b'#3!12~')]:
+        for end, delimiter in [('st', b''), ('dollar', b'$')]:
+            add('shared-register-readback-'+prefix+'-'+end,
+                C+b'?1070l'+regis('S(E)S(M3(R20G80B20))W(I3)P[20,20]V[120,20]',1),
+                C+b'6;5H'+E+b'P9;1q'+ink+b'#3;2;100;0;0'+delimiter+ST,
+                C+b'10;5H'+E+b'P9;1q#3!12~'+ST)
     add('shared-palette-regis-recolour', C+b'?1070l'+E+b'P0;1q#3;2;20;80;20!100~'+ST,
         regis('S(M3(R100G0B0))R(P)',1))
     add('alternate-restore-without-regis',regis(
