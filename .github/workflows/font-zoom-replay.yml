@@ -6,7 +6,7 @@ on:
       suite:
         description: Checks or notice-only packaging against the exact artifact
         type: choice
-        options: [font-bell, dpi, interaction, single, ui-regression, shell-lifetime, tcap, portable-notices, regis-window, pointer-colour, colour-input, unicode-boundary, picture-keys, image-timing, image-reference, pterm-memory]
+        options: [font-bell, dpi, interaction, single, ui-regression, shell-lifetime, tcap, portable-notices, regis-window, pointer-colour, colour-input, unicode-boundary, picture-keys, image-timing, image-reference, pterm-memory, profile-dump]
         default: font-bell
       source_commit:
         description: Full source commit of the source-console-host artifact
@@ -26,6 +26,25 @@ permissions:
   actions: read
 
 jobs:
+  profile-dump:
+    if: ${{ inputs.suite == 'profile-dump' }}
+    runs-on: windows-2025
+    timeout-minutes: 18
+    env:
+      GH_TOKEN: ${{ github.token }}
+      SOURCE_COMMIT: ${{ inputs.source_commit }}
+      SOURCE_RUN: ${{ inputs.source_run }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Unwind the original mixed-profile timeout dump without starting the terminal
+        shell: pwsh
+        run: ./scripts/read-profile-dump.ps1 -Commit $env:SOURCE_COMMIT -Run $env:SOURCE_RUN
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: profile-dump-${{ github.run_id }}-${{ github.run_attempt }}
+          path: build/profile-dump/report/
+          if-no-files-found: error
   pterm-memory:
     if: ${{ inputs.suite == 'pterm-memory' }}
     uses: ./.github/workflows/pterm-memory.yml
