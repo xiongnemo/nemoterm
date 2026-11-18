@@ -1,0 +1,14 @@
+# Three-profile close timeout on the MinGW build
+
+The Windows portable job in [run 44298297621](https://github.com/xiongnemo/nemoterm/actions/runs/44298297621/job/134783444954) recorded all seven mixed-profile checks, including 36 switches with pixel and handle checks, then timed out 15 seconds after posting `WM_CLOSE` to its own tab host. All seven owned processes were still active. Requested profiles resolved to GDI, GDI and DirectX; the last tab used DirectX. The exact MinGW frontend was 4,322,746 bytes, SHA-256 `daa5e82c34c4e96855683b463756478a76cf9c9eb0d7261fc76006828be7c5b4`. It is a different binary from the MSVC single-file [preview](right-button-release.md).
+
+The original minidump was captured before forced cleanup (85,639 bytes, SHA-256 `8ace6eb260b1ffae0744d67213e018ed6b860901567b868e584067c8decf2018`). The [hosted offline CDB run](https://github.com/xiongnemo/nemoterm/actions/runs/44303241423) selected thread 8588 from the failed window's ownership record (PID 7880). Its first four frames show `NtWaitForAlertByThreadId` reached through the `RtlEnterCriticalSection` contended-wait path. The next return address is in the recorded range of the unloaded test observer, `frida-agent.dll+0x13b655`. The unwind did not establish a frontend caller or lock owner. Treating raw stack words as a DirectX call stack would overstate the evidence.
+
+| Exact MinGW image, three fresh lifetimes per hosted run | All seven functional checks | Clean close within 15 seconds |
+| --- | --- | --- |
+| [Built-in automation, without an injected observer](https://github.com/xiongnemo/nemoterm/actions/runs/44304235738) | 3/3 | 3/3 |
+| [Original Frida 17.24.3 observer](https://github.com/xiongnemo/nemoterm/actions/runs/44304236161) | 3/3 | 2/3 |
+
+The second Frida lifetime reproduced the timeout with all seven owned processes active (dump SHA-256 `527d22e8c3f20983733e66e85303a2123695dddd79b97123be03de2ece36e8e9`). The two passing lifetimes exited with code zero. All three automation lifetimes exited with code zero without forced cleanup. The comparison identifies a reproducible failing configuration; it does not establish a DirectX defect or prove the ordinary path can never hang. The core failure remains open. The original deadline and acceptance checks were unchanged.
+
+The [evidence archive](mixed-profile-close-f628d89.zip) contains the byte-original profile log, failed observation and dump records from core artifact `14425771311` (source ZIP SHA-256 `3022c3e61eb1b51a118ddbce69014c87f7305dc9c9b06607f633b4a1b537b735`), the hosted CDB transcript (`14426933058`), and both intact replay ZIPs (`14428070031` automation; `14426903407` Frida). The two initial identity-only attempts (`44303241546`, `44303241471`) stopped before launching the frontend because the requested dump helper was not built. Those receipts are preserved separately in the archive. The workflow now prepares the helper for every admitted dump-enabled fixture.

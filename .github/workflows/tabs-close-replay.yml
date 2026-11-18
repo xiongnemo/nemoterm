@@ -137,7 +137,7 @@ jobs:
             capture_exceptions = ($env:CAPTURE_EXCEPTIONS -eq 'true')
             capture_failure_dumps = ($env:CAPTURE_FAILURE_DUMPS -eq 'true')
             shutdown_observer = $env:SHUTDOWN_OBSERVER
-            frida_version = $(if ($env:CLOSE_FIXTURE -notin @('profiles-api','drop')) { $env:FIXTURE_FRIDA_VERSION } else { $null })
+            frida_version = $(if ($env:CLOSE_FIXTURE -notin @('profiles-api','profiles-api-mingw','drop')) { $env:FIXTURE_FRIDA_VERSION } else { $null })
             profile_observer = $(if ($env:CLOSE_FIXTURE -in @('profiles-api','profiles-api-mingw')) { 'automation' } elseif ($env:CLOSE_FIXTURE -in @('profiles','profiles-mingw')) { 'frida' } else { $null })
             repetitions = $(if ($env:CLOSE_FIXTURE -eq 'tabs-probes') { 6 } elseif ($env:CLOSE_FIXTURE -eq 'restart-mingw') { 2 * [int]$env:REPLAY_REPETITIONS } else { [int]$env:REPLAY_REPETITIONS })
             fixture_hashes = @(Get-FileHash tests/tabs_profiles_window_smoke.py, tests/automation_capture.py, tools/nemoterm_debug.py, tests/gpu_capture.py, tests/frida_test_utils.py, tests/native_test_utils.py, tests/shutdown_window_smoke.py, tests/session_restart_window_smoke.py, tests/session_dialog_observer.py, tests/shutdown_probe.js, tests/tabs_window_smoke.py, tests/tab_probe_boundary.py, tests/tabs_hover_probe.js, tests/agent_key_probe.js, tests/session_faults.js, tests/session_fixture.py, tests/mouse_fixture.py, tests/tab_workload_memory.py, tests/kitty_unicode_tab_workload.py, tests/drop_window_smoke.py, tests/clipboard_test_utils.py, tests/automation_window_smoke.py, tests/fixture_io.py, tests/owned_job.py -Algorithm SHA256 | Select-Object Path, Hash)

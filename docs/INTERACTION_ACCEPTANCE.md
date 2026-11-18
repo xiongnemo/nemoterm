@@ -18,6 +18,8 @@ gh workflow run ci.yml --ref <branch> -f scope=full
 gh workflow run font-zoom-replay.yml --ref <branch> -f suite=interaction -f source_run=<run-id> -f source_commit=<40-character-sha>
 ```
 
+`f628d89` 单文件预览的[完整回放和内存数据](../research/right-button-release.md#complete-interaction-replay)为 74/74。另一个 MinGW 便携构建出现[混合 profile 关闭超时](../research/mixed-profile-close-f628d89.md)；`tabs-close-replay.yml` 的 `profiles-mingw` 和 `profiles-api-mingw` 使用原失败产物，分别回放带探针和内置自动化的操作。
+
 `interaction` 可额外传 `-f 'groups=["shells","clipboard"]'` 只重跑指定组；留空执行全部。
 
 `suite` 还可选 `single`、`dpi`、`font-bell`、`ui-regression`、`shell-lifetime`、`tcap`、`unicode-boundary`。回放允许源 run 的其他测试失败，但要求 source-host 构建成功；生产代码或构建配方与该产物不一致就拒绝回放。`tcap` 对同一单 EXE 检查数据库键盘的 1,293 条原生输入流及四种独立 SetTcap/GetTcap 权限组合；45 个 F35 用例缺少 Windows 物理映射，40 个 Shift+PageUp/PageDown 用例保留本地滚动绑定，均明确列出并由核心测试覆盖。查看结果用 `gh run view <run-id>`；下载证据用 `gh run download <run-id> --dir <new-directory>`。

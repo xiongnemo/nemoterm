@@ -23,3 +23,14 @@ All [30 other real-client interactions](right-release-agents-f628d89.zip) in the
 The six [160×48 DirectX stress workloads](right-release-memory-directx-f628d89.zip) passed on this same executable. Dense Unicode and Kitty images reached a peak sampled private working set of **29,515,776 bytes**, 484,224 below the 30 MB limit. The original receipt is `14426470622` (SHA-256 `1de90dfadbc57831bb3e122bb28439b7ed78c8badf2e21525ad0dd4a5d1ce16a`).
 
 All six [GDI stress workloads](right-release-memory-gdi-f628d89.zip) passed on that executable too. The same dense Unicode/Kitty case peaked at **18,866,176 bytes private working set** and **53,575,680 bytes total working set**. The private limit is strictly below 20,000,000; the roughly 50 MB total-working-set target is reported separately. Original receipt `14425602841`, SHA-256 `5964f8ae313ed00511230c8d94f018d9c0a572407569372c583b6b939229d167`.
+
+## Complete interaction replay
+
+[Hosted replay 44301494402](https://github.com/xiongnemo/nemoterm/actions/runs/44301494402) used fixture `20532e6` on the exact 4,859,904-byte MSVC preview above. The [original combined report](full-interaction-f628d89.zip) verified **74/74** cases in 13 groups on one executable SHA-256, with zero aggregation errors. The cases include input, selection, 36 real-client interactions, rendering, mouse, tabs, settings, bell, clipboard, shells and 12 full-grid memory workloads. This result covers the interaction suite; the separate MinGW close failure is documented [here](mixed-profile-close-f628d89.md).
+
+| Frontend, 160×48 | Sampled peak private working set | Total working set in the same workload | Private working set gate |
+| --- | ---: | ---: | --- |
+| [DirectX, six cases](full-interaction-directx-f628d89.zip) | 29,372,416 B | 74,551,296 B | ≤30,000,000 B |
+| [GDI, six cases](full-interaction-gdi-f628d89.zip) | 19,709,952 B | 56,561,664 B | <20,000,000 B |
+
+On both renderers the largest private sample came from dense Unicode with Kitty graphics. Ordinary full-grid DirectX text reached 25,976,832 B. For comparison, the previous run above reached 29,515,776 B on DirectX. Both are sampled peaks on this executable; neither is a universal maximum. The combined, DirectX and GDI archives are unmodified GitHub artifacts `14427371541`, `14427027099` and `14426379017`, respectively.
