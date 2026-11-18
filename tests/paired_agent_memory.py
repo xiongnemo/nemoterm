@@ -21,6 +21,7 @@ from fixture_io import read_snapshot, write_snapshot
 from frontend_runtime_snapshot import snapshot as runtime_snapshot
 from native_test_utils import capture, find_window, k, memory_sample, terminal_host, u, wait_for
 from owned_job import OwnedJob
+from paired_residency import resident_backing
 
 ROOT=Path(__file__).resolve().parents[1]
 PTERM='8580a3df4afe7696758c1cef43d0e88e3db5fd41c35c60166241aee72dd3ba3b'
@@ -105,7 +106,9 @@ def trial(out,kind,exe,client,font,rec):
                     actual=lambda:int(u.GetPropW(hwnd,'NemotermRenderer') or 0)
                     wait_for(lambda:actual()==target+1,timeout=5)
                     rec['renderer_before']=actual();assert rec['renderer_before']==target+1
-                stage[0]='empty';time.sleep(2);stage[0]='starting_agent';write_snapshot(out/'launch.json',dict(start=True))
+                stage[0]='empty';time.sleep(2);stage[0]='empty_census'
+                rec['resident_backing']={'empty':resident_backing(handle,exe)}
+                stage[0]='starting_agent';write_snapshot(out/'launch.json',dict(start=True))
                 wait_for(lambda:any(row['path']=='/v1/responses' and PROMPT in row['text'] for row in provider.requests),timeout=85)
                 def replied():
                     text=read_snapshot(out/'peer-screen.json').get('text','')
@@ -116,6 +119,7 @@ def trial(out,kind,exe,client,font,rec):
                 rec['empty']=phase(rec['samples'],'empty');rec['agent_reply']=phase(rec['samples'],'agent_reply')
                 if kind!='pterm':
                     rec['renderer_after']=actual();assert rec['renderer_after']==target+1
+                rec['resident_backing']['agent_reply']=resident_backing(handle,exe)
                 runtime_snapshot(rec,'agent_reply',handle,job,exe,client)
                 # Only after the final measurement, preserve what the frontend
                 # actually painted; capture is outside the memory interval.

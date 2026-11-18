@@ -11,8 +11,8 @@ k.VirtualQueryEx.argtypes,k.VirtualQueryEx.restype=[w.HANDLE,c.c_void_p,c.POINTE
 ps.GetMappedFileNameW.argtypes=[w.HANDLE,c.c_void_p,w.LPWSTR,w.DWORD]
 
 
-def private_page_addresses(handle):
-    """Return the resident private page addresses from one working-set query."""
+def resident_page_blocks(handle):
+    """Return one bounded PSAPI page inventory, retaining each sharing bit."""
     capacity=65536
     for _ in range(8):
         pages=(c.c_size_t*(capacity+1))()
@@ -23,6 +23,12 @@ def private_page_addresses(handle):
         if capacity>4_194_304:raise RuntimeError('Working-set map exceeds observation limit')
     else:raise RuntimeError('Working set kept growing during region mapping')
     assert pages[0]<=capacity
+    return pages
+
+
+def private_page_addresses(handle):
+    """Return the resident private page addresses from one working-set query."""
+    pages=resident_page_blocks(handle)
     return sorted(int(pages[i+1])&~(mmap.PAGESIZE-1) for i in range(pages[0]) if not pages[i+1]&256)
 
 
