@@ -84,16 +84,16 @@ class DesktopInput:
                 if len(history)<96:history.append(dict(ms=round(1000*(time.monotonic()-start)),state=value))
                 else:log['last_overflow_state']=value
             return value
-        def button_state():
-            reply=c.c_size_t();assert win.SendMessageTimeoutW(b,0xf2,0,0,2,500,c.byref(reply))  # BM_GETSTATE
+        def button_state(control):
+            reply=c.c_size_t();assert win.SendMessageTimeoutW(control,0xf2,0,0,2,500,c.byref(reply))  # BM_GETSTATE
             return reply.value
         # A dialog can appear underneath an already stationary pointer. Enter
         # the button from elsewhere on this very dialog, as a real user would.
         # Never move through another application, click twice, or repair focus.
-        def move_and_wait(x,y,stage,owned_hit,hot):
+        def move_and_wait(x,y,stage,owned_hit,hot,control):
             self.move_screen(x,y)
             def arrived():
-                state=observe(stage);native=button_state();log[stage+'_state']=native
+                state=observe(stage);native=button_state(control);log[stage+'_state']=native
                 return (state['cursor']==[x,y] and owned_hit(state['hit'])
                         and self.owned_confirmation()==hwnd and state['active']==hwnd
                         and not state['left_down'] and bool(native & 0x200)==hot)  # BST_HOT
@@ -105,14 +105,25 @@ class DesktopInput:
                                    w.POINT(pt.x,r.bottom+2)]
                        if other_dialog_surface(win.WindowFromPoint(q))),None))
         log['approach']=[approach.x,approach.y]
-        move_and_wait(approach.x,approach.y,'approach',other_dialog_surface,False)
-        move_and_wait(pt.x,pt.y,'hover',lambda h:h==b,True)
+        move_and_wait(approach.x,approach.y,'approach',other_dialog_surface,False,b)
+        # WindowFromPoint alone cannot tell whether the dialog thread has
+        # consumed this motion. Cross the other native button before entering
+        # the target; require each control to acknowledge its own hover.
+        sibling=win.GetDlgItem(hwnd,1 if button==2 else 2);sr=w.RECT()
+        assert sibling and sibling!=b and win.GetWindowRect(sibling,c.byref(sr))
+        sx,sy=(sr.left+sr.right)//2,(sr.top+sr.bottom)//2
+        assert win.WindowFromPoint(w.POINT(sx,sy))==sibling
+        log.update(sibling=sibling,sibling_point=[sx,sy])
+        move_and_wait(sx,sy,'sibling_hover',lambda h:h==sibling,True,sibling)
+        assert not button_state(b)&0x200
+        move_and_wait(pt.x,pt.y,'hover',lambda h:h==b,True,b)
+
         # Wait for native button delivery before releasing, not merely SendInput insertion.
         down=Input();down.mouse.flags=2;up=Input();up.mouse.flags=4
         assert win.SendInput(1,c.byref(down),c.sizeof(Input))==1
         try:
             def pressed():
-                state=observe('down');value=button_state()
+                state=observe('down');value=button_state(b)
                 log.update(button_state=value,capture=state['capture'],focus=state['focus'])
                 return state['capture']==b and bool(value & 4)  # BST_PUSHED
             wait_for(pressed,timeout=3)
