@@ -15,7 +15,7 @@ def main():
     out=root/'build/font-ops/tabs.json';out.parent.mkdir(parents=True,exist_ok=True)
     d=dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),renderer=ren,observations=[],completed=False)
     cfg=dict(Font=base,NemoTabs=1,NemoRenderer=0 if ren=='gdi' else 2,NemoAllowGetFont=1,NemoAllowSetFont=1,
-             WarnOnClose=0,FontHeight=12,CloseOnExit=1)
+             WarnOnClose=0,FontHeight=12,FontCharSet=0,FontIsBold=0,CloseOnExit=1)
     u.GetPropW.argtypes,u.GetPropW.restype=[w.HWND,w.LPCWSTR],w.HANDLE
     try:
         with saved_profile(cfg) as profile, tempfile.TemporaryDirectory() as tmp, OwnedJob() as job:
