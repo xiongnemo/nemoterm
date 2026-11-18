@@ -23,10 +23,12 @@ jobs:
           scripts/fetch-ci-product.ps1 -Run $env:PRODUCT_RUN -Commit $env:PRODUCT_COMMIT -Destination build/picture-keys-product
           "NEMOTERM_TEST_EXE=$((Resolve-Path build/picture-keys-product/nemoterm.exe).Path)" | Out-File $env:GITHUB_ENV -Append -Encoding utf8
       - name: Install and identify Sarasa Light
+        id: prepare
         run: scripts/prepare-remote-interaction.ps1
       - name: Read actual Windows keyboard records for image paste with and without Codex painting
         run: python tests/codex_image_key_boundary.py
       - name: Verify image paste with application-selected VT keyboard encoding
+        if: ${{ !cancelled() && steps.prepare.outcome == 'success' }}
         run: python tests/image_paste_protocol.py
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()

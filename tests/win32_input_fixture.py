@@ -11,6 +11,7 @@ from fixture_io import read_snapshot, write_snapshot
 
 report,control=map(Path,sys.argv[1:3])
 vt='--vt' in sys.argv[3:]
+timestamp_records='--timestamp-records' in sys.argv[3:]
 read_batch=int(sys.argv[sys.argv.index('--batch')+1]) if '--batch' in sys.argv[3:] else 128
 assert 1 <= read_batch <= 128
 k=c.windll.kernel32
@@ -62,7 +63,11 @@ def reader():
                                       buttons=event.mouse.buttons,control=event.mouse.control,flags=event.mouse.flags))
                 elif record.type==4:
                     batch.append(dict(type='resize',columns=event.size.x,rows=event.size.y))
-            with lock: events.extend(batch)
+            with lock:
+                if timestamp_records:
+                    observed=time.monotonic_ns()
+                    for entry in batch: entry['observed_ns']=observed
+                events.extend(batch)
 threading.Thread(target=reader,daemon=True).start()
 sys.stdout.reconfigure(encoding='utf-8')
 phase=None;request={}
@@ -86,6 +91,7 @@ try:
         with lock:
             snapshot=dict(phase=phase,events=list(events),hex=data.hex(),signals=list(signals),
                           columns=size.columns,rows=size.lines,vt=vt)
+            if timestamp_records: snapshot['sample_ns']=time.monotonic_ns()
         write_snapshot(report,snapshot)
         time.sleep(.025)
 except Exception:
