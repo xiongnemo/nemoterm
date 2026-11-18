@@ -47,6 +47,9 @@ def catalog():
     add('renderers', 'rendering', 'renderer_window_smoke.py')
     add('font-zoom', 'rendering', 'font_zoom_window_smoke.py')
     add('mouse-wire', 'mouse', 'mouse_window_smoke.py', effects='owned mouse messages; no physical input')
+    add('mouse-colours', 'mouse', 'pointer_window_smoke.py',
+        ['--colour-reference', 'tests/pointer-colour-resets-reference.zip', '--font', FONT],
+        'owned foreground; actual OS cursor inks, XTerm replies and hidden tabs')
     for renderer, side in [('gdi', 'top'), ('gdi', 'bottom'), ('directx', 'left'), ('opengl', 'right')]:
         add('tabs-'+side, 'tabs', 'tabs_window_smoke.py',
             ['--renderer', renderer, '--side', side, '--font', FONT, '--cols', '160', '--rows', '48', '--session-seconds', '900'])
@@ -162,6 +165,7 @@ def prepare(args):
             target = snapshot/'tests'/source.relative_to(ROOT/'tests')
             target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(source, target)
+    shutil.copy2(ROOT/'research/pointer-colour-resets-reference.zip', snapshot/'tests')
     shutil.copy2(ROOT/'tools/nemoterm_debug.py', snapshot/'tools/nemoterm_debug.py')
     shutil.copy2(exe, snapshot/'dist/nemoterm.exe')
     shutil.copy2(__file__, stage/'runner.py')

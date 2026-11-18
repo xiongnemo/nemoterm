@@ -18,6 +18,7 @@ parser = argparse.ArgumentParser(description=__doc__)
 mode = parser.add_mutually_exclusive_group(required=True)
 mode.add_argument('--masks', type=Path)
 mode.add_argument('--colour-reference', type=Path)
+parser.add_argument('--font', default='Consolas')
 parser.add_argument('--conpty', choices=('system','bundled'), default='bundled')
 args = parser.parse_args()
 exe = Path(os.environ['NEMOTERM_TEST_EXE']).resolve(strict=True)
@@ -73,7 +74,7 @@ stock = {'default':32512, 'text':32513, 'wait':32514, 'crosshair':32515,
          'pointer':32649, 'progress':32650, 'help':32651}
 evidence = dict(exe=str(exe), exe_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),
                 observer='Win32 GetCursorInfo/GetIconInfo and opt-in terminal API',
-                conpty=args.conpty, memory_acceptance=False, injected=False, checks=[])
+                requested_font=args.font, conpty=args.conpty, memory_acceptance=False, injected=False, checks=[])
 profile = 'pointer-'+uuid.uuid4().hex
 registry = 'Software\\Nemo\\Nemoterm\\Sessions\\'+profile
 original = w.POINT(); assert u.GetCursorPos(c.byref(original))
@@ -137,7 +138,7 @@ try:
             winreg.SetValueEx(key,'LogFileName',0,winreg.REG_SZ,str(out/'terminal-wire-&P.log'))
         try:
             process=job.spawn([str(exe),'-load',profile,'--automation','--tabs','--cols','80','--rows','24',
-                '--font','Consolas','--shell-command',subprocess.list2cmdline(
+                '--font',args.font,'--shell-command',subprocess.list2cmdline(
                     [sys.executable,str(root/'tests/session_fixture.py'),str(tmp)])],
                 env=dict(os.environ,NEMOTERM_CONPTY=args.conpty,NEMOTERM_TEST_EXACT_OUTPUT='1'),
                 creationflags=subprocess.CREATE_NO_WINDOW)

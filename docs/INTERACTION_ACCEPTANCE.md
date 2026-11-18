@@ -10,7 +10,7 @@
 gh workflow run ci.yml --ref <branch> -f scope=full
 ```
 
-`Test and build` 汇总 Linux ASan/UBSan、C/C++ 单元测试、MSVC 渲染诊断、MinGW 原生协议和像素测试、单 EXE 完整套件、profile 持久化、DPI/双语界面，以及下表的 42 项检查（30 项交互、12 项完整 Sarasa 网格负载）。单 EXE、DPI 和交互任务共用这次 source-host 构建的准确 EXE，并校验来源提交、大小及 SHA-256。
+`Test and build` 汇总 Linux ASan/UBSan、C/C++ 单元测试、MSVC 渲染诊断、MinGW 原生协议和像素测试、单 EXE 完整套件、profile 持久化、DPI/双语界面，以及下表的 43 项检查（31 项交互、12 项完整 Sarasa 网格负载）。单 EXE、DPI 和交互任务共用这次 source-host 构建的准确 EXE，并校验来源提交、大小及 SHA-256。
 
 只回放测试脚本，不重复编译：
 
@@ -69,7 +69,7 @@ ReGIS 生产代码变化后的定向重建使用 `protocol-reference.yml -f fami
 | clipboard | 2 | GDI/DX 文件/目录拖放，路径引用、应用接管与文本/图片优先级 |
 | agents | 6 | 固定版本 Codex/OpenCode 的图片附件与精确像素；两款真实客户端分别在 GDI / DirectX 标签页把回复经 Shift 拖选、Ctrl+Shift+C/V 后提交，逐字核对；OpenCode 还记录拖选前的鼠标上报请求；另采集前端模块和所属进程的运行时快照 |
 | rendering | 3 | 实际 GDI 客户区捕获、三种渲染器、字号缩放/恢复 |
-| mouse | 1 | 鼠标协议字节、按键、滚轮和坐标 |
+| mouse | 2 | 鼠标协议字节、按键、滚轮和坐标；另对照 XTerm 的 31 组指针颜色回复、Windows 实际光标像素、恢复系统指针和隐藏标签隔离 |
 | tabs | 8 | 四侧标签栏/预览及四侧窗口缩放、会话与关闭回收 |
 | settings | 2 | 独立窗口和标签宿主的 profile CRUD、设置保存/重载 |
 | shells | 1 | pwsh、Windows PowerShell、BusyBox ash、Git Bash、WSL Bash、cmd |
@@ -109,3 +109,5 @@ Sarasa Light 从固定 v2.3.1 压缩包安装，校验下载及实际字体名�
 ## 历史证据
 
 迁移前的内存、桌面中断和输入法问题保留在 [历史本机记录](../research/d3d11-local-f3b5b65.md) 及 `research/interaction-input-dpi-f3b5b65.zip`。旧版的通过记录不能套用到新 EXE；本轮迁移结果见 [远程迁移记录](../research/remote-test-migration.md)。
+
+单独复核应用设置鼠标颜色时，可用 `font-zoom-replay.yml` 的 `suite=pointer-colour` 指定确切的 `source_run` 和 `source_commit`；完整交互的 `mouse` 组使用同一套输入和像素检查。独立 XTerm 原始捕获入口为 `protocol-reference.yml` 的 `family=pointer-colour`，Win32/GDI 资源对照为 `family=pointer-resources`。见[原始回复、光标截图和资源记录](../research/pointer-colours.md)。
