@@ -2256,9 +2256,11 @@ void term_scroll_images(Terminal *term, int left, int right, int top, int bottom
     lines = max(top-bottom-1, min(lines, bottom-top+1));
     bool partial = left != 0 || right != term->cols;
     if (term->regis) {
-        if (!partial && !top && bottom==term->rows-1)
+        if (!partial && !top && bottom==term->rows-1) {
             nemo_regis_scroll(term->regis->decoder,lines);
-        else
+            if (sb && !term->alt_which && lines>0)
+                nemo_regis_trim_history(term->regis->decoder,term->savelines,term->cell_height);
+        } else
             nemo_regis_scroll_region(term->regis->decoder,left,top,right,bottom+1,
                 lines,(unsigned)term->cell_width,(unsigned)term->cell_height);
         nemo_regis_sync_views(term);
@@ -4064,7 +4066,7 @@ void term_reconfig(Terminal *term, Conf *conf)
  */
 void term_clrsb(Terminal *term)
 {
-    if (term->regis) nemo_regis_clear_history(term->regis->decoder,term->cell_height);
+    if (term->regis) nemo_regis_trim_history(term->regis->decoder,0,term->cell_height);
     nemo_shell_marks_rows(&term->shell_marks, 0, term->rows-1, 0);
     nemo_images_rows(term, 0, 0, INT_MAX, 0);
     nemo_kitty_rows(term, 0, 0, 0);
@@ -4945,6 +4947,8 @@ void term_size(Terminal *term, int newrows, int newcols, int newsavelines)
     assert(count234(term->screen) == newrows);
 
     /* Delete any excess lines from the scrollback. */
+    if (term->regis && sblen>newsavelines)
+        nemo_regis_trim_history(term->regis->decoder,newsavelines,term->cell_height);
     while (sblen > newsavelines) {
         line = delpos234(term->scrollback, 0);
         free_compressed_line((compressed_scrollback_line *)line);

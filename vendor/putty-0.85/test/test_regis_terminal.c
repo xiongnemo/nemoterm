@@ -244,6 +244,46 @@ static void check_resize_saved_graphics(Mock *mk)
     feed_regis(mk,"\033c");
 }
 
+static void check_bounded_graphic_history(Mock *mk)
+{
+    Terminal *t=mk->term;
+    for (int limit=0;limit<=1;limit++) {
+        test_context(mk,limit ? "one-line history clips before the retained boundary" :
+            "zero history expires every scrolled-out scanline");
+        feed_regis(mk,"\033c");
+        term_size(t,12,40,limit);
+        term_set_cell_size(t,6,13);
+        feed_regis(mk,"\033P1pS(E)W(I3)P[20,0]V[20,70]\033\\");
+        unsigned id=nemo_regis_next_graphic(term_regis_decoder(t),0);
+        unsigned boundary=13*(3-limit);
+        feed_regis(mk,"\033[3S");
+        IEQUAL(count234(t->scrollback),limit);
+        expect_graphic_pixel(mk,id,20,boundary-1,0);
+        expect_graphic_pixel(mk,id,20,boundary,0xff33cc33);
+        expect_graphic_pixel(mk,id,150,boundary-1,0);
+        expect_graphic_pixel(mk,id,150,boundary,0xff000000);
+        /* Explicit ink can reoccupy a trimmed band. Trimming it a second
+         * time must not use a stale cleared-prefix marker. */
+        feed_regis(mk,"\033[3T\033P0pW(I3)P[20,10]V[21,10]\033\\");
+        expect_graphic_pixel(mk,id,20,10,0xff33cc33);
+        feed_regis(mk,"\033[3S");
+        expect_graphic_pixel(mk,id,20,10,0);
+        if (limit) {
+            feed_regis(mk,"\033[?1049h\033P1pS(E)W(I2)P[20,20]V[25,20]\033\\");
+            size_t before=term_regis_memory(t);
+            term_size(t,12,40,0); /* discard the last saved row with alt active */
+            IEQUAL(count234(t->scrollback),0);
+            IEQUAL(term_regis_memory(t)<before,true);
+            expect_graphic_pixel(mk,id,20,38,0);
+            expect_graphic_pixel(mk,id,20,39,0xff33cc33);
+            expect_pixel(mk,20,20,0xffcc2121);
+            feed_regis(mk,"\033[?1049l");
+        }
+        check_regis_accounting(mk);
+    }
+    feed_regis(mk,"\033c");
+}
+
 static int framing_tests(void)
 {
     Mock *mk=regis_mock();
@@ -336,6 +376,7 @@ static int framing_tests(void)
     check_graphic_margins(mk);
     check_clear_saved_graphics(mk);
     check_resize_saved_graphics(mk);
+    check_bounded_graphic_history(mk);
     bool failed=mk->any_test_failed;
     mock_free(mk);
     puts(failed ? "ReGIS terminal framing FAILED" : "ReGIS terminal framing passed");

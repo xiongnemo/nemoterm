@@ -65,7 +65,8 @@ size_t nemo_regis_graphic_read_row(const NemoRegis *, unsigned id, unsigned y,
                                   unsigned x, uint32_t *, size_t count);
 bool nemo_regis_active(const NemoRegis *);
 bool nemo_regis_drop_graphic(NemoRegis *, unsigned id);
-void nemo_regis_clear_history(NemoRegis *, unsigned cell_height);
+/* Discard only pixels older than the retained main-screen text history. */
+void nemo_regis_trim_history(NemoRegis *, unsigned keep_rows, unsigned cell_height);
 void nemo_regis_scroll(NemoRegis *, int rows);
 /* Scroll only the half-open character rectangle; leave pixels outside it
  * unchanged and make newly exposed pixels transparent. Hidden pages stay put. */

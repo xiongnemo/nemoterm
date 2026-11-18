@@ -48,6 +48,7 @@ typedef struct Graphic {
     ColorRegister private_registers[MAX_COLOR_REGISTERS];
     unsigned tile_columns, tile_rows, valid_registers, id, page, screen;
     unsigned background_width, background_top, background_height, content_width, content_height;
+    unsigned trimmed_top; /* all source scanlines before here are transparent */
     int actual_width, actual_height, max_width, max_height;
     int charrow, charcol;
     bool dirty, hidden, valid;
@@ -252,26 +253,29 @@ bool nemo_regis_drop_graphic(NemoRegis *owner,unsigned id)
     return true;
 }
 
-/* Remove source pixels above row zero of the main screen, even when the user
- * clears history from the alternate screen. Never allocate opaque tiles just
- * to turn part of the uniform background transparent. */
-void nemo_regis_clear_history(NemoRegis *owner,unsigned cell_height)
+/* Discard the part of the main-screen graphic above the retained history.
+ * As the limit advances, visit only newly discarded sparse tile rows. */
+void nemo_regis_trim_history(NemoRegis *owner,unsigned keep_rows,unsigned cell_height)
 {
     if (!owner || owner->active || !cell_height) return;
     for (Graphic *g=owner->graphics;g;g=g->next) {
-        if (g->screen!=0 || g->charrow>=0) continue;
-        uint64_t saved=(uint64_t)(-(int64_t)g->charrow)*cell_height;
-        unsigned cut=(unsigned)Min(saved,(uint64_t)g->max_height);
+        int64_t lost=-(int64_t)g->charrow-(int64_t)keep_rows;
+        if (g->screen!=0 || lost<=0) continue;
+        unsigned cut=(unsigned)Min((uint64_t)lost*cell_height,(uint64_t)g->max_height);
+        unsigned first=g->trimmed_top, end=Min(cut,g->content_height);
+        if (cut<=first) continue;
+        g->trimmed_top=cut;
         g->background_top=Max(g->background_top,Min(cut,g->background_height));
-        for (unsigned ty=0;ty*32<cut;ty++) {
+        for (unsigned ty=first/32;ty*32<end;ty++) {
             if (!g->tiles[ty]) continue;
-            if (cut==(unsigned)g->max_height || (ty+1)*32<=cut) {
+            if ((ty+1)*32<=cut || cut>=g->content_height) {
                 regis_free_tile_row(g,ty);
             } else {
-                unsigned n=(cut-ty*32)*32;
+                unsigned start=(Max(ty*32,first)-ty*32)*32;
+                unsigned stop=(end-ty*32)*32;
                 for (unsigned tx=0;tx<g->tile_columns;tx++) {
                     RegisterNum *tile=g->tiles[ty][tx];
-                    if (tile) for (unsigned i=0;i<n;i++) tile[i]=COLOR_HOLE;
+                    if (tile) for (unsigned i=start;i<stop;i++) tile[i]=COLOR_HOLE;
                 }
             }
         }

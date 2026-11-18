@@ -196,6 +196,7 @@ static void draw_solid_pixel(Graphic *g, int x, int y, unsigned colour)
             (*tile)[i]=regis_background(g,tx*32+i%32,ty*32+i/32);
     }
     (*tile)[((unsigned)y&31)*32+((unsigned)x&31)]=(RegisterNum)colour;
+    g->trimmed_top=Min(g->trimmed_top,(unsigned)y);
     g->content_width=Max(g->content_width,(unsigned)x+1);
     g->content_height=Max(g->content_height,(unsigned)y+1);
     g->dirty=true;
@@ -215,7 +216,7 @@ static void draw_solid_rectangle(Graphic *g, int x1, int y1, int x2, int y2, uns
         regis_tick(g->xw);
         regis_free_tiles(g);
         g->background=(RegisterNum)colour;
-        g->background_top=0;
+        g->trimmed_top=g->background_top=0;
         g->content_width=g->background_width=(unsigned)g->actual_width;
         g->content_height=g->background_height=(unsigned)g->actual_height;
         g->dirty=true;
