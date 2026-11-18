@@ -18,8 +18,9 @@ def verify_history_drag(hwnd, begin_phase, point, capture, tile, copy, barrier, 
         s=ScrollInfo();s.size=c.sizeof(s);s.mask=7
         assert u.GetScrollInfo(hwnd,1,c.byref(s)), 'terminal has no vertical scrollbar'
         return (s.low,s.high,s.page,s.pos)
-    for up in (True,False):
-        name='held-history-'+('up' if up else 'down'); record=dict(name=name,positions=[]);cases.append(record)
+    for direction in ('up','down','takeover'):
+        up=direction!='down';takeover=direction=='takeover'
+        name='held-history-'+direction; record=dict(name=name,positions=[]);cases.append(record)
         begin_phase(name,scene)
         def loaded():
             info=scrollbar();record['range']=info
@@ -39,7 +40,9 @@ def verify_history_drag(hwnd, begin_phase, point, capture, tile, copy, barrier, 
         # Exactly one motion beyond the client. No clock hook, fabricated
         # WM_TIMER, wheel, repeated movement or scroll messages while held.
         outside=(point(x,-2 if up else 25)&0xffffffff)
-        u.SendMessageW(hwnd,0x201,5,anchor);u.SendMessageW(hwnd,0x200,5,outside)
+        # The takeover variant starts as an application press. Shift first
+        # appears on the sole out-of-window move; no second move can help it.
+        u.SendMessageW(hwnd,0x201,1 if takeover else 5,anchor);u.SendMessageW(hwnd,0x200,5,outside)
         try:
             until=time.monotonic()+5
             while time.monotonic()<until:
@@ -53,8 +56,11 @@ def verify_history_drag(hwnd, begin_phase, point, capture, tile, copy, barrier, 
         record['endpoint_highlighted']=tile(observed,x,y)!=tile(source,x,y)
         if not up:record['guard_unchanged']=tile(observed,3,y)==tile(source,3,y)
         record['expected']='\r\n'.join((lines[:34]+[lines[34][:3]]) if up else (lines[20:-1]+[lines[-1][:3]]))
-        record['copied']=copy()
-        barrier()
+        if takeover:record['expected']='\r\n'.join(lines[:30]+['R'])
+        # If takeover never formed a selection, don't replace useful wire and
+        # scrollbar evidence with a timeout waiting for a clipboard change.
+        record['copied']=copy() if not takeover or record['final_position']==goal else None
+        record['child_hex']=barrier(b'\x1b[<0;3;5M\x1b[<0;3;5m' if takeover else b'')
     assert all(r['final_position']==r['goal'] and len(r['positions'])>=3 and
                r['endpoint_highlighted'] and r.get('guard_unchanged',True) and
                r['copied']==r['expected'] for r in cases),cases

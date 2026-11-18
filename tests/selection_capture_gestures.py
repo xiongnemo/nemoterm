@@ -53,7 +53,17 @@ def verify_gestures(host, seat, child, Input, out, evidence, publish):
             wait_for(delivered);wait_for(lambda:scroll()==30)
             # Start even successive gestures on different cells, outside the
             # system double-click rectangle. The first anchor ends after R34.
-            p=move(1+(2+i*3)*cw+cw//2,1+4*ch+ch//2);assert u.WindowFromPoint(p)==hwnd
+            p=move(1+(2+i*3)*cw+cw//2,1+4*ch+ch//2)
+            # Moving from the tab strip can first hit a transient window.
+            # Wait for a real terminal hit before sending any system input.
+            hits=check['initial_hits']=[]
+            def initial_hit():
+                h=u.WindowFromPoint(p);fg=u.GetForegroundWindow();name=c.create_unicode_buffer(128)
+                if h:u.GetClassNameW(h,name,len(name))
+                sample=dict(hwnd=h,window_class=name.value,foreground=fg)
+                if not hits or hits[-1]!=sample:hits.append(sample)
+                return h==hwnd and fg==host
+            wait_for(initial_hit,timeout=3)
             assert u.GetForegroundWindow()==host
             if mode!='application':event(1,0x10,True)
             event(0,0,True);wait_for(lambda:capture_owner()==hwnd)

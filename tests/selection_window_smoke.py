@@ -58,14 +58,15 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-selection-') as temporary:
             phase_request=dict(phase=name,sequence=sequence+'\x1b[5n')
             write_snapshot(control,phase_request)
             wait_snapshot(lambda:read_snapshot(report),lambda v:v.get('phase')==name and bytes.fromhex(v.get('hex','')).endswith(b'\x1b[0n'))
-        def no_forwarded_input():
+        def no_forwarded_input(expected_mouse=b''):
             # The fixture may briefly deny a mailbox read during atomic
             # replacement. Retain one complete acknowledged snapshot, and
             # drain preceding mouse/key input before asserting its exact bytes.
             barrier=phase_request['phase']
             write_snapshot(control,dict(phase_request,input_barrier=barrier))
             value=wait_snapshot(lambda:read_snapshot(report),lambda v:v.get('phase')==barrier and v.get('input_barrier')==barrier and 'hex' in v)
-            assert bytes.fromhex(value['hex'])==b'\x1b[0n'*2,value
+            assert bytes.fromhex(value['hex'])==b'\x1b[0n'+expected_mouse+b'\x1b[0n',value
+            return value['hex']
         r=w.RECT();u.GetClientRect(hwnd,c.byref(r));cw,ch=(r.right-2)//80,(r.bottom-2)//24
         def select(x,y,end):
             start=(1+y*ch+ch//2)<<16|(1+x*cw+cw//2)
