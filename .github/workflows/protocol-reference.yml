@@ -12,6 +12,7 @@ on:
           - guarded-area
           - attribute-colour
           - selection-colour
+          - pointer-colour
           - cursor-charset
           - ansi-conformance
           - control-cancellation
@@ -179,6 +180,14 @@ jobs:
       - name: Compare attribute-colour query and reset semantics
         if: ${{ (success() || failure()) && (inputs.family == 'attribute-colour' || inputs.family == 'all') }}
         run: python3 tests/xterm_attribute_colour_oracle.py --xterm /tmp/nemoterm-xterm-reference/xterm --output build/protocol-reference/attribute-colour-xterm.json
+      - name: Capture pointer-colour replies and the private display's current cursor pixels
+        if: ${{ (success() || failure()) && (inputs.family == 'pointer-colour' || inputs.family == 'all') }}
+        run: |
+          mkdir -p build/protocol-reference/pointer-colour-source
+          for file in misc.c charproc.c button.c ctlseqs.ms; do
+            cp "/tmp/nemoterm-xterm-reference/$file" build/protocol-reference/pointer-colour-source/
+          done
+          python3 tests/xterm_pointer_colour_oracle.py --xterm /tmp/nemoterm-xterm-reference/xterm --directory build/protocol-reference/pointer-colour
       - name: Compare selection-colour query and reset semantics
         if: ${{ (success() || failure()) && (inputs.family == 'selection-colour' || inputs.family == 'all') }}
         run: python3 tests/xterm_selection_colour_oracle.py --xterm /tmp/nemoterm-xterm-reference/xterm --output build/protocol-reference/selection-colour-xterm.json
