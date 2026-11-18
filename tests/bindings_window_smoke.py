@@ -78,14 +78,17 @@ try:
             # Select on the alternate screen while the client owns drag input.
             # The saved right-click option must copy AND paste the selected
             # cells exactly once; no mouse press/release may reach the child.
-            request=phase('right-click-copy-paste','\x1b[?1049h\x1b[2J\x1b[H!A中e\u0301Z!\x1b[?1002;1006;2004h')
-            action(modifiers=[16,160],mouse=[dict(message=0x201,keys=5,point=point(1,0)),
-                dict(message=0x200,keys=5,point=point(5,0)),dict(message=0x202,keys=4,point=point(5,0))])
+            # The earlier rectangle starts at (1,0). Start this unrelated
+            # drag on row 4, outside the Windows multiclick rectangle.
+            request=phase('right-click-copy-paste','\x1b[?1049h\x1b[2J\x1b[5;1H!A中e\u0301Z!\x1b[?1002;1006;2004h')
+            action(modifiers=[16,160],mouse=[dict(message=0x201,keys=5,point=point(1,4)),
+                dict(message=0x200,keys=5,point=point(5,4)),dict(message=0x202,keys=4,point=point(5,4))])
             previous=u.GetClipboardSequenceNumber()
-            action(mouse=[dict(message=0x204,keys=2,point=point(1,0)),dict(message=0x205,keys=0,point=point(1,0))])
+            action(mouse=[dict(message=0x204,keys=2,point=point(1,4)),dict(message=0x205,keys=0,point=point(1,4))])
             wait_for(lambda:u.GetClipboardSequenceNumber()!=previous)
             selected='A中e\u0301Z'
-            assert clipboard_text(hwnd)==selected
+            copied=clipboard_text(hwnd)
+            assert copied==selected,(selected,copied,snapshot())
             dsr=b'\x1b[0n'; payload=b'\x1b[200~'+selected.encode()+b'\x1b[201~'
             wait_snapshot(snapshot,lambda v:bytes.fromhex(v.get('hex',''))==dsr+payload)
             write_snapshot(control,dict(request,input_barrier='after-right-click'))
