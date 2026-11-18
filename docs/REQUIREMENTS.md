@@ -1,5 +1,7 @@
 # Nemoterm requirements and evidence ledger
 
+The [3da2fc3 preview and original receipts](../research/interaction-3da2fc3.md) cover the actual mixed-direction glyphs selected by Shift, wide Chinese cells, Cancel focus recovery, both right-click policies and twelve 160×48 stress cases. Peak frontend private working set was 18,944,000 bytes on GDI and 28,643,328 bytes on DirectX. The aggregate and subsequent exact-file replays are scored separately, including the missed startup image gestures and the preordered Claude output.
+
 The [83ee8a5 preview](../research/interaction-83ee8a5.md) fixes rectangular copying across DEC-sized lines. The same executable passed all twelve 160×48 memory workloads (GDI 19,558,400 bytes; DirectX 29,102,080 bytes), all six real client copy/Cancel/paste cases, and the independent WSL drop replay. It still misses first-marker Codex image paste and five historical ReGIS comparison frames.
 
 On the `f564927` single-file preview, [72/74 interaction cases](../research/interaction-f564927.md) passed; two first-marker Codex image gestures failed and both ready-composer cases passed. All twelve exact-grid stress cases passed on the same image, peaking at 18.89 MB private working set on GDI and 28.75 MB on DirectX. See the [paired pterm/Codex breakdown](../research/pterm-findings.md#f564927-普通-codex-会话实际驻留了什么) for a normal agent session. These observations do not close unimplemented families in the [protocol inventory](PROTOCOL_COVERAGE.md).

@@ -43,3 +43,9 @@
 [30 项独立客户端交互的原始回执](agent-interaction-3da2fc3.zip)，制品 `14469723753`：28/30。三个客户端在 GDI、DirectX 的默认右键仅复制、显式右键复制并粘贴均通过。OpenCode 的图片粘贴和 Codex 正式编辑器就绪后的图片粘贴（窗口接口及系统输入）通过；Codex 首次显示输入标记就立即贴图的两条路径仍失败。该 30 项与上文有混排字形检查的 8 项分别计分。
 
 两项独立诊断也保留原始失败：[Windows 键盘记录](picture-keys-3da2fc3.zip) 9/10，无绘制的系统按键用例未读到预期阶段的快照，不能据此判定快捷键丢失。[Unicode 边界](unicode-boundary-3da2fc3.zip) 3/4：Nemoterm 的 GDI、DirectX 和系统 Claude 对照通过；独立 winpty/Claude 对照在等待退出 18 秒后超时。
+
+[同次完整交互汇总](interaction-rollup-3da2fc3.zip)（run `44391854501`，制品 `14470185904`）按当时 76 项清单验出 **70/76**：两项是 Codex 启动时首次贴图，另四项是在 GDI、DirectX 上对 OpenCode 行位置和 Claude Code 输出字序的原始断言失败。后续同一 EXE 的专项回放分别计分，不更改这份汇总。
+
+[原生按键重放](native-paste-chord-3da2fc3.zip)（run `44396889738`，制品 `14470606687`，测试 `5047ee9`）在同一 EXE 上保留原来的 800 ms 事件时限，只允许读取已发布的快照时重试。向无绘制窗口和四种 Codex 输出回放分别通过系统键盘、窗口接口输入，**20/20** 次均恰好交付 Ctrl 按下、V 按下、V 松开、Ctrl 松开；扫描码、字符、修饰状态、重复计数与顺序也全部一致。独立的 11 种 Kitty/xterm/传统 VT 配置产生预期字节。最初 9/10 的记录保留在上方。
+
+[真实 Codex 的八次独立时序回放](codex-startup-timing-3da2fc3.zip)（run `44397113888`，无真实模型或工具执行），涵盖 Ctrl+V / Ctrl+Shift+V × 系统键盘 / 窗口接口。第一次出现输入标记时，四次都还没收到客户端的 idle 通知，**0/4** 显示附件；等到就绪后第一次贴图 **4/4** 成功。同一草稿在就绪后由测试模拟用户再按一次，四次也都只提交一张像素匹配的 32×16 PNG（`0d0db3c3…`）。没有自动重发。结合[独立控制台宿主的对照](agent-unicode-boundary.md#codex-image-paste-during-startup)，输入标记出现并不保证这个版本的客户端已能接收图片。
