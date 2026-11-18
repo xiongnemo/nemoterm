@@ -78,6 +78,7 @@ struct WinGuiSeat {
     int font_width, font_height;
     int font_gdi_width; /* GDI average width, distinct from the grid advance */
     int font_zoom_height, font_display_points; /* transient, per terminal */
+    wchar_t app_font_face[LF_FACESIZE]; /* OSC 50, transient for this seat */
     unsigned char font_zoom_keys[32];
     bool font_dualwidth, font_varpitch;
     int offset_width, offset_height;

@@ -837,6 +837,8 @@ void test_simple(void)
     test_bool_simple(CONF_nemo_osc52_read, "NemoOSC52Read", false);
     test_bool_simple(CONF_nemo_allow_checksum, "NemoAllowChecksum", false);
     test_bool_simple(CONF_nemo_allow_set_tcap, "NemoAllowSetTcap", false);
+    test_bool_simple(CONF_nemo_allow_get_font, "NemoAllowGetFont", false);
+    test_bool_simple(CONF_nemo_allow_set_font, "NemoAllowSetFont", false);
     test_bool_simple(CONF_nemo_allow_get_tcap, "NemoAllowGetTcap", true);
     test_str_simple(CONF_nemo_tcap_name, "NemoTcapName", "xterm-256color");
     test_int_simple(CONF_nemo_modify_other_keys, "NemoModifyOtherKeys", 0);

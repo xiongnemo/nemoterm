@@ -15,7 +15,7 @@ windows = ('RestoreWin,MinimizeWin,SetWinPosition,SetWinSizePixels,RaiseWin,Lowe
            'GetChecksum,SetChecksum,GetSelection,SetSelection')
 paste_denied = ('NUL,SOH,STX,ETX,EOT,ENQ,ACK,BEL,VT,FF,SO,SI,DLE,DC1,DC2,DC3,DC4,NAK,SYN,'
                 'ETB,CAN,EM,SUB,ESC,FS,GS,RS,US')
-all_categories = 'allowColorOps,allowMouseOps,allowPasteControls,allowTcapOps,allowTitleOps,allowWindowOps'
+all_categories = 'allowColorOps,allowFontOps,allowMouseOps,allowPasteControls,allowTcapOps,allowTitleOps,allowWindowOps'
 profiles = {
     'permitted': dict(NoMouseReporting=0,NoRemoteResize=0,NoRemoteWinTitle=0,PasteControls=1,
                       NemoOSC52Write=1,NemoOSC52Read=1,NemoAllowChecksum=1,RemoteQTitleAction=2,
@@ -52,7 +52,8 @@ for name, settings in profiles.items():
         ('supported-mouse',query(62,'allowMouseOps'),response(62,mouse)),
         ('supported-window',query(62,'allowWindowOps'),response(62,windows)),
         ('window-alias',query(62,'allowWinOps'),response(62,windows)),
-        ('font-unsupported',query(62,'allowFontOps'),response(62)),
+        ('supported-font',query(62,'allowFontOps'),response(62,'SetFont,GetFont')),
+        ('restricted-font',query(61,'allowFontOps'),response(61,'' if name=='permitted' else 'SetFont,GetFont')),
         ('supported-tcap',query(62,'allowTcapOps'),response(62,'SetTcap,GetTcap')),
         ('restricted-tcap',query(61,'allowTcapOps'),response(61,
             '' if name == 'permitted' else 'SetTcap,GetTcap' if name == 'restricted' else 'SetTcap')),
@@ -70,7 +71,7 @@ for name, settings in profiles.items():
     cases.append(('cut-buffer-permission','\x1b]52;0;YQ==\a\x1b]52;0;?\a',
                   '\x1b]52;0;YQ==\a' if name == 'permitted' else ''))
     run('feature-policy-'+name,(),extra_cases=cases,
-        profile=dict(settings,WarnOnClose=0,Beep=0,NemoRenderer=0),
+        profile=dict(settings,WarnOnClose=0,Beep=0,NemoRenderer=0,NemoAllowSetFont=int(name=='permitted'),NemoAllowGetFont=int(name=='permitted')),
         source_reference='Nemo policy expectations; XTerm formatter reference retained separately')
 
 # Exercise the reports and actual request gates independently. These are

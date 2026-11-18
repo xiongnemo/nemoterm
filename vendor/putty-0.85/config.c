@@ -2785,6 +2785,15 @@ void setup_config_box(struct controlbox *b, bool midsession,
                  HELPCTX(appearance_font),
                  conf_fontsel_handler, I(CONF_font));
 
+#ifdef _WIN32
+    ctrl_settitle(b, "Window/Appearance/Font access", nemo_ui_text("font_access.title"));
+    s = ctrl_getset(b, "Window/Appearance/Font access", "permissions", nemo_ui_text("font_access.permissions"));
+    ctrl_checkbox(s, nemo_ui_text("font_access.query"), 'q', HELPCTX(no_help),
+                  conf_checkbox_handler, I(CONF_nemo_allow_get_font));
+    ctrl_checkbox(s, nemo_ui_text("font_access.change"), 'c', HELPCTX(no_help),
+                  conf_checkbox_handler, I(CONF_nemo_allow_set_font));
+    ctrl_text(s, nemo_ui_text("font_access.hint"), HELPCTX(no_help));
+#endif
     s = ctrl_getset(b, "Window/Appearance", "mouse",
                     nemo_ui_text("appearance.mouse_group"));
     ctrl_checkbox(s, nemo_ui_text("appearance.hide_pointer"), 'p',

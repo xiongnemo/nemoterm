@@ -57,15 +57,19 @@ def main():
                     cold[start]=sample_frame('cold',0,'',b'');return
                 assert base in cold and ALT in cold and cold[base]!=cold[ALT],'Cold font controls must visibly differ'
                 for i,(step,command,font) in enumerate([('initial','',base),('change',OSC+ALT+ST,ALT if aset else base),
-                        ('invalid-menu',OSC+'#99'+ST,ALT if aset else base),('restore',OSC+base+ST,base)]):
+                        ('invalid-menu',OSC+'#99'+ST,ALT if aset else base),
+                        ('unavailable',OSC+'Nemo Missing Font 073'+ST,ALT if aset else base),
+                        ('menu-assign',OSC+'#2 '+base+ST,base),('restore',OSC+base+ST,base)]):
                     expect=sample.replace(b'DejaVu Sans Mono',font.encode()) if aget else b''
                     frame=sample_frame(step,i,command+OSC+'?'+ST,expect)
                     if frame!=cold[font]:evidence['errors'].append(f'{label}/{step}: glyph or dimensions')
                 # Retain and compare wire framing independently of the image comparison.
-                for step,end in [('bel','\x07'),('st',ST)]:
-                    key='query-0-'+step;expected=bytes.fromhex(xft[key]['reply_hex']).replace(b'DejaVu Sans Mono',base.encode()) if aget else b''
-                    raw=phase('query-'+step,OSC+'?'+end,None);data['query-'+step]={'reply_hex':raw.hex(),'expected_reply_hex':expected.hex()}
-                    if raw!=expected:evidence['errors'].append(f'{label}/query-{step}: reply')
+                for key,obs in xft.items():
+                    if not key.startswith('query-'):continue
+                    expected=bytes.fromhex(obs['reply_hex']).replace(b'DejaVu Sans Mono',base.encode()) if aget else b''
+                    raw=phase(key,bytes.fromhex(obs['sequence_hex']).decode('ascii'),None)
+                    data[key]=dict(reply_hex=raw.hex(),expected_reply_hex=expected.hex())
+                    if raw!=expected:evidence['errors'].append(f'{label}/{key}: reply')
             finally:cap.close()
         try:
             run(name,(),exercise=exercise,font=start,automation=True,barrier=('\x1b[5n',b'\x1b[0n'),

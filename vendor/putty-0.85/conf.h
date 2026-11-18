@@ -1546,6 +1546,13 @@ CONF_OPTION(nemo_sixel_colour_continuation,
     SAVE_KEYWORD("SixelXtermColourContinuation"), LOAD_CUSTOM,
 )
 
+CONF_OPTION(nemo_allow_get_font,
+    VALUE_TYPE(BOOL), DEFAULT_BOOL(false), SAVE_KEYWORD("NemoAllowGetFont"),
+)
+CONF_OPTION(nemo_allow_set_font,
+    VALUE_TYPE(BOOL), DEFAULT_BOOL(false), SAVE_KEYWORD("NemoAllowSetFont"),
+)
+
 CONF_OPTION(nemo_regis_scroll_with_text,
     VALUE_TYPE(BOOL), DEFAULT_BOOL(false),
     SAVE_KEYWORD("ReGISScrollWithText"), LOAD_CUSTOM,

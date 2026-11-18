@@ -10,6 +10,10 @@ static void nemo_report_feature_policy(Terminal *term, bool bel)
     const TermWinVtable *vt = term->win->vt;
 #define BIT(n) NEMO_FEATURE_BIT(n)
     p.supported[NEMO_FEATURE_COLOR] = BIT(1)|BIT(2)|BIT(3);
+    if (vt->set_font_face) p.supported[NEMO_FEATURE_FONT] |= BIT(1);
+    if (vt->get_font_face) p.supported[NEMO_FEATURE_FONT] |= BIT(2);
+    if (!conf_get_bool(term->conf, CONF_nemo_allow_set_font)) p.restricted[NEMO_FEATURE_FONT] |= BIT(1);
+    if (!conf_get_bool(term->conf, CONF_nemo_allow_get_font)) p.restricted[NEMO_FEATURE_FONT] |= BIT(2);
     p.supported[NEMO_FEATURE_TCAP] = BIT(1)|BIT(2);
     if (!conf_get_bool(term->conf, CONF_nemo_allow_set_tcap))
         p.restricted[NEMO_FEATURE_TCAP] |= BIT(1);

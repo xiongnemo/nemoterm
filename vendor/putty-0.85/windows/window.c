@@ -303,7 +303,12 @@ static bool wintw_regis_glyph(TermWin *tw,const char *font,unsigned ch,
     return nemo_regis_font_glyph(wgs->regis_font,font,ch,maxw,maxh,pixels,capacity,width,height);
 }
 
+static bool wintw_get_font_face(TermWin *, char *, size_t);
+static void wintw_set_font_face(TermWin *, const char *);
+
 static const TermWinVtable windows_termwin_vt = {
+    .get_font_face = wintw_get_font_face,
+    .set_font_face = wintw_set_font_face,
     .kitty_graphics = true,
     .decode_image = nemo_wic_decode,
     .regis_glyph = wintw_regis_glyph,
@@ -1888,6 +1893,16 @@ static void init_dpi_info(WinGuiSeat *wgs)
  *
  * - find a trust sigil icon that will look OK with the chosen font.
  */
+static HFONT nemo_make_font(WinGuiSeat *wgs, const FontSpec *font, int height,
+    int width, int weight, bool italic, bool underline, int charset, int quality, int pitch)
+{
+    if (wgs->app_font_face[0])
+        return CreateFontW(height, width, 0, 0, weight, italic, underline, false, charset,
+            OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, quality, pitch, wgs->app_font_face);
+    return CreateFontA(height, width, 0, 0, weight, italic, underline, false, charset,
+        OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, quality, pitch, font->name);
+}
+
 static void init_fonts(WinGuiSeat *wgs, int pick_width, int pick_height)
 {
     nemo_link_cancel(wgs);
@@ -1936,11 +1951,9 @@ static void init_fonts(WinGuiSeat *wgs, int pick_width, int pick_height)
     wgs->font_gdi_width = 0;
 
     quality = conf_get_int(wgs->conf, CONF_font_quality);
-#define f(i,c,w,u)                                                      \
-    wgs->fonts[i] = CreateFont(                                         \
-        wgs->font_height, wgs->font_gdi_width, 0, 0, w, false, u, false, c, \
-        OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, FONT_QUALITY(quality), \
-        FIXED_PITCH | FF_DONTCARE, font->name)
+#define f(i,c,w,u) \
+    wgs->fonts[i] = nemo_make_font(wgs, font, wgs->font_height, wgs->font_gdi_width, \
+        w, false, u, c, FONT_QUALITY(quality), FIXED_PITCH | FF_DONTCARE)
 
     f(FONT_NORMAL, font->charset, fw_dontcare, false);
 
@@ -2125,7 +2138,6 @@ static void another_font(WinGuiSeat *wgs, int fontno)
     int fw_dontcare, fw_bold, quality;
     int c, w, x;
     bool u;
-    char *s;
     FontSpec *font;
 
     if (fontno < 0 || fontno >= FONT_MAXNO || wgs->fontflag[fontno])
@@ -2148,7 +2160,6 @@ static void another_font(WinGuiSeat *wgs, int fontno)
     c = font->charset;
     w = fw_dontcare;
     u = false;
-    s = font->name;
     x = wgs->font_gdi_width;
 
     if (fontno & FONT_WIDE)
@@ -2165,10 +2176,9 @@ static void another_font(WinGuiSeat *wgs, int fontno)
     quality = conf_get_int(wgs->conf, CONF_font_quality);
 
     wgs->fonts[fontno] =
-        CreateFont(wgs->font_height * (1 + !!(fontno & FONT_HIGH)), x, 0, 0, w,
-                   !!(fontno & FONT_ITALIC), u, false, c, OUT_DEFAULT_PRECIS,
-                   CLIP_DEFAULT_PRECIS, FONT_QUALITY(quality),
-                   DEFAULT_PITCH | FF_DONTCARE, s);
+        nemo_make_font(wgs, font, wgs->font_height * (1 + !!(fontno & FONT_HIGH)), x,
+                       w, !!(fontno & FONT_ITALIC), u, c, FONT_QUALITY(quality),
+                       DEFAULT_PITCH | FF_DONTCARE);
 
     wgs->fontflag[fontno] = true;
 }
@@ -2423,24 +2433,14 @@ static void recompute_window_offset(WinGuiSeat *wgs)
     InvalidateRect(wgs->term_hwnd, NULL, true);
 }
 
-/* Session-only zoom: leave Conf and the outer window intact. Existing font
- * teardown releases GPU glyphs and fallback faces before rebuilding them. */
-static void nemo_zoom_font(WinGuiSeat *wgs, int delta)
+/* Rebuild glyph caches and resize this view to fit its current outer window. */
+static void nemo_rebuild_view_font(WinGuiSeat *wgs)
 {
-    if (!wgs->term || wgs->closing || !wgs_active(wgs) ||
-        IsIconic(wgs_window(wgs))) return;
-    int points = 0;
-    if (delta) {
-        int64_t wanted = (int64_t)wgs->font_display_points + delta;
-        points = (int)max(4, min(72, wanted));
-        if (points == wgs->font_display_points) return;
-    }
-    wgs->font_zoom_height = points;
     term_end_synchronized_update(wgs->term);
     deinit_fonts(wgs);
     init_fonts(wgs, 0, 0);
     if (wgs->tabbed) {
-        nemo_host_hide_preview();
+        if (wgs_active(wgs)) nemo_host_hide_preview();
         nemo_host_resize(wgs, 1);
     } else {
         RECT cr;
@@ -2474,6 +2474,24 @@ static void nemo_zoom_font(WinGuiSeat *wgs, int delta)
     }
     wgs->caret_x = wgs->caret_y = -1;
     sys_cursor_update(wgs);
+}
+
+#include "nemo_font_face.inc"
+
+/* Session-only zoom: leave Conf and the outer window intact. Existing font
+ * teardown releases GPU glyphs and fallback faces before rebuilding them. */
+static void nemo_zoom_font(WinGuiSeat *wgs, int delta)
+{
+    if (!wgs->term || wgs->closing || !wgs_active(wgs) ||
+        IsIconic(wgs_window(wgs))) return;
+    int points = 0;
+    if (delta) {
+        int64_t wanted = (int64_t)wgs->font_display_points + delta;
+        points = (int)max(4, min(72, wanted));
+        if (points == wgs->font_display_points) return;
+    }
+    wgs->font_zoom_height = points;
+    nemo_rebuild_view_font(wgs);
 }
 
 static void reset_window(WinGuiSeat *wgs, int reinit)
@@ -3263,8 +3281,12 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
                     font->height != prev_font->height)
                     wgs->font_zoom_height = 0;
 
-                if (!strcmp(font->name, prev_font->name) ||
-                    !strcmp(conf_get_str(wgs->conf, CONF_line_codepage),
+                bool new_profile_face = strcmp(font->name, prev_font->name) != 0;
+                bool clear_override = wgs->app_font_face[0] && (new_profile_face ||
+                    !conf_get_bool(wgs->conf, CONF_nemo_allow_set_font));
+                if (clear_override) wgs->app_font_face[0] = 0;
+                if (clear_override || new_profile_face ||
+                    strcmp(conf_get_str(wgs->conf, CONF_line_codepage),
                             conf_get_str(prev_conf, CONF_line_codepage)) ||
                     font->isbold != prev_font->isbold ||
                     font->height != prev_font->height ||

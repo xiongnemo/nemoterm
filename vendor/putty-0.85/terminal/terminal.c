@@ -7482,6 +7482,7 @@ static int osc_string_limit(Terminal *term)
 }
 
 #include "nemo_feature_policy_terminal.inc"
+#include "nemo_font_ops.inc"
 
 static void do_osc(Terminal *term, bool bel)
 {
@@ -7495,6 +7496,9 @@ static void do_osc(Terminal *term, bool bel)
         term->osc_string[term->osc_strlen] = '\0';
         if (osc_colours(term, bel)) break;
         switch (term->esc_args[0]) {
+          case 50:
+            nemo_font_operation(term, bel);
+            break;
           case 60: case 61: case 62:
             nemo_report_feature_policy(term, bel);
             break;

@@ -99,6 +99,7 @@ const char *nemo_ui_category(const char *path, const char *fallback)
         {"Terminal/Hyperlinks", "category.hyperlinks"}, {"Terminal/Clipboard", "category.clipboard"},
         {"Window", "category.window"}, {"Window/Language", "language.title"},
         {"Window/Rendering", "category.rendering"}, {"Window/Appearance", "category.appearance"},
+        {"Window/Appearance/Font access", "category.font_access"},
         {"Window/Behaviour", "category.behaviour"}, {"Window/Translation", "category.encoding"},
         {"Window/Translation/Line drawing", "category.line_drawing"}, {"Window/Tabs", "category.tabs"},
         {"Window/Bindings", "category.bindings"}, {"Window/Bindings/Font", "category.font"},

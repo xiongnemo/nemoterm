@@ -1687,6 +1687,10 @@ struct TermWinVtable {
     bool grapheme_clusters;
     /* Optional, synchronous snapshot; must not draw, resize or allocate. */
     bool (*get_geometry)(TermWin *, TermWindowGeometry *);
+    /* Optional: active scalable font family in UTF-8. Changing it is local
+     * to the view; it must never change the saved profile. */
+    bool (*get_font_face)(TermWin *, char *utf8, size_t capacity);
+    void (*set_font_face)(TermWin *, const char *utf8);
     /* No allocation or drawing. Queries use live OS state; mouse dispatch uses
      * the button state associated with the current input-queue message. */
     bool (*get_pointer)(TermWin *, TermPointerState *, bool for_event);
