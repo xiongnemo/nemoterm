@@ -149,7 +149,7 @@ jobs:
           cl /nologo /std:c11 /O2 /Ivendor/putty-0.85/windows /Ivendor/putty-0.85/terminal tests/test_pointer_cursor.c vendor/putty-0.85/windows/nemo_pointer_win.c vendor/putty-0.85/windows/nemo_pointer_glyph.c /Fecursor-check.exe user32.lib gdi32.lib 2>&1 | Tee-Object compiler.log
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           $failed=0
-          foreach ($mode in @('activate-only','draw-stock','indirect')) {
+          foreach ($mode in @('activate-only','draw-stock','indirect','mixed-controls')) {
             ./cursor-check.exe "--$mode" 2>&1 | Tee-Object "control-$mode.log"
             if ($LASTEXITCODE) { $failed=1 }
           }

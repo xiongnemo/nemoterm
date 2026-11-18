@@ -19,12 +19,12 @@ static const char *const names[] = {"automatic",
 
 /* Isolate first-use GDI/font caches from cursor lifetime accounting. This
  * control does not call the cursor implementation or create any cursor. */
-static int observer_control(void)
+static int observer_control_size(int width, int height)
 {
     HDC dc = CreateCompatibleDC(NULL); CHECK(dc != NULL);
     BITMAPINFO info = {0}; void *pixels = NULL;
     info.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
-    info.bmiHeader.biWidth = 32; info.bmiHeader.biHeight = -32;
+    info.bmiHeader.biWidth = width; info.bmiHeader.biHeight = -height;
     info.bmiHeader.biPlanes = 1; info.bmiHeader.biBitCount = 32;
     HBITMAP bitmap = CreateDIBSection(dc, &info, DIB_RGB_COLORS, &pixels, NULL, 0);
     CHECK(bitmap != NULL && pixels != NULL);
@@ -32,7 +32,7 @@ static int observer_control(void)
     HGDIOBJ oldfont = SelectObject(dc, GetStockObject(DEFAULT_GUI_FONT));
     HBRUSH light = CreateSolidBrush(RGB(246,246,246));
     HBRUSH dark = CreateSolidBrush(RGB(30,30,30));
-    RECT rect = {0, 0, 32, 32};
+    RECT rect = {0, 0, width, height};
     CHECK(light && dark && FillRect(dc, &rect, light));
     rect.right = 16; CHECK(FillRect(dc, &rect, dark));
     SetBkMode(dc, TRANSPARENT); SetTextColor(dc, RGB(0,0,0));
@@ -43,6 +43,8 @@ static int observer_control(void)
     CHECK(DeleteObject(bitmap)); CHECK(DeleteDC(dc)); CHECK(GdiFlush());
     return 0;
 }
+
+static int observer_control(void) { return observer_control_size(32,32); }
 
 static int atlas(unsigned size)
 {
@@ -153,6 +155,15 @@ static int cursor_control(const char *mode)
 
 int main(int argc, char **argv)
 {
+    if (argc==2 && !strcmp(argv[1],"--mixed-controls")) {
+        resources("cold"); CHECK(observer_control()==0); resources("observer warmed");
+        for (int i=0; i<3; i++) {
+            CHECK(cursor_control("--indirect")==0); resources("after indirect cycle");
+            CHECK(observer_control()==0); resources("after small drawing");
+            CHECK(observer_control_size(960,720)==0); resources("after atlas-size drawing");
+        }
+        return 0;
+    }
     if (argc==2) {
         CHECK(!strcmp(argv[1],"--activate-only") || !strcmp(argv[1],"--draw-stock") || !strcmp(argv[1],"--indirect"));
         resources("cold"); CHECK(observer_control()==0);resources("observer warm");
@@ -180,6 +191,15 @@ int main(int argc, char **argv)
     CHECK(cursor_control("--indirect")==0);
     CHECK(GetGuiResources(GetCurrentProcess(), GR_USEROBJECTS)==before_control_user);
     CHECK(GetGuiResources(GetCurrentProcess(), GR_GDIOBJECTS)==indirect_gdi);
+    /* A contact sheet also draws text into a large DIB after the first
+     * colour cursor. Run that ordering using only Win32 before measuring. */
+    CHECK(observer_control()==0); resources("indirect then small DIB");
+    CHECK(observer_control_size(960,720)==0); resources("indirect then large DIB");
+    DWORD mixed_gdi=GetGuiResources(GetCurrentProcess(), GR_GDIOBJECTS);
+    CHECK(cursor_control("--indirect")==0); CHECK(observer_control()==0);
+    CHECK(observer_control_size(960,720)==0);
+    CHECK(GetGuiResources(GetCurrentProcess(), GR_USEROBJECTS)==before_control_user);
+    CHECK(GetGuiResources(GetCurrentProcess(), GR_GDIOBJECTS)==mixed_gdi);
     /* Stock resources are shared with Windows and intentionally not destroyed. */
     for (unsigned shape = 0; shape < NEMO_POINTER_SHAPE_COUNT; shape++)
         if (nemo_pointer_glyph_index((NemoPointerShape)shape) < 0)
