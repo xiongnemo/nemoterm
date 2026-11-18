@@ -164,7 +164,7 @@ jobs:
           ./scripts/test-exception-observer.ps1 -Destination build/close-replay-evidence/exception-controls
           Get-FileHash tests/native_exception_observer.c, tests/native_exception_observer.py, tests/native_exception_control.c, tests/native_exception_controls.py, scripts/test-exception-observer.ps1 -Algorithm SHA256 | ConvertTo-Json | Set-Content build/close-replay-evidence/exception-observer-source.json
       - name: Verify failure dump ownership, context and target survival
-        if: ${{ inputs.capture_failure_dumps && (inputs.fixture == 'shutdown' || inputs.fixture == 'profiles' || inputs.fixture == 'profiles-api') }}
+        if: ${{ inputs.capture_failure_dumps }}
         shell: pwsh
         run: |
           ./scripts/test-failure-dump.ps1 -Destination build/close-replay-evidence/failure-dump-controls
