@@ -120,9 +120,6 @@ def main():
             if register_scenes:
                 assert variants[reference_transport]['completed'] and len(steps)==(2 if args.private_registers or args.colour_stream=='private' else 3)
             matches=[re.fullmatch(pattern,bytes.fromhex(s['sequence_hex'])) for s in steps]
-            if args.views and name=='control-capability':
-                evidence['excluded'][name]='Terminal identity control; ReGIS capability is not advertised yet.'
-                continue
             if not args.views and not all(matches):
                 evidence['excluded'][name]='Requires terminal CSI/Sixel/cancellation integration; original stream retained unchanged.'
                 continue
@@ -162,7 +159,21 @@ def main():
                           reference_frame_file=reference_frame['file'],
                           reference_crop_sha256=hashlib.sha256(expected).hexdigest(),pixel_mismatches=mismatches)
                 record['steps'].append(item)
-                if status or reply.hex()!=step['reply_hex'] or mismatches:
+                expected_reply=bytes.fromhex(step['reply_hex'])
+                reply_matches=reply==expected_reply
+                if name=='control-capability':
+                    # This scene has never required two distinct terminal
+                    # models to claim the same DA1 identity. Compare both
+                    # graphics flags and the *complete* geometry response.
+                    def split_discovery(wire):
+                        m=re.fullmatch(rb'\x1b\[\?([0-9]+)((?:;[0-9]+)+)c(\x1b\[\?3;0;[0-9]+;[0-9]+S)',wire)
+                        return (m[2].split(b';')[1:],m[3]) if m else ([],None)
+                    actual_flags,actual_page=split_discovery(reply)
+                    ref_flags,ref_page=split_discovery(expected_reply)
+                    reply_matches={b'3',b'4'}.issubset(actual_flags) and {b'3',b'4'}.issubset(ref_flags) and actual_page==ref_page
+                    item['reply_basis']='ReGIS and Sixel DA1 flags and exact page geometry; original DA identities retained separately'
+                item['reply_matches']=reply_matches
+                if status or not reply_matches or mismatches:
                     evidence['failures'].append(dict(case=name,step=index,**item))
                     if len(pixels)==160*120*3:
                         Image.frombytes('RGB',(160,120),pixels).save(args.output/f'{name}-{index}-actual.png')

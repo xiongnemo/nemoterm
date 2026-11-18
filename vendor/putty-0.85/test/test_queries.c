@@ -532,7 +532,7 @@ static void test_identity(Mock *mk)
     reset(mk);
     static const char *requests[] = { "c", ">c", "=c", ">q" };
     static const char *replies[] = {
-        "\033[?62;4;22c", "\033[>0;136;0c", "\033P!|00000000\033\\",
+        "\033[?62;3;4;22c", "\033[>0;136;0c", "\033P!|00000000\033\\",
         "\033P>|Nemoterm(PuTTY 0.85)\033\\"
     };
     static const char *arguments[] = {

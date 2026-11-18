@@ -337,6 +337,12 @@ static int framing_tests(void)
 {
     Mock *mk=regis_mock();
     Terminal *t=mk->term;
+    test_context(mk,"discover the configured page before allocating a graphics owner");
+    feed_regis(mk,"\033[c\033[?3;1;0S");
+    SEQUAL(mk->to_backend->s,"\033[?62;3;4;22c\033[?3;0;160;120S");
+    IEQUAL(term_regis_decoder(t)==NULL,true);
+    IEQUAL(term_regis_memory(t),0);
+    strbuf_clear(mk->to_backend);
     test_context(mk,"lazy owner, complete DCS and original geometry");
     IEQUAL(term_regis_memory(t),0);
     feed_regis(mk,"\033P1pS(E)W(I3)P[20,20]V[120,20]R(P)\033\\");

@@ -178,10 +178,10 @@ static bool nemo_regis_begin(Terminal *term)
         if (!term->regis) return false;
         term->regis->term=term;
         NemoRegisConfig config={0};
-        config.width=term->regis_width ? term->regis_width : 800;
-        config.height=term->regis_height ? term->regis_height : 480;
-        config.max_width=term->regis_max_width ? term->regis_max_width : 8192;
-        config.max_height=term->regis_max_height ? term->regis_max_height : 8192;
+        config.width=term->regis_width;
+        config.height=term->regis_height;
+        config.max_width=term->regis_max_width;
+        config.max_height=term->regis_max_height;
         config.colours=16; config.terminal_id=340;
         config.memory_limit=NEMO_SIXEL_DEFAULT_BUDGET;
         config.private_colours=term->sixel_private_palette;

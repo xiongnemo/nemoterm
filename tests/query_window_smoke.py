@@ -74,7 +74,7 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-query-') as directory:
         script = session.create_script((root/'tests/query_focus_probe.js').read_text())
         script.load()
         script.exports_sync.set_focus(hex(hwnd), True)
-        for prefix, final, reply in [('', 'c', b'\x1b[?62;4;22c'),
+        for prefix, final, reply in [('', 'c', b'\x1b[?62;3;4;22c'),
                 ('>', 'c', b'\x1b[>0;136;0c'), ('=', 'c', b'\x1bP!|00000000\x1b\\'),
                 ('>', 'q', b'\x1bP>|Nemoterm(PuTTY 0.85)\x1b\\')]:
             valid_args = ('', '0', '0;9', ';9', '0:0', '0:1', ':1', '0;1:2', '0:0:0', '1:0', '1;0:0')

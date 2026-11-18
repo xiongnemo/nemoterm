@@ -2462,14 +2462,22 @@ static void nemo_graphics_query(Terminal *term)
           case 4: value = height = NEMO_SIXEL_MAX_DIMENSION; break;
           default: status = 2; break;
         }
+    } else if (item == 3) {
+        /* The ReGIS page is independent of the text grid. A capability
+         * probe must not allocate the decoder or disturb a retained page. */
+        switch (action) {
+          case 1: value = term->regis_width; height = term->regis_height; break;
+          case 2: case 3: case 4: status = 3; break;
+          default: status = 2; break;
+        }
     } else {
-        status = 1; /* no ReGIS decoder or other graphics attribute items */
+        status = 1; /* unrecognised graphics attribute */
     }
     if (term->ldisc) {
         char reply[96];
         int n = status ? sprintf(reply, "\033[?%u;%uS", item, status) :
             item == 1 ? sprintf(reply, "\033[?1;0;%uS", value) :
-            sprintf(reply, "\033[?2;0;%u;%uS", value, height);
+            sprintf(reply, "\033[?%u;0;%u;%uS", item, value, height);
         nemo_protocol_send(term, reply, n);
     }
 }
@@ -4502,6 +4510,9 @@ Terminal *term_init(Conf *myconf, struct unicode_data *ucsdata, TermWin *win)
     memset(term, 0, sizeof(Terminal));
     term->cell_width = 8;
     term->cell_height = 16;
+    term->regis_width = 800;
+    term->regis_height = 480;
+    term->regis_max_width = term->regis_max_height = 8192;
     term->sixel_register_count = NEMO_SIXEL_PALETTE_SIZE;
     term->win = win;
     term->ucsdata = ucsdata;
@@ -4509,7 +4520,7 @@ Terminal *term_init(Conf *myconf, struct unicode_data *ucsdata, TermWin *win)
     nemo_tcap_configure(term, conf_get_str(myconf, CONF_nemo_tcap_name));
     term->compatibility_level = TM_PUTTY;
     term->ansi_level = 3;
-    strcpy(term->id_string, "\033[?62;4;22c");
+    strcpy(term->id_string, "\033[?62;3;4;22c");
     bufchain_init(&term->inbuf);
     bufchain_init(&term->printer_buf);
     term->has_focus = true;
