@@ -208,6 +208,7 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-selection-') as temporary:
         verify_scaled_rows(hwnd,begin_phase,point,captured,tile,shortcut,no_forwarded_input,evidence)
         from selection_bidi_rectangle import verify as verify_bidi
         verify_bidi(hwnd,begin_phase,point,captured,tile,shortcut,no_forwarded_input,evidence)
+        verify_bidi(hwnd,begin_phase,point,captured,tile,shortcut,no_forwarded_input,evidence,block=False)
         evidence['completed']=True
         print('Rapid independent selections and 16 Ctrl rectangles, exact Unicode, shortcut/right-click copy and pixels passed')
     finally:
