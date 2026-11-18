@@ -26,6 +26,8 @@ jobs:
         run: scripts/prepare-remote-interaction.ps1
       - name: Read actual Windows keyboard records for image paste with and without Codex painting
         run: python tests/codex_image_key_boundary.py
+      - name: Verify image paste with application-selected VT keyboard encoding
+        run: python tests/image_paste_protocol.py
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
