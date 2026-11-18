@@ -26,7 +26,13 @@ STEPS=[('initial',Q),('set-foreground',osc(13,b'#12a45c')+Q),
        ('reset-background-payload',osc(114,b'ignored')+Q),('named',osc(13,b'red;blue')+Q),
        ('soft-reset',CSI+b'!p'+Q),('alternate',CSI+b'?1049h'+Q),('restore-main',CSI+b'?1049l'+Q),
        ('push',CSI+b'#P'+osc(13,b'#abcdef;#123456')+Q),('pop',CSI+b'#Q'+Q),
-       ('hard-reset',ESC+b'c'+Q),('reset-both',osc(113)+osc(114)+Q)]
+       ('hard-reset',ESC+b'c'+Q),('reset-both',osc(113)+osc(114)+Q),
+       ('fresh-pair',osc(13,b'#229933;#6611dd')+Q),('payload-reset-foreground',osc(113,b'ignored')+Q),
+       ('plain-reset-both',osc(113)+osc(114)+Q),('soft-pair',osc(13,b'red;blue')+CSI+b'!p'+Q),
+       ('soft-plain-resets',osc(113)+osc(114)+Q),('ris-pair',osc(13,b'red;blue')+ESC+b'c'+Q),
+       ('ris-plain-resets',osc(113)+osc(114)+Q),('unchanged-push-pop',osc(13,b'green;cyan')+CSI+b'#P'+CSI+b'#Q'+Q),
+       ('unchanged-pop-resets',osc(113)+osc(114)+Q),('changed-only-foreground-then-pop',osc(13,b'green;cyan')+CSI+b'#P'+osc(13,b'blue')+CSI+b'#Q'+Q),
+       ('changed-pop-resets',osc(113)+osc(114)+Q),('plain-after-pop-set-one',osc(14,b'#883399')+osc(113)+osc(114)+Q)]
 PROFILES={'default':(), 'explicit':('pointerColor: #2678ae','pointerColorBackground: #b2d460'),
           'deny-set':('allowColorOps: false','disallowedColorOps: SetColor'),
           'deny-get':('allowColorOps: false','disallowedColorOps: GetColor')}
