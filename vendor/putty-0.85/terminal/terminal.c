@@ -3676,6 +3676,13 @@ void term_update(Terminal *term)
         win_set_maximised(term->win, term->win_maximise_enable);
         term->win_maximise_pending = false;
     }
+    if (term->win_fullscreen_pending != TERM_FS_KEEP) {
+        TermFullscreenOp op = term->win_fullscreen_pending;
+        term->win_fullscreen_pending = TERM_FS_KEEP; /* WM_SIZE may re-enter */
+        if (term->win->vt->fullscreen && !term->no_remote_resize &&
+            conf_get_int(term->conf, CONF_resize_action) != RESIZE_DISABLED)
+            term->win->vt->fullscreen(term->win, op);
+    }
     if (term->win_title_pending) {
         win_set_title(term->win, term->window_title,
                       term->wintitle_codepage);
@@ -9997,6 +10004,26 @@ static void term_out(Terminal *term, bool called_from_term_data)
                                     term_schedule_update(term);
                                 }
                                 break;
+                              case 10: { /* XTWINOPS: fullscreen (separate from maximise) */
+                                if (term->no_remote_resize || !term->win->vt->fullscreen ||
+                                    conf_get_int(term->conf, CONF_resize_action) == RESIZE_DISABLED)
+                                    break;
+                                unsigned arg = term->esc_nargs >= 2 ? term->esc_args[1] : 0;
+                                if (arg == 2) {
+                                    /* Multiple toggles in one incoming write must compose. */
+                                    switch (term->win_fullscreen_pending) {
+                                      case TERM_FS_KEEP:   term->win_fullscreen_pending = TERM_FS_TOGGLE; break;
+                                      case TERM_FS_TOGGLE: term->win_fullscreen_pending = TERM_FS_KEEP; break;
+                                      case TERM_FS_ENTER:  term->win_fullscreen_pending = TERM_FS_LEAVE; break;
+                                      case TERM_FS_LEAVE:  term->win_fullscreen_pending = TERM_FS_ENTER; break;
+                                    }
+                                } else {
+                                    /* XTerm treats omitted and unrecognised parameters as leave. */
+                                    term->win_fullscreen_pending = arg == 1 ? TERM_FS_ENTER : TERM_FS_LEAVE;
+                                }
+                                term_schedule_update(term);
+                                break;
+                              }
                               case 11: case 13: case 14: case 15:
                               case 16: case 18: case 19:
                                 nemo_query_geometry(term, term->esc_args[0]);

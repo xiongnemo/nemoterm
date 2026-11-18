@@ -275,6 +275,7 @@ static void wintw_set_icon_title(TermWin *, const char *icontitle,
                                  int codepage);
 static void wintw_set_minimised(TermWin *, bool minimised);
 static void wintw_set_maximised(TermWin *, bool maximised);
+static void wintw_fullscreen(TermWin *, TermFullscreenOp);
 static void wintw_move(TermWin *, int x, int y);
 static void wintw_set_zorder(TermWin *, bool top);
 static void wintw_palette_set(TermWin *, unsigned, unsigned, const rgb *);
@@ -341,6 +342,7 @@ static const TermWinVtable windows_termwin_vt = {
     .set_icon_title = wintw_set_icon_title,
     .set_minimised = wintw_set_minimised,
     .set_maximised = wintw_set_maximised,
+    .fullscreen = wintw_fullscreen,
     .move = wintw_move,
     .set_zorder = wintw_set_zorder,
     .palette_set = wintw_palette_set,
@@ -7664,13 +7666,29 @@ static void flip_full_screen(WinGuiSeat *wgs)
 {
     if (wgs->tabbed) {nemo_host_fullscreen(!tab_host.fullscreen);return;}
     if (is_full_screen(wgs)) {
+        bool maximise = wgs->fullscreen_was_maximised;
+        wgs->fullscreen_was_maximised = false;
         ShowWindow(wgs_window(wgs), SW_RESTORE);
+        if (maximise) ShowWindow(wgs_window(wgs), SW_MAXIMIZE);
     } else if (IsZoomed(wgs_window(wgs))) {
+        wgs->fullscreen_was_maximised = true;
         make_full_screen(wgs);
     } else {
+        wgs->fullscreen_was_maximised = false;
         SendMessage(wgs->term_hwnd, WM_FULLSCR_ON_MAX, 0, 0);
         ShowWindow(wgs_window(wgs), SW_MAXIMIZE);
     }
+}
+
+static void wintw_fullscreen(TermWin *tw, TermFullscreenOp op)
+{
+    WinGuiSeat *wgs = container_of(tw, WinGuiSeat, termwin);
+    HWND host = wgs_window(wgs);
+    if (!wgs_active(wgs) || wgs->closing || !IsWindowEnabled(host) || IsIconic(host))
+        return;
+    bool full = is_full_screen(wgs);
+    if (op == TERM_FS_TOGGLE || (op == TERM_FS_ENTER && !full) || (op == TERM_FS_LEAVE && full))
+        flip_full_screen(wgs);
 }
 
 static size_t win_seat_output(Seat *seat, SeatOutputType type,

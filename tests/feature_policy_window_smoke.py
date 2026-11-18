@@ -10,7 +10,7 @@ OSC, ST = '\x1b]', '\x1b\\'
 colors = 'SetColor,GetColor,GetAnsiColor'
 mouse = 'X10,Locator,VT200Click,VT200Hilite,AnyButton,AnyEvent,FocusEvent,Extended,SGR,URXVT,AlternateScroll'
 windows = ('RestoreWin,MinimizeWin,SetWinPosition,SetWinSizePixels,RaiseWin,LowerWin,RefreshWin,'
-           'SetWinSizeChars,MaximizeWin,GetWinState,GetWinPosition,GetWinSizePixels,GetWinSizeChars,'
+           'SetWinSizeChars,MaximizeWin,FullscreenWin,GetWinState,GetWinPosition,GetWinSizePixels,GetWinSizeChars,'
            'GetScreenSizeChars,GetIconTitle,GetWinTitle,PushTitle,PopTitle,SetWinLines,ColumnMode,'
            'GetChecksum,SetChecksum,GetSelection,SetSelection')
 paste_denied = ('NUL,SOH,STX,ETX,EOT,ENQ,ACK,BEL,VT,FF,SO,SI,DLE,DC1,DC2,DC3,DC4,NAK,SYN,'
@@ -38,7 +38,7 @@ for name, settings in profiles.items():
     allowed = (all_categories if name == 'permitted' else 'allowColorOps' if name == 'restricted'
                else 'allowColorOps,allowMouseOps,allowTitleOps')
     denied_window = ('' if name == 'permitted' else
-        'SetWinPosition,SetWinSizePixels,SetWinSizeChars,GetIconTitle,GetWinTitle,PushTitle,PopTitle,'
+        'SetWinPosition,SetWinSizePixels,SetWinSizeChars,FullscreenWin,GetIconTitle,GetWinTitle,PushTitle,PopTitle,'
         'SetWinLines,ColumnMode,GetSelection,SetSelection,GetChecksum,SetChecksum' if name == 'restricted' else
         'GetIconTitle,GetWinTitle,GetSelection,GetChecksum,SetChecksum')
     cases = [

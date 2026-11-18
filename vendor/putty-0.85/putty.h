@@ -1670,6 +1670,11 @@ typedef struct TermPointerState {
     unsigned buttons;
 } TermPointerState;
 
+/* KEEP is the identity when composing deferred XTWINOPS 10 requests. */
+typedef enum {
+    TERM_FS_KEEP, TERM_FS_ENTER, TERM_FS_LEAVE, TERM_FS_TOGGLE
+} TermFullscreenOp;
+
 #include "terminal/nemo_raster.h"
 struct TermWinVtable {
     /* Enable APC graphics only when the frontend implements all three layers. */
@@ -1781,6 +1786,7 @@ struct TermWinVtable {
      * maximised. */
     void (*set_minimised)(TermWin *, bool minimised);
     void (*set_maximised)(TermWin *, bool maximised);
+    void (*fullscreen)(TermWin *, TermFullscreenOp); /* optional */
     void (*move)(TermWin *, int x, int y);
     void (*set_zorder)(TermWin *, bool top);
 

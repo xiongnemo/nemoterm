@@ -31,7 +31,7 @@ static void response(Mock *mk, const char *expected, size_t length)
 #define ALL "allowColorOps,allowMouseOps,allowPasteControls,allowTcapOps,allowTitleOps,allowWindowOps"
 #define COLORS "SetColor,GetColor,GetAnsiColor"
 #define MOUSE "X10,Locator,VT200Click,VT200Hilite,AnyButton,AnyEvent,FocusEvent,Extended,SGR,URXVT,AlternateScroll"
-#define WINDOWS "RestoreWin,MinimizeWin,SetWinPosition,SetWinSizePixels,RaiseWin,LowerWin,RefreshWin,SetWinSizeChars,MaximizeWin,GetWinState,GetWinPosition,GetWinSizePixels,GetWinSizeChars,GetScreenSizeChars,GetIconTitle,GetWinTitle,PushTitle,PopTitle,SetWinLines,ColumnMode,GetChecksum,SetChecksum,GetSelection,SetSelection"
+#define WINDOWS "RestoreWin,MinimizeWin,SetWinPosition,SetWinSizePixels,RaiseWin,LowerWin,RefreshWin,SetWinSizeChars,MaximizeWin,FullscreenWin,GetWinState,GetWinPosition,GetWinSizePixels,GetWinSizeChars,GetScreenSizeChars,GetIconTitle,GetWinTitle,PushTitle,PopTitle,SetWinLines,ColumnMode,GetChecksum,SetChecksum,GetSelection,SetSelection"
 
 static void formatter(Mock *mk)
 {
@@ -61,6 +61,7 @@ static void formatter(Mock *mk)
 }
 
 static void noop(TermWin *win) {}
+static void fullscreen(TermWin *win, TermFullscreenOp op) {}
 static void set_boolean(TermWin *win, bool value) {}
 static void move_window(TermWin *win, int x, int y) {}
 static void resize_window(TermWin *win, int x, int y, bool pixels) {}
@@ -163,7 +164,7 @@ static void permissions(Mock *mk)
     term_data_fragmented(mk->term,"\033]60\007\033]61;allowMouseOps\007\033]61;allowWindowOps\007");
     RESPONSE(mk,"\033]60;allowColorOps\007"
         "\033]61;X10,Locator,VT200Click,VT200Hilite,AnyButton,AnyEvent,FocusEvent\007"
-        "\033]61;SetWinPosition,SetWinSizePixels,SetWinSizeChars,GetIconTitle,GetWinTitle,PushTitle,PopTitle,SetWinLines,ColumnMode,GetSelection,SetSelection,GetChecksum,SetChecksum\007");
+        "\033]61;SetWinPosition,SetWinSizePixels,SetWinSizeChars,FullscreenWin,GetIconTitle,GetWinTitle,PushTitle,PopTitle,SetWinLines,ColumnMode,GetSelection,SetSelection,GetChecksum,SetChecksum\007");
     term_data_fragmented(mk->term,"\033[8;30;100t\033]2;blocked\007\033[21t\033[17#y\033[?1004h");
     IEQUAL(mk->term->win_resize_pending,WIN_RESIZE_NO);
     IEQUAL(mk->term->checksum_flags,0);
@@ -235,6 +236,7 @@ int main(void)
 {
     Mock *mk=mock_new();
     TermWinVtable vt=mock_termwin_vt;
+    vt.fullscreen=fullscreen;
     vt.refresh=noop; vt.set_minimised=vt.set_maximised=vt.set_zorder=set_boolean;
     vt.move=vt.request_resize=move_window; vt.request_window_resize=resize_window;
     vt.get_geometry=geometry; vt.get_pointer=pointer;
