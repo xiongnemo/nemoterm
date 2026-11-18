@@ -13,7 +13,11 @@ jobs:
     timeout-minutes: 12
     strategy:
       fail-fast: false
-      matrix: {input: [system, api], phase: [immediate, idle]}
+      matrix:
+        input: [system, api]
+        phase: [immediate, idle]
+        include:
+          - {input: system, phase: caption}
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with: {fetch-depth: 0}
@@ -42,7 +46,7 @@ jobs:
           if ($clients.Count -ne 1) {throw 'Expected one pinned native Codex executable'}
           $opts=@('tests/agent_clipboard_smoke.py','--client','codex','--client-exe',$clients[0].FullName)
           if ($env:INPUT_MODE -eq 'system') {$opts+='--system-input'}
-          if ($env:STARTUP_PHASE -eq 'idle') {$opts+='--after-client-idle'} else {$opts+='--observe-first-miss'}
+          if ($env:STARTUP_PHASE -eq 'idle') {$opts+='--after-client-idle'} elseif ($env:STARTUP_PHASE -eq 'caption') {$opts+='--after-window-caption'} else {$opts+='--observe-first-miss'}
           python @opts
           exit $LASTEXITCODE
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
@@ -54,6 +58,8 @@ jobs:
             research/agent-codex-ctrl*
             build/agent-image-*/*/*.json
             build/agent-image-*/*/at-paste.vt
+            build/agent-image-*/*/after-caption-gesture.vt
+            build/agent-image-*/*/caption-after-key.png
             build/agent-image-*/*/client-output.log
             build/agent-image-*/*/first-miss.png
             build/agent-image-*/*/before-followup.*

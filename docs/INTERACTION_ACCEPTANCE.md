@@ -157,6 +157,8 @@ Codex 首次输入会同时触发颜色查询。托管 Windows 控制台用相�
 
 同一 EXE 可用 `font-zoom-replay.yml` 的 `suite=image-timing` 分别重放 Codex 首次显示输入与报告就绪后的两种贴图快捷键；`suite=picture-keys` 则用同一批启动输出核对原生 Windows 键盘记录。见[启动时序、实际图片与原始记录](../research/agent-unicode-boundary.md#codex-image-paste-during-startup)。
 
+同组的 `system / caption` 在测试项目名 `work` 出现在前台原生窗口标题后立刻实按一次快捷键，不等待客户端空闲、日志或额外重绘。它保留标题截图、按键记录和回环服务收到的图片；该观测只适用于这个客户端配置，独立于启动期与空闲期的原有验收。
+
 `suite=image-reference` 在系统 ConPTY 与 WinPTY 上直接启动同一版 Codex，向其专用控制台写入原生接收端实测的四个按键事件，并核对送达本地服务的图片。此组不启动 Nemoterm，不计入产品通过数。
 
 ### pterm-memory

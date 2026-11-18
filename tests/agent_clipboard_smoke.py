@@ -11,12 +11,29 @@ import sys
 import tempfile
 import time
 from fixture_io import read_snapshot,write_snapshot
-from native_test_utils import u, wait_for
+from native_test_utils import c, u, w, wait_for
 from owned_job import OwnedJob
 
 ROOT=Path(__file__).resolve().parent.parent
 sys.path.insert(0,str(ROOT/'tools'))
 import nemoterm_debug as api
+
+
+def native_caption(host):
+    u.GetWindowTextW.argtypes=[w.HWND,w.LPWSTR,c.c_int]
+    text=c.create_unicode_buffer(512)
+    u.GetWindowTextW(host,text,len(text))
+    return text.value
+
+
+def save_caption_pixels(host,path):
+    from PIL import ImageGrab
+    r=w.RECT()
+    u.GetWindowRect.argtypes=[w.HWND,c.POINTER(w.RECT)]
+    assert u.GetWindowRect(host,c.byref(r))
+    box=(r.left,r.top,r.right,min(r.bottom,r.top+96))
+    ImageGrab.grab(bbox=box,all_screens=True).save(path)
+    return box
 
 
 def main():
@@ -28,13 +45,15 @@ def main():
     parser.add_argument('--system-input', action='store_true')
     parser.add_argument('--after-client-idle',action='store_true',help='Also require Codex to report idle and redraw the marker after startup queries')
     parser.add_argument('--observe-first-miss', action='store_true', help='Keep the failed startup gesture and separately observe one subsequent user action in that same session')
+    parser.add_argument('--after-window-caption',action='store_true',help='Physically paste when the real window displays the fixture project name, without waiting for a VT status or redraw')
     parser.add_argument('--binding',choices=('ctrl-v','ctrl-shift-v'))
     args=parser.parse_args()
     folder=Path(tempfile.mkdtemp(prefix='agent-image-',dir=ROOT/'build'))
     result=dict(client=args.client,cases=[],live_model=False,tool_responses=False,font=args.font)
+    if args.after_window_caption:assert args.client=='codex' and args.system_input and not args.after_client_idle and not args.observe_first_miss
     if args.after_client_idle:assert args.client=='codex'
     if args.observe_first_miss:assert args.client=='codex' and not args.after_client_idle
-    result.update(system_input=args.system_input,after_client_idle=args.after_client_idle,failures=[])
+    result.update(system_input=args.system_input,after_client_idle=args.after_client_idle,after_window_caption=args.after_window_caption,failures=[])
     for name,mods in [('ctrl-v',2),('ctrl-shift-v',3)]:
         if args.binding and args.binding!=name:continue
         case=folder/name;report=case/'observed.json';control=case/'control.json'
@@ -49,6 +68,9 @@ def main():
                 observed=wait_for(lambda:read_snapshot(report),timeout=30)
                 instance=wait_for(lambda:next(iter(api.discover(observed['pid'])),None),timeout=20)
                 endpoint=instance['endpoint'];session,=instance['sessions'];seat=session['id']
+                if args.after_window_caption:
+                    caption_record=dict(host=session['window'],initial=native_caption(session['window']),expected='work')
+                    write_snapshot(case/'caption.json',caption_record)
                 if args.system_input:
                     from hosted_gesture_input import DesktopInput
                     desk=DesktopInput(observed['pid'],session['window'],session['hwnd'],events)
@@ -72,12 +94,33 @@ def main():
                 if args.after_client_idle:wait_for(idle_redraw,timeout=60)
                 write_snapshot(control,dict(id=1,action='bitmap'))
                 wait_for(lambda:read_snapshot(report).get('clipboard_action')==1)
+                # The caption phase gates only on the foreground window a user sees.
+                # Do not read the VT trace, capture pixels or write files between the
+                # first matching caption sample and the actual physical key chord.
+                if args.after_window_caption:
+                    def matching_caption():
+                        desk.target()
+                        title=native_caption(desk.host)
+                        return (title,time.monotonic()) if title==caption_record['expected'] else None
+                    title,seen=wait_for(matching_caption,timeout=60)
+                    attachment_started=time.monotonic();key(86,mods)
+                    sent=time.monotonic()
+                    desk.target()
+                    caption_record.update(matched=title,key_started_ms=(attachment_started-seen)*1000,
+                        key_completed_ms=(sent-seen)*1000,after_key=native_caption(desk.host),
+                        crop=save_caption_pixels(desk.host,case/'caption-after-key.png'))
+                    write_snapshot(case/'caption.json',caption_record)
                 before=trace.read_bytes() if trace.is_file() else b''
-                (case/'at-paste.vt').write_bytes(before)
-                write_snapshot(case/'at-paste.json',dict(marker=marker,system=bool(desk),binding=name,
-                    bytes=len(before),sha256=hashlib.sha256(before).hexdigest(),idle_before=b'\x1b]7501;state=idle:app=codex' in before,session=session))
-                attachment_started=time.monotonic()
-                key(86,mods)
+                boundary='after-caption-gesture' if args.after_window_caption else 'at-paste'
+                (case/(boundary+'.vt')).write_bytes(before)
+                evidence=dict(marker=marker,system=bool(desk),binding=name,session=session,
+                    bytes=len(before),sha256=hashlib.sha256(before).hexdigest())
+                idle_key='idle_in_post_gesture_trace' if args.after_window_caption else 'idle_before'
+                evidence[idle_key]=b'\x1b]7501;state=idle:app=codex' in before
+                write_snapshot(case/(boundary+'.json'),evidence)
+                if not args.after_window_caption:
+                    attachment_started=time.monotonic()
+                    key(86,mods)
                 # OpenCode launches Windows PowerShell/WinForms to read images.
                 # A fresh hosted runner exceeded 20 s, then painted the exact
                 # attachment while a separate reader control also succeeded.
@@ -124,10 +167,12 @@ def main():
                 assert not observed['cleanup']['terminated_remaining'],observed['cleanup']
                 observed['binding']=name
                 observed['attachment_seconds']=attachment_seconds
+                if args.after_window_caption:observed['caption']=caption_record
                 write_snapshot(ROOT/f'research/agent-{args.client}-{name}.json',observed)
-                if followup is not None:
+                if args.after_window_caption or followup is not None:
                     relevant=[r for r in observed['requests'] if marker in r['text'] and r['images']]
                     assert len(relevant)==1 and len(relevant[0]['images'])==1 and relevant[0]['images'][0]['generated_pixels_match'],relevant
+                if followup is not None:
                     followup.update(completed=True,observation=observed)
                 else: result['cases'].append(observed)
                 print(args.client+' '+name+': exact generated image received; natural cleanup',flush=True)
