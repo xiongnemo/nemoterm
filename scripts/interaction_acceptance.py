@@ -37,6 +37,10 @@ def catalog():
         add('agent-image-system-'+client, 'agents', 'agent_clipboard_smoke.py',
             ['--client', client, '--client-exe', '{'+client+'}', '--font', FONT,'--system-input'],
             'Windows desktop Ctrl+V and Ctrl+Shift+V; generated clipboard pixels received by the real client')
+    for suffix,extra in [('',[]),('-system',['--system-input'])]:
+        add('agent-image-ready'+suffix+'-codex','agents','agent_clipboard_smoke.py',
+            ['--client','codex','--client-exe','{codex}','--font',FONT,'--after-client-idle',*extra],
+            'both shortcuts after the client idle redraw; compare actual submitted image pixels')
     add('agent-selection-roundtrip', 'agents', 'codex_window_smoke.py',
         ['--codex', '{codex}', '--tabs', '--paste-selection', '--font', FONT],
         'clipboard; isolated real Codex; selected response submitted to loopback provider')

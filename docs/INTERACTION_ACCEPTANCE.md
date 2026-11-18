@@ -10,7 +10,7 @@
 gh workflow run ci.yml --ref <branch> -f scope=full
 ```
 
-`Test and build` 汇总 Linux ASan/UBSan、C/C++ 单元测试、MSVC 渲染诊断、MinGW 原生协议和像素测试、单 EXE 完整套件、profile 持久化、DPI/双语界面，以及下表的 66 项检查（54 项交互、12 项完整 Sarasa 网格负载）。单 EXE、DPI 和交互任务共用这次 source-host 构建的准确 EXE，并校验来源提交、大小及 SHA-256。
+`Test and build` 汇总 Linux ASan/UBSan、C/C++ 单元测试、MSVC 渲染诊断、MinGW 原生协议和像素测试、单 EXE 完整套件、profile 持久化、DPI/双语界面，以及下表的 68 项检查（56 项交互、12 项完整 Sarasa 网格负载）。单 EXE、DPI 和交互任务共用这次 source-host 构建的准确 EXE，并校验来源提交、大小及 SHA-256。
 
 只回放测试脚本，不重复编译：
 
@@ -67,7 +67,7 @@ ReGIS 生产代码变化后的定向重建使用 `protocol-reference.yml -f fami
 | input | 2 | byte/ReadConsoleW、中文/emoji、IMM、模拟 DPI 与组合窗位置 |
 | selection | 4 | 默认/自定义 bindings，GDI/DX 矩形与 Shift 选择，右键仅复制与复制后粘贴；跨行复制粘贴区分自动折行、右边缘宽字和硬换行 |
 | clipboard | 2 | GDI/DX 文件/目录拖放，路径引用、应用接管与文本/图片优先级 |
-| agents | 28 | 真实 Codex、OpenCode 分别用窗口接口及 Windows 系统按键粘贴图片；在实际 GDI / DirectX 标签页用系统鼠标和键盘 Shift 拖选、Ctrl+Shift+C/V 与两种右键策略，核对高亮、剪贴板、接收端实际文本及退出。OpenCode 必须主动请求接管鼠标；Codex 记录当时实际请求。Claude Code 的组合重音分别核对剪贴板原文、原生子程序输入字节和两种独立 PTY 的 Messages 回执。另以不会被规范化的组合字符验证快捷键及两种右键模式端到端逐字一致。用例入表不代表已经通过。 |
+| agents | 30 | 真实 Codex、OpenCode 分别用窗口接口及 Windows 系统按键粘贴图片；Codex 首次画出输入和报告就绪后分别检查，两项独立计分；在实际 GDI / DirectX 标签页用系统鼠标和键盘 Shift 拖选、Ctrl+Shift+C/V 与两种右键策略，核对高亮、剪贴板、接收端实际文本及退出。OpenCode 必须主动请求接管鼠标；Codex 记录当时实际请求。Claude Code 的组合重音分别核对剪贴板原文、原生子程序输入字节和两种独立 PTY 的 Messages 回执。另以不会被规范化的组合字符验证快捷键及两种右键模式端到端逐字一致。用例入表不代表已经通过。 |
 | rendering | 3 | 实际 GDI 客户区捕获、三种渲染器、字号缩放/恢复 |
 | mouse | 2 | 鼠标协议字节、按键、滚轮和坐标；另对照 XTerm 的 31 组指针颜色回复、Windows 实际光标像素、恢复系统指针和隐藏标签隔离 |
 | tabs | 8 | 四侧标签栏/预览及四侧窗口缩放、会话与关闭回收 |
@@ -127,3 +127,5 @@ Codex 首次输入会同时触发颜色查询。托管 Windows 控制台用相�
 `unicode-boundary` 使用固定 Claude 客户端、两种独立 Windows PTY 和接收原始输入的原生程序，区分剪贴板、终端输入和客户端规范化。复现、原始证据和图片粘贴的已知失败见[真实客户端边界记录](../research/agent-unicode-boundary.md)。
 
 同一 EXE 可用 `font-zoom-replay.yml` 的 `suite=image-timing` 分别重放 Codex 首次显示输入与报告就绪后的两种贴图快捷键；`suite=picture-keys` 则用同一批启动输出核对原生 Windows 键盘记录。见[启动时序、实际图片与原始记录](../research/agent-unicode-boundary.md#codex-image-paste-during-startup)。
+
+`suite=image-reference` 在系统 ConPTY 与 WinPTY 上直接启动同一版 Codex，向其专用控制台写入原生接收端实测的四个按键事件，并核对送达本地服务的图片。此组不启动 Nemoterm，不计入产品通过数。

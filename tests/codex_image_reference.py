@@ -54,6 +54,32 @@ class Record(c.Structure):
     _fields_ = [('type',w.WORD),('event',Payload)]
 
 
+class Coord(c.Structure):
+    _fields_=[('x',c.c_short),('y',c.c_short)]
+
+
+class Rect(c.Structure):
+    _fields_=[('left',c.c_short),('top',c.c_short),('right',c.c_short),('bottom',c.c_short)]
+
+
+class Info(c.Structure):
+    _fields_=[('size',Coord),('cursor',Coord),('attrs',w.WORD),('view',Rect),('maximum',Coord)]
+
+
+def console_view(handle):
+    # WinPTY emits damage, not complete frames. Read only this wrapper's own
+    # visible console rectangle; never capture the Windows desktop.
+    info=Info()
+    if not k.GetConsoleScreenBufferInfo(handle,c.byref(info)):return None
+    r=info.view;width=r.right-r.left+1
+    if not 0<width<=200 or not 0<r.bottom-r.top+1<=80:return None
+    buf=c.create_unicode_buffer(width+1);rows=[];count=w.DWORD()
+    for y in range(r.top,r.bottom+1):
+        if not k.ReadConsoleOutputCharacterW(handle,buf,width,Coord(r.left,y),c.byref(count)) or count.value!=width:return None
+        rows.append(buf[:width].rstrip())
+    return '\n'.join(rows)
+
+
 def console_peer(folder, cmd):
     # This wrapper starts the unmodified client as its own console child. It
     # only writes fixed test records to its own console, never to another PID.
@@ -63,8 +89,15 @@ def console_peer(folder, cmd):
     k.WriteConsoleInputW.argtypes=[w.HANDLE,c.POINTER(Record),w.DWORD,c.POINTER(w.DWORD)]
     u.MapVirtualKeyW.argtypes=[w.UINT,w.UINT]; u.MapVirtualKeyW.restype=w.UINT
     stdin=k.GetStdHandle(-10); mode=w.DWORD(); assert k.GetConsoleMode(stdin,c.byref(mode))
+    k.GetConsoleScreenBufferInfo.argtypes=[w.HANDLE,c.POINTER(Info)]
+    k.ReadConsoleOutputCharacterW.argtypes=[w.HANDLE,w.LPWSTR,w.DWORD,Coord,c.POINTER(w.DWORD)]
+    stdout=k.GetStdHandle(-11);last_frame=None;next_frame=0
     captured=fixed_events(); seq=0; child=subprocess.Popen(cmd)
     while child.poll() is None:
+        if time.monotonic()>=next_frame:
+            next_frame=time.monotonic()+.025;frame=console_view(stdout)
+            if frame is not None and frame!=last_frame:
+                write_snapshot(folder/'peer-screen.json',dict(text=frame));last_frame=frame
         request=read_snapshot(folder/'command.json')
         if request.get('id') != seq+1:
             time.sleep(.003);continue
@@ -139,10 +172,16 @@ def run(args, folder, rec):
                 if args.phase=='after-turn':
                     send('warm');until('warm text painted',lambda p:WARM.encode() in p,15);send('enter')
                     until('first provider reply rendered',lambda p:b'NEMOTERM_TEXT_ACCEPTED' in p and any(WARM in r['text'] for r in server.requests),30)
-                send('marker');until('fixture marker painted',lambda p:MARK.encode() in p,20)
+                send('marker')
+                def marker_visible(data):
+                    pane=read_snapshot(folder/'peer-screen.json').get('text','')
+                    if MARK.encode() not in data and MARK not in pane:return False
+                    write_snapshot(folder/'at-marker.json',dict(terminal_output=MARK.encode() in data,native_console=MARK in pane,text=pane))
+                    return True
+                until('fixture marker painted',marker_visible,20)
                 before=bytes(raw);(folder/'at-paste.vt').write_bytes(before);rec['idle_visible_before']=b'\x1b]7501;state=idle:app=codex' in before
                 n=send('image');until('four native records written',lambda _:read_snapshot(folder/f'command-{n:02}.json').get('written')==4,8)
-                try:until('image marker painted',lambda p:b'[Image' in p,10);rec['attachment_visible']=True
+                try:until('image marker painted',lambda p:b'[Image' in p or '[Image' in read_snapshot(folder/'peer-screen.json').get('text',''),10);rec['attachment_visible']=True
                 except TimeoutError:rec['attachment_visible']=False
                 send('enter');until('provider received image-test marker',lambda _:any(MARK in r['text'] for r in server.requests),30)
                 until('provider reply rendered',lambda p:b'NEMOTERM_IMAGE_ACCEPTED' in p[len(CSI.sub(b'',before)):] or b'NEMOTERM_TEXT_ACCEPTED' in p[len(CSI.sub(b'',before)):],25)
