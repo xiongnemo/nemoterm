@@ -106,6 +106,20 @@ jobs:
             if ($LASTEXITCODE) { $failed += $query }
           }
           if ($failed.Count) { throw "ReGIS alternate remap failures: $($failed -join ', ')" }
+      - name: Check text row motion and ReGIS screen coordinates for old and new profiles
+        if: ${{ !cancelled() && steps.image.outcome == 'success' && steps.font.outcome == 'success' }}
+        env:
+          CAPTURE_MODE: ${{ matrix.mode }}
+        shell: pwsh
+        run: |
+          $arguments = @('--renderer', $env:CAPTURE_MODE)
+          if ($env:CAPTURE_MODE -eq 'presented-gdi') { $arguments = @('--renderer','gdi','--presented-gdi') }
+          $failed = @()
+          foreach ($profileKind in 'fresh','old','anchor','follow') {
+            python tests/regis_scroll_origin_window.py $profileKind @arguments
+            if ($LASTEXITCODE) { $failed += $profileKind }
+          }
+          if ($failed.Count) { throw "ReGIS reverse-scroll failures: $($failed -join ', ')" }
       - name: Retain all observations including failures
         if: always()
         shell: pwsh
