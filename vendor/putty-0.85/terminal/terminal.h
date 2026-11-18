@@ -186,6 +186,10 @@ const NemoKittyPlacements *term_kitty_placements(const Terminal *, int screen);
 /* Refresh text-derived visible image runs before reading drawing views. */
 void term_kitty_prepare(Terminal *);
 
+/* Logical ranges (commands and word selection), physical column rectangles,
+ * or mouse character streams in visual row order. */
+typedef enum { LEXICOGRAPHIC, RECTANGULAR, VISUAL_STREAM } SelectionType;
+
 struct terminal_tag {
 
     /* Oldest first, owned by the terminal. Coordinates are screen cell
@@ -420,9 +424,7 @@ struct terminal_tag {
     enum {
         NO_SELECTION, ABOUT_TO, DRAGGING, SELECTED
     } selstate;
-    enum {
-        LEXICOGRAPHIC, RECTANGULAR
-    } seltype;
+    SelectionType seltype;
     enum {
         SM_CHAR, SM_WORD, SM_LINE
     } selmode;

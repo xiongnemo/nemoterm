@@ -5371,7 +5371,8 @@ static int selection_bidi_slot(Terminal *term, int y)
 static void check_selection(Terminal *term, pos from, pos to)
 {
     if (term->selstate == NO_SELECTION) return;
-    if (term->seltype == RECTANGULAR) {
+    if (term->seltype != LEXICOGRAPHIC) {
+        bool rect = term->seltype == RECTANGULAR;
         int first = max(from.y, term->selstart.y), last = min(to.y, term->selend.y);
         for (int y = first; y <= last; y++) {
             int x0 = y == from.y ? from.x : 0;
@@ -5382,10 +5383,12 @@ static void check_selection(Terminal *term, pos from, pos to)
                 break;
             }
             termline *line = scrlineptr(y);
-            int scale = selection_row_scale(line);
+            int scale = rect ? selection_row_scale(line) : 1;
+            int left = rect || y == term->selstart.y ? term->selstart.x : 0;
+            int right = rect || y == term->selend.y ? term->selend.x : term->cols;
             /* Editing a bidi paragraph can reorder cells outside the edit.
              * Don't leave a highlight over a different cached clipboard. */
-            if ((x0*scale < term->selend.x && x1*scale > term->selstart.x) ||
+            if ((x0*scale < right && x1*scale > left) ||
                 term_bidi_line(term, line, selection_bidi_slot(term, y))) {
                 deselect(term);
                 break;
@@ -6364,7 +6367,7 @@ static void insch(Terminal *term, int n)
      * this operation but otherwise unchanged, in which case we can
      * simply move the highlight with the text.
      */
-    if (term->selstate == SELECTED && term->seltype == RECTANGULAR &&
+    if (term->selstate == SELECTED && term->seltype != LEXICOGRAPHIC &&
         term->curs.y >= term->selstart.y && term->curs.y <= term->selend.y &&
         term_bidi_line(term, scrlineptr(term->curs.y), selection_bidi_slot(term, term->curs.y)))
         deselect(term); /* translating logical columns need not translate the visual block */
@@ -9045,7 +9048,7 @@ static void term_out(Terminal *term, bool called_from_term_data)
                     check_trust_status(term, ldata);
                     if ((ldata->lattr & LATTR_MODE) != nlattr && nlattr != LATTR_NORM)
                         term->curs.x = min(term->curs.x, min(term->cols-1, term->cols/2));
-                    if (term->seltype == RECTANGULAR && term->selstate != NO_SELECTION &&
+                    if (term->seltype != LEXICOGRAPHIC && term->selstate != NO_SELECTION &&
                         ((ldata->lattr & LATTR_MODE) == LATTR_NORM) != (nlattr == LATTR_NORM) &&
                         term->curs.y >= term->selstart.y && term->curs.y <= term->selend.y)
                         deselect(term);
@@ -11202,10 +11205,16 @@ static void nemo_paint_attribute_colours(Terminal *term, const rgb colours[5],
 
 /* Selection edges are half-open cell boundaries. A boundary before a
  * UCSWIDE continuation splits a glyph; include its other cell on this row. */
-static int whole_glyph_edge(const termline *line, int cols, int edge, int outward)
+static int whole_glyph_edge(const termchar *chars, int cols, int edge, int outward)
 {
-    return (edge > 0 && edge < cols && edge < line->cols &&
-            line->chars[edge].chr == UCSWIDE) ? edge + outward : edge;
+    return edge > 0 && edge < cols && chars[edge].chr == UCSWIDE ? edge + outward : edge;
+}
+
+static int selection_text_end(const termchar *chars, int cols)
+{
+    while (cols > 0 && IS_SPACE_CHR(chars[cols-1].chr) && !chars[cols-1].cc_next)
+        cols--;
+    return cols;
 }
 
 /* Convert physical half-open rectangle edges into visual glyph edges on this
@@ -11216,8 +11225,8 @@ static void block_row_edges(termline *line, termchar *visual, int cols,
     int scale = selection_row_scale(line);
     *left = min(cols, max(0, *left) / scale);
     *right = min(cols, max(0, *right) / scale + (max(0, *right) % scale != 0));
-    if (*left > 0 && *left < cols && visual[*left].chr == UCSWIDE) (*left)--;
-    if (*right > 0 && *right < cols && visual[*right].chr == UCSWIDE) (*right)++;
+    *left = whole_glyph_edge(visual, cols, *left, -1);
+    *right = whole_glyph_edge(visual, cols, *right, +1);
 }
 
 static void do_paint(Terminal *term)
@@ -11448,10 +11457,11 @@ static void do_paint(Terminal *term)
 
             /* Video reversing things */
             if (term->selstate == DRAGGING || term->selstate == SELECTED) {
-                if (term->seltype == LEXICOGRAPHIC)
-                    selected = (posle(term->selstart, scrpos) &&
-                                poslt(scrpos, term->selend));
-                else
+                if (term->seltype != RECTANGULAR) {
+                    pos cell = scrpos;
+                    if (term->seltype == VISUAL_STREAM) cell.x = j;
+                    selected = posle(term->selstart, cell) && poslt(cell, term->selend);
+                } else
                     selected = (scrpos.y >= block_start.y && scrpos.y <= block_end.y &&
                                 j >= block_start.x && j < block_end.x);
             } else
@@ -11960,7 +11970,7 @@ static void clip_addchar(clip_workbuf *b, wchar_t chr, int attr, truecolour tc)
     b->bufpos++;
 }
 
-static void clipme(Terminal *term, pos top, pos bottom, bool rect, bool desel,
+static void clipme(Terminal *term, pos top, pos bottom, SelectionType type, bool desel,
                    const int *clipboards, int n_clipboards)
 {
     clip_workbuf buf;
@@ -11974,6 +11984,7 @@ static void clipme(Terminal *term, pos top, pos bottom, bool rect, bool desel,
     buf.attrptr = buf.attrbuf = snewn(buf.bufsize, int);
     buf.tcptr = buf.tcbuf = snewn(buf.bufsize, truecolour);
 
+    bool rect = type == RECTANGULAR;
     old_top_x = top.x;                 /* needed for rect==1 */
 
     while (poslt(top, bottom)) {
@@ -11982,12 +11993,21 @@ static void clipme(Terminal *term, pos top, pos bottom, bool rect, bool desel,
         pos nlpos, row_bottom = bottom;
         int left = old_top_x, right = bottom.x;
         const int *forward = NULL, *backward = NULL;
-        if (rect) {
+        termchar *visual = NULL;
+        if (type != LEXICOGRAPHIC) {
             int slot = selection_bidi_slot(term, top.y);
-            termchar *visual = term_bidi_line(term, ldata, slot);
-            block_row_edges(ldata, visual ? visual : ldata->chars, term->cols, &left, &right);
-            top.x = left;
-            row_bottom.x = right;
+            visual = term_bidi_line(term, ldata, slot);
+            if (rect) {
+                block_row_edges(ldata, visual ? visual : ldata->chars, term->cols, &left, &right);
+                top.x = left;
+                row_bottom.x = right;
+            } else {
+                /* A stream spans the rest of its first row, full middle
+                 * rows and the prefix of the last. Its endpoints have
+                 * already been expanded to the edges of whole glyphs. */
+                left = top.x;
+                right = top.y == bottom.y ? bottom.x : term->cols;
+            }
             if (visual) {
                 forward = term->post_bidi_cache[slot].forward;
                 backward = term->post_bidi_cache[slot].backward;
@@ -12022,7 +12042,9 @@ static void clipme(Terminal *term, pos top, pos bottom, bool rect, bool desel,
                    !ldata->chars[nlpos.x - 1].cc_next &&
                    poslt(top, nlpos))
                 decpos(nlpos);
-            if (poslt(nlpos, bottom))
+            if (type == VISUAL_STREAM && visual)
+                nl = top.y < bottom.y || right > selection_text_end(visual, term->cols);
+            else if (poslt(nlpos, bottom))
                 nl = true;
         } else {
             if (ldata->trusted) {
@@ -12044,11 +12066,10 @@ static void clipme(Terminal *term, pos top, pos bottom, bool rect, bool desel,
          * column from a table doesn't fill with spaces on the
          * right.)
          */
-        if (rect) {
-            /* A leading cell already emits the complete glyph at the right. */
-            if (nlpos.x > row_bottom.x)
-                nlpos.x = row_bottom.x;
-            nl = (top.y < bottom.y);
+        if (rect || visual) {
+            /* A visual span can end before the last source cell in this row. */
+            nlpos.x = min(nlpos.x, row_bottom.x);
+            if (rect) nl = top.y < bottom.y;
         }
 
         while (poslt(top, row_bottom) && poslt(top, nlpos)) {
@@ -12218,7 +12239,7 @@ bool term_shell_mark_select(Terminal *term, bool output)
     /* Selection fills the private clipboard; an explicit Copy action writes
      * to the system clipboard, matching normal local mouse selection. */
     int clipboard = CLIP_LOCAL;
-    clipme(term, term->selstart, term->selend, false, false, &clipboard, 1);
+    clipme(term, term->selstart, term->selend, LEXICOGRAPHIC, false, &clipboard, 1);
     term_scroll_to_selection(term, 0);
     term->shell_mark_selected = id;
     term_invalidate(term);
@@ -12234,7 +12255,7 @@ void term_copyall(Terminal *term, const int *clipboards, int n_clipboards)
     top.x = 0;
     bottom.y = find_last_nonempty_line(term, screen);
     bottom.x = term->cols;
-    clipme(term, top, bottom, false, true, clipboards, n_clipboards);
+    clipme(term, top, bottom, LEXICOGRAPHIC, true, clipboards, n_clipboards);
 }
 
 static void paste_from_clip_local(void *vterm)
@@ -12381,26 +12402,26 @@ static pos sel_spread_half(Terminal *term, pos p, int dir)
     ldata = lineptr(p.y);
 
     switch (term->selmode) {
-      case SM_CHAR:
+      case SM_CHAR: {
+        termchar *chars = term->seltype == VISUAL_STREAM ?
+            term_bidi_line(term, ldata, selection_bidi_slot(term, p.y)) : NULL;
+        if (!chars) chars = ldata->chars;
         /*
          * In this mode, every character is a separate unit, except
          * for runs of spaces at the end of a non-wrapping line.
          */
         if (!(ldata->lattr & LATTR_WRAPPED)) {
-            termchar *q = ldata->chars + line_cols(term, ldata);
-            while (q > ldata->chars &&
-                   IS_SPACE_CHR(q[-1].chr) && !q[-1].cc_next)
-                q--;
-            if (q == ldata->chars + term->cols)
-                q--;
-            if (p.x >= q - ldata->chars)
-                p.x = (dir == -1 ? q - ldata->chars : term->cols - 1);
+            int end = selection_text_end(chars, line_cols(term, ldata));
+            if (end == term->cols) end--;
+            if (p.x >= end)
+                p.x = dir < 0 ? end : term->cols-1;
         }
         if (dir < 0)
-            p.x = whole_glyph_edge(ldata, term->cols, p.x, -1);
+            p.x = whole_glyph_edge(chars, min(ldata->cols,term->cols), p.x, -1);
         else
-            p.x = whole_glyph_edge(ldata, term->cols, p.x + 1, +1) - 1;
+            p.x = whole_glyph_edge(chars, min(ldata->cols,term->cols), p.x + 1, +1) - 1;
         break;
+      }
       case SM_WORD:
         /*
          * In this mode, the units are maximal runs of characters
@@ -12479,7 +12500,7 @@ static pos sel_spread_half(Terminal *term, pos p, int dir)
 
 static void sel_spread(Terminal *term)
 {
-    if (term->seltype == LEXICOGRAPHIC) {
+    if (term->seltype != RECTANGULAR) {
         term->selstart = sel_spread_half(term, term->selstart, -1);
         decpos(term->selend);
         term->selend = sel_spread_half(term, term->selend, +1);
@@ -12988,7 +13009,7 @@ void term_mouse_pixels(Terminal *term, Mouse_Button braw, Mouse_Button bcooked,
 {
     pos selpoint;
     termline *ldata;
-    int default_seltype;
+    SelectionType default_seltype;
     if (term->rows <= 0 || term->cols <= 0) return;
     if (term->synchronized_update && (shift || !term->xterm_mouse) &&
         (a == MA_CLICK || a == MA_DRAG || a == MA_2CLK || a == MA_3CLK)) {
@@ -13026,11 +13047,11 @@ void term_mouse_pixels(Terminal *term, Mouse_Button braw, Mouse_Button bcooked,
     bool block = nemo_rectangle_binding(conf_get_int(term->conf, CONF_nemo_rectangle_modifiers),
                                         shift, ctrl, alt);
     default_seltype = block || term->rect_select ?
-        RECTANGULAR : LEXICOGRAPHIC;
+        RECTANGULAR : (shift && a == MA_CLICK ? VISUAL_STREAM : LEXICOGRAPHIC);
     if (block && bcooked == MBT_SELECT && (a == MA_2CLK || a == MA_3CLK))
         a = MA_CLICK;
     if (term->selstate == NO_SELECTION ||
-        (bcooked == MBT_SELECT && a == MA_CLICK))
+        (bcooked == MBT_SELECT && (a == MA_CLICK || a == MA_2CLK || a == MA_3CLK)))
         term->seltype = default_seltype;
 
     if (y < 0) {
@@ -13071,7 +13092,7 @@ void term_mouse_pixels(Terminal *term, Mouse_Button braw, Mouse_Button bcooked,
         selpoint.x = x; /* keep the actual screen column across all rows */
     } else {
         x /= selection_row_scale(ldata);
-        if (term_bidi_line(term, ldata, y))
+        if (term->seltype == LEXICOGRAPHIC && term_bidi_line(term, ldata, y))
             x = term->post_bidi_cache[y].backward[x];
         selpoint.x = x;
     }
@@ -13116,7 +13137,7 @@ void term_mouse_pixels(Terminal *term, Mouse_Button braw, Mouse_Button bcooked,
             return;
         if (bcooked == MBT_EXTEND && a != MA_DRAG &&
             term->selstate == SELECTED) {
-            if (term->seltype == LEXICOGRAPHIC) {
+            if (term->seltype != RECTANGULAR) {
                 /*
                  * For normal selection, we extend by moving
                  * whichever end of the current selection is closer
@@ -13150,7 +13171,7 @@ void term_mouse_pixels(Terminal *term, Mouse_Button braw, Mouse_Button bcooked,
         if (term->selstate != ABOUT_TO && term->selstate != DRAGGING)
             term->selanchor = selpoint;
         term->selstate = DRAGGING;
-        if (term->seltype == LEXICOGRAPHIC) {
+        if (term->seltype != RECTANGULAR) {
             /*
              * For normal selection, we set (selstart,selend) to
              * (selpoint,selanchor) in some order.
@@ -13184,7 +13205,7 @@ void term_mouse_pixels(Terminal *term, Mouse_Button braw, Mouse_Button bcooked,
              * data to the clipboard.
              */
             clipme(term, term->selstart, term->selend,
-                   (term->seltype == RECTANGULAR), false,
+                   term->seltype, false,
                    term->mouse_select_clipboards,
                    term->n_mouse_select_clipboards);
             term->selstate = SELECTED;

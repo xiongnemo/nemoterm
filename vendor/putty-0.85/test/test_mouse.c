@@ -641,6 +641,20 @@ static void test_ctrl_rectangle(Mock *mk)
             L"0\x5d0" BLOCK_NL L"1\x5d0" BLOCK_NL L"2\x5d0" BLOCK_NL L"3\x5d0" BLOCK_NL L"4\x5d0");
         MOUSE_BYTES("");
     }
+    /* A soft wrap is not a clipboard newline. Shift is released before
+     * button-up; preserve the display hit, not the source endpoint hull. */
+    for (int reverse = 0; reverse < 2; reverse++) {
+        mouse_setup(mk, "Shift stream over a reordered run and soft wrap", "");
+        term_size(mk->term, 3, 12, 100);
+        mk->term->no_bidi = false;
+        term_data_fragmented(mk->term, "\033[?1002;1006hA\xd7\x90\xd7\x91\xd7\x92\xd6\xb0Z0123456WXYZ");
+        send_mouse(mk, MBT_LEFT, MA_CLICK, reverse ? 0 : 3, reverse, true, false, false);
+        send_mouse(mk, MBT_LEFT, MA_RELEASE, reverse ? 3 : 0, 1-reverse, false, false, false);
+        IEQUAL(mk->term->seltype, VISUAL_STREAM);
+        term_request_copy(mk->term, &clipboard, 1);
+        check_clipboard(mk, L"\x5d0Z0123456W");
+        MOUSE_BYTES("");
+    }
     mouse_setup(mk, "Block copies original Arabic text rather than shaped glyphs", "");
     mk->term->no_bidi = mk->term->no_arabicshaping = false;
     term_data_fragmented(mk->term, "A\xd8\xb3\xd9\x84\xd8\xa7\xd9\x85Z");
@@ -677,7 +691,7 @@ static void test_ctrl_rectangle(Mock *mk)
             send_mouse(mk,MBT_LEFT,MA_RELEASE,1,1,false,false,false);
             bool rectangle=bindings[b]>=2 && bindings[b]<=7 &&
                 (pressed & bindings[b])==(unsigned)bindings[b];
-            IEQUAL(mk->term->seltype,rectangle?RECTANGULAR:LEXICOGRAPHIC);
+            IEQUAL(mk->term->seltype,rectangle?RECTANGULAR:(pressed&1?VISUAL_STREAM:LEXICOGRAPHIC));
         }
     conf_set_int(mk->term->conf,CONF_nemo_rectangle_modifiers,2);
 }
