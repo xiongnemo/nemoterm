@@ -108,3 +108,21 @@ REA session 报告 Ghidra 未配置，故没有伪装成已完成反编译或调
 八个 Nemoterm 实例在测量前后均通过 HWND 属性确认实际渲染器；十个实例均自然退出，作业未残留子进程，真实回复阶段的模块/进程快照未匹配已列 WebView 引擎。前端 SHA-256 `7e096d2aa87d5a86d5e5edfed26ac6b9d6d26b2e40502ae32edd26c478e5eec7` 的 [REA 导入表](rea-38de2ad-imports.json.gz) 有 81 个常规 DLL 描述符、669 个常规导入及来自 ICU 的 11 个延迟导入；和 `a9c8150` 的全部 DLL、函数名和序号相同。进程快照和 PE 导入表各自只能证明已观察范围。普通回复的稳定中位数不代替满屏压力测试的峰值。
 
 [同一 38de2ad 单文件的 74 项交互回放](interaction-full-38de2ad.zip)（[44350839896](https://github.com/xiongnemo/nemoterm/actions/runs/44350839896)）全部通过。在其中各六种满屏压力负载中，[GDI 的前端私有工作集](interaction-memory-gdi-38de2ad.zip)最大为 18,915,328 字节，[DirectX](interaction-memory-directx-38de2ad.zip) 为 29,007,872 字节，均在 Unicode + Kitty 图片负载观察到；对应前端总工作集分别为 53,641,216 和 72,175,616 字节。该记录只适用于这一 EXE，不替后续的设置和输入修复验收。
+
+## Exact focus-fix image (`fd19411`)
+
+[Ten ordered and reversed runs, original records and screenshots](pterm-codex-pair-fd19411.zip) from [44358568277](https://github.com/xiongnemo/nemoterm/actions/runs/44358568277); artifact `14452494158`, SHA-256 `3441de761e466f42cc096f5adce23f25da5774998075718b9bd0d9995babdc4a`. This experiment used the pterm 0.85 image matching the installed Scoop file and the [same single Nemoterm EXE as the focus-fix replay](close-confirmation-and-rendering.md), pinned Codex and SarasaTermSC Nerd Light at 160×48. All ten got the expected reply and exited with no residual child process. The first three columns give the range of two per-run medians after the reply; the last is the largest sample across both full traces. Values are decimal MB and count the frontend only.
+
+| Frontend | Post-reply private WS | Post-reply total WS | Post-reply private commit | Peak private WS in the full trace |
+|---|---:|---:|---:|---:|
+| pterm | 3.76–3.78 | 21.80–22.60 | 4.43–4.46 | 3.78 |
+| nemoterm-tab | 5.03–5.12 | 33.05–34.02 | 6.46–6.52 | 5.35 |
+| nemoterm-standalone | 5.09–5.10 | 32.76–32.78 | 6.48–6.48 | 5.37 |
+| nemoterm-directx-tab | 9.65–9.67 | 44.57–44.59 | 11.26–11.28 | 9.67 |
+| nemoterm-directx-standalone | 9.68–9.71 | 44.20–44.24 | 11.21–11.23 | 9.72 |
+
+The [current REA import record](rea-fd19411-imports.json.gz) covers all 81 standard DLL descriptors (670 functions) and one delay-loaded DLL (11 ICU functions). Against `38de2ad` the only added import by DLL/name/ordinal is `IsProcessorFeaturePresent` from `api-ms-win-core-processthreads-l1-1-1.dll`; none disappeared. The captured frontend module and job process lists had no match for the fixture's WebView names. These observations describe the inspected builds and workloads.
+
+On the same image, the [GDI](interaction-memory-gdi-fd19411.zip) and [DirectX](interaction-memory-directx-fd19411.zip) stress receipts contain six 160×48 workloads each. All twelve passed. The maximum sampled frontend private WS was **19,070,976 bytes (GDI)** and **29,372,416 bytes (DirectX)**, both for Unicode + Kitty. The total WS peaks for those workloads were 53,886,976 and 74,584,064 bytes; total WS is separate from the private WS limits. The original archives are artifacts `14452404271` (SHA-256 `8ec88440b379525a0736f07e10b26ff909dbf67322b0d3318e213c17646813fc`) and `14452518495` (`2852427697e68fe20b3f2720611f8eb9fba4a47ff464721a26df7afbdf12d773`).
+
+The [unaltered interaction rollup](interaction-rollup-fd19411.zip) from [44355490628](https://github.com/xiongnemo/nemoterm/actions/runs/44355490628) verified **72/74** on the exact same file. The two red cases were `agent-image-codex` and `agent-image-system-codex`: the visible image attachment marker timed out on Ctrl+V in the first case and Ctrl+Shift+V in the second. The OpenCode image-paste cases and the six existing default-grid text selection cases passed. This rollup does not certify all product checks.
