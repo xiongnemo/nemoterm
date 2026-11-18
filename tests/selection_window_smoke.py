@@ -68,7 +68,8 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-selection-') as temporary:
             barrier=phase_request['phase']
             write_snapshot(control,dict(phase_request,input_barrier=barrier))
             value=wait_snapshot(lambda:read_snapshot(report),lambda v:v.get('phase')==barrier and v.get('input_barrier')==barrier and 'hex' in v)
-            assert bytes.fromhex(value['hex'])==b'\x1b[0n'+expected_mouse+b'\x1b[0n',value
+            if expected_mouse is not None:
+                assert bytes.fromhex(value['hex'])==b'\x1b[0n'+expected_mouse+b'\x1b[0n',value
             return value['hex']
         r=w.RECT();u.GetClientRect(hwnd,c.byref(r));cw,ch=(r.right-2)//80,(r.bottom-2)//24
         evidence['cell_pixels']=[cw,ch]
@@ -209,6 +210,8 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-selection-') as temporary:
         from selection_bidi_rectangle import verify as verify_bidi
         verify_bidi(hwnd,begin_phase,point,captured,tile,shortcut,no_forwarded_input,evidence)
         verify_bidi(hwnd,begin_phase,point,captured,tile,shortcut,no_forwarded_input,evidence,block=False)
+        from selection_cursor_updates import verify as verify_cursor_updates
+        verify_cursor_updates(hwnd,begin_phase,point,captured,tile,no_forwarded_input,evidence)
         evidence['completed']=True
         print('Rapid independent selections and 16 Ctrl rectangles, exact Unicode, shortcut/right-click copy and pixels passed')
     finally:
