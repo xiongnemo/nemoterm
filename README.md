@@ -13,7 +13,7 @@ Nemoterm 是 **PuTTY 0.85 Windows pterm 的下游 fork**，沿用其终端核心
 本页描述所在分支的代码；下载产物按下面的提交和验证记录区分。已实现功能与测试边界见 [协议支持表](docs/PROTOCOLS.md)
 和 [需求与验证记录](docs/REQUIREMENTS.md)。
 
-[中文选区修复预览 `a985632`](https://github.com/xiongnemo/nemoterm/actions/runs/44314169646/artifacts/14431328444)：Shift 拖选从汉字的右半格开始也会复制完整的字，矩形选区按每行实际字宽处理。Codex、Claude Code、OpenCode 均已在 GDI 和 DirectX 上用系统鼠标与剪贴板验证；见[修复前后截图、实测与内存](research/wide-selection-boundaries.md)。同时修复了[重复切入备用屏时文字和图形被清空](research/alternate-1047.md)。这是开发预览。
+[中文选区修复预览 `a985632`](https://github.com/xiongnemo/nemoterm/actions/runs/44314169646/artifacts/14431328444)：Shift 拖选从汉字的右半格开始也会复制完整的字，矩形选区按每行实际字宽处理。Codex、Claude Code、OpenCode 均已在 GDI 和 DirectX 上用系统鼠标与剪贴板验证；见[修复前后截图、实测与内存](research/wide-selection-boundaries.md)。同时修复了[重复切入备用屏时文字和图形被清空](research/alternate-1047.md)。本版交互验收 72/74；12 项满屏压力测试全部通过（GDI 私有工作集最高 19.26 MB，DirectX 28.95 MB）。剩余两项是 Codex 刚出现输入框时贴图。
 
 [松开时按最终字符格复制的预览 `6cf4387`](https://github.com/xiongnemo/nemoterm/actions/runs/44306179760/artifacts/14427942582)：应用接管鼠标时，Shift 拖选和矩形选区都能复制到松开鼠标的那一格。GDI、DirectX 已核对[高亮与剪贴板](research/selection-release-cell.md)。同一 EXE 的交互验收为 72/74；两项未通过都是 Codex 刚启动时贴图，等待就绪后两种输入方式均通过。满屏压力测试私有工作集峰值为 GDI **19.50 MB**、DirectX **28.77 MB**。
 
