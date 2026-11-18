@@ -13,7 +13,7 @@ Nemoterm 是 **PuTTY 0.85 Windows pterm 的下游 fork**，沿用其终端核心
 本页描述所在分支的代码；下载产物按下面的提交和验证记录区分。已实现功能与测试边界见 [协议支持表](docs/PROTOCOLS.md)
 和 [需求与验证记录](docs/REQUIREMENTS.md)。
 
-交互预览版 `4c3bc30` 在 GitHub 托管的 Windows Runner 上通过 **42/42 项交互验收**（含 GDI、DirectX 各六项内存负载）。本次 160×48 网格回放的前端私有工作集峰值为 **GDI 19.71 MB、DirectX 28.98 MB**。在两种渲染器上，真实 Codex 和 OpenCode 都能把 Shift 拖选的回复逐字复制并粘贴到下一条消息；字体为 `SarasaTermSC Nerd Light`。见[交互记录与选区截图](research/agent-native-roundtrip.md)，以及[尚有差异的 ReGIS 对照](research/regis-resize.md)。
+交互预览版 `85fe9b1` 在 GitHub 托管的 Windows Runner 上通过 **42/42 项交互验收**。在六种 160×48 满屏负载下，前端私有工作集峰值为 **GDI 19.03 MB、DirectX 28.86 MB**。真实 Codex 和 OpenCode 在两种渲染器中都能用 Shift 拖选回复、复制，再粘贴提交。新测试还验证了跨行选择宽字符时不会多复制空格或换行。见[截图、内存和当前 EXE 的验证记录](research/interaction-85fe9b1.md)与[ReGIS 已知差异](research/regis-history-limit.md)。
 
 历史构建 `329019d` 的原完整 CI 为 **21/22**：170 组单 EXE 检查、MinGW 完整套件、26 项交互、24 个中英文真实 DPI 场景及六项完整网格 GDI 负载通过。新增 Terminfo 键盘的 1,293 条原生输入流零差异。唯一失败是当时的 DirectX 25 MB 门槛。用户改为 **30 MB** 后，同一 EXE 的[六项远程 DirectX 回放全部通过](research/directx-30mb.md)，私有工作集峰值为 **29.42 MB**；GDI 原峰值为 **18.82 MB**。原 CI 记录保持不变。
 [下载 `329019d` 单文件开发构建](https://github.com/xiongnemo/nemoterm/actions/runs/44083541137/artifacts/14332971661) · [完整 CI](https://github.com/xiongnemo/nemoterm/actions/runs/44083541137) · [产物与验证记录](research/terminfo-product-regression.md)。
@@ -40,7 +40,7 @@ Kitty 图片支持直接 RGB/RGBA/PNG、压缩传输、裁剪、透明度、查�
 
 ## 下载
 
-交互预览版 `4c3bc30` 的[单文件产物](https://github.com/xiongnemo/nemoterm/actions/runs/44227298756/artifacts/14394200562)为 4,853,760 字节；SHA-256 及测试范围见[构建记录](research/regis-resize.md)。
+交互预览版 `85fe9b1` 的[单文件产物](https://github.com/xiongnemo/nemoterm/actions/runs/44236147822/artifacts/14397786086)为 4,853,760 字节；SHA-256 及验证范围见[本版记录](research/interaction-85fe9b1.md)。
 
 历史开发构建 `329019d` 的单 EXE 为 4,800,000 字节；来源与 SHA-256 见 [本轮记录](research/terminfo-product-regression.md)，新的 DirectX 30 MB 验收见[专项回放](research/directx-30mb.md)。此前迁移基线 `2312edd` 为 19/19 全绿，但尚未包含后来新增的完整 Sarasa 网格门槛，见 [迁移基线](research/remote-test-migration.md)。历史语言预览保留在 [语言预览记录](research/i18n.md)，不将旧版本结果套用于新 EXE。
 
