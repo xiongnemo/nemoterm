@@ -32,7 +32,7 @@ def main():
     if os.environ.get('GITHUB_ACTIONS')!='true' or os.environ.get('RUNNER_ENVIRONMENT')!='github-hosted':
         raise SystemExit('Client interaction requires a GitHub-hosted runner')
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--client',choices=('codex','opencode'),default='opencode')
+    parser.add_argument('--client',choices=('codex','opencode','claude'),default='opencode')
     parser.add_argument('--client-exe',required=True)
     parser.add_argument('--font',required=True)
     parser.add_argument('--renderer',choices=('gdi','directx'),required=True)
@@ -85,7 +85,7 @@ def main():
                 filename=tag+'-'+name+'.png'
                 (out/filename).write_bytes(api.png_from_bmp(bmp if bmp is not None else api.request(endpoint,'image',seat)))
                 evidence['screenshots'].append(filename)
-            ready={'opencode':'Ask anything','codex':'Ask Codex to do anything'}[args.client]
+            ready={'opencode':'Ask anything','codex':'Ask Codex to do anything','claude':'plan mode on'}[args.client]
             wait_for(lambda:ready in text(),timeout=60)
             sample('startup')
             api.request(endpoint,'input',seat,SELECTION_TRIGGER)
@@ -205,7 +205,7 @@ def main():
                     return None
                 return next((r for r in snapshot['requests'] if r['selection_received']
                              and r['selected_text_occurrences']==1 and r['path']==
-                             {'codex':'/v1/responses','opencode':'/v1/chat/completions'}[args.client]),None)
+                             {'codex':'/v1/responses','opencode':'/v1/chat/completions','claude':'/v1/messages'}[args.client]),None)
             evidence['http_receipt']=wait_for(submitted,timeout=30)
             wait_for(lambda:'NEMOTERM_TEXT_ACCEPTED' in text());evidence['checks'].append(f'real {args.client} submitted exact combined prompt to the loopback provider')
             sample('submitted')

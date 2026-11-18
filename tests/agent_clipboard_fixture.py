@@ -19,6 +19,7 @@ import threading
 import time
 import uuid
 import winreg
+from urllib.parse import urlsplit
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from native_test_utils import c, k, u, find_window, wait_for
 from clipboard_test_utils import SavedClipboard
@@ -50,11 +51,16 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         try:
-            assert self.path in ('/v1/responses', '/v1/chat/completions'), self.path
+            path=urlsplit(self.path).path
+            assert path in ('/v1/responses','/v1/chat/completions','/v1/messages','/v1/messages/count_tokens'),path
             size = int(self.headers.get('Content-Length', '0'))
             assert 0 < size <= 8 * 1024 * 1024
             request = json.loads(self.rfile.read(size))
-            assert request['model'] == 'nemoterm-image-fixture'
+            if path=='/v1/messages/count_tokens':
+                self.send_response(200);self.send_header('Content-Type','application/json');self.end_headers()
+                self.wfile.write(b'{"input_tokens":10}');return
+            if path=='/v1/messages': assert request['model'].startswith('claude-'),request['model']
+            else: assert request['model']=='nemoterm-image-fixture'
             assert request.get('stream') is True
             images, text, latest_user_parts = [], [], []
             for item in request.get('input', request.get('messages', [])):
@@ -91,7 +97,7 @@ class Handler(BaseHTTPRequestHandler):
             selected=SELECTION_PREFIX+SELECTION_TEXT in latest_user_parts
             self.server.requests.append(dict(selection_received=selected,
                                               selected_text_occurrences=sum(part.count(SELECTION_TEXT) for part in latest_user_parts),
-                                              path=self.path, images=images, text=text,
+                                              path=path, images=images, text=text,
                                               advertised_tools=len(request.get('tools', [])),
                                               tool_names=[t.get('name',t.get('function',{}).get('name',t.get('type')))
                                                           for t in request.get('tools', [])]))
@@ -103,7 +109,19 @@ class Handler(BaseHTTPRequestHandler):
             answer = 'NEMOTERM_IMAGE_ACCEPTED' if images else 'NEMOTERM_TEXT_ACCEPTED'
             if self.server.selection and SELECTION_TRIGGER in latest_user_parts:
                 answer = SELECTION_TEXT
-            if self.path.endswith('chat/completions'):
+            if path=='/v1/messages':
+                message=dict(id='msg_fixture_'+str(len(self.server.requests)),type='message',role='assistant',
+                             model=request['model'],content=[],stop_reason=None,stop_sequence=None,
+                             usage=dict(input_tokens=10,output_tokens=1))
+                for kind,fields in [
+                        ('message_start',dict(message=message)),
+                        ('content_block_start',dict(index=0,content_block=dict(type='text',text=''))),
+                        ('content_block_delta',dict(index=0,delta=dict(type='text_delta',text=answer))),
+                        ('content_block_stop',dict(index=0)),
+                        ('message_delta',dict(delta=dict(stop_reason='end_turn',stop_sequence=None),usage=dict(output_tokens=8))),
+                        ('message_stop',{})]:
+                    self.wfile.write(('event: '+kind+'\ndata: '+json.dumps(dict(type=kind,**fields))+'\n\n').encode())
+            elif path.endswith('chat/completions'):
                 for delta, finish in [({'role': 'assistant', 'content': answer}, None), ({}, 'stop')]:
                     value = dict(id='chatcmpl-fixture', object='chat.completion.chunk', created=int(time.time()),
                                  model=request['model'], choices=[dict(index=0, delta=delta, finish_reason=finish)])
@@ -165,7 +183,7 @@ def put_bitmap(hwnd):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--client', choices=('codex', 'opencode'), required=True)
+    parser.add_argument('--client', choices=('codex', 'opencode', 'claude'), required=True)
     parser.add_argument('--client-exe', required=True)
     parser.add_argument('--terminal', required=True)
     parser.add_argument('--directory', required=True)
@@ -212,7 +230,21 @@ def main():
     server.selection=bool(args.selection_renderer)
     thread = threading.Thread(target=server.serve_forever, daemon=True); thread.start()
     base = f'http://127.0.0.1:{server.server_port}/v1'
-    if args.client == 'codex':
+    if args.client == 'claude':
+        assert args.selection_renderer
+        # The runner supplies an empty home and a local-only dummy API key.
+        # No account, extensions, MCP servers, external provider, or tool calls.
+        fixture_key='sk-ant-fixture-local-only-00000000000000000000'
+        (home/'.claude.json').write_text(json.dumps(dict(hasCompletedOnboarding=True,theme='dark',
+            customApiKeyResponses=dict(approved=[fixture_key[-20:]],rejected=[]),
+            projects={str(work):dict(hasTrustDialogAccepted=True)})),encoding='utf-8')
+        env.update(CLAUDE_CONFIG_DIR=str(home),ANTHROPIC_API_KEY=fixture_key,
+                   ANTHROPIC_BASE_URL=base.removesuffix('/v1'),CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC='1',
+                   DISABLE_AUTOUPDATER='1',DISABLE_TELEMETRY='1')
+        command=[args.client_exe,'--bare','--model','claude-sonnet-4-6','--tools','',
+                 '--permission-mode','plan','--setting-sources','','--strict-mcp-config',
+                 '--mcp-config','{"mcpServers":{}}']
+    elif args.client == 'codex':
         env['CODEX_HOME'] = str(home)
         config = f'''model = "nemoterm-image-fixture"
 model_provider = "nemoterm_fixture"

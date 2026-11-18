@@ -44,6 +44,9 @@ def catalog():
         add('opencode-selection-'+renderer, 'agents', 'agent_selection_window_smoke.py',
             ['--client-exe', '{opencode}', '--font', FONT, '--renderer', renderer],
             'clipboard; isolated real OpenCode; mouse tracking; selected Unicode submitted to loopback provider')
+        add('claude-system-'+renderer,'agents','agent_selection_window_smoke.py',
+            ['--client','claude','--client-exe','{claude}','--font',FONT,'--renderer',renderer,'--system-input'],
+            'hosted system input; Claude Code with tools disabled; exact selection and Messages API receipt')
         for client in ('opencode','codex'):
             base=['--client',client,'--client-exe','{'+client+'}','--font',FONT,'--renderer',renderer,'--system-input']
             add(client+'-system-'+renderer, 'agents', 'agent_selection_window_smoke.py', base,
@@ -182,7 +185,7 @@ def prepare(args):
     # The manual launcher imports this exact module beside itself.
     shutil.copy2(__file__, stage/'interaction_acceptance.py')
     clients = {}
-    for name in ('codex', 'opencode'):
+    for name in ('codex', 'opencode','claude'):
         path = getattr(args, name)
         if path:
             path = path.resolve(strict=True)
@@ -332,6 +335,7 @@ def main(argv=None):
     p.add_argument('--sha256', required=True)
     p.add_argument('--codex', type=Path)
     p.add_argument('--opencode', type=Path)
+    p.add_argument('--claude', type=Path)
     p = sub.add_parser('run')
     p.add_argument('--stage', type=Path, required=True)
     p.add_argument('--group', action='append', default=[])

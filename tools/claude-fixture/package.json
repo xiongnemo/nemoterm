@@ -1,0 +1,9 @@
+{
+  "name": "nemoterm-claude-ui-fixture",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Pinned Windows Claude Code for tool-free loopback terminal acceptance",
+  "dependencies": {
+    "@anthropic-ai/claude-code-win32-x64": "2.1.322"
+  }
+}

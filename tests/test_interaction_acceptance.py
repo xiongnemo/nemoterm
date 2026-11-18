@@ -29,7 +29,7 @@ class AcceptanceTests(unittest.TestCase):
         self.exe = self.base/'candidate.exe'
         self.exe.write_bytes(b'not executable; preparation must only hash and copy')
         self.args = argparse.Namespace(stage=self.base/'stage', exe=self.exe,
-            sha256=runner.digest(self.exe), codex=None, opencode=None)
+            sha256=runner.digest(self.exe), codex=None, opencode=None, claude=None)
 
     def prepare(self):
         with patch.object(runner, 'ROOT', self.source), patch.object(runner.subprocess, 'check_output',
@@ -44,8 +44,8 @@ class AcceptanceTests(unittest.TestCase):
 
     def test_catalog_has_unique_real_fixtures(self):
         cases = runner.catalog()
-        self.assertEqual(len(cases), 56)
-        self.assertEqual(len({c['id'] for c in cases}), 56)
+        self.assertEqual(len(cases), 58)
+        self.assertEqual(len({c['id'] for c in cases}), 58)
         for case in cases:self.assertTrue((ROOT/'tests'/case['script']).is_file())
 
     def test_full_grid_memory_requires_sarasa_and_unclamped_size(self):

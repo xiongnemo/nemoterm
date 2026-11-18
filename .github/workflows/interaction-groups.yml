@@ -83,6 +83,8 @@ jobs:
         run: |
           npm ci --prefix tools/codex-fixture --ignore-scripts --no-audit --no-fund
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          npm ci --prefix tools/claude-fixture --ignore-scripts --no-audit --no-fund
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
           npm ci --prefix tools/opencode-fixture --ignore-scripts --no-audit --no-fund
           exit $LASTEXITCODE
       - name: Freeze product, fixtures and client identities
@@ -93,7 +95,7 @@ jobs:
           $exe=(Resolve-Path build/interaction-product/nemoterm.exe).Path
           $arguments=@('scripts/interaction_acceptance.py','prepare','--stage','build/interaction','--exe',$exe,'--sha256',(Get-FileHash $exe).Hash.ToLowerInvariant())
           if ($env:TEST_GROUP -eq 'agents') {
-            foreach ($client in @('codex','opencode')) {
+            foreach ($client in @('codex','opencode','claude')) {
               $images=@(Get-ChildItem "tools/$client-fixture/node_modules" -Recurse -Filter "$client.exe")
               if ($images.Count -ne 1) { throw "Expected one pinned $client executable" }
               $arguments+=@("--$client",$images[0].FullName)
