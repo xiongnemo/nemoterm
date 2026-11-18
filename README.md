@@ -13,7 +13,7 @@ Nemoterm 是 **PuTTY 0.85 Windows pterm 的下游 fork**，沿用其终端核心
 本页描述所在分支的代码；下载产物按下面的提交和验证记录区分。已实现功能与测试边界见 [协议支持表](docs/PROTOCOLS.md)
 和 [需求与验证记录](docs/REQUIREMENTS.md)。
 
-要试越界拖选，可下载[交互预览 `1b24e72`](https://github.com/xiongnemo/nemoterm/actions/runs/44248020960/artifacts/14402433348)。按住 Shift 将鼠标拖出窗口上下沿，指针停住时选区也会继续滚动；先按住左键、中途才按 Shift 也能从程序接过选区。GitHub 托管 Windows 上，同一个 EXE 通过 **44/44 项交互与内存检查**及 **24 项中英文单显示器 DPI 检查**。六种 160×48 满屏负载的前端私有工作集峰值为 **GDI 18.89 MB、DirectX 28.55 MB**。见[原始截图、文字和内存记录](research/selection-history.md#candidate-1b24e72)。
+要试越界拖选，可下载[交互预览 `1b24e72`](https://github.com/xiongnemo/nemoterm/actions/runs/44248020960/artifacts/14402433348)。按住 Shift 将鼠标拖出窗口上下沿，指针停住时选区也会继续滚动；先按住左键、中途才按 Shift 也能从程序接过选区。GitHub 托管 Windows 上，同一个 EXE 通过 **44/44 项交互与内存检查**及 **24 项中英文单显示器 DPI 检查**。六种 160×48 满屏负载的前端私有工作集峰值为 **GDI 18.89 MB、DirectX 28.55 MB**。另用系统鼠标和键盘在真实 OpenCode 里通过两种渲染器的选区、粘贴提交和正常退出，同一 EXE 累计通过 46 个不同用例。见[选区截图与原始记录](research/selection-history.md#opencode-with-system-mouse-and-keyboard)。
 
 如需已完成 170 项单文件检查的版本，可下载[鼠标颜色版 `57217fd`](https://github.com/xiongnemo/nemoterm/actions/runs/44242059009/artifacts/14402697559)。压缩包中只有 `nemoterm.exe`；此版本通过 42 项交互和 31 组 XTerm 光标对照，尚不包含上述越界拖选修复。[单文件与光标记录](research/pointer-colours.md#candidate-you-can-try) · [更早的 `85fe9b1` 截图与实测](research/interaction-85fe9b1.md) · [ReGIS 已知差异](research/regis-history-limit.md)。
 
@@ -42,7 +42,7 @@ Kitty 图片支持直接 RGB/RGBA/PNG、压缩传输、裁剪、透明度、查�
 
 ## 下载
 
-交互预览版 `85fe9b1` 的[单文件产物](https://github.com/xiongnemo/nemoterm/actions/runs/44236147822/artifacts/14397786086)为 4,853,760 字节；SHA-256 及验证范围见[本版记录](research/interaction-85fe9b1.md)。
+较早的 `85fe9b1` 的[单文件产物](https://github.com/xiongnemo/nemoterm/actions/runs/44236147822/artifacts/14397786086)为 4,853,760 字节；SHA-256 及验证范围见[本版记录](research/interaction-85fe9b1.md)。
 
 历史开发构建 `329019d` 的单 EXE 为 4,800,000 字节；来源与 SHA-256 见 [本轮记录](research/terminfo-product-regression.md)，新的 DirectX 30 MB 验收见[专项回放](research/directx-30mb.md)。此前迁移基线 `2312edd` 为 19/19 全绿，但尚未包含后来新增的完整 Sarasa 网格门槛，见 [迁移基线](research/remote-test-migration.md)。历史语言预览保留在 [语言预览记录](research/i18n.md)，不将旧版本结果套用于新 EXE。
 
