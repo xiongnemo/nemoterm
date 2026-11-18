@@ -46,6 +46,7 @@ def exercise(renderer, target):
     reg = 'Software\\Nemo\\Nemoterm\\Sessions\\'+profile
     report = dict(completed=False, executable_sha256=digest(EXE), requested=renderer, font=FONT, fixture_sha256=digest(Path(__file__)), phases=[])
     original = pattern(); original.save(folder/'source.png')
+    original.convert('RGB').save(folder/'source-rgb.png')
     script = folder/'producer.sh'
     script.write_bytes(r'''set -euo pipefail
 cd -- "$(dirname -- "$0")"
@@ -56,7 +57,7 @@ await() { for ((i=0;i<600;i++)); do [[ ! -f stop ]] || exit 23; [[ ! -f "$1" ]] 
 printf '\033[?25l\033[?80l\033[?1070h\033[0m\033]11;rgb:0/0/0\007\033[2J\033[9;1HSIXEL_BEFORE'
 await draw
 printf '\033[2;3H'
-img2sixel -7 source.png | tee encoded.six
+img2sixel -7 -b xterm256 -d none source-rgb.png | tee encoded.six
 sixel2png -i encoded.six -o decoded.png
 printf '\033[9;1HSIXEL_DRAWN '
 await erase
@@ -113,13 +114,13 @@ await finish
         # Independently require the fixture to represent the intended colours and geometry.
         extrema=ImageChops.difference(reference,original.convert('RGB')).getextrema()
         report['source_decode_channel_ranges']=extrema
-        assert max(high for _,high in extrema)<=8,extrema
         expected=black.copy();expected.paste(reference,(1,1));expected.save(folder/'guarded-reference.png')
         check('drawn',expected)
         assert u.RedrawWindow(sess['hwnd'],None,None,0x101)  # invalidate and repaint now
         check('repainted',expected)
         (folder/'erase').touch();marker('SIXEL_ERASED');check('erased',black)
         (folder/'finish').touch();assert proc.wait(timeout=15)==0 and (folder/'producer.exit').read_text().strip()=='0'
+        assert max(high for _,high in extrema)<=8,extrema
         report['completed']=True
     except Exception:
         report['error']=traceback.format_exc();raise
