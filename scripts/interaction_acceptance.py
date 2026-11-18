@@ -41,16 +41,16 @@ def catalog():
         ['--codex', '{codex}', '--tabs', '--paste-selection', '--renderer', 'directx', '--font', FONT],
         'clipboard; isolated real Codex; DirectX; selected Unicode submitted to loopback provider')
     for renderer in ('gdi','directx'):
-        add('opencode-selection-'+renderer, 'agents', 'opencode_selection_smoke.py',
+        add('opencode-selection-'+renderer, 'agents', 'agent_selection_window_smoke.py',
             ['--client-exe', '{opencode}', '--font', FONT, '--renderer', renderer],
             'clipboard; isolated real OpenCode; mouse tracking; selected Unicode submitted to loopback provider')
-        add('opencode-system-'+renderer, 'agents', 'opencode_selection_smoke.py',
-            ['--client-exe', '{opencode}', '--font', FONT, '--renderer', renderer, '--system-input'],
-            'hosted desktop mouse and keyboard; real OpenCode; image sentinel, highlighted cells and submitted text')
-        for mode in ('default','copy-paste'):
-            add('opencode-right-'+mode+'-'+renderer, 'agents', 'opencode_selection_smoke.py',
-                ['--client-exe','{opencode}','--font',FONT,'--renderer',renderer,'--system-input','--right-click',mode],
-                'real OpenCode; system right click after unmodified release; exact clipboard and HTTP user part')
+        for client in ('opencode','codex'):
+            base=['--client',client,'--client-exe','{'+client+'}','--font',FONT,'--renderer',renderer,'--system-input']
+            add(client+'-system-'+renderer, 'agents', 'agent_selection_window_smoke.py', base,
+                'hosted desktop mouse and keyboard; real client; highlighted cells, exact clipboard and HTTP prompt')
+            for mode in ('default','copy-paste'):
+                add(client+'-right-'+mode+'-'+renderer, 'agents', 'agent_selection_window_smoke.py',
+                    base+['--right-click',mode], 'real client; system right click after unmodified release; exact clipboard and HTTP user part')
     add('unicode-presented-gdi', 'rendering', 'kitty_unicode_window_smoke.py',
         ['--renderer', 'gdi', '--presented-gdi'], 'foreground; presented pixel capture')
     add('renderers', 'rendering', 'renderer_window_smoke.py')

@@ -67,7 +67,7 @@ ReGIS 生产代码变化后的定向重建使用 `protocol-reference.yml -f fami
 | input | 2 | byte/ReadConsoleW、中文/emoji、IMM、模拟 DPI 与组合窗位置 |
 | selection | 4 | 默认/自定义 bindings，GDI/DX 矩形与 Shift 选择，右键仅复制与复制后粘贴；跨行复制粘贴区分自动折行、右边缘宽字和硬换行 |
 | clipboard | 2 | GDI/DX 文件/目录拖放，路径引用、应用接管与文本/图片优先级 |
-| agents | 8 | 固定版本 Codex/OpenCode 的图片附件与精确像素；两款真实客户端分别在 GDI / DirectX 标签页把回复经 Shift 拖选、Ctrl+Shift+C/V 后提交，逐字核对；OpenCode 还记录拖选前的鼠标上报请求；两个额外场景在托管桌面以系统鼠标和键盘重复验证 OpenCode；另采集前端模块和所属进程的运行时快照 |
+| agents | 18 | 真实 Codex、OpenCode 的图片粘贴；在实际 GDI / DirectX 标签页用系统鼠标和键盘 Shift 拖选、Ctrl+Shift+C/V 与两种右键策略，核对高亮、剪贴板、接收端实际文本及退出。OpenCode 必须主动请求接管鼠标；Codex 记录当时实际请求。 |
 | rendering | 3 | 实际 GDI 客户区捕获、三种渲染器、字号缩放/恢复 |
 | mouse | 2 | 鼠标协议字节、按键、滚轮和坐标；另对照 XTerm 的 31 组指针颜色回复、Windows 实际光标像素、恢复系统指针和隐藏标签隔离 |
 | tabs | 8 | 四侧标签栏/预览及四侧窗口缩放、会话与关闭回收 |
