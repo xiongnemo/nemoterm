@@ -104,6 +104,10 @@ def reference(backend,client,folder,rec):
     thread=threading.Thread(target=server.serve_forever,daemon=True);thread.start()
     try:
         cmd=claude_command(str(client),folder,home,work,env,'http://127.0.0.1:%d/v1'%server.server_port)
+        if backend=='1':
+            # WinPTY sends incremental damage. Keep a simultaneous read-only
+            # view of the client's own backing cells for the final display ack.
+            cmd=[sys.executable,str(ROOT/'tests/console_frame_observer.py'),str(folder),*cmd]
         with OwnedJob() as job,(folder/'helper-stderr.txt').open('wb') as err:
             target=[sys.executable,str(Path(__file__).resolve()),'--upstream-pty',str(folder),backend,*cmd]
             proc=job.spawn(target,stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=err,cwd=work,env=env,bufsize=0,creationflags=subprocess.CREATE_NO_WINDOW)
@@ -140,7 +144,14 @@ def reference(backend,client,folder,rec):
                 rec['requests']=list(server.requests);row,=rec['requests'];assert row['path']=='/v1/messages' and row['advertised_tools']==0 and not server.errors
                 assert row['selection_received'] != row['selection_nfc_present'],row
                 rec['form']='exact' if row['selection_received'] else 'NFC'
-                wait_for(lambda:b'NEMOTERM_TEXT_ACCEPTED' in bytes(raw),timeout=15)
+                def accepted():
+                    token='NEMOTERM_TEXT_ACCEPTED';data=bytes(raw)
+                    screen=read_snapshot(folder/'peer-screen.json').get('text','') if backend=='1' else ''
+                    if token.encode() not in data and token not in screen:return False
+                    rec['rendered_ack']=dict(output_bytes=token.encode() in data,console_cells=token in screen)
+                    if token in screen:write_snapshot(folder/'accepted-screen.json',dict(text=screen))
+                    return True
+                wait_for(accepted,timeout=15)
                 wrote(b'\x03');time.sleep(.3)
                 if proc.poll() is None:wrote(b'\x03')
                 assert proc.wait(timeout=18)==0

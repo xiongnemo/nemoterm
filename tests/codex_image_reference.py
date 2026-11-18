@@ -18,6 +18,7 @@ import zipfile
 from agent_clipboard_fixture import Provider, codex_command, isolated_home, put_bitmap
 from clipboard_test_utils import SavedClipboard, u, k
 from fixture_io import read_snapshot, write_snapshot
+from console_frame_observer import ConsoleView
 from owned_job import OwnedJob
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -54,32 +55,6 @@ class Record(c.Structure):
     _fields_ = [('type',w.WORD),('event',Payload)]
 
 
-class Coord(c.Structure):
-    _fields_=[('x',c.c_short),('y',c.c_short)]
-
-
-class Rect(c.Structure):
-    _fields_=[('left',c.c_short),('top',c.c_short),('right',c.c_short),('bottom',c.c_short)]
-
-
-class Info(c.Structure):
-    _fields_=[('size',Coord),('cursor',Coord),('attrs',w.WORD),('view',Rect),('maximum',Coord)]
-
-
-def console_view(handle):
-    # WinPTY emits damage, not complete frames. Read only this wrapper's own
-    # visible console rectangle; never capture the Windows desktop.
-    info=Info()
-    if not k.GetConsoleScreenBufferInfo(handle,c.byref(info)):return None
-    r=info.view;width=r.right-r.left+1
-    if not 0<width<=200 or not 0<r.bottom-r.top+1<=80:return None
-    buf=c.create_unicode_buffer(width+1);rows=[];count=w.DWORD()
-    for y in range(r.top,r.bottom+1):
-        if not k.ReadConsoleOutputCharacterW(handle,buf,width,Coord(r.left,y),c.byref(count)) or count.value!=width:return None
-        rows.append(buf[:width].rstrip())
-    return '\n'.join(rows)
-
-
 def console_peer(folder, cmd):
     # This wrapper starts the unmodified client as its own console child. It
     # only writes fixed test records to its own console, never to another PID.
@@ -89,15 +64,11 @@ def console_peer(folder, cmd):
     k.WriteConsoleInputW.argtypes=[w.HANDLE,c.POINTER(Record),w.DWORD,c.POINTER(w.DWORD)]
     u.MapVirtualKeyW.argtypes=[w.UINT,w.UINT]; u.MapVirtualKeyW.restype=w.UINT
     stdin=k.GetStdHandle(-10); mode=w.DWORD(); assert k.GetConsoleMode(stdin,c.byref(mode))
-    k.GetConsoleScreenBufferInfo.argtypes=[w.HANDLE,c.POINTER(Info)]
-    k.ReadConsoleOutputCharacterW.argtypes=[w.HANDLE,w.LPWSTR,w.DWORD,Coord,c.POINTER(w.DWORD)]
-    stdout=k.GetStdHandle(-11);last_frame=None;next_frame=0
+    view=ConsoleView(folder);next_frame=0
     captured=fixed_events(); seq=0; child=subprocess.Popen(cmd)
     while child.poll() is None:
         if time.monotonic()>=next_frame:
-            next_frame=time.monotonic()+.025;frame=console_view(stdout)
-            if frame is not None and frame!=last_frame:
-                write_snapshot(folder/'peer-screen.json',dict(text=frame));last_frame=frame
+            next_frame=time.monotonic()+.025;view.capture()
         request=read_snapshot(folder/'command.json')
         if request.get('id') != seq+1:
             time.sleep(.003);continue

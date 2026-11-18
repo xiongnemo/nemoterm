@@ -47,6 +47,8 @@ jobs:
             build/unicode-boundary/*/reference-backend.json
             build/unicode-boundary/*/reference-stdin.vt
             build/unicode-boundary/*/helper-stderr.txt
+            build/unicode-boundary/*/peer-screen.json
+            build/unicode-boundary/*/accepted-screen.json
             build/unicode-boundary/*/system-output.vt
             build/unicode-boundary/*/claude-debug.log
           if-no-files-found: error
