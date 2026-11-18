@@ -49,6 +49,13 @@ def agent_grid_case(path,row,identity):
             and wide['up']==right-1 and paint['cells']==4 and paint['source']!=paint['selected']
             and paint['min_selected_ratio']>=.5 and min(paint['guard_ratios'])>=.9,
             'incomplete wide-cell system drag, highlight, or clipboard result')
+    modal=obs['close_cancel'];http=obs['http_receipt']
+    require(modal['button_id']==2 and modal['dialog']!=sess['window'] and modal['owner_disabled']
+            and modal['capture']==modal['button'] and modal['button_state'] & 4 and modal['foreground']==sess['window']
+            and modal['focus']==sess['hwnd'] and modal['clipboard_intact'] and modal['typed_prefix']=='NEMOTERM_SUBMIT '
+            and http['selection_received'] and http['selected_text_occurrences']==1
+            and http['fixture_prompt_hashes']==[hashlib.sha256((modal['typed_prefix']+obs['copied']).encode()).hexdigest()],
+            'missing native Cancel, terminal focus, physical typing, or exact submitted clipboard text')
     samples=trace['samples'];stages=obs['frontend_samples']
     require(not trace['errors'] and len(samples)>=2 and all(a['seconds']<b['seconds'] for a,b in zip(samples,samples[1:]))
             and [s['phase'] for s in stages]==['startup','reply','copy','composer','submitted'],'incomplete agent workload samples')

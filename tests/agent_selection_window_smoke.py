@@ -76,7 +76,7 @@ def main():
             '--client',args.client,'--client-exe',str(Path(args.client_exe).resolve()),
             '--terminal',os.environ['NEMOTERM_TEST_EXE'],'--directory',str(case),
             '--automation','--selection-renderer',args.renderer,'--font',args.font]+
-            (['--default-grid'] if args.default_grid else [])+
+            (['--default-grid','--confirm-close'] if args.default_grid else [])+
             (['--stable-unicode'] if args.stable_unicode else [])+
             (['--right-copy-and-paste'] if args.right_click=='copy-paste' else []),stdout=log,stderr=subprocess.STDOUT,
             creationflags=subprocess.CREATE_NO_WINDOW)
@@ -267,8 +267,28 @@ def main():
                 # Copy-and-paste must fill the composer without any paste key.
             else:
                 evidence['checks'].append('Shift drag and default Copy replace the sentinel with exact Unicode')
-                api.request(endpoint,'input',seat,SELECTION_PREFIX)
-                wait_for(lambda:SELECTION_PREFIX.rstrip() in text());press(86,3)
+                if args.default_grid:
+                    win=desktop.u;host=session['window'];modal=evidence['close_cancel']={}
+                    assert SELECTION_PREFIX.rstrip() not in text()
+                    desktop.chord(0x11,0x10,ord('W'))
+                    dlg=wait_for(desktop.owned_confirmation);modal['owner_disabled']=not win.IsWindowEnabled(host)
+                    assert modal['owner_disabled'];desktop.click_confirmation_button(dlg,2,modal)
+                    wait_for(lambda:not win.IsWindow(dlg) and win.IsWindowEnabled(host))
+                    # Observe the return to the terminal. No activation, terminal click or debug input.
+                    def focused():
+                        modal.update(foreground=win.GetForegroundWindow(),focus=desktop.state().focus)
+                        return modal['foreground']==host and modal['focus']==hwnd
+                    wait_for(focused);modal['clipboard_intact']=clipboard_text(hwnd)==copied
+                    assert modal['clipboard_intact']
+                    for ch in SELECTION_PREFIX:
+                        if 'A'<=ch<='Z': desktop.chord(0x10,ord(ch))
+                        elif ch=='_': desktop.chord(0x10,0xbd)
+                        else: assert ch==' ';desktop.chord(0x20)
+                    wait_for(lambda:SELECTION_PREFIX.rstrip() in text());modal['typed_prefix']=SELECTION_PREFIX
+                else:
+                    api.request(endpoint,'input',seat,SELECTION_PREFIX)
+                    wait_for(lambda:SELECTION_PREFIX.rstrip() in text())
+                press(86,3)
             # The real Claude composer can draw a precomposed accent even
             # though the clipboard contained the original combining sequence.
             # Observe both spellings in the UI; the subsequent HTTP assertion

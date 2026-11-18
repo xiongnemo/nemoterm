@@ -273,6 +273,7 @@ def main():
     parser.add_argument('--directory', required=True)
     parser.add_argument('--automation', action='store_true')
     parser.add_argument('--selection-renderer', choices=('gdi','directx'))
+    parser.add_argument('--confirm-close',action='store_true')
     parser.add_argument('--default-grid',action='store_true',help='Use the default profile dimensions without CLI overrides')
     parser.add_argument('--stable-unicode',action='store_true')
     parser.add_argument('--right-copy-and-paste',action='store_true')
@@ -294,7 +295,7 @@ def main():
         for setting,value in (('LogType',2),('LogFileClash',1),('LogFlush',1)):
             winreg.SetValueEx(key, setting, 0, winreg.REG_DWORD, value)
         winreg.SetValueEx(key, 'LogFileName', 0, winreg.REG_SZ, str(folder/'client-output.log'))
-        winreg.SetValueEx(key, 'WarnOnClose', 0, winreg.REG_DWORD, 0)
+        winreg.SetValueEx(key, 'WarnOnClose', 0, winreg.REG_DWORD, int(args.confirm_close))
         winreg.SetValueEx(key, 'CloseOnExit', 0, winreg.REG_DWORD, 1)
     server = Provider()
     server.selection=bool(args.selection_renderer)

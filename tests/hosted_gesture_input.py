@@ -28,7 +28,7 @@ class DesktopInput:
     def __init__(self,pid,host,hwnd,record):
         if os.environ.get('GITHUB_ACTIONS')!='true' or os.environ.get('RUNNER_ENVIRONMENT')!='github-hosted':
             raise RuntimeError('System input is restricted to a GitHub-hosted desktop')
-        self.host,self.hwnd,self.record=host,hwnd,record
+        self.pid,self.host,self.hwnd,self.record=pid,host,hwnd,record
         self.u=u=c.WinDLL('user32',use_last_error=True)
         u.SendInput.argtypes=[w.UINT,c.POINTER(Input),c.c_int]
         u.WindowFromPoint.argtypes,u.WindowFromPoint.restype=[w.POINT],w.HWND
@@ -38,6 +38,11 @@ class DesktopInput:
         u.GetWindowThreadProcessId.argtypes=[w.HWND,c.POINTER(w.DWORD)]
         u.GetGUIThreadInfo.argtypes=[w.DWORD,c.POINTER(ThreadInfo)]
         u.ClientToScreen.argtypes=[w.HWND,c.POINTER(w.POINT)]
+        u.GetWindow.argtypes,u.GetWindow.restype=[w.HWND,w.UINT],w.HWND
+        u.GetDlgItem.argtypes,u.GetDlgItem.restype=[w.HWND,c.c_int],w.HWND
+        u.GetWindowRect.argtypes=[w.HWND,c.POINTER(w.RECT)]
+        u.GetClassNameW.argtypes=[w.HWND,w.LPWSTR,c.c_int]
+        u.IsWindowEnabled.argtypes=u.IsWindow.argtypes=[w.HWND]
         self.original=w.POINT();assert u.GetCursorPos(c.byref(self.original))
         owner=w.DWORD();self.thread=u.GetWindowThreadProcessId(hwnd,c.byref(owner));assert self.thread and owner.value==pid
         work=w.RECT();assert u.SystemParametersInfoW(0x30,0,c.byref(work),0)
@@ -50,6 +55,29 @@ class DesktopInput:
         info=ThreadInfo(size=c.sizeof(ThreadInfo));assert self.u.GetGUIThreadInfo(self.thread,c.byref(info));return info
     def target(self):
         assert self.u.GetForegroundWindow()==self.host and self.state().focus==self.hwnd,'Terminal lost keyboard focus'
+    def owned_confirmation(self):
+        win=self.u; hwnd=win.GetForegroundWindow(); owner=w.DWORD(); cls=c.create_unicode_buffer(64)
+        thread=win.GetWindowThreadProcessId(hwnd,c.byref(owner));win.GetClassNameW(hwnd,cls,len(cls))
+        if thread==self.thread and owner.value==self.pid and cls.value=='#32770' and win.GetWindow(hwnd,4)==self.host:
+            return hwnd
+    def click_confirmation_button(self,hwnd,button,log):
+        win=self.u; assert self.owned_confirmation()==hwnd
+        b=win.GetDlgItem(hwnd,button);r=w.RECT();assert b and win.GetWindowRect(b,c.byref(r))
+        pt=w.POINT((r.left+r.right)//2,(r.top+r.bottom)//2);assert win.SetCursorPos(pt.x,pt.y)
+        def hit():
+            current=w.POINT();assert win.GetCursorPos(c.byref(current))
+            return (current.x,current.y)==(pt.x,pt.y) and win.WindowFromPoint(current)==b and self.owned_confirmation()==hwnd
+        wait_for(hit); log.update(dialog=hwnd,button_id=button,button=b,point=[pt.x,pt.y])
+        # Wait for native button delivery before releasing, not merely SendInput insertion.
+        down=Input();down.mouse.flags=2;up=Input();up.mouse.flags=4
+        assert win.SendInput(1,c.byref(down),c.sizeof(Input))==1
+        try:
+            def pressed():
+                reply=c.c_size_t();assert win.SendMessageTimeoutW(b,0xf2,0,0,2,500,c.byref(reply))  # BM_GETSTATE
+                info=self.state();log.update(button_state=reply.value,capture=info.capture,focus=info.focus)
+                return info.capture==b and bool(reply.value & 4)  # BST_PUSHED
+            wait_for(pressed,timeout=3)
+        finally: assert win.SendInput(1,c.byref(up),c.sizeof(Input))==1
     def event(self,vk,down,*,extended=False):
         if down:self.target()
         event=Input()
