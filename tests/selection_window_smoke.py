@@ -19,6 +19,9 @@ keypath='Software\\Nemo\\Nemoterm\\Sessions\\'+profile
 with winreg.CreateKey(winreg.HKEY_CURRENT_USER,keypath) as key:
     winreg.SetValueEx(key,'NemoRenderer',0,winreg.REG_DWORD,args.renderer)
     winreg.SetValueEx(key,'WarnOnClose',0,winreg.REG_DWORD,0)
+    for setting,value in (('LogType',2),('LogFileClash',1),('LogFlush',1)):
+        winreg.SetValueEx(key,setting,0,winreg.REG_DWORD,value)
+    winreg.SetValueEx(key,'LogFileName',0,winreg.REG_SZ,str(root/'research/selection-child-output.log'))
 exe=Path(os.environ.get('NEMOTERM_TEST_EXE',root/'dist/nemoterm.exe')).resolve()
 evidence=dict(requested_tab_host=args.tabs,tab_host=None,tab_side=args.tab_side,executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),checks=[],rectangles=[],requested_renderer=args.renderer,completed=False)
 evidence['requested_font']=args.font
@@ -26,7 +29,7 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-selection-') as temporary:
     report,control=(Path(temporary)/name for name in ('report','control'))
     process=subprocess.Popen([str(exe)]+(['--tabs','--tab-side',args.tab_side] if args.tabs else ['--no-tabs'])+(['--font',args.font] if args.font else [])+['-load',profile,'--cols','80','--rows','24','-e',sys.executable,
         str(root/'tests/mouse_fixture.py'),str(report),str(control)],
-        env=dict(os.environ,NEMOTERM_CONPTY='bundled'),creationflags=subprocess.CREATE_NO_WINDOW)
+        env=dict(os.environ,NEMOTERM_CONPTY='bundled',NEMOTERM_TEST_UTF8_INPUT='1'),creationflags=subprocess.CREATE_NO_WINDOW)
     saved=None; session=None; script=None; gpu=None
     try:
         hwnd=wait_for(lambda:find_window(process.pid));wait_for(lambda:read_snapshot(report))
@@ -90,15 +93,17 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-selection-') as temporary:
         # Check the default shortcut on the rectangular local selection. This
         # injects keys only on our owned terminal's UI thread, then restores its
         # state. Clipboard backup/restore still surrounds the entire fixture.
-        def copy_shortcut():
+        def shortcut(vk,scan):
             global serial
             serial+=1
-            before=u.GetClipboardSequenceNumber()
-            script.exports_sync.key(dict(id=serial,key=67,scan=46,modifiers=[16,17,160,162]))
+            script.exports_sync.key(dict(id=serial,key=vk,scan=scan,modifiers=[16,17,160,162]))
             assert u.PostMessageW(hwnd,0x8322,0,0)
             assert wait_for(lambda:script.exports_sync.result())==dict(id=serial)
-            wait_for(lambda:u.GetClipboardSequenceNumber()!=before)
             assert not errors,errors
+        def copy_shortcut():
+            before=u.GetClipboardSequenceNumber()
+            shortcut(67,46)
+            wait_for(lambda:u.GetClipboardSequenceNumber()!=before)
             return clipboard_text(hwnd)
         def point(x,y):return (1+y*ch+ch//2)<<16|(1+x*cw+cw//2)
         def tile(pixels,x,y):
@@ -133,6 +138,46 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-selection-') as temporary:
                     assert clipboard_text(hwnd)==expected
                     no_forwarded_input()
                     evidence['rectangles'].append(dict(mode=mode,alternate=alternate,corner=corner,text=copied,pixels=True))
+        # Under application mouse tracking, a displayed soft wrap must not
+        # become a clipboard newline (or a padding space before a wide glyph).
+        # A real hard break should survive copy and the client's bracketed paste.
+        for alternate,tail,reverse,top in ((False,'ABC',False,6),(True,'AB',True,10)):
+            name='linear-wrap-'+('wide-edge' if alternate else 'full-row')
+            expected=tail+'中e\u0301Z\r\nEND'
+            check=dict(mode=name,alternate=alternate,backwards=reverse,expected=expected)
+            evidence.setdefault('wrapped_selections',[]).append(check)
+            begin_phase(name,('\x1b[?1049h' if alternate else '\x1b[?1049l')+
+                        f'\x1b[?7h\x1b[?25l\x1b[0m\x1b[2J\x1b[{top+1};1H'+
+                        '.'*77+tail+'中e\u0301Z\r\nEND|\x1b[?1002;1006;2004h')
+            # Locate actual ink on all three rows before comparing selection
+            # pixels. Coordinates on the third row include the unselected |.
+            def source_pixels():
+                p=captured(return_pixels=True)
+                return p if all(len(set(tile(p,x,y)))>1 for x,y in
+                                [(77,top),(0,top+1),(3,top+2)]) else None
+            try:before=wait_for(source_pixels)
+            finally:captured(name+'-source.png')
+            start,end=point(77,top),point(2,top+2)
+            if reverse:start,end=end,start
+            u.SendMessageW(hwnd,0x201,5,start);u.SendMessageW(hwnd,0x200,5,end);u.SendMessageW(hwnd,0x202,4,end)
+            def highlighted():
+                after=captured(return_pixels=True)
+                probes=[(76,top,False),(77,top,True),(78,top,True),
+                        (0,top+1,True),(1,top+1,True),(2,top+1,True),
+                        (0,top+2,True),(2,top+2,True),(3,top+2,False)]
+                return all((tile(after,x,y)!=tile(before,x,y))==changed for x,y,changed in probes)
+            try:wait_for(highlighted)
+            finally:captured(name+'.png')
+            check['pixels']=True
+            check['copied']=copy_shortcut()
+            assert check['copied']==expected,check
+            shortcut(86,47)
+            dsr=b'\x1b[0n'; payload=b'\x1b[200~'+expected.replace('\r\n','\r').encode()+b'\x1b[201~'
+            wait_snapshot(lambda:read_snapshot(report),lambda v:bytes.fromhex(v.get('hex','')).endswith(b'\x1b[201~'))
+            write_snapshot(control,dict(phase_request,input_barrier=name))
+            observed=wait_snapshot(lambda:read_snapshot(report),lambda v:v.get('input_barrier')==name)
+            check.update(child_hex=observed['hex'],input_cp=observed['input_cp'])
+            assert bytes.fromhex(check['child_hex'])==dsr+payload+dsr,check
         evidence['completed']=True
         print('Rapid independent selections and 16 Ctrl rectangles, exact Unicode, shortcut/right-click copy and pixels passed')
     finally:
