@@ -137,6 +137,13 @@ def cases():
     add('margin-scroll-preservation',regis(
         'S(E)S(M3(R0G100B0))W(I3)P[20,20]V[120,20]P[20,80]V[120,80]',1),
         C+b'3;12r'+C+b'1S',regis('R(P)'))
+    # Preserve both presented and exposed frames for the unmodified upstream
+    # before and after clearing saved lines. Only require the initial geometry;
+    # the following frames are observations, not the product's expectations.
+    history=regis('S(E)S(M3(R0G100B0))W(I3)P[20,20]V[120,20]P[20,80]V[120,80]',1)
+    add('erase-saved-main',history,C+b'3S',C+b'3J',C+b'3T')
+    add('erase-saved-from-alt',history,C+b'3S',C+b'?1049h'+regis(
+        'S(E)S(M3(R100G0B0))W(I3)P[20,40]V[120,40]',1),C+b'3J',C+b'?1049l',C+b'3T')
     return out
 
 
@@ -341,6 +348,8 @@ def verify_controls(observations):
             assert frames[1]['non_black_pixels'] > frames[0]['non_black_pixels']+40
             text = [s['frame'] for s in observations['control-text'][transport]['steps']]
             assert text[0]['rgb_sha256'] == text[2]['rgb_sha256'] != text[1]['rgb_sha256']
+            for name in ('erase-saved-main','erase-saved-from-alt'):
+                assert observations[name][transport]['steps'][0]['frame']['non_black_pixels']==202,name
             for private in (False,True):
                 for prefix,pixels in [('sixel',101),('regis',600),('page',101)]:
                     name = prefix+'-defined-palette-'+str(private)
