@@ -213,6 +213,34 @@ static void send_event(WinGuiSeat *wgs, unsigned mode, const NemoKeyEvent *event
     }
 }
 
+/* The application reads the image itself. A paste binding (including a menu
+ * or mouse binding) denotes one logical Ctrl+V, independent of physical keys.
+ * Do not enter it into the held-key table or replay it on a later mode switch. */
+void nemo_keyboard_image_paste(WinGuiSeat *wgs)
+{
+    if (enhanced(wgs)) {
+        const unsigned mode = flags(wgs);
+        NemoKeyEvent event = {.key='v', .modifiers=NEMO_KEY_CTRL, .type=1};
+        send_event(wgs, mode, &event, NULL);
+        event.type = 3;  /* the encoder omits releases unless negotiated */
+        send_event(wgs, mode, &event, NULL);
+        return;
+    }
+    if (wgs->term->modify_keys.level > 0) {
+        const NemoModifiedKey key = {.key='v', .factored_key='v',
+                                      .modifiers=NEMO_KEY_CTRL, .type=1};
+        char encoded[NEMO_MOK_ENCODED_MAX];
+        int n = nemo_mok_encode(&wgs->term->modify_keys, &key, encoded, sizeof(encoded));
+        if (n >= 0) {
+            if (n) term_keyinput(wgs->term, -1, encoded, term_format_c1_key(wgs->term, encoded, n));
+            return;
+        }
+    }
+    /* The classic console path reconstructs the native Ctrl+V key records. */
+    const wchar_t paste_key = 0x16;
+    term_keyinputw(wgs->term, &paste_key, 1);
+}
+
 static uint32_t modified_character(unsigned vk, unsigned scan, const BYTE source[256],
                                    HKL layout, unsigned ignore, bool altgr)
 {

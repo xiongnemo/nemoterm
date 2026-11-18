@@ -123,6 +123,13 @@ jobs:
     with:
       product_run: ${{ github.run_id }}
       product_commit: ${{ github.sha }}
+  image-paste-keys:
+    if: ${{ inputs.scope != 'dpi' }}
+    needs: source-host
+    uses: ./.github/workflows/picture-keys.yml
+    with:
+      product_run: ${{ github.run_id }}
+      product_commit: ${{ github.sha }}
   client-unicode:
     if: ${{ inputs.scope != 'dpi' }}
     needs: source-host

@@ -4396,8 +4396,7 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
             else if (request->application_paste) {
                 /* Image transfer belongs to the foreground application's
                  * native clipboard reader. Never encode pixels as VT text. */
-                wchar_t paste_key=0x16;
-                term_keyinputw(wgs->term,&paste_key,1);
+                nemo_keyboard_image_paste(wgs);
             } else process_clipdata(wgs, request->data, request->unicode);
         }
         return 0;
