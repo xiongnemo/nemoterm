@@ -12,6 +12,8 @@
 gh workflow run ci.yml --ref <branch> -f scope=full
 ```
 
+手动调度的验收按 run ID 隔离；同分支之后推送文档或测试脚本不会取消它。普通 push 仍只保留同一工作分支上较新的运行。
+
 `Test and build` 汇总 Linux ASan/UBSan、C/C++ 单元测试、MSVC 渲染诊断、MinGW 原生协议和像素测试、单 EXE 完整套件、profile 持久化、DPI/双语界面，以及下表的 74 项检查（62 项交互、12 项完整 Sarasa 网格负载）。单 EXE、DPI 和交互任务共用这次 source-host 构建的准确 EXE，并校验来源提交、大小及 SHA-256。
 
 只回放测试脚本，不重复编译：
@@ -23,6 +25,8 @@ gh workflow run font-zoom-replay.yml --ref <branch> -f suite=interaction -f sour
 `suite=wsl-tui` 在单独的 Windows runner 上只安装所需 WSL 环境，记录直接运行的 `less` 与 `script` 记录器运行的 `less`，并区分窗口 API 和系统导航键。记录器的成功不能替代直接运行。
 
 `suite=wsl-sixel` 用 Ubuntu 的 `img2sixel` 经 WSL 终端输出一张彩色 PNG，保存实际 Sixel 字节并用 `sixel2png` 独立解码。分别核验真实 GDI、DirectX 对应位置的每个像素、四边一像素范围、重绘及清除后的结果，同时保留工具版本、文件摘要和原始截图。工具只安装在 runner 上。
+
+`suite=wsl-colour` 使用 Ubuntu 自带的 `tput` 和 `ncurses-term` 的三个条目画色块。分别记录真实 `setaf`/`setab` 字节，再检查 GDI 和 DirectX 的每一个色块像素、相邻空白、重绘和退出备用屏幕后的背景。`xterm-direct` 使用仅蓝色分量相差 1 的两个 RGB 值，能检出调色板量化。
 
 `suite=wsl-vim` 在两个 TERM 条目和实际 GDI、DirectX 下启动 Vim。普通鼠标点击须改变 Vim 自己报告的光标，Shift 拖选须复制完整中文字且不移动 Vim 光标；窗口两次改尺寸后 Vim 与前端应报告同一网格；最后用快捷键粘贴，验证保存文件的 UTF-8 字节和退出后的画面。
 

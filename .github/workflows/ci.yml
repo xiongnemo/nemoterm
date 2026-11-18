@@ -20,7 +20,9 @@ env:
   NEMOTERM_SHUTDOWN_DEADLINE_SECONDS: '120'
 
 concurrency:
-  group: ci-${{ github.ref }}
+  # A pushed report or fixture must not cancel a deliberately dispatched acceptance run.
+  # Ordinary push/PR checks can still supersede an older change on the same ref.
+  group: ci-${{ github.ref }}-${{ github.event_name == 'workflow_dispatch' && github.run_id || 'change' }}
   cancel-in-progress: true
 
 jobs:
