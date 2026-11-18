@@ -47,8 +47,11 @@ def main():
             d['actual_renderer']=int(u.GetPropW(first['hwnd'],'NemotermRenderer') or 0);assert d['actual_renderer']==(1 if ren=='gdi' else 3)
             for action in ('save','revoke'):
                 driver=job.spawn(['powershell.exe','-NoProfile','-File',str(root/'tests/font_ops_settings.ps1'),
-                    '-TargetProcess',str(p.pid),'-TargetWindow',str(first['hwnd']),'-Action',action],creationflags=subprocess.CREATE_NO_WINDOW)
-                assert driver.wait(timeout=65)==0,action
+                    '-TargetProcess',str(p.pid),'-TargetWindow',str(first['hwnd']),'-Action',action],creationflags=subprocess.CREATE_NO_WINDOW,
+                    stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
+                driver_output=driver.communicate(timeout=65)[0].decode('utf-8',errors='replace')
+                d.setdefault('settings',{})[action]=dict(exit_code=driver.returncode,log=driver_output)
+                assert driver.returncode==0,(action,driver_output)
                 after=alt if action=='save' else base
                 assert set_or_query(one,'settings-'+action,None,after)==(other_size if action=='save' else before)
             assert set_or_query(one,'revoked-write',alt,base)==before

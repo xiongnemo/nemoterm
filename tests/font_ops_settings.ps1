@@ -13,12 +13,18 @@ public static class FontSettingsWindow {
  [DllImport("user32")] public static extern bool IsWindow(IntPtr hwnd);
 }
 "@
+[Console]::OutputEncoding=New-Object Text.UTF8Encoding($false)
+$stage='opening dialog'
 $target=[IntPtr]$TargetWindow;[uint32]$owner=0
 if (![FontSettingsWindow]::GetWindowThreadProcessId($target,[ref]$owner) -or $owner -ne $TargetProcess) {throw 'Wrong terminal owner'}
 function Wait-ForValue([scriptblock]$Read) {
     $until=[DateTime]::UtcNow.AddSeconds(12)
     do {$item=& $Read;if ($item) {return $item};Start-Sleep -Milliseconds 25} while ([DateTime]::UtcNow -lt $until)
-    throw 'Timed out waiting for owned font settings'
+    if ($dialog) {
+        $all=$dialog.FindAll([System.Windows.Automation.TreeScope]::Descendants,[System.Windows.Automation.Condition]::TrueCondition)
+        Write-Host ('Owned controls: '+(($all | ForEach-Object {$_.Current.Name} | Where-Object {$_}) -join ' | '))
+    }
+    throw "Timed out while $stage"
 }
 function Find-Named($element,[string]$label) {
     $query=New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::NameProperty,$label)
@@ -33,16 +39,20 @@ $dialog=Wait-ForValue {
     }
 }
 foreach ($label in 'Window','Appearance') {
+    $stage="expanding $label"; Write-Host $stage
     $node=Wait-ForValue {Find-Named $dialog $label};$expand=$node.GetCurrentPattern([System.Windows.Automation.ExpandCollapsePattern]::Pattern)
     if ($expand.Current.ExpandCollapseState -eq 'Collapsed') {$expand.Expand()}
 }
+$stage='selecting Font access';Write-Host $stage
 $page=Wait-ForValue {Find-Named $dialog 'Font access'};$page.GetCurrentPattern([System.Windows.Automation.SelectionItemPattern]::Pattern).Select()
 foreach ($label in 'Allow programs to query the font family','Allow programs to change the font family') {
+    $stage="reading $label"; Write-Host $stage
     $node=Wait-ForValue {Find-Named $dialog $label}
     if ($node.Current.IsOffscreen -or !$dialog.Current.BoundingRectangle.Contains($node.Current.BoundingRectangle)) {throw "Clipped: $label"}
     $toggle=$node.GetCurrentPattern([System.Windows.Automation.TogglePattern]::Pattern);if ($toggle.Current.ToggleState -ne 'On') {throw "Unexpected starting permission: $label"}
     if ($Action -eq 'revoke' -and $label -like '*change*') {$toggle.Toggle()}
 }
+$stage='saving settings';Write-Host $stage
 $handle=[IntPtr]$dialog.Current.NativeWindowHandle
 (Find-Named $dialog 'Save and Apply').GetCurrentPattern([System.Windows.Automation.InvokePattern]::Pattern).Invoke()
 Wait-ForValue {![FontSettingsWindow]::IsWindow($handle)} | Out-Null
