@@ -106,3 +106,5 @@ REA session 报告 Ghidra 未配置，故没有伪装成已完成反编译或调
 | Nemoterm DirectX，独立窗口 | 9.68–9.70 | 44.24–44.25 | 11.18–11.22 |
 
 八个 Nemoterm 实例在测量前后均通过 HWND 属性确认实际渲染器；十个实例均自然退出，作业未残留子进程，真实回复阶段的模块/进程快照未匹配已列 WebView 引擎。前端 SHA-256 `7e096d2aa87d5a86d5e5edfed26ac6b9d6d26b2e40502ae32edd26c478e5eec7` 的 [REA 导入表](rea-38de2ad-imports.json.gz) 有 81 个常规 DLL 描述符、669 个常规导入及来自 ICU 的 11 个延迟导入；和 `a9c8150` 的全部 DLL、函数名和序号相同。进程快照和 PE 导入表各自只能证明已观察范围。普通回复的稳定中位数不代替满屏压力测试的峰值。
+
+[同一 38de2ad 单文件的 74 项交互回放](interaction-full-38de2ad.zip)（[44350839896](https://github.com/xiongnemo/nemoterm/actions/runs/44350839896)）全部通过。在其中各六种满屏压力负载中，[GDI 的前端私有工作集](interaction-memory-gdi-38de2ad.zip)最大为 18,915,328 字节，[DirectX](interaction-memory-directx-38de2ad.zip) 为 29,007,872 字节，均在 Unicode + Kitty 图片负载观察到；对应前端总工作集分别为 53,641,216 和 72,175,616 字节。该记录只适用于这一 EXE，不替后续的设置和输入修复验收。
