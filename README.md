@@ -13,6 +13,8 @@ Nemoterm 是 **PuTTY 0.85 Windows pterm 的下游 fork**，沿用其终端核心
 本页描述所在分支的代码；下载产物按下面的提交和验证记录区分。已实现功能与测试边界见 [协议支持表](docs/PROTOCOLS.md)
 和 [需求与验证记录](docs/REQUIREMENTS.md)。
 
+[试用 `fa6f10f` 单文件预览](https://github.com/xiongnemo/nemoterm/actions/runs/44260021672/artifacts/14407324758)：修复了默认私有调色板在 Sixel 图片结束时意外改色。真实 OpenCode 在 GDI 和 DirectX 下都验证了默认右键仅复制、开启选项后一次右键复制并粘贴。[交互实测与内存](research/opencode-right-click.md) · [图片修复前后对比](research/private-sixel-terminator.md)。
+
 [调色板修复预览 `9ece5e0`](https://github.com/xiongnemo/nemoterm/actions/runs/44256389198/artifacts/14406012996) 修复了 Sixel 在颜色定义尚未结束时把其他图形改色的问题。该 EXE 在同一次托管 Windows 回归中通过 46 项交互与内存检查；六项满屏负载的私有工作集峰值是 GDI **19.67 MB**、DirectX **29.29 MB**。[实际窗口截图、仍有差异的 6 帧和原始记录](research/shared-register-terminator.md)。
 
 要试越界拖选，可下载[交互预览 `1b24e72`](https://github.com/xiongnemo/nemoterm/actions/runs/44248020960/artifacts/14402433348)。按住 Shift 将鼠标拖出窗口上下沿，指针停住时选区也会继续滚动；先按住左键、中途才按 Shift 也能从程序接过选区。GitHub 托管 Windows 上，同一个 EXE 通过 **44/44 项交互与内存检查**及 **24 项中英文单显示器 DPI 检查**。六种 160×48 满屏负载的前端私有工作集峰值为 **GDI 18.89 MB、DirectX 28.55 MB**。另用系统鼠标和键盘在真实 OpenCode 里通过两种渲染器的选区、粘贴提交和正常退出，同一 EXE 累计通过 46 个不同用例。见[选区截图与原始记录](research/selection-history.md#opencode-with-system-mouse-and-keyboard)。

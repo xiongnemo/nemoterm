@@ -119,3 +119,5 @@ Sarasa Light 从固定 v2.3.1 压缩包安装，校验下载及实际字体名�
 要重放 MinGW 独立窗口在会话多次重启后的关闭，请使用 `tabs-close-replay.yml` 的 `fixture=restart-mingw`，指定失败的 `source_run`、`source_commit` 和原 EXE 的 `executable_sha256`。`repetitions=3` 会运行六个独立进程：三个覆盖过期粘贴隔离，三个操作真实断开提示，保留每次正常退出或超时及进程回收情况。
 
 Sixel 共享调色板：可对照[新绘制色块、强制重绘和原始 XTerm 像素](../research/shared-register-terminator.md)。`9ece5e0` 的 Windows 原生检查为 64 项图形与 12 项历史缓冲检查；历史 131 帧仍有 6 帧不一致。
+
+远程交互回放现在会生成 `interaction-report-<run>-<attempt>`。它按所选组核对用例名单、终端 EXE 的 SHA-256、子进程正常退出及满屏内存记录。单独重跑 `agents` 只算该组；缺组、混用 EXE、重复用例或强制终止都不能得到整套通过。原始截图与日志仍在各组产物。真实 OpenCode 的默认右键和“复制并粘贴”验收见[四个实际窗口与 HTTP 回执](../research/opencode-right-click.md)。
