@@ -23,7 +23,8 @@ import nemoterm_debug as api
 def run():
     assert os.environ.get('GITHUB_ACTIONS')=='true' and os.environ.get('RUNNER_ENVIRONMENT')=='github-hosted'
     exe=Path(os.environ['NEMOTERM_TEST_EXE']).resolve(strict=True)
-    evidence=dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),cases={})
+    font=os.environ['NEMOTERM_TEST_FONT']
+    evidence=dict(font=font,executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),cases={})
     out=ROOT/'build/image-key-records/image-protocol.json';out.parent.mkdir(parents=True,exist_ok=True)
     # One synthetic application action is Ctrl+V, even if the configured terminal
     # binding includes Shift. Report release only for protocols requesting it.
@@ -34,7 +35,7 @@ def run():
            ('xterm-level-2',csi+'>4;2m',b'\x1b[27;5;118~'),('xterm-disabled',csi+'>4;0m',b'\x16')]
     with tempfile.TemporaryDirectory() as tmp, saved_profile(dict(NemoRenderer=0,WarnOnClose=0,CloseOnExit=1,NemoFormatOtherKeys=0)) as args, OwnedJob() as job:
         report=Path(tmp)/'rx.json'; control=Path(tmp)/'control.json'
-        proc=job.spawn([str(exe),*args,'--automation','--font','SarasaTermSC Nerd Light','-e',sys.executable,
+        proc=job.spawn([str(exe),*args,'--automation','--font',font,'-e',sys.executable,
             str(ROOT/'tests/mouse_fixture.py'),str(report),str(control),'180'],creationflags=subprocess.CREATE_NO_WINDOW,
             env=dict(os.environ,NEMOTERM_CONPTY='bundled',NEMOTERM_TEST_EXACT_OUTPUT='1'))
         try:

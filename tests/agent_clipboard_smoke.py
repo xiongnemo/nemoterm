@@ -24,7 +24,7 @@ def main():
     parser.add_argument('--client',choices=('codex','opencode'),required=True)
     parser.add_argument('--client-exe',required=True)
     parser.add_argument('--terminal',default=os.environ.get('NEMOTERM_TEST_EXE',str(ROOT/'dist/nemoterm.exe')))
-    parser.add_argument('--font',default='SarasaTermSC Nerd Font Light')
+    parser.add_argument('--font',default=os.environ.get('NEMOTERM_TEST_FONT','SarasaTermSC Nerd Light'))
     parser.add_argument('--system-input', action='store_true')
     parser.add_argument('--after-client-idle',action='store_true',help='Also require Codex to report idle and redraw the marker after startup queries')
     parser.add_argument('--observe-first-miss', action='store_true', help='Keep the failed startup gesture and separately observe one subsequent user action in that same session')

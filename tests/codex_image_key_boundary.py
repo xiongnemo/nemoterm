@@ -13,14 +13,14 @@ import nemoterm_debug as api
 
 def digest(raw):return hashlib.sha256(raw).hexdigest()
 
-def trial(out,exe,trace,replay_sha,physical,rec):
+def trial(out,exe,font,trace,replay_sha,physical,rec):
     profile='image-keys-'+uuid.uuid4().hex;key='Software\\Nemo\\Nemoterm\\Sessions\\'+profile
     report=out/'events.json';control=out/'control.json';out.mkdir()
     with winreg.CreateKey(winreg.HKEY_CURRENT_USER,key) as k:
         for name,value in [('NemoRenderer',0),('CloseOnExit',1),('WarnOnClose',0)]:winreg.SetValueEx(k,name,0,winreg.REG_DWORD,value)
     try:
         with OwnedJob() as job:
-            proc=job.spawn([str(exe),'-load',profile,'--automation','--cols','100','--rows','30','--font','SarasaTermSC Nerd Font Light','-e',sys.executable,str(ROOT/'tests/win32_input_fixture.py'),str(report),str(control)],env=dict(os.environ,NEMOTERM_CONPTY='bundled'),creationflags=subprocess.CREATE_NO_WINDOW)
+            proc=job.spawn([str(exe),'-load',profile,'--automation','--cols','100','--rows','30','--font',font,'-e',sys.executable,str(ROOT/'tests/win32_input_fixture.py'),str(report),str(control)],env=dict(os.environ,NEMOTERM_CONPTY='bundled'),creationflags=subprocess.CREATE_NO_WINDOW)
             inst=wait_for(lambda:next(iter(api.discover(proc.pid)),None),timeout=25);sess,=inst['sessions'];endpoint=inst['endpoint'];seat=sess['id'];assert sess['renderer']==0
             rec['session']=sess;rec['replayed_bytes_sha256']=replay_sha;rec['events']={}
             desk=DesktopInput(proc.pid,sess['window'],sess['hwnd'],rec.setdefault('desktop',{})) if physical else None
@@ -49,13 +49,14 @@ def trial(out,exe,trace,replay_sha,physical,rec):
 def main():
     if os.environ.get('GITHUB_ACTIONS')!='true' or os.environ.get('RUNNER_ENVIRONMENT')!='github-hosted':raise RuntimeError('Hosted only')
     exe=Path(os.environ['NEMOTERM_TEST_EXE']).resolve(strict=True);out=ROOT/'build/image-key-records';out.mkdir(parents=True,exist_ok=False)
-    root=ROOT/'tests/fixtures/codex-image-keys';meta=json.loads((root/'source.json').read_bytes());summary=dict(exe_sha256=digest(exe.read_bytes()),source=meta,cases={})
+    font=os.environ['NEMOTERM_TEST_FONT']
+    root=ROOT/'tests/fixtures/codex-image-keys';meta=json.loads((root/'source.json').read_bytes());summary=dict(exe_sha256=digest(exe.read_bytes()),source=meta,font=font,cases={})
     for source in ['none',*meta['inputs']]:
         trace=root/(source+'.vt') if source!='none' else None;sha=digest(trace.read_bytes()) if trace else None
         if trace:assert sha==meta['inputs'][source]['sha256']
         for physical in (False,True):
             name=source+'-'+('system' if physical else 'api');rec=summary['cases'][name]=dict(passed=False)
-            try:trial(out/name,exe,trace,sha,physical,rec);rec['passed']=True
+            try:trial(out/name,exe,font,trace,sha,physical,rec);rec['passed']=True
             except Exception:rec['error']=traceback.format_exc()
             write_snapshot(out/'summary.json',summary)
     return int(not all(row['passed'] for row in summary['cases'].values()))

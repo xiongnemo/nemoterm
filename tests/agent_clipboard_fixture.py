@@ -277,7 +277,7 @@ def main():
     parser.add_argument('--default-grid',action='store_true',help='Use the default profile dimensions without CLI overrides')
     parser.add_argument('--stable-unicode',action='store_true')
     parser.add_argument('--right-copy-and-paste',action='store_true')
-    parser.add_argument('--font',default='SarasaTermSC Nerd Font Light')
+    parser.add_argument('--font',default=os.environ.get('NEMOTERM_TEST_FONT','SarasaTermSC Nerd Light'))
     args = parser.parse_args()
     folder = Path(args.directory).resolve()
     folder.mkdir(parents=True, exist_ok=False)
