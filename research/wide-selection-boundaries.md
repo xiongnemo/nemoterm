@@ -21,3 +21,11 @@ Frontend private working set in those same interactions (decimal MB, one session
 For this exact preview the [REA static PE import record](rea-a985632-imports.json.gz) decoded 669 standard and 11 delayed function imports, with no WebView2, CEF, Electron or WebKit module declared. During those six agent sessions, all twelve startup/submission module and process snapshots also found none of the known browser runtime names checked by `tests/frontend_runtime_snapshot.py`. The PE import table alone cannot exclude dynamically loaded or statically embedded code. The renderer, input and window implementation is native; the shell and agent child processes are accounted separately. For the original pterm comparison see [the binary and memory investigation](pterm-findings.md).
 
 The [complete interaction report and original memory and client receipts](interaction-a985632.zip) for this same image (`44314169646`) verified **72/74**. The only failed interactions were the first-visible-marker Codex image pastes via system keys and the window API. Both separate post-idle Codex image cases and the OpenCode image cases passed. All twelve 160×48 full-grid pressure tests passed: the highest sampled frontend private working sets were **19,263,488 bytes GDI** and **28,954,624 bytes DirectX**, with maximum total working sets 54,054,912 and 71,729,152 bytes respectively. These are separate from the three-app table above. The [original component differences](regis-six-frames.md) are still present. An interaction report is not a passing aggregate build.
+
+The [six original default-grid agent recordings for `7befdab`](real-agent-wide-7befdab.zip), hosted run `44322938841`, artifact `14435952948` (SHA-256 `17ac75a21d50b50f47bb6fa6866945e13023acb03ec1f27929e5c2752214c16a`), all identify frontend `df7e15c753ce20e6ee669eb80c1c7a99fae5421786a9760e2d5bd6bcc5c279bb`. Both renderers on all three clients used SarasaTermSC Nerd Light at 160×48, copied `中文` and highlighted all four cells while preserving both guard cells. Frontend private working set in decimal MB (submit / highest sampled from discovery through submission, distinct from full-grid dense graphics):
+
+| Client | GDI | DirectX |
+| --- | ---: | ---: |
+| codex | 6.98 / 16.70 | 12.79 / 18.81 |
+| opencode | 7.03 / 12.06 | 12.96 / 12.96 |
+| claude | 6.94 / 7.24 | 12.97 / 17.86 |
