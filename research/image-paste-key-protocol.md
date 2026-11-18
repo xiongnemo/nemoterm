@@ -29,3 +29,18 @@ The [source run's interaction report](interaction-rollup-fe02031.zip) verified *
 All six [GDI](interaction-memory-gdi-fe02031.zip) and six [DirectX](interaction-memory-directx-fe02031.zip) full-grid memory cases passed at 160×48. The highest measured frontend private working set on each renderer occurred in the Unicode + kitty graphics case: 19,554,304 bytes for GDI and 29,282,304 bytes for DirectX. In those cases the total working set peaked at 54,272,000 and 74,575,872 bytes, respectively. The limits apply to the private working set of the frontend; shells and console hosts are recorded separately.
 
 The public source for the pinned Codex `rust-v0.167.0` tag resolves to `086ccc833bc9cf01024ad2dd6af7dbd421b6bf9a`. Its [startup input handler](https://github.com/openai/codex/blob/086ccc833bc9cf01024ad2dd6af7dbd421b6bf9a/codex-rs/tui/src/startup_draft_input.rs#L217-L221) returns immediately for normalized Ctrl/Alt+V. The [upstream test](https://github.com/openai/codex/blob/086ccc833bc9cf01024ad2dd6af7dbd421b6bf9a/codex-rs/tui/src/startup_draft_tests.rs#L592-L603) explicitly exercises both Ctrl+V and its control-character spelling. The [live chat handler](https://github.com/openai/codex/blob/086ccc833bc9cf01024ad2dd6af7dbd421b6bf9a/codex-rs/tui/src/chatwidget/interaction.rs#L207-L230) instead dispatches an image paste. This source distinction explains the independent console-host and Nemoterm results; it does not turn a failed first gesture into a pass. A shell or terminal should not replay clipboard access across a change in the application's input owner.
+
+
+### Using the native window caption as a visible cue on the manual preview
+
+The [hosted replay](https://github.com/xiongnemo/nemoterm/actions/runs/44409409640) used the exact `b7f4bfa` executable from `dist` (SHA-256 `c8c3ccc3a5064faf0234687bdb0aaa1ba295b67f2d17f331757dc4f46638cec2`), fixture `5049ec7`, Sarasa Light and native Codex 0.167.0 (`edfdd48f8b458af0906e507b4cb05217b326c3d6e515e9f024e05e3b8d650f70`). The title phase uses the actual foreground host HWND. It stages a bitmap and waits for the caption to show the test project name `work`. It does not wait for the idle message, sleep for the client or retry a missed gesture. The screenshot and VT snapshot in this phase are taken **after** the physical chord. The snapshot is not evidence that the client had already emitted idle before the chord.
+
+| When the first gesture was sent | Physical shortcuts | API shortcuts |
+| --- | --- | --- |
+| Startup marker visible | 1/2 (`Ctrl+Shift+V` passed) | 0/2 |
+| Native caption shows project name | 2/2 | Not run |
+| Idle report and marker redraw observed | 2/2 | 2/2 |
+
+Both caption trials started with `Nemoterm` and recorded the change to `work`. The screenshot shows the same project name in the title and tab. Each trial recorded one V keydown, one image matching all generated 32×16 pixels at the local provider, and a natural exit. The three missed immediate gestures remain failures; a separate, explicit second gesture in each of those sessions succeeded. The replay therefore finished red. A project caption is a useful cue for this tested client configuration; custom titles, disabled title updates or identical inherited shell titles need not provide it. The frontend does not defer or replay clipboard shortcuts. [Original five Actions artifacts, failures and SHA-256 manifest](codex-caption-timing-b7f4bfa.zip).
+
+![The foreground window and active tab both show the fixture project name](codex-work-caption-b7f4bfa.png)
