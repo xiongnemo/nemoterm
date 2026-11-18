@@ -42,7 +42,7 @@ jobs:
           if ($clients.Count -ne 1) {throw 'Expected one pinned native Codex executable'}
           $opts=@('tests/agent_clipboard_smoke.py','--client','codex','--client-exe',$clients[0].FullName)
           if ($env:INPUT_MODE -eq 'system') {$opts+='--system-input'}
-          if ($env:STARTUP_PHASE -eq 'idle') {$opts+='--after-client-idle'}
+          if ($env:STARTUP_PHASE -eq 'idle') {$opts+='--after-client-idle'} else {$opts+='--observe-first-miss'}
           python @opts
           exit $LASTEXITCODE
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
@@ -55,6 +55,8 @@ jobs:
             build/agent-image-*/*/*.json
             build/agent-image-*/*/at-paste.vt
             build/agent-image-*/*/client-output.log
+            build/agent-image-*/*/first-miss.png
+            build/agent-image-*/*/before-followup.*
             build/agent-image-*/*/failure*
             build/interaction-dependencies/environment.json
             build/picture-keys-product/SOURCE-HOST.json

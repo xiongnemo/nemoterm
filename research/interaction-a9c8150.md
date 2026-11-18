@@ -32,3 +32,9 @@
 [真实 WSL Vim 9.1 的四组交互](wsl-vim-verified-a9c8150.zip)，运行 [44343384985](https://github.com/xiongnemo/nemoterm/actions/runs/44343384985)，制品 `14444727456`，ZIP SHA-256 `0b8b67b7a3d7f5f82516d94128f154e4baef3681a8f0ca42cb5f2b4106da37fd`。实际 GDI / DirectX × 默认 `xterm-256color` / 显式 `xterm` 均通过。Vim 的 SGR 鼠标开启时，普通点击让编辑器光标到第 3 行第 5 列；在第 2 行按 Shift 跨两个汉字的中间两格拖选，截图中四个字符格高亮，两侧格子不变。Ctrl+Shift+C 得到完整 `中文`，Vim 的光标和缓冲区都保持不变。窗口从 60×20 放大到 72×24，再缩小到 52×16；四组都收到了两次正确的 `VimResized`，且前端网格一致。进入编辑状态后按 Ctrl+Shift+V，保存文件的 UTF-8 字节完全吻合；退出后恢复启动 Vim 之前的屏幕。包内保留了编辑器版本、每次状态、截图和最终文件。
 
 [REA 对此预览的完整静态导入表](rea-a9c8150-imports.json.gz)覆盖 81 个常规 DLL 描述符、669 个常规导入和 11 个 ICU 延迟导入。本次已逐项与 `823d8e4` 的 DLL、函数名和序号比对，完全相同。与前述真实客户端窗口的十二份运行时快照一起，这些证据没有显示 WebView 引擎；静态导入不能证明所有动态执行路径。
+
+[矩形选区的四组 Vim 原始回放](wsl-vim-rectangle-a9c8150.zip)来自 [44344995440](https://github.com/xiongnemo/nemoterm/actions/runs/44344995440)，制品 `14445592439`，原始 ZIP SHA-256 `fc79a006039282d65f11872493d2957324e377e6d247f4220229d9899c053b50`。按住 Ctrl+Shift，从 `中` 的后半格开始跨行拖选，在左键仍按下时松开两个修饰键，然后移动到最终位置。在上行，四个汉字格完整高亮；在下行，只有两格 ASCII 字母高亮。剪贴板是精确的 `中文`、CRLF、`CU`；Vim 光标和文件内容不受影响。下图为显式 `TERM=xterm` 的远程窗口原图裁切，最近邻放大两倍。
+
+![Vim 中跨行矩形选区的 GDI 和 DirectX 前后对比](wsl-vim-rectangle-a9c8150.png)
+
+[同一 EXE 的 Codex 图片手势分项](agent-image-timing-a9c8150.zip)。两个首次输入标记用例各含两个手势：窗口接口的 Ctrl+Shift+V 成功，Ctrl+V 未出现附件；系统键盘的 Ctrl+V 成功，Ctrl+Shift+V 未出现附件。独立正常输入框对照的四个手势均成功。成功的窗口接口 Ctrl+Shift+V 在发送前尚未记录到 idle；失败的两个手势在发送前也都没有 idle。发送前的输出和客户端真正消费该键的时刻不同，不能把 idle 简单等同于成功或失败。

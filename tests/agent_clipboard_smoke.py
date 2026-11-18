@@ -27,11 +27,13 @@ def main():
     parser.add_argument('--font',default='SarasaTermSC Nerd Font Light')
     parser.add_argument('--system-input', action='store_true')
     parser.add_argument('--after-client-idle',action='store_true',help='Also require Codex to report idle and redraw the marker after startup queries')
+    parser.add_argument('--observe-first-miss', action='store_true', help='Keep the failed startup gesture and separately observe one subsequent user action in that same session')
     parser.add_argument('--binding',choices=('ctrl-v','ctrl-shift-v'))
     args=parser.parse_args()
     folder=Path(tempfile.mkdtemp(prefix='agent-image-',dir=ROOT/'build'))
     result=dict(client=args.client,cases=[],live_model=False,tool_responses=False,font=args.font)
     if args.after_client_idle:assert args.client=='codex'
+    if args.observe_first_miss:assert args.client=='codex' and not args.after_client_idle
     result.update(system_input=args.system_input,after_client_idle=args.after_client_idle,failures=[])
     for name,mods in [('ctrl-v',2),('ctrl-shift-v',3)]:
         if args.binding and args.binding!=name:continue
@@ -42,7 +44,7 @@ def main():
                 '--terminal',str(Path(args.terminal).resolve()),'--directory',str(case),
                 '--automation','--font',args.font],stdout=log,stderr=subprocess.STDOUT,
                 creationflags=subprocess.CREATE_NO_WINDOW)
-            desk=None;events={}
+            desk=None;events={};followup=None
             try:
                 observed=wait_for(lambda:read_snapshot(report),timeout=30)
                 instance=wait_for(lambda:next(iter(api.discover(observed['pid'])),None),timeout=20)
@@ -63,12 +65,11 @@ def main():
                 api.request(endpoint,'paste',seat,marker)
                 wait_for(lambda:marker in api.request(endpoint,'text',seat),timeout=20)
                 trace=case/'client-output.log'
-                if args.after_client_idle:
-                    def idle_redraw():
-                        if not trace.is_file():return False
-                        buf=trace.read_bytes();idle=buf.find(b'\x1b]7501;state=idle:app=codex');mark=marker.encode()
-                        return idle>=0 and b'\x1b]10;?' in buf[:idle] and b'\x1b]11;?' in buf[:idle] and mark in buf[idle:]
-                    wait_for(idle_redraw,timeout=60)
+                def idle_redraw():
+                    if not trace.is_file():return False
+                    buf=trace.read_bytes();idle=buf.find(b'\x1b]7501;state=idle:app=codex');mark=marker.encode()
+                    return idle>=0 and b'\x1b]10;?' in buf[:idle] and b'\x1b]11;?' in buf[:idle] and mark in buf[idle:]
+                if args.after_client_idle:wait_for(idle_redraw,timeout=60)
                 write_snapshot(control,dict(id=1,action='bitmap'))
                 wait_for(lambda:read_snapshot(report).get('clipboard_action')==1)
                 before=trace.read_bytes() if trace.is_file() else b''
@@ -80,8 +81,24 @@ def main():
                 # OpenCode launches Windows PowerShell/WinForms to read images.
                 # A fresh hosted runner exceeded 20 s, then painted the exact
                 # attachment while a separate reader control also succeeded.
-                wait_for(lambda:'[Image' in api.request(endpoint,'text',seat),
-                         timeout=60 if args.client=='opencode' else 20)
+                has_attachment=lambda:'[Image' in api.request(endpoint,'text',seat)
+                try:wait_for(has_attachment,timeout=60 if args.client=='opencode' else 20)
+                except AssertionError as miss:
+                    if not args.observe_first_miss or str(miss)!='Timed out waiting for native fixture':raise
+                    # The original gate remains red even if the same draft can recover.
+                    result['failures'].append(dict(binding=name,stage='first-attachment',error=traceback.format_exc()))
+                    followup=dict(binding=name,pid=observed['pid'],session=seat,second_gesture=False,completed=False)
+                    result.setdefault('same_draft_observations',[]).append(followup)
+                    (case/'first-miss.png').write_bytes(api.png_from_bmp(api.request(endpoint,'image',seat)))
+                    wait_for(idle_redraw,timeout=60)
+                    draft=api.request(endpoint,'text',seat);(case/'before-followup.txt').write_text(draft,encoding='utf-8')
+                    assert marker in draft and process.poll() is None and not any(marker in req['text'] for req in read_snapshot(report)['requests'])
+                    (case/'before-followup.vt').write_bytes(trace.read_bytes())
+                    if '[Image' not in draft:
+                        followup['second_gesture']=True;followup['seconds_after_first']=time.monotonic()-attachment_started
+                        key(86,mods);wait_for(has_attachment,timeout=20)
+                    else:followup['late_first_attachment']=True
+
                 attachment_seconds=time.monotonic()-attachment_started
                 time.sleep(.2)
                 key(13,0)
@@ -108,7 +125,11 @@ def main():
                 observed['binding']=name
                 observed['attachment_seconds']=attachment_seconds
                 write_snapshot(ROOT/f'research/agent-{args.client}-{name}.json',observed)
-                result['cases'].append(observed)
+                if followup is not None:
+                    relevant=[r for r in observed['requests'] if marker in r['text'] and r['images']]
+                    assert len(relevant)==1 and len(relevant[0]['images'])==1 and relevant[0]['images'][0]['generated_pixels_match'],relevant
+                    followup.update(completed=True,observation=observed)
+                else: result['cases'].append(observed)
                 print(args.client+' '+name+': exact generated image received; natural cleanup',flush=True)
             except Exception:
                 result['failures'].append(dict(binding=name,error=traceback.format_exc()))
