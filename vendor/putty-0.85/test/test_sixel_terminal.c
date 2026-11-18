@@ -875,10 +875,13 @@ static void test_sixel_palette_lifetime(Mock *mk)
     palette_pixels(mk, t->images, 0, 16, red);
     reset(mk);
     test_context(mk, "Sixel within-DCS palette identity and overwritten pixels");
+    /* The preceding ST left the colour command open, even across RIS.
+     * Compare both profile policies on that exact byte history. */
+    const uint32_t first_ink = t->sixel_carry_colour ? UINT32_C(0xff33cc33) : green;
     term_data_fragmented(t,
         "\033P0;1q#1;2;100;0;0!8~#2;2;100;0;0!8~#1;2;0;100;0$\033\\");
     IEQUAL(image_count(t), 1);
-    palette_pixels(mk, t->images, 0, 8, green);
+    palette_pixels(mk, t->images, 0, 8, first_ink);
     palette_pixels(mk, t->images, 8, 8, red);
     term_data_fragmented(t,
         "\033[4;1H\033P0;1q#1;2;100;0;0!16~$#2;2;0;0;100!8~"
@@ -887,7 +890,7 @@ static void test_sixel_palette_lifetime(Mock *mk)
     if (!t->images || !t->images->next) return;
     palette_pixels(mk, t->images->next, 0, 8, blue);
     palette_pixels(mk, t->images->next, 8, 8, green);
-    palette_pixels(mk, t->images, 0, 8, green);
+    palette_pixels(mk, t->images, 0, 8, first_ink);
     palette_pixels(mk, t->images, 8, 8, red);
     check_image_accounting(mk);
 
@@ -1078,7 +1081,16 @@ int main(void)
     test_sixel_column_budget(mk);
     test_sixel_horizontal(mk);
     test_graphics_registers(mk);
+    bool default_carry=conf_get_bool(mk->conf,CONF_nemo_sixel_colour_continuation);
+    IEQUAL(default_carry,true);
+    IEQUAL(mk->term->sixel_carry_colour,true);
     test_sixel_palette_lifetime(mk);
+    conf_set_bool(mk->conf,CONF_nemo_sixel_colour_continuation,false);
+    term_reconfig(mk->term,mk->conf);
+    IEQUAL(mk->term->sixel_carry_colour,false);
+    test_sixel_palette_lifetime(mk);
+    conf_set_bool(mk->conf,CONF_nemo_sixel_colour_continuation,default_carry);
+    term_reconfig(mk->term,mk->conf);
     test_sixel_palette_fragments(mk);
     test_sixel_implicit_background(mk);
     test_alignment_images(mk);

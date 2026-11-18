@@ -214,17 +214,40 @@ def exercise(phase,block):
         check(case+'-grow','',both)
         expose(case+'-grow-redraw',both)
 
-    # Same bytes as the XTerm private-register oracle. A dollar ends the
-    # colour number before ST, letting a completed write recolour one register.
-    for shape, paint in [('identity','#1;2;100;0;0!8~#2;2;100;0;0!8~'),
-                         ('overwrite','#1;2;100;0;0!16~$#2;2;0;0;100!8~')]:
-        for end, delimiter in [('st',''),('dollar','$')]:
-            name='private-register-'+shape+'-'+end
-            left=('blue' if shape=='overwrite' else 'green' if delimiter else 'red')
-            right=('green' if shape=='overwrite' and delimiter else 'red')
-            pairs=expected(block(2,left,cw,8),block(2,right,cw+8,8))
-            check(name,reset()+CSI+'2;4H'+DCS+'0;1q'+paint+'#1;2;0;100;0'+delimiter+ST,pairs)
-            expose(name+'-redraw',pairs)
+    private_sequence(phase,block)
+
+
+def private_sequence(phase,block,legacy=False):
+    # These four frames belong to ONE process. The wire (including each RIS)
+    # and both halves were independently captured on stock XTerm 412.
+    import json
+    from pathlib import Path
+    import zipfile
+    archive=Path(__file__).resolve().parents[1]/'research'/'xterm-private-reset-chain.zip'
+    assert hashlib.sha256(archive.read_bytes()).hexdigest()=='5bebdfbee826558be3a9e53cd57795bb5d24796823c8f6a9dc6241eeb75e83ef'
+    with zipfile.ZipFile(archive) as original:
+        steps=json.loads(original.read('observations/private-reset-chain-whole/observed.json'))['steps']
+    cw=context['cell_pixels'][0]
+    roi=dict(x=BORDER,y=BORDER,width=160,height=120,colour='black')
+    shapes=[('identity','#1;2;100;0;0!8~#2;2;100;0;0!8~'),
+            ('overwrite','#1;2;100;0;0!16~$#2;2;0;0;100!8~')]
+    assert len(steps)==4
+    for idx,step in enumerate(steps):
+        shape,paint=shapes[idx//2]; delimiter='$' if idx%2 else ''
+        wire=reset()+CSI+'2;4H'+DCS+'0;1q'+paint+'#1;2;0;100;0'+delimiter+ST
+        assert wire.encode('ascii').hex()==step['sequence_hex']
+        green='green' if legacy else 'vt340-green'
+        left='blue' if shape=='overwrite' else green if delimiter else 'red'
+        right=green if shape=='overwrite' and delimiter else 'red'
+        if not legacy:
+            rgb={'red':(255,0,0),'blue':(0,0,255),'vt340-green':(51,204,51)}
+            counts={tuple(colour):count for count,colour in step['repaint']['colours'] if any(colour)}
+            assert counts=={rgb[c]:48*(int(c==left)+int(c==right)) for c in (left,right)}
+        regions=[roi,block(2,left,cw,8),block(2,right,cw+8,8)]
+        name='private-register-'+shape+('-dollar' if delimiter else '-st')
+        phase(name,wire,regions,expected_reply=b'')
+        assert u.RedrawWindow(context['session']['hwnd'],None,None,0x185)
+        phase(name+'-redraw','',regions,expected_reply=b'')
 
 if __name__=='__main__':
     main(background_exercise=exercise,suite_name='regis-window',

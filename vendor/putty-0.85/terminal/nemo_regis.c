@@ -114,11 +114,18 @@ void nemo_regis_screen(NemoRegis *owner, unsigned alternate)
     if (!owner || owner->active) return;
     unsigned screen=alternate!=0;
     if (owner->screen!=screen) {
-        /* Parser coordinates and page numbers survive an alternate-screen
-         * switch, but mapping the next request must not hide a graphic in
-         * the screen we just left. Retained visibility belongs to each bank. */
-        owner->context.destination_graphic=NULL;
-        owner->context.display_graphic=NULL;
+        /* A full-screen application must not hide the main screen's graphic
+         * when it maps an alternate page. Conversely, keep the alternate
+         * mapping until a ReGIS command actually replaces it: the mapper
+         * then hides that page, so a later erase of displayed cells skips
+         * it. A bare text-screen switch or a cursor report does not remap. */
+        if (screen) {
+            RegisGraphicsContext *ctx=&owner->context;
+            if (ctx->destination_graphic && !ctx->destination_graphic->screen)
+                ctx->destination_graphic=NULL;
+            if (ctx->display_graphic && !ctx->display_graphic->screen)
+                ctx->display_graphic=NULL;
+        }
         owner->screen=screen;
     }
 }
