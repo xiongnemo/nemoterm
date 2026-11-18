@@ -24,6 +24,7 @@ observed = dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),
                 detected=shells, launches={}, process_lifetime=[],
                 process_observer=os.environ.get('NEMOTERM_SHELL_PROCESS_OBSERVER', '1') != '0')
 tracked_processes = {}
+pager_error = None
 started_at = time.monotonic()
 
 
@@ -160,7 +161,9 @@ try:
                 continue
             marker = Path(temporary) / (sid + '.txt')
             command, ready_file = directory_command(marker, sid)
-            process = subprocess.Popen([str(exe),*(['--automation'] if sid == 'wsl-bash' else []),'--no-tabs', '-load', profile, '--shell', sid,
+            font = os.environ.get('NEMOTERM_TEST_FONT') if sid=='wsl-bash' else None
+            process = subprocess.Popen([str(exe),*(['--automation'] if sid == 'wsl-bash' else []),
+                *(['--font',font] if font else []),'--no-tabs', '-load', profile, '--shell', sid,
                 '--directory', str(starting)],
                 env=dict(os.environ, NEMOTERM_CONPTY='bundled'),
                 creationflags=subprocess.CREATE_NO_WINDOW)
@@ -180,7 +183,7 @@ try:
                 expected = starting.as_posix() if sid == 'git-bash' else shell_path(starting, sid)
                 assert same_directory(actual, starting, sid), (sid, actual, expected)
                 observed['launches'][sid] = dict(command_executed=True,
-                    memory=memory_sample(handle), path=shell['path'], directory=actual)
+                    memory=memory_sample(handle), path=shell['path'], directory=actual, font_option=font)
                 record_processes('command-completed', sid, process.pid, discover=True)
                 if sid in ('git-bash', 'wsl-bash'):
                     destination = Path(temporary)/('duplicate 中;$(literal) '+sid)
@@ -222,9 +225,14 @@ try:
                     wsl_terminfo_roundtrip(hwnd, Path(temporary),
                         observed['launches'][sid].setdefault('terminfo', {}))
                     from wsl_pager_interaction import exercise
-                    exercise(process, hwnd, Path(temporary), shell_path, send,
-                             observed['launches'][sid].setdefault('less', {}), root/'research')
-                print('Shell launch passed:', sid, flush=True)
+                    try:
+                        exercise(process, hwnd, Path(temporary), shell_path, send,
+                                 observed['launches'][sid].setdefault('less', {}), root/'research')
+                    except Exception as exc:
+                        # Finish the shell/WSL teardown while preserving the original failure.
+                        pager_error = exc
+                        observed['launches'][sid]['pager_error'] = repr(exc)
+                print('Shell command executed:', sid, flush=True)
                 send(hwnd, 'exit\r')
                 process.wait(timeout=10)
                 assert process.returncode == 0, (sid, process.returncode)
@@ -248,6 +256,7 @@ try:
         subprocess.run(['wsl.exe','--terminate',distro], check=True, timeout=30,
                        capture_output=True, creationflags=subprocess.CREATE_NO_WINDOW)
         observed['wsl_fixture_teardown'] = dict(distribution=distro, shells_exited=True, linux_processes=linux)
+    if pager_error is not None: raise pager_error
 finally:
     record_processes('fixture-finished')
     try:

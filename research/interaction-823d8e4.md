@@ -26,3 +26,7 @@
 `TERM` 兼容性和原版 XTerm 的逐帧一致性分开报告：[原始 ReGIS 比对](regis-six-frames.md)仍有五帧不同。完整协议的实现与缺口见[支持表](../docs/PROTOCOLS.md)。
 
 Windows 跳转列表用 `@配置名` 快捷启动。它与 `--profile 配置名` 在 `823d8e4` 上并不等价：[修复前回放 44333547537](profile-term-before-823d8e4.zip) 中四个子进程均自然退出。两个普通启动都得到了正确的三个变量。`@` 启动在父环境没有设置变量时三个变量全部缺失；当父环境设置了 `TERM=dumb` 时，子进程保留了 `dumb` 和另两个不相关的父值。该包中的 `identity.json` 和 `profile-term-environment.json` 是此回放证据；同包内早先的其他协议观察并非本次测试。`1fef0e3` 将三个变量的设置移到解析快捷启动之前；该修复的全量 CI 为 [44333779700](https://github.com/xiongnemo/nemoterm/actions/runs/44333779700)。
+
+[修复后原始四组子进程环境](profile-term-after-1fef0e3.zip)：`1fef0e3` 的单文件 SHA-256 为 `db670d8c07d5e03ba8e2f72a4c4b4ee7e7ce2882b10638683e2a495a3c198220`。普通和跳转列表启动在父变量缺失或不相符时均正确得到 `xterm-256color`、`truecolor`、`nemoterm`，四组均自然退出。
+
+[真实 `less` 首次回放](wsl-less-initial-823d8e4.zip)，运行 `44331273695`，制品 `14440013432`。在 `823d8e4` 的 WSL 中，`less` 590 打开并显示了第 1–41 行。窗口 API 发送向下键后的观察里仍是第 1–41 行；末行从 `pager.txt` 变成 `:`。该回放失败，未运行到翻页、搜索、恢复或单独的 `TERM=xterm` 分支。Windows 清理临时目录时另遇到占用错误。它不推翻前面的真实 `tput` 光标回复，也不能单凭画面断定 Linux 收到的按键序列。

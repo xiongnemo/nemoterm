@@ -1,0 +1,57 @@
+name: WSL xterm application replay
+on:
+  workflow_call:
+    inputs:
+      run: {type: string, required: true}
+      commit: {type: string, required: true}
+permissions:
+  contents: read
+  actions: read
+jobs:
+  wsl:
+    runs-on: windows-2025
+    timeout-minutes: 18
+    env:
+      NEMOTERM_TEST_SHELL: wsl-bash
+      NEMOTERM_REQUIRED_SHELLS: wsl-bash
+      NEMOTERM_TEST_WSL_DISTRO: Ubuntu-24.04
+      NEMOTERM_WSL_KEY_DIAGNOSTICS: '1'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with: {fetch-depth: 0}
+      - name: Verify the source-built single executable
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PRODUCT_RUN: ${{ inputs.run }}
+          PRODUCT_COMMIT: ${{ inputs.commit }}
+        run: |
+          ./scripts/fetch-ci-product.ps1 -Run $env:PRODUCT_RUN -Commit $env:PRODUCT_COMMIT -Destination build/wsl-product
+          "NEMOTERM_TEST_EXE=$((Resolve-Path build/wsl-product/nemoterm.exe).Path)" | Out-File $env:GITHUB_ENV -Append -Encoding utf8
+      - uses: Vampire/setup-wsl@4c48163d9f981914dd8caa0fc335fe19cca5bff4
+        with:
+          distribution: Ubuntu-24.04
+          wsl-version: 1
+          set-as-default: 'true'
+          update: 'false'
+          use-cache: 'false'
+          additional-packages: less
+      - name: Prepare font and fixture
+        shell: pwsh
+        run: |
+          ./scripts/prepare-remote-interaction.ps1
+          python -m pip install frida==17.24.3 Pillow==13.0.0
+          New-Item -ItemType Directory -Force build/wsl-check/tools,build/wsl-check/research,build/wsl-check/build | Out-Null
+          Copy-Item tests build/wsl-check/tests -Recurse
+          Copy-Item tools/nemoterm_debug.py build/wsl-check/tools/
+      - name: Read the WSL terminal type and exercise direct and recorded less
+        run: python build/wsl-check/tests/shell_window_smoke.py
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: wsl-tui-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            build/wsl-check/research/
+            build/wsl-product/SOURCE-HOST.json
+            build/interaction-dependencies/environment.json
+          if-no-files-found: error

@@ -20,6 +20,8 @@ gh workflow run ci.yml --ref <branch> -f scope=full
 gh workflow run font-zoom-replay.yml --ref <branch> -f suite=interaction -f source_run=<run-id> -f source_commit=<40-character-sha>
 ```
 
+`suite=wsl-tui` 在单独的 Windows runner 上只安装所需 WSL 环境，记录直接运行的 `less` 与 `script` 记录器运行的 `less`，并区分窗口 API 和系统导航键。记录器的成功不能替代直接运行。
+
 `suite=profile-env` 可让 `--profile 名称` 和 Windows 跳转列表所用的 `@名称` 各启动一次父环境未设和一次父环境设置了不同 `TERM` 的子进程，读取其真实 `TERM`、`COLORTERM`、`TERM_PROGRAM`。
 
 `f628d89` 单文件预览的[完整回放和内存数据](../research/right-button-release.md#complete-interaction-replay)为 74/74。另一个 MinGW 便携构建出现[混合 profile 关闭超时](../research/mixed-profile-close-f628d89.md)；`tabs-close-replay.yml` 的 `profiles-mingw` 和 `profiles-api-mingw` 使用原失败产物，分别回放带探针和内置自动化的操作。

@@ -50,13 +50,13 @@ class DesktopInput:
         info=ThreadInfo(size=c.sizeof(ThreadInfo));assert self.u.GetGUIThreadInfo(self.thread,c.byref(info));return info
     def target(self):
         assert self.u.GetForegroundWindow()==self.host and self.state().focus==self.hwnd,'Terminal lost keyboard focus'
-    def event(self,vk,down):
+    def event(self,vk,down,*,extended=False):
         if down:self.target()
         event=Input()
         if vk is None or vk=='right':
             event.kind=0
             event.mouse.flags=({True:8,False:16} if vk=='right' else {True:2,False:4})[down]
-        else:event.kind=1;event.key.key=vk;event.key.flags=0 if down else 2
+        else:event.kind=1;event.key.key=vk;event.key.flags=(0 if down else 2) | (1 if extended else 0)
         if self.u.SendInput(1,c.byref(event),c.sizeof(event))!=1:raise c.WinError(c.get_last_error())
         if down:self.held.append(vk)
         else:self.held.remove(vk)
