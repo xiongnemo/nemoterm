@@ -13,9 +13,9 @@ Nemoterm 是 **PuTTY 0.85 Windows pterm 的下游 fork**，沿用其终端核心
 本页描述所在分支的代码；下载产物按下面的提交和验证记录区分。已实现功能与测试边界见 [协议支持表](docs/PROTOCOLS.md)
 和 [需求与验证记录](docs/REQUIREMENTS.md)。
 
-交互预览版 `85fe9b1` 在 GitHub 托管的 Windows Runner 上通过 **42/42 项交互验收**，同一个 EXE 的 **170 项单文件检查**也已通过。在六种 160×48 满屏负载下，前端私有工作集峰值为 **GDI 19.03 MB、DirectX 28.86 MB**。真实 Codex 和 OpenCode 在两种渲染器中都能用 Shift 拖选回复、复制，再粘贴提交。新测试还验证了跨行选择宽字符时不会多复制空格或换行。见[截图、内存和当前 EXE 的验证记录](research/interaction-85fe9b1.md)与[ReGIS 已知差异](research/regis-history-limit.md)。
+要试越界拖选，可下载[交互预览 `1b24e72`](https://github.com/xiongnemo/nemoterm/actions/runs/44248020960/artifacts/14402433348)。按住 Shift 将鼠标拖出窗口上下沿，指针停住时选区也会继续滚动；先按住左键、中途才按 Shift 也能从程序接过选区。GitHub 托管 Windows 上，同一个 EXE 通过 **44/44 项交互与内存检查**及 **24 项中英文单显示器 DPI 检查**。六种 160×48 满屏负载的前端私有工作集峰值为 **GDI 18.89 MB、DirectX 28.55 MB**。见[原始截图、文字和内存记录](research/selection-history.md#candidate-1b24e72)。
 
-新增的[鼠标颜色预览 `57217fd`](research/pointer-colours.md#candidate-you-can-try)已在同一 EXE 上通过 42 项交互、31 组 XTerm 光标对照，以及加入常规 CI 后的鼠标回放。六种满屏负载的前端私有工作集峰值为 GDI **18.83 MB**、DirectX **28.88 MB**。
+如需已完成 170 项单文件检查的版本，可下载[鼠标颜色版 `57217fd`](https://github.com/xiongnemo/nemoterm/actions/runs/44242059009/artifacts/14402697559)。压缩包中只有 `nemoterm.exe`；此版本通过 42 项交互和 31 组 XTerm 光标对照，尚不包含上述越界拖选修复。[单文件与光标记录](research/pointer-colours.md#candidate-you-can-try) · [更早的 `85fe9b1` 截图与实测](research/interaction-85fe9b1.md) · [ReGIS 已知差异](research/regis-history-limit.md)。
 
 历史构建 `329019d` 的原完整 CI 为 **21/22**：170 组单 EXE 检查、MinGW 完整套件、26 项交互、24 个中英文真实 DPI 场景及六项完整网格 GDI 负载通过。新增 Terminfo 键盘的 1,293 条原生输入流零差异。唯一失败是当时的 DirectX 25 MB 门槛。用户改为 **30 MB** 后，同一 EXE 的[六项远程 DirectX 回放全部通过](research/directx-30mb.md)，私有工作集峰值为 **29.42 MB**；GDI 原峰值为 **18.82 MB**。原 CI 记录保持不变。
 [下载 `329019d` 单文件开发构建](https://github.com/xiongnemo/nemoterm/actions/runs/44083541137/artifacts/14332971661) · [完整 CI](https://github.com/xiongnemo/nemoterm/actions/runs/44083541137) · [产物与验证记录](research/terminfo-product-regression.md)。

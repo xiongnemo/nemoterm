@@ -115,3 +115,5 @@ Sarasa Light 从固定 v2.3.1 压缩包安装，校验下载及实际字体名�
 `selection` 组覆盖越界拖选：一次移动后保持左键，在两端从滚动缓冲区复制有编号的中文和组合字符，并检查选区像素。另一个用例在独立的托管 Windows 桌面上使用系统鼠标键盘输入，检查应用接管、重新移入、松键、取消捕获及粘贴给子进程的字节。
 
 先按鼠标、在越过边沿时才按 Shift 的情形另行核对应用收到的按下和松开。见[拖选版本对照及原始记录](../research/selection-history.md)。
+
+要重放 MinGW 独立窗口在会话多次重启后的关闭，请使用 `tabs-close-replay.yml` 的 `fixture=restart-mingw`，指定失败的 `source_run`、`source_commit` 和原 EXE 的 `executable_sha256`。`repetitions=3` 会运行六个独立进程：三个覆盖过期粘贴隔离，三个操作真实断开提示，保留每次正常退出或超时及进程回收情况。
