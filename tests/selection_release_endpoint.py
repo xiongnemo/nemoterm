@@ -76,3 +76,40 @@ def verify_wide_boundary(hwnd, begin, point, capture, tile, shortcut, barrier, e
             expected_text=wanted,copied=copied,expected_cells=cells,selected_cells=actual,
             passed=copied==wanted and actual==cells))
     assert all(row['passed'] for row in observations), observations
+
+
+def verify_scaled_rows(hwnd, begin, point, capture, tile, shortcut, barrier, evidence):
+    # Physical columns 3..6 cross the right half of 'b' and the left half of
+    # 'd' on a DEC doubled row. Ordinary rows must not expand with that row.
+    rows = evidence['scaled_rectangles'] = []
+    cases = [('double-middle', '6', (3,0), (6,2), '3456\r\nbcd\r\nDEFG', [[3,4,5,6],list(range(2,8)),[3,4,5,6]]),
+             ('upper-end', '3', (6,1), (3,0), '3456\r\nbcd', [[3,4,5,6],list(range(2,8)),[]]),
+             ('lower-start', '4', (3,1), (6,2), 'bcd\r\nDEFG', [[],list(range(2,8)),[3,4,5,6]]),
+             ('single-half', '6', (3,0), (3,1), '3\r\nb', [[3],[2,3],[]])]
+    for i,(name,mode,start,end,wanted,columns) in enumerate(cases):
+        top=3 if i%2==0 else 12
+        wire=(f'\x1bc\x1b[?25l\x1b[{top+1};1H\x1b[44m0123456789\x1b[0m'
+              f'\x1b[{top+2};1H\x1b#{mode}\x1b[44mabcdefghij\x1b[0m'
+              f'\x1b[{top+3};1H\x1b[44mABCDEFGHIJ\x1b[0m\x1b[?1002;1006h')
+        begin('scale-'+name,wire)
+        def shown():
+            p=capture(return_pixels=True)
+            # Verify the actual source line is doubled before comparing selection.
+            for dy,width in enumerate((10,20,10)):
+                bg=tile(p,25,top+dy)
+                if tile(p,width-1,top+dy)==bg or tile(p,width,top+dy)!=bg:return None
+            return p
+        obs=dict(case=name,start=start,end=end,expected_text=wanted,expected_columns=columns)
+        rows.append(obs)
+        before=wait_for(shown);capture('selection-scale-'+name+'-before.png')
+        def pt(p):return point(p[0],top+p[1])
+        u.SendMessageW(hwnd,0x201,13,pt(start));u.SendMessageW(hwnd,0x200,1,pt(end));u.SendMessageW(hwnd,0x202,0,pt(end))
+        obs['child_hex']=barrier()
+        def changed(p):return [[x for x in range(24) if tile(before,x,top+y)!=tile(p,x,top+y)] for y in range(3)]
+        until=time.monotonic()+2
+        while changed(capture(return_pixels=True))!=columns and time.monotonic()<until:time.sleep(.04)
+        obs['columns']=changed(capture('selection-scale-'+name+'-after.png',return_pixels=True))
+        seq=u.GetClipboardSequenceNumber();shortcut(67,46)
+        obs['copied']=clipboard_text(hwnd) if u.GetClipboardSequenceNumber()!=seq else None
+        obs['passed']=obs['columns']==columns and obs['copied']==wanted
+    assert all(row['passed'] for row in rows),rows

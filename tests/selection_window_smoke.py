@@ -200,6 +200,8 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-selection-') as temporary:
         from selection_release_endpoint import verify_release_endpoint, verify_wide_boundary
         verify_release_endpoint(hwnd,begin_phase,point,captured,tile,shortcut,no_forwarded_input,evidence)
         verify_wide_boundary(hwnd,begin_phase,point,captured,tile,shortcut,no_forwarded_input,evidence)
+        from selection_release_endpoint import verify_scaled_rows
+        verify_scaled_rows(hwnd,begin_phase,point,captured,tile,shortcut,no_forwarded_input,evidence)
         evidence['completed']=True
         print('Rapid independent selections and 16 Ctrl rectangles, exact Unicode, shortcut/right-click copy and pixels passed')
     finally:
