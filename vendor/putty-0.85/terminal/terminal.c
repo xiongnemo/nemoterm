@@ -195,7 +195,8 @@ static void check_line_size(Terminal *, termline *);
 static void do_paint(Terminal *);
 static void erase_lots(Terminal *, bool, bool, bool);
 static int find_last_nonempty_line(Terminal *, tree234 *);
-static void swap_screen(Terminal *, int, bool, bool);
+typedef enum { ALT_KEEP, ALT_CLEAR_ON_ENTRY, ALT_CLEAR_ON_EXIT } AltClearPolicy;
+static void swap_screen(Terminal *, int, AltClearPolicy, bool);
 static void update_sbar(Terminal *);
 static void deselect(Terminal *);
 static void term_print_finish(Terminal *);
@@ -3606,11 +3607,11 @@ static void power_on(Terminal *term, bool clear, bool keep_encoding)
             term->wordness[i] = conf_get_int_int(term->conf, CONF_wordness, i);
     }
     if (term->screen) {
-        swap_screen(term, 1, false, false);
+        swap_screen(term, 1, ALT_KEEP, false);
         erase_lots(term, false, true, true);
         for (int y = 0; y < term->rows; y++)
             scrlineptr(y)->lattr = LATTR_NORM;
-        swap_screen(term, 0, false, false);
+        swap_screen(term, 0, ALT_KEEP, false);
         if (clear) {
             erase_lots(term, false, true, true);
             /* erase_lots may skip already blank rows. RIS must also reset
@@ -4075,7 +4076,7 @@ void term_reconfig(Terminal *term, Conf *conf)
             term->wordness[i] = conf_get_int_int(term->conf, CONF_wordness, i);
 
     if (conf_get_bool(term->conf, CONF_no_alt_screen))
-        swap_screen(term, 0, false, false);
+        swap_screen(term, 0, ALT_KEEP, false);
     if (conf_get_bool(term->conf, CONF_no_remote_charset)) {
         term->cset_attr[0] = term->cset_attr[1] = term->cset_attr[2] = term->cset_attr[3] = CSET_ASCII;
         term->nrc_mode = false;
@@ -4942,7 +4943,7 @@ void term_size(Terminal *term, int newrows, int newcols, int newsavelines)
 
     deselect(term);
     int resize_view = term->disptop;
-    swap_screen(term, 0, false, false);
+    swap_screen(term, 0, ALT_KEEP, false);
     if (!save_alt_which && reflow) term->disptop = resize_view;
 
     term->marg_t = 0;
@@ -5129,7 +5130,7 @@ void term_size(Terminal *term, int newrows, int newcols, int newsavelines)
     term->savelines = newsavelines;
 
     resize_view = term->disptop;
-    swap_screen(term, save_alt_which, false, false);
+    swap_screen(term, save_alt_which, ALT_KEEP, false);
     if (!save_alt_which && reflow) term->disptop = resize_view;
 
     term->win_scrollbar_update_pending = true;
@@ -5182,16 +5183,13 @@ static int find_last_nonempty_line(Terminal *term, tree234 *screen)
     return i;
 }
 
-/*
- * Swap screens. If `reset' is true and we have been asked to
- * switch to the alternate screen, we must bring most of its
- * configuration from the main screen and erase the contents of the
- * alternate screen completely. (This is even true if we're already
- * on it! Blame xterm.)
- */
+/* 1047 and 1049 inherit the main bank's modes on entry, but only 1049
+ * erases on entry. 1047 erases the active alternate bank before leaving. */
 static void swap_screen(Terminal *term, int which,
-                        bool reset, bool keep_cur_pos)
+                        AltClearPolicy clear, bool keep_cur_pos)
 {
+    const bool reset = which && clear != ALT_KEEP;
+    const bool clear_on_exit = !which && term->alt_which && clear == ALT_CLEAR_ON_EXIT;
     term->grapheme_pending = false;
     int t;
     bool bt;
@@ -5199,12 +5197,12 @@ static void swap_screen(Terminal *term, int which,
     truecolour ttc;
     tree234 *ttr;
 
-    if (which != term->alt_which || reset) nemo_highlight_cancel(term, true);
-    if (!which)
-        reset = false;                 /* do no weird resetting if which==0 */
-
+    if (which != term->alt_which || clear != ALT_KEEP) nemo_highlight_cancel(term, true);
     if (which != term->alt_which || reset) nemo_kitty_cancel_input(term);
-    if (which && reset) nemo_kitty_clear_screen(term, 1, true);
+    if ((which && clear == ALT_CLEAR_ON_ENTRY) || clear_on_exit)
+        nemo_kitty_clear_screen(term, 1, true);
+    if (clear_on_exit && term->screen)
+        erase_lots(term, false, true, true);
     if (which != term->alt_which) {
         if (term->erase_to_scrollback && term->alt_screen &&
             term->alt_which && term->disptop < 0) {
@@ -5326,7 +5324,7 @@ static void swap_screen(Terminal *term, int which,
         }
     }
 
-    if (reset && term->screen) {
+    if (which && clear == ALT_CLEAR_ON_ENTRY && term->screen) {
         /*
          * Yes, this _is_ supposed to honour background-colour-erase.
          */
@@ -6586,7 +6584,7 @@ static void toggle_mode(Terminal *term, int mode, int query, bool state)
           case 47:                     /* alternate screen */
             compatibility(OTHER);
             deselect(term);
-            swap_screen(term, term->no_alt_screen ? 0 : state, false, false);
+            swap_screen(term, term->no_alt_screen ? 0 : state, ALT_KEEP, false);
             if (term->scroll_on_disp)
                 term->disptop = 0;
             break;
@@ -6625,7 +6623,8 @@ static void toggle_mode(Terminal *term, int mode, int query, bool state)
           case 1047:                   /* alternate screen */
             compatibility(OTHER);
             deselect(term);
-            swap_screen(term, term->no_alt_screen ? 0 : state, true, true);
+            swap_screen(term, term->no_alt_screen ? 0 : state,
+                        term->no_alt_screen ? ALT_KEEP : ALT_CLEAR_ON_EXIT, true);
             if (term->scroll_on_disp)
                 term->disptop = 0;
             break;
@@ -6640,7 +6639,7 @@ static void toggle_mode(Terminal *term, int mode, int query, bool state)
             if (!state) seen_disp_event(term);
             compatibility(OTHER);
             deselect(term);
-            swap_screen(term, term->no_alt_screen ? 0 : state, true, false);
+            swap_screen(term, term->no_alt_screen ? 0 : state, ALT_CLEAR_ON_ENTRY, false);
             if (!state && !term->no_alt_screen)
                 save_cursor(term, state);
             if (term->scroll_on_disp)
