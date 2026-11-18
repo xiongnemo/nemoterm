@@ -6,7 +6,7 @@ on:
       suite:
         description: Checks or notice-only packaging against the exact artifact
         type: choice
-        options: [font-bell, dpi, interaction, single, ui-regression, shell-lifetime, tcap, portable-notices, regis-window]
+        options: [font-bell, dpi, interaction, single, ui-regression, shell-lifetime, tcap, portable-notices, regis-window, pointer-colour]
         default: font-bell
       source_commit:
         description: Full source commit of the source-console-host artifact
@@ -64,7 +64,7 @@ jobs:
       product_run: ${{ inputs.source_run }}
       product_commit: ${{ inputs.source_commit }}
   focused-replay:
-    if: ${{ inputs.suite == 'font-bell' || inputs.suite == 'ui-regression' || inputs.suite == 'tcap' }}
+    if: ${{ inputs.suite == 'font-bell' || inputs.suite == 'ui-regression' || inputs.suite == 'tcap' || inputs.suite == 'pointer-colour' }}
     runs-on: windows-2025
     timeout-minutes: 15
     env:
@@ -103,6 +103,12 @@ jobs:
           } | ConvertTo-Json | Set-Content build/focused-evidence/identity.json -Encoding utf8
       - name: Install test dependencies
         run: python -m pip install frida==17.24.3
+      - name: Compare actual Windows cursor colours with pinned XTerm observations
+        if: ${{ inputs.suite == 'pointer-colour' }}
+        shell: pwsh
+        run: |
+          python tests/pointer_window_smoke.py --colour-reference research/pointer-colour-reference.zip 2>&1 | Tee-Object build/focused-evidence/pointer-colour.log
+          exit $LASTEXITCODE
       - name: Replay terminfo keyboard bytes and independent capability permissions
         if: ${{ inputs.suite == 'tcap' }}
         shell: pwsh
@@ -164,6 +170,9 @@ jobs:
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Force build/focused-evidence | Out-Null
+          if (Test-Path research/pointer-native-window) {
+            Copy-Item research/pointer-native-window build/focused-evidence/ -Recurse
+          }
           Copy-Item research/dialog-*.json*, research/gpu-lifecycle-* build/focused-evidence/ -ErrorAction SilentlyContinue
           Copy-Item research/font-zoom-observed.json, research/tabs-profiles-observed.json, research/bell-mode-*-observed.json build/focused-evidence/ -ErrorAction SilentlyContinue
           Copy-Item research/visual-bell-observed.json, research/visual-bell-*.png build/focused-evidence/ -ErrorAction SilentlyContinue
