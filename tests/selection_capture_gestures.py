@@ -148,14 +148,28 @@ def verify_gestures(host, seat, child, Input, out, evidence, publish, visible_te
         u.CreateWindowExW.argtypes=[w.DWORD,w.LPCWSTR,w.LPCWSTR,w.DWORD,c.c_int,c.c_int,c.c_int,c.c_int,w.HWND,w.HMENU,w.HINSTANCE,c.c_void_p]
         u.CreateWindowExW.restype=w.HWND;u.DestroyWindow.argtypes=[w.HWND]
         u.PeekMessageW.argtypes=[c.POINTER(w.MSG),w.HWND,w.UINT,w.UINT,w.UINT]
+        u.SetCapture.argtypes=[w.HWND];u.SetCapture.restype=w.HWND;u.GetCapture.restype=w.HWND
+        u.DispatchMessageW.argtypes=[c.POINTER(w.MSG)];u.DispatchMessageW.restype=c.c_ssize_t
         sink=u.CreateWindowExW(0x08000088,'BUTTON','release target',0x90000000,dest.x-12,dest.y-12,24,24,None,None,None,None)
         assert sink
         try:
             assert u.SetCursorPos(dest.x,dest.y);wait_for(lambda:u.WindowFromPoint(dest)==sink)
-            event(0,1,False);msg=w.MSG()
-            wait_for(lambda:u.PeekMessageW(c.byref(msg),sink,0x205,0x205,1))
-            check['release_received_by_other_window']=msg.hwnd==sink;assert msg.hwnd==sink
-        finally:u.DestroyWindow(sink)
+            # Another UI can legitimately capture a locally handled mouse-up.
+            # Give only our own sink the capture and service its full queue:
+            # filtering for UP alone can leave the preceding input unprocessed.
+            u.SetCapture(sink);check['sink_owns_capture']=u.GetCapture()==sink;assert check['sink_owns_capture']
+            check['foreign_messages']=[];msg=w.MSG();event(0,1,False)
+            def received_up():
+                while u.PeekMessageW(c.byref(msg),None,0,0,1):
+                    if msg.hwnd==sink:
+                        if len(check['foreign_messages'])<60:check['foreign_messages'].append(msg.message)
+                        if msg.message==0x205:return True
+                    u.DispatchMessageW(c.byref(msg))
+                return False
+            wait_for(received_up);check['release_received_by_other_window']=True
+        finally:
+            if u.GetCapture()==sink:u.ReleaseCapture()
+            u.DestroyWindow(sink);publish()
         check['local_wire']=confirm(request).hex();assert check['local_wire']==(dsr+dsr).hex(),check
         # RIS discards the selection. The peer requests button tracking again.
         request=start_right_phase('application','\x1b[?1049l\x1bc\x1b[?1002;1006h');assert u.GetForegroundWindow()==host
