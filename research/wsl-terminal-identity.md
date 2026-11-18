@@ -1,0 +1,7 @@
+# WSL terminal identity: 38de2ad
+
+On the GitHub-hosted Windows runner, the Ubuntu 24.04 child inherited `TERM=xterm-256color`, `COLORTERM=truecolor`, and `TERM_PROGRAM=nemoterm`. The two caller-supplied WSLENV probes also survived. On `a9c8150`, the last two terminal hints printed empty ([original failure](wsl-env-before-a9c8150.zip)).
+
+[Original WSL replay](wsl-env-verified-38de2ad.zip) from [run 44349442712](https://github.com/xiongnemo/nemoterm/actions/runs/44349442712), artifact `14447188331`, archive SHA-256 `bd2b2a808536434a99efdbc25779092ae443cfbfb7575565ae2490eb36451748`. `tput colors` reported 256 with the inherited type and 8 with `TERM=xterm`; both cursor-position replies matched. All eight real less sessions completed; the Linux shell exited. These are descriptions from Ubuntu's terminfo database, not measurements of the renderer's RGB range. No xterm-direct conformance claim is made.
+
+[Windows profile environments](wsl-profile-env-38de2ad.json) from artifact `14447527140` (archive SHA-256 `728b6a0169eaf1697201c46c5debd514a789de0759b12846457e5eec70a93e26`): all six combinations of the two profile launch syntaxes and three initial export lists passed. Both jobs observed PE SHA-256 `7e096d2aa87d5a86d5e5edfed26ac6b9d6d26b2e40502ae32edd26c478e5eec7` (4,861,440 bytes), built in [44348272542](https://github.com/xiongnemo/nemoterm/actions/runs/44348272542) at `38de2adbef76c3e8c544ff0f5b5b0630d50feecd`.
