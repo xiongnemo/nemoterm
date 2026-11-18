@@ -78,6 +78,9 @@ try:
                 assert k.FlushConsoleInputBuffer(stdin)
                 with lock:
                     events.clear();data.clear();signals.clear()
+                if request.get('replay'):
+                    assert k.SetConsoleOutputCP(65001) and k.SetConsoleMode(k.GetStdHandle(-11),7)
+                    sys.stdout.buffer.write(Path(request['replay']).read_bytes());sys.stdout.buffer.flush()
                 print(request.get('sequence','')+'\x1b]2;Nemoterm Win32 '+phase+'\x07',end='',flush=True)
         size=os.get_terminal_size()
         with lock:

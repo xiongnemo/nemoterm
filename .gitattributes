@@ -20,3 +20,4 @@ CMakeLists.txt text eol=lf
 /vendor/putty-0.85/terminal/nemo_regis_*.inc text eol=lf
 # Byte-identical console paint input captured on a hosted runner.
 /tests/fixtures/codex-colour-probe/*.vt -text
+/tests/fixtures/codex-image-keys/*.vt -text

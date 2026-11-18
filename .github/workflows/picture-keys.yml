@@ -1,0 +1,37 @@
+name: Native image-paste keyboard records
+on:
+  workflow_call:
+    inputs:
+      product_run: {required: true, type: string}
+      product_commit: {required: true, type: string}
+permissions:
+  contents: read
+  actions: read
+jobs:
+  records:
+    runs-on: windows-2025
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with: {fetch-depth: 0}
+      - name: Fetch the exact single executable
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PRODUCT_RUN: ${{ inputs.product_run }}
+          PRODUCT_COMMIT: ${{ inputs.product_commit }}
+        run: |
+          scripts/fetch-ci-product.ps1 -Run $env:PRODUCT_RUN -Commit $env:PRODUCT_COMMIT -Destination build/picture-keys-product
+          "NEMOTERM_TEST_EXE=$((Resolve-Path build/picture-keys-product/nemoterm.exe).Path)" | Out-File $env:GITHUB_ENV -Append -Encoding utf8
+      - name: Install and identify Sarasa Light
+        run: scripts/prepare-remote-interaction.ps1
+      - name: Read actual Windows keyboard records for image paste with and without Codex painting
+        run: python tests/codex_image_key_boundary.py
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: picture-keys-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            build/image-key-records
+            build/interaction-dependencies/environment.json
+            build/picture-keys-product/SOURCE-HOST.json
+          if-no-files-found: error

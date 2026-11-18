@@ -1,0 +1,35 @@
+{
+  "run": 44287219627,
+  "artifact": 14419493667,
+  "archive_sha256": "d7cfb15f96e126090e292674dac9b4c35c3180787a4cb92b8618e9e016b0b91d",
+  "inputs": {
+    "api-ctrl-shift-v": {
+      "archive_member": "interaction/attempts/agent-image-codex-01/build/agent-image-fjvmnu98/ctrl-shift-v/at-paste.vt",
+      "start": 79,
+      "stop": 5342,
+      "raw_sha256": "4a0f6d52f88862e4caba1387bdc0f90a0efe7318e77fd7f0229641af100b68c1",
+      "sha256": "ae04c8ec58d5bec12e6ed5220c65cffc1d20347eec63a733d1f4b102b097f387"
+    },
+    "api-ctrl-v": {
+      "archive_member": "interaction/attempts/agent-image-codex-01/build/agent-image-fjvmnu98/ctrl-v/at-paste.vt",
+      "start": 79,
+      "stop": 4734,
+      "raw_sha256": "87ddf588c9e33d6c4d8ec8acc8213b7403faa19f576457f386b4807acc4f5113",
+      "sha256": "51a2c5a371e40a32f88d52f13e8d35deb54252bf767d054299e6e9510e0c9e12"
+    },
+    "system-ctrl-shift-v": {
+      "archive_member": "interaction/attempts/agent-image-system-codex-01/build/agent-image-9jd1uwfc/ctrl-shift-v/at-paste.vt",
+      "start": 79,
+      "stop": 5385,
+      "raw_sha256": "19acbeb293ca483d70fd0057abfedd3d538565b723eb00bf8526081ccdc6a914",
+      "sha256": "931a72eac9eb570ca9be2fdebcc224b20a0afb17d395b54d2381cbd12490835d"
+    },
+    "system-ctrl-v": {
+      "archive_member": "interaction/attempts/agent-image-system-codex-01/build/agent-image-9jd1uwfc/ctrl-v/at-paste.vt",
+      "start": 79,
+      "stop": 4911,
+      "raw_sha256": "15bf199fa390b6fde962e40627914bdaec798da0d7f970a44bd5ed7f01984f15",
+      "sha256": "6187d2050c5d385bb3606bf281c47532ac8dad35546c2fce7b2c3f6c9765f740"
+    }
+  }
+}
