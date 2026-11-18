@@ -31,6 +31,8 @@ from fixture_io import write_snapshot, read_snapshot
 # Used only by the explicit selection fixture. The provider records equality to
 # fixed text, not the contents of other client request metadata.
 SELECTION_TRIGGER = 'NEMOTERM_SELECTION_SOURCE'
+# A mixed run followed by isolated copies of each Hebrew glyph, bounded by LTR letters.
+BIDI_WITNESS = ' A\u05d0\u05d1\u05d2\u05b0Z R\u05d2\u05b0R R\u05d1R R\u05d0R END_BIDI'
 SELECTION_TEXT = 'NEMOTERM_SELECT 中文 e\u0301 \uf120 \U000f0001 END'
 SELECTION_STABLE = 'NEMOTERM_SELECT 中文 q\u0301 \uf120 \U000f0001 END'
 SELECTION_PREFIX = 'NEMOTERM_SUBMIT '
@@ -118,7 +120,7 @@ class Handler(BaseHTTPRequestHandler):
             self.end_headers()
             answer = 'NEMOTERM_IMAGE_ACCEPTED' if images else 'NEMOTERM_TEXT_ACCEPTED'
             if self.server.selection and SELECTION_TRIGGER in latest_user_parts:
-                answer = sample
+                answer = sample + (BIDI_WITNESS if getattr(self.server,'bidi_witness',False) else '')
             if path=='/v1/messages':
                 message=dict(id='msg_fixture_'+str(len(self.server.requests)),type='message',role='assistant',
                              model=request['model'],content=[],stop_reason=None,stop_sequence=None,
@@ -298,6 +300,7 @@ def main():
         winreg.SetValueEx(key, 'WarnOnClose', 0, winreg.REG_DWORD, int(args.confirm_close))
         winreg.SetValueEx(key, 'CloseOnExit', 0, winreg.REG_DWORD, 1)
     server = Provider()
+    server.bidi_witness=args.default_grid
     server.selection=bool(args.selection_renderer)
     server.selection_text=SELECTION_STABLE if args.stable_unicode else SELECTION_TEXT
     thread = threading.Thread(target=server.serve_forever, daemon=True); thread.start()

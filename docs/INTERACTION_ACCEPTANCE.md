@@ -178,3 +178,5 @@ Use `suite=profile-sequence` on the exact EXE to replay the aggregate profile wo
 `protocol-reference.yml` with `family=font-ops` captures XTerm OSC 50 replies and actual cell geometry on a hosted X server. `font-zoom-replay.yml` with `suite=font-ops`, `source_run` and `source_commit` compares an exact Windows EXE on GDI and DirectX, using separate cold Sarasa Light and Consolas windows as glyph controls. The local `dist` folder is not a test environment.
 
 `selection` 还覆盖 Ctrl+Shift 框选跨越普通行和 DEC 双倍宽度、双倍高度行；同一可见范围必须高亮并复制相应的整字，程序不应收到鼠标事件。参见[修复前后的检查](../research/selection-scaled-rows.md)。
+
+`agents-grid` 的测试回复包含普通顺序和左右混排的内容。同一行还显示三个隔离的希伯来字形作为原生像素对照。先从系统鼠标拖选中核对两个被高亮的屏幕字符、两侧保护格及剪贴板的组合附标，再验证原有的中文宽字、整段复制、关闭取消和回贴提交。

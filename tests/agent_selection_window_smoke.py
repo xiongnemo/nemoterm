@@ -18,7 +18,7 @@ import unicodedata
 from pathlib import Path
 from PIL import Image
 
-from agent_clipboard_fixture import SELECTION_PREFIX, SELECTION_TEXT, SELECTION_STABLE, SELECTION_TRIGGER
+from agent_clipboard_fixture import BIDI_WITNESS, SELECTION_PREFIX, SELECTION_TEXT, SELECTION_STABLE, SELECTION_TRIGGER
 from clipboard_test_utils import clipboard_text
 from fixture_io import read_snapshot, write_snapshot
 from native_test_utils import u, k, wait_for, memory_sample
@@ -146,7 +146,7 @@ def main():
             client_trace('initial-ready');sample('startup')
             api.request(endpoint,'input',seat,SELECTION_TRIGGER)
             wait_for(lambda:SELECTION_TRIGGER in text());client_trace('trigger-visible');time.sleep(.2);press(13);client_trace('enter-sent')
-            screen=wait_for(lambda:s if sample_text in (s:=text()) else None,timeout=40)
+            screen=wait_for(lambda:s if sample_text in (s:=text()) and (not args.default_grid or 'END_BIDI' in s) else None,timeout=40)
             if args.right_click:
                 # Put an identifiable prefix in the composer first. The HTTP
                 # fixture only accepts the exact user part (one pasted copy).
@@ -161,13 +161,15 @@ def main():
             pos=lambda x:(oy+row*ch+ch//2)<<16 | (ox+x*cw+cw//2)
             assert 0<first<=last<cols-1 # include the unselected cell on each side
             evidence.update(source_line=lines[row],selection=[first,row,last],cell=[cw,ch],offset=[ox,oy])
-            box=(ox+(first-1)*cw,oy+row*ch,ox+(last+2)*cw,oy+(row+1)*ch)
+            strip_end=last+(width(BIDI_WITNESS) if args.default_grid else 0)
+            assert strip_end+1 < cols
+            box=(ox+(first-1)*cw,oy+row*ch,ox+(strip_end+2)*cw,oy+(row+1)*ch)
             def strip():
                 bmp=api.request(endpoint,'image',seat)
                 im=Image.open(io.BytesIO(bmp)).convert('RGB')
                 assert im.size==(cx,cy)
                 im=im.crop(box)
-                return bmp,[list(im.crop((i*cw,0,(i+1)*cw,ch)).getdata()) for i in range(last-first+3)]
+                return bmp,[list(im.crop((i*cw,0,(i+1)*cw,ch)).getdata()) for i in range(strip_end-first+3)]
             # The client text query can lead its first completed paint. Establish
             # a stable source row with actual glyph pixels, then keep that BMP.
             prior=None;since=0
@@ -220,6 +222,25 @@ def main():
                     min_selected_ratio=inside,guard_ratios=guards)
                 if target!=bg and inside>=.5 and min(guards)>=.9:return last_bmp
             if args.default_grid:
+                # Compare actual glyph rasters with the three isolated Hebrew
+                # glyphs in the same reply, font, palette and row. Their order
+                # in the selected run must be gimel+sheva, bet, alef.
+                mixed=last+2 # space, then A
+                def tile_at(x):return source[x-first+1]
+                refs=[mixed+7,mixed+11,mixed+15]
+                ref_tiles=[tile_at(x) for x in refs]
+                actual_tiles=[tile_at(mixed+i) for i in (1,2,3)]
+                proof=evidence['bidi_system_copy']=dict(row=row,columns=[mixed,mixed+1],reference_columns=refs,
+                    reference_digests=[hashlib.sha256(bytes(v for rgb in t for v in rgb)).hexdigest() for t in ref_tiles],
+                    actual_digests=[hashlib.sha256(bytes(v for rgb in t for v in rgb)).hexdigest() for t in actual_tiles])
+                assert len(set(proof['reference_digests']))==3 and actual_tiles==ref_tiles,proof
+                probe=lambda:highlight_frame(mixed,mixed+1,'bidi_highlight')
+                desktop.drag(ox+mixed*cw+cw//2,ox+(mixed+1)*cw+cw//2,oy+row*ch+ch//2,probe)
+                frame('bidi-selected',wait_for(probe))
+                seq=u.GetClipboardSequenceNumber();press(67,3)
+                wait_for(lambda:u.GetClipboardSequenceNumber()!=seq)
+                proof['copied']=clipboard_text(hwnd)
+                assert proof['copied']=='A\u05d2\u05b0',proof
                 # Use the real client's reply. Press the right half of 中, stop
                 # on the left half of 文 and require all four cells highlighted.
                 assert desktop and sample_text.count('中文')==1
