@@ -31,6 +31,11 @@ jobs:
         env:
           RENDERER: ${{ matrix.renderer }}
         run: python tests/font_ops_window.py --renderer $env:RENDERER
+      - name: Check duplicate tabs, inactive changes and persistent profile
+        if: ${{ !cancelled() && env.NEMOTERM_TEST_FONT != '' }}
+        env:
+          RENDERER: ${{ matrix.renderer }}
+        run: python tests/font_ops_tabs.py --renderer $env:RENDERER
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
@@ -38,7 +43,7 @@ jobs:
           path: |
             research/font-ops-*-observed.json
             research/font-ops-*.png
-            build/font-ops/summary.json
+            build/font-ops/*.json
             build/interaction-dependencies/environment.json
             build/font-ops-product/SOURCE-HOST.json
           if-no-files-found: error
