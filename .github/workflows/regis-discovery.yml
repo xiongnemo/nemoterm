@@ -1,0 +1,18 @@
+name: Observe ReGIS discovery on the pinned upstream executable
+on: {workflow_call: {}}
+permissions: {contents: read}
+jobs:
+  capture:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - run: sudo apt-get update && sudo apt-get install -y libxaw7 libxft2 xfonts-base xvfb xauth
+      - name: Query the same binary at two independently configured page sizes
+        run: python3 tests/xterm_regis_discovery.py build/regis-discovery
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: xterm-regis-discovery-${{ github.sha }}
+          path: build/regis-discovery/*.json
+          if-no-files-found: error

@@ -106,6 +106,14 @@ jobs:
             if ($LASTEXITCODE) { $failed += $query }
           }
           if ($failed.Count) { throw "ReGIS alternate remap failures: $($failed -join ', ')" }
+      - name: Discover ReGIS before sending the first drawing
+        if: ${{ !cancelled() && steps.image.outcome == 'success' && steps.font.outcome == 'success' }}
+        env:
+          CAPTURE_MODE: ${{ matrix.mode }}
+        run: |
+          $arguments = @('--renderer', $env:CAPTURE_MODE)
+          if ($env:CAPTURE_MODE -eq 'presented-gdi') { $arguments = @('--renderer','gdi','--presented-gdi') }
+          python tests/regis_discovery_window.py @arguments
       - name: Check text row motion and ReGIS screen coordinates for old and new profiles
         if: ${{ !cancelled() && steps.image.outcome == 'success' && steps.font.outcome == 'success' }}
         env:
