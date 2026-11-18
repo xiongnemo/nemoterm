@@ -136,6 +136,15 @@ def cases():
                 C+b'?1070l'+regis('S(E)S(M3(R20G80B20))W(I3)P[20,20]V[120,20]',1),
                 C+b'6;5H'+E+b'P9;1q'+ink+b'#3;2;100;0;0'+delimiter+ST,
                 C+b'10;5H'+E+b'P9;1q#3!12~'+ST)
+    # Exercise the exact trailing definitions used by the private-image
+    # decoder tests. Two registers initially share RGB in the first stream;
+    # in the second, register 2 overwrites the left half of register 1.
+    for label, prefix in [('identity', b'#1;2;100;0;0!8~#2;2;100;0;0!8~'),
+                          ('overwrite', b'#1;2;100;0;0!16~$#2;2;0;0;100!8~')]:
+        for end, delimiter in [('st', b''), ('dollar', b'$')]:
+            add('private-register-'+label+'-'+end,
+                C+b'?1070h'+C+b'2;4H'+E+b'P0;1q'+prefix+b'#1;2;0;100;0'+delimiter+ST,
+                C+b'6;4H'+E+b'P0;1q#1;2;0;100;0!16~'+ST)
     add('shared-palette-regis-recolour', C+b'?1070l'+E+b'P0;1q#3;2;20;80;20!100~'+ST,
         regis('S(M3(R100G0B0))R(P)',1))
     add('alternate-restore-without-regis',regis(
