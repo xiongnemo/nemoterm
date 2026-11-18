@@ -18,3 +18,5 @@
 同一 EXE 的鼠标路径诊断保留了两轮记录。只将指针跳到相邻按钮中央时，[独立回放](dialog-neighbour-f564927.zip)的三个场景及[完整 Profile 顺序](profile-neighbour-f564927.zip)的单标签场景均在相邻按钮没有报告 hover 时停止，未代替用户点击。改为沿按钮内部三个不同像素移动再到中央后，[独立回放](dialog-glide-f564927.zip)的三个场景全部通过（[44378681997](https://github.com/xiongnemo/nemoterm/actions/runs/44378681997)）。六次鼠标点击都先观察到了两个原生按钮各自的 hover，再观察到目标按钮按下并捕获鼠标；每次只发出一组按下/松开。此前失败的回放保持原样。
 
 [相同指针轨迹、包含其他设置操作的完整 Profile 顺序](profile-glide-f564927.zip)也在三个窗口模式全部通过（[44378688703](https://github.com/xiongnemo/nemoterm/actions/runs/44378688703)）。这是对同一文件的独立回放，并未覆盖旧的失败记录。
+
+在[单独的内存回放](https://github.com/xiongnemo/nemoterm/actions/runs/44377353243)里，控制器把较大的 VT 输出写入独立的只读用途文件，子进程读取并核对字节数和 SHA-256，再按原样发往终端；高频轮询的控制 JSON 里只有文件标识。所有负载仍要求子进程收到终端的有序回复、达到完整网格、满足原内存上限和正常退出。[GDI](memory-spool-gdi-f564927.zip) 和 [DirectX](memory-spool-directx-f564927.zip) 各六项通过。这个回放没有重跑其余 62 项，也不能证明前一版本偶发的 Windows 文件替换错误只有一个原因。
