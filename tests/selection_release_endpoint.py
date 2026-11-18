@@ -37,3 +37,42 @@ def verify_release_endpoint(hwnd, begin, point, capture, tile, shortcut, barrier
                                  expected_cells=cells, copied=copied, expected_text=expected, child_hex=wire,
                                  passed=actual==cells and copied==expected))
     assert all(row['passed'] for row in observations), observations
+
+
+def verify_wide_boundary(hwnd, begin, point, capture, tile, shortcut, barrier, evidence):
+    # In the first row, 中 spans columns 1 and 2, and the decomposed e occupies 3.
+    # On the other row every character is narrow: a rectangle must not widen it.
+    observations = evidence['wide_boundaries'] = []
+    cases = [
+        ('start-on-trailer', (2,0), (3,0), False, '中e\u0301', [[1,2,3],[]]),
+        ('end-on-trailer-backwards', (4,0), (2,0), False, '中e\u0301Z', [[1,2,3,4],[]]),
+        ('end-on-leader', (0,0), (1,0), False, 'A中', [[0,1,2],[]]),
+        ('two-halves', (1,0), (2,0), False, '中', [[1,2],[]]),
+        ('block-trailer', (2,0), (3,1), True, '中e\u0301\r\nCD', [[1,2,3],[2,3]]),
+        ('block-one-column', (2,1), (2,0), True, '中\r\nC', [[1,2],[2]]),
+        ('block-leader', (1,1), (1,0), True, '中\r\nB', [[1,2],[1]]),
+        ('supplementary-first', (0,0), (3,0), False, 'L\U00010000\U00010001Y', [[0,1,2,3],[]]),
+    ]
+    for i,(name,anchor,end,block,wanted,cells) in enumerate(cases):
+        top=9 if i%2==0 else 13
+        first='L\U00010000\U00010001YZ|' if name=='supplementary-first' else 'A中e\u0301Z|'
+        begin('wide-boundary-'+name,'\x1bc\x1b[?25l\x1b[2J'+f'\x1b[{top+1};1H'+
+              first+'\r\nABCDEF\x1b[?1002;1006h')
+        def source():
+            pixels=capture(return_pixels=True)
+            return pixels if all(len(set(tile(pixels,x,top+y)))>1 for x,y in ((0,0),(3,0),(5,0),(5,1))) else None
+        before=wait_for(source)
+        def coord(p): return point(p[0],top+p[1])
+        u.SendMessageW(hwnd,0x201,13 if block else 5,coord(anchor))
+        u.SendMessageW(hwnd,0x200,1,coord(end)); u.SendMessageW(hwnd,0x202,0,coord(end))
+        wire=barrier()
+        def changed(p):return [[x for x in range(6) if tile(p,x,top+y)!=tile(before,x,top+y)] for y in range(2)]
+        until=time.monotonic()+1
+        while changed(capture(return_pixels=True))!=cells and time.monotonic()<until:time.sleep(.04)
+        actual=changed(capture('selection-wide-'+name+'.png',return_pixels=True))
+        previous=u.GetClipboardSequenceNumber();shortcut(67,46)
+        copied=clipboard_text(hwnd) if u.GetClipboardSequenceNumber()!=previous else None
+        observations.append(dict(case=name,anchor=anchor,end=end,rectangle=block,child_hex=wire,
+            expected_text=wanted,copied=copied,expected_cells=cells,selected_cells=actual,
+            passed=copied==wanted and actual==cells))
+    assert all(row['passed'] for row in observations), observations
