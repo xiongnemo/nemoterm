@@ -11,12 +11,14 @@ working set. MB is decimal; select the limit from the observed renderer.
 
 The native renderer property selects the limit, including fallback to GDI.
 Private commitment and total working set remain separate counters; roughly
-50 MB total working set remains a target. No working-set trimming is added.
+50 MB total working set remains a GDI target. No working-set trimming is added.
 Historical runs retain their original limits and outcomes.
 
 The [November 18 DirectX replay](directx-30mb.md) records the change from
-25 MB to 30 MB. See the [current preview measurement](interaction-85fe9b1.md#memory-of-this-executable)
-for the six-workload peaks of the distributed executable.
+25 MB to 30 MB. In the [six 160x48 workloads for preview `1b24e72`](selection-history.md#candidate-1b24e72),
+DirectX peaked at 28,545,024 bytes, leaving 1,454,976 bytes below its limit.
+GDI peaked at 18,894,848 bytes. The [earlier `85fe9b1` measurements](interaction-85fe9b1.md#memory-of-this-executable)
+remain available for that executable.
 
 In the independently built `163b3ea` executable from [full run 44238887555](https://github.com/xiongnemo/nemoterm/actions/runs/44238887555), the completed DirectX memory group also passed all six workloads. Its largest sampled frontend private working set was **29,446,144 bytes** (Unicode Kitty); total working set was 74,690,560 bytes and private commit was 32,808,960 bytes for that workload. This leaves 553,856 bytes under the DirectX limit. The executable SHA-256 was `c896d59bcc90136b4985637d5398d5ffa9b5e09679d20cc5492e72cd789e4ad5`. [Original memory artifact](https://github.com/xiongnemo/nemoterm/actions/runs/44238887555/artifacts/14398649827), ZIP SHA-256 `f015fa78c100b2faf1206a0dd8be3e571f4437afc7c5d7c1a17443132799c0f4`. This result covers the DirectX memory group only.
 
