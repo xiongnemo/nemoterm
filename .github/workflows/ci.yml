@@ -173,6 +173,9 @@ jobs:
       - name: Verify profile CRUD and persistent live settings in a standalone window
         if: ${{ !cancelled() && env.NEMOTERM_TEST_EXE != '' }}
         run: powershell.exe -NoProfile -File build/profile-check/tests/settings_window_smoke.ps1
+      - name: Cancel session or window close and immediately type into the child
+        if: ${{ !cancelled() && env.NEMOTERM_TEST_EXE != '' }}
+        run: python build/profile-check/tests/close_cancel_input.py
       - name: Verify dialog modality, Bell layout and default zoom keys
         if: ${{ !cancelled() && env.NEMOTERM_TEST_EXE != '' }}
         shell: pwsh

@@ -73,6 +73,8 @@ def inspect_settings(process,hwnd,dpi,prefix):
             result=subprocess.run([str(helper_path.with_name('dpi-settings.exe')),str(process.pid),str(hwnd),str(dpi),page,args.ui_language],
                 capture_output=True,text=True,timeout=20)
             (root/'research'/f'{prefix}-{page}.log').write_text(result.stdout+result.stderr,encoding='utf-8')
+            if not result.stdout.strip():
+                raise RuntimeError(f'{page} helper returned {result.returncode:#x} without JSON: {result.stderr}')
             observed=json.loads(result.stdout);evidence['pages'].append(observed)
             observed['screenshot']=f'{prefix}-{page}.png'
             try:

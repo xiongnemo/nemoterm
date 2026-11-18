@@ -62,8 +62,9 @@ static bool text_fits(IUIAutomationElement *element) {
     RECT area={};GetClientRect(hwnd,&area);
     if(box) {
         // Reserve the native checkbox glyph, label gap and focus margins.
-        RECT glyph={0,0,12,0};MapDialogRect(GetParent(hwnd),&glyph);
-        area.right-=glyph.right;
+        // Do not call MapDialogRect on a dialog belonging to a foreign process.
+        UINT dpi=GetDpiForWindow(hwnd);
+        area.right-=GetSystemMetricsForDpi(SM_CXMENUCHECK,dpi)+MulDiv(3,(int)dpi,96);
     }
     RECT measured=area;
     HDC dc=GetDC(hwnd);

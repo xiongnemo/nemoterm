@@ -6,7 +6,7 @@ on:
       suite:
         description: Checks or notice-only packaging against the exact artifact
         type: choice
-        options: [font-bell, dpi, interaction, single, ui-regression, shell-lifetime, tcap, portable-notices, regis-window, pointer-colour, colour-input, unicode-boundary, picture-keys, image-timing, image-reference, pterm-memory, profile-dump, profile-env, wsl-tui, wsl-sixel, wsl-vim, wsl-colour, rendering-settings]
+        options: [font-bell, dpi, interaction, single, ui-regression, shell-lifetime, tcap, portable-notices, regis-window, pointer-colour, colour-input, unicode-boundary, picture-keys, image-timing, image-reference, pterm-memory, profile-dump, profile-env, wsl-tui, wsl-sixel, wsl-vim, wsl-colour, rendering-settings, close-cancel]
         default: font-bell
       source_commit:
         description: Full source commit of the source-console-host artifact
@@ -124,7 +124,7 @@ jobs:
       product_run: ${{ inputs.source_run }}
       product_commit: ${{ inputs.source_commit }}
   focused-replay:
-    if: ${{ inputs.suite == 'font-bell' || inputs.suite == 'ui-regression' || inputs.suite == 'tcap' || inputs.suite == 'pointer-colour' || inputs.suite == 'profile-env' }}
+    if: ${{ inputs.suite == 'font-bell' || inputs.suite == 'ui-regression' || inputs.suite == 'tcap' || inputs.suite == 'pointer-colour' || inputs.suite == 'profile-env' || inputs.suite == 'close-cancel' }}
     runs-on: windows-2025
     timeout-minutes: 15
     env:
@@ -163,6 +163,9 @@ jobs:
           } | ConvertTo-Json | Set-Content build/focused-evidence/identity.json -Encoding utf8
       - name: Install test dependencies
         run: python -m pip install frida==17.24.3
+      - name: Click Cancel and immediately type into the child
+        if: ${{ inputs.suite == 'close-cancel' }}
+        run: python tests/close_cancel_input.py
       - name: Read the terminal identity from ordinary and jump-list profile children
         if: ${{ inputs.suite == 'profile-env' }}
         run: python tests/profile_term_environment.py
