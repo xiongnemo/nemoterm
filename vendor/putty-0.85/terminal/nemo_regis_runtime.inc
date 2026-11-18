@@ -77,16 +77,19 @@ static void regis_deallocate(void *data)
     free(block);
 }
 
+static void regis_free_tile_row(Graphic *g, unsigned y)
+{
+    if (!g->tiles[y]) return;
+    for (unsigned x=0;x<g->tile_columns;x++)
+        regis_deallocate(g->tiles[y][x]);
+    regis_deallocate(g->tiles[y]);
+    g->tiles[y]=NULL;
+}
+
 static void regis_free_tiles(Graphic *g)
 {
     if (!g || !g->tiles) return;
-    for (unsigned y=0;y<g->tile_rows;y++) {
-        if (!g->tiles[y]) continue;
-        for (unsigned x=0;x<g->tile_columns;x++)
-            regis_deallocate(g->tiles[y][x]);
-        regis_deallocate(g->tiles[y]);
-        g->tiles[y]=NULL;
-    }
+    for (unsigned y=0;y<g->tile_rows;y++) regis_free_tile_row(g,y);
 }
 
 static void regis_free_graphic(Graphic *g)
@@ -159,7 +162,8 @@ static const Graphic *regis_page(const NemoRegis *owner,unsigned page)
 
 static RegisterNum regis_background(const Graphic *g, unsigned x, unsigned y)
 {
-    return x<g->background_width && y<g->background_height ? g->background : COLOR_HOLE;
+    return x<g->background_width && y>=g->background_top && y<g->background_height ?
+        g->background : COLOR_HOLE;
 }
 
 static RegisterNum read_pixel(const Graphic *g, int x, int y)
@@ -211,6 +215,7 @@ static void draw_solid_rectangle(Graphic *g, int x1, int y1, int x2, int y2, uns
         regis_tick(g->xw);
         regis_free_tiles(g);
         g->background=(RegisterNum)colour;
+        g->background_top=0;
         g->content_width=g->background_width=(unsigned)g->actual_width;
         g->content_height=g->background_height=(unsigned)g->actual_height;
         g->dirty=true;

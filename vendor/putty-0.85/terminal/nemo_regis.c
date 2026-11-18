@@ -47,7 +47,7 @@ typedef struct Graphic {
     ColorRegister *color_registers;
     ColorRegister private_registers[MAX_COLOR_REGISTERS];
     unsigned tile_columns, tile_rows, valid_registers, id, page, screen;
-    unsigned background_width, background_height, content_width, content_height;
+    unsigned background_width, background_top, background_height, content_width, content_height;
     int actual_width, actual_height, max_width, max_height;
     int charrow, charcol;
     bool dirty, hidden, valid;
@@ -250,6 +250,33 @@ bool nemo_regis_drop_graphic(NemoRegis *owner,unsigned id)
     *link=g->next;
     regis_free_graphic(g);
     return true;
+}
+
+/* Remove source pixels above row zero of the main screen, even when the user
+ * clears history from the alternate screen. Never allocate opaque tiles just
+ * to turn part of the uniform background transparent. */
+void nemo_regis_clear_history(NemoRegis *owner,unsigned cell_height)
+{
+    if (!owner || owner->active || !cell_height) return;
+    for (Graphic *g=owner->graphics;g;g=g->next) {
+        if (g->screen!=0 || g->charrow>=0) continue;
+        uint64_t saved=(uint64_t)(-(int64_t)g->charrow)*cell_height;
+        unsigned cut=(unsigned)Min(saved,(uint64_t)g->max_height);
+        g->background_top=Max(g->background_top,Min(cut,g->background_height));
+        for (unsigned ty=0;ty*32<cut;ty++) {
+            if (!g->tiles[ty]) continue;
+            if (cut==(unsigned)g->max_height || (ty+1)*32<=cut) {
+                regis_free_tile_row(g,ty);
+            } else {
+                unsigned n=(cut-ty*32)*32;
+                for (unsigned tx=0;tx<g->tile_columns;tx++) {
+                    RegisterNum *tile=g->tiles[ty][tx];
+                    if (tile) for (unsigned i=0;i<n;i++) tile[i]=COLOR_HOLE;
+                }
+            }
+        }
+        g->dirty=true;
+    }
 }
 
 void nemo_regis_scroll(NemoRegis *owner,int rows)

@@ -171,6 +171,52 @@ static void check_graphic_margins(Mock *mk)
     IEQUAL(term_regis_memory(t),0);
 }
 
+static void expect_graphic_pixel(Mock *mk,unsigned id,unsigned x,unsigned y,uint32_t expected)
+{
+    uint32_t pixel=0;
+    IEQUAL(nemo_regis_graphic_read_row(term_regis_decoder(mk->term),id,y,x,&pixel,1),1);
+    IEQUAL(pixel,expected);
+}
+
+static void check_clear_saved_graphics(Mock *mk)
+{
+    Terminal *t=mk->term;
+    for (int alt=0;alt<2;alt++) {
+        test_context(mk,alt ? "clear saved main graphic pixels from alternate screen" :
+            "clear saved graphic pixels without clearing the visible tile or its background");
+        feed_regis(mk,"\033c");
+        term_size(t,12,40,64);
+        term_set_cell_size(t,6,13);
+        feed_regis(mk,"\033P1pS(E)W(I3)P[20,20]V[30,20]P[21,38]V[21,40]\033\\");
+        unsigned id=nemo_regis_next_graphic(term_regis_decoder(t),0);
+        feed_regis(mk,"\033[3S"); /* [0,39) of this graphic now belongs to history */
+        expect_graphic_pixel(mk,id,20,20,0xff33cc33);
+        if (alt) feed_regis(mk,"\033[?1049h\033P1pS(E)W(I2)P[20,20]V[30,20]\033\\");
+        bool protection=t->no_remote_clearscroll;
+        t->no_remote_clearscroll=true;
+        feed_regis(mk,"\033[3J");
+        expect_graphic_pixel(mk,id,20,20,0xff33cc33);
+        t->no_remote_clearscroll=false;
+        size_t before=term_regis_memory(t);
+        feed_regis(mk,"\033[3J");
+        t->no_remote_clearscroll=protection;
+        IEQUAL(term_regis_memory(t)<before,true); /* the first tile band was released */
+        expect_graphic_pixel(mk,id,20,20,0);
+        expect_graphic_pixel(mk,id,21,38,0);
+        expect_graphic_pixel(mk,id,21,39,0xff33cc33);
+        expect_graphic_pixel(mk,id,150,38,0); /* previously implicit opaque pixels */
+        expect_graphic_pixel(mk,id,150,39,0xff000000);
+        if (alt) {
+            expect_pixel(mk,20,20,0xffcc2121);
+            feed_regis(mk,"\033[?1049l");
+        }
+        feed_regis(mk,"\033[3T\033P0pS(E)\033\\");
+        expect_pixel(mk,20,150,0xff000000); /* explicit new page fill restores background */
+    }
+    feed_regis(mk,"\033c");
+    IEQUAL(term_regis_memory(t),0);
+}
+
 static int framing_tests(void)
 {
     Mock *mk=regis_mock();
@@ -261,6 +307,7 @@ static int framing_tests(void)
     check_shared_graphics(mk);
     check_alternate_visibility(mk);
     check_graphic_margins(mk);
+    check_clear_saved_graphics(mk);
     bool failed=mk->any_test_failed;
     mock_free(mk);
     puts(failed ? "ReGIS terminal framing FAILED" : "ReGIS terminal framing passed");

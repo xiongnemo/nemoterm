@@ -4064,6 +4064,7 @@ void term_reconfig(Terminal *term, Conf *conf)
  */
 void term_clrsb(Terminal *term)
 {
+    if (term->regis) nemo_regis_clear_history(term->regis->decoder,term->cell_height);
     nemo_shell_marks_rows(&term->shell_marks, 0, term->rows-1, 0);
     nemo_images_rows(term, 0, 0, INT_MAX, 0);
     nemo_kitty_rows(term, 0, 0, 0);
