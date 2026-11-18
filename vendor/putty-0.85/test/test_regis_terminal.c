@@ -425,7 +425,24 @@ static int framing_tests(void)
     check_graphic_margins(mk);
     check_clear_saved_graphics(mk);
     check_resize_saved_graphics(mk);
+    /* Scrolling down a full text screen retains the page at its origin;
+     * the following query must find the same graphic, not an empty copy. */
+    test_context(mk,"default ReGIS origin during full-screen reverse scroll");
+    feed_regis(mk,"\033c\033P1pS(E)W(I3)P[20,20]V[120,20]\033\\");
+    unsigned origin_id=nemo_regis_next_graphic(term_regis_decoder(t),0);
+    feed_regis(mk,"\033[3T\033P0pR(P)\033\\");
+    NemoRegisGraphic origin={0};
+    IEQUAL(nemo_regis_graphic(term_regis_decoder(t),origin_id,&origin),true);
+    IEQUAL(origin.row,0); IEQUAL(origin.hidden,false);
+    expect_pixel(mk,20,20,0xff33cc33);
+    /* This history test deliberately restores the old origin by scrolling
+     * down. Preserve that check under the profile that requests it. */
+    IEQUAL(conf_get_bool(mk->conf,CONF_nemo_regis_scroll_with_text),false);
+    conf_set_bool(mk->conf,CONF_nemo_regis_scroll_with_text,true);
+    term_reconfig(t,mk->conf);
     check_bounded_graphic_history(mk);
+    conf_set_bool(mk->conf,CONF_nemo_regis_scroll_with_text,false);
+    term_reconfig(t,mk->conf);
     check_colour_stream_ownership(mk);
     bool failed=mk->any_test_failed;
     mock_free(mk);

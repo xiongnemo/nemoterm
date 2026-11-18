@@ -431,6 +431,7 @@
     "hyperlinks.schemes_hint": "默认支持 HTTP、HTTPS、FTP、mailto 和本地 Windows 文件链接。文件链接的主机名必须是本机、localhost 或留空。其他协议需要启用上面的选项。",
     "clipboard.read_hint": "读取会将剪贴板内容发送给正在运行的应用，包括远程主机，因此默认关闭。这些选项不会改变本地复制和粘贴快捷键。",
     "rendering.memory_hint": "GPU 模式缓存文字纹理，并在 GPU 上合成文字和图像。这会使用显卡驱动，内存占用可能更高。所选 GPU 模式不可用时会回退到 GDI。",
+    "rendering.regis_scroll_with_text": "全屏文字向下滚动时，ReGIS 图形随之下移",
     "rendering.sixel_continue": "延续上一幅 Sixel 图像未结束的颜色命令（XTerm）",
     "rendering.restart_hint": "更改应用于当前终端。使用 GPU 模式后，重新启动窗口才能完全释放显卡驱动占用的内存。",
     "window.title": "{app} 窗口设置",

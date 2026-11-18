@@ -39,5 +39,16 @@ if __name__=='__main__':
             frame(key+'-query',regis('R(P)'),kept,rows,pos)
             frame(key+'-draw-again',regis('S(M2(R100G0B0))W(I2)P[20,50]V[120,50]R(P)'),
                   kept+[(50,'red')],rows,b'[120,50]\r')
+        # A page which has already scrolled up is a stronger control than a
+        # pristine origin-zero page. ED 3 must not bring expired ink back.
+        for from_alt in (False,True):
+            label='history-alt' if from_alt else 'history-main'
+            wire=reset()+CSI+'5;32HA'+CSI+'9;32HB'+CSI+'H'+regis(
+                'S(E)S(M3(R0G100B0))W(I3)P[20,20]V[120,20]P[20,80]V[120,80]',1)
+            frame(label+'-draw',wire,green(),(5,9))
+            frame(label+'-up',CSI+'3S',green(-3*ch),(2,6))
+            wire=CSI+'?1049h'+CSI+'3J'+CSI+'?1049l' if from_alt else CSI+'3J'
+            frame(label+'-clear-history',wire,green(-3*ch),(2,6))
+            frame(label+'-reverse',CSI+'3T',[(80 if follow else 80-3*ch,'green')],(5,9))
     main(exercise,suite_name='regis-window-scroll-origin-'+profile,before_exercise=before,
          font=os.environ['NEMOTERM_TEST_FONT'],profile_values=dict(NemoTabs=0,**values))

@@ -147,6 +147,11 @@ function Check-Grapheme([string]$phase, [string]$prefix, [bool]$enabled) {
     }
     return @{phase=$phase;enabled=$enabled;reply=$reply.hex}
 }
+function Regis-Motion-Toggle($dialog) {
+    $item=Wait-Value { Find-Name $dialog 'Move ReGIS graphics down with full-screen text scrolling' }
+    if ($item.Current.IsOffscreen -or !$dialog.Current.BoundingRectangle.Contains($item.Current.BoundingRectangle)) {throw 'ReGIS scroll option clipped'}
+    return $item.GetCurrentPattern([System.Windows.Automation.TogglePattern]::Pattern)
+}
 function Sixel-Toggle($dialog) {
     $item=Wait-Value { Find-Name $dialog 'Continue unfinished Sixel colours across images (XTerm)' }
     if ($item.Current.IsOffscreen -or !$dialog.Current.BoundingRectangle.Contains($item.Current.BoundingRectangle)) {throw 'Sixel setting clipped'}
@@ -440,6 +445,9 @@ try {
     if ($LASTEXITCODE) { throw 'Tab settings capture failed' }
     Select-Node $dialog 'Rendering' | Out-Null
     if (!(Find-Name $dialog 'GDI (low memory)').GetCurrentPattern([System.Windows.Automation.SelectionItemPattern]::Pattern).Current.IsSelected) { throw 'GDI was not the default renderer' }
+    $motion=Regis-Motion-Toggle $dialog
+    if ($motion.Current.ToggleState -ne [System.Windows.Automation.ToggleState]::Off) {throw 'New profile should anchor ReGIS on reverse scroll'}
+    $motion.Toggle()
     $sixel=Sixel-Toggle $dialog
     if ($sixel.Current.ToggleState -ne [System.Windows.Automation.ToggleState]::On) {throw 'New profiles should use XTerm Sixel colours'}
     $sixel.Toggle()
@@ -539,6 +547,7 @@ try {
         throw 'Selection colours were not saved'
     }
     if ($values.NemoAllowChecksum -ne 1) { throw 'Screen checksum preference was not saved' }
+    if ($values.ReGISScrollWithText -ne 1) {throw 'ReGIS scroll option was not saved'}
     if ($values.SixelXtermColourContinuation -ne 1) {throw 'Sixel option was not saved'}
     if ($values.NemoGraphemeWidths -ne 1) {throw 'Grapheme startup preference was not saved'}
     if ($values.NemoTabSide -ne 2 -or $values.NemoTabs -ne [int][bool]$TabHost -or
@@ -607,6 +616,7 @@ try {
     if (!(Find-Name $dialog 'Left').GetCurrentPattern([System.Windows.Automation.SelectionItemPattern]::Pattern).Current.IsSelected) { throw 'Tab position did not reload' }
     Select-Node $dialog 'Rendering' | Out-Null
     if (!(Find-Name $dialog 'DirectX (GPU composition)').GetCurrentPattern([System.Windows.Automation.SelectionItemPattern]::Pattern).Current.IsSelected) { throw 'Renderer did not reload' }
+    if ((Regis-Motion-Toggle $dialog).Current.ToggleState -ne [System.Windows.Automation.ToggleState]::On) {throw 'Saved ReGIS scroll option did not reload'}
     if ((Sixel-Toggle $dialog).Current.ToggleState -ne [System.Windows.Automation.ToggleState]::On) {throw 'Saved Sixel option did not reload'}
     $attributes=Attribute-Colour-Controls $dialog
     for ($index=0;$index -lt 5;$index++) {

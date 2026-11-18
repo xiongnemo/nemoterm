@@ -818,6 +818,11 @@ void load_open_settings(settings_r *sesskey, Conf *conf)
     bool saved_profile = read_setting_i(sesskey, "Present", 0) != 0;
     gppb(sesskey, stream->save_keyword, !saved_profile && stream->default_value.bval,
          conf, CONF_nemo_sixel_colour_continuation);
+    /* Before this switch was introduced, reverse scroll moved ReGIS pages
+     * with the text. Preserve that for an existing fully saved profile. */
+    const ConfKeyInfo *motion = &conf_key_info[CONF_nemo_regis_scroll_with_text];
+    gppb(sesskey, motion->save_keyword, saved_profile || motion->default_value.bval,
+         conf, CONF_nemo_regis_scroll_with_text);
 
     {
         char *encoded=read_setting_s(sesskey,"NemoStartingDirectoryUtf8Hex");

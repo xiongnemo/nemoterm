@@ -252,4 +252,4 @@ def private_sequence(phase,block,legacy=False):
 if __name__=='__main__':
     main(background_exercise=exercise,suite_name='regis-window',
          font=os.environ['NEMOTERM_TEST_FONT'],before_exercise=before,
-         profile_values=dict(NemoTabs=0))
+         profile_values=dict(NemoTabs=0,ReGISScrollWithText=1))

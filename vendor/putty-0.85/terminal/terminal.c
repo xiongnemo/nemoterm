@@ -2302,7 +2302,11 @@ void term_scroll_images(Terminal *term, int left, int right, int top, int bottom
     bool partial = left != 0 || right != term->cols;
     if (term->regis) {
         if (!partial && !top && bottom==term->rows-1) {
-            nemo_regis_scroll(term->regis->decoder,lines);
+            /* XTerm reverse scroll changes text rows but keeps the ReGIS
+             * page at its current origin. Resizing and bounded-region
+             * scrolling have independent geometry. */
+            if (lines>0 || conf_get_bool(term->conf, CONF_nemo_regis_scroll_with_text))
+                nemo_regis_scroll(term->regis->decoder,lines);
             if (sb && !term->alt_which && lines>0)
                 nemo_regis_trim_history(term->regis->decoder,term->savelines,term->cell_height);
         } else

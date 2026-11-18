@@ -2755,6 +2755,9 @@ void setup_config_box(struct controlbox *b, bool midsession,
     s = ctrl_getset(b, "Window/Rendering", "sixel", "Sixel");
     ctrl_checkbox(s, nemo_ui_text("rendering.sixel_continue"), NO_SHORTCUT,
                   HELPCTX(no_help), conf_checkbox_handler, I(CONF_nemo_sixel_colour_continuation));
+    s = ctrl_getset(b, "Window/Rendering", "regis", "ReGIS");
+    ctrl_checkbox(s, nemo_ui_text("rendering.regis_scroll_with_text"), NO_SHORTCUT,
+                  HELPCTX(no_help), conf_checkbox_handler, I(CONF_nemo_regis_scroll_with_text));
 
     /*
      * The Window/Appearance panel.

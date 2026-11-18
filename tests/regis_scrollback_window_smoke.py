@@ -43,4 +43,4 @@ def exercise(phase, block):
 if __name__=='__main__':
     main(background_exercise=exercise,suite_name='regis-window-history-limit',
          font=os.environ['NEMOTERM_TEST_FONT'],before_exercise=before,
-         profile_values=dict(NemoTabs=0,ScrollbackLines=1))
+         profile_values=dict(NemoTabs=0,ScrollbackLines=1,ReGISScrollWithText=1))

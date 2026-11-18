@@ -1545,3 +1545,8 @@ CONF_OPTION(nemo_sixel_colour_continuation,
     VALUE_TYPE(BOOL), DEFAULT_BOOL(true),
     SAVE_KEYWORD("SixelXtermColourContinuation"), LOAD_CUSTOM,
 )
+
+CONF_OPTION(nemo_regis_scroll_with_text,
+    VALUE_TYPE(BOOL), DEFAULT_BOOL(false),
+    SAVE_KEYWORD("ReGISScrollWithText"), LOAD_CUSTOM,
+)
