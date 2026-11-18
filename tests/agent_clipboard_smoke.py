@@ -9,7 +9,7 @@ import sys
 import tempfile
 import time
 from fixture_io import read_snapshot,write_snapshot
-from native_test_utils import wait_for
+from native_test_utils import u, wait_for
 from owned_job import OwnedJob
 
 ROOT=Path(__file__).resolve().parent.parent
@@ -23,10 +23,12 @@ def main():
     parser.add_argument('--client-exe',required=True)
     parser.add_argument('--terminal',default=os.environ.get('NEMOTERM_TEST_EXE',str(ROOT/'dist/nemoterm.exe')))
     parser.add_argument('--font',default='SarasaTermSC Nerd Font Light')
+    parser.add_argument('--system-input', action='store_true')
     parser.add_argument('--binding',choices=('ctrl-v','ctrl-shift-v'))
     args=parser.parse_args()
     folder=Path(tempfile.mkdtemp(prefix='agent-image-',dir=ROOT/'build'))
     result=dict(client=args.client,cases=[],live_model=False,tool_responses=False,font=args.font)
+    result['system_input']=args.system_input
     for name,mods in [('ctrl-v',2),('ctrl-shift-v',3)]:
         if args.binding and args.binding!=name:continue
         case=folder/name;report=case/'observed.json';control=case/'control.json'
@@ -36,10 +38,18 @@ def main():
                 '--terminal',str(Path(args.terminal).resolve()),'--directory',str(case),
                 '--automation','--font',args.font],stdout=log,stderr=subprocess.STDOUT,
                 creationflags=subprocess.CREATE_NO_WINDOW)
+            desk=None;events={}
             try:
                 observed=wait_for(lambda:read_snapshot(report),timeout=30)
                 instance=wait_for(lambda:next(iter(api.discover(observed['pid'])),None),timeout=20)
-                endpoint=instance['endpoint'];seat=instance['sessions'][0]['id']
+                endpoint=instance['endpoint'];session,=instance['sessions'];seat=session['id']
+                if args.system_input:
+                    from hosted_gesture_input import DesktopInput
+                    desk=DesktopInput(observed['pid'],session['window'],session['hwnd'],events)
+                def key(vk,mods):
+                    if desk:
+                        keys={0:(),2:(0x11,),3:(0x11,0x10)}[mods];desk.chord(*keys,vk)
+                    else:api.request(endpoint,'key',seat,struct.pack('<II',vk,mods))
                 ready='Ask Codex' if args.client=='codex' else 'Ask anything'
                 wait_for(lambda:ready in api.request(endpoint,'text',seat),timeout=60)
                 marker='NEMOTERM_'+args.client.upper()+'_IMAGE_'+name.upper().replace('-','_')
@@ -51,7 +61,7 @@ def main():
                 write_snapshot(control,dict(id=1,action='bitmap'))
                 wait_for(lambda:read_snapshot(report).get('clipboard_action')==1)
                 attachment_started=time.monotonic()
-                api.request(endpoint,'key',seat,struct.pack('<II',86,mods))
+                key(86,mods)
                 # OpenCode launches Windows PowerShell/WinForms to read images.
                 # A fresh hosted runner exceeded 20 s, then painted the exact
                 # attachment while a separate reader control also succeeded.
@@ -59,7 +69,7 @@ def main():
                          timeout=60 if args.client=='opencode' else 20)
                 attachment_seconds=time.monotonic()-attachment_started
                 time.sleep(.2)
-                api.request(endpoint,'key',seat,struct.pack('<II',13,0))
+                key(13,0)
                 def received():
                     value=read_snapshot(report)
                     return value if value and any(marker in req['text'] and any(
@@ -71,7 +81,9 @@ def main():
                 write_snapshot(control,dict(id=2,action='restore'))
                 wait_for(lambda:read_snapshot(report).get('clipboard_restored'))
                 for _ in range(2):
-                    try:api.request(endpoint,'key',seat,struct.pack('<II',67,2))
+                    try:
+                        if process.poll() is not None or not u.IsWindow(session['hwnd']):break
+                        key(67,2)
                     except (OSError,EOFError):break
                     time.sleep(.2)
                 assert process.wait(timeout=20)==0
@@ -84,13 +96,12 @@ def main():
                 result['cases'].append(observed)
                 print(args.client+' '+name+': exact generated image received; natural cleanup',flush=True)
             except BaseException:
-                if args.client == 'opencode':
-                    try:
-                        write_snapshot(control,dict(id=90,action='clipboard-probe'))
-                        probe=wait_for(lambda:read_snapshot(report).get('clipboard_probe'),timeout=35)
-                        print('Clipboard reader control:', json.dumps(probe), flush=True)
-                    except Exception as exc:
-                        print('Clipboard reader control failed:', repr(exc), flush=True)
+                try:
+                    write_snapshot(control,dict(id=90,action='clipboard-probe'))
+                    probe=wait_for(lambda:read_snapshot(report).get('clipboard_probe'),timeout=35)
+                    print('Clipboard reader control:', json.dumps(probe), flush=True)
+                except Exception as exc:
+                    print('Clipboard reader control failed:', repr(exc), flush=True)
                 try:
                     (case/'failure.txt').write_text(api.request(endpoint,'text',seat),encoding='utf-8')
                     (case/'failure.png').write_bytes(api.png_from_bmp(api.request(endpoint,'image',seat)))
@@ -98,6 +109,8 @@ def main():
                 print('Failure evidence: '+str(case),flush=True)
                 raise
             finally:
+                if desk:
+                    desk.restore();write_snapshot(case/'system-input.json',events)
                 if process.poll() is None:
                     write_snapshot(control,dict(id=99,action='finish'))
                     try:process.wait(timeout=15)
