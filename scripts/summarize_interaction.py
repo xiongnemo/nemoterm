@@ -36,6 +36,7 @@ def record_reader(path,row):
 
 def agent_grid_case(path,row,identity):
     client,renderer=row['id'].removeprefix('agent-grid-').rsplit('-',1)
+    client_order=client.endswith('-visual-order');client=client.removesuffix('-visual-order')
     actual={'gdi':1,'directx':3}[renderer]
     keys=[k for k in row['evidence'] if k.startswith('research/') and k.endswith('-observed.json')]
     require(len(keys)==1,'missing or ambiguous agent observation')
@@ -50,7 +51,8 @@ def agent_grid_case(path,row,identity):
             and paint['min_selected_ratio']>=.5 and min(paint['guard_ratios'])>=.9,
             'incomplete wide-cell system drag, highlight, or clipboard result')
     witness=obs['bidi_system_copy'];paint=obs['bidi_highlight'];left,right=witness['columns']
-    require(witness['copied']=='A\u05d2\u05b0' and right==left+1 and witness['row']==obs['selection'][1]
+    require(witness['copied']==witness['expected_copy']=='A\u05d2\u05b0' and right==left+1
+            and 0<=witness['row']<sess['rows'] and obs['client_visual_order']==client_order and witness['provider_layout_matches']
             and witness['actual_digests']==witness['reference_digests'] and len(set(witness['reference_digests']))==3
             and paint['cells']==2 and paint['source']!=paint['selected'] and paint['min_selected_ratio']>=.5
             and min(paint['guard_ratios'])>=.9,'missing bidi glyph identity, physical highlight, or original clipboard text')

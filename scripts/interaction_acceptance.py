@@ -74,6 +74,10 @@ def catalog():
             add('agent-grid-'+client+'-'+renderer,'agents-grid','agent_selection_window_smoke.py',
                 ['--client',client,'--client-exe','{'+client+'}','--font',FONT,'--renderer',renderer,'--system-input','--default-grid',*extra],
                 'default-sized real agent window; exact Shift-selection, clipboard, HTTP text and frontend working-set samples')
+
+        add('agent-grid-claude-visual-order-'+renderer,'agents-grid','agent_selection_window_smoke.py',
+            ['--client','claude','--client-exe','{claude}','--font',FONT,'--renderer',renderer,'--system-input','--default-grid','--stable-unicode','--client-visual-order'],
+            'same provider text, with an explicit profile preserving the visual order emitted by Claude Code')
     add('unicode-presented-gdi', 'rendering', 'kitty_unicode_window_smoke.py',
         ['--renderer', 'gdi', '--presented-gdi'], 'foreground; presented pixel capture')
     add('renderers', 'rendering', 'renderer_window_smoke.py')

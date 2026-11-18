@@ -18,7 +18,7 @@ import unicodedata
 from pathlib import Path
 from PIL import Image
 
-from agent_clipboard_fixture import BIDI_WITNESS, SELECTION_PREFIX, SELECTION_TEXT, SELECTION_STABLE, SELECTION_TRIGGER
+from agent_clipboard_fixture import SELECTION_PREFIX, SELECTION_TEXT, SELECTION_STABLE, SELECTION_TRIGGER
 from clipboard_test_utils import clipboard_text
 from fixture_io import read_snapshot, write_snapshot
 from native_test_utils import u, k, wait_for, memory_sample
@@ -59,6 +59,7 @@ def main():
     parser.add_argument('--font',required=True)
     parser.add_argument('--renderer',choices=('gdi','directx'),required=True)
     parser.add_argument('--stable-unicode',action='store_true')
+    parser.add_argument('--client-visual-order',action='store_true',help='Explicit profile: preserve a client that emits preordered text')
     parser.add_argument('--default-grid',action='store_true',help='Require actual 160x48 and sample the untouched frontend throughout interaction')
     parser.add_argument('--system-input',action='store_true')
     parser.add_argument('--right-click',choices=('default','copy-paste'))
@@ -70,7 +71,7 @@ def main():
     case=folder/'client'; report=case/'observed.json'; control=case/'control.json'
     tag=args.client+'-selection-'+args.renderer+('-system' if args.system_input else '')
     if args.right_click:tag+='-right-'+args.right_click
-    evidence=dict(completed=False,client=args.client,font=args.font,requested_renderer=args.renderer,checks=[],screenshots=[],global_input=args.system_input,frontend_samples=[])
+    evidence=dict(completed=False,client=args.client,client_visual_order=args.client_visual_order,font=args.font,requested_renderer=args.renderer,checks=[],screenshots=[],global_input=args.system_input,frontend_samples=[])
     with OwnedJob() as job,(folder/'fixture.log').open('w',encoding='utf-8') as log:
         proc=job.spawn([sys.executable,str(ROOT/'tests/agent_clipboard_fixture.py'),
             '--client',args.client,'--client-exe',str(Path(args.client_exe).resolve()),
@@ -78,6 +79,7 @@ def main():
             '--automation','--selection-renderer',args.renderer,'--font',args.font]+
             (['--default-grid','--confirm-close'] if args.default_grid else [])+
             (['--stable-unicode'] if args.stable_unicode else [])+
+            (['--client-visual-order'] if args.client_visual_order else [])+
             (['--right-copy-and-paste'] if args.right_click=='copy-paste' else []),stdout=log,stderr=subprocess.STDOUT,
             creationflags=subprocess.CREATE_NO_WINDOW)
         def child():
@@ -161,15 +163,13 @@ def main():
             pos=lambda x:(oy+row*ch+ch//2)<<16 | (ox+x*cw+cw//2)
             assert 0<first<=last<cols-1 # include the unselected cell on each side
             evidence.update(source_line=lines[row],selection=[first,row,last],cell=[cw,ch],offset=[ox,oy])
-            strip_end=last+(width(BIDI_WITNESS) if args.default_grid else 0)
-            assert strip_end+1 < cols
-            box=(ox+(first-1)*cw,oy+row*ch,ox+(strip_end+2)*cw,oy+(row+1)*ch)
+            box=(ox+(first-1)*cw,oy+row*ch,ox+(last+2)*cw,oy+(row+1)*ch)
             def strip():
                 bmp=api.request(endpoint,'image',seat)
                 im=Image.open(io.BytesIO(bmp)).convert('RGB')
                 assert im.size==(cx,cy)
                 im=im.crop(box)
-                return bmp,[list(im.crop((i*cw,0,(i+1)*cw,ch)).getdata()) for i in range(strip_end-first+3)]
+                return bmp,[list(im.crop((i*cw,0,(i+1)*cw,ch)).getdata()) for i in range(last-first+3)]
             # The client text query can lead its first completed paint. Establish
             # a stable source row with actual glyph pixels, then keep that BMP.
             prior=None;since=0
@@ -222,25 +222,9 @@ def main():
                     min_selected_ratio=inside,guard_ratios=guards)
                 if target!=bg and inside>=.5 and min(guards)>=.9:return last_bmp
             if args.default_grid:
-                # Compare actual glyph rasters with the three isolated Hebrew
-                # glyphs in the same reply, font, palette and row. Their order
-                # in the selected run must be gimel+sheva, bet, alef.
-                mixed=last+2 # space, then A
-                def tile_at(x):return source[x-first+1]
-                refs=[mixed+7,mixed+11,mixed+15]
-                ref_tiles=[tile_at(x) for x in refs]
-                actual_tiles=[tile_at(mixed+i) for i in (1,2,3)]
-                proof=evidence['bidi_system_copy']=dict(row=row,columns=[mixed,mixed+1],reference_columns=refs,
-                    reference_digests=[hashlib.sha256(bytes(v for rgb in t for v in rgb)).hexdigest() for t in ref_tiles],
-                    actual_digests=[hashlib.sha256(bytes(v for rgb in t for v in rgb)).hexdigest() for t in actual_tiles])
-                assert len(set(proof['reference_digests']))==3 and actual_tiles==ref_tiles,proof
-                probe=lambda:highlight_frame(mixed,mixed+1,'bidi_highlight')
-                desktop.drag(ox+mixed*cw+cw//2,ox+(mixed+1)*cw+cw//2,oy+row*ch+ch//2,probe)
-                frame('bidi-selected',wait_for(probe))
-                seq=u.GetClipboardSequenceNumber();press(67,3)
-                wait_for(lambda:u.GetClipboardSequenceNumber()!=seq)
-                proof['copied']=clipboard_text(hwnd)
-                assert proof['copied']=='A\u05d2\u05b0',proof
+                from agent_bidi_witness import verify_bidi_copy
+                verify_bidi_copy(evidence,lines,raw,cw,ch,ox,oy,cols,
+                    lambda:api.request(endpoint,'image',seat),desktop,frame,press,hwnd)
                 # Use the real client's reply. Press the right half of 中, stop
                 # on the left half of 文 and require all four cells highlighted.
                 assert desktop and sample_text.count('中文')==1
@@ -360,6 +344,11 @@ def main():
                 time.sleep(.2)
             assert proc.wait(timeout=20)==0
             observed=read_snapshot(report);assert not observed['errors'] and not observed['cleanup']['terminated_remaining'],observed
+            evidence['interaction_completed']=True
+            # Keep producer-to-pixel appearance as its own strict check, after
+            # actually exercising copy, modal recovery, paste and submission.
+            if args.default_grid:
+                assert evidence['bidi_system_copy']['provider_layout_matches'], 'Displayed bidi run differs from the provider reply; see client VT order and physical copy receipt'
             evidence['completed']=True
         except BaseException:
             evidence['error']=traceback.format_exc()

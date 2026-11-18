@@ -278,6 +278,7 @@ def main():
     parser.add_argument('--confirm-close',action='store_true')
     parser.add_argument('--default-grid',action='store_true',help='Use the default profile dimensions without CLI overrides')
     parser.add_argument('--stable-unicode',action='store_true')
+    parser.add_argument('--client-visual-order',action='store_true')
     parser.add_argument('--right-copy-and-paste',action='store_true')
     parser.add_argument('--font',default=os.environ.get('NEMOTERM_TEST_FONT','SarasaTermSC Nerd Light'))
     args = parser.parse_args()
@@ -287,6 +288,8 @@ def main():
     profile = 'image-fixture-'+uuid.uuid4().hex
     registry = 'Software\\Nemo\\Nemoterm\\Sessions\\'+profile
     with winreg.CreateKey(winreg.HKEY_CURRENT_USER, registry) as key:
+        if args.client_visual_order:
+            winreg.SetValueEx(key,'DisableBidi',0,winreg.REG_DWORD,1)
         if args.right_copy_and_paste:
             assert args.selection_renderer
             winreg.SetValueEx(key,'RightClickCopyAndPaste',0,winreg.REG_DWORD,1)
