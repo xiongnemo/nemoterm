@@ -4887,6 +4887,7 @@ void term_size(Terminal *term, int newrows, int newcols, int newsavelines)
      */
     if (reflow) nemo_reflow(term, newrows, newcols, newsavelines);
     sblen = count234(term->scrollback);
+    int rows_to_history = 0;
     /* Do this loop to expand the screen if newrows > rows */
     assert(term->rows == count234(term->screen));
     while (term->rows < newrows) {
@@ -4901,6 +4902,7 @@ void term_size(Terminal *term, int newrows, int newcols, int newsavelines)
             addpos234(term->screen, line, 0);
             term->curs.y += 1;
             term->savecurs.y += 1;
+            rows_to_history--;
             nemo_images_rows(term, 0, INT_MIN+1, INT_MAX, 1);
             nemo_kitty_rows(term, 0, 1, INT_MIN);
             nemo_shell_marks_rows(&term->shell_marks, INT_MIN+1, INT_MAX, 1);
@@ -4926,11 +4928,18 @@ void term_size(Terminal *term, int newrows, int newcols, int newsavelines)
             term->tempsblines += 1;
             term->curs.y -= 1;
             term->savecurs.y -= 1;
+            rows_to_history++;
             nemo_images_rows(term, 0, INT_MIN+1, INT_MAX, -1);
             nemo_kitty_rows(term, 0, -1, INT_MIN);
             nemo_shell_marks_rows(&term->shell_marks, INT_MIN+1, INT_MAX, -1);
         }
         term->rows -= 1;
+    }
+    /* ReGIS keeps a single origin per graphic, so apply the main-screen
+     * history shift once. Adding or removing blank tail rows does not move it. */
+    if (rows_to_history && term->regis) {
+        nemo_regis_scroll(term->regis->decoder, rows_to_history);
+        nemo_regis_sync_views(term);
     }
     assert(term->rows == newrows);
     assert(count234(term->screen) == newrows);

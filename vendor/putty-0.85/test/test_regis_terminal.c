@@ -217,6 +217,33 @@ static void check_clear_saved_graphics(Mock *mk)
     IEQUAL(term_regis_memory(t),0);
 }
 
+static void check_resize_saved_graphics(Mock *mk)
+{
+    Terminal *t=mk->term;
+    for (unsigned bottom=0;bottom<2;bottom++) {
+        test_context(mk,bottom ? "resizing shifts drawings with temporary saved lines" :
+            "adding and removing blank rows leaves drawings in place");
+        feed_regis(mk,"\033c");
+        term_size(t,12,40,64);
+        feed_regis(mk,"\033P1pS(E)W(I3)P[20,20]V[120,20]\033\\");
+        feed_regis(mk,bottom ? "\033[12;1H" : "\033[1;1H");
+        unsigned id=nemo_regis_next_graphic(term_regis_decoder(t),0);
+        NemoRegisGraphic info={0};
+        for (unsigned grow=0;grow<2;grow++) {
+            term_size(t,grow ? 12 : 10,40,64);
+            int saved=bottom && !grow ? 2 : 0;
+            IEQUAL(t->tempsblines,saved);
+            IEQUAL(nemo_regis_graphic(term_regis_decoder(t),id,&info),true);
+            IEQUAL(info.row,-saved);
+            IEQUAL(t->images!=NULL,true);
+            if (t->images) IEQUAL(t->images->y,-saved);
+            expect_graphic_pixel(mk,id,20,20,0xff33cc33);
+            check_regis_accounting(mk);
+        }
+    }
+    feed_regis(mk,"\033c");
+}
+
 static int framing_tests(void)
 {
     Mock *mk=regis_mock();
@@ -308,6 +335,7 @@ static int framing_tests(void)
     check_alternate_visibility(mk);
     check_graphic_margins(mk);
     check_clear_saved_graphics(mk);
+    check_resize_saved_graphics(mk);
     bool failed=mk->any_test_failed;
     mock_free(mk);
     puts(failed ? "ReGIS terminal framing FAILED" : "ReGIS terminal framing passed");
