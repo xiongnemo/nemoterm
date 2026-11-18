@@ -240,13 +240,21 @@ def main():
         # The runner supplies an empty home and a local-only dummy API key.
         # No account, extensions, MCP servers, external provider, or tool calls.
         fixture_key='sk-ant-fixture-local-only-00000000000000000000'
+        # A fresh default Windows home keeps the global state file distinct
+        # from the .claude settings directory. The client and Git may spell
+        # the same canonical Windows workspace with different separators.
+        work_path=work.resolve(strict=True)
+        project_keys={str(work_path), work_path.as_posix(),
+                      os.path.normcase(str(work_path)), work_path.as_posix().lower()}
+        assert all(Path(key).samefile(work_path) for key in project_keys)
         (home/'.claude.json').write_text(json.dumps(dict(hasCompletedOnboarding=True,theme='dark',
             customApiKeyResponses=dict(approved=[fixture_key[-20:]],rejected=[]),
-            projects={str(work):dict(hasTrustDialogAccepted=True)})),encoding='utf-8')
-        env.update(CLAUDE_CONFIG_DIR=str(home),ANTHROPIC_API_KEY=fixture_key,
+            projects={key:dict(hasTrustDialogAccepted=True) for key in sorted(project_keys)})),encoding='utf-8')
+        env.update(HOME=str(home),ANTHROPIC_API_KEY=fixture_key,
                    ANTHROPIC_BASE_URL=base.removesuffix('/v1'),CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC='1',
                    DISABLE_AUTOUPDATER='1',DISABLE_TELEMETRY='1')
         command=[args.client_exe,'--bare','--model','claude-sonnet-4-6','--tools','',
+                 '--debug-file',str(folder/'claude-debug.log'),
                  '--permission-mode','plan','--setting-sources','','--strict-mcp-config',
                  '--mcp-config','{"mcpServers":{}}']
     elif args.client == 'codex':
