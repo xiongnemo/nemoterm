@@ -27,6 +27,8 @@ Copy-Item -LiteralPath $Executable -Destination "$Destination/dist/nemoterm.exe"
 $previousExe = $env:NEMOTERM_TEST_EXE
 $env:NEMOTERM_TEST_EXE = "$Destination/dist/nemoterm.exe"
 $checks = [Collections.Generic.List[string]]::new()
+$failedCases = [Collections.Generic.List[string]]::new()
+$stoppingError = $null
 try {
     foreach ($renderer in @('gdi', 'directx')) {
         & python "$Destination/tests/automation_window_smoke.py" --renderer $renderer 2>&1 | Tee-Object "$Destination/logs/automation-$renderer.log"
@@ -153,8 +155,12 @@ try {
             '--terminal', "$Destination/dist/nemoterm.exe")
         if ($env:CI -eq 'true') { $imageArgs += @('--font', 'Consolas') }
         & python "$Destination/tests/agent_clipboard_smoke.py" @imageArgs 2>&1 | Tee-Object "$Destination/logs/codex-image-paste.log"
-        if ($LASTEXITCODE) { throw 'Real Codex image clipboard test failed' }
-        $checks.Add('codex-image-paste')
+        if ($LASTEXITCODE) {
+            # Each later case starts a new owned process.
+            # Keep this gate failed, but still collect the four other real-client
+            # windows and twelve independent renderer workloads below.
+            $failedCases.Add('codex-image-paste')
+        } else { $checks.Add('codex-image-paste') }
         foreach ($mode in @('default', 'inline', 'tabs-default', 'tabs-inline')) {
             $nativeArgs = @('--codex', $CodexExecutable)
             if ($mode.EndsWith('inline')) { $nativeArgs += '--inline' }
@@ -206,6 +212,7 @@ try {
     $files = @(Get-ChildItem -LiteralPath "$Destination/dist" -File)
     if ($files.Count -ne 1 -or $files[0].Name -ne 'nemoterm.exe') { throw 'Unexpected sidecar files in isolated executable directory' }
     $digest = Get-FileHash -LiteralPath "$Destination/dist/nemoterm.exe" -Algorithm SHA256
+    if ($failedCases.Count) { throw ("Failed required tests: " + ($failedCases -join ', ')) }
     [ordered]@{
         executable_sha256 = $digest.Hash.ToLowerInvariant()
         executable_bytes = $files[0].Length
@@ -215,6 +222,20 @@ try {
         recorded_utc = [DateTime]::UtcNow.ToString('o')
     } | ConvertTo-Json -Depth 4 | Set-Content -LiteralPath "$Destination/research/single-exe-validation.json" -Encoding utf8
     $digest
+} catch {
+    $stoppingError = $_.Exception.Message
+    throw
 } finally {
     $env:NEMOTERM_TEST_EXE = $previousExe
+    if ($null -ne $stoppingError) {
+        # A partial record is never the manifest used to package a successful run.
+        $partialDigest = (Get-FileHash -LiteralPath "$Destination/dist/nemoterm.exe" -Algorithm SHA256).Hash.ToLowerInvariant()
+        [ordered]@{
+            complete = $false
+            executable_sha256 = $partialDigest
+            passed_checks = $checks.ToArray()
+            deferred_failures = $failedCases.ToArray()
+            stopping_error = $stoppingError
+        } | ConvertTo-Json -Depth 4 | Set-Content -LiteralPath "$Destination/research/single-exe-partial.json" -Encoding utf8
+    }
 }

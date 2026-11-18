@@ -161,6 +161,8 @@ def run(args, folder, rec):
                     if test(poll()):return
                     time.sleep(.004)
                 raise TimeoutError(label)
+            def on_screen(data,token):
+                return token.encode() in data or token in read_snapshot(folder/'peer-screen.json').get('text','')
             def send(action):
                 nonlocal seq
                 seq+=1;write_snapshot(folder/'command.json',dict(id=seq,action=action))
@@ -168,10 +170,10 @@ def run(args, folder, rec):
             try:
                 # Prepare the generated DIB before startup so that observing
                 # the first marker need not wait for clipboard IPC.
-                put_bitmap(hwnd);until('first Codex prompt',lambda plain:b'Ask Codex' in plain,90)
+                put_bitmap(hwnd);until('first Codex prompt',lambda p:on_screen(p,'Ask Codex'),90)
                 if args.phase=='after-turn':
-                    send('warm');until('warm text painted',lambda p:WARM.encode() in p,15);send('enter')
-                    until('first provider reply rendered',lambda p:b'NEMOTERM_TEXT_ACCEPTED' in p and any(WARM in r['text'] for r in server.requests),30)
+                    send('warm');until('warm text painted',lambda p:on_screen(p,WARM),15);send('enter')
+                    until('first provider reply rendered',lambda p:on_screen(p,'NEMOTERM_TEXT_ACCEPTED') and any(WARM in r['text'] for r in server.requests),30)
                 send('marker')
                 def marker_visible(data):
                     pane=read_snapshot(folder/'peer-screen.json').get('text','')
@@ -181,11 +183,12 @@ def run(args, folder, rec):
                 until('fixture marker painted',marker_visible,20)
                 before=bytes(raw);(folder/'at-paste.vt').write_bytes(before);rec['idle_visible_before']=b'\x1b]7501;state=idle:app=codex' in before
                 n=send('image');until('four native records written',lambda _:read_snapshot(folder/f'command-{n:02}.json').get('written')==4,8)
-                try:until('image marker painted',lambda p:b'[Image' in p or '[Image' in read_snapshot(folder/'peer-screen.json').get('text',''),10);rec['attachment_visible']=True
+                try:until('image marker painted',lambda p:on_screen(p,'[Image'),10);rec['attachment_visible']=True
                 except TimeoutError:rec['attachment_visible']=False
                 send('enter');until('provider received image-test marker',lambda _:any(MARK in r['text'] for r in server.requests),30)
-                until('provider reply rendered',lambda p:b'NEMOTERM_IMAGE_ACCEPTED' in p[len(CSI.sub(b'',before)):] or b'NEMOTERM_TEXT_ACCEPTED' in p[len(CSI.sub(b'',before)):],25)
                 rec['exact_images']=sum(im['generated_pixels_match'] for r in server.requests if MARK in r['text'] for im in r['images'])
+                if rec['exact_images']:
+                    until('unique image reply rendered',lambda p:on_screen(p,'NEMOTERM_IMAGE_ACCEPTED'),25)
             finally:
                 rec['requests']=server.requests;rec['provider_errors']=server.errors
                 if proc.poll() is None:
