@@ -169,6 +169,17 @@ int main(int argc, char **argv)
     printf("GDI observer control without cursors: cold=%lu first=%lu repeated=%lu\n",
            cold_gdi, control_gdi, repeated_control_gdi);
     CHECK(repeated_control_gdi == control_gdi);
+    /* The standalone Windows-only controls in run 44243210212 established
+     * a one-time three-GDI-object cost for creating an ARGB cursor, even
+     * after successful destruction. Warm that OS path without the product.
+     * Keep the original exact post-reset and post-teardown comparisons. */
+    DWORD before_control_user=GetGuiResources(GetCurrentProcess(), GR_USEROBJECTS);
+    CHECK(cursor_control("--indirect")==0);
+    DWORD indirect_gdi=GetGuiResources(GetCurrentProcess(), GR_GDIOBJECTS);
+    CHECK(GetGuiResources(GetCurrentProcess(), GR_USEROBJECTS)==before_control_user);
+    CHECK(cursor_control("--indirect")==0);
+    CHECK(GetGuiResources(GetCurrentProcess(), GR_USEROBJECTS)==before_control_user);
+    CHECK(GetGuiResources(GetCurrentProcess(), GR_GDIOBJECTS)==indirect_gdi);
     /* Stock resources are shared with Windows and intentionally not destroyed. */
     for (unsigned shape = 0; shape < NEMO_POINTER_SHAPE_COUNT; shape++)
         if (nemo_pointer_glyph_index((NemoPointerShape)shape) < 0)
