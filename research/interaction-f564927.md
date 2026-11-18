@@ -24,3 +24,7 @@
 在同一次源构建中：[真实 WSL Vim](preview-wsl-vim-f564927.zip) 在 `TERM=xterm` 和 `xterm-256color`、实际 GDI 和 DirectX 四种组合下，都确认普通点击到达 Vim，Shift 可复制中文且不移动 Vim 光标，Ctrl+Shift 跨行矩形选区有效，调整窗口大小后 Vim 和前端的网格一致，粘贴保存后文件字节正确。[WSL 的 img2sixel 输出](preview-wsl-sixel-f564927.zip) 在两种渲染器显示、重绘和清除时，指定区域连同一像素外边界都与独立预期逐像素一致。[WSL tput 调色板和 RGB 色块](preview-wsl-colour-f564927.zip)的原始回复和像素也已保存。这些是实际应用路径的证据，不代表所有 xterm 序列均已实现。
 
 同一鼠标路径也在[六个真实客户端窗口](agents-grid-glide-f564927.zip)中回放（[44379572449](https://github.com/xiongnemo/nemoterm/actions/runs/44379572449)），6/6 通过：每次 Copy 后点击“取消”都经过两个按钮的原生 hover 和目标按钮按下/捕获检查，剪贴板保留原文，直接输入前缀后粘贴，HTTP 端收到选区恰好一次。未要求用户再点终端。
+
+关闭确认框保持打开时，子进程写入一条本次独有的输出。确认其已写完且终端窗口仍被禁用后，用鼠标点“取消”或按 Esc，接着直接敲下一个键，最后才读取画面。[独立回放](dialog-background-f564927.zip)和[完整 Profile 顺序](profile-background-f564927.zip)各通过六次：单标签、整窗、无标签窗口都收到 `ab` / `abc`，焦点在原终端，后台输出也仍然可见。两次运行编号为 `44381017765`、`44381024896`。
+
+[Windows 拖放及 Codex 对照记录](input-drop-cmd-f564927.zip)（运行 `44380726628`）中，选择 GDI、DirectX 时，`cmd.exe` 都把终端收到的拖放文本解析成两个准确的参数；子进程分别打开了原文件和目录内的标记文件。路径含中文、空格、单引号、`&` 和 `$`。同一运行也用 pwsh、Windows PowerShell、Git Bash 校验了实际参数。此运行整体未通过：首次启动的 Codex 上 `Ctrl+V` 没有在时限内生成图片附件；该失败及截图保存在原始记录中。这次 Windows 拖放用例没有启动 WSL。
