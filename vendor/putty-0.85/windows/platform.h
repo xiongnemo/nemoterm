@@ -139,7 +139,7 @@ int ShinyDialogBox(HINSTANCE hinst, LPCTSTR tmpl, const char *winclass,
 void ShinyEndDialog(HWND hwnd, int ret);
 
 typedef struct WinModalState WinModalState;
-WinModalState *win_modal_begin(HWND owner);
+WinModalState *win_modal_begin(HWND owner, bool native_owner);
 void win_modal_end(WinModalState *state);
 bool win_modal_active(void);
 bool win_modal_redirect_activation(HWND hwnd, UINT message, WPARAM wp);

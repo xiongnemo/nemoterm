@@ -16,7 +16,8 @@
 #include "putty.h"
 
 struct WinModalState {
-    HWND owner, *disabled;
+    HWND owner, focus, *disabled;
+    bool native_owner;
     size_t count;
     struct WinModalState *previous;
 };
@@ -26,7 +27,7 @@ static THREADLOCAL UINT modal_focus_message;
 
 static void modal_disable(WinModalState *state, HWND hwnd)
 {
-    if (!hwnd || !IsWindowEnabled(hwnd)) return;
+    if (!hwnd || !IsWindowEnabled(hwnd) || (state->native_owner && hwnd==state->owner)) return;
     state->disabled=sresize(state->disabled,state->count+1,HWND);
     state->disabled[state->count++]=hwnd;
     EnableWindow(hwnd,FALSE);
@@ -41,17 +42,22 @@ static BOOL CALLBACK modal_disable_terminal(HWND hwnd, LPARAM context)
     return TRUE;
 }
 
-WinModalState *win_modal_begin(HWND owner)
+WinModalState *win_modal_begin(HWND owner, bool native_owner)
 {
     WinModalState *state=snew(WinModalState);
     memset(state,0,sizeof(*state));
     state->owner=owner ? GetAncestor(owner,GA_ROOT) : NULL;
+    state->focus=GetFocus();
+    state->native_owner=native_owner;
     state->previous=modal_current;modal_current=state;
     if (!modal_focus_message)
         modal_focus_message=RegisterWindowMessageA("Nemoterm.ModalFocus");
     modal_depth++;
     /* Save enabled state, so closing a nested dialog cannot enable its
      * terminal or an outer dialog prematurely. Other applications are free. */
+    /* MessageBox/DialogBox must see their owner enabled on entry so USER32
+     * can return activation while dismissing the popup. CreateDialog (our
+     * custom settings loop) does not manage its owner, so we still do. */
     modal_disable(state,state->owner);
     EnumThreadWindows(GetCurrentThreadId(),modal_disable_terminal,(LPARAM)state);
     return state;
@@ -63,7 +69,17 @@ void win_modal_end(WinModalState *state)
     assert(modal_current==state);modal_current=state->previous;
     for (size_t i=0;i<state->count;i++)
         if (IsWindow(state->disabled[i])) EnableWindow(state->disabled[i],TRUE);
-    if (state->owner && IsWindowEnabled(state->owner)) SetActiveWindow(state->owner);
+    if (state->owner && IsWindowEnabled(state->owner)) {
+        if (!state->native_owner) SetActiveWindow(state->owner);
+        /* Activation of a tab host is not keyboard focus on its terminal.
+         * USER32 may already have reactivated the host while our modal guard
+         * still suppressed WM_SETFOCUS. Restore the original visible child
+         * only if its owner is foreground; never take focus from another app. */
+        if (GetForegroundWindow()==state->owner && state->focus &&
+            GetAncestor(state->focus,GA_ROOT)==state->owner &&
+            IsWindowVisible(state->focus) && IsWindowEnabled(state->focus))
+            SetFocus(state->focus);
+    }
     sfree(state->disabled);sfree(state);
 }
 
@@ -120,14 +136,14 @@ bool win_modal_blocks_message(UINT message)
 
 INT_PTR win_modal_dialog_box(HINSTANCE instance, LPCTSTR resource, HWND owner, DLGPROC proc)
 {
-    WinModalState *state=win_modal_begin(owner);
+    WinModalState *state=win_modal_begin(owner,true);
     INT_PTR result=DialogBoxW(instance,(LPCWSTR)resource,state->owner,proc);
     win_modal_end(state);return result;
 }
 
 int win_modal_message_box(HWND owner, LPCSTR text, LPCSTR caption, UINT style)
 {
-    WinModalState *state=win_modal_begin(owner);
+    WinModalState *state=win_modal_begin(owner,true);
     wchar_t *wide_text = dup_mb_to_wc(CP_UTF8, text ? text : "");
     wchar_t *wide_caption = dup_mb_to_wc(CP_UTF8, caption ? caption : "");
     int result=MessageBoxW(state->owner,wide_text,wide_caption,style);
@@ -137,7 +153,7 @@ int win_modal_message_box(HWND owner, LPCSTR text, LPCSTR caption, UINT style)
 
 int win_modal_message_box_w(HWND owner, LPCWSTR text, LPCWSTR caption, UINT style)
 {
-    WinModalState *state=win_modal_begin(owner);
+    WinModalState *state=win_modal_begin(owner,true);
     int result=MessageBoxW(state->owner,text,caption,style);
     win_modal_end(state);return result;
 }
@@ -212,7 +228,7 @@ int ShinyDialogBox(HINSTANCE hinst, LPCTSTR tmpl, const char *winclass,
     state->proc = proc;
     state->ctx = ctx;
 
-    WinModalState *modal=win_modal_begin(hwndparent);
+    WinModalState *modal=win_modal_begin(hwndparent,false);
     sdb_tempstate = state;
     HWND hwnd = CreateDialogW(hinst, (LPCWSTR)tmpl, modal->owner, ShinyRealDlgProc);
     if (!hwnd) { sdb_tempstate=NULL;win_modal_end(modal);return -1; }

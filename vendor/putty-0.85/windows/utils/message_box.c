@@ -62,7 +62,7 @@ int message_box(HWND owner, LPCTSTR text, LPCTSTR caption, DWORD style,
     if (helpctxid != 0 && has_help()) mbox.dwStyle |= MB_HELP;
     mbox.lpfnMsgBoxCallback = &message_box_help_callback;
 
-    WinModalState *modal=win_modal_begin(owner);
+    WinModalState *modal=win_modal_begin(owner,true);
     int toret = MessageBoxIndirectW(&mbox);
     win_modal_end(modal);
 
