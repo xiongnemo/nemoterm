@@ -18,8 +18,8 @@ def verify_history_drag(hwnd, begin_phase, point, capture, tile, copy, barrier, 
         s=ScrollInfo();s.size=c.sizeof(s);s.mask=7
         assert u.GetScrollInfo(hwnd,1,c.byref(s)), 'terminal has no vertical scrollbar'
         return (s.low,s.high,s.page,s.pos)
-    for direction in ('up','down','takeover'):
-        up=direction!='down';takeover=direction=='takeover'
+    for direction in ('up','down','takeover','rectangle'):
+        up=direction!='down';takeover=direction=='takeover';rectangle=direction=='rectangle'
         name='held-history-'+direction; record=dict(name=name,positions=[]);cases.append(record)
         begin_phase(name,scene)
         def loaded():
@@ -31,18 +31,22 @@ def verify_history_drag(hwnd, begin_phase, point, capture, tile, copy, barrier, 
         # real scrollbar at the opposite end. These are not the drag actions.
         start=bottom if up else low;goal=low if up else bottom
         u.SendMessageW(hwnd,0x115,6 if up else 7,0);wait_for(lambda:scrollbar()[3]==goal)
-        x=0 if up else 2;y=0 if up else 23
+        x=0 if up and not rectangle else 2;y=0 if up else 23
         # Clearing any selection from the prior phase is itself a local click.
         u.SendMessageW(hwnd,0x201,5,point(16,12));u.SendMessageW(hwnd,0x202,4,point(16,12))
         time.sleep(.12);source=capture(name+'-before.png',return_pixels=True)
         u.SendMessageW(hwnd,0x115,7 if up else 6,0);wait_for(lambda:scrollbar()[3]==start)
-        anchor=point(2,4) if up else point(0,20)
+        anchor=point(6 if rectangle else 2,4) if up else point(0,20)
         # Exactly one motion beyond the client. No clock hook, fabricated
         # WM_TIMER, wheel, repeated movement or scroll messages while held.
         outside=(point(x,-2 if up else 25)&0xffffffff)
         # The takeover variant starts as an application press. Shift first
         # appears on the sole out-of-window move; no second move can help it.
-        u.SendMessageW(hwnd,0x201,1 if takeover else 5,anchor);u.SendMessageW(hwnd,0x200,5,outside)
+        initial_keys=1 if takeover else (13 if rectangle else 5)
+        u.SendMessageW(hwnd,0x201,initial_keys,anchor)
+        # Block shape is chosen on the press; neither modifier is needed once
+        # the local drag owns the button, including the stationary timer ticks.
+        u.SendMessageW(hwnd,0x200,1 if rectangle else 5,outside)
         try:
             until=time.monotonic()+5
             while time.monotonic()<until:
@@ -50,12 +54,18 @@ def verify_history_drag(hwnd, begin_phase, point, capture, tile, copy, barrier, 
                 if not record['positions'] or p!=record['positions'][-1]:record['positions'].append(p)
                 if p==goal:break
                 time.sleep(.025)
-        finally:u.SendMessageW(hwnd,0x202,4,outside)
+        finally:u.SendMessageW(hwnd,0x202,0 if rectangle else 4,outside)
         record['goal']=goal;record['final_position']=scrollbar()[3]
         time.sleep(.12);observed=capture(name+'-released.png',return_pixels=True)
         record['endpoint_highlighted']=tile(observed,x,y)!=tile(source,x,y)
         if not up:record['guard_unchanged']=tile(observed,3,y)==tile(source,3,y)
         record['expected']='\r\n'.join((lines[:34]+[lines[34][:3]]) if up else (lines[20:-1]+[lines[-1][:3]]))
+        if rectangle:
+            record['expected']='\r\n'.join(line[2:7] for line in lines[:35])
+            # A prefix digit varies by source row. Both cells of the CJK glyph
+            # must highlight; neighbouring columns must stay untouched.
+            record['guard_unchanged']=all((tile(observed,cx,cy)!=tile(source,cx,cy))==(2<=cx<=6)
+                                          for cy in range(24) for cx in range(1,8))
         if takeover:record['expected']='\r\n'.join(lines[:30]+['R'])
         # If takeover never formed a selection, don't replace useful wire and
         # scrollbar evidence with a timeout waiting for a clipboard change.
