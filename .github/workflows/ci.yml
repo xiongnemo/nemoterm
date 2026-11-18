@@ -83,6 +83,14 @@ jobs:
     with:
       product_run: ${{ github.run_id }}
       product_commit: ${{ github.sha }}
+  wsl-sixel:
+    if: ${{ inputs.scope != 'dpi' }}
+    needs: source-host
+    uses: ./.github/workflows/wsl-tui.yml
+    with:
+      run: ${{ github.run_id }}
+      commit: ${{ github.sha }}
+      suite: sixel
   shell-lifetime:
     if: ${{ inputs.scope != 'dpi' }}
     needs: source-host

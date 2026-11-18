@@ -22,6 +22,8 @@ gh workflow run font-zoom-replay.yml --ref <branch> -f suite=interaction -f sour
 
 `suite=wsl-tui` 在单独的 Windows runner 上只安装所需 WSL 环境，记录直接运行的 `less` 与 `script` 记录器运行的 `less`，并区分窗口 API 和系统导航键。记录器的成功不能替代直接运行。
 
+`suite=wsl-sixel` 用 Ubuntu 的 `img2sixel` 经 WSL 终端输出一张彩色 PNG，保存实际 Sixel 字节并用 `sixel2png` 独立解码。分别核验真实 GDI、DirectX 对应位置的每个像素、四边一像素范围、重绘及清除后的结果，同时保留工具版本、文件摘要和原始截图。工具只安装在 runner 上。
+
 `suite=profile-env` 可让 `--profile 名称` 和 Windows 跳转列表所用的 `@名称` 各启动一次父环境未设和一次父环境设置了不同 `TERM` 的子进程，读取其真实 `TERM`、`COLORTERM`、`TERM_PROGRAM`。
 
 `f628d89` 单文件预览的[完整回放和内存数据](../research/right-button-release.md#complete-interaction-replay)为 74/74。另一个 MinGW 便携构建出现[混合 profile 关闭超时](../research/mixed-profile-close-f628d89.md)；`tabs-close-replay.yml` 的 `profiles-mingw` 和 `profiles-api-mingw` 使用原失败产物，分别回放带探针和内置自动化的操作。

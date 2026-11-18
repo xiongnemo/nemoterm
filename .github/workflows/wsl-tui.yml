@@ -4,6 +4,7 @@ on:
     inputs:
       run: {type: string, required: true}
       commit: {type: string, required: true}
+      suite: {type: string, default: pager}
 permissions:
   contents: read
   actions: read
@@ -35,7 +36,7 @@ jobs:
           set-as-default: 'true'
           update: 'false'
           use-cache: 'false'
-          additional-packages: less
+          additional-packages: ${{ inputs.suite == 'sixel' && 'libsixel-bin' || 'less' }}
       - name: Prepare font and fixture
         shell: pwsh
         run: |
@@ -44,12 +45,16 @@ jobs:
           New-Item -ItemType Directory -Force build/wsl-check/tools,build/wsl-check/research,build/wsl-check/build | Out-Null
           Copy-Item tests build/wsl-check/tests -Recurse
           Copy-Item tools/nemoterm_debug.py build/wsl-check/tools/
+      - name: Compare a real WSL image against the libsixel decoder on GDI and DirectX
+        if: inputs.suite == 'sixel'
+        run: python build/wsl-check/tests/wsl_sixel_image.py
       - name: Read the WSL terminal type and exercise direct and recorded less
+        if: inputs.suite == 'pager'
         run: python build/wsl-check/tests/shell_window_smoke.py
       - if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
-          name: wsl-tui-${{ github.run_id }}-${{ github.run_attempt }}
+          name: ${{ inputs.suite == 'sixel' && 'wsl-sixel' || 'wsl-tui' }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
             build/wsl-check/research/
             build/wsl-product/SOURCE-HOST.json
