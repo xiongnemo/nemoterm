@@ -188,7 +188,17 @@ def main():
                 wait_for(lambda:SELECTION_PREFIX.rstrip() in text());press(86,3)
             wait_for(lambda:SELECTION_PREFIX+SELECTION_TEXT in text(),timeout=20);frame('composer');sample('composer')
             time.sleep(.2);press(13)
-            wait_for(lambda:any(r['selection_received'] for r in child()['requests']),timeout=30)
+            # read_snapshot returns {} on a transient Windows sharing violation.
+            # Require the positive provider receipt from one complete snapshot.
+            evidence['unavailable_http_snapshots']=0
+            def submitted():
+                snapshot=child()
+                if 'requests' not in snapshot:
+                    evidence['unavailable_http_snapshots']+=1
+                    return None
+                return next((r for r in snapshot['requests'] if r['selection_received']
+                             and r['selected_text_occurrences']==1),None)
+            evidence['http_receipt']=wait_for(submitted,timeout=30)
             wait_for(lambda:'NEMOTERM_TEXT_ACCEPTED' in text());evidence['checks'].append('real OpenCode submitted exact combined prompt to the loopback provider')
             sample('submitted')
             evidence['memory_policy']=private_ws_policy(actual)

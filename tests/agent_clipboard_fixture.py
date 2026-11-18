@@ -89,7 +89,9 @@ class Handler(BaseHTTPRequestHandler):
                         latest_user_parts.append(value)
                         text.extend(re.findall(r'NEMOTERM_[A-Z0-9_]+',value))
             selected=SELECTION_PREFIX+SELECTION_TEXT in latest_user_parts
-            self.server.requests.append(dict(selection_received=selected, path=self.path, images=images, text=text,
+            self.server.requests.append(dict(selection_received=selected,
+                                              selected_text_occurrences=sum(part.count(SELECTION_TEXT) for part in latest_user_parts),
+                                              path=self.path, images=images, text=text,
                                               advertised_tools=len(request.get('tools', [])),
                                               tool_names=[t.get('name',t.get('function',{}).get('name',t.get('type')))
                                                           for t in request.get('tools', [])]))
