@@ -5348,12 +5348,28 @@ static void update_sbar(Terminal *term)
                       nscroll + term->disptop, term->rows);
 }
 
+/* Rectangles use ordinary screen-column units across all rows. On a DEC
+ * double-width/height row each logical column occupies two such units. */
+static int selection_row_scale(const termline *line)
+{
+    return (line->lattr & LATTR_MODE) == LATTR_NORM ? 1 : 2;
+}
+
 /*
  * Check whether the region bounded by the two pointers intersects
  * the scroll region, and de-select the on-screen selection if so.
  */
 static void check_selection(Terminal *term, pos from, pos to)
 {
+    if (term->selstate == NO_SELECTION) return;
+    if (term->seltype == RECTANGULAR) {
+        /* Edits use logical columns. Only same-row comparisons read x; the
+         * half-open screen-end sentinel must never be looked up as a row. */
+        if (from.y == term->selend.y && from.y >= 0 && from.y < term->rows)
+            from.x *= selection_row_scale(scrlineptr(from.y));
+        if (to.y == term->selstart.y && to.y >= 0 && to.y < term->rows)
+            to.x *= selection_row_scale(scrlineptr(to.y));
+    }
     if (poslt(from, term->selend) && poslt(term->selstart, to))
         deselect(term);
 }
@@ -6325,24 +6341,28 @@ static void insch(Terminal *term, int n)
      * this operation but otherwise unchanged, in which case we can
      * simply move the highlight with the text.
      */
+    int sel_scale = term->selstate != NO_SELECTION && term->seltype == RECTANGULAR ?
+        selection_row_scale(scrlineptr(term->curs.y)) : 1;
+    pos edit_start = term->curs;
+    edit_start.x *= sel_scale;
     eol.y = term->curs.y;
-    eol.x = end;
-    if (poslt(term->curs, term->selend) && poslt(term->selstart, eol)) {
-        pos okstart = term->curs;
+    eol.x = min(term->cols, end * sel_scale);
+    if (poslt(edit_start, term->selend) && poslt(term->selstart, eol)) {
+        pos okstart = edit_start;
         pos okend = eol;
         if (dir > 0) {
             /* Insertion: n characters at EOL will be splatted. */
-            okend.x -= n;
+            okend.x -= n * sel_scale;
         } else {
             /* Deletion: n characters at cursor position will be splatted. */
-            okstart.x += n;
+            okstart.x += n * sel_scale;
         }
         if (posle(okstart, term->selstart) && posle(term->selend, okend)) {
             /* Selection is contained entirely in the interval
              * [okstart,okend), so we need only adjust the selection
              * bounds. */
-            term->selstart.x += dir * n;
-            term->selend.x += dir * n;
+            term->selstart.x += dir * n * sel_scale;
+            term->selend.x += dir * n * sel_scale;
             assert(term->selstart.x >= term->curs.x);
             assert(term->selstart.x < term->cols);
             assert(term->selend.x > term->curs.x);
@@ -8998,6 +9018,10 @@ static void term_out(Terminal *term, bool called_from_term_data)
                     check_trust_status(term, ldata);
                     if ((ldata->lattr & LATTR_MODE) != nlattr && nlattr != LATTR_NORM)
                         term->curs.x = min(term->curs.x, min(term->cols-1, term->cols/2));
+                    if (term->seltype == RECTANGULAR && term->selstate != NO_SELECTION &&
+                        ((ldata->lattr & LATTR_MODE) == LATTR_NORM) != (nlattr == LATTR_NORM) &&
+                        term->curs.y >= term->selstart.y && term->curs.y <= term->selend.y)
+                        deselect(term);
                     ldata->lattr = (ldata->lattr & ~LATTR_MODE) | nlattr;
                     seen_disp_event(term);
                     break;
@@ -11286,8 +11310,9 @@ static void do_paint(Terminal *term)
         if ((term->selstate == DRAGGING || term->selstate == SELECTED) &&
             term->seltype == RECTANGULAR &&
             scrpos.y >= block_start.y && scrpos.y <= block_end.y) {
-            block_start.x = whole_glyph_edge(ldata, term->cols, block_start.x, -1);
-            block_end.x = whole_glyph_edge(ldata, term->cols, block_end.x, +1);
+            int scale = selection_row_scale(ldata);
+            block_start.x = whole_glyph_edge(ldata, term->cols, block_start.x / scale, -1);
+            block_end.x = whole_glyph_edge(ldata, term->cols, (block_end.x + scale - 1) / scale, +1);
         }
 
         /* Do Arabic shaping and bidi. */
@@ -11919,7 +11944,12 @@ static void clipme(Terminal *term, pos top, pos bottom, bool rect, bool desel,
     while (poslt(top, bottom)) {
         bool nl = false;
         termline *ldata = lineptr(top.y);
-        pos nlpos;
+        pos nlpos, row_bottom = bottom;
+        if (rect) {
+            int scale = selection_row_scale(ldata);
+            top.x /= scale;
+            row_bottom.x = (bottom.x + scale - 1) / scale;
+        }
 
         /*
          * nlpos will point at the maximum position on this line we
@@ -11966,12 +11996,12 @@ static void clipme(Terminal *term, pos top, pos bottom, bool rect, bool desel,
         if (rect) {
             top.x = whole_glyph_edge(ldata, term->cols, top.x, -1);
             /* A leading cell already emits the complete glyph at the right. */
-            if (nlpos.x > bottom.x)
-                nlpos.x = bottom.x;
+            if (nlpos.x > row_bottom.x)
+                nlpos.x = row_bottom.x;
             nl = (top.y < bottom.y);
         }
 
-        while (poslt(top, bottom) && poslt(top, nlpos)) {
+        while (poslt(top, row_bottom) && poslt(top, nlpos)) {
             wchar_t cbuf[16], *p;
             int c;
             int x = top.x;
@@ -12983,8 +13013,9 @@ void term_mouse_pixels(Terminal *term, Mouse_Button braw, Mouse_Button bcooked,
     selpoint.y = y + term->disptop;
     ldata = lineptr(selpoint.y);
 
-    if ((ldata->lattr & LATTR_MODE) != LATTR_NORM)
-        x /= 2;
+    int scale = selection_row_scale(ldata);
+    int half = x % scale;
+    x /= scale;
 
     /*
      * Transform x through the bidi algorithm to find the _logical_
@@ -12994,7 +13025,7 @@ void term_mouse_pixels(Terminal *term, Mouse_Button braw, Mouse_Button bcooked,
         x = term->post_bidi_cache[y].backward[x];
     }
 
-    selpoint.x = x;
+    selpoint.x = term->seltype == RECTANGULAR ? min(term->cols-1, x * scale + half) : x;
     unlineptr(ldata);
 
     /* Button-up has its own cell. It can be the first observation of a

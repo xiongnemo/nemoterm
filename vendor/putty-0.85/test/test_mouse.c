@@ -601,6 +601,19 @@ static void test_ctrl_rectangle(Mock *mk)
                 term_request_copy(mk->term, &clipboard, 1);
                 check_clipboard(mk, L"12345" BLOCK_NL L"b\x4e2d" L"e\x301" L"F" BLOCK_NL L"lmnop");
             }
+    for (int reverse = 0; reverse < 2; reverse++) {
+        mouse_setup(mk, "Block uses display columns through doubled wide and combining glyphs",
+                    "\033[?1002;1006h01234567\r\n\033#6a\xe4\xb8\xad" "e\xcc\x81" "FG");
+        int ax = reverse ? 6 : 4, ay = reverse ? 1 : 0;
+        send_mouse(mk, MBT_LEFT, MA_CLICK, ax, ay, true, true, false);
+        send_mouse(mk, MBT_LEFT, MA_RELEASE, 10-ax, 1-ay, false, false, false);
+        MOUSE_BYTES("");
+        IEQUAL(mk->term->selstate, SELECTED);
+        term_request_copy(mk->term, &clipboard, 1);
+        check_clipboard(mk, L"456" BLOCK_NL L"\x4e2d" L"e\x301");
+        term_data_fragmented(mk->term, "\033#5");
+        IEQUAL(mk->term->selstate, NO_SELECTION);
+    }
     mouse_setup(mk, "Ctrl repeated clicks start character blocks", "ABCDE\r\n01234");
     for (Mouse_Action action = MA_2CLK; action <= MA_3CLK; action++) {
         send_mouse(mk, MBT_LEFT, action, 1, 0, false, true, false);
