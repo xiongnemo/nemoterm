@@ -211,7 +211,8 @@ try:
             expect('automatic text pointer','text',first)
             if args.history_drag:
                 from selection_capture_gestures import verify_gestures
-                verify_gestures(host,first,first_child,Input,out,evidence,publish)
+                verify_gestures(host,first,first_child,Input,out,evidence,publish,
+                                lambda:api.request(endpoint,'text',first['id']))
             elif args.colour_reference:
                 from pointer_colour_comparison import compare_cursor_colours, check_colour_tabs
                 compare_cursor_colours(args.colour_reference, first_child, first, out, evidence,
