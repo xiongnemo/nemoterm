@@ -107,6 +107,7 @@ old=$(stty -g </dev/tty)
 trap 'stty "$old" </dev/tty; : >terminfo.done' EXIT
 stty -echo -icanon min 1 time 0 </dev/tty
 printf 'inherited=%s\n' "${TERM-}"
+printf 'colorterm=%s\nprogram=%s\n' "${COLORTERM-}" "${TERM_PROGRAM-}"
 for which in inherited xterm; do
   (
     if [ "$which" = xterm ]; then export TERM=xterm; row=5; col=8; else row=2; col=3; fi
@@ -129,6 +130,8 @@ printf 'complete=yes\n'
         evidence['log'] = log.read_text(encoding='utf-8', errors='replace') if log.exists() else None
     rows = dict(line.split('=', 1) for line in (evidence['log'] or '').splitlines() if '=' in line)
     assert rows.get('inherited') == 'xterm-256color' and rows.get('inherited-colors') == '256', rows
+    evidence['child_identity'] = {k: rows.get(k) for k in ('inherited','colorterm','program')}
+    assert rows.get('xterm-colors') == '8', rows
     assert rows.get('inherited-reply') == b'\x1b[3;4R'.hex() and rows.get('xterm-reply') == b'\x1b[6;9R'.hex(), rows
     assert rows.get('complete') == 'yes', rows
 
@@ -257,6 +260,9 @@ try:
                        capture_output=True, creationflags=subprocess.CREATE_NO_WINDOW)
         observed['wsl_fixture_teardown'] = dict(distribution=distro, shells_exited=True, linux_processes=linux)
     if pager_error is not None: raise pager_error
+    if 'wsl-bash' in observed['launches']:
+        identity=observed['launches']['wsl-bash']['terminfo']['child_identity']
+        assert identity==dict(inherited='xterm-256color',colorterm='truecolor',program='nemoterm'),identity
 finally:
     record_processes('fixture-finished')
     try:
