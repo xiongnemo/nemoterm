@@ -155,5 +155,6 @@ jobs:
             build/interaction/identity.json
             build/interaction/results.json
             build/interaction/attempts/agent-grid-*/research/*-observed.json
+            build/interaction/attempts/selection-*/research/*selection-observed.json
             build/interaction/attempts/full-grid-*/research/*-memory.json
             build/interaction/attempts/full-grid-*/research/*-observed.json

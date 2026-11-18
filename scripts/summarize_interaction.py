@@ -25,13 +25,42 @@ def record_reader(path,row):
     # Select only a case-owned attempt. Do not resolve paths from the fixture log.
     matches = [p for p in (path/'interaction'/'attempts').glob(row['id']+'-*')
                if p.name == Path(row['directory']).name]
-    require(len(matches) == 1, 'missing or ambiguous memory attempt')
+    require(len(matches) == 1, 'missing or ambiguous case attempt')
     def checked(k):
-        require(k == 'research/'+Path(k).name, 'unexpected memory record path')
+        require(k == 'research/'+Path(k).name, 'unexpected receipt path')
         data = (matches[0]/k).read_bytes()
-        require(hashlib.sha256(data).hexdigest() == blobs[k], 'memory record digest mismatch')
+        require(hashlib.sha256(data).hexdigest() == blobs[k], 'receipt digest mismatch')
         return json.loads(data.decode('utf-8-sig'))
     return checked
+
+
+def selection_cursor_case(path,row,identity):
+    case=row['id']; tab='-profile-font-' not in case
+    renderer={'gdi':1,'directx':3}[case.rsplit('-',1)[1]]
+    channel='research/'+('tabs-' if tab else '')+'selection-observed.json'
+    obs=record_reader(path,row)(channel)
+    require(obs['completed'] and obs['executable_sha256']==identity['executable_sha256']
+            and obs['active_renderer']==renderer and obs['tab_host']==tab
+            and obs['requested_font']==(identity['font'] if tab else None),'wrong selection window, font or image')
+    expected={'cup-inside':True,'tab-across':True,'cht-across':True,'cbt-across':True,
+              'print-left-neighbour':True,'overwrite-selected':False,'wide-from-left':False,
+              'combine-on-last-selected':False}
+    rows=obs['selection_after_cursor_traffic']
+    require(len(rows)==len(expected) and {r['name'] for r in rows}==set(expected),'incomplete cursor selection cases')
+    for r in rows:
+        keep=expected[r['name']]; normal,marked=r['normal'],r['marked']
+        require(len(normal)==len(marked)==5 and len(set(normal))==1 and marked[0]==marked[4]==normal[0]
+                and marked[1]==marked[2]==marked[3]!=normal[0] and r['after']==(marked if keep else normal),
+                'cursor update highlight disagrees with the surrounding cells: '+r['name'])
+        # The native fixture uses rows 7 and 14 (protocol coordinates). Pair
+        # each raw press/release at the same point; a swallowed right click or
+        # stale clipboard cannot prove a correct invalidation.
+        ack=b'\x1b[0n'; wire=bytes.fromhex(r['right_click_wire']); allowed=[ack+ack] if keep else [
+            ack+f'\x1b[<2;7;{y}M\x1b[<2;7;{y}m'.encode()+ack for y in (7,14)]
+        require(r['passed'] and r['expected_selected'] is keep and wire in allowed
+                and r['clipboard_updated'] is keep and r['copied']==('EFG' if keep else None),
+                'cursor update clipboard or mouse delivery mismatch: '+r['name'])
+    return len(rows)
 
 
 def agent_grid_case(path,row,identity):
@@ -132,6 +161,8 @@ def main():
                     if group.startswith('memory-'):
                         out['frontend_peak_bytes'] = memory_case(path,row,{'memory-gdi':1,'memory-directx':3}[group],exe)
                     if group=='agents-grid':out['frontend_peak_bytes']=agent_grid_case(path,row,identity)
+                    if group=='selection' and case.startswith('selection-'):
+                        out['verified_cursor_updates']=selection_cursor_case(path,row,identity)
                     out['verified'] = True
                 except (OSError, ValueError, TypeError, KeyError) as failure:
                     errors.append(f'{group}/{case}: {failure}')
