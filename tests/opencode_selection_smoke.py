@@ -1,4 +1,4 @@
-"""Shift-select a real OpenCode reply in a DirectX tab and submit the copied text."""
+"""Shift-select a real OpenCode reply in an actual GDI or DirectX tab and submit the copied text."""
 import argparse
 import os
 import re
@@ -15,7 +15,8 @@ from pathlib import Path
 from agent_clipboard_fixture import SELECTION_PREFIX, SELECTION_TEXT, SELECTION_TRIGGER
 from clipboard_test_utils import clipboard_text
 from fixture_io import read_snapshot, write_snapshot
-from native_test_utils import u, w, c, wait_for
+from native_test_utils import u, k, wait_for, memory_sample
+from memory_limits import private_ws_policy, private_ws_passes
 from owned_job import OwnedJob
 
 ROOT=Path(__file__).resolve().parent.parent
@@ -29,35 +30,42 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--client-exe',required=True)
     parser.add_argument('--font',required=True)
+    parser.add_argument('--renderer',choices=('gdi','directx'),required=True)
     args=parser.parse_args()
     out=ROOT/'research';out.mkdir(exist_ok=True)
     folder=Path(tempfile.mkdtemp(prefix='opencode-selection-',dir=ROOT/'build'))
     case=folder/'client'; report=case/'observed.json'; control=case/'control.json'
-    evidence=dict(completed=False,font=args.font,checks=[],screenshots=[],global_input=False)
+    tag='opencode-selection-'+args.renderer
+    evidence=dict(completed=False,font=args.font,requested_renderer=args.renderer,checks=[],screenshots=[],global_input=False,frontend_samples=[])
     with OwnedJob() as job,(folder/'fixture.log').open('w',encoding='utf-8') as log:
         proc=job.spawn([sys.executable,str(ROOT/'tests/agent_clipboard_fixture.py'),
             '--client','opencode','--client-exe',str(Path(args.client_exe).resolve()),
             '--terminal',os.environ['NEMOTERM_TEST_EXE'],'--directory',str(case),
-            '--automation','--selection-directx','--font',args.font],stdout=log,stderr=subprocess.STDOUT,
+            '--automation','--selection-renderer',args.renderer,'--font',args.font],stdout=log,stderr=subprocess.STDOUT,
             creationflags=subprocess.CREATE_NO_WINDOW)
         def child():
             value=read_snapshot(report);assert proc.poll() is None and not value.get('errors'),value
             return value
-        endpoint=seat=None
+        endpoint=seat=handle=None
         try:
             observed=wait_for(child,timeout=40)
             instance=wait_for(lambda: next(iter(api.discover(observed['pid'])),None),timeout=20)
             endpoint=instance['endpoint'];session,=instance['sessions'];seat=session['id'];hwnd=session['hwnd']
             evidence['session']=session
-            assert instance['pid']==observed['pid'] and hwnd==observed['hwnd'] and session['active'] and session['renderer']==2,session
+            assert instance['pid']==observed['pid'] and hwnd==observed['hwnd'] and session['active'] and session['renderer']=={'gdi':0,'directx':2}[args.renderer],session
             assert hwnd!=session['window'],'Expected the default multi-tab host'
+            handle=k.OpenProcess(0x0410,False,observed['pid']);assert handle
+            actual=session['renderer']+1
+            def sample(phase):
+                evidence['frontend_samples'].append(dict(phase=phase,**memory_sample(handle)))
             text=lambda:api.request(endpoint,'text',seat)
             def key(vk,mods=0):api.request(endpoint,'key',seat,struct.pack('<II',vk,mods))
             def frame(name):
-                filename='opencode-selection-'+name+'.png'
+                filename=tag+'-'+name+'.png'
                 (out/filename).write_bytes(api.png_from_bmp(api.request(endpoint,'image',seat)))
                 evidence['screenshots'].append(filename)
             wait_for(lambda:'Ask anything' in text(),timeout=60)
+            sample('startup')
             api.request(endpoint,'input',seat,SELECTION_TRIGGER)
             wait_for(lambda:SELECTION_TRIGGER in text());time.sleep(.2);key(13)
             screen=wait_for(lambda:s if SELECTION_TEXT in (s:=text()) else None,timeout=40)
@@ -68,7 +76,7 @@ def main():
             cw,ch=(cx-2)//cols,(cy-2)//rows;ox,oy=(cx-cols*cw)//2,(cy-rows*ch)//2
             assert cw>0 and ch>0 and 0<=first<=last<cols and 0<=row<rows
             pos=lambda x:(oy+row*ch+ch//2)<<16 | (ox+x*cw+cw//2)
-            evidence.update(source_line=lines[row],selection=[first,row,last],cell=[cw,ch],offset=[ox,oy]);frame('source')
+            evidence.update(source_line=lines[row],selection=[first,row,last],cell=[cw,ch],offset=[ox,oy]);frame('source');sample('reply')
             # Only inspect bytes already emitted by the real client. Do not
             # enable mouse modes from the harness. The full prefix is retained.
             raw=(case/'client-output.log').read_bytes()
@@ -90,13 +98,17 @@ def main():
             wait_for(lambda:child().get('clipboard_action')==1);assert clipboard_text(hwnd) is None
             key(67,3);copied=wait_for(lambda:clipboard_text(hwnd));evidence['copied']=copied
             assert copied==SELECTION_TEXT,(copied,SELECTION_TEXT)
+            sample('copy')
             evidence['checks'].append('Shift drag and default Copy replace the sentinel with exact Unicode')
             api.request(endpoint,'input',seat,SELECTION_PREFIX)
             wait_for(lambda:SELECTION_PREFIX.rstrip() in text());key(86,3)
-            wait_for(lambda:SELECTION_PREFIX+SELECTION_TEXT in text(),timeout=20);frame('composer')
+            wait_for(lambda:SELECTION_PREFIX+SELECTION_TEXT in text(),timeout=20);frame('composer');sample('composer')
             time.sleep(.2);key(13)
             wait_for(lambda:any(r['selection_received'] for r in child()['requests']),timeout=30)
             wait_for(lambda:'NEMOTERM_TEXT_ACCEPTED' in text());evidence['checks'].append('real OpenCode submitted exact combined prompt to the loopback provider')
+            sample('submitted')
+            evidence['memory_policy']=private_ws_policy(actual)
+            assert all(private_ws_passes(actual,v['private_ws']) for v in evidence['frontend_samples']),evidence['frontend_samples']
             write_snapshot(control,dict(id=2,action='restore'));wait_for(lambda:child().get('clipboard_restored'))
             for _ in range(2):
                 try:key(67,2)
@@ -113,12 +125,13 @@ def main():
                 except Exception:pass
             raise
         finally:
+            if handle:k.CloseHandle(handle)
             if proc.poll() is None:
                 write_snapshot(control,dict(id=99,action='finish'))
                 try:proc.wait(timeout=15)
                 except subprocess.TimeoutExpired:pass
             evidence['cleanup']=job.finish();evidence['child']=read_snapshot(report)
-            write_snapshot(out/'opencode-selection-observed.json',evidence)
+            write_snapshot(out/(tag+'-observed.json'),evidence)
 
 
 if __name__=='__main__':main()

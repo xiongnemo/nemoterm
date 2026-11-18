@@ -168,7 +168,7 @@ def main():
     parser.add_argument('--terminal', required=True)
     parser.add_argument('--directory', required=True)
     parser.add_argument('--automation', action='store_true')
-    parser.add_argument('--selection-directx', action='store_true')
+    parser.add_argument('--selection-renderer', choices=('gdi','directx'))
     parser.add_argument('--font',default='SarasaTermSC Nerd Font Light')
     args = parser.parse_args()
     folder = Path(args.directory).resolve()
@@ -193,8 +193,8 @@ def main():
     profile = 'image-fixture-'+uuid.uuid4().hex
     registry = 'Software\\Nemo\\Nemoterm\\Sessions\\'+profile
     with winreg.CreateKey(winreg.HKEY_CURRENT_USER, registry) as key:
-        if args.selection_directx:
-            winreg.SetValueEx(key, 'NemoRenderer', 0, winreg.REG_DWORD, 2)
+        if args.selection_renderer:
+            winreg.SetValueEx(key, 'NemoRenderer', 0, winreg.REG_DWORD, {'gdi':0,'directx':2}[args.selection_renderer])
             # This isolated client session has only generated data. Preserve its
             # incoming VT traffic to identify the mouse protocol at the drag.
             for setting,value in (('LogType',2),('LogFileClash',1),('LogFlush',1)):
@@ -203,7 +203,7 @@ def main():
         winreg.SetValueEx(key, 'WarnOnClose', 0, winreg.REG_DWORD, 0)
         winreg.SetValueEx(key, 'CloseOnExit', 0, winreg.REG_DWORD, 1)
     server = Provider()
-    server.selection=args.selection_directx
+    server.selection=bool(args.selection_renderer)
     thread = threading.Thread(target=server.serve_forever, daemon=True); thread.start()
     base = f'http://127.0.0.1:{server.server_port}/v1'
     if args.client == 'codex':

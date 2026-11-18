@@ -38,9 +38,10 @@ def catalog():
     add('agent-selection-directx', 'agents', 'codex_window_smoke.py',
         ['--codex', '{codex}', '--tabs', '--paste-selection', '--renderer', 'directx', '--font', FONT],
         'clipboard; isolated real Codex; DirectX; selected Unicode submitted to loopback provider')
-    add('opencode-selection-directx', 'agents', 'opencode_selection_smoke.py',
-        ['--client-exe', '{opencode}', '--font', FONT],
-        'clipboard; isolated real OpenCode; DirectX; selected Unicode submitted to loopback provider')
+    for renderer in ('gdi','directx'):
+        add('opencode-selection-'+renderer, 'agents', 'opencode_selection_smoke.py',
+            ['--client-exe', '{opencode}', '--font', FONT, '--renderer', renderer],
+            'clipboard; isolated real OpenCode; mouse tracking; selected Unicode submitted to loopback provider')
     add('unicode-presented-gdi', 'rendering', 'kitty_unicode_window_smoke.py',
         ['--renderer', 'gdi', '--presented-gdi'], 'foreground; presented pixel capture')
     add('renderers', 'rendering', 'renderer_window_smoke.py')
