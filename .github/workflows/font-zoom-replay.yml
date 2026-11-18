@@ -6,7 +6,7 @@ on:
       suite:
         description: Checks or notice-only packaging against the exact artifact
         type: choice
-        options: [font-bell, dpi, interaction, single, ui-regression, shell-lifetime, tcap, portable-notices, regis-window, pointer-colour]
+        options: [font-bell, dpi, interaction, single, ui-regression, shell-lifetime, tcap, portable-notices, regis-window, pointer-colour, colour-input]
         default: font-bell
       source_commit:
         description: Full source commit of the source-console-host artifact
@@ -64,7 +64,7 @@ jobs:
       product_run: ${{ inputs.source_run }}
       product_commit: ${{ inputs.source_commit }}
   focused-replay:
-    if: ${{ inputs.suite == 'font-bell' || inputs.suite == 'ui-regression' || inputs.suite == 'tcap' || inputs.suite == 'pointer-colour' }}
+    if: ${{ inputs.suite == 'font-bell' || inputs.suite == 'ui-regression' || inputs.suite == 'tcap' || inputs.suite == 'pointer-colour' || inputs.suite == 'colour-input' }}
     runs-on: windows-2025
     timeout-minutes: 15
     env:
@@ -164,6 +164,15 @@ jobs:
         shell: pwsh
         run: |
           python tests/gpu_lifecycle_window_smoke.py 2>&1 | Tee-Object build/focused-evidence/gpu-lifecycle.log
+          exit $LASTEXITCODE
+      - name: Measure both default-colour replies through native console input records
+        if: ${{ inputs.suite == 'colour-input' }}
+        shell: pwsh
+        run: |
+          scripts/prepare-remote-interaction.ps1
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          $env:NEMOTERM_TEST_FONT='SarasaTermSC Nerd Light'
+          python tests/console_colour_roundtrip.py
           exit $LASTEXITCODE
       - name: Retain complete observations
         if: always()

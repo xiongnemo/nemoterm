@@ -1,0 +1,21 @@
+{
+  "run": 44273316327,
+  "artifact": 14415055391,
+  "digest": "sha256:d5996de4c87ff617c2db194c62de3c3b14c1e92a3cae1c5498acc2f91450bb26",
+  "inputs": {
+    "gdi": {
+      "original_member": "interaction/attempts/codex-system-gdi-01/build/codex-selection-5ge_qkhy/client/client-output.log",
+      "source_sha256": "908807b6b9b7e74fc140d35883fdd43efd347849a85059593933d9e55ffdf77d",
+      "offset": 79,
+      "end": 4964,
+      "sha256": "fd552c706864978274d4eec7a829af5bacb6ec31d308d78a4a3bd665cef087ba"
+    },
+    "directx": {
+      "original_member": "interaction/attempts/codex-system-directx-01/build/codex-selection-pira_37p/client/client-output.log",
+      "source_sha256": "5c0d60af1912b4a9b7de15c518dea9b04cd8184c794b5fb223ab9d4e813db082",
+      "offset": 79,
+      "end": 5142,
+      "sha256": "41594f0024516a6b5f46a642621195740bd70cea6e9de87db40f9ccf159aa415"
+    }
+  }
+}
