@@ -1,18 +1,24 @@
 # User-approved frontend memory policy
 
-On 2026-11-14 the user approved DirectX private working set up to 25 MB, with
-further optimization deferred. The acceptance policy uses decimal bytes:
+The current acceptance limits apply to the frontend's peak sampled private
+working set. MB is decimal; select the limit from the observed renderer.
 
 | Observed renderer | Private working set |
 | --- | --- |
 | GDI | Strictly below 20,000,000 bytes |
-| DirectX | At most 25,000,000 bytes |
+| DirectX | At most 30,000,000 bytes (inclusive) |
 | Optional OpenGL | Existing user-approved exception; still record counters |
 
 The native renderer property selects the limit, including fallback to GDI.
 Private commitment and total working set remain separate counters; roughly
 50 MB total working set remains a target. No working-set trimming is added.
 Historical runs retain their original limits and outcomes.
+
+The [November 18 DirectX replay](directx-30mb.md) records the change from
+25 MB to 30 MB. See the [current preview measurement](interaction-85fe9b1.md#memory-of-this-executable)
+for the six-workload peaks of the distributed executable.
+
+## Historical November 14 policy and results
 
 Source `3f68d9c644ae049d981288920fcfb579ac456441` changes policy, documentation
 and test reporting, not product source. Its
