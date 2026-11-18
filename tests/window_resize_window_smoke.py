@@ -110,6 +110,9 @@ try:
                     cw,ch=phase('initial',grid=[83,27])
                     base=[2+83*cw,2+27*ch]
                     assert initial==base,(initial,base)
+                    if name!='font-resize':
+                        from xtwinops_fullscreen import check
+                        check(host, monitor.monitor, control, report, mode, name=='normal')
                     if name in ('remote-denied','locked-window'):
                         for index,command in enumerate(('8;30;90t','4;213;489t','8;0;0t','48t')):
                             phase('denied-'+str(index),CSI+command,client=initial,grid=[83,27])

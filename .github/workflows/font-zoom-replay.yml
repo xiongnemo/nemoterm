@@ -6,7 +6,7 @@ on:
       suite:
         description: Checks or notice-only packaging against the exact artifact
         type: choice
-        options: [font-bell, dpi, interaction, single, ui-regression, shell-lifetime, tcap, portable-notices, regis-window, pointer-colour, colour-input, unicode-boundary, picture-keys, image-timing, image-reference, pterm-memory, profile-dump, profile-env, wsl-tui, wsl-sixel, wsl-vim, wsl-colour, rendering-settings, close-cancel, profile-sequence, font-ops]
+        options: [font-bell, dpi, interaction, single, ui-regression, shell-lifetime, tcap, portable-notices, regis-window, pointer-colour, colour-input, unicode-boundary, picture-keys, image-timing, image-reference, pterm-memory, profile-dump, profile-env, wsl-tui, wsl-sixel, wsl-vim, wsl-colour, rendering-settings, close-cancel, profile-sequence, font-ops, fullscreen]
         default: font-bell
       source_commit:
         description: Full source commit of the source-console-host artifact
@@ -136,7 +136,7 @@ jobs:
       product_run: ${{ inputs.source_run }}
       product_commit: ${{ inputs.source_commit }}
   focused-replay:
-    if: ${{ inputs.suite == 'font-bell' || inputs.suite == 'ui-regression' || inputs.suite == 'tcap' || inputs.suite == 'pointer-colour' || inputs.suite == 'profile-env' || inputs.suite == 'close-cancel' }}
+    if: ${{ inputs.suite == 'font-bell' || inputs.suite == 'ui-regression' || inputs.suite == 'tcap' || inputs.suite == 'pointer-colour' || inputs.suite == 'profile-env' || inputs.suite == 'close-cancel' || inputs.suite == 'fullscreen' }}
     runs-on: windows-2025
     timeout-minutes: 15
     env:
@@ -175,6 +175,22 @@ jobs:
           } | ConvertTo-Json | Set-Content build/focused-evidence/identity.json -Encoding utf8
       - name: Install test dependencies
         run: python -m pip install frida==17.24.3
+      - name: Verify xterm fullscreen against standalone and tab host rectangles
+        if: ${{ inputs.suite == 'fullscreen' }}
+        shell: pwsh
+        run: |
+          ./scripts/prepare-remote-interaction.ps1
+          $env:NEMOTERM_TEST_FONT='SarasaTermSC Nerd Light'
+          $failed=$false
+          foreach ($hostMode in @('standalone','tabs')) {
+            $opts=@('tests/window_resize_window_smoke.py','--renderer','0')
+            if ($hostMode -eq 'tabs') { $opts+='--tabs' }
+            python @opts
+            if ($LASTEXITCODE) { $failed=$true }
+            $name=if ($hostMode -eq 'tabs') {'tabs-window-resize-observed.json'} else {'window-resize-observed.json'}
+            Copy-Item -LiteralPath "research/$name" -Destination build/focused-evidence -ErrorAction Stop
+          }
+          if ($failed) { exit 1 }
       - name: Click Cancel and immediately type into the child
         if: ${{ inputs.suite == 'close-cancel' }}
         run: python tests/close_cancel_input.py
