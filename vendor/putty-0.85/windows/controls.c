@@ -372,18 +372,35 @@ void radiobig(struct ctlpos *cp, const char *text, int id, ...)
 /*
  * A single standalone checkbox.
  */
-void checkbox(struct ctlpos *cp, const char *text, int id)
+static void checkbox(struct ctlpos *cp, HWND dialog, const char *text, int id)
 {
-    RECT r;
-
-    r.left = GAPBETWEEN;
-    r.top = cp->ypos;
-    r.right = cp->width;
-    r.bottom = CHECKBOXHEIGHT;
+    RECT r = { GAPBETWEEN, cp->ypos, cp->width, CHECKBOXHEIGHT };
+    int style = BS_NOTIFY | BS_AUTOCHECKBOX | WS_CHILD | WS_VISIBLE | WS_TABSTOP;
+    /* pos.hwnd is NULL on the sizing pass for a delayed control. Measure
+     * both passes with the same dialog font and the same available width. */
+    HDC dc = GetDC(dialog);
+    if (dc) {
+        HFONT old = SelectObject(dc, (HFONT)cp->font);
+        wchar_t *caption = dup_mb_to_wc(CP_UTF8, text);
+        /* Leave room for the native check mark, its spacing and focus rect. */
+        RECT area = { 0, 0, max(1, cp->width - 14), 0 };
+        RECT unit = { 0, 0, 4, 8 };
+        TEXTMETRICW tm;
+        MapDialogRect(dialog, &area);
+        MapDialogRect(dialog, &unit);
+        /* Match the button's mnemonic handling (including doubled '&'). */
+        int height = DrawTextW(dc, caption, -1, &area, DT_CALCRECT | DT_WORDBREAK);
+        if (GetTextMetricsW(dc, &tm) && height > tm.tmHeight && unit.bottom > 0) {
+            style |= BS_MULTILINE;
+            r.bottom = max(CHECKBOXHEIGHT,
+                           ((height + 2) * 8 + unit.bottom - 1) / unit.bottom);
+        }
+        sfree(caption);
+        SelectObject(dc, old);
+        ReleaseDC(dialog, dc);
+    }
     cp->ypos += r.bottom + GAPBETWEEN;
-    doctl(cp, r, "BUTTON",
-          BS_NOTIFY | BS_AUTOCHECKBOX | WS_CHILD | WS_VISIBLE | WS_TABSTOP, 0,
-          text, id);
+    doctl(cp, r, "BUTTON", style, 0, text, id);
 }
 
 /*
@@ -1545,7 +1562,7 @@ void winctrl_layout(struct dlgparam *dp, struct winctrls *wc,
             escaped = shortcut_escape(ctrl->label,
                                       ctrl->checkbox.shortcut);
             shortcuts[nshortcuts++] = ctrl->checkbox.shortcut;
-            checkbox(&pos, escaped, base_id);
+            checkbox(&pos, cp->hwnd, escaped, base_id);
             sfree(escaped);
             break;
           case CTRL_BUTTON:
