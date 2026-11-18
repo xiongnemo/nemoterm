@@ -74,3 +74,5 @@ still fails on a mixed-profile close timeout, while its ASan/UBSan and MSVC
 diagnostic jobs pass. This development snapshot is therefore not substituted
 for the main download. Later attribute-reset changes have their own validation;
 this passing image predates those corrections.
+
+The [six workloads per renderer on `b5d4514`](interaction-b5d4514-50.json) all passed. The dense Unicode and Kitty image case had the highest sampled frontend private working set on each renderer: **29,462,528 bytes on DirectX** (537,472 bytes below the limit) and **19,017,728 bytes on GDI**. These measurements apply to that EXE only.

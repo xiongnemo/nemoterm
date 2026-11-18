@@ -121,3 +121,5 @@ Sarasa Light 从固定 v2.3.1 压缩包安装，校验下载及实际字体名�
 Sixel 共享调色板：可对照[新绘制色块、强制重绘和原始 XTerm 像素](../research/shared-register-terminator.md)。`9ece5e0` 的 Windows 原生检查为 64 项图形与 12 项历史缓冲检查；历史 131 帧仍有 6 帧不一致。
 
 远程交互回放现在会生成 `interaction-report-<run>-<attempt>`。它按所选组核对用例名单、终端 EXE 的 SHA-256、子进程正常退出及满屏内存记录。单独重跑 `agents` 只算该组；缺组、混用 EXE、重复用例或强制终止都不能得到整套通过。原始截图与日志仍在各组产物。真实 OpenCode 的默认右键和“复制并粘贴”验收见[四个实际窗口与 HTTP 回执](../research/opencode-right-click.md)。
+
+Codex 首次输入会同时触发颜色查询。托管 Windows 控制台用相同绘图数据回放，分别检查颜色回复的内容、顺序和抵达时间；结果与真实桌面选区、剪贴板及 HTTP 提交分开验收。见[原始失败及同输入对照](../research/codex-startup-colours.md)。
