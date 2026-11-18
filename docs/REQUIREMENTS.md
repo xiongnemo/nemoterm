@@ -1,5 +1,7 @@
 # Nemoterm requirements and evidence ledger
 
+On the `f564927` single-file preview, [72/74 interaction cases](../research/interaction-f564927.md) passed; two first-marker Codex image gestures failed and both ready-composer cases passed. All twelve exact-grid stress cases passed on the same image, peaking at 18.89 MB private working set on GDI and 28.75 MB on DirectX. See the [paired pterm/Codex breakdown](../research/pterm-findings.md#f564927-普通-codex-会话实际驻留了什么) for a normal agent session. These observations do not close unimplemented families in the [protocol inventory](PROTOCOL_COVERAGE.md).
+
 For the November 19 working preview, see the [two-renderer clipboard and actual-agent results](../research/wide-selection-boundaries.md), [alternate-screen text and graphics results](../research/alternate-1047.md), and [outstanding reference frames](../research/regis-six-frames.md). Acceptance uses frontend private working set: GDI strictly below 20,000,000 bytes, DirectX at most 30,000,000 bytes. Earlier limits and failures below describe their original runs.
 
 ## Current test execution policy (2026-11-17 Sydney)

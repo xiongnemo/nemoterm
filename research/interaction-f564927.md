@@ -16,3 +16,5 @@
 两项私有工作集最大值均来自密集 Unicode 加 Kitty 图片；不包含 shell、控制台宿主及客户端进程。全部 12 项都有结束记录，未强制清理。普通 Codex 会话在同一机器上的稳定读数见 [pterm 对照](pterm-findings.md#f564927-普通-codex-会话实际驻留了什么)。
 
 同一 EXE 的鼠标路径诊断保留了两轮记录。只将指针跳到相邻按钮中央时，[独立回放](dialog-neighbour-f564927.zip)的三个场景及[完整 Profile 顺序](profile-neighbour-f564927.zip)的单标签场景均在相邻按钮没有报告 hover 时停止，未代替用户点击。改为沿按钮内部三个不同像素移动再到中央后，[独立回放](dialog-glide-f564927.zip)的三个场景全部通过（[44378681997](https://github.com/xiongnemo/nemoterm/actions/runs/44378681997)）。六次鼠标点击都先观察到了两个原生按钮各自的 hover，再观察到目标按钮按下并捕获鼠标；每次只发出一组按下/松开。此前失败的回放保持原样。
+
+[相同指针轨迹、包含其他设置操作的完整 Profile 顺序](profile-glide-f564927.zip)也在三个窗口模式全部通过（[44378688703](https://github.com/xiongnemo/nemoterm/actions/runs/44378688703)）。这是对同一文件的独立回放，并未覆盖旧的失败记录。
