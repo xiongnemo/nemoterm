@@ -32,6 +32,12 @@ jobs:
     with:
       product_run: ${{ inputs.source_run }}
       product_commit: ${{ inputs.source_commit }}
+  colour-input:
+    if: ${{ inputs.suite == 'colour-input' }}
+    uses: ./.github/workflows/console-colour-input.yml
+    with:
+      product_run: ${{ inputs.source_run }}
+      product_commit: ${{ inputs.source_commit }}
   portable-notices:
     if: ${{ inputs.suite == 'portable-notices' }}
     uses: ./.github/workflows/portable-package-replay.yml
@@ -64,7 +70,7 @@ jobs:
       product_run: ${{ inputs.source_run }}
       product_commit: ${{ inputs.source_commit }}
   focused-replay:
-    if: ${{ inputs.suite == 'font-bell' || inputs.suite == 'ui-regression' || inputs.suite == 'tcap' || inputs.suite == 'pointer-colour' || inputs.suite == 'colour-input' }}
+    if: ${{ inputs.suite == 'font-bell' || inputs.suite == 'ui-regression' || inputs.suite == 'tcap' || inputs.suite == 'pointer-colour' }}
     runs-on: windows-2025
     timeout-minutes: 15
     env:
@@ -164,15 +170,6 @@ jobs:
         shell: pwsh
         run: |
           python tests/gpu_lifecycle_window_smoke.py 2>&1 | Tee-Object build/focused-evidence/gpu-lifecycle.log
-          exit $LASTEXITCODE
-      - name: Measure both default-colour replies through native console input records
-        if: ${{ inputs.suite == 'colour-input' }}
-        shell: pwsh
-        run: |
-          scripts/prepare-remote-interaction.ps1
-          if ($LASTEXITCODE) { exit $LASTEXITCODE }
-          $env:NEMOTERM_TEST_FONT='SarasaTermSC Nerd Light'
-          python tests/console_colour_roundtrip.py
           exit $LASTEXITCODE
       - name: Retain complete observations
         if: always()

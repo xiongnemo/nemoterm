@@ -126,6 +126,34 @@ static void test_parse_and_input_continue(Mock *mk)
     IEQUAL(frame.ends, 1);
 }
 
+static void test_buffered_idle_frames(Mock *mk)
+{
+    sync_reset(mk,"buffered style and stationary cursor frames avoid an unchanged snapshot");
+    term_data_fragmented(mk->term,"\033[H");
+    const char *idle="\033[?2026h\033[39m\033[49m\033[1m\033[1;1H\033[?25l\033[?2026l";
+    term_data(mk->term,idle,strlen(idle));
+    IEQUAL(frame.begins,0);
+    IEQUAL(frame.ends,0);
+    IEQUAL(!!(mk->term->curr_attr & ATTR_BOLD),true);
+    sync_query(mk,"\033[?2026;2$y");
+
+    /* The same content split at BEGIN must actually hold the frame, because
+     * an expose or a query can arrive before the end of the next chunk. */
+    term_data_fragmented(mk->term,"\033[?2026h");
+    IEQUAL(frame.active,true);
+    sync_query(mk,"\033[?2026;1$y");
+    term_data_fragmented(mk->term,"\033[?2026l");
+    const char *cases[]={"\033[?2026hX\033[?2026l", "\033[?2026h\033[3;7H\033[?2026l",
+                         "\033[?2026h\033[?25h\033[?2026l", "\033[?2026h\033[?2026$p\033[?2026l",
+                         "\033[?2026h\033]2;title\007\033[?2026l", "\033[?2026h\033[?2026h\033[?2026l"};
+    for (size_t i=0;i<lenof(cases);i++) {
+        int begins=frame.begins,ends=frame.ends;
+        term_data(mk->term,cases[i],strlen(cases[i]));
+        IEQUAL(frame.begins,begins+1);
+        IEQUAL(frame.ends,ends+1);
+    }
+}
+
 static void test_deadline_and_repeated_set(Mock *mk)
 {
     sync_reset(mk, "1000 ms hard deadline is not renewed by repeated SET");
@@ -260,6 +288,7 @@ int main(void)
     mk->ldisc = ldisc_create(mk->conf, mk->term, &mk->backend, &mk->seat);
 
     test_parse_and_input_continue(mk);
+    test_buffered_idle_frames(mk);
     test_deadline_and_repeated_set(mk);
     test_stale_timer_does_not_end_new_frame(mk);
     test_lifecycle_ends_frame(mk);

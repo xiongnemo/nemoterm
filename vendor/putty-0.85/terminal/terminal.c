@@ -1487,6 +1487,49 @@ static void term_schedule_update(Terminal *term)
     }
 }
 
+/* A complete, already-buffered synchronized update that cannot change the
+ * displayed cells or cursor needs no frontend snapshot. Inspect only a short
+ * contiguous span. Everything else, including fragmented updates, queries,
+ * drawing, strings, mode changes and nested starts, takes the regular path.
+ * The normal parser still executes every command and keeps SGR/DECSC state. */
+static bool sync_frame_is_visually_idle(const Terminal *term,
+                                        const unsigned char *p, size_t n)
+{
+    if (term->synchronized_update || term->dec_om || term->disptop != 0 ||
+        term->printing || term->win_resize_pending != WIN_RESIZE_NO)
+        return false;
+    if (n > 192) n = 192;
+    while (n >= 3 && p[0] == 0x1b && p[1] == '[') {
+        p += 2; n -= 2;
+        if (*p == '?') {
+            if (n >= 6 && !memcmp(p, "?2026l", 6)) return true;
+            if (n < 4 || memcmp(p, "?25", 3) ||
+                p[3] != (term->cursor_on ? 'h' : 'l')) return false;
+            p += 4; n -= 4;
+        } else {
+            unsigned fields[2] = {0, 0}, index = 0;
+            while (n && ((*p >= '0' && *p <= '9') || *p == ';')) {
+                if (*p == ';') {
+                    if (++index > 1) return false;
+                } else {
+                    if (fields[index] > 9999) return false;
+                    fields[index] = fields[index]*10 + (*p-'0');
+                }
+                p++; n--;
+            }
+            if (!n) return false;
+            if (*p == 'H' || *p == 'f') {
+                /* No origin-relative addressing here. CUP still clears the
+                 * pending wrap flag when the real parser executes it. */
+                if ((fields[0] ? fields[0] : 1) != (unsigned)term->curs.y+1 ||
+                    (fields[1] ? fields[1] : 1) != (unsigned)term->curs.x+1) return false;
+            } else if (*p != 'm') return false;
+            p++; n--;
+        }
+    }
+    return false;
+}
+
 /* DECSET 2026 defers presentation, never input parsing or protocol replies.
  * A fixed one-second deadline bounds an incomplete update. Repeated SET is
  * idempotent and does not prolong the deadline. */
@@ -9419,6 +9462,10 @@ static void term_out(Terminal *term, bool called_from_term_data)
                       case 'h':       /* SM: toggle modes to high */
                       case ANSI_QUE('h'):
                         compatibility(VT100);
+                        if (term->esc_query == 1 && term->esc_nargs == 1 &&
+                            term->esc_args[0] == 2026 && nchars_used < nchars_got &&
+                            sync_frame_is_visually_idle(term, chars+nchars_used,
+                                                        nchars_got-nchars_used)) break;
                         for (int i = 0; i < term->esc_nargs; i++)
                             toggle_mode(term, term->esc_args[i],
                                         term->esc_query, true);
