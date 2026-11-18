@@ -42,22 +42,34 @@ def exercise(mode, row):
             g = desktop.state()
             return dict(foreground=win.GetForegroundWindow(), active=g.active, focus=g.focus, host=host, term=term,
                         enabled=bool(u.IsWindowEnabled(host)), received=read_snapshot(report).get('hex'))
-        def pair(key=None):
+        def pair(key):
             inputs=(Input*2)()
-            if key is None: inputs[0].mouse.flags,inputs[1].mouse.flags=2,4
-            else:
-                for event in inputs: event.kind=1;event.key.key=key
-                inputs[1].key.flags=2
+            for event in inputs: event.kind=1;event.key.key=key
+            inputs[1].key.flags=2
             assert win.SendInput(2,inputs,c.sizeof(Input))==2
         def prompt():
             hwnd=win.GetForegroundWindow(); owner=w.DWORD(); cls=c.create_unicode_buffer(64)
             win.GetWindowThreadProcessId(hwnd,c.byref(owner));u.GetClassNameW(hwnd,cls,64)
             return hwnd if owner.value==proc.pid and cls.value=='#32770' and u.GetWindow(hwnd,4)==host else None
-        def click(hwnd,button):
+        def click(hwnd,button,log):
             b=u.GetDlgItem(hwnd,button);r=w.RECT();assert b and u.GetWindowRect(b,c.byref(r))
             pt=w.POINT((r.left+r.right)//2,(r.top+r.bottom)//2);assert win.SetCursorPos(pt.x,pt.y)
-            assert win.WindowFromPoint(pt)==b and prompt()==hwnd
-            pair()
+            def hit():
+                current=w.POINT();assert win.GetCursorPos(c.byref(current))
+                return (current.x,current.y)==(pt.x,pt.y) and win.WindowFromPoint(current)==b and prompt()==hwnd
+            wait_for(hit)
+            log.update(dialog=hwnd,button=b,point=[pt.x,pt.y])
+            # SendInput acknowledges insertion, not delivery. Hold the button
+            # until the native control has handled down, just as a person does.
+            down=Input();down.mouse.flags=2;up=Input();up.mouse.flags=4
+            assert win.SendInput(1,c.byref(down),c.sizeof(Input))==1
+            try:
+                def pressed():
+                    reply=c.c_size_t();assert win.SendMessageTimeoutW(b,0xf2,0,0,2,500,c.byref(reply))  # BM_GETSTATE
+                    info=desktop.state();log.update(button_state=reply.value,capture=info.capture,focus=info.focus)
+                    return info.capture==b and bool(reply.value & 4)  # BST_PUSHED
+                wait_for(pressed,timeout=3)
+            finally: assert win.SendInput(1,c.byref(up),c.sizeof(Input))==1
         try:
             desktop.chord(ord('A')); wait_for(lambda: read_snapshot(report).get('hex')=='61'); row['before']=state()
             expected=b'a';row['dismissals']=[]
@@ -67,9 +79,10 @@ def exercise(mode, row):
                 assert u.PostMessageW(target,0x10,0,0)
                 dlg=wait_for(prompt);step['during']=state();assert not step['during']['enabled']
                 pair(ord('X'))  # A real key while the dialog owns input must never reach the child.
-                if how=='cancel-button': click(dlg,2)
+                if how=='cancel-button': click(dlg,2,step.setdefault('click',{}))
                 else: assert prompt()==dlg;pair(0x1b)
-                wait_for(lambda: not u.IsWindow(dlg) and u.IsWindowEnabled(host))
+                try: wait_for(lambda: not u.IsWindow(dlg) and u.IsWindowEnabled(host))
+                finally: step.update(popup_alive=bool(u.IsWindow(dlg)),dismissed_state=state())
                 # Observe only. Never bring the app forward, select a tab or click its client here.
                 step['after']=state()
                 if win.GetForegroundWindow()==host: pair(ord(key))
@@ -77,7 +90,10 @@ def exercise(mode, row):
                 try: wait_for(lambda: read_snapshot(report).get('hex')==expected.hex(),timeout=3)
                 finally: step['typed']=state()
                 assert step['typed']['focus']==term and {s['id'] for s in sessions()}==ids
-            assert u.PostMessageW(target,0x10,0,0);click(wait_for(prompt),1)
+            assert u.PostMessageW(target,0x10,0,0);dlg=wait_for(prompt)
+            confirm=row['confirm']={};click(dlg,1,confirm)
+            try: wait_for(lambda: not u.IsWindow(dlg))
+            finally: confirm.update(popup_alive=bool(u.IsWindow(dlg)),host_alive=bool(u.IsWindow(host)),exit_code=proc.poll())
             if mode=='tab-session':
                 wait_for(lambda: len(sessions())==1 and sessions()[0]['id']==other['id'])
             else: assert proc.wait(timeout=12)==0
