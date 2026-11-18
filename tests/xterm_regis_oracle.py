@@ -161,6 +161,21 @@ def cases():
         add('sixel-next-dcs-'+name,seed+previous_end+ST,
             barrier+C+b'6;4H'+E+b'P0;1q'+first+ST,
             C+b'9;4H'+E+b'P0;1q#2;2;0;0;100!8~'+ST)
+    # New digits can finish the prior picture's last numeric field. Use the
+    # same selected register in a later explicit read, independent of the pen.
+    for name, private, ending, resume in (
+            ('rgb-private', True, b'#2;2;100;0;17',b'100$#2!8~'),
+            ('rgb-shared',False,b'#2;2;100;0;17',b'100$#2!8~'),
+            ('numeric-pen',True,b'#2;2;100;0;17',b'100!8~#2!8~'),
+            ('hls-private',True,b'#2;1;240;50;17',b'100$#2!8~'),
+            ('selector-number',True,b'#2',b'1!8~'),
+            ('selector-empty',True,b'#2',b'#1;2;0;0;100!8~'),
+            ('blank-prefix',True,b'#2;2;100;0;17',b'  \t100$#2!8~'),
+            ('value-range',True,b'#2;2;100;0;17',b'101!8~#2!8~')):
+        mode=C+b'?1070'+(b'h' if private else b'l')
+        add('sixel-number-resume-'+name,mode+C+b'2;4H'+E+b'P0;1q#1;2;100;0;0!8~'+ending+ST,
+            C+b'6;4H'+E+b'P0;1q'+resume+ST,
+            C+b'9;4H'+E+b'P0;1q#2;2;0;0;100!8~'+ST)
     add('shared-palette-regis-recolour', C+b'?1070l'+E+b'P0;1q#3;2;20;80;20!100~'+ST,
         regis('S(M3(R100G0B0))R(P)',1))
     add('alternate-restore-without-regis',regis(
