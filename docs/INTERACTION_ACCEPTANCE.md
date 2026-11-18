@@ -176,3 +176,5 @@ The `picture-keys` replay also checks a generated bitmap-only clipboard under de
 Use `suite=profile-sequence` on the exact EXE to replay the aggregate profile workflow: command-line profiles, environment, startup sizing, settings in both host modes, Cancel/keyboard recovery, and dialog checks. `suite=close-cancel` isolates the Cancel test. Native click receipts record changes in foreground, GUI-thread focus/capture, pointer hit and button state. The first unsuccessful click still fails; neither path repairs focus after a dismissal.
 
 `protocol-reference.yml` with `family=font-ops` captures XTerm OSC 50 replies and actual cell geometry on a hosted X server. `font-zoom-replay.yml` with `suite=font-ops`, `source_run` and `source_commit` compares an exact Windows EXE on GDI and DirectX, using separate cold Sarasa Light and Consolas windows as glyph controls. The local `dist` folder is not a test environment.
+
+`selection` 还覆盖 Ctrl+Shift 框选跨越普通行和 DEC 双倍宽度、双倍高度行；同一可见范围必须高亮并复制相应的整字，程序不应收到鼠标事件。参见[修复前后的检查](../research/selection-scaled-rows.md)。
