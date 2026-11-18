@@ -66,6 +66,7 @@ jobs:
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
       - run: python tests/test_interaction_acceptance.py
+      - run: python tests/test_interaction_summary.py
       - run: python tests/memory_limits_test.py
       - name: Validate the selected groups
         id: groups
