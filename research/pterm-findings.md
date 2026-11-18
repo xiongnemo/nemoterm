@@ -126,3 +126,17 @@ The [current REA import record](rea-fd19411-imports.json.gz) covers all 81 stand
 On the same image, the [GDI](interaction-memory-gdi-fd19411.zip) and [DirectX](interaction-memory-directx-fd19411.zip) stress receipts contain six 160×48 workloads each. All twelve passed. The maximum sampled frontend private WS was **19,070,976 bytes (GDI)** and **29,372,416 bytes (DirectX)**, both for Unicode + Kitty. The total WS peaks for those workloads were 53,886,976 and 74,584,064 bytes; total WS is separate from the private WS limits. The original archives are artifacts `14452404271` (SHA-256 `8ec88440b379525a0736f07e10b26ff909dbf67322b0d3318e213c17646813fc`) and `14452518495` (`2852427697e68fe20b3f2720611f8eb9fba4a47ff464721a26df7afbdf12d773`).
 
 The [unaltered interaction rollup](interaction-rollup-fd19411.zip) from [44355490628](https://github.com/xiongnemo/nemoterm/actions/runs/44355490628) verified **72/74** on the exact same file. The two red cases were `agent-image-codex` and `agent-image-system-codex`: the visible image attachment marker timed out on Ctrl+V in the first case and Ctrl+Shift+V in the second. The OpenCode image-paste cases and the six existing default-grid text selection cases passed. This rollup does not certify all product checks.
+
+## f564927 普通 Codex 会话实际驻留了什么
+
+[十个原始记录、工作集页组成和截图](pterm-codex-residency-f564927.zip)来自[同机正序和倒序各一次的回放](https://github.com/xiongnemo/nemoterm/actions/runs/44376987056)，制品 `14461658892`，ZIP SHA-256 `e923432c68d6f8181db907ee7cc8182928805d5298bf02990b93d6f9a8bb16fc`。官方 pterm 与本机 Scoop 0.85 文件散列相同；Nemoterm 是[这份单 EXE](interaction-f564927.md)。每次启动同一份真实 Codex 和 Sarasa 字体，等待相同回复出现在 160×48 控制台。十次均自然退出；前端模块及作业内进程未匹配测试列出的 WebView 引擎名称。
+
+| 前端 | 稳定私有工作集（每次中位数范围） | 稳定总工作集 | 其中由前端 EXE 映射的私有页 | 其中 MEM_PRIVATE 类型的私有页 |
+| --- | ---: | ---: | ---: | ---: |
+| pterm 0.85 | 3.74–3.78 MB | 21.82–22.62 MB | 20 KiB | 2.78–2.81 MB |
+| Nemoterm GDI 单标签 | 5.04–5.12 MB | 33.05–34.01 MB | 32 KiB | 3.28–3.37 MB |
+| Nemoterm GDI 独立窗口 | 5.07–5.09 MB | 32.73–32.75 MB | 32 KiB | 3.31–3.33 MB |
+| Nemoterm DirectX 单标签 | 9.67–9.73 MB | 44.58–44.63 MB | 32 KiB | 7.73–7.79 MB |
+| Nemoterm DirectX 独立窗口 | 9.66–9.73 MB | 44.18–44.25 MB | 32 KiB | 7.72–7.79 MB |
+
+MB 为十进制。最后两列来自正常取样结束、截取窗口像素之前的单独页清单。`QueryWorkingSet` 给出同一批驻留页与共享标志，`VirtualQueryEx` 随后查询映射类型，使用实际已加载模块的路径和基址识别前端文件。十次均完成分类，未知页为零。以第一次 GDI 单标签为例，5.12 MB 私有工作集中，约 0.03 MB 是自身 EXE 的私有映像页，1.70 MB 是其他映像里的私有页，3.37 MB 属于私有分配，另有 0.03 MB 属于映射段。可共享的页也占总工作集，但不计入本项目的私有工作集门槛；可共享不代表当时必有多个进程共享。DirectX 与 GDI 单标签间的差额主要在私有分配中。这个观察不能分辨一页由字体缓存、终端历史还是显卡驱动分配，也不能用 EXE 的磁盘大小推导运行内存。
