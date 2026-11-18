@@ -114,7 +114,7 @@ natural cleanup. The original 21/22 aggregate remains recorded under 25 MB.
 The later [`a0c35e6` image](../research/regis-native-window.md) passes all six
 160×48 workloads on each renderer: **28,790,784 bytes DirectX** and
 **19,218,432 bytes GDI**, both peaks in the Unicode Kitty case. These
-measurements identify that executable only.
+measurements identify that executable only. On the [subsequent `d817161` image](../research/interaction-d817161.md), the full-grid private-WS peaks are 19,578,880 bytes (GDI) and 28,839,936 bytes (DirectX). The real Codex/GDI streaming and resize scenario peaks at 6,893,568 bytes.
 
 ## Historical combined candidate (2026-11-16 Sydney)
 
