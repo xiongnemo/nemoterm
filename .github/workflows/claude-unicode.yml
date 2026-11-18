@@ -20,14 +20,12 @@ jobs:
         run: |
           scripts/fetch-ci-product.ps1 -Run $env:PRODUCT_RUN -Commit $env:PRODUCT_COMMIT -Destination build/unicode-product
           "NEMOTERM_TEST_EXE=$((Resolve-Path build/unicode-product/nemoterm.exe).Path)" | Out-File $env:GITHUB_ENV -Append -Encoding utf8
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with: {python-version: '3.12', architecture: x64}
       - name: Prepare the reference and pinned client
         run: |
           scripts/prepare-remote-interaction.ps1
-          $vswhere = "${env:ProgramFiles(x86)}/Microsoft Visual Studio/Installer/vswhere.exe"
-          $vs = & $vswhere -latest -products '*' -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
-          Import-Module "$vs/Common7/Tools/Microsoft.VisualStudio.DevShell.dll"
-          Enter-VsDevShell -VsInstallPath $vs -SkipAutomaticLocation -DevCmdArguments '-arch=x64 -host_arch=x64'
-          cl /nologo /W4 /WX /std:c11 /O2 /MT tests/hosted_conpty_reference.c /Febuild/system-conpty.exe /Fobuild/system-conpty.obj
+          python -m pip install --only-binary=:all: --no-deps --require-hashes -r tests/claude-pty-requirements.txt
           if ($LASTEXITCODE) {exit $LASTEXITCODE}
           npm ci --prefix tools/claude-fixture --ignore-scripts --no-audit --no-fund
           if ($LASTEXITCODE) {exit $LASTEXITCODE}
@@ -35,7 +33,7 @@ jobs:
         run: |
           $clients=@(Get-ChildItem tools/claude-fixture/node_modules -Recurse -Filter claude.exe)
           if ($clients.Count -ne 1) {throw 'Expected one pinned Claude executable'}
-          python tests/claude_unicode_boundary.py --claude $clients[0].FullName --reference-helper build/system-conpty.exe
+          python tests/claude_unicode_boundary.py --claude $clients[0].FullName
           exit $LASTEXITCODE
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
@@ -46,7 +44,8 @@ jobs:
             build/interaction-dependencies/environment.json
             build/unicode-boundary/summary.json
             build/unicode-boundary/*/native.json
-            build/unicode-boundary/*/console-handles.json
+            build/unicode-boundary/*/reference-backend.json
+            build/unicode-boundary/*/reference-stdin.vt
             build/unicode-boundary/*/helper-stderr.txt
             build/unicode-boundary/*/system-output.vt
             build/unicode-boundary/*/claude-debug.log
