@@ -38,6 +38,9 @@ class DesktopInput:
         u.ClientToScreen.argtypes=[w.HWND,c.POINTER(w.POINT)]
         self.original=w.POINT();assert u.GetCursorPos(c.byref(self.original))
         owner=w.DWORD();self.thread=u.GetWindowThreadProcessId(hwnd,c.byref(owner));assert self.thread and owner.value==pid
+        work=w.RECT();assert u.SystemParametersInfoW(0x30,0,c.byref(work),0)
+        u.SetWindowPos.argtypes=[w.HWND,w.HWND,c.c_int,c.c_int,c.c_int,c.c_int,w.UINT]
+        assert u.SetWindowPos(host,None,work.left+8,work.top+8,0,0,0x15)  # preserve size, order and activation
         self.held=[];record['events']=[];record['focus']={}
         focus_owned_window(host,pid,mode='synchronized',record=record['focus'])
         self.target()
@@ -58,13 +61,32 @@ class DesktopInput:
         for key in keys:self.event(key,True)
         for key in reversed(keys):self.event(key,False)
     def point(self,x,y):
-        p=w.POINT(x,y);assert self.u.ClientToScreen(self.hwnd,c.byref(p));assert self.u.SetCursorPos(p.x,p.y)
-        wait_for(lambda:self.u.WindowFromPoint(p)==self.hwnd);return [p.x,p.y]
-    def drag(self,x0,x1,y):
+        u=self.u;p=w.POINT(x,y);assert u.ClientToScreen(self.hwnd,c.byref(p))
+        left,top,width,height=[u.GetSystemMetrics(i) for i in (76,77,78,79)]
+        r=dict(client=[x,y],screen=[p.x,p.y],desktop=[left,top,width,height],observations=[])
+        self.record.setdefault('motion',[]).append(r)
+        assert left<=p.x<left+width and top<=p.y<top+height,r
+        event=Input();event.kind=0;event.mouse.flags=0xc001|0x2000  # absolute virtual-desktop move without coalescing
+        event.mouse.x=((p.x-left)*65536+32768)//width;event.mouse.y=((p.y-top)*65536+32768)//height
+        assert u.SendInput(1,c.byref(event),c.sizeof(event))==1
+        def arrived():
+            actual=w.POINT();assert u.GetCursorPos(c.byref(actual));hit=u.WindowFromPoint(actual)
+            state=self.state();name=c.create_unicode_buffer(100)
+            if hit:u.GetClassNameW(hit,name,len(name))
+            obs=dict(point=[actual.x,actual.y],hit=hit,window_class=name.value,focus=state.focus,capture=state.capture)
+            if not r['observations'] or r['observations'][-1]!=obs:r['observations'].append(obs)
+            return (actual.x,actual.y)==(p.x,p.y) and hit==self.hwnd
+        wait_for(arrived);return [p.x,p.y]
+    def drag(self,x0,x1,y,highlight):
         self.record['start']=self.point(x0,y);self.event(0x10,True);self.event(None,True)
         wait_for(lambda:self.state().capture==self.hwnd);self.record['captured']=True
-        self.record['end']=self.point(x1,y)
-        self.event(None,False);wait_for(lambda:self.state().capture!=self.hwnd);self.event(0x10,False)
+        self.point((x0+x1)//2,y);self.record['end']=self.point(x1,y)
+        try:
+            # An actual user can see the highlight before releasing. End the
+            # gesture only after the last motion is consumed and painted.
+            wait_for(highlight);self.record['highlight_while_held']=True
+        finally:
+            self.event(None,False);wait_for(lambda:self.state().capture!=self.hwnd);self.event(0x10,False)
     def restore(self):
         try:
             for key in reversed(self.held[:]):self.event(key,False)

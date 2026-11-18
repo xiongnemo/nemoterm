@@ -45,7 +45,7 @@ def snapshot(evidence,phase,handle,job,frontend,client):
                     error=c.get_last_error();state=kernel.WaitForSingleObject(member,0)
                     missing.append(dict(pid=pid,operation='QueryFullProcessImageNameW',winerror=error,
                                         wait_state=state))
-                    if state!=0 and error not in (31,299):raise c.WinError(error)
+                    if state!=0 and error not in (5,31,299):raise c.WinError(error)
                     continue
                 name=Path(path.value)
                 rows.append(dict(pid=pid,image=name.name.casefold(),

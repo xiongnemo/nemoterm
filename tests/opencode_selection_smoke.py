@@ -127,8 +127,6 @@ def main():
                         tracking.append(dict(offset=match.start(),seq=match[0].hex(),mode=int(item),active=match[2]==b'h'))
             evidence['mouse_requests_at_drag']=dict(bytes=len(raw),sha256=hashlib.sha256(raw).hexdigest(),events=tracking)
             assert tracking and tracking[-1]['active'],('No active mouse request in the recorded client output',tracking)
-            if desktop:desktop.drag(ox+first*cw+cw//2,ox+last*cw+cw//2,oy+row*ch+ch//2)
-            else:u.SendMessageW(hwnd,0x201,5,pos(first));u.SendMessageW(hwnd,0x200,5,pos(last));u.SendMessageW(hwnd,0x202,4,pos(last))
             # A new paint may not be presented when the mouse-up call returns.
             # Check the source background in every selected cell (including the
             # spaces) and confirm it stays unchanged in both neighbouring cells.
@@ -147,6 +145,8 @@ def main():
                 evidence['highlight']=dict(source=bg,selected=target,cells=last-first+1,
                     min_selected_ratio=min(ratios[1:-1]),guard_ratios=[ratios[0],ratios[-1]])
                 if target!=bg and min(ratios[1:-1])>=.5 and min(ratios[0],ratios[-1])>=.9:return last_bmp
+            if desktop:desktop.drag(ox+first*cw+cw//2,ox+last*cw+cw//2,oy+row*ch+ch//2,highlight_frame)
+            else:u.SendMessageW(hwnd,0x201,5,pos(first));u.SendMessageW(hwnd,0x200,5,pos(last));u.SendMessageW(hwnd,0x202,4,pos(last))
             try:frame('selected',wait_for(highlight_frame))
             except AssertionError:
                 if last_bmp:frame('unmatched-highlight',last_bmp)
