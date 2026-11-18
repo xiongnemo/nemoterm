@@ -151,7 +151,23 @@ def reference(backend,client,folder,rec):
                     rec['rendered_ack']=dict(output_bytes=token.encode() in data,console_cells=token in screen)
                     if token in screen:write_snapshot(folder/'accepted-screen.json',dict(text=screen))
                     return True
-                wait_for(accepted,timeout=15)
+                try:
+                    wait_for(accepted,timeout=15)
+                except AssertionError:
+                    # The normal-view deadline remains failed. Distinguish a
+                    # missing reply from damage/repaint loss and exit normally.
+                    rec['normal_view_timed_out']=True
+                    rec['display_controls']=[]
+                    for label,key in [('redraw',b'\x0c'),('transcript',b'\x0f')]:
+                        pos=len(raw);wrote(key)
+                        def caught():
+                            pane=read_snapshot(folder/'peer-screen.json').get('text','')
+                            return 'NEMOTERM_TEXT_ACCEPTED' in pane or b'NEMOTERM_TEXT_ACCEPTED' in bytes(raw[pos:])
+                        try:wait_for(caught,timeout=4);visible=True
+                        except AssertionError:visible=False
+                        rec['display_controls'].append(dict(action=label,visible=visible,new_output=len(raw)-pos))
+                        if visible:break
+                    if rec['display_controls'][-1]['action']=='transcript':wrote(b'\x1b');time.sleep(.15)
                 wrote(b'\x03');time.sleep(.3)
                 if proc.poll() is None:wrote(b'\x03')
                 assert proc.wait(timeout=18)==0
@@ -159,6 +175,7 @@ def reference(backend,client,folder,rec):
                 rec['provider_errors']=list(server.errors);rec['requests']=list(server.requests)
                 proc.stdin.close();rec['cleanup']=job.finish();pump.join(5)
             assert not rec['cleanup']['terminated_remaining'] and not pump.is_alive()
+            assert not rec.get('normal_view_timed_out'),'Normal-view reply missed its original deadline: '+str(rec.get('display_controls'))
     finally:server.shutdown();server.server_close();thread.join(3)
 
 def main():
