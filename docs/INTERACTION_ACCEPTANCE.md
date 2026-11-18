@@ -10,7 +10,7 @@
 gh workflow run ci.yml --ref <branch> -f scope=full
 ```
 
-`Test and build` 汇总 Linux ASan/UBSan、C/C++ 单元测试、MSVC 渲染诊断、MinGW 原生协议和像素测试、单 EXE 完整套件、profile 持久化、DPI/双语界面，以及下表的 46 项检查（34 项交互、12 项完整 Sarasa 网格负载）。单 EXE、DPI 和交互任务共用这次 source-host 构建的准确 EXE，并校验来源提交、大小及 SHA-256。
+`Test and build` 汇总 Linux ASan/UBSan、C/C++ 单元测试、MSVC 渲染诊断、MinGW 原生协议和像素测试、单 EXE 完整套件、profile 持久化、DPI/双语界面，以及下表的 66 项检查（54 项交互、12 项完整 Sarasa 网格负载）。单 EXE、DPI 和交互任务共用这次 source-host 构建的准确 EXE，并校验来源提交、大小及 SHA-256。
 
 只回放测试脚本，不重复编译：
 
@@ -20,7 +20,7 @@ gh workflow run font-zoom-replay.yml --ref <branch> -f suite=interaction -f sour
 
 `interaction` 可额外传 `-f 'groups=["shells","clipboard"]'` 只重跑指定组；留空执行全部。
 
-`suite` 还可选 `single`、`dpi`、`font-bell`、`ui-regression`、`shell-lifetime`、`tcap`。回放允许源 run 的其他测试失败，但要求 source-host 构建成功；生产代码或构建配方与该产物不一致就拒绝回放。`tcap` 对同一单 EXE 检查数据库键盘的 1,293 条原生输入流及四种独立 SetTcap/GetTcap 权限组合；45 个 F35 用例缺少 Windows 物理映射，40 个 Shift+PageUp/PageDown 用例保留本地滚动绑定，均明确列出并由核心测试覆盖。查看结果用 `gh run view <run-id>`；下载证据用 `gh run download <run-id> --dir <new-directory>`。
+`suite` 还可选 `single`、`dpi`、`font-bell`、`ui-regression`、`shell-lifetime`、`tcap`、`unicode-boundary`。回放允许源 run 的其他测试失败，但要求 source-host 构建成功；生产代码或构建配方与该产物不一致就拒绝回放。`tcap` 对同一单 EXE 检查数据库键盘的 1,293 条原生输入流及四种独立 SetTcap/GetTcap 权限组合；45 个 F35 用例缺少 Windows 物理映射，40 个 Shift+PageUp/PageDown 用例保留本地滚动绑定，均明确列出并由核心测试覆盖。查看结果用 `gh run view <run-id>`；下载证据用 `gh run download <run-id> --dir <new-directory>`。
 
 `shell-lifetime` 在同一个准确 EXE 上交替执行 12 次普通 Git Bash 复制/关闭和 12 次带进程观察的复制/关闭，随后执行 2 次正常连接对照和 4 次受控的延迟客户端检查。完整 CI 也会自动调用此工作流。每次保留独立结果；原先的 3 秒回收门槛不变。失败后额外观察 12 秒并采集遗留进程的命令行、线程和转储，只用于诊断，不能把失败改成通过。已发现的关闭残留及修复验证见 [Git Bash 关闭调查](../research/git-bash-close-race.md) 和 [关闭后连接检查](../research/closed-console-connections.md)。
 
@@ -67,7 +67,7 @@ ReGIS 生产代码变化后的定向重建使用 `protocol-reference.yml -f fami
 | input | 2 | byte/ReadConsoleW、中文/emoji、IMM、模拟 DPI 与组合窗位置 |
 | selection | 4 | 默认/自定义 bindings，GDI/DX 矩形与 Shift 选择，右键仅复制与复制后粘贴；跨行复制粘贴区分自动折行、右边缘宽字和硬换行 |
 | clipboard | 2 | GDI/DX 文件/目录拖放，路径引用、应用接管与文本/图片优先级 |
-| agents | 20 | 真实 Codex、OpenCode 的图片粘贴；在实际 GDI / DirectX 标签页用系统鼠标和键盘 Shift 拖选、Ctrl+Shift+C/V 与两种右键策略，核对高亮、剪贴板、接收端实际文本及退出。OpenCode 必须主动请求接管鼠标；Codex 记录当时实际请求。另有两个固定版本 Claude Code 的 Shift 拖选和默认复制/粘贴场景，要求其 Messages 接口收到相同文本；用例入表不代表已经通过。 |
+| agents | 28 | 真实 Codex、OpenCode 分别用窗口接口及 Windows 系统按键粘贴图片；在实际 GDI / DirectX 标签页用系统鼠标和键盘 Shift 拖选、Ctrl+Shift+C/V 与两种右键策略，核对高亮、剪贴板、接收端实际文本及退出。OpenCode 必须主动请求接管鼠标；Codex 记录当时实际请求。Claude Code 的组合重音分别核对剪贴板原文、原生子程序输入字节和两种独立 PTY 的 Messages 回执。另以不会被规范化的组合字符验证快捷键及两种右键模式端到端逐字一致。用例入表不代表已经通过。 |
 | rendering | 3 | 实际 GDI 客户区捕获、三种渲染器、字号缩放/恢复 |
 | mouse | 2 | 鼠标协议字节、按键、滚轮和坐标；另对照 XTerm 的 31 组指针颜色回复、Windows 实际光标像素、恢复系统指针和隐藏标签隔离 |
 | tabs | 8 | 四侧标签栏/预览及四侧窗口缩放、会话与关闭回收 |

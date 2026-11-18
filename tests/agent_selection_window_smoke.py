@@ -5,6 +5,8 @@ import io
 import os
 import re
 import hashlib
+import json
+import zipfile
 import struct
 import subprocess
 import sys
@@ -15,7 +17,7 @@ import unicodedata
 from pathlib import Path
 from PIL import Image
 
-from agent_clipboard_fixture import SELECTION_PREFIX, SELECTION_TEXT, SELECTION_TRIGGER
+from agent_clipboard_fixture import SELECTION_PREFIX, SELECTION_TEXT, SELECTION_STABLE, SELECTION_TRIGGER
 from clipboard_test_utils import clipboard_text
 from fixture_io import read_snapshot, write_snapshot
 from native_test_utils import u, k, wait_for, memory_sample
@@ -28,6 +30,25 @@ sys.path.insert(0,str(ROOT/'tools'))
 import nemoterm_debug as api
 
 
+def claude_reference(client_hash):
+    # Both independent terminal hosts recorded exactly one complete user part
+    # with this spelling from the same pinned client and decomposed input.
+    path=ROOT/'tests/claude-independent-unicode.zip'
+    digest=hashlib.sha256(path.read_bytes()).hexdigest()
+    assert digest=='97555c76b216fe811964f87c354d1edfb31801130b860f88f8e9b4f1bd70344c',digest
+    with zipfile.ZipFile(path) as archive:
+        ref=json.loads(archive.read('unicode-boundary/summary.json'))
+        assert ref['client_sha256']==client_hash,(ref['client_sha256'],client_hash)
+        expected=b'\x1b[200~'+(SELECTION_PREFIX+SELECTION_TEXT).encode()+b'\x1b[201~'
+        for host in ('system-claude','winpty-claude'):
+            case=ref['cases'][host];request,=case['requests']
+            assert case['passed'] and not case['cleanup']['terminated_remaining'] and case['form']=='NFC'
+            assert bytes.fromhex(case['sent_hex'])==expected and expected in archive.read('unicode-boundary/'+host+'/reference-stdin.vt')
+            assert request['selection_nfc_present'] and not request['selection_received'] and request['path']=='/v1/messages'
+            assert request['text']==['NEMOTERM_SUBMIT','NEMOTERM_SELECT'] and request['advertised_tools']==0
+    return dict(artifact_sha256=digest,client_sha256=client_hash,form='NFC')
+
+
 def main():
     if os.environ.get('GITHUB_ACTIONS')!='true' or os.environ.get('RUNNER_ENVIRONMENT')!='github-hosted':
         raise SystemExit('Client interaction requires a GitHub-hosted runner')
@@ -36,9 +57,11 @@ def main():
     parser.add_argument('--client-exe',required=True)
     parser.add_argument('--font',required=True)
     parser.add_argument('--renderer',choices=('gdi','directx'),required=True)
+    parser.add_argument('--stable-unicode',action='store_true')
     parser.add_argument('--system-input',action='store_true')
     parser.add_argument('--right-click',choices=('default','copy-paste'))
     args=parser.parse_args()
+    sample_text=SELECTION_STABLE if args.stable_unicode else SELECTION_TEXT
     assert not args.right_click or args.system_input
     out=ROOT/'research';out.mkdir(exist_ok=True)
     folder=Path(tempfile.mkdtemp(prefix=args.client+'-selection-',dir=ROOT/'build'))
@@ -51,6 +74,7 @@ def main():
             '--client',args.client,'--client-exe',str(Path(args.client_exe).resolve()),
             '--terminal',os.environ['NEMOTERM_TEST_EXE'],'--directory',str(case),
             '--automation','--selection-renderer',args.renderer,'--font',args.font]+
+            (['--stable-unicode'] if args.stable_unicode else [])+
             (['--right-copy-and-paste'] if args.right_click=='copy-paste' else []),stdout=log,stderr=subprocess.STDOUT,
             creationflags=subprocess.CREATE_NO_WINDOW)
         def child():
@@ -108,15 +132,15 @@ def main():
             client_trace('initial-ready');sample('startup')
             api.request(endpoint,'input',seat,SELECTION_TRIGGER)
             wait_for(lambda:SELECTION_TRIGGER in text());client_trace('trigger-visible');time.sleep(.2);press(13);client_trace('enter-sent')
-            screen=wait_for(lambda:s if SELECTION_TEXT in (s:=text()) else None,timeout=40)
+            screen=wait_for(lambda:s if sample_text in (s:=text()) else None,timeout=40)
             if args.right_click:
                 # Put an identifiable prefix in the composer first. The HTTP
                 # fixture only accepts the exact user part (one pasted copy).
                 api.request(endpoint,'input',seat,SELECTION_PREFIX)
-                screen=wait_for(lambda:s if SELECTION_TEXT in (s:=text()) and SELECTION_PREFIX.rstrip() in s else None)
-            lines=screen.split('\n');row,=[i for i,line in enumerate(lines) if SELECTION_TEXT in line]
+                screen=wait_for(lambda:s if sample_text in (s:=text()) and SELECTION_PREFIX.rstrip() in s else None)
+            lines=screen.split('\n');row,=[i for i,line in enumerate(lines) if sample_text in line]
             width=lambda s:sum(0 if unicodedata.combining(ch) else 2 if unicodedata.east_asian_width(ch) in ('W','F') else 1 for ch in s)
-            first=width(lines[row].split(SELECTION_TEXT,1)[0]);last=first+width(SELECTION_TEXT)-1
+            first=width(lines[row].split(sample_text,1)[0]);last=first+width(sample_text)-1
             cols,rows=session['cols'],session['rows'];cx,cy=session['client_width'],session['client_height']
             cw,ch=(cx-2)//cols,(cy-2)//rows;ox,oy=(cx-cols*cw)//2,(cy-rows*ch)//2
             assert cw>0 and ch>0 and 0<=first<=last<cols and 0<=row<rows
@@ -155,7 +179,7 @@ def main():
                     if item in (b'9',b'1000',b'1001',b'1002',b'1003'):
                         tracking.append(dict(offset=match.start(),seq=match[0].hex(),mode=int(item),active=match[2]==b'h'))
             evidence['mouse_requests_at_drag']=dict(bytes=len(raw),sha256=hashlib.sha256(raw).hexdigest(),events=tracking)
-            assert raw and SELECTION_TEXT.encode('utf-8').split(b' ')[0] in raw, 'Missing real reply in output trace'
+            assert raw and sample_text.encode('utf-8').split(b' ')[0] in raw, 'Missing real reply in output trace'
             evidence['mouse_requests_at_drag']['active']=bool(tracking and tracking[-1]['active'])
             # OpenCode is the positive control for an app that takes the mouse.
             # Record whether Codex requested tracking; never force it on its behalf.
@@ -199,12 +223,12 @@ def main():
                                              modifiers_released=not desktop.held)
             else:press(67,3)
             copied=wait_for(lambda:clipboard_text(hwnd));evidence['copied']=copied
-            assert copied==SELECTION_TEXT,(copied,SELECTION_TEXT)
+            assert copied==sample_text,(copied,sample_text)
             sample('copy')
             if args.right_click:
                 evidence['checks'].append('System right click replaced the image sentinel with exact Unicode after Shift was released')
                 if args.right_click=='default':
-                    assert SELECTION_PREFIX+SELECTION_TEXT not in text(),'default right click already pasted'
+                    assert SELECTION_PREFIX+sample_text not in text(),'default right click already pasted'
                     press(86,3)
                 # Copy-and-paste must fill the composer without any paste key.
             else:
@@ -214,12 +238,16 @@ def main():
             # The real Claude composer can draw a precomposed accent even
             # though the clipboard contained the original combining sequence.
             # Observe both spellings in the UI; the subsequent HTTP assertion
-            # still requires the exact original input, once, with no suffix.
-            expected_prompt=SELECTION_PREFIX+SELECTION_TEXT
+            # checks the digest of the exact independently expected user part.
+            expected_prompt=SELECTION_PREFIX+sample_text
+            ref=claude_reference(observed['client_sha256']) if args.client=='claude' and not args.stable_unicode else None
+            if ref:evidence['independent_client_reference']=ref
+            http_text=unicodedata.normalize('NFC',expected_prompt) if ref else expected_prompt
+            want_hash=hashlib.sha256(http_text.encode()).hexdigest()
             def composer_form():
                 view=text()
                 if expected_prompt in view:return 'exact'
-                if args.client=='claude' and unicodedata.normalize('NFC',expected_prompt) in view:return 'NFC'
+                if ref and unicodedata.normalize('NFC',expected_prompt) in view:return 'NFC'
             evidence['composer_form']=wait_for(composer_form,timeout=20)
             frame('composer');sample('composer')
             time.sleep(.2);press(13)
@@ -231,11 +259,13 @@ def main():
                 if 'requests' not in snapshot:
                     evidence['unavailable_http_snapshots']+=1
                     return None
-                return next((r for r in snapshot['requests'] if r['selection_received']
-                             and r['selected_text_occurrences']==1 and r['path']==
+                return next((r for r in snapshot['requests'] if r.get('fixture_prompt_hashes')==[want_hash]
+                             and (r['selection_nfc_present'] and not r['selection_received'] if ref else
+                                  r['selection_received'] and r['selected_text_occurrences']==1)
+                             and r['text'].count('NEMOTERM_SUBMIT')==1 and r['text'].count('NEMOTERM_SELECT')==1 and r['path']==
                              {'codex':'/v1/responses','opencode':'/v1/chat/completions','claude':'/v1/messages'}[args.client]),None)
             evidence['http_receipt']=wait_for(submitted,timeout=30)
-            wait_for(lambda:'NEMOTERM_TEXT_ACCEPTED' in text());evidence['checks'].append(f'real {args.client} submitted exact combined prompt to the loopback provider')
+            wait_for(lambda:'NEMOTERM_TEXT_ACCEPTED' in text());evidence['checks'].append('submitted prompt matched the two independent client references' if ref else f'real {args.client} submitted the exact original prompt')
             sample('submitted')
             evidence['memory_policy']=private_ws_policy(actual)
             assert all(private_ws_passes(actual,v['private_ws']) for v in evidence['frontend_samples']),evidence['frontend_samples']

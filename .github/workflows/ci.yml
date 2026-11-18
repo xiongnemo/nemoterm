@@ -97,6 +97,13 @@ jobs:
     with:
       product_run: ${{ github.run_id }}
       product_commit: ${{ github.sha }}
+  client-unicode:
+    if: ${{ inputs.scope != 'dpi' }}
+    needs: source-host
+    uses: ./.github/workflows/claude-unicode.yml
+    with:
+      product_run: ${{ github.run_id }}
+      product_commit: ${{ github.sha }}
   console-colour-input:
     if: ${{ inputs.scope != 'dpi' }}
     needs: source-host

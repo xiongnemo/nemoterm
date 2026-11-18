@@ -32,6 +32,7 @@ from fixture_io import write_snapshot, read_snapshot
 # fixed text, not the contents of other client request metadata.
 SELECTION_TRIGGER = 'NEMOTERM_SELECTION_SOURCE'
 SELECTION_TEXT = 'NEMOTERM_SELECT 中文 e\u0301 \uf120 \U000f0001 END'
+SELECTION_STABLE = 'NEMOTERM_SELECT 中文 q\u0301 \uf120 \U000f0001 END'
 SELECTION_PREFIX = 'NEMOTERM_SUBMIT '
 
 
@@ -95,15 +96,17 @@ class Handler(BaseHTTPRequestHandler):
                         value = part.get('text', '')
                         latest_user_parts.append(value)
                         text.extend(re.findall(r'NEMOTERM_[A-Z0-9_]+',value))
-            selected=SELECTION_PREFIX+SELECTION_TEXT in latest_user_parts
+            sample=getattr(self.server,'selection_text',SELECTION_TEXT)
+            selected=SELECTION_PREFIX+sample in latest_user_parts
             # Retain only fixed-fixture prompt contamination, allowing direct
             # comparison of early user input and terminal OSC replies.
             first_parts=[p for p in latest_user_parts if p.startswith(SELECTION_TRIGGER)]
             self.server.requests.append(dict(selection_received=selected,
-                                              selection_nfc_present=unicodedata.normalize('NFC',SELECTION_PREFIX+SELECTION_TEXT) in latest_user_parts,
+                                              selection_nfc_present=unicodedata.normalize('NFC',SELECTION_PREFIX+sample) in latest_user_parts,
+                                              fixture_prompt_hashes=[hashlib.sha256(p.encode('utf8')).hexdigest() for p in latest_user_parts if p.startswith(SELECTION_PREFIX)],
                                               source_prompt_exact=SELECTION_TRIGGER in latest_user_parts,
                                               source_suffix=[p[len(SELECTION_TRIGGER):][:160] for p in first_parts],
-                                              selected_text_occurrences=sum(part.count(SELECTION_TEXT) for part in latest_user_parts),
+                                              selected_text_occurrences=sum(part.count(sample) for part in latest_user_parts),
                                               path=path, images=images, text=text,
                                               advertised_tools=len(request.get('tools', [])),
                                               tool_names=[t.get('name',t.get('function',{}).get('name',t.get('type')))
@@ -115,7 +118,7 @@ class Handler(BaseHTTPRequestHandler):
             self.end_headers()
             answer = 'NEMOTERM_IMAGE_ACCEPTED' if images else 'NEMOTERM_TEXT_ACCEPTED'
             if self.server.selection and SELECTION_TRIGGER in latest_user_parts:
-                answer = SELECTION_TEXT
+                answer = sample
             if path=='/v1/messages':
                 message=dict(id='msg_fixture_'+str(len(self.server.requests)),type='message',role='assistant',
                              model=request['model'],content=[],stop_reason=None,stop_sequence=None,
@@ -243,6 +246,7 @@ def main():
     parser.add_argument('--directory', required=True)
     parser.add_argument('--automation', action='store_true')
     parser.add_argument('--selection-renderer', choices=('gdi','directx'))
+    parser.add_argument('--stable-unicode',action='store_true')
     parser.add_argument('--right-copy-and-paste',action='store_true')
     parser.add_argument('--font',default='SarasaTermSC Nerd Font Light')
     args = parser.parse_args()
@@ -266,6 +270,7 @@ def main():
         winreg.SetValueEx(key, 'CloseOnExit', 0, winreg.REG_DWORD, 1)
     server = Provider()
     server.selection=bool(args.selection_renderer)
+    server.selection_text=SELECTION_STABLE if args.stable_unicode else SELECTION_TEXT
     thread = threading.Thread(target=server.serve_forever, daemon=True); thread.start()
     base = f'http://127.0.0.1:{server.server_port}/v1'
     if args.client == 'claude':

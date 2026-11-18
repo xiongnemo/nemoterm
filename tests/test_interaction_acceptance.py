@@ -22,6 +22,7 @@ class AcceptanceTests(unittest.TestCase):
         self.source = self.base/'source'
         for name in ('tests', 'tools', 'scripts', 'research'):
             (self.source/name).mkdir(parents=True)
+        (self.source/'research/claude-independent-unicode.zip').write_bytes(b'non-executable reference')
         (self.source/'research/pointer-colour-resets-reference.zip').write_bytes(b'non-executable snapshot fixture')
         (self.source/'tests/fixture.py').write_text('raise RuntimeError("must never run")')
         (self.source/'tools/nemoterm_debug.py').write_text('# snapshot')
@@ -44,8 +45,8 @@ class AcceptanceTests(unittest.TestCase):
 
     def test_catalog_has_unique_real_fixtures(self):
         cases = runner.catalog()
-        self.assertEqual(len(cases), 60)
-        self.assertEqual(len({c['id'] for c in cases}), 60)
+        self.assertEqual(len(cases), 66)
+        self.assertEqual(len({c['id'] for c in cases}), 66)
         for case in cases:self.assertTrue((ROOT/'tests'/case['script']).is_file())
 
     def test_full_grid_memory_requires_sarasa_and_unclamped_size(self):

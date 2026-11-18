@@ -50,6 +50,11 @@ def catalog():
         add('claude-system-'+renderer,'agents','agent_selection_window_smoke.py',
             ['--client','claude','--client-exe','{claude}','--font',FONT,'--renderer',renderer,'--system-input'],
             'hosted system input; Claude Code with tools disabled; exact selection and Messages API receipt')
+        for mode in ('shortcut','default','copy-paste'):
+            extra=[] if mode=='shortcut' else ['--right-click',mode]
+            add('claude-stable-'+mode+'-'+renderer,'agents','agent_selection_window_smoke.py',
+                ['--client','claude','--client-exe','{claude}','--font',FONT,'--renderer',renderer,'--system-input','--stable-unicode',*extra],
+                'actual desktop shortcut/right click; stable combining sequence must reach Messages unchanged')
         for client in ('opencode','codex'):
             base=['--client',client,'--client-exe','{'+client+'}','--font',FONT,'--renderer',renderer,'--system-input']
             add(client+'-system-'+renderer, 'agents', 'agent_selection_window_smoke.py', base,
@@ -180,7 +185,8 @@ def prepare(args):
             target = snapshot/'tests'/source.relative_to(ROOT/'tests')
             target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(source, target)
-    shutil.copy2(ROOT/'research/pointer-colour-resets-reference.zip', snapshot/'tests')
+    for reference in ('pointer-colour-resets-reference.zip','claude-independent-unicode.zip'):
+        shutil.copy2(ROOT/'research'/reference, snapshot/'tests')
     shutil.copy2(ROOT/'tools/nemoterm_debug.py', snapshot/'tools/nemoterm_debug.py')
     shutil.copy2(exe, snapshot/'dist/nemoterm.exe')
     shutil.copy2(__file__, stage/'runner.py')
