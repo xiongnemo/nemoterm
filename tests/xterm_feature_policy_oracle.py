@@ -62,7 +62,7 @@ def profiles():
     result['no-subcategories']={**off,**{name:'' for name in custom}}
     return result
 
-def capture(xterm,display,name,resources,base):
+def capture(xterm,display,name,resources,base,*,sequences=None):
     folder=base/name;folder.mkdir()
     report,control=folder/'child.json',folder/'control.json'
     argv=[xterm,'-geometry','80x24','-fn','6x13','-ti','vt525','-u8']
@@ -77,7 +77,8 @@ def capture(xterm,display,name,resources,base):
             assert terminal.poll() is None
             time.sleep(.01)
         assert report.exists()
-        for index,(case,sequence) in enumerate(cases().items(),1):
+        commands=cases() if sequences is None else sequences
+        for index,(case,sequence) in enumerate(commands.items(),1):
             # Force only the final DSR barrier back to seven-bit output. The
             # query's own response bytes (including C1 framing) remain intact.
             wire=sequence+E+b' F'+C+b'5n'

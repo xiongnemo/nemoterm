@@ -20,6 +20,7 @@ on:
           - dec-udk
           - bell-modes
           - feature-policy
+          - font-ops
           - reset-palette
           - x11-colour
           - sidecar-wire
@@ -268,6 +269,11 @@ jobs:
           done
           sha256sum build/protocol-reference/feature-policy-source/* > build/protocol-reference/feature-policy-source-sha256.txt
           python3 tests/xterm_feature_policy_oracle.py --xterm /tmp/nemoterm-xterm-reference/xterm --output build/protocol-reference/feature-policy-xterm.json
+      - name: Capture bitmap and Xft font queries, changes and geometry
+        if: ${{ (success() || failure()) && (inputs.family == 'font-ops' || inputs.family == 'all') }}
+        run: |
+          sudo apt-get install -y fonts-dejavu-core fontconfig x11-utils
+          python3 tests/xterm_font_ops_oracle.py --xterm /tmp/nemoterm-xterm-reference/xterm --output build/protocol-reference/font-ops-xterm.json
       - name: Capture indexed and dynamic palette reset boundaries
         if: ${{ (success() || failure()) && (inputs.family == 'reset-palette' || inputs.family == 'all') }}
         run: python3 tests/xterm_reset_palette_oracle.py --xterm /tmp/nemoterm-xterm-reference/xterm --output build/protocol-reference/reset-palette-xterm.json
