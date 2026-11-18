@@ -11,6 +11,10 @@ A selected range could stop at the last move event rather than the cell in which
 | Ctrl+Shift block starting at C, released two columns beyond the last move | `CDEF` / `mnop` | `CD` / `mn` |
 | Press and release on the same cell | No selection | No selection |
 
+![Same DirectX cells before and after release, showing the highlighted endpoints](selection-release-cell.png)
+
+The illustration crops the same two text rows from the original DirectX captures at left and right and enlarges them 3× without smoothing.
+
 The peer saw only the two status replies for each of these mouse sequences. The original [screenshots, window observations and case outputs](selection-release-before-f628d89.zip) are unmodified (artifact `14427379149`; SHA-256 `3d8e62f5786104b7294bb3f76501fcba7c537388bfe10e4cd80698a107b94a16`).
 
 Candidate `6cf4387` computes the release endpoint with the same cell ordering, bidirectional mapping and selection expansion as intermediate movement. It does so only when finishing a local character gesture, without synthesizing an application mouse event or an extra scroll tick. The [candidate full run](https://github.com/xiongnemo/nemoterm/actions/runs/44306179760) exercises this case alongside the prior checks; earlier passing results apply only to their original executable.
