@@ -161,7 +161,7 @@ def verify_gestures(host, seat, child, Input, out, evidence, publish, visible_te
             check['foreign_messages']=[];msg=w.MSG();event(0,1,False)
             def received_up():
                 while u.PeekMessageW(c.byref(msg),None,0,0,1):
-                    if msg.hwnd==sink:
+                    if msg.hWnd==sink:
                         if len(check['foreign_messages'])<60:check['foreign_messages'].append(msg.message)
                         if msg.message==0x205:return True
                     u.DispatchMessageW(c.byref(msg))
