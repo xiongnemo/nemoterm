@@ -14,6 +14,8 @@ Private commitment and total working set remain separate counters; roughly
 50 MB total working set remains a GDI target. No working-set trimming is added.
 Historical runs retain their original limits and outcomes.
 
+On the [right-button fix `f628d89`](right-button-release.md), the same six 160×48 DirectX workloads passed; the highest sampled frontend private working set was **29,515,776 bytes**. The six real-agent interactions are reported separately there.
+
 GitHub Actions run `44277391833` tested `ba91594` (EXE SHA-256 `c4963dba443aa810a3274d9cfcef92c1fb685f262e1573e37de629dfa6f48620`). All [six 160×48 DirectX workloads](ba91594-directx-memory-receipt.zip) passed. Plain text peaked at **26,079,232 bytes**; dense Unicode plus Kitty graphics peaked at **28,856,320 bytes**, leaving **1,143,680 bytes** below the 30 MB limit. The latter also recorded 71,958,528 bytes total working set and 32,468,992 private committed bytes. These are frontend-only samples without injection. The original GitHub receipt (artifact `14416816247`, SHA-256 `3d85a7b04e6248baceb2af1d38cf0a7e2d359252791ee0a3b4c5c3b2030e6a77`) includes all six per-workload sample traces and process cleanup results.
 
 On the same image all [six GDI workloads](ba91594-gdi-memory-receipt.zip) passed as well. The highest private working set was **19,140,608 bytes** (`full-grid-unicode-kitty-gdi`). Original GitHub receipt: `14416512219`, SHA-256 `e27dfc1f4457bf2ccba5624594377cb94fa8bfc55c697526d100ab8cf854c82f`.
