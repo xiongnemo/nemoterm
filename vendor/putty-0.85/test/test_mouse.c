@@ -614,6 +614,40 @@ static void test_ctrl_rectangle(Mock *mk)
         term_data_fragmented(mk->term, "\033#5");
         IEQUAL(mk->term->selstate, NO_SELECTION);
     }
+    /* Drag from retained history through the viewport: off-screen row cache
+     * indices cannot be negative, and the selected glyphs keep logical order. */
+    for (int bidi = 0; bidi < 2; bidi++) {
+        mouse_setup(mk, "Mixed-direction rectangular copy across scrollback", "");
+        term_size(mk->term, 3, 12, 100);
+        mk->term->no_bidi = !bidi;
+        mk->term->no_arabicshaping = true;
+        term_data_fragmented(mk->term, "\033[?1002;1006h");
+        for (int y = 0; y < 5; y++) {
+            char prefix[] = { '0'+y, 0 };
+            if (y) term_data_fragmented(mk->term, "\r\n");
+            /* A strong LTR prefix fixes the direction of this paragraph. */
+            term_data_fragmented(mk->term, "L");
+            term_data_fragmented(mk->term, prefix);
+            term_data_fragmented(mk->term, "\xd7\x90\xd7\x91\xd7\x92\xd6\xb0Z");
+        }
+        term_scroll(mk->term, 1, 0);
+        IEQUAL(mk->term->disptop, -2);
+        send_mouse(mk, MBT_LEFT, MA_CLICK, 1, 0, true, true, false);
+        term_scroll(mk->term, -1, 0);
+        send_mouse(mk, MBT_LEFT, MA_RELEASE, 2, 2, false, false, false);
+        term_request_copy(mk->term, &clipboard, 1);
+        check_clipboard(mk, bidi ?
+            L"0\x5d2\x5b0" BLOCK_NL L"1\x5d2\x5b0" BLOCK_NL L"2\x5d2\x5b0" BLOCK_NL L"3\x5d2\x5b0" BLOCK_NL L"4\x5d2\x5b0" :
+            L"0\x5d0" BLOCK_NL L"1\x5d0" BLOCK_NL L"2\x5d0" BLOCK_NL L"3\x5d0" BLOCK_NL L"4\x5d0");
+        MOUSE_BYTES("");
+    }
+    mouse_setup(mk, "Block copies original Arabic text rather than shaped glyphs", "");
+    mk->term->no_bidi = mk->term->no_arabicshaping = false;
+    term_data_fragmented(mk->term, "A\xd8\xb3\xd9\x84\xd8\xa7\xd9\x85Z");
+    send_mouse(mk, MBT_LEFT, MA_CLICK, 0, 0, true, true, false);
+    send_mouse(mk, MBT_LEFT, MA_RELEASE, 5, 0, false, false, false);
+    term_request_copy(mk->term, &clipboard, 1);
+    check_clipboard(mk, L"A\x633\x644\x627\x645Z");
     mouse_setup(mk, "Ctrl repeated clicks start character blocks", "ABCDE\r\n01234");
     for (Mouse_Action action = MA_2CLK; action <= MA_3CLK; action++) {
         send_mouse(mk, MBT_LEFT, action, 1, 0, false, true, false);

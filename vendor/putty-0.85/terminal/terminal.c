@@ -199,6 +199,7 @@ typedef enum { ALT_KEEP, ALT_CLEAR_ON_ENTRY, ALT_CLEAR_ON_EXIT } AltClearPolicy;
 static void swap_screen(Terminal *, int, AltClearPolicy, bool);
 static void update_sbar(Terminal *);
 static void deselect(Terminal *);
+static termchar *term_bidi_line(Terminal *, termline *, int);
 static void term_print_finish(Terminal *);
 static uint32_t nemo_checksum_legacy(unsigned long ch);
 static bool nemo_charset_base_utf8(Terminal *term);
@@ -5355,6 +5356,14 @@ static int selection_row_scale(const termline *line)
     return (line->lattr & LATTR_MODE) == LATTR_NORM ? 1 : 2;
 }
 
+/* The cache is indexed by viewport row, never by the (possibly negative)
+ * scrollback coordinate. Off-screen rows can reuse the nearest slot: each
+ * lookup verifies the original row and eviction is already bounded. */
+static int selection_bidi_slot(Terminal *term, int y)
+{
+    return (int)max(0, min((int64_t)term->rows-1, (int64_t)y-term->disptop));
+}
+
 /*
  * Check whether the region bounded by the two pointers intersects
  * the scroll region, and de-select the on-screen selection if so.
@@ -5363,12 +5372,26 @@ static void check_selection(Terminal *term, pos from, pos to)
 {
     if (term->selstate == NO_SELECTION) return;
     if (term->seltype == RECTANGULAR) {
-        /* Edits use logical columns. Only same-row comparisons read x; the
-         * half-open screen-end sentinel must never be looked up as a row. */
-        if (from.y == term->selend.y && from.y >= 0 && from.y < term->rows)
-            from.x *= selection_row_scale(scrlineptr(from.y));
-        if (to.y == term->selstart.y && to.y >= 0 && to.y < term->rows)
-            to.x *= selection_row_scale(scrlineptr(to.y));
+        int first = max(from.y, term->selstart.y), last = min(to.y, term->selend.y);
+        for (int y = first; y <= last; y++) {
+            int x0 = y == from.y ? from.x : 0;
+            int x1 = y == to.y ? to.x : term->cols;
+            if (x0 >= x1) continue;
+            if (y < 0 || y >= term->rows || (x0 == 0 && x1 == term->cols)) {
+                deselect(term);
+                break;
+            }
+            termline *line = scrlineptr(y);
+            int scale = selection_row_scale(line);
+            /* Editing a bidi paragraph can reorder cells outside the edit.
+             * Don't leave a highlight over a different cached clipboard. */
+            if ((x0*scale < term->selend.x && x1*scale > term->selstart.x) ||
+                term_bidi_line(term, line, selection_bidi_slot(term, y))) {
+                deselect(term);
+                break;
+            }
+        }
+        return;
     }
     if (poslt(from, term->selend) && poslt(term->selstart, to))
         deselect(term);
@@ -6341,6 +6364,10 @@ static void insch(Terminal *term, int n)
      * this operation but otherwise unchanged, in which case we can
      * simply move the highlight with the text.
      */
+    if (term->selstate == SELECTED && term->seltype == RECTANGULAR &&
+        term->curs.y >= term->selstart.y && term->curs.y <= term->selend.y &&
+        term_bidi_line(term, scrlineptr(term->curs.y), selection_bidi_slot(term, term->curs.y)))
+        deselect(term); /* translating logical columns need not translate the visual block */
     int sel_scale = term->selstate != NO_SELECTION && term->seltype == RECTANGULAR ?
         selection_row_scale(scrlineptr(term->curs.y)) : 1;
     pos edit_start = term->curs;
@@ -11181,6 +11208,18 @@ static int whole_glyph_edge(const termline *line, int cols, int edge, int outwar
             line->chars[edge].chr == UCSWIDE) ? edge + outward : edge;
 }
 
+/* Convert physical half-open rectangle edges into visual glyph edges on this
+ * row, after reordering and before translating to source characters. */
+static void block_row_edges(termline *line, termchar *visual, int cols,
+                            int *left, int *right)
+{
+    int scale = selection_row_scale(line);
+    *left = min(cols, max(0, *left) / scale);
+    *right = min(cols, max(0, *right) / scale + (max(0, *right) % scale != 0));
+    if (*left > 0 && *left < cols && visual[*left].chr == UCSWIDE) (*left)--;
+    if (*right > 0 && *right < cols && visual[*right].chr == UCSWIDE) (*right)++;
+}
+
 static void do_paint(Terminal *term)
 {
     uint64_t kitty_generation=nemo_kitty_placements_generation(
@@ -11307,14 +11346,6 @@ static void do_paint(Terminal *term)
         scrpos.y = i + term->disptop;
         ldata = lineptr(scrpos.y);
         pos block_start = term->selstart, block_end = term->selend;
-        if ((term->selstate == DRAGGING || term->selstate == SELECTED) &&
-            term->seltype == RECTANGULAR &&
-            scrpos.y >= block_start.y && scrpos.y <= block_end.y) {
-            int scale = selection_row_scale(ldata);
-            block_start.x = whole_glyph_edge(ldata, term->cols, block_start.x / scale, -1);
-            block_end.x = whole_glyph_edge(ldata, term->cols, (block_end.x + scale - 1) / scale, +1);
-        }
-
         /* Do Arabic shaping and bidi. */
         lchars = term_bidi_line(term, ldata, i);
         if (lchars) {
@@ -11323,6 +11354,10 @@ static void do_paint(Terminal *term)
             lchars = ldata->chars;
             backward = NULL;
         }
+
+        if ((term->selstate == DRAGGING || term->selstate == SELECTED) &&
+            term->seltype == RECTANGULAR && scrpos.y >= block_start.y && scrpos.y <= block_end.y)
+            block_row_edges(ldata, lchars, term->cols, &block_start.x, &block_end.x);
 
         /* Work out if and where to display pre-edit text. */
         if (i == our_curs_y && term->preedit_termline != NULL) {
@@ -11417,8 +11452,8 @@ static void do_paint(Terminal *term)
                     selected = (posle(term->selstart, scrpos) &&
                                 poslt(scrpos, term->selend));
                 else
-                    selected = (posPle(block_start, scrpos) &&
-                                posPle_left(scrpos, block_end));
+                    selected = (scrpos.y >= block_start.y && scrpos.y <= block_end.y &&
+                                j >= block_start.x && j < block_end.x);
             } else
                 selected = false;
             if (term->mouse_highlight == HIGHLIGHT_ACTIVE) {
@@ -11945,10 +11980,26 @@ static void clipme(Terminal *term, pos top, pos bottom, bool rect, bool desel,
         bool nl = false;
         termline *ldata = lineptr(top.y);
         pos nlpos, row_bottom = bottom;
+        int left = old_top_x, right = bottom.x;
+        const int *forward = NULL, *backward = NULL;
         if (rect) {
-            int scale = selection_row_scale(ldata);
-            top.x /= scale;
-            row_bottom.x = (bottom.x + scale - 1) / scale;
+            int slot = selection_bidi_slot(term, top.y);
+            termchar *visual = term_bidi_line(term, ldata, slot);
+            block_row_edges(ldata, visual ? visual : ldata->chars, term->cols, &left, &right);
+            top.x = left;
+            row_bottom.x = right;
+            if (visual) {
+                forward = term->post_bidi_cache[slot].forward;
+                backward = term->post_bidi_cache[slot].backward;
+                top.x = term->cols;
+                row_bottom.x = 0;
+                for (int v = left; v < right; v++) {
+                    int source = backward[v];
+                    if (forward[source] != v) continue; /* synthetic display cell */
+                    top.x = min(top.x, source);
+                    row_bottom.x = max(row_bottom.x, source+1);
+                }
+            }
         }
 
         /*
@@ -11994,7 +12045,6 @@ static void clipme(Terminal *term, pos top, pos bottom, bool rect, bool desel,
          * right.)
          */
         if (rect) {
-            top.x = whole_glyph_edge(ldata, term->cols, top.x, -1);
             /* A leading cell already emits the complete glyph at the right. */
             if (nlpos.x > row_bottom.x)
                 nlpos.x = row_bottom.x;
@@ -12006,7 +12056,11 @@ static void clipme(Terminal *term, pos top, pos bottom, bool rect, bool desel,
             int c;
             int x = top.x;
 
-            if (ldata->chars[x].chr == UCSWIDE) {
+            /* A contiguous visual block may cover disjoint logical spans.
+             * Emit only its source cells, in their original Unicode order;
+             * shaping replaces displayed glyphs, not clipboard characters. */
+            if ((forward && (forward[x] < left || forward[x] >= right ||
+                             backward[forward[x]] != x)) || ldata->chars[x].chr == UCSWIDE) {
                 top.x++;
                 continue;
             }
@@ -13013,19 +13067,14 @@ void term_mouse_pixels(Terminal *term, Mouse_Button braw, Mouse_Button bcooked,
     selpoint.y = y + term->disptop;
     ldata = lineptr(selpoint.y);
 
-    int scale = selection_row_scale(ldata);
-    int half = x % scale;
-    x /= scale;
-
-    /*
-     * Transform x through the bidi algorithm to find the _logical_
-     * click point from the physical one.
-     */
-    if (term_bidi_line(term, ldata, y) != NULL) {
-        x = term->post_bidi_cache[y].backward[x];
+    if (term->seltype == RECTANGULAR) {
+        selpoint.x = x; /* keep the actual screen column across all rows */
+    } else {
+        x /= selection_row_scale(ldata);
+        if (term_bidi_line(term, ldata, y))
+            x = term->post_bidi_cache[y].backward[x];
+        selpoint.x = x;
     }
-
-    selpoint.x = term->seltype == RECTANGULAR ? min(term->cols-1, x * scale + half) : x;
     unlineptr(ldata);
 
     /* Button-up has its own cell. It can be the first observation of a
