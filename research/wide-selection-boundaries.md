@@ -29,3 +29,5 @@ The [six original default-grid agent recordings for `7befdab`](real-agent-wide-7
 | codex | 6.98 / 16.70 | 12.79 / 18.81 |
 | opencode | 7.03 / 12.06 | 12.96 / 12.96 |
 | claude | 6.94 / 7.24 | 12.97 / 17.86 |
+
+For this same `7befdab` preview the complete [74-case interaction report and original stress logs](interaction-7befdab.zip) verified **72/74**. Six actual GDI and six actual DirectX full-grid pressure cases passed. The peak frontend private working sets were **18,771,968 and 28,495,872 bytes** respectively. Only the first-marker Codex system-key and window-API image gestures failed; the two distinct ready-composer cases and the OpenCode image cases passed. This report does not describe any later executable.
