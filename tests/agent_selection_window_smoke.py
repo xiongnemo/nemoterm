@@ -211,7 +211,17 @@ def main():
                 evidence['checks'].append('Shift drag and default Copy replace the sentinel with exact Unicode')
                 api.request(endpoint,'input',seat,SELECTION_PREFIX)
                 wait_for(lambda:SELECTION_PREFIX.rstrip() in text());press(86,3)
-            wait_for(lambda:SELECTION_PREFIX+SELECTION_TEXT in text(),timeout=20);frame('composer');sample('composer')
+            # The real Claude composer can draw a precomposed accent even
+            # though the clipboard contained the original combining sequence.
+            # Observe both spellings in the UI; the subsequent HTTP assertion
+            # still requires the exact original input, once, with no suffix.
+            expected_prompt=SELECTION_PREFIX+SELECTION_TEXT
+            def composer_form():
+                view=text()
+                if expected_prompt in view:return 'exact'
+                if args.client=='claude' and unicodedata.normalize('NFC',expected_prompt) in view:return 'NFC'
+            evidence['composer_form']=wait_for(composer_form,timeout=20)
+            frame('composer');sample('composer')
             time.sleep(.2);press(13)
             # read_snapshot returns {} on a transient Windows sharing violation.
             # Require the positive provider receipt from one complete snapshot.

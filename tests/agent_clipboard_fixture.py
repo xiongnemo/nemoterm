@@ -18,6 +18,7 @@ import subprocess
 import threading
 import time
 import uuid
+import unicodedata
 import winreg
 from urllib.parse import urlsplit
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -99,6 +100,7 @@ class Handler(BaseHTTPRequestHandler):
             # comparison of early user input and terminal OSC replies.
             first_parts=[p for p in latest_user_parts if p.startswith(SELECTION_TRIGGER)]
             self.server.requests.append(dict(selection_received=selected,
+                                              selection_nfc_present=unicodedata.normalize('NFC',SELECTION_PREFIX+SELECTION_TEXT) in latest_user_parts,
                                               source_prompt_exact=SELECTION_TRIGGER in latest_user_parts,
                                               source_suffix=[p[len(SELECTION_TRIGGER):][:160] for p in first_parts],
                                               selected_text_occurrences=sum(part.count(SELECTION_TEXT) for part in latest_user_parts),
@@ -250,7 +252,10 @@ def main():
         (home/'.claude.json').write_text(json.dumps(dict(hasCompletedOnboarding=True,theme='dark',
             customApiKeyResponses=dict(approved=[fixture_key[-20:]],rejected=[]),
             projects={key:dict(hasTrustDialogAccepted=True) for key in sorted(project_keys)})),encoding='utf-8')
-        env.update(HOME=str(home),ANTHROPIC_API_KEY=fixture_key,
+        # No Git network transports, including SSH fallback when the client
+        # tries to initialize a fresh plugin catalog.
+        env.update(HOME=str(home),GIT_ALLOW_PROTOCOL='file',GIT_TERMINAL_PROMPT='0',
+                   ANTHROPIC_API_KEY=fixture_key,
                    ANTHROPIC_BASE_URL=base.removesuffix('/v1'),CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC='1',
                    DISABLE_AUTOUPDATER='1',DISABLE_TELEMETRY='1')
         command=[args.client_exe,'--bare','--model','claude-sonnet-4-6','--tools','',
