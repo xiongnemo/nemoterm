@@ -65,7 +65,7 @@ ReGIS 生产代码变化后的定向重建使用 `protocol-reference.yml -f fami
 | 组 | 用例数 | 覆盖 |
 | --- | ---: | --- |
 | input | 2 | byte/ReadConsoleW、中文/emoji、IMM、模拟 DPI 与组合窗位置 |
-| selection | 3 | 默认/自定义 bindings，GDI/DX 矩形、宽字符、Shift 选择，右键仅复制与复制后粘贴 |
+| selection | 3 | 默认/自定义 bindings，GDI/DX 矩形与 Shift 选择，右键仅复制与复制后粘贴；跨行复制粘贴区分自动折行、右边缘宽字和硬换行 |
 | clipboard | 2 | GDI/DX 文件/目录拖放，路径引用、应用接管与文本/图片优先级 |
 | agents | 6 | 固定版本 Codex/OpenCode 的图片附件与精确像素；两款真实客户端分别在 GDI / DirectX 标签页把回复经 Shift 拖选、Ctrl+Shift+C/V 后提交，逐字核对；OpenCode 还记录拖选前的鼠标上报请求 |
 | rendering | 3 | 实际 GDI 客户区捕获、三种渲染器、字号缩放/恢复 |
