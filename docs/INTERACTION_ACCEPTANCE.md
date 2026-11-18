@@ -153,7 +153,7 @@ Codex 首次输入会同时触发颜色查询。托管 Windows 控制台用相�
 
 ### pterm-memory
 
-在同一台托管 Windows 上比较官方 pterm、Nemoterm 默认单标签和独立 GDI 窗口运行同一 Codex 的内存。只复用指定构建，正序、倒序各一次。此组的稳定读数与产品压力测试的峰值分别报告。示例针对已归档的 `ba91594`：
+在同一台托管 Windows 上比较官方 pterm，以及 Nemoterm 的单标签和独立窗口分别使用 GDI、DirectX 运行同一 Codex 的内存。只复用指定构建，正序、倒序各一次。此组的稳定读数与产品压力测试的峰值分别报告。示例针对已归档的 `ba91594`：
 
 ```powershell
 gh workflow run font-zoom-replay.yml --ref fix/legacy-key-modifiers-20261116 -f suite=pterm-memory -f source_run=44277391833 -f source_commit=ba91594a16628870d0a1ca116395475bba3640c5
