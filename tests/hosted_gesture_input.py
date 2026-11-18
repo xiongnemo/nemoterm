@@ -53,7 +53,9 @@ class DesktopInput:
     def event(self,vk,down):
         if down:self.target()
         event=Input()
-        if vk is None:event.kind=0;event.mouse.flags=2 if down else 4
+        if vk is None or vk=='right':
+            event.kind=0
+            event.mouse.flags=({True:8,False:16} if vk=='right' else {True:2,False:4})[down]
         else:event.kind=1;event.key.key=vk;event.key.flags=0 if down else 2
         if self.u.SendInput(1,c.byref(event),c.sizeof(event))!=1:raise c.WinError(c.get_last_error())
         if down:self.held.append(vk)

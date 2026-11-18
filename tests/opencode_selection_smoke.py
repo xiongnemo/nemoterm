@@ -36,17 +36,21 @@ def main():
     parser.add_argument('--font',required=True)
     parser.add_argument('--renderer',choices=('gdi','directx'),required=True)
     parser.add_argument('--system-input',action='store_true')
+    parser.add_argument('--right-click',choices=('default','copy-paste'))
     args=parser.parse_args()
+    assert not args.right_click or args.system_input
     out=ROOT/'research';out.mkdir(exist_ok=True)
     folder=Path(tempfile.mkdtemp(prefix='opencode-selection-',dir=ROOT/'build'))
     case=folder/'client'; report=case/'observed.json'; control=case/'control.json'
     tag='opencode-selection-'+args.renderer+('-system' if args.system_input else '')
+    if args.right_click:tag+='-right-'+args.right_click
     evidence=dict(completed=False,font=args.font,requested_renderer=args.renderer,checks=[],screenshots=[],global_input=args.system_input,frontend_samples=[])
     with OwnedJob() as job,(folder/'fixture.log').open('w',encoding='utf-8') as log:
         proc=job.spawn([sys.executable,str(ROOT/'tests/agent_clipboard_fixture.py'),
             '--client','opencode','--client-exe',str(Path(args.client_exe).resolve()),
             '--terminal',os.environ['NEMOTERM_TEST_EXE'],'--directory',str(case),
-            '--automation','--selection-renderer',args.renderer,'--font',args.font],stdout=log,stderr=subprocess.STDOUT,
+            '--automation','--selection-renderer',args.renderer,'--font',args.font]+
+            (['--right-copy-and-paste'] if args.right_click=='copy-paste' else []),stdout=log,stderr=subprocess.STDOUT,
             creationflags=subprocess.CREATE_NO_WINDOW)
         def child():
             value=read_snapshot(report);assert proc.poll() is None and not value.get('errors'),value
@@ -85,6 +89,11 @@ def main():
             api.request(endpoint,'input',seat,SELECTION_TRIGGER)
             wait_for(lambda:SELECTION_TRIGGER in text());time.sleep(.2);press(13)
             screen=wait_for(lambda:s if SELECTION_TEXT in (s:=text()) else None,timeout=40)
+            if args.right_click:
+                # Put an identifiable prefix in the composer first. The HTTP
+                # fixture only accepts the exact user part (one pasted copy).
+                api.request(endpoint,'input',seat,SELECTION_PREFIX)
+                screen=wait_for(lambda:s if SELECTION_TEXT in (s:=text()) and SELECTION_PREFIX.rstrip() in s else None)
             lines=screen.split('\n');row,=[i for i,line in enumerate(lines) if SELECTION_TEXT in line]
             width=lambda s:sum(0 if unicodedata.combining(ch) else 2 if unicodedata.east_asian_width(ch) in ('W','F') else 1 for ch in s)
             first=width(lines[row].split(SELECTION_TEXT,1)[0]);last=first+width(SELECTION_TEXT)-1
@@ -156,12 +165,27 @@ def main():
             # mouse-up, a prior run or the source prompt from passing Copy.
             write_snapshot(control,dict(id=1,action='bitmap'))
             wait_for(lambda:child().get('clipboard_action')==1);assert clipboard_text(hwnd) is None
-            press(67,3);copied=wait_for(lambda:clipboard_text(hwnd));evidence['copied']=copied
+            if args.right_click:
+                before=u.GetClipboardSequenceNumber()
+                desktop.point(ox+last*cw+cw//2,oy+row*ch+ch//2)
+                desktop.chord('right')
+                wait_for(lambda:u.GetClipboardSequenceNumber()!=before)
+                evidence['right_click']=dict(mode=args.right_click,setting_written=args.right_click=='copy-paste',
+                                             modifiers_released=not desktop.held)
+            else:press(67,3)
+            copied=wait_for(lambda:clipboard_text(hwnd));evidence['copied']=copied
             assert copied==SELECTION_TEXT,(copied,SELECTION_TEXT)
             sample('copy')
-            evidence['checks'].append('Shift drag and default Copy replace the sentinel with exact Unicode')
-            api.request(endpoint,'input',seat,SELECTION_PREFIX)
-            wait_for(lambda:SELECTION_PREFIX.rstrip() in text());press(86,3)
+            if args.right_click:
+                evidence['checks'].append('System right click replaced the image sentinel with exact Unicode after Shift was released')
+                if args.right_click=='default':
+                    assert SELECTION_PREFIX+SELECTION_TEXT not in text(),'default right click already pasted'
+                    press(86,3)
+                # Copy-and-paste must fill the composer without any paste key.
+            else:
+                evidence['checks'].append('Shift drag and default Copy replace the sentinel with exact Unicode')
+                api.request(endpoint,'input',seat,SELECTION_PREFIX)
+                wait_for(lambda:SELECTION_PREFIX.rstrip() in text());press(86,3)
             wait_for(lambda:SELECTION_PREFIX+SELECTION_TEXT in text(),timeout=20);frame('composer');sample('composer')
             time.sleep(.2);press(13)
             wait_for(lambda:any(r['selection_received'] for r in child()['requests']),timeout=30)

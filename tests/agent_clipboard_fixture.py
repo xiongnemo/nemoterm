@@ -169,6 +169,7 @@ def main():
     parser.add_argument('--directory', required=True)
     parser.add_argument('--automation', action='store_true')
     parser.add_argument('--selection-renderer', choices=('gdi','directx'))
+    parser.add_argument('--right-copy-and-paste',action='store_true')
     parser.add_argument('--font',default='SarasaTermSC Nerd Font Light')
     args = parser.parse_args()
     folder = Path(args.directory).resolve()
@@ -193,6 +194,9 @@ def main():
     profile = 'image-fixture-'+uuid.uuid4().hex
     registry = 'Software\\Nemo\\Nemoterm\\Sessions\\'+profile
     with winreg.CreateKey(winreg.HKEY_CURRENT_USER, registry) as key:
+        if args.right_copy_and_paste:
+            assert args.selection_renderer
+            winreg.SetValueEx(key,'RightClickCopyAndPaste',0,winreg.REG_DWORD,1)
         if args.selection_renderer:
             winreg.SetValueEx(key, 'NemoRenderer', 0, winreg.REG_DWORD, {'gdi':0,'directx':2}[args.selection_renderer])
             # This isolated client session has only generated data. Preserve its

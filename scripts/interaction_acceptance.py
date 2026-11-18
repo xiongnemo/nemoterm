@@ -47,6 +47,10 @@ def catalog():
         add('opencode-system-'+renderer, 'agents', 'opencode_selection_smoke.py',
             ['--client-exe', '{opencode}', '--font', FONT, '--renderer', renderer, '--system-input'],
             'hosted desktop mouse and keyboard; real OpenCode; image sentinel, highlighted cells and submitted text')
+        for mode in ('default','copy-paste'):
+            add('opencode-right-'+mode+'-'+renderer, 'agents', 'opencode_selection_smoke.py',
+                ['--client-exe','{opencode}','--font',FONT,'--renderer',renderer,'--system-input','--right-click',mode],
+                'real OpenCode; system right click after unmodified release; exact clipboard and HTTP user part')
     add('unicode-presented-gdi', 'rendering', 'kitty_unicode_window_smoke.py',
         ['--renderer', 'gdi', '--presented-gdi'], 'foreground; presented pixel capture')
     add('renderers', 'rendering', 'renderer_window_smoke.py')
