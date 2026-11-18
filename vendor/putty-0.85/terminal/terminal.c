@@ -5372,8 +5372,8 @@ static int selection_bidi_slot(Terminal *term, int y)
 }
 
 /*
- * Check whether the region bounded by the two pointers intersects
- * the scroll region, and de-select the on-screen selection if so.
+ * Invalidate a selection when its cells change. Cursor positioning alone
+ * must leave it available for the next copy or right click.
  */
 static void check_selection(Terminal *term, pos from, pos to)
 {
@@ -5422,7 +5422,6 @@ static int nemo_write_right(Terminal *term, termline *line)
 
 static void nemo_tabulate(Terminal *term, unsigned count, bool forward)
 {
-    pos old_curs = term->curs;
     termline *line = scrlineptr(term->curs.y);
     int limit = forward ? term->marg_r : term->dec_om ? term->marg_l : 0;
     if (forward) limit = min(limit, nemo_line_columns(term, line)-1);
@@ -5441,7 +5440,6 @@ static void nemo_tabulate(Terminal *term, unsigned count, bool forward)
         }
     }
     /* Like xterm, both directions preserve a pending automatic wrap. */
-    check_selection(term, old_curs, term->curs);
     seen_disp_event(term);
 }
 
@@ -5856,6 +5854,7 @@ static void check_boundary(Terminal *term, int x, int y)
         ldata->lattr &= ~LATTR_WRAPPED2;
     } else {
         if (ldata->chars[x].chr == UCSWIDE) {
+            check_selection(term, (pos){y,x-1}, (pos){y,x+1});
             clear_cc(ldata, x-1);
             clear_cc(ldata, x);
             ldata->chars[x-1].chr = ' ' | CSET_ASCII;
@@ -7833,6 +7832,7 @@ static void nemo_grapheme_append(Terminal *term, unsigned long scalar,
             check_boundary(term, anchor.x, anchor.y);
             check_boundary(term, anchor.x+available, anchor.y);
             if (term->insert) insch(term, available);
+            check_selection(term, anchor, (pos){anchor.y,anchor.x+(int)available});
             copy_termchar(line, anchor.x, &saved->chars[0]);
             freetermline(saved);
             if (available < 2) {
@@ -7912,11 +7912,6 @@ static void term_display_graphic_char(Terminal *term, unsigned long c, uint64_t 
     if (width > 0 && term->curs.x >= nemo_line_columns(term, cline)) return;
     if (term->insert && width > 0)
         insch(term, width);
-    if (term->selstate != NO_SELECTION) {
-        pos cursplus = term->curs;
-        incpos(cursplus);
-        check_selection(term, term->curs, cursplus);
-    }
     check_trust_status(term, cline);
 
     int linecols = nemo_write_right(term, cline)+1;
@@ -7959,6 +7954,7 @@ static void term_display_graphic_char(Terminal *term, unsigned long c, uint64_t 
         check_boundary(term, term->curs.x, term->curs.y);
         if (term->curs.x >= linecols-1) {
             assert(term->wrap);    /* we handled the non-wrapping case above */
+            check_selection(term, term->curs, (pos){term->curs.y,term->curs.x+1});
             copy_termchar(cline, term->curs.x,
                           &term->erase_char);
             if (!term->marg_l && term->marg_r == term->cols-1)
@@ -7979,6 +7975,7 @@ static void term_display_graphic_char(Terminal *term, unsigned long c, uint64_t 
             /* Now we must check_boundary again, of course. */
             check_boundary(term, term->curs.x, term->curs.y);
         }
+        check_selection(term, term->curs, (pos){term->curs.y,term->curs.x+2});
         check_boundary(term, term->curs.x+2, term->curs.y);
 
         cluster_anchor = term->curs;
@@ -8007,6 +8004,7 @@ static void term_display_graphic_char(Terminal *term, unsigned long c, uint64_t 
         break;
       case 1:
       write_single_cell:
+        check_selection(term, term->curs, (pos){term->curs.y,term->curs.x+1});
         cluster_anchor = term->curs;
         check_boundary(term, term->curs.x, term->curs.y);
         check_boundary(term, term->curs.x+1, term->curs.y);
@@ -8041,6 +8039,8 @@ static void term_display_graphic_char(Terminal *term, unsigned long c, uint64_t 
                 x--;
             }
 
+            int cells = x+1 < term->cols && cline->chars[x+1].chr == UCSWIDE ? 2 : 1;
+            check_selection(term, (pos){term->curs.y,x}, (pos){term->curs.y,x+cells});
             add_cc(cline, x, c);
             seen_disp_event(term);
         }
@@ -8514,7 +8514,6 @@ static void term_out(Terminal *term, bool called_from_term_data)
     while (nchars_got < nchars_used ||
            unget != -1 ||
            bufchain_size(&term->inbuf) > 0) {
-        pos cursor_before = term->curs;
         if (unget != -1) {
             /*
              * Handle a character we left in 'unget' the last time
@@ -8616,7 +8615,7 @@ static void term_out(Terminal *term, bool called_from_term_data)
             /* Let the normal decoder finish a truncated UTF-8 character
              * before the same control is replayed through unget. */
             nemo_cancel_control(term, c);
-            goto character_done;
+            continue;
         }
 
         if (term->termstate >= NEMO_APC_START && term->termstate <= NEMO_APC_MAYBE_ST_UTF8 &&
@@ -10865,15 +10864,6 @@ static void term_out(Terminal *term, bool called_from_term_data)
 #endif
               default: break;          /* placate gcc warning about enum use */
             }
-      character_done:
-        /* Cell writers/erasers invalidate affected selections themselves.
-         * Only cursor movement needs this extra point check. Otherwise every
-         * byte of an incoming query clears a selection covering the cursor. */
-        if (term->selstate != NO_SELECTION && !poseq(cursor_before, term->curs)) {
-            pos cursplus = term->curs;
-            incpos(cursplus);
-            check_selection(term, term->curs, cursplus);
-        }
     }
 
     bufchain_consume(&term->inbuf, nchars_used);

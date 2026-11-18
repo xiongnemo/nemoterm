@@ -566,6 +566,41 @@ static void test_unencodable_release_cancel(Mock *mk)
     MOUSE_BYTES("\033[M !!\033[M#!!");
 }
 
+static void test_selection_cursor_traffic(Mock *mk)
+{
+    static const struct {
+        const char *name, *before, *update; int cursor; bool keep;
+    } cases[] = {
+        {"position inside", "\033[1G", "\033[6G", 5, true},
+        {"tab across", "\033[1G", "\t", 8, true},
+        {"CHT across", "\033[1G", "\033[I", 8, true},
+        {"CBT across", "\033[10G", "\033[2Z", 0, true},
+        {"print immediately left", "\033[4G", "x", 4, true},
+        {"overwrite inside", "\033[6G", "x", 6, false},
+        {"wide overlaps from left", "\033[4G", "\xe4\xb8\xad", 5, false},
+        {"append mark to last selected base", "\033[8G", "\xcc\x81", 7, false},
+        {"append mark to unselected neighbour", "\033[5G", "\xcc\x81", 4, true},
+    };
+    for (size_t i = 0; i < lenof(cases); i++) for (int block = 0; block < 2; block++) {
+        mk->ucsdata->line_codepage = CP_UTF8;
+        mouse_setup(mk, cases[i].name, "\033%G\033[?2027lABCDEFGHIJKLM\033[?1002;1006h");
+        term_data_fragmented(mk->term, cases[i].before);
+        send_mouse(mk, MBT_LEFT, MA_CLICK, 4, 0, true, block, false);
+        send_mouse(mk, MBT_LEFT, MA_DRAG, 6, 0, true, block, false);
+        send_mouse(mk, MBT_LEFT, MA_RELEASE, 6, 0, true, block, false);
+        IEQUAL(mk->term->selstate, SELECTED);
+        term_data_fragmented(mk->term, cases[i].update);
+        IEQUAL(mk->term->curs.x, cases[i].cursor);
+        IEQUAL(mk->term->selstate, cases[i].keep ? SELECTED : NO_SELECTION);
+        if (cases[i].keep) {
+            int clipboard = CLIP_LOCAL + 1;
+            term_request_copy(mk->term, &clipboard, 1);
+            check_clipboard(mk, L"EFG");
+        }
+        MOUSE_BYTES("");
+    }
+}
+
 static void test_ctrl_rectangle(Mock *mk)
 {
 #ifdef _WIN32
@@ -741,6 +776,7 @@ int main(void)
     test_unencodable_release_cancel(mk);
     test_shift_selection(mk);
     test_ctrl_rectangle(mk);
+    test_selection_cursor_traffic(mk);
     test_zoom_policy(mk);
 
     bool failed = mk->any_test_failed;
