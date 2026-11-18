@@ -72,6 +72,7 @@ jobs:
         uses: Vampire/setup-wsl@4c48163d9f981914dd8caa0fc335fe19cca5bff4 # v7.2.0 built distribution
         with:
           distribution: Ubuntu-24.04
+          additional-packages: ${{ matrix.group == 'shells' && 'less' || '' }}
           wsl-version: 1
           set-as-default: 'true'
           update: 'false'

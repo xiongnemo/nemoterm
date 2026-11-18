@@ -160,7 +160,7 @@ try:
                 continue
             marker = Path(temporary) / (sid + '.txt')
             command, ready_file = directory_command(marker, sid)
-            process = subprocess.Popen([str(exe),'--no-tabs', '-load', profile, '--shell', sid,
+            process = subprocess.Popen([str(exe),*(['--automation'] if sid == 'wsl-bash' else []),'--no-tabs', '-load', profile, '--shell', sid,
                 '--directory', str(starting)],
                 env=dict(os.environ, NEMOTERM_CONPTY='bundled'),
                 creationflags=subprocess.CREATE_NO_WINDOW)
@@ -221,6 +221,9 @@ try:
                 if sid == 'wsl-bash':
                     wsl_terminfo_roundtrip(hwnd, Path(temporary),
                         observed['launches'][sid].setdefault('terminfo', {}))
+                    from wsl_pager_interaction import exercise
+                    exercise(process, hwnd, Path(temporary), shell_path, send,
+                             observed['launches'][sid].setdefault('less', {}), root/'research')
                 print('Shell launch passed:', sid, flush=True)
                 send(hwnd, 'exit\r')
                 process.wait(timeout=10)
