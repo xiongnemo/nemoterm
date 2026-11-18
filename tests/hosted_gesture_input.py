@@ -64,15 +64,16 @@ class DesktopInput:
     def click_confirmation_button(self,hwnd,button,log):
         win=self.u; assert self.owned_confirmation()==hwnd
         b=win.GetDlgItem(hwnd,button);r=w.RECT();assert b and win.GetWindowRect(b,c.byref(r))
-        pt=w.POINT((r.left+r.right)//2,(r.top+r.bottom)//2);assert win.SetCursorPos(pt.x,pt.y)
+        pt=w.POINT((r.left+r.right)//2,(r.top+r.bottom)//2);self.move_screen(pt.x,pt.y)
         log.update(dialog=hwnd,button_id=button,button=b,point=[pt.x,pt.y],observations=[])
         start=time.monotonic()
         def observe(stage):
             current=w.POINT();assert win.GetCursorPos(c.byref(current))
             foreground=win.GetForegroundWindow();pid=w.DWORD()
             if foreground:win.GetWindowThreadProcessId(foreground,c.byref(pid))
-            info=self.state();hit=win.WindowFromPoint(current)
-            value=dict(stage=stage,foreground=foreground,foreground_pid=pid.value,active=info.active,
+            info=self.state();hit=win.WindowFromPoint(current);cls=c.create_unicode_buffer(100)
+            if foreground:win.GetClassNameW(foreground,cls,len(cls))
+            value=dict(stage=stage,foreground=foreground,foreground_pid=pid.value,foreground_class=cls.value,active=info.active,
                        focus=info.focus,capture=info.capture,cursor=[current.x,current.y],hit=hit,
                        dialog_alive=bool(win.IsWindow(hwnd)),button_alive=bool(win.IsWindow(b)),
                        host_enabled=bool(win.IsWindowEnabled(self.host)),left_down=bool(win.GetAsyncKeyState(1)&0x8000))
@@ -82,19 +83,22 @@ class DesktopInput:
                 if len(history)<96:history.append(dict(ms=round(1000*(time.monotonic()-start)),state=value))
                 else:log['last_overflow_state']=value
             return value
+        def button_state():
+            reply=c.c_size_t();assert win.SendMessageTimeoutW(b,0xf2,0,0,2,500,c.byref(reply))  # BM_GETSTATE
+            return reply.value
         def hit():
-            state=observe('positioned')
-            return state['cursor']==[pt.x,pt.y] and state['hit']==b and self.owned_confirmation()==hwnd
+            state=observe('positioned');log['hover_state']=button_state()
+            return (state['cursor']==[pt.x,pt.y] and state['hit']==b and self.owned_confirmation()==hwnd
+                    and state['active']==hwnd and not state['left_down'] and log['hover_state']&0x200)  # BST_HOT
         wait_for(hit)
         # Wait for native button delivery before releasing, not merely SendInput insertion.
         down=Input();down.mouse.flags=2;up=Input();up.mouse.flags=4
         assert win.SendInput(1,c.byref(down),c.sizeof(Input))==1
         try:
             def pressed():
-                state=observe('down');reply=c.c_size_t()
-                assert win.SendMessageTimeoutW(b,0xf2,0,0,2,500,c.byref(reply))  # BM_GETSTATE
-                log.update(button_state=reply.value,capture=state['capture'],focus=state['focus'])
-                return state['capture']==b and bool(reply.value & 4)  # BST_PUSHED
+                state=observe('down');value=button_state()
+                log.update(button_state=value,capture=state['capture'],focus=state['focus'])
+                return state['capture']==b and bool(value & 4)  # BST_PUSHED
             wait_for(pressed,timeout=3)
         finally:
             assert win.SendInput(1,c.byref(up),c.sizeof(Input))==1
@@ -113,15 +117,17 @@ class DesktopInput:
     def chord(self,*keys):
         for key in keys:self.event(key,True)
         for key in reversed(keys):self.event(key,False)
+    def move_screen(self,x,y):
+        u=self.u;left,top,width,height=[u.GetSystemMetrics(i) for i in (76,77,78,79)]
+        assert left<=x<left+width and top<=y<top+height,(x,y,left,top,width,height)
+        event=Input();event.kind=0;event.mouse.flags=0xc001|0x2000  # absolute virtual desktop; no coalescing
+        event.mouse.x=((x-left)*65536+32768)//width;event.mouse.y=((y-top)*65536+32768)//height
+        assert u.SendInput(1,c.byref(event),c.sizeof(event))==1
+        return [left,top,width,height]
     def point(self,x,y):
         u=self.u;p=w.POINT(x,y);assert u.ClientToScreen(self.hwnd,c.byref(p))
-        left,top,width,height=[u.GetSystemMetrics(i) for i in (76,77,78,79)]
-        r=dict(client=[x,y],screen=[p.x,p.y],desktop=[left,top,width,height],observations=[])
+        r=dict(client=[x,y],screen=[p.x,p.y],desktop=self.move_screen(p.x,p.y),observations=[])
         self.record.setdefault('motion',[]).append(r)
-        assert left<=p.x<left+width and top<=p.y<top+height,r
-        event=Input();event.kind=0;event.mouse.flags=0xc001|0x2000  # absolute virtual-desktop move without coalescing
-        event.mouse.x=((p.x-left)*65536+32768)//width;event.mouse.y=((p.y-top)*65536+32768)//height
-        assert u.SendInput(1,c.byref(event),c.sizeof(event))==1
         def arrived():
             actual=w.POINT();assert u.GetCursorPos(c.byref(actual));hit=u.WindowFromPoint(actual)
             state=self.state();name=c.create_unicode_buffer(100)
