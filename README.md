@@ -13,7 +13,7 @@ Nemoterm 是 **PuTTY 0.85 Windows pterm 的下游 fork**，沿用其终端核心
 本页描述所在分支的代码；下载产物按下面的提交和验证记录区分。已实现功能与测试边界见 [协议支持表](docs/PROTOCOLS.md)
 和 [需求与验证记录](docs/REQUIREMENTS.md)。
 
-[单文件测试版 `3da2fc3`](https://github.com/xiongnemo/nemoterm/actions/runs/44391854501/artifacts/14469532051) 修复了 Shift 拖选双向混排文字时复制到未高亮字符的问题。取消关闭后，在三个真实客户端中都能立即继续输入和粘贴。六种 160×48 压力负载的前端私有工作集峰值为 GDI **18.94 MB**、DirectX **28.64 MB**。见[同一 EXE 的远程验收、已知问题与截图](research/interaction-3da2fc3.md)，或[上一版 `83ee8a5` 的验收记录](research/interaction-83ee8a5.md)。
+[单文件测试版 `b7f4bfa`](https://github.com/xiongnemo/nemoterm/actions/runs/44404296808/artifacts/14474875134) 修复了应用只移动光标就导致 Shift 选区消失、右键被应用接管的问题。现在应用可以继续更新旁边的文字，仍能右键复制原来高亮的内容；真正改写所选字形时才取消旧选区。[修复前后截图与 32 项窗口检查](research/selection-cursor-traffic.md) · [同机运行 Codex 的前端内存对照](research/pterm-findings.md) · [上一版的全屏与关闭确认检查](research/xtwinops-fullscreen.md) · [混排选区与客户端已知问题](research/interaction-3da2fc3.md)。
 
 [较早的单文件测试版 `f564927`](https://github.com/xiongnemo/nemoterm/actions/runs/44374468391/artifacts/14460047904)：修复“窗口 → 外观 → 字体访问”的快捷键与“取消”冲突。在 GDI 和 DirectX 上均已验证：应用改变当前标签的字体不会修改 profile；撤销权限后立即恢复原字体。[同一 EXE 的交互验收](research/interaction-f564927.md)为 72/74，两个未通过项均为 Codex 启动阶段立即贴图；编辑器就绪后通过。160×48 压力测试私有工作集峰值为 GDI **18.89 MB**、DirectX **28.75 MB**。
 

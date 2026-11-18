@@ -19,3 +19,5 @@
 ![同一屏幕位置，光标移入后修复版仍高亮，改写组合字形后高亮才消失](selection-cursor-updates.png)
 
 [这个 Windows 单文件](https://github.com/xiongnemo/nemoterm/actions/runs/44404296808/artifacts/14474875134)为 4,868,608 字节，SHA-256 `c8c3ccc3a5064faf0234687bdb0aaa1ba295b67f2d17f331757dc4f46638cec2`。在[同文件的 profile 与关闭确认回放](profile-close-b7f4bfa.zip)中，关闭标签、整窗和独立窗口，点 Cancel 和按 Esc 后都能立即接着输入，三个子进程各收到 `abc`。原始制品 `14474658273`，SHA-256 `05f9bace252194086928f34cb5c5aca9b6f3161cf294c46eb0466529df33d036`。
+
+应用兼容性也用同一份 `c8c3ccc3…` 单文件复测：[真实 WSL Vim](wsl-vim-b7f4bfa.zip) 在 `TERM=xterm`、`TERM=xterm-256color` × GDI、DirectX 四个窗口通过；[terminfo 颜色](wsl-colour-b7f4bfa.zip) 在两种渲染器上检查 `xterm`、`xterm-256color`、`xterm-direct`；[实际 WSL Sixel](wsl-sixel-b7f4bfa.zip) 在两种渲染器上分别检查显示、重绘和清除。[原始 Unicode 边界报告](unicode-boundary-b7f4bfa.zip)为 3/4：产品 GDI、DirectX 和系统 ConPTY/Claude 通过；独立 winpty/Claude 对照未能在原定时限内显示正常视图的回复，发送两次 Ctrl+C 后等待退出 18 秒超时。没有把诊断中后续出现的回复改计为通过。
