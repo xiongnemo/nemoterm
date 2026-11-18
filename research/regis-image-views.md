@@ -2,8 +2,12 @@
 
 Development source now connects ReGIS graphics to the terminal's retained
 image list and the Windows renderer's existing row-composition path. This
-does **not** establish native-window acceptance or replace the distributed
-single-file executable. The original full comparison remains failed.
+was initially checked only through core row composition. The subsequent
+[native-window checkpoint](regis-native-window.md) passes 30 finite checks on
+actual GDI and DirectX plus presented GDI. The later [screen-edge replay and
+fix](regis-screen-edges.md) expands that window suite to 37 checks. Full
+acceptance remains open; the distributed executable has not been replaced. The original
+full comparison remains failed.
 
 ## Ownership and drawing
 
@@ -155,8 +159,10 @@ Every archived entry was read back and its identity checked.
 and per-entry identity checks. It has 32 entries and 34,873,088 bytes, SHA-256
 `a9620980c041c1553e2d1bf585e38957d950d07f125c6d3a22b5eb46cb699d68`.
 
-Native window screenshots on GDI, OpenGL and DirectX, presented-surface
-invalidation, partial-margin scrolling, scrollback/resize/eviction pressure,
+The [native-window checkpoint](regis-native-window.md) now covers finite GDI
+and DirectX geometry and presented-GDI invalidation on one exact single image.
+The [expanded fixture](regis-screen-edges.md) also checks scroll-margin clipping
+and screen restoration. OpenGL execution, scrollback/resize/eviction pressure,
 delay scheduling, broader arithmetic/parser-progress review and full
 single-image CI remain open. No new frontend memory claim follows from
 these core tests. The accepted DirectX limit remains 30,000,000 bytes and

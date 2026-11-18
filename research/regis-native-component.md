@@ -4,7 +4,8 @@ The repository now contains a native adaptation of the pinned XTerm ReGIS
 parser without X11 dependencies. The terminal DCS parser and per-terminal
 Windows glyph provider are connected in the development source. Live image
 views now reach the Windows row-rendering path, but expanded lifecycle
-comparisons still fail and native-window acceptance is open. The downloadable
+comparisons still fail. Finite [native GDI/DirectX window checks](regis-native-window.md)
+pass; full native acceptance remains open. The downloadable
 executable has not been replaced. Product-level ReGIS coverage remains missing.
 See [the input integration record](regis-terminal-input.md) and
 [the image-view investigation](regis-image-views.md).

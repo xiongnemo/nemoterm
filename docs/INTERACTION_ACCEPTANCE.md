@@ -46,6 +46,18 @@ gh workflow run protocol-reference.yml --ref <branch> -f family=terminfo-databas
 
 ReGIS 上游对照使用 `-f family=regis`。它明确启用固定版本 XTerm 的 ReGIS，在私有 Xvfb 显示中对 61 个场景分别发送整段和逐字节输入，保留原始回复、386 张初始/步骤截图、像素格式、编译开关及自然退出结果。新增调色板对照必须绘制规定数量的可见像素，避免黑底黑图掩盖变化。脚本拒绝本机和 self-hosted runner。通过采集不代表 Nemoterm 已实现 ReGIS，范围和产物见 [ReGIS 对照记录](../research/vector-graphics-source-review.md)。
 
+后续 ReGIS 采集已加入每步完整重绘后的截图，以及双向共享调色板场景，加上备用屏幕与滚动边界后共 65 个场景；旧参考截图保持不变。`family=regis-core` 执行原生解析器、真实终端输入、图像视图与调色板对照。完整 `scope=full` 现在也包含这组检查，并用同一次 source-host 的单 EXE 运行 `regis-window.yml`：GDI、请求 OpenGL、强制 DirectX 和直接读取已呈现 GDI 客户区四组原生测试。OpenGL 如回退则明确记录实际渲染器，不将 GDI 结果算作 OpenGL 通过。窗口测试检查独立定义的像素几何和生命周期，不取代仍然失败的历史 XTerm 画面对比。
+
+只修正窗口测试脚本时可回放同一 EXE：
+
+```powershell
+gh workflow run font-zoom-replay.yml --ref <branch> -f suite=regis-window -f source_run=<run-id> -f source_commit=<40-character-sha>
+```
+
+该入口要求原 source-host 构建成功、生产源码未变、EXE 大小和 SHA-256 与清单一致。结果范围和未完成项见 [ReGIS 图像视图记录](../research/regis-image-views.md)。
+
+ReGIS 生产代码变化后的定向重建使用 `protocol-reference.yml -f family=regis-product`，重新构建同一单文件配方后运行四组窗口检查。它不代替 `ci.yml -f scope=full` 完整回归。备用屏幕和滚动边界的失败、修复与证据见 [边界记录](../research/regis-screen-edges.md)。
+
 ## 交互矩阵
 
 每组使用独立 Windows 2025 runner，最多同时运行五组；组内顺序执行并保留各自失败，不因另一组失败取消测试。`scripts/interaction_acceptance.py run` 拒绝本机及 self-hosted runner；`plan` 和 `prepare` 只处理清单和文件。
