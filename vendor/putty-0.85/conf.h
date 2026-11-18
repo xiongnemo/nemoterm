@@ -1540,3 +1540,8 @@ CONF_OPTION(nemo_attribute_italic,
 CONF_OPTION(nemo_profile,
     VALUE_TYPE(STR), DEFAULT_STR("Default"), NOT_SAVED,
 )
+
+CONF_OPTION(nemo_sixel_colour_continuation,
+    VALUE_TYPE(BOOL), DEFAULT_BOOL(false),
+    SAVE_KEYWORD("SixelXtermColourContinuation"),
+)

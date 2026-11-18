@@ -2435,6 +2435,9 @@ static void nemo_sixel_palette_changed(void *ctx)
 
 static void nemo_sixel_begin(Terminal *term)
 {
+    NemoSixelColourTail tail = term->sixel_colour_tail;
+    term->sixel_colour_tail.kind = NEMO_SIXEL_NO_TAIL;
+    term->sixel_carry_colour = conf_get_bool(term->conf, CONF_nemo_sixel_colour_continuation);
     /* 8 KiB is larger than the fixed decoder object. Reserve before init,
      * then admission tracks precise allocations, including the list node. */
     if (!nemo_sixel_admit(term, 0, 8192)) return;
@@ -2457,6 +2460,7 @@ static void nemo_sixel_begin(Terminal *term)
             return;
         }
     }
+    if (term->sixel_carry_colour) nemo_sixel_resume_colour(term->sixel_pending, &tail);
     /* Modern square-pixel default; explicit legacy macros retain DEC ratios. */
     unsigned macro = term->sixel_header[0];
     unsigned ratio = macro == 2 ? 5 : macro == 3 || macro == 4 ? 3 :
@@ -2472,7 +2476,10 @@ static void nemo_sixel_complete(Terminal *term)
     term->grapheme_pending = false;
     NemoSixel *decoder = term->sixel_pending;
     if (!decoder) return;
-    if (!nemo_sixel_finish(decoder)) { nemo_sixel_cancel(term); return; }
+    if (!nemo_sixel_finish_stream(decoder, term->sixel_carry_colour ? &term->sixel_colour_tail : NULL)) {
+        nemo_sixel_cancel(term);
+        return;
+    }
     NemoSixelStats st = nemo_sixel_stats(decoder);
     uint64_t pw = (uint64_t)st.width * st.aspect_horizontal;
     uint64_t ph = (uint64_t)st.height * st.aspect_vertical;
@@ -3863,6 +3870,12 @@ void term_pre_reconfig(Terminal *term, Conf *conf)
  */
 void term_reconfig(Terminal *term, Conf *conf)
 {
+    if (conf_get_bool(term->conf, CONF_nemo_sixel_colour_continuation) !=
+        conf_get_bool(conf, CONF_nemo_sixel_colour_continuation)) {
+        term->sixel_colour_tail.kind = NEMO_SIXEL_NO_TAIL;
+        term->sixel_carry_colour = false;
+        nemo_sixel_forget_resumed_colour(term->sixel_pending);
+    }
     if (strcmp(conf_get_str(term->conf, CONF_nemo_tcap_name),
                conf_get_str(conf, CONF_nemo_tcap_name)))
         nemo_tcap_configure(term, conf_get_str(conf, CONF_nemo_tcap_name));

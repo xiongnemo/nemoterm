@@ -431,6 +431,7 @@
     "hyperlinks.schemes_hint": "By default, links can open HTTP, HTTPS, FTP, mailto and local Windows files. File links must name this computer, localhost or an empty host. Other schemes require the option above.",
     "clipboard.read_hint": "Reading sends clipboard contents back to the running session, including a remote host. It is disabled by default. These options do not change your local copy and paste shortcuts.",
     "rendering.memory_hint": "GPU modes cache text textures and compose text and images on the GPU. They use the installed graphics driver and can use more memory. GDI is used if the selected GPU mode is unavailable.",
+    "rendering.sixel_continue": "Continue unfinished Sixel colours across images (XTerm)",
     "rendering.restart_hint": "Changes apply to this terminal. After using a GPU mode, restart the window to fully release graphics driver memory.",
     "window.title": "Options controlling {app}'s window",
     "appearance.title": "Configure the appearance of {app}'s window",

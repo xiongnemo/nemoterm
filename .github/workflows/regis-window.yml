@@ -66,6 +66,16 @@ jobs:
           if ($env:CAPTURE_MODE -eq 'presented-gdi') { $arguments = @('--renderer','gdi','--presented-gdi') }
           python tests/regis_scrollback_window_smoke.py @arguments 2>&1 | Tee-Object build/regis-window-evidence/history-limit.log
           exit $LASTEXITCODE
+      - name: Check XTerm Sixel colour continuation on a saved profile
+        if: ${{ !cancelled() }}
+        env:
+          CAPTURE_MODE: ${{ matrix.mode }}
+        shell: pwsh
+        run: |
+          $arguments = @('--renderer', $env:CAPTURE_MODE)
+          if ($env:CAPTURE_MODE -eq 'presented-gdi') { $arguments = @('--renderer','gdi','--presented-gdi') }
+          python tests/sixel_stream_window_smoke.py @arguments 2>&1 | Tee-Object build/regis-window-evidence/sixel-colour-stream.log
+          exit $LASTEXITCODE
       - name: Retain all observations including failures
         if: always()
         shell: pwsh

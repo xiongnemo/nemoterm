@@ -195,6 +195,8 @@ struct terminal_tag {
     size_t image_bytes;
     int cell_width, cell_height;
     NemoSixel *sixel_pending;
+    NemoSixelColourTail sixel_colour_tail;
+    bool sixel_carry_colour;
     NemoIterm *iterm_pending;
     NemoTermKitty *kitty;
     NemoTermRegis *regis;

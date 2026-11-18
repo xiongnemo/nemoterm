@@ -148,6 +148,42 @@ jobs:
           ASAN_OPTIONS: detect_leaks=1:abort_on_error=1
           UBSAN_OPTIONS: halt_on_error=1
         run: python3 tests/test_regis_reference.py --terminal --views --private-registers --bytewise --exe build/regis-terminal/test_regis_terminal --output build/regis-component/private-registers-bytewise
+      - name: Compare XTerm Sixel colour continuation (private, whole)
+        if: ${{ !cancelled() }}
+        env:
+          ASAN_OPTIONS: detect_leaks=1:abort_on_error=1
+          UBSAN_OPTIONS: halt_on_error=1
+        run: python3 tests/test_regis_reference.py --terminal --views --colour-stream private --grid-font build/regis-font-inputs/fixed-font.bin --exe build/regis-terminal/test_regis_terminal --output build/regis-component/stream-private-whole
+      - name: Compare XTerm Sixel colour continuation (private, bytewise)
+        if: ${{ !cancelled() }}
+        env:
+          ASAN_OPTIONS: detect_leaks=1:abort_on_error=1
+          UBSAN_OPTIONS: halt_on_error=1
+        run: python3 tests/test_regis_reference.py --terminal --views --colour-stream private --bytewise --grid-font build/regis-font-inputs/fixed-font.bin --exe build/regis-terminal/test_regis_terminal --output build/regis-component/stream-private-bytewise
+      - name: Compare XTerm Sixel colour continuation (next, whole)
+        if: ${{ !cancelled() }}
+        env:
+          ASAN_OPTIONS: detect_leaks=1:abort_on_error=1
+          UBSAN_OPTIONS: halt_on_error=1
+        run: python3 tests/test_regis_reference.py --terminal --views --colour-stream next --grid-font build/regis-font-inputs/fixed-font.bin --exe build/regis-terminal/test_regis_terminal --output build/regis-component/stream-next-whole
+      - name: Compare XTerm Sixel colour continuation (next, bytewise)
+        if: ${{ !cancelled() }}
+        env:
+          ASAN_OPTIONS: detect_leaks=1:abort_on_error=1
+          UBSAN_OPTIONS: halt_on_error=1
+        run: python3 tests/test_regis_reference.py --terminal --views --colour-stream next --bytewise --grid-font build/regis-font-inputs/fixed-font.bin --exe build/regis-terminal/test_regis_terminal --output build/regis-component/stream-next-bytewise
+      - name: Compare XTerm Sixel colour continuation (number, whole)
+        if: ${{ !cancelled() }}
+        env:
+          ASAN_OPTIONS: detect_leaks=1:abort_on_error=1
+          UBSAN_OPTIONS: halt_on_error=1
+        run: python3 tests/test_regis_reference.py --terminal --views --colour-stream number --grid-font build/regis-font-inputs/fixed-font.bin --exe build/regis-terminal/test_regis_terminal --output build/regis-component/stream-number-whole
+      - name: Compare XTerm Sixel colour continuation (number, bytewise)
+        if: ${{ !cancelled() }}
+        env:
+          ASAN_OPTIONS: detect_leaks=1:abort_on_error=1
+          UBSAN_OPTIONS: halt_on_error=1
+        run: python3 tests/test_regis_reference.py --terminal --views --colour-stream number --bytewise --grid-font build/regis-font-inputs/fixed-font.bin --exe build/regis-terminal/test_regis_terminal --output build/regis-component/stream-number-bytewise
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
@@ -237,6 +273,24 @@ jobs:
       - name: Compare private Sixel register pixels (bytewise)
         if: ${{ !cancelled() }}
         run: python tests/test_regis_reference.py --terminal --views --private-registers --bytewise --exe build/regis-terminal/test_regis_terminal.exe --output build/regis-component/private-registers-bytewise
+      - name: Compare XTerm Sixel colour continuation (private, whole)
+        if: ${{ !cancelled() }}
+        run: python tests/test_regis_reference.py --terminal --views --colour-stream private --grid-font build/regis-font-inputs/fixed-font.bin --exe build/regis-terminal/test_regis_terminal.exe --output build/regis-component/stream-private-whole
+      - name: Compare XTerm Sixel colour continuation (private, bytewise)
+        if: ${{ !cancelled() }}
+        run: python tests/test_regis_reference.py --terminal --views --colour-stream private --bytewise --grid-font build/regis-font-inputs/fixed-font.bin --exe build/regis-terminal/test_regis_terminal.exe --output build/regis-component/stream-private-bytewise
+      - name: Compare XTerm Sixel colour continuation (next, whole)
+        if: ${{ !cancelled() }}
+        run: python tests/test_regis_reference.py --terminal --views --colour-stream next --grid-font build/regis-font-inputs/fixed-font.bin --exe build/regis-terminal/test_regis_terminal.exe --output build/regis-component/stream-next-whole
+      - name: Compare XTerm Sixel colour continuation (next, bytewise)
+        if: ${{ !cancelled() }}
+        run: python tests/test_regis_reference.py --terminal --views --colour-stream next --bytewise --grid-font build/regis-font-inputs/fixed-font.bin --exe build/regis-terminal/test_regis_terminal.exe --output build/regis-component/stream-next-bytewise
+      - name: Compare XTerm Sixel colour continuation (number, whole)
+        if: ${{ !cancelled() }}
+        run: python tests/test_regis_reference.py --terminal --views --colour-stream number --grid-font build/regis-font-inputs/fixed-font.bin --exe build/regis-terminal/test_regis_terminal.exe --output build/regis-component/stream-number-whole
+      - name: Compare XTerm Sixel colour continuation (number, bytewise)
+        if: ${{ !cancelled() }}
+        run: python tests/test_regis_reference.py --terminal --views --colour-stream number --bytewise --grid-font build/regis-font-inputs/fixed-font.bin --exe build/regis-terminal/test_regis_terminal.exe --output build/regis-component/stream-number-bytewise
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:

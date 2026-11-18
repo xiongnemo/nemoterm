@@ -43,6 +43,7 @@ struct NemoSixel {
     unsigned param_index, register_count;
     unsigned char command;
     bool parameter_overflow, seen_pixels, finished, transparent;
+    bool resuming_colour, resumed_digits;
     size_t allocated_bytes, budget_bytes;
     NemoSixelStatus status;
 };
@@ -296,12 +297,32 @@ static bool commit_parameters(NemoSixel *s, bool apply_colour)
     return true;
 }
 
+void nemo_sixel_resume_colour(NemoSixel *s, const NemoSixelColourTail *tail)
+{
+    if (!s || s->finished || s->seen_pixels || s->command || !tail ||
+        (tail->kind != NEMO_SIXEL_COMPONENT && tail->kind != NEMO_SIXEL_SELECTOR)) return;
+    s->command = '#';
+    s->resuming_colour = true;
+    s->resumed_digits = false;
+    s->param_index = tail->kind == NEMO_SIXEL_COMPONENT ? 4 : 0;
+    if (s->param_index) memcpy(s->params, tail->prefix, sizeof(tail->prefix));
+    s->params[s->param_index] = 0;
+}
+
+void nemo_sixel_forget_resumed_colour(NemoSixel *s)
+{
+    if (!s || !s->resuming_colour) return;
+    s->resuming_colour = s->resumed_digits = s->parameter_overflow = false;
+    s->command = 0;
+}
+
 static bool feed_byte(NemoSixel *s, unsigned char c)
 {
     if (s->command) {
         if (c >= '0' && c <= '9') {
             uint32_t *p = &s->params[s->param_index];
             unsigned digit = c - '0';
+            if (s->resuming_colour) s->resumed_digits = true;
             if (*p > (UINT32_MAX - digit) / 10) {
                 s->parameter_overflow = true;
             } else {
@@ -309,7 +330,37 @@ static bool feed_byte(NemoSixel *s, unsigned char c)
             }
             return true;
         }
-        if (c == ';' && s->command != '!') {
+        if (s->resuming_colour) {
+            if (c == 0 || c == ' ' || (c >= '\t' && c <= '\r')) return true;
+            if (!s->resumed_digits) {
+                /* A selector still awaits its register. A missing final
+                 * component consumes the delimiter and abandons the write. */
+                if (s->param_index != 0) nemo_sixel_forget_resumed_colour(s);
+                return true;
+            }
+            if (s->param_index == 4) {
+                const uint32_t *p = s->params;
+                const uint32_t pen = s->foreground;
+                if (s->parameter_overflow || p[1] < 1 || p[1] > 2 ||
+                    p[2] > (p[1] == 1 ? 360u : 100u) || p[3] > 100 || p[4] > 100) {
+                    nemo_sixel_forget_resumed_colour(s);
+                    return true;
+                }
+                if (c == ';') {
+                    /* A sixth field cannot finish a five-field definition. */
+                    s->resumed_digits = false;
+                    s->parameter_overflow = true;
+                    return true;
+                }
+                if (!commit_parameters(s, true)) return false;
+                s->foreground = pen; /* New picture started with its own pen. */
+            } else if (s->parameter_overflow) {
+                nemo_sixel_forget_resumed_colour(s);
+                return true;
+            }
+            s->resuming_colour = s->resumed_digits = false;
+        }
+        if (c == ';' && s->command && s->command != '!') {
             if (s->param_index + 1 < PARAM_COUNT) s->param_index++;
             else s->parameter_overflow = true;
             return true;
@@ -323,7 +374,7 @@ static bool feed_byte(NemoSixel *s, unsigned char c)
                 return fail(s, NEMO_SIXEL_MALFORMED);
             return draw_sixel(s, c - '?', repeat);
         }
-        if (!commit_parameters(s, true)) return false;
+        if (s->command && !commit_parameters(s, true)) return false;
     }
     if (c >= '?' && c <= '~') return draw_sixel(s, c - '?', 1);
     if (c == '!' || c == '#' || c == '"') {
@@ -356,16 +407,31 @@ bool nemo_sixel_feed(NemoSixel *s, const void *data, size_t size)
     return true;
 }
 
-bool nemo_sixel_finish(NemoSixel *s)
+bool nemo_sixel_finish_stream(NemoSixel *s, NemoSixelColourTail *tail)
 {
+    if (tail) memset(tail, 0, sizeof(*tail));
     if (!s || s->status != NEMO_SIXEL_OK) return false;
     if (s->finished) return true;
     if (s->command == '!') return fail(s, NEMO_SIXEL_MALFORMED);
     /* ST ends the DCS, not a colour parameter in its payload. Pending
      * definitions still get validated, but neither kind of palette changes. */
+    bool colour = s->command == '#';
     if (s->command && !commit_parameters(s, false)) return false;
+    if (tail && colour) {
+        if (s->param_index == 0) tail->kind = NEMO_SIXEL_SELECTOR;
+        else {
+            tail->kind = NEMO_SIXEL_COMPONENT;
+            memcpy(tail->prefix, s->params, sizeof(tail->prefix));
+            tail->prefix[0] %= s->register_count;
+        }
+    }
     s->finished = true;
     return true;
+}
+
+bool nemo_sixel_finish(NemoSixel *s)
+{
+    return nemo_sixel_finish_stream(s, NULL);
 }
 
 NemoSixelStats nemo_sixel_stats(const NemoSixel *s)

@@ -54,6 +54,16 @@ void nemo_sixel_free(NemoSixel *s);
  */
 bool nemo_sixel_feed(NemoSixel *s, const void *data, size_t size);
 bool nemo_sixel_finish(NemoSixel *s);
+
+/* Optional XTerm compatibility for a trailing selector or complete colour
+ * definition. Store syntax only; never transfer palette or bitmap ownership. */
+typedef struct NemoSixelColourTail {
+    enum { NEMO_SIXEL_NO_TAIL, NEMO_SIXEL_SELECTOR, NEMO_SIXEL_COMPONENT } kind;
+    uint32_t prefix[4];
+} NemoSixelColourTail;
+void nemo_sixel_resume_colour(NemoSixel *s, const NemoSixelColourTail *tail);
+void nemo_sixel_forget_resumed_colour(NemoSixel *s);
+bool nemo_sixel_finish_stream(NemoSixel *s, NemoSixelColourTail *tail);
 NemoSixelStats nemo_sixel_stats(const NemoSixel *s);
 
 /* Copy at most count pixels within [x,width) of a valid row. No allocation.

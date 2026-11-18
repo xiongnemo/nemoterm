@@ -2752,6 +2752,9 @@ void setup_config_box(struct controlbox *b, bool midsession,
                      nemo_ui_text("rendering.directx"), NO_SHORTCUT, I(2));
     ctrl_text(s, nemo_ui_text("rendering.memory_hint"), HELPCTX(no_help));
     ctrl_text(s, nemo_ui_text("rendering.restart_hint"), HELPCTX(no_help));
+    s = ctrl_getset(b, "Window/Rendering", "sixel", "Sixel");
+    ctrl_checkbox(s, nemo_ui_text("rendering.sixel_continue"), NO_SHORTCUT,
+                  HELPCTX(no_help), conf_checkbox_handler, I(CONF_nemo_sixel_colour_continuation));
 
     /*
      * The Window/Appearance panel.

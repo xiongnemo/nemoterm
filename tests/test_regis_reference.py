@@ -33,11 +33,21 @@ def main():
                         help='Compare four fresh Sixel register readbacks against pinned XTerm repaints')
     parser.add_argument('--private-registers',action='store_true',
                         help='Compare both stages of four private Sixel register scenes with original XTerm')
+    parser.add_argument('--colour-stream',choices=('private','next','number'),
+                        help='Replay retained Sixel scenes with the XTerm colour continuation profile option')
     args=parser.parse_args()
-    register_scenes=args.register_readback or args.private_registers
-    assert sum((args.shared_palette,args.register_readback,args.private_registers))<=1
+    register_scenes=args.register_readback or args.private_registers or bool(args.colour_stream)
+    assert sum((args.shared_palette,args.register_readback,args.private_registers,bool(args.colour_stream)))<=1
     args.output.mkdir(parents=True,exist_ok=True)
-    if args.private_registers:
+    if args.colour_stream in ('next','number'):
+        assert args.terminal and args.views and args.grid_font
+        archive,digest={
+            'next':('sixel-next-dcs-xterm','3ee59b3b25bc95feaa4abcf31d5c2eb19a1772277e3c80468cb6154b61e3b9fb'),
+            'number':('sixel-number-resume-xterm','ca196cfa9d99d993ce708ccc50dfccbdbb2ddf857cf0c5eba4e494e231459175'),
+        }[args.colour_stream]
+        original=Path(f'research/{archive}.zip').read_bytes()
+        assert hashlib.sha256(original).hexdigest()==digest
+    elif args.private_registers or args.colour_stream=='private':
         assert args.terminal and args.views
         original=Path('research/private-sixel-terminator-xterm.zip').read_bytes()
         assert hashlib.sha256(original).hexdigest()=='43325228851c7292d71a3dc846f64e8cacaef99ef98b394a5ecc5016cee91b4c'
@@ -62,6 +72,8 @@ def main():
     evidence['terminal_parser']=args.terminal
     evidence['image_views']=args.views
     evidence['transport']='bytewise' if args.bytewise else 'whole'
+    evidence['xterm_sixel_colour_continuation']=bool(args.colour_stream)
+    if args.colour_stream: command+=['--colour-stream']
     if args.bytewise:
         assert args.terminal,'bytewise applies to the real terminal parser'
         command+=['--bytewise']
@@ -82,22 +94,30 @@ def main():
             assert observed['completed'] and not observed['transport_mismatches'] and not observed['control_failures']
             assert {'shared-palette-sixel-terminated','shared-palette-regis-recolour'}<=observed['cases'].keys()
         if register_scenes:
-            family,prefixes=(('private-register-',('identity','overwrite')) if args.private_registers
+            family,prefixes=(('private-register-',('identity','overwrite')) if args.private_registers or args.colour_stream=='private'
                              else ('shared-register-readback-',('empty','painted')))
             readbacks={family+prefix+'-'+end for prefix in prefixes for end in ('st','dollar')}
             assert observed['completed'] and not observed['transport_mismatches'] and not observed['control_failures']
+            if args.colour_stream in ('next','number'):
+                prefix,labels={
+                    'next':('sixel-next-dcs-',('pending-selector','ended-selector','pending-dollar','pending-repeat',
+                        'pending-literal','pending-plain-text','pending-mode-toggle','pending-ris')),
+                    'number':('sixel-number-resume-',('rgb-private','rgb-shared','numeric-pen','hls-private',
+                        'selector-number','selector-empty','blank-prefix','value-range')),
+                }[args.colour_stream]
+                readbacks={prefix+label for label in labels}
             assert readbacks <= observed['cases'].keys()
         reference_transport=evidence['transport'] if register_scenes else 'whole'
         for name,variants in observed['cases'].items():
             if register_scenes and name not in readbacks:
-                evidence['excluded'][name]='Outside the four selected register scenes.'
+                evidence['excluded'][name]='Outside the selected register scenes.'
                 continue
             if args.shared_palette and not name.startswith('shared-palette-'):
                 evidence['excluded'][name]='Outside the additional two-way shared-palette comparison; original gates remain separate.'
                 continue
             steps=variants[reference_transport]['steps']
             if register_scenes:
-                assert variants[reference_transport]['completed'] and len(steps)==(2 if args.private_registers else 3)
+                assert variants[reference_transport]['completed'] and len(steps)==(2 if args.private_registers or args.colour_stream=='private' else 3)
             matches=[re.fullmatch(pattern,bytes.fromhex(s['sequence_hex'])) for s in steps]
             if args.views and name=='control-capability':
                 evidence['excluded'][name]='Terminal identity control; ReGIS capability is not advertised yet.'
