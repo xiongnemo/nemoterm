@@ -18,7 +18,7 @@ import unicodedata
 from pathlib import Path
 from PIL import Image
 
-from agent_clipboard_fixture import SELECTION_PREFIX, SELECTION_TEXT, SELECTION_STABLE, SELECTION_TRIGGER
+from agent_clipboard_fixture import GLYPH_PREFIX, SELECTION_PREFIX, SELECTION_TEXT, SELECTION_STABLE, SELECTION_TRIGGER
 from clipboard_test_utils import clipboard_text
 from fixture_io import read_snapshot, write_snapshot
 from native_test_utils import u, k, wait_for, memory_sample
@@ -325,6 +325,31 @@ def main():
                              {'codex':'/v1/responses','opencode':'/v1/chat/completions','claude':'/v1/messages'}[args.client]),None)
             evidence['http_receipt']=wait_for(submitted,timeout=30)
             wait_for(lambda:'NEMOTERM_TEXT_ACCEPTED' in text());evidence['checks'].append('submitted prompt matched the two independent client references' if ref else f'real {args.client} submitted the exact original prompt')
+            if args.default_grid:
+                # A fresh answer on its own line avoids relying on the original
+                # row still being visible after a complete client turn.
+                screen=wait_for(lambda:s if 'END_PASTE' in (s:=text()) else None)
+                partial=evidence['bidi_roundtrip']=dict(client_visual_order=args.client_visual_order)
+                def clear_copy():
+                    write_snapshot(control,dict(id=3,action='bitmap'))
+                    wait_for(lambda:child().get('clipboard_action')==3)
+                    partial['bitmap_sentinel']=clipboard_text(hwnd) is None
+                    assert partial['bitmap_sentinel']
+                verify_bidi_copy(partial,screen.split('\n'),(case/'client-output.log').read_bytes(),cw,ch,ox,oy,cols,
+                    lambda:api.request(endpoint,'image',seat),desktop,lambda label,bmp:frame('reply-'+label,bmp),
+                    press,hwnd,marker='END_PASTE',reverse=True,before_copy=clear_copy)
+                expected=GLYPH_PREFIX+partial['bidi_system_copy']['expected_copy']
+                assert GLYPH_PREFIX.rstrip() not in text()
+                api.request(endpoint,'input',seat,GLYPH_PREFIX);wait_for(lambda:GLYPH_PREFIX.rstrip() in text())
+                press(86,3);wait_for(lambda:expected in text());frame('partial-composer');time.sleep(.2);press(13)
+                glyph_hash=hashlib.sha256(expected.encode()).hexdigest()
+                def glyph_submission():
+                    matches=[r for r in child().get('requests',[]) if r.get('glyph_prompt_hashes')]
+                    if matches:
+                        assert len(matches)==1 and matches[0]['glyph_prompt_hashes']==[glyph_hash] and matches[0]['path']==evidence['http_receipt']['path'],matches
+                        return matches[0]
+                partial['receipt']=wait_for(glyph_submission,timeout=30)
+                wait_for(lambda:'NEMOTERM_GLYPH_ACCEPTED' in text())
             sample('submitted')
             if sampler:
                 stop.set();sampler.join(5)

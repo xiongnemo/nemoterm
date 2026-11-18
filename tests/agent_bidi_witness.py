@@ -8,12 +8,12 @@ from clipboard_test_utils import clipboard_text
 from native_test_utils import u, wait_for
 
 
-def verify_bidi_copy(evidence, lines, wire, cw, ch, ox, oy, cols, image, desktop, frame, press, hwnd):
+def verify_bidi_copy(evidence, lines, wire, cw, ch, ox, oy, cols, image, desktop, frame, press, hwnd, *, marker='END_BIDI', reverse=False, before_copy=None):
     # The same provider string is emitted in two possible orders by the
     # pinned clients. Identify which came down the wire before reading pixels.
     refs=('גְ','ב','א'); original='AאבגְZ';preordered='AגְבאZ'
     emitted,=[s for s in (original,preordered) if s.encode() in wire]
-    suffix=emitted+' RגְR RבR RאR END_BIDI'
+    suffix=emitted+' RגְR RבR RאR '+marker
     row,=[i for i,line in enumerate(lines) if suffix in line]
     width=lambda s:sum(0 if unicodedata.combining(c) else 2 if unicodedata.east_asian_width(c) in ('W','F') else 1 for c in s)
     x=width(lines[row].split(suffix,1)[0]);assert 0<x<x+16<cols
@@ -45,8 +45,12 @@ def verify_bidi_copy(evidence, lines, wire, cw, ch, ox, oy, cols, image, desktop
             ratios.append(sum(q==want for q in probes)/len(probes) if probes else 0.)
         evidence['bidi_highlight']=dict(source=bg,selected=fg,cells=2,min_selected_ratio=min(ratios[1:3]),guard_ratios=[ratios[0],ratios[3]])
         if fg!=bg and min(ratios[1:3])>=.5 and min(ratios[0],ratios[3])>=.9:return bmp
-    desktop.drag(ox+x*cw+cw//2,ox+(x+1)*cw+cw//2,oy+row*ch+ch//2,selected)
-    frame('bidi-selected',wait_for(selected));seq=u.GetClipboardSequenceNumber();press(67,3)
+    start,end=(x+1,x) if reverse else (x,x+1)
+    proof.update(start=start,end=end)
+    desktop.drag(ox+start*cw+cw//2,ox+end*cw+cw//2,oy+row*ch+ch//2,selected)
+    frame('bidi-selected',wait_for(selected))
+    if before_copy:before_copy()
+    seq=u.GetClipboardSequenceNumber();press(67,3)
     wait_for(lambda:u.GetClipboardSequenceNumber()!=seq);proof['copied']=clipboard_text(hwnd)
     proof['expected_copy']='A'+refs[visual[0]]
     assert proof['copied']==proof['expected_copy'],proof

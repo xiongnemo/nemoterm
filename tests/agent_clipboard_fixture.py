@@ -36,6 +36,7 @@ BIDI_WITNESS = ' A\u05d0\u05d1\u05d2\u05b0Z R\u05d2\u05b0R R\u05d1R R\u05d0R END
 SELECTION_TEXT = 'NEMOTERM_SELECT 中文 e\u0301 \uf120 \U000f0001 END'
 SELECTION_STABLE = 'NEMOTERM_SELECT 中文 q\u0301 \uf120 \U000f0001 END'
 SELECTION_PREFIX = 'NEMOTERM_SUBMIT '
+GLYPH_PREFIX = 'NEMOTERM_GLYPH_SUBMIT '
 
 
 class Provider(ThreadingHTTPServer):
@@ -100,12 +101,15 @@ class Handler(BaseHTTPRequestHandler):
                         text.extend(re.findall(r'NEMOTERM_[A-Z0-9_]+',value))
             sample=getattr(self.server,'selection_text',SELECTION_TEXT)
             selected=SELECTION_PREFIX+sample in latest_user_parts
+            glyph_parts=[p for p in latest_user_parts if p.startswith(GLYPH_PREFIX)]
+            glyph_match=glyph_parts in ([GLYPH_PREFIX+'Aגְ'],[GLYPH_PREFIX+'Aא'])
             # Retain only fixed-fixture prompt contamination, allowing direct
             # comparison of early user input and terminal OSC replies.
             first_parts=[p for p in latest_user_parts if p.startswith(SELECTION_TRIGGER)]
             self.server.requests.append(dict(selection_received=selected,
                                               selection_nfc_present=unicodedata.normalize('NFC',SELECTION_PREFIX+sample) in latest_user_parts,
                                               fixture_prompt_hashes=[hashlib.sha256(p.encode('utf8')).hexdigest() for p in latest_user_parts if p.startswith(SELECTION_PREFIX)],
+                                              glyph_prompt_hashes=[hashlib.sha256(p.encode()).hexdigest() for p in glyph_parts],
                                               source_prompt_exact=SELECTION_TRIGGER in latest_user_parts,
                                               source_suffix=[p[len(SELECTION_TRIGGER):][:160] for p in first_parts],
                                               selected_text_occurrences=sum(part.count(sample) for part in latest_user_parts),
@@ -121,6 +125,11 @@ class Handler(BaseHTTPRequestHandler):
             answer = 'NEMOTERM_IMAGE_ACCEPTED' if images else 'NEMOTERM_TEXT_ACCEPTED'
             if self.server.selection and SELECTION_TRIGGER in latest_user_parts:
                 answer = sample + (BIDI_WITNESS if getattr(self.server,'bidi_witness',False) else '')
+            elif getattr(self.server,'bidi_witness',False):
+                if selected:
+                    answer+='\n\nROW '+BIDI_WITNESS.strip().replace('END_BIDI','END_PASTE')
+                elif glyph_match:
+                    answer='NEMOTERM_GLYPH_ACCEPTED'
             if path=='/v1/messages':
                 message=dict(id='msg_fixture_'+str(len(self.server.requests)),type='message',role='assistant',
                              model=request['model'],content=[],stop_reason=None,stop_sequence=None,

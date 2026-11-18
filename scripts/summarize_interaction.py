@@ -63,6 +63,13 @@ def agent_grid_case(path,row,identity):
             and http['selection_received'] and http['selected_text_occurrences']==1
             and http['fixture_prompt_hashes']==[hashlib.sha256((modal['typed_prefix']+obs['copied']).encode()).hexdigest()],
             'missing native Cancel, terminal focus, physical typing, or exact submitted clipboard text')
+    partial=obs['bidi_roundtrip'];drag=partial['bidi_system_copy'];paint=partial['bidi_highlight']
+    expected=hashlib.sha256(('NEMOTERM_GLYPH_SUBMIT '+witness['expected_copy']).encode()).hexdigest()
+    require(partial['bitmap_sentinel'] and drag['provider_layout_matches'] and drag['start']==drag['end']+1
+            and drag['copied']==drag['expected_copy']==witness['copied'] and paint['min_selected_ratio']>=.5
+            and min(paint['guard_ratios'])>=.9 and partial['receipt']['glyph_prompt_hashes']==[expected]
+            and [r for r in child['requests'] if r.get('glyph_prompt_hashes')]==[partial['receipt']]
+            and partial['receipt']['path']==http['path'],'missing reverse-drag glyph round trip to the real client')
     samples=trace['samples'];stages=obs['frontend_samples']
     require(not trace['errors'] and len(samples)>=2 and all(a['seconds']<b['seconds'] for a,b in zip(samples,samples[1:]))
             and [s['phase'] for s in stages]==['startup','reply','copy','composer','submitted'],'incomplete agent workload samples')
