@@ -1,7 +1,7 @@
 """Real mouse/keyboard drag on a disposable hosted Windows desktop; no injected hooks."""
 import os
 import re
-from native_test_utils import c, w, u, time, wait_for, read_snapshot, write_snapshot, capture
+from native_test_utils import c, w, u, k, time, wait_for, read_snapshot, write_snapshot, capture
 from clipboard_test_utils import SavedClipboard, clipboard_text
 from selection_history_drag import ScrollInfo
 
@@ -121,7 +121,7 @@ def verify_gestures(host, seat, child, Input, out, evidence, publish, visible_te
             return bytes.fromhex(wait_for(lambda:v if (v:=read_snapshot(child['report']) or {}).get('input_barrier')==key else None)['hex'])
         def cell(x,y):
             p=move(1+x*cw+cw//2,1+y*ch+ch//2);wait_for(lambda:u.WindowFromPoint(p)==hwnd);return p
-        request=start_right_phase('copy','\x1b[?1049h\x1b[0m\x1b[?25l\x1b[2J\x1b[5;3HLOCAL-COPY\x1b[?1002;1006h')
+        request=start_right_phase('copy','\x1b[?1049h\x1b[0m\x1b[?25l\x1b[2J\x1b[5;3HLOCAL-COPY\x1b[?1002;1006h\x1b[?1004l')
         def visible_label():
             lines=visible_text().splitlines();return len(lines)>4 and lines[4][2:12]=='LOCAL-COPY'
         try:wait_for(visible_label)
@@ -142,22 +142,28 @@ def verify_gestures(host, seat, child, Input, out, evidence, publish, visible_te
         try:wait_for(lambda:u.GetClipboardSequenceNumber()!=before)
         finally:check.update(copied=clipboard_text(hwnd),clipboard_changes=[before,u.GetClipboardSequenceNumber()],capture_at_copy=capture_owner());publish()
         assert check['copied']=='LOCAL',check
-        # A fixture-owned no-activate button receives the actual
-        # system release. Keep the terminal focused and never click the desktop.
+        # Only these two owned windows may become foreground on the runner.
         dest=w.POINT(1+12*cw,1+3*ch);assert u.ClientToScreen(hwnd,c.byref(dest))
         u.CreateWindowExW.argtypes=[w.DWORD,w.LPCWSTR,w.LPCWSTR,w.DWORD,c.c_int,c.c_int,c.c_int,c.c_int,w.HWND,w.HMENU,w.HINSTANCE,c.c_void_p]
         u.CreateWindowExW.restype=w.HWND;u.DestroyWindow.argtypes=[w.HWND]
         u.PeekMessageW.argtypes=[c.POINTER(w.MSG),w.HWND,w.UINT,w.UINT,w.UINT]
         u.SetCapture.argtypes=[w.HWND];u.SetCapture.restype=w.HWND;u.GetCapture.restype=w.HWND
         u.DispatchMessageW.argtypes=[c.POINTER(w.MSG)];u.DispatchMessageW.restype=c.c_ssize_t
-        sink=u.CreateWindowExW(0x08000088,'BUTTON','release target',0x90000000,dest.x-12,dest.y-12,24,24,None,None,None,None)
+        u.AttachThreadInput.argtypes=[w.DWORD,w.DWORD,w.BOOL]
+        own_thread=k.GetCurrentThreadId();assert thread!=own_thread
+        sink=u.CreateWindowExW(0x88,'BUTTON','release target',0x90000000,dest.x-12,dest.y-12,24,24,None,None,None,None)
         assert sink
+        attached=False
         try:
             assert u.SetCursorPos(dest.x,dest.y);wait_for(lambda:u.WindowFromPoint(dest)==sink)
             # Another UI can legitimately capture a locally handled mouse-up.
             # Give only our own sink the capture and service its full queue:
             # filtering for UP alone can leave the preceding input unprocessed.
-            u.SetCapture(sink);check['sink_owns_capture']=u.GetCapture()==sink;assert check['sink_owns_capture']
+            assert u.AttachThreadInput(own_thread,thread,True);attached=True
+            u.SetForegroundWindow(sink);wait_for(lambda:u.GetForegroundWindow()==sink)
+            u.SetCapture(sink);check['sink_owns_capture']=u.GetCapture()==sink and capture_owner()==sink
+            check['foreground_at_release']=u.GetForegroundWindow()==sink;assert check['sink_owns_capture']
+            check['right_was_down']=bool(u.GetAsyncKeyState(2)&0x8000);assert check['right_was_down']
             check['foreign_messages']=[];msg=w.MSG();event(0,1,False)
             def received_up():
                 while u.PeekMessageW(c.byref(msg),None,0,0,1):
@@ -169,6 +175,9 @@ def verify_gestures(host, seat, child, Input, out, evidence, publish, visible_te
             wait_for(received_up);check['release_received_by_other_window']=True
         finally:
             if u.GetCapture()==sink:u.ReleaseCapture()
+            if attached:
+                try:u.SetForegroundWindow(host);wait_for(lambda:u.GetForegroundWindow()==host)
+                finally:u.AttachThreadInput(own_thread,thread,False)
             u.DestroyWindow(sink);publish()
         check['local_wire']=confirm(request).hex();assert check['local_wire']==(dsr+dsr).hex(),check
         # RIS discards the selection. The peer requests button tracking again.
