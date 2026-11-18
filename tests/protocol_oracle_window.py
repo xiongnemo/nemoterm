@@ -25,7 +25,7 @@ def saved_profile(values):
 
 
 def run(name, cases, scene=None, extra_cases=(), exercise=None, barrier=None, report_cursor=False,
-        profile=None, font=None, source_reference='XTerm(412)'):
+        profile=None, font=None, source_reference='XTerm(412)', automation=False):
     exe = Path(os.environ.get('NEMOTERM_TEST_EXE', root/'dist/nemoterm.exe')).resolve()
     barrier_sequence, marker = barrier or ('\x1bP$qprotocol-marker\x1b\\', b'\x1bP0$r\x1b\\')
     evidence = dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),
@@ -38,7 +38,7 @@ def run(name, cases, scene=None, extra_cases=(), exercise=None, barrier=None, re
         folder = Path(directory)
         report, control = folder/'report.json', folder/'control.json'
         font_args = ['--font', font] if font is not None else []
-        process = job.spawn([str(exe), *profile_args, '--cols', '80', '--rows', '24', *font_args, '-e',
+        process = job.spawn([str(exe), *(['--automation'] if automation else []), *profile_args, '--cols', '80', '--rows', '24', *font_args, '-e',
             sys.executable, str(root/'tests/mouse_fixture.py'), str(report), str(control), '180'],
             env=dict(os.environ, NEMOTERM_CONPTY='bundled', NEMOTERM_TEST_EXACT_OUTPUT='1'),
             creationflags=subprocess.CREATE_NO_WINDOW)
