@@ -129,6 +129,8 @@ Codex 首次输入会同时触发颜色查询。托管 Windows 控制台用相�
 
 `unicode-boundary` 使用固定 Claude 客户端、两种独立 Windows PTY 和接收原始输入的原生程序，区分剪贴板、终端输入和客户端规范化。复现、原始证据和图片粘贴的已知失败见[真实客户端边界记录](../research/agent-unicode-boundary.md)。
 
+`selection` 还会分别设置按下、移动和松开的位置。在应用接管鼠标时，普通和矩形选区都应以实际松开的字符格为准；反向拖选即使没有中间移动消息也应能复制，同一格按下和松开则仍是单击。检查高亮、系统剪贴板和子程序实际收到的输入，见[原始记录](../research/selection-release-cell.md)。
+
 `selection` 还检查在终端内右键复制、在别的窗口松开后，下一次交给应用的右键能成对抵达。GDI 和 DirectX 逐字节核对应用收到的按下与松开，见[修复前后的原始记录](../research/right-button-release.md)。
 
 同一 EXE 可用 `font-zoom-replay.yml` 的 `suite=image-timing` 分别重放 Codex 首次显示输入与报告就绪后的两种贴图快捷键；`suite=picture-keys` 则用同一批启动输出核对原生 Windows 键盘记录。见[启动时序、实际图片与原始记录](../research/agent-unicode-boundary.md#codex-image-paste-during-startup)。

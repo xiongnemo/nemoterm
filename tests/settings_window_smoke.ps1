@@ -147,6 +147,28 @@ function Check-Grapheme([string]$phase, [string]$prefix, [bool]$enabled) {
     }
     return @{phase=$phase;enabled=$enabled;reply=$reply.hex}
 }
+function Sixel-Toggle($dialog) {
+    $item=Wait-Value { Find-Name $dialog 'Continue unfinished Sixel colours across images (XTerm)' }
+    if ($item.Current.IsOffscreen -or !$dialog.Current.BoundingRectangle.Contains($item.Current.BoundingRectangle)) {throw 'Sixel setting clipped'}
+    return $item.GetCurrentPattern([System.Windows.Automation.TogglePattern]::Pattern)
+}
+function Check-SixelPicture([string]$phase,[string]$colour) {
+    $esc=[string][char]27; $st=$esc+'\'
+    # Do not reset unrelated live profile modes. The first picture ends in
+    # an unfinished colour command; the second starts with a blue definition.
+    $wire=$esc+'[?25l'+$esc+'[?80l'+$esc+'[?1070h'+$esc+'[2J'+$esc+'[2;3H'+$esc+'P0;1q#1;2;100;0;0!8~#2;2;100;0;17'+$st+$esc+'[6;3H'+$esc+'P0;1q#2;2;0;0;100!8~'+$st+$esc+'[16t'+$esc+'[5n'
+    Write-Control @{phase=$phase;sequence=$wire}
+    $reply=Wait-Value {
+        $r=Get-Content -Raw -LiteralPath $report | ConvertFrom-Json
+        if ($r.phase -eq $phase -and $r.hex -match '^1b5b363b([0-9a-f]+)3b[0-9a-f]+741b5b306e$') {$r}
+    }
+    $bytes=for ($i=0;$i -lt $reply.hex.Length;$i+=2) {[Convert]::ToByte($reply.hex.Substring($i,2),16)}
+    if ([Text.Encoding]::ASCII.GetString([byte[]]$bytes) -notmatch '\[6;(\d+);\d+t') {throw 'Missing actual Sixel cell height'}
+    $cellHeight=[int]$Matches[1]
+    $raw=python "$PSScriptRoot/sixel_settings_pixels.py" $app.Id $termHandle.ToInt64() $cellHeight $colour $phase
+    if ($LASTEXITCODE) {throw "Sixel settings pixels failed: $phase"}
+    return ($raw | ConvertFrom-Json)
+}
 function Set-GraphemePreference([bool]$enabled) {
     [ShellSettingsNative]::PostMessageW($termHandle,0x111,[IntPtr]0x50,[IntPtr]::Zero) | Out-Null
     $dialog=Dialog $app
@@ -418,6 +440,9 @@ try {
     if ($LASTEXITCODE) { throw 'Tab settings capture failed' }
     Select-Node $dialog 'Rendering' | Out-Null
     if (!(Find-Name $dialog 'GDI (low memory)').GetCurrentPattern([System.Windows.Automation.SelectionItemPattern]::Pattern).Current.IsSelected) { throw 'GDI was not the default renderer' }
+    $sixel=Sixel-Toggle $dialog
+    if ($sixel.Current.ToggleState -ne [System.Windows.Automation.ToggleState]::Off) {throw 'Sixel XTerm setting should default off'}
+    $sixel.Toggle()
     Select-Node $dialog 'DirectX (GPU composition)' | Out-Null
     python "$PSScriptRoot/settings_capture.py" $app.Id $dialog.Current.NativeWindowHandle rendering-settings.png
     if ($LASTEXITCODE) { throw 'Rendering settings capture failed' }
@@ -512,6 +537,7 @@ try {
         throw 'Selection colours were not saved'
     }
     if ($values.NemoAllowChecksum -ne 1) { throw 'Screen checksum preference was not saved' }
+    if ($values.SixelXtermColourContinuation -ne 1) {throw 'Sixel option was not saved'}
     if ($values.NemoGraphemeWidths -ne 1) {throw 'Grapheme startup preference was not saved'}
     if ($values.NemoTabSide -ne 2 -or $values.NemoTabs -ne [int][bool]$TabHost -or
         $values.NemoNextTabBinding -ne 0x64e -or $values.NemoPreviousTabBinding -ne 0x650) { throw 'Tab settings did not save' }
@@ -579,6 +605,7 @@ try {
     if (!(Find-Name $dialog 'Left').GetCurrentPattern([System.Windows.Automation.SelectionItemPattern]::Pattern).Current.IsSelected) { throw 'Tab position did not reload' }
     Select-Node $dialog 'Rendering' | Out-Null
     if (!(Find-Name $dialog 'DirectX (GPU composition)').GetCurrentPattern([System.Windows.Automation.SelectionItemPattern]::Pattern).Current.IsSelected) { throw 'Renderer did not reload' }
+    if ((Sixel-Toggle $dialog).Current.ToggleState -ne [System.Windows.Automation.ToggleState]::On) {throw 'Saved Sixel option did not reload'}
     $attributes=Attribute-Colour-Controls $dialog
     for ($index=0;$index -lt 5;$index++) {
         Set-Combo $attributes.selector $index
@@ -618,6 +645,7 @@ try {
     $selectionColourChecks+=Check-SelectionColours 'selection-colour-app-override' ($esc+']17;red;;blue'+$bel) 'ffff/0000/0000' '0000/0000/ffff'
     $graphemeChecks=@(Check-Grapheme 'grapheme-startup' '' $true)
     $graphemeChecks+=Check-Grapheme 'grapheme-app-disable' ([char]27+'[?2027l') $false
+    $sixelChecks=@(Check-SixelPicture 'sixel-settings-startup' 'green')
     $rendererChanges=@()
     foreach ($mode in @('GDI (low memory)','OpenGL (GPU composition)','DirectX (GPU composition)','GDI (low memory)')) {
         [ShellSettingsNative]::PostMessageW($termHandle,0x111,[IntPtr]0x50,[IntPtr]::Zero) | Out-Null
@@ -626,6 +654,11 @@ try {
         $node=Find-Name $dialog 'Window'
         $node.GetCurrentPattern([System.Windows.Automation.ExpandCollapsePattern]::Pattern).Expand()
         Select-Node $dialog 'Rendering' | Out-Null
+        if (!$rendererChanges.Count) {
+            $sixel=Sixel-Toggle $dialog
+            if ($sixel.Current.ToggleState -ne [System.Windows.Automation.ToggleState]::On) {throw 'Live profile lost Sixel preference'}
+            $sixel.Toggle()
+        }
         Select-Node $dialog $mode | Out-Null
         $dialogHandle=[IntPtr]$dialog.Current.NativeWindowHandle
         Invoke-Button $dialog 'Save and Apply'
@@ -644,6 +677,9 @@ try {
         $earlyRenderer=$active
         $graphemeChecks+=Check-Grapheme ('grapheme-preserved-'+($rendererChanges.Count+1)) '' $false
         $active=Wait-Value { $value=[ShellSettingsNative]::GetPropW($termHandle,'NemotermRenderer').ToInt32(); if ($value -in $allowed) { $value } }
+        if ($persisted.SixelXtermColourContinuation -ne 0) {throw 'Live Sixel change did not persist'}
+        if (!$rendererChanges.Count) {$sixelChecks+=Check-SixelPicture 'sixel-settings-disabled' 'blue'}
+        if ($savedMode -eq 2) {$sixelChecks+=Check-SixelPicture 'sixel-settings-reloaded-dx' 'blue'}
         $rendererChanges += @{requested=$mode;active=$active;before_query_barrier=$earlyRenderer}
     }
     $graphemeChecks+=Check-Grapheme 'grapheme-app-enable' ([char]27+'[?2027h') $true
@@ -712,6 +748,7 @@ try {
     $evidence = @{executable_sha256=(Get-FileHash -LiteralPath $exe -Algorithm SHA256).Hash.ToLower();
         default_grid=@(160,48);tab_host=[bool]$TabHost;saved_tab_side=2;saved_tab_bindings=$tabBindings;saved_bindings=$customBindings;duplicate_binding_rejected=$true;live_renderer_changes=$rendererChanges;
         saved_shell_bindings=$customShellBindings;saved_renderer=2;initial_renderer=$initialRenderer;
+        sixel_default=$false;sixel_checks=$sixelChecks;
         grapheme_default=$false;saved_grapheme=$true;grapheme_checks=$graphemeChecks;
         selection_colour_default='inverse';saved_selection_rgb=$selectionRGB;selection_colour_checks=$selectionColourChecks;
         saved_attribute_rgb=$attributeRGB;saved_attribute_modes=49;saved_attribute_keep_styles=1;attribute_colour_checks=$attributeChecks;
@@ -732,6 +769,7 @@ try {
     (Select-Node $dialog 'Window').GetCurrentPattern([System.Windows.Automation.ExpandCollapsePattern]::Pattern).Expand()
     Select-Node $dialog 'Rendering' | Out-Null
     if (!(Find-Name $dialog 'GDI (low memory)').GetCurrentPattern([System.Windows.Automation.SelectionItemPattern]::Pattern).Current.IsSelected) {throw 'Restart did not load the last applied renderer'}
+    if ((Sixel-Toggle $dialog).Current.ToggleState -ne [System.Windows.Automation.ToggleState]::Off) {throw 'Restart did not load the last applied Sixel option'}
     Invoke-Button $dialog 'Cancel'
     if (!$app.WaitForExit(3000) -or $app.ExitCode -ne 0) {throw 'Restart settings cancel failed'}
     $evidence.profile_crud=$true
