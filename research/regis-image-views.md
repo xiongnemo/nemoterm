@@ -167,3 +167,5 @@ delay scheduling, broader arithmetic/parser-progress review and full
 single-image CI remain open. No new frontend memory claim follows from
 these core tests. The accepted DirectX limit remains 30,000,000 bytes and
 GDI remains strictly below 20,000,000 bytes. Tektronix is still unimplemented.
+
+The [shared register terminator investigation](shared-register-terminator.md) compares the four previously failing palette-only frames and a separately drawn Sixel readback. It tracks six remaining historical mismatches.
