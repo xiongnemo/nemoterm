@@ -21,6 +21,8 @@ u.GetClassNameW.argtypes=[w.HWND,w.LPWSTR,c.c_int]
 u.GetWindowTextW.argtypes=[w.HWND,w.LPWSTR,c.c_int]
 u.PostMessageW.argtypes=[w.HWND,w.UINT,w.WPARAM,w.LPARAM]
 u.IsWindowEnabled.argtypes=[w.HWND]
+u.IsWindowVisible.argtypes=[w.HWND]
+u.FindWindowExW.argtypes=[w.HWND,w.HWND,w.LPCWSTR,w.LPCWSTR];u.FindWindowExW.restype=w.HWND
 u.GetSystemMenu.argtypes=[w.HWND,w.BOOL];u.GetSystemMenu.restype=w.HMENU
 u.GetMenuStringW.argtypes=[w.HMENU,w.UINT,w.LPWSTR,c.c_int,w.UINT]
 ENUM=c.WINFUNCTYPE(w.BOOL,w.HWND,w.LPARAM)
@@ -73,9 +75,22 @@ def settings(process,terminal_hwnd,lang):
     assert u.GetMenuStringW(menu,0x50,label,len(label),0)>0
     assert ('设置' in label.value) if lang=='zh-CN' else ('Settings' in label.value),label.value
     evidence['menus'].append(dict(language=lang,profile_settings=label.value))
-    u.PostMessageW(terminal_hwnd,0x111,0x50,0)
-    hwnd=wait_for(lambda:dialog_window(process.pid))
-    title=c.create_unicode_buffer(256);u.GetWindowTextW(hwnd,title,len(title))
+    assert u.PostMessageW(terminal_hwnd,0x111,0x50,0)
+    # EnumWindows can see the hidden resource template before WM_INITDIALOG
+    # assigns the profile title. Wait for the visible, populated dialog using
+    # language-independent observations; a wrong final caption still fails.
+    stages=[]
+    evidence['ui'].append(dict(language=lang,opening=stages))
+    def ready():
+        hwnd=dialog_window(process.pid)
+        if not hwnd:return None
+        title=c.create_unicode_buffer(256);u.GetWindowTextW(hwnd,title,len(title))
+        visible=bool(u.IsWindowVisible(hwnd))
+        tree=bool(u.FindWindowExW(hwnd,None,'SysTreeView32',None))
+        state=dict(hwnd=hwnd,visible=visible,category_tree=tree,title=title.value)
+        if not stages or stages[-1]!=state:stages.append(state)
+        return (hwnd,title) if visible and tree else None
+    hwnd,title=wait_for(ready)
     # Independent literal checks catch an English fallback or code-page corruption.
     assert ('配置' in title.value) if lang=='zh-CN' else ('Profile:' in title.value),title.value
     evidence['ui'].append(dict(language=lang,title=title.value))
