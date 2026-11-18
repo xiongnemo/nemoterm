@@ -8,7 +8,7 @@ import sys
 import threading
 import time
 import traceback
-from fixture_io import read_snapshot, write_snapshot
+from fixture_io import load_sequence, read_snapshot, write_snapshot
 
 report, control = map(Path, sys.argv[1:3])
 # Settings lifecycle tests need time for several modal UI Automation rounds.
@@ -69,6 +69,7 @@ threading.Thread(target=reader, daemon=True).start()
 sys.stdout.reconfigure(encoding='utf-8',
     newline='' if exact_output else None)
 phase = None
+applied_blob = None
 request = {}
 responded = set()
 barrier_sent = barrier_ack = None
@@ -89,7 +90,8 @@ try:
             barrier_sent = barrier_ack = None
             if not request.get('preserve_mouse'):
                 print('\x1b[?9;1000;1001;1002;1003;1004;1005;1006;1015;1016l', end='')
-            print(request.get('sequence', ''), end='', flush=True)
+            print(load_sequence(control, request), end='', flush=True)
+            applied_blob = request.get('sequence_blob')
         # A cooperating application can answer a mouse report without
         # changing phases, clearing input, or resetting the tracking mode.
         for name, reply in request.get('responses', {}).items():
@@ -110,6 +112,8 @@ try:
         snapshot = {'phase': phase, 'hex': data.hex(), 'columns': size.columns,
                     'rows': size.lines, 'input_mode': 0x280, 'input_cp': k.GetConsoleCP(),
                     'input_api': 'ReadConsoleW' if wide_input else 'ReadFile'}
+        if applied_blob is not None:
+            snapshot['applied_blob'] = applied_blob
         if request.get('report_cursor'):
             info=ScreenInfo()
             if not k.GetConsoleScreenBufferInfo(stdout, c.byref(info)):

@@ -2,6 +2,7 @@
 from native_test_utils import *
 from memory_limits import private_ws_policy, private_ws_passes
 from owned_job import OwnedJob
+from fixture_io import stage_sequence
 from thread_snapshot import OwnedThreadSnapshot
 from owned_failure_state import record_owned_failure
 from frida_test_utils import detach_session
@@ -197,9 +198,16 @@ try:
             def output(child,sequence):
                 global serial
                 serial+=1
-                write_snapshot(child['control'],dict(phase=serial,sequence=sequence+'\x1b[5n'))
-                return wait_snapshot(lambda:read_snapshot(child['report']),lambda v:
+                payload=stage_sequence(child['control'],sequence+'\x1b[5n')
+                write_snapshot(child['control'],dict(phase=serial,**payload))
+                ack=wait_snapshot(lambda:read_snapshot(child['report']),lambda v:
                     v.get('phase')==serial and '\x1b[0n'.encode().hex() in v.get('hex',''))
+                assert ack.get('applied_blob')==payload.get('sequence_blob')
+                if 'sequence_blob' in payload:
+                    transfers=evidence.setdefault('verified_vt_payloads',{})
+                    entry=transfers.setdefault(payload['sequence_blob'],dict(bytes=payload['sequence_bytes'],phases=0))
+                    entry['phases']+=1
+                return ack
             def barrier(child):
                 global serial
                 serial+=1;value=read_snapshot(child['control']);value['input_barrier']=serial
