@@ -13,9 +13,9 @@ Nemoterm 是 **PuTTY 0.85 Windows pterm 的下游 fork**，沿用其终端核心
 本页描述所在分支的代码；下载产物按下面的提交和验证记录区分。已实现功能与测试边界见 [协议支持表](docs/PROTOCOLS.md)
 和 [需求与验证记录](docs/REQUIREMENTS.md)。
 
-[单文件测试版 `83ee8a5`](https://github.com/xiongnemo/nemoterm/actions/runs/44383008947/artifacts/14464623447) 修复了跨普通行和双倍宽度行框选时复制错误字符的问题。[同一 EXE 的远程验收](research/interaction-83ee8a5.md)含修复前后截图、三个真实客户端和 WSL 拖放。六种 160×48 压力负载峰值为 GDI **19.56 MB**、DirectX **29.10 MB**（前端私有工作集）。
+[单文件测试版 `3da2fc3`](https://github.com/xiongnemo/nemoterm/actions/runs/44391854501/artifacts/14469532051) 修复了 Shift 拖选双向混排文字时复制到未高亮字符的问题。取消关闭后，在三个真实客户端中都能立即继续输入和粘贴。六种 160×48 压力负载的前端私有工作集峰值为 GDI **18.94 MB**、DirectX **28.64 MB**。见[同一 EXE 的远程验收、已知问题与截图](research/interaction-3da2fc3.md)，或[上一版 `83ee8a5` 的验收记录](research/interaction-83ee8a5.md)。
 
-[上一个单文件测试版 `f564927`](https://github.com/xiongnemo/nemoterm/actions/runs/44374468391/artifacts/14460047904)：修复“窗口 → 外观 → 字体访问”的快捷键与“取消”冲突。在 GDI 和 DirectX 上均已验证：应用改变当前标签的字体不会修改 profile；撤销权限后立即恢复原字体。[同一 EXE 的交互验收](research/interaction-f564927.md)为 72/74，两个未通过项均为 Codex 启动阶段立即贴图；编辑器就绪后通过。160×48 压力测试私有工作集峰值为 GDI **18.89 MB**、DirectX **28.75 MB**。
+[较早的单文件测试版 `f564927`](https://github.com/xiongnemo/nemoterm/actions/runs/44374468391/artifacts/14460047904)：修复“窗口 → 外观 → 字体访问”的快捷键与“取消”冲突。在 GDI 和 DirectX 上均已验证：应用改变当前标签的字体不会修改 profile；撤销权限后立即恢复原字体。[同一 EXE 的交互验收](research/interaction-f564927.md)为 72/74，两个未通过项均为 Codex 启动阶段立即贴图；编辑器就绪后通过。160×48 压力测试私有工作集峰值为 GDI **18.89 MB**、DirectX **28.75 MB**。
 
 新版 38de2ad 已验证 WSL 子程序能收到终端类型、真彩色提示和终端名称；见[两种 TERM 的真实 less 回放](research/wsl-terminal-identity.md)。
 
@@ -148,6 +148,8 @@ Nemoterm 使用系统中已有的 shell；单文件产物不包含 PowerShell 7�
 | 打开 OSC 8 链接 | `Ctrl+左键单击` |
 | 本地回滚 | `Shift+PageUp` / `Shift+PageDown` |
 | 当前标签字号放大 / 缩小 | `Ctrl++` / `Ctrl+-`，或 `Ctrl+滚轮`；应用接管鼠标时滚轮需加 `Shift` |
+
+Shift 拖选按屏幕上实际高亮的字符复制。若 Claude Code 中希伯来文的顺序颠倒，可为它单独建一个 profile，勾选 **终端 → 功能 → 禁用双向文字显示** 并保存。测试中的 Claude Code 已自行重排文字，Codex 和 OpenCode 则使用默认配置。[三个客户端并排截图](research/shift-bidi-clients-gdi.png)。
 
 Codex 刚启动时，输入提示可能比能接收图片的编辑框先出现。如果首次粘贴后没有附件，等正常编辑框就绪，确认草稿里仍没有图片，再在同一草稿按一次 `Ctrl+Shift+V` 即可。[原始回放](research/interaction-a9c8150.md)验证了第二次操作只提交一张图，不需要重启或先发送文字。
 

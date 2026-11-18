@@ -140,3 +140,7 @@ The [unaltered interaction rollup](interaction-rollup-fd19411.zip) from [4435549
 | Nemoterm DirectX 独立窗口 | 9.66–9.73 MB | 44.18–44.25 MB | 32 KiB | 7.72–7.79 MB |
 
 MB 为十进制。最后两列来自正常取样结束、截取窗口像素之前的单独页清单。`QueryWorkingSet` 给出同一批驻留页与共享标志，`VirtualQueryEx` 随后查询映射类型，使用实际已加载模块的路径和基址识别前端文件。十次均完成分类，未知页为零。以第一次 GDI 单标签为例，5.12 MB 私有工作集中，约 0.03 MB 是自身 EXE 的私有映像页，1.70 MB 是其他映像里的私有页，3.37 MB 属于私有分配，另有 0.03 MB 属于映射段。可共享的页也占总工作集，但不计入本项目的私有工作集门槛；可共享不代表当时必有多个进程共享。DirectX 与 GDI 单标签间的差额主要在私有分配中。这个观察不能分辨一页由字体缓存、终端历史还是显卡驱动分配，也不能用 EXE 的磁盘大小推导运行内存。
+
+## Same-host control for `3da2fc3`
+
+The [ten-run original archive](pterm-codex-pair-3da2fc3.zip) and [per-frontend table](interaction-3da2fc3.md) pair the shipped Scoop pterm 0.85 hash with this exact single-file build. At 160×48 with Sarasa Light and the same real Codex reply, the median private working sets after the reply were 3.76–3.78 MB for pterm, 5.06–5.08 MB for a tabbed GDI Nemoterm, and 9.68–9.72 MB for its DirectX tabbed configuration. Those values are decimal MB, distinct from the total resident pages and the heavier image/scrollback workloads. The [REA PE import observation](rea-3da2fc3-imports.json.gz) and the reply-time module/process snapshots are separate static and runtime evidence about the absence of a browser dependency in this configuration.
