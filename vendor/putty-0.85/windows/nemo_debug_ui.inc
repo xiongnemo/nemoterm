@@ -205,7 +205,18 @@ static void nemo_debug_ui(NemoDebugRequest *r)
         if (mods&2) state[VK_CONTROL]=state[VK_LCONTROL]=0x80;
         if (mods&4) state[VK_MENU]=state[VK_LMENU]=0x80;
         unsigned scan=MapVirtualKeyExW(vk,MAPVK_VK_TO_VSC_EX,GetKeyboardLayout(0));
-        LPARAM lp=1|((scan&255)<<16)|((scan&0xff00)?1<<24:0)|((mods&4)?1<<29:0);
+        /* Navigation VKs denote the dedicated keys in this protocol. The
+         * scan-code map can choose the non-extended numeric-keypad alias;
+         * Windows distinguishes those keys using bit 24 of the message. */
+        bool extended = (scan & 0xff00) != 0;
+        switch (vk) {
+          case VK_INSERT: case VK_DELETE: case VK_HOME: case VK_END:
+          case VK_PRIOR: case VK_NEXT: case VK_LEFT: case VK_RIGHT:
+          case VK_UP: case VK_DOWN:
+            extended = true;
+            break;
+        }
+        LPARAM lp=1|((scan&255)<<16)|(extended?1<<24:0)|((mods&4)?1<<29:0);
         state[vk]=0x80;
         if (!SetKeyboardState(state)) {nemo_debug_error(r,3,"keyboard state unavailable");return;}
         SendMessageW(wgs->term_hwnd,(mods&4)?WM_SYSKEYDOWN:WM_KEYDOWN,vk,lp);

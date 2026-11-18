@@ -31,7 +31,9 @@ acceptance response means input was queued, not that the child program finished
 processing it. Poll `text` or `image` to observe the result. `key` sends a complete
 Windows virtual-key press/release through the frontend's normal key translator;
 Ctrl, Shift and Alt, application keyboard protocols and configured terminal
-bindings apply. Bindings such as opening or closing a tab retain their normal
+bindings apply. Arrow, Home/End, Page Up/Down, Insert and Delete virtual keys
+refer to the dedicated navigation cluster; use numeric keypad virtual keys for
+keypad input. Bindings such as opening or closing a tab retain their normal
 behavior. Neither text nor image reads use the clipboard, and ordinary input
 does not focus the window or send global desktop input.
 

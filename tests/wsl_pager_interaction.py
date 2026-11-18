@@ -40,8 +40,10 @@ printf '%s' "$?" >"pager-$phase-exit"
     diagnostics = os.environ.get('NEMOTERM_WSL_KEY_DIAGNOSTICS') == '1'
     trials = [('inherited','xterm-256color','direct','api'), ('plain','xterm','direct','api')]
     if diagnostics:
+        base = list(trials)
+        trials += [(phase+'-system-direct',term,'direct','system') for phase,term,_,_ in base]
         trials += [(phase+'-'+method+'-recorded',term,'recorded',method)
-                   for phase,term,_,_ in trials for method in ('api','system')]
+                   for phase,term,_,_ in base for method in ('api','system')]
     failures=[]
     for phase, term, transport, method in trials:
         evidence = result[phase] = dict(steps=[], transport=transport, method=method)
@@ -88,6 +90,16 @@ printf '%s' "$?" >"pager-$phase-exit"
             api.request(endpoint,'input',sid,'q')
             observe('restored',lambda text,rows: prior in text and not rows)
             wait_for(lambda: log.exists() and log.read_text(encoding='ascii')=='0')
+            if transport=='recorded':
+                # script(1) writes one header and footer around the unmodified PTY bytes.
+                evidence['current_stage']='input-bytes'
+                raw=(folder/f'pager-{phase}-input').read_bytes()
+                header,_,tail=raw.partition(b'\n'); payload,footer,end=tail.rpartition(b'\nScript done on ')
+                caps=dict(line.split('=',1) for line in evidence['program'].splitlines() if '=' in line)
+                expected=bytes.fromhex(caps['kcud1']+caps['knp'])+b'/ZEBRA_NEEDLE\rq'
+                evidence['input_bytes']=dict(expected=expected.hex(),observed=payload.hex())
+                assert header.startswith(b'Script started on ') and footer and b'COMMAND_EXIT_CODE="0"' in end
+                assert payload==expected,evidence['input_bytes']
             evidence.pop('last_screen'); evidence['completed']=True
         except Exception:
             failed_stage=evidence['current_stage'] if 'current_stage' in evidence else 'launch'
