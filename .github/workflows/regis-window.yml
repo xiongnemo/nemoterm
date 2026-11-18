@@ -37,6 +37,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Verify and download the exact source-host executable
+        id: image
         env:
           GH_TOKEN: ${{ github.token }}
           PRODUCT_RUN: ${{ inputs.product_run }}
@@ -46,6 +47,7 @@ jobs:
           ./scripts/fetch-ci-product.ps1 -Run $env:PRODUCT_RUN -Commit $env:PRODUCT_COMMIT -Destination build/regis-product
           "NEMOTERM_TEST_EXE=$((Resolve-Path build/regis-product/nemoterm.exe).Path)" | Out-File $env:GITHUB_ENV -Append -Encoding utf8
       - name: Install and identify the pinned Sarasa font
+        id: font
         run: scripts/prepare-remote-interaction.ps1
       - name: Check live ReGIS geometry and lifecycle on the owned window
         env:
@@ -76,6 +78,20 @@ jobs:
           if ($env:CAPTURE_MODE -eq 'presented-gdi') { $arguments = @('--renderer','gdi','--presented-gdi') }
           python tests/sixel_stream_window_smoke.py @arguments 2>&1 | Tee-Object build/regis-window-evidence/sixel-colour-stream.log
           exit $LASTEXITCODE
+      - name: Compare new, legacy and explicitly saved Sixel profile colours
+        if: ${{ !cancelled() && steps.image.outcome == 'success' && steps.font.outcome == 'success' }}
+        env:
+          CAPTURE_MODE: ${{ matrix.mode }}
+        shell: pwsh
+        run: |
+          $arguments = @('--renderer', $env:CAPTURE_MODE)
+          if ($env:CAPTURE_MODE -eq 'presented-gdi') { $arguments = @('--renderer','gdi','--presented-gdi') }
+          $failed = @()
+          foreach ($kind in 'fresh','saved-before-option','saved-off','saved-on') {
+            python tests/sixel_profile_defaults.py $kind @arguments
+            if ($LASTEXITCODE) { $failed += $kind }
+          }
+          if ($failed.Count) { throw "Sixel profile pixel failures: $($failed -join ', ')" }
       - name: Retain all observations including failures
         if: always()
         shell: pwsh
