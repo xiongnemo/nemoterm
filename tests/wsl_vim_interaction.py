@@ -117,6 +117,27 @@ def trial(renderer,branch):
             photo('resize-'+name);report['checks'].append('VimResized and frontend agree: '+name)
         call('input','A');events=folder/'insert-events';wait_for(lambda:events.exists() and events.read_text().splitlines()[-1:]==['enter'])
         desk.chord(0x11,0x10,ord('V'));visible(BUFFER[2]+'中文');desk.chord(0x1b);wait_for(lambda:events.read_text().splitlines()[-1:]==['leave'])
+        pre_box=state('before-rectangle');base=photo('before-rectangle')
+        set_clipboard(hwnd,'NEMO_VIM_UNCOPIED_RECTANGLE')
+        desk.point(*xy(6,1));desk.event(0x10,True);desk.event(0x11,True);desk.event(None,True)
+        wait_for(lambda:desk.state().capture==hwnd)
+        # Start on the second cell of 中, then release both modifiers before
+        # the final move: the button still belongs to the original selection.
+        desk.point(*xy(6,2));desk.event(0x11,False);desk.event(0x10,False);desk.point(*xy(7,2))
+        def rectangle():
+            frame=Image.open(io.BytesIO(call('image'))).convert('RGB');ratios={}
+            for row in (1,2):
+                for col in range(4,10):
+                    box=(1+col*cw,1+row*ch,1+(col+1)*cw,1+(row+1)*ch)
+                    diff=ImageChops.difference(base.crop(box),frame.crop(box)).convert('L').histogram()
+                    ratios[row,col]=1-diff[0]/(cw*ch)
+            report['rectangle_changed_ratios']=[[ratios[row,col] for col in range(4,10)] for row in (1,2)]
+            return all(r>.5 if ((5<=col<=8) if row==1 else (6<=col<=7)) else r<.1 for (row,col),r in ratios.items())
+        wait_for(rectangle);photo('rectangle');desk.event(None,False);wait_for(lambda:desk.state().capture!=hwnd)
+        desk.chord(0x11,0x10,ord('C'));wait_for(lambda:clipboard_text(hwnd)=='中文\r\nCU')
+        post_box=state('rectangle-copied');report['rectangle_copied']=clipboard_text(hwnd)
+        assert post_box['cursor']==pre_box['cursor'] and post_box['lines']==pre_box['lines'] and post_box['mode']=='n'
+        report['checks'].append('four Chinese cells and two ASCII cells copied as a rectangle; dropping modifiers did not hand the drag to Vim')
         call('input',':wq');desk.chord(0x0d);visible('VIM_RETURNED');visible('VIM_PRIOR_SCREEN');assert BUFFER[0] not in screen();photo('restored')
         expected=BUFFER.copy();expected[2]+='中文';raw=(folder/'buffer.txt').read_bytes();assert raw==('\n'.join(expected)+'\n').encode() and (folder/'vim-exit').read_text()=='0'
         report['checks'].append('real Ctrl+Shift+V saved exact UTF-8 and restored the previous screen on exit')
