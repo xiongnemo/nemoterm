@@ -32,7 +32,9 @@ def run():
     modes=[('legacy','',b'\x16'),('kitty-disambiguate',csi+'>1u',press),
            ('kitty-events',csi+'=3u',press+up),('kitty-all',csi+'=31u',press+up),
            ('kitty-pop',csi+'<u',b'\x16'),('xterm-level-1',csi+'>4;1m',b'\x16'),
-           ('xterm-level-2',csi+'>4;2m',b'\x1b[27;5;118~'),('xterm-disabled',csi+'>4;0m',b'\x16')]
+           ('xterm-level-2',csi+'>4;2m',b'\x1b[27;5;118~'),('xterm-csi-u',csi+'>4;1f',press),
+           ('kitty-over-xterm',csi+'>3u',press+up),('back-to-xterm',csi+'<u',press),
+           ('xterm-disabled',csi+'>4;0m',b'\x16')]
     with tempfile.TemporaryDirectory() as tmp, saved_profile(dict(NemoRenderer=0,WarnOnClose=0,CloseOnExit=1,NemoFormatOtherKeys=0)) as args, OwnedJob() as job:
         report=Path(tmp)/'rx.json'; control=Path(tmp)/'control.json'
         proc=job.spawn([str(exe),*args,'--automation','--font',font,'-e',sys.executable,
@@ -50,12 +52,22 @@ def run():
                         return bytes.fromhex(v['hex']) if v.get('phase')==name else b''
                     req=dict(phase=name,sequence=mode+csi+'5n');write_snapshot(control,req)
                     wait_for(lambda:current()==ack)
-                    api.request(inst['endpoint'],'key',sid,struct.pack('<II',ord('V'),3))
-                    wait_for(lambda:len(current())>len(ack))
-                    write_snapshot(control,dict(req,input_barrier=1))
-                    wait_for(lambda:read_snapshot(report).get('input_barrier')==1)
-                    raw=current();assert raw.startswith(ack) and raw.endswith(ack),raw
-                    row.update(received=raw[len(ack):-len(ack)].hex(),passed=raw==ack+expected+ack)
+                    # Place a barrier after the action, not a sleep: partial or
+                    # duplicate reports should remain visible in the comparison.
+                    def chord(mods,barrier,prefix):
+                        api.request(inst['endpoint'],'key',sid,struct.pack('<II',ord('V'),mods))
+                        wait_for(lambda:len(current())>len(prefix))
+                        write_snapshot(control,dict(req,input_barrier=barrier))
+                        wait_for(lambda:read_snapshot(report).get('input_barrier')==barrier)
+                        raw=current();assert raw.startswith(prefix) and raw.endswith(ack),raw
+                        return raw[len(prefix):-len(ack)],raw
+                    received,prefix=chord(3,1,ack)
+                    row.update(received=received.hex(),passed=received==expected)
+                    if len(expected)>1:
+                        # Ctrl+V is not a terminal binding in these modes. Its
+                        # down/up messages take the normal keyboard translator.
+                        reference,_=chord(2,2,prefix)
+                        row.update(ordinary_ctrl_v=reference.hex(),passed=reference==received==expected)
                     write_snapshot(out,evidence)
             finally:saved.restore()
         except Exception:evidence['error']=traceback.format_exc()
