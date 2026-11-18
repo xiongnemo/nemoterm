@@ -10,7 +10,7 @@
 gh workflow run ci.yml --ref <branch> -f scope=full
 ```
 
-`Test and build` 汇总 Linux ASan/UBSan、C/C++ 单元测试、MSVC 渲染诊断、MinGW 原生协议和像素测试、单 EXE 完整套件、profile 持久化、DPI/双语界面，以及下表的 39 项检查（27 项交互、12 项完整 Sarasa 网格负载）。单 EXE、DPI 和交互任务共用这次 source-host 构建的准确 EXE，并校验来源提交、大小及 SHA-256。
+`Test and build` 汇总 Linux ASan/UBSan、C/C++ 单元测试、MSVC 渲染诊断、MinGW 原生协议和像素测试、单 EXE 完整套件、profile 持久化、DPI/双语界面，以及下表的 42 项检查（30 项交互、12 项完整 Sarasa 网格负载）。单 EXE、DPI 和交互任务共用这次 source-host 构建的准确 EXE，并校验来源提交、大小及 SHA-256。
 
 只回放测试脚本，不重复编译：
 
@@ -67,7 +67,7 @@ ReGIS 生产代码变化后的定向重建使用 `protocol-reference.yml -f fami
 | input | 2 | byte/ReadConsoleW、中文/emoji、IMM、模拟 DPI 与组合窗位置 |
 | selection | 3 | 默认/自定义 bindings，GDI/DX 矩形、宽字符、Shift 选择，右键仅复制与复制后粘贴 |
 | clipboard | 2 | GDI/DX 文件/目录拖放，路径引用、应用接管与文本/图片优先级 |
-| agents | 3 | 固定版本 Codex/OpenCode 的图片附件与精确像素；真实 Codex 回复经 Shift 拖选、Ctrl+Shift+C/V 后提交，逐字核对 |
+| agents | 6 | 固定版本 Codex/OpenCode 的图片附件与精确像素；两款真实客户端分别在 GDI / DirectX 标签页把回复经 Shift 拖选、Ctrl+Shift+C/V 后提交，逐字核对；OpenCode 还记录拖选前的鼠标上报请求 |
 | rendering | 3 | 实际 GDI 客户区捕获、三种渲染器、字号缩放/恢复 |
 | mouse | 1 | 鼠标协议字节、按键、滚轮和坐标 |
 | tabs | 8 | 四侧标签栏/预览及四侧窗口缩放、会话与关闭回收 |
@@ -82,6 +82,8 @@ Sarasa Light 从固定 v2.3.1 压缩包安装，校验下载及实际字体名�
 当前前端私有工作集门槛按实际渲染器判定：GDI 严格低于 20,000,000 字节，DirectX 不超过 30,000,000 字节；OpenGL 保留例外。用户于 2026-11-18 调整了 DX 上限，旧 25 MB 失败不改写。同一已测 EXE 的六项新门槛回放和原始证据见 [DirectX 30 MB 记录](../research/directx-30mb.md)。
 
 `d817161` 的[实际回放记录](../research/interaction-d817161.md)列出六种负载在 GDI / DirectX 上的三个内存指标。[真实 Codex 选区与粘贴](../research/agent-selection-roundtrip.md)记录默认快捷键的连续操作、右键两种模式，以及同一 EXE 上保留的首次失败和修正后回放。
+
+双客户端、双渲染器回放与内存口径见[真实客户端记录](../research/agent-native-roundtrip.md)。
 
 客户端 fixture 使用临时 HOME/配置、权限拒绝、关闭工具/插件/更新及固定回环响应服务；不使用个人账号、历史会话或真实模型调用。图片验证使用生成的 32×16 棋盘图，核对请求中的图片像素。
 
