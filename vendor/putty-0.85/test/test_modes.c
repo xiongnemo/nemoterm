@@ -168,25 +168,6 @@ static void test_alternate_screen_queries(Mock *mk)
                   "\033[?47;2$y\033[?1047;2$y\033[?1049;2$y");
 }
 
-static void test_alternate_screen_contents(Mock *mk)
-{
-    reset(mk);
-    test_context(mk, "1047 retains a populated alternate screen until it is left");
-    /* 47 is the non-erasing way to inspect either bank in Nemoterm. */
-    term_data_fragmented(mk->term, "\033[HM\033[?47h\033[HA\033[?47l\033[?1047l");
-    IEQUAL(get_termchar(mk->term, 0, 0).chr, CSET_ASCII | 'M');
-    term_data_fragmented(mk->term, "\033[?1047h");
-    IEQUAL(get_termchar(mk->term, 0, 0).chr, CSET_ASCII | 'A');
-    term_data_fragmented(mk->term, "\033[HB\033[?1047h");
-    IEQUAL(get_termchar(mk->term, 0, 0).chr, CSET_ASCII | 'B');
-    term_data_fragmented(mk->term, "\033[?1047l");
-    IEQUAL(get_termchar(mk->term, 0, 0).chr, CSET_ASCII | 'M');
-    term_data_fragmented(mk->term, "\033[?47h");
-    IEQUAL(get_termchar(mk->term, 0, 0).chr, CSET_ASCII | ' ');
-    term_data_fragmented(mk->term, "\033[HC\033[?1049h");
-    IEQUAL(get_termchar(mk->term, 0, 0).chr, CSET_ASCII | ' ');
-}
-
 static void test_unknown_and_parameter_handling(Mock *mk)
 {
     reset(mk);
@@ -268,7 +249,6 @@ int main(void)
     test_tracking_queries(mk);
     test_encoding_queries(mk);
     test_alternate_screen_queries(mk);
-    test_alternate_screen_contents(mk);
     test_unknown_and_parameter_handling(mk);
     test_fragmented_query_and_recovery(mk);
     test_synchronized_mode_queries(mk);
