@@ -18,6 +18,8 @@ The [November 18 DirectX replay](directx-30mb.md) records the change from
 25 MB to 30 MB. See the [current preview measurement](interaction-85fe9b1.md#memory-of-this-executable)
 for the six-workload peaks of the distributed executable.
 
+In the independently built `163b3ea` executable from [full run 44238887555](https://github.com/xiongnemo/nemoterm/actions/runs/44238887555), the completed DirectX memory group also passed all six workloads. Its largest sampled frontend private working set was **29,446,144 bytes** (Unicode Kitty); total working set was 74,690,560 bytes and private commit was 32,808,960 bytes for that workload. This leaves 553,856 bytes under the DirectX limit. The executable SHA-256 was `c896d59bcc90136b4985637d5398d5ffa9b5e09679d20cc5492e72cd789e4ad5`. [Original memory artifact](https://github.com/xiongnemo/nemoterm/actions/runs/44238887555/artifacts/14398649827), ZIP SHA-256 `f015fa78c100b2faf1206a0dd8be3e571f4437afc7c5d7c1a17443132799c0f4`. This result covers the DirectX memory group only.
+
 ## Historical November 14 policy and results
 
 Source `3f68d9c644ae049d981288920fcfb579ac456441` changes policy, documentation
