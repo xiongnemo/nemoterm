@@ -99,6 +99,24 @@ def exercise(phase,block):
     check('margin-scroll',CSI+f'{top};12r'+CSI+'1S',expected(line(20),line(80-ch)))
     expose('margin-scroll-redraw',expected(line(20),line(80-ch)))
 
+    # ED 3 clears saved lines, leaving the current screen intact. Reverse
+    # scrolling makes previously off-screen source pixels observable again.
+    assert 20 < 3*ch <= 80
+    live=expected(line(80-3*ch))
+    for from_alt in (False,True):
+        case='history-clear-'+('from-alt' if from_alt else 'main')
+        check(case+'-setup',setup,both)
+        check(case+'-scroll-to-history',CSI+'3S',live)
+        if from_alt:
+            alternate=expected(line(40,'red'))
+            check(case+'-alt',CSI+'?1049h'+regis('S(E)S(M3(R100G0B0))W(I3)P[20,40]V[120,40]',1),alternate)
+            check(case+'-erase-saved',CSI+'3J',alternate)
+            check(case+'-restore-main',CSI+'?1049l',live)
+        else:
+            check(case+'-erase-saved',CSI+'3J',live)
+        check(case+'-reverse-scroll',CSI+'3T',expected(line(80)))
+        expose(case+'-redraw',expected(line(80)))
+
 if __name__=='__main__':
     main(background_exercise=exercise,suite_name='regis-window',
          font=os.environ['NEMOTERM_TEST_FONT'],before_exercise=before,
