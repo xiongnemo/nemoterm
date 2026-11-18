@@ -14,3 +14,16 @@ Windows x64 [源构建制品](https://github.com/xiongnemo/nemoterm/actions/runs
 | Codex | 16,285,696 B | 17,432,576 B |
 | Claude Code | 6,901,760 B | 19,914,752 B |
 | OpenCode | 6,901,760 B | 17,289,216 B |
+
+[三个真实客户端的 30 项独立交互](agent-interaction-83ee8a5.zip)有 28 项通过：Codex、Claude Code 和 OpenCode 在两种渲染器上，选中后默认右键只复制、设置后右键复制并粘贴均通过。仍失败的是 Codex 首次显示输入标记就立即粘贴图片（系统按键和窗口接口两条路径）；等正式编辑器就绪后两条路径通过，OpenCode 的两种方式也通过。以上是这一个组的结果，不是整个 CI 的总数。
+
+同一文件也通过[真实 WSL Vim](wsl-vim-83ee8a5.zip)四种组合：`TERM=xterm` 或 `xterm-256color` × 实际 GDI 或 DirectX。普通点击传给 Vim；Shift 可绕过应用鼠标模式复制中文，矩形选区覆盖中英文，调整窗口后两端网格一致，粘贴保存后的 UTF-8 文件与预期一致。
+
+[历史 XTerm ReGIS 对照](regis-original-comparison-83ee8a5.zip)未通过：同一提交的 MSVC 终端组件在整段、逐字节输入下，向上滚动、向下滚动（两帧）、换行滚动、共享调色板各有差异，总计五帧。以上来自原始组件报告；不是这次矩形选区的截图，也没有替换原参考图。
+
+160×48、SarasaTermSC Nerd Light，六种压力负载的私有工作集最高值均出现在密集 Unicode 加 Kitty 图片。总工作集和私有提交是同一次负载各自的峰值；不是本项目的内存门槛。
+
+| 渲染器与原始记录 | 通过 | 最高私有工作集 | 总工作集 | 私有提交 |
+| --- | ---: | ---: | ---: | ---: |
+| [GDI](memory-gdi-83ee8a5.zip) | 6/6 | 19,558,400 B | 54,341,632 B | 22,585,344 B |
+| [DirectX](memory-directx-83ee8a5.zip) | 6/6 | 29,102,080 B | 74,051,584 B | 33,320,960 B |
