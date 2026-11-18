@@ -135,6 +135,9 @@ jobs:
           "NEMOTERM_TEST_EXE=$exe" | Out-File $env:GITHUB_ENV -Append -Encoding utf8
       - name: Verify default tabs, shortcut and explicit profile options
         run: python build/profile-check/tests/command_line_profile_window_smoke.py
+      - name: Verify ordinary and jump-list profile terminal identity
+        if: ${{ !cancelled() && env.NEMOTERM_TEST_EXE != '' }}
+        run: python build/profile-check/tests/profile_term_environment.py
       - name: Verify default tab host fits the work area
         if: ${{ !cancelled() && env.NEMOTERM_TEST_EXE != '' }}
         run: python build/profile-check/tests/startup_size_window_smoke.py
