@@ -1,0 +1,571 @@
+{
+  "product_commit": "b89646ed74c390c0b5f99bd4aafc1799646eeb34",
+  "product_run": "44370898193",
+  "fixture_commit": "b89646ed74c390c0b5f99bd4aafc1799646eeb34",
+  "workflow_run": "44370898193",
+  "attempt": "1",
+  "groups": {
+    "input": {
+      "expected": [
+        "input-byte",
+        "input-wide"
+      ],
+      "cases": {
+        "input-byte": {
+          "status": "passed",
+          "verified": true
+        },
+        "input-wide": {
+          "status": "passed",
+          "verified": true
+        }
+      },
+      "artifact": "interaction-input-44370898193-1"
+    },
+    "selection": {
+      "expected": [
+        "held-selection-native",
+        "bindings",
+        "selection-gdi",
+        "selection-directx"
+      ],
+      "cases": {
+        "held-selection-native": {
+          "status": "passed",
+          "verified": true
+        },
+        "bindings": {
+          "status": "passed",
+          "verified": true
+        },
+        "selection-gdi": {
+          "status": "passed",
+          "verified": true
+        },
+        "selection-directx": {
+          "status": "passed",
+          "verified": true
+        }
+      },
+      "artifact": "interaction-selection-44370898193-1"
+    },
+    "agents": {
+      "expected": [
+        "agent-image-codex",
+        "agent-image-system-codex",
+        "agent-image-opencode",
+        "agent-image-system-opencode",
+        "agent-image-ready-codex",
+        "agent-image-ready-system-codex",
+        "agent-selection-roundtrip",
+        "agent-selection-directx",
+        "opencode-selection-gdi",
+        "claude-system-gdi",
+        "claude-stable-shortcut-gdi",
+        "claude-stable-default-gdi",
+        "claude-stable-copy-paste-gdi",
+        "opencode-system-gdi",
+        "opencode-right-default-gdi",
+        "opencode-right-copy-paste-gdi",
+        "codex-system-gdi",
+        "codex-right-default-gdi",
+        "codex-right-copy-paste-gdi",
+        "opencode-selection-directx",
+        "claude-system-directx",
+        "claude-stable-shortcut-directx",
+        "claude-stable-default-directx",
+        "claude-stable-copy-paste-directx",
+        "opencode-system-directx",
+        "opencode-right-default-directx",
+        "opencode-right-copy-paste-directx",
+        "codex-system-directx",
+        "codex-right-default-directx",
+        "codex-right-copy-paste-directx"
+      ],
+      "cases": {
+        "agent-image-codex": {
+          "status": "failed",
+          "verified": false
+        },
+        "agent-image-system-codex": {
+          "status": "failed",
+          "verified": false
+        },
+        "agent-image-opencode": {
+          "status": "passed",
+          "verified": true
+        },
+        "agent-image-system-opencode": {
+          "status": "passed",
+          "verified": true
+        },
+        "agent-image-ready-codex": {
+          "status": "passed",
+          "verified": true
+        },
+        "agent-image-ready-system-codex": {
+          "status": "passed",
+          "verified": true
+        },
+        "agent-selection-roundtrip": {
+          "status": "passed",
+          "verified": true
+        },
+        "agent-selection-directx": {
+          "status": "passed",
+          "verified": true
+        },
+        "opencode-selection-gdi": {
+          "status": "passed",
+          "verified": true
+        },
+        "claude-system-gdi": {
+          "status": "passed",
+          "verified": true
+        },
+        "claude-stable-shortcut-gdi": {
+          "status": "passed",
+          "verified": true
+        },
+        "claude-stable-default-gdi": {
+          "status": "passed",
+          "verified": true
+        },
+        "claude-stable-copy-paste-gdi": {
+          "status": "passed",
+          "verified": true
+        },
+        "opencode-system-gdi": {
+          "status": "passed",
+          "verified": true
+        },
+        "opencode-right-default-gdi": {
+          "status": "passed",
+          "verified": true
+        },
+        "opencode-right-copy-paste-gdi": {
+          "status": "passed",
+          "verified": true
+        },
+        "codex-system-gdi": {
+          "status": "passed",
+          "verified": true
+        },
+        "codex-right-default-gdi": {
+          "status": "passed",
+          "verified": true
+        },
+        "codex-right-copy-paste-gdi": {
+          "status": "passed",
+          "verified": true
+        },
+        "opencode-selection-directx": {
+          "status": "passed",
+          "verified": true
+        },
+        "claude-system-directx": {
+          "status": "passed",
+          "verified": true
+        },
+        "claude-stable-shortcut-directx": {
+          "status": "passed",
+          "verified": true
+        },
+        "claude-stable-default-directx": {
+          "status": "passed",
+          "verified": true
+        },
+        "claude-stable-copy-paste-directx": {
+          "status": "passed",
+          "verified": true
+        },
+        "opencode-system-directx": {
+          "status": "passed",
+          "verified": true
+        },
+        "opencode-right-default-directx": {
+          "status": "passed",
+          "verified": true
+        },
+        "opencode-right-copy-paste-directx": {
+          "status": "passed",
+          "verified": true
+        },
+        "codex-system-directx": {
+          "status": "passed",
+          "verified": true
+        },
+        "codex-right-default-directx": {
+          "status": "passed",
+          "verified": true
+        },
+        "codex-right-copy-paste-directx": {
+          "status": "passed",
+          "verified": true
+        }
+      },
+      "artifact": "interaction-agents-44370898193-1"
+    },
+    "agents-grid": {
+      "expected": [
+        "agent-grid-opencode-gdi",
+        "agent-grid-codex-gdi",
+        "agent-grid-claude-gdi",
+        "agent-grid-opencode-directx",
+        "agent-grid-codex-directx",
+        "agent-grid-claude-directx"
+      ],
+      "cases": {
+        "agent-grid-opencode-gdi": {
+          "status": "passed",
+          "verified": true,
+          "frontend_peak_bytes": {
+            "private_ws": 7282688,
+            "total_ws": 42311680,
+            "private_commit": 9412608
+          }
+        },
+        "agent-grid-codex-gdi": {
+          "status": "passed",
+          "verified": true,
+          "frontend_peak_bytes": {
+            "private_ws": 6848512,
+            "total_ws": 41795584,
+            "private_commit": 9019392
+          }
+        },
+        "agent-grid-claude-gdi": {
+          "status": "passed",
+          "verified": true,
+          "frontend_peak_bytes": {
+            "private_ws": 11898880,
+            "total_ws": 46657536,
+            "private_commit": 14020608
+          }
+        },
+        "agent-grid-opencode-directx": {
+          "status": "passed",
+          "verified": true,
+          "frontend_peak_bytes": {
+            "private_ws": 17760256,
+            "total_ws": 60456960,
+            "private_commit": 19890176
+          }
+        },
+        "agent-grid-codex-directx": {
+          "status": "passed",
+          "verified": true,
+          "frontend_peak_bytes": {
+            "private_ws": 17690624,
+            "total_ws": 60239872,
+            "private_commit": 20025344
+          }
+        },
+        "agent-grid-claude-directx": {
+          "status": "passed",
+          "verified": true,
+          "frontend_peak_bytes": {
+            "private_ws": 17735680,
+            "total_ws": 60530688,
+            "private_commit": 19906560
+          }
+        }
+      },
+      "artifact": "interaction-agents-grid-44370898193-1"
+    },
+    "rendering": {
+      "expected": [
+        "unicode-presented-gdi",
+        "renderers",
+        "font-zoom"
+      ],
+      "cases": {
+        "unicode-presented-gdi": {
+          "status": "passed",
+          "verified": true
+        },
+        "renderers": {
+          "status": "passed",
+          "verified": true
+        },
+        "font-zoom": {
+          "status": "passed",
+          "verified": true
+        }
+      },
+      "artifact": "interaction-rendering-44370898193-1"
+    },
+    "mouse": {
+      "expected": [
+        "mouse-wire",
+        "mouse-colours"
+      ],
+      "cases": {
+        "mouse-wire": {
+          "status": "passed",
+          "verified": true
+        },
+        "mouse-colours": {
+          "status": "passed",
+          "verified": true
+        }
+      },
+      "artifact": "interaction-mouse-44370898193-1"
+    },
+    "tabs": {
+      "expected": [
+        "tabs-top",
+        "resize-top",
+        "tabs-bottom",
+        "resize-bottom",
+        "tabs-left",
+        "resize-left",
+        "tabs-right",
+        "resize-right"
+      ],
+      "cases": {
+        "tabs-top": {
+          "status": "passed",
+          "verified": true
+        },
+        "resize-top": {
+          "status": "passed",
+          "verified": true
+        },
+        "tabs-bottom": {
+          "status": "passed",
+          "verified": true
+        },
+        "resize-bottom": {
+          "status": "passed",
+          "verified": true
+        },
+        "tabs-left": {
+          "status": "passed",
+          "verified": true
+        },
+        "resize-left": {
+          "status": "passed",
+          "verified": true
+        },
+        "tabs-right": {
+          "status": "passed",
+          "verified": true
+        },
+        "resize-right": {
+          "status": "passed",
+          "verified": true
+        }
+      },
+      "artifact": "interaction-tabs-44370898193-1"
+    },
+    "settings": {
+      "expected": [
+        "settings",
+        "settings-tabs"
+      ],
+      "cases": {
+        "settings": {
+          "status": "passed",
+          "verified": true
+        },
+        "settings-tabs": {
+          "status": "passed",
+          "verified": true
+        }
+      },
+      "artifact": "interaction-settings-44370898193-1"
+    },
+    "bell": {
+      "expected": [
+        "bell-api",
+        "bell-visual"
+      ],
+      "cases": {
+        "bell-api": {
+          "status": "passed",
+          "verified": true
+        },
+        "bell-visual": {
+          "status": "passed",
+          "verified": true
+        }
+      },
+      "artifact": "interaction-bell-44370898193-1"
+    },
+    "memory-gdi": {
+      "expected": [
+        "full-grid-text-gdi",
+        "full-grid-inline-gdi",
+        "full-grid-animated-gdi",
+        "full-grid-kitty-gdi",
+        "full-grid-compressed-kitty-gdi",
+        "full-grid-unicode-kitty-gdi"
+      ],
+      "cases": {
+        "full-grid-text-gdi": {
+          "status": "passed",
+          "verified": true,
+          "frontend_peak_bytes": {
+            "private_ws": 16453632,
+            "total_ws": 52383744,
+            "private_commit": 18567168
+          }
+        },
+        "full-grid-inline-gdi": {
+          "status": "passed",
+          "verified": true,
+          "frontend_peak_bytes": {
+            "private_ws": 17498112,
+            "total_ws": 54259712,
+            "private_commit": 19673088
+          }
+        },
+        "full-grid-animated-gdi": {
+          "status": "passed",
+          "verified": true,
+          "frontend_peak_bytes": {
+            "private_ws": 17485824,
+            "total_ws": 54272000,
+            "private_commit": 19906560
+          }
+        },
+        "full-grid-kitty-gdi": {
+          "status": "passed",
+          "verified": true,
+          "frontend_peak_bytes": {
+            "private_ws": 17391616,
+            "total_ws": 54018048,
+            "private_commit": 20008960
+          }
+        },
+        "full-grid-compressed-kitty-gdi": {
+          "status": "passed",
+          "verified": true,
+          "frontend_peak_bytes": {
+            "private_ws": 17539072,
+            "total_ws": 54317056,
+            "private_commit": 19767296
+          }
+        },
+        "full-grid-unicode-kitty-gdi": {
+          "status": "passed",
+          "verified": true,
+          "frontend_peak_bytes": {
+            "private_ws": 19656704,
+            "total_ws": 56532992,
+            "private_commit": 22642688
+          }
+        }
+      },
+      "artifact": "interaction-memory-gdi-44370898193-1"
+    },
+    "memory-directx": {
+      "expected": [
+        "full-grid-text-directx",
+        "full-grid-inline-directx",
+        "full-grid-animated-directx",
+        "full-grid-kitty-directx",
+        "full-grid-compressed-kitty-directx",
+        "full-grid-unicode-kitty-directx"
+      ],
+      "cases": {
+        "full-grid-text-directx": {
+          "status": "passed",
+          "verified": true,
+          "frontend_peak_bytes": {
+            "private_ws": 26075136,
+            "total_ws": 70381568,
+            "private_commit": 28749824
+          }
+        },
+        "full-grid-inline-directx": {
+          "status": "passed",
+          "verified": true,
+          "frontend_peak_bytes": {
+            "private_ws": 27631616,
+            "total_ws": 72544256,
+            "private_commit": 30466048
+          }
+        },
+        "full-grid-animated-directx": {
+          "status": "passed",
+          "verified": true,
+          "frontend_peak_bytes": {
+            "private_ws": 27062272,
+            "total_ws": 72245248,
+            "private_commit": 30015488
+          }
+        },
+        "full-grid-kitty-directx": {
+          "status": "failed",
+          "verified": false
+        },
+        "full-grid-compressed-kitty-directx": {
+          "status": "passed",
+          "verified": true,
+          "frontend_peak_bytes": {
+            "private_ws": 27361280,
+            "total_ws": 72441856,
+            "private_commit": 29847552
+          }
+        },
+        "full-grid-unicode-kitty-directx": {
+          "status": "passed",
+          "verified": true,
+          "frontend_peak_bytes": {
+            "private_ws": 29081600,
+            "total_ws": 74051584,
+            "private_commit": 32874496
+          }
+        }
+      },
+      "artifact": "interaction-memory-directx-44370898193-1"
+    },
+    "clipboard": {
+      "expected": [
+        "drop-gdi",
+        "drop-directx"
+      ],
+      "cases": {
+        "drop-gdi": {
+          "status": "passed",
+          "verified": true
+        },
+        "drop-directx": {
+          "status": "passed",
+          "verified": true
+        }
+      },
+      "artifact": "interaction-clipboard-44370898193-1"
+    },
+    "shells": {
+      "expected": [
+        "shells"
+      ],
+      "cases": {
+        "shells": {
+          "status": "passed",
+          "verified": true
+        }
+      },
+      "artifact": "interaction-shells-44370898193-1"
+    }
+  },
+  "errors": [
+    "Group jobs ['input', 'selection', 'agents', 'agents-grid', 'rendering', 'mouse', 'tabs', 'settings', 'bell', 'memory-gdi', 'memory-directx']: failure",
+    "agents/agent-image-codex: did not pass and exit naturally",
+    "agents/agent-image-system-codex: did not pass and exit naturally",
+    "memory-directx/full-grid-kitty-directx: did not pass and exit naturally"
+  ],
+  "scope": "all interaction groups",
+  "images": [
+    {
+      "sha256": "4aceef9192896b5b9f25c4f73855fd974d3b258a2f8def4e941e0cf4ba2478af",
+      "bytes": 4865536
+    }
+  ],
+  "expected": 74,
+  "verified": 71,
+  "passed": false
+}
