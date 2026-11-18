@@ -124,6 +124,18 @@ jobs:
           ASAN_OPTIONS: detect_leaks=1:abort_on_error=1
           UBSAN_OPTIONS: halt_on_error=1
         run: python3 tests/test_regis_reference.py --terminal --views --shared-palette --bytewise --exe build/regis-terminal/test_regis_terminal --output build/regis-component/shared-palette-bytewise
+      - name: Compare fresh shared register reads (whole)
+        if: ${{ !cancelled() }}
+        env:
+          ASAN_OPTIONS: detect_leaks=1:abort_on_error=1
+          UBSAN_OPTIONS: halt_on_error=1
+        run: python3 tests/test_regis_reference.py --terminal --views --register-readback --exe build/regis-terminal/test_regis_terminal --output build/regis-component/register-readback-whole
+      - name: Compare fresh shared register reads (bytewise)
+        if: ${{ !cancelled() }}
+        env:
+          ASAN_OPTIONS: detect_leaks=1:abort_on_error=1
+          UBSAN_OPTIONS: halt_on_error=1
+        run: python3 tests/test_regis_reference.py --terminal --views --register-readback --bytewise --exe build/regis-terminal/test_regis_terminal --output build/regis-component/register-readback-bytewise
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
@@ -201,6 +213,12 @@ jobs:
       - name: Compare shared palette updates with bytewise terminal input
         if: ${{ !cancelled() }}
         run: python tests/test_regis_reference.py --terminal --views --shared-palette --bytewise --exe build/regis-terminal/test_regis_terminal.exe --output build/regis-component/shared-palette-bytewise
+      - name: Compare fresh shared register reads (whole)
+        if: ${{ !cancelled() }}
+        run: python tests/test_regis_reference.py --terminal --views --register-readback --exe build/regis-terminal/test_regis_terminal.exe --output build/regis-component/register-readback-whole
+      - name: Compare fresh shared register reads (bytewise)
+        if: ${{ !cancelled() }}
+        run: python tests/test_regis_reference.py --terminal --views --register-readback --bytewise --exe build/regis-terminal/test_regis_terminal.exe --output build/regis-component/register-readback-bytewise
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
