@@ -176,6 +176,8 @@ GPU 模式使用 Windows 系统 DLL 与显卡驱动，不新增分发文件；�
 | DirectX（可选） | Direct3D 11 合成；前端私有工作集上限 30 MB |
 
 这里的 MB 按十进制字节计，20 MB 为 20,000,000 字节，30 MB 为 30,000,000 字节；私有工作集与私有提交量分别记录。
+
+同一测试版本 `ba91594` 以默认 160×48、Sarasa Light 分别运行真实 Codex、OpenCode、Claude Code，实际 Shift 拖选并回贴。六个场景均通过；前端私有工作集最高为 GDI **13.90 MB**、DirectX **17.58 MB**。密集 Unicode 加图像压力测试另为 **19.14 MB / 28.86 MB**。[逐客户端原始记录与采样范围](research/memory-budget.md#default-grid-with-real-clients)
 DirectX 的上限由用户于 2026-11-18 调整为 30 MB；历史测试仍保留当时的门槛与结果。
 2026-11-15 用户进一步确认：原来的内存目标针对 GDI，DX 已足够，无需继续追求约 50 MB 总工作集。
 控制台宿主、shell 和终端内应用是独立进程，量测时分别记录；这是优化目标，不是任意负载下的内存保证。

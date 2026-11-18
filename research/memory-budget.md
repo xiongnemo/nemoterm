@@ -18,6 +18,20 @@ GitHub Actions run `44277391833` tested `ba91594` (EXE SHA-256 `c4963dba443aa810
 
 On the same image all [six GDI workloads](ba91594-gdi-memory-receipt.zip) passed as well. The highest private working set was **19,140,608 bytes** (`full-grid-unicode-kitty-gdi`). Original GitHub receipt: `14416512219`, SHA-256 `e27dfc1f4457bf2ccba5624594377cb94fa8bfc55c697526d100ab8cf854c82f`.
 
+### Default grid with real clients
+
+On `ba91594`, the [six original default-window receipts](real-agent-default-grid-ba91594.zip) from run `44293961012` all passed on GitHub-hosted Windows. The launch supplied **no width or height override**. Each run verified the actual 160×48 grid, actual GDI or DirectX renderer, Sarasa Light face, a real Shift-drag and system keyboard clipboard, exact text at the local provider and natural process cleanup. A background sampler observed the frontend from discovery through submission without attaching to it. The table takes the highest private working set among the periodic observations and five named milestones per run; these are sampled maxima, not an OS lifetime high-water mark. The client and separate console host are excluded.
+
+| Real client | GDI private working set (bytes) | DirectX private working set (bytes) | GDI / DX periodic samples |
+| --- | ---: | ---: | ---: |
+| Codex | 11,411,456 | 17,518,592 | 30 / 29 |
+| OpenCode | 13,897,728 | 12,480,512 | 88 / 80 |
+| Claude Code | 11,612,160 | 17,575,936 | 38 / 40 |
+
+Each phase lasted 3.3–9.9 seconds from first to last periodic sample, with 305 periodic observations in total. The original GitHub receipt is artifact `14423380725`, SHA-256 `65120ec08e7f5a3fdc7169119b826c70607e062b70e8f2dd21a1267c95dc066c`; it retains the exact traces, milestone readings, client identities and provider receipts. These are interactive workloads, not a benchmark of model inference or the dense Unicode/graphics stress cases.
+
+### Smaller 100×30 interaction samples
+
 On the same EXE, [20 real-client desktop selection cases and their original observations](real-agent-frontend-ba91594.zip) ran at **100×30**, on the `SarasaTermSC Nerd Light` Windows face. Each sampled only the frontend at five milestones: startup, first reply, copy, composer, and submission. These are the highest of those five readings across the cases, **not** continuous process high-water marks or total memory for the client and its shell.
 
 | Real client | GDI private working set (bytes) | DirectX private working set (bytes) | Runs per renderer |
