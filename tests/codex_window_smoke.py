@@ -184,6 +184,9 @@ enabled = false
                 handles[p['pid']] = handle
                 if Path(p['path']).name.lower() == 'codex.exe':
                     p['sha256'] = hashlib.sha256(Path(p['path']).read_bytes()).hexdigest()
+            if args.paste_selection:
+                from frontend_runtime_snapshot import snapshot as runtime_snapshot
+                runtime_snapshot(evidence,'startup',handles[process.pid],job,exe,codex)
             r = w.RECT(); u.GetClientRect(hwnd, c.byref(r))
             cell_w, cell_h = (r.right-2)//100, (r.bottom-2)//30
             initial = w.RECT(); u.GetWindowRect(terminal_host(hwnd), c.byref(initial))
@@ -252,6 +255,8 @@ enabled = false
             if evidence['memory_policy']['memory_limit_required']:
                 assert private_ws_passes(actual,evidence['uninstrumented_frontend']['peak_private_ws']), evidence['uninstrumented_frontend']
             evidence['post_resize_processes'] = owned_processes(process.pid)
+            if args.paste_selection:
+                runtime_snapshot(evidence,'after-reply-and-resize',handles[process.pid],job,exe,codex)
 
             # Only this phase is instrumented. It is excluded from memory peaks.
             import frida

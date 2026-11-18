@@ -21,6 +21,7 @@ from fixture_io import read_snapshot, write_snapshot
 from native_test_utils import u, k, wait_for, memory_sample
 from memory_limits import private_ws_policy, private_ws_passes
 from owned_job import OwnedJob
+from frontend_runtime_snapshot import snapshot as runtime_snapshot
 
 ROOT=Path(__file__).resolve().parent.parent
 sys.path.insert(0,str(ROOT/'tools'))
@@ -61,6 +62,8 @@ def main():
             actual=session['renderer']+1
             def sample(phase):
                 evidence['frontend_samples'].append(dict(phase=phase,**memory_sample(handle)))
+                if phase in ('startup','submitted'):
+                    runtime_snapshot(evidence,phase,handle,job,os.environ['NEMOTERM_TEST_EXE'],args.client_exe)
             text=lambda:api.request(endpoint,'text',seat)
             def key(vk,mods=0):api.request(endpoint,'key',seat,struct.pack('<II',vk,mods))
             def frame(name,bmp=None):
