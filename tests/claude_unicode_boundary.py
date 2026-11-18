@@ -111,10 +111,18 @@ def reference(backend,client,folder,rec):
         with OwnedJob() as job,(folder/'helper-stderr.txt').open('wb') as err:
             target=[sys.executable,str(Path(__file__).resolve()),'--upstream-pty',str(folder),backend,*cmd]
             proc=job.spawn(target,stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=err,cwd=work,env=env,bufsize=0,creationflags=subprocess.CREATE_NO_WINDOW)
-            raw=bytearray()
+            raw=bytearray();token=b'NEMOTERM_TEXT_ACCEPTED';started=time.monotonic_ns()
+            events=rec['timeline']=[]
+            def mark(action,**extra):
+                events.append(dict(action=action,ms=round((time.monotonic_ns()-started)/1e6,1),**extra))
+            mark('bridge-started')
             def drain():
                 with (folder/'system-output.vt').open('wb') as f:
-                    while block:=proc.stdout.read(8192):f.write(block);f.flush();raw.extend(block)
+                    first=True
+                    while block:=proc.stdout.read(8192):
+                        previous=len(raw);f.write(block);f.flush();raw.extend(block)
+                        if first and (pos:=raw.find(token,max(0,previous-len(token)+1)))>=0:
+                            mark('first-reply-in-output',byte_offset=pos);first=False
             pump=threading.Thread(target=drain,daemon=True);pump.start()
             def wrote(payload):proc.stdin.write(payload);proc.stdin.flush()
             def seen(pred):
@@ -138,10 +146,10 @@ def reference(backend,client,folder,rec):
                 # First native startup spent 43 s inside client setup before
                 # drawing. This is distinct from any input/receipt deadline.
                 wait_for(lambda:seen(ready),timeout=120)
-                rec['sent_hex']=WIRE.hex();wrote(WIRE)
-                wait_for(lambda:b'NEMOTERM_SUBMIT' in bytes(raw),timeout=15);time.sleep(.2);wrote(b'\r')
+                mark('composer-ready');rec['sent_hex']=WIRE.hex();wrote(WIRE)
+                wait_for(lambda:b'NEMOTERM_SUBMIT' in bytes(raw),timeout=15);time.sleep(.2);mark('submit');wrote(b'\r')
                 wait_for(lambda:seen(lambda:server.requests),timeout=35)
-                rec['requests']=list(server.requests);row,=rec['requests'];assert row['path']=='/v1/messages' and row['advertised_tools']==0 and not server.errors
+                mark('provider-receipt');rec['requests']=list(server.requests);row,=rec['requests'];assert row['path']=='/v1/messages' and row['advertised_tools']==0 and not server.errors
                 assert row['selection_received'] != row['selection_nfc_present'],row
                 rec['form']='exact' if row['selection_received'] else 'NFC'
                 def accepted():
@@ -159,7 +167,7 @@ def reference(backend,client,folder,rec):
                     rec['normal_view_timed_out']=True
                     rec['display_controls']=[]
                     for label,key in [('redraw',b'\x0c'),('transcript',b'\x0f')]:
-                        pos=len(raw);wrote(key)
+                        pos=len(raw);mark(label,output_bytes=pos);wrote(key)
                         def caught():
                             pane=read_snapshot(folder/'peer-screen.json').get('text','')
                             return 'NEMOTERM_TEXT_ACCEPTED' in pane or b'NEMOTERM_TEXT_ACCEPTED' in bytes(raw[pos:])
@@ -167,13 +175,15 @@ def reference(backend,client,folder,rec):
                         except AssertionError:visible=False
                         rec['display_controls'].append(dict(action=label,visible=visible,new_output=len(raw)-pos))
                         if visible:break
-                    if rec['display_controls'][-1]['action']=='transcript':wrote(b'\x1b');time.sleep(.15)
-                wrote(b'\x03');time.sleep(.3)
-                if proc.poll() is None:wrote(b'\x03')
+                    if rec['display_controls'][-1]['action']=='transcript':mark('escape-transcript');wrote(b'\x1b');time.sleep(.15)
+                mark('first-ctrl-c');wrote(b'\x03');time.sleep(.3)
+                if proc.poll() is None:mark('second-ctrl-c');wrote(b'\x03')
                 assert proc.wait(timeout=18)==0
             finally:
                 rec['provider_errors']=list(server.errors);rec['requests']=list(server.requests)
-                proc.stdin.close();rec['cleanup']=job.finish();pump.join(5)
+                proc.stdin.close();rec['cleanup']=job.finish();pump.join(5);mark('cleanup')
+                active=read_snapshot(folder/'peer-active-first-reply.json')
+                if active:rec['active_buffer_first_reply_ms']=round((active['monotonic_ns']-started)/1e6,1)
             assert not rec['cleanup']['terminated_remaining'] and not pump.is_alive()
             assert not rec.get('normal_view_timed_out'),'Normal-view reply missed its original deadline: '+str(rec.get('display_controls'))
     finally:server.shutdown();server.server_close();thread.join(3)

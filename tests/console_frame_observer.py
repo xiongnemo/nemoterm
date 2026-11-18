@@ -50,10 +50,32 @@ class ConsoleView:
 
 
 def observe(folder,command):
-    view=ConsoleView(folder);child=subprocess.Popen(command)
-    while child.poll() is None:
-        view.capture();time.sleep(.025)
+    view=ConsoleView(folder)
+    # GetStdHandle identifies the inherited buffer. A client can activate
+    # another buffer; opening CONOUT$ reads the one active at that instant.
+    k.CreateFileW.argtypes=[w.LPCWSTR,w.DWORD,w.DWORD,c.c_void_p,w.DWORD,w.DWORD,w.HANDLE]
+    k.CreateFileW.restype=w.HANDLE;k.CloseHandle.argtypes=[w.HANDLE]
+    invalid=c.c_void_p(-1).value; token='NEMOTERM_TEXT_ACCEPTED';prev=None
+    record=dict(captures=0,unavailable=0,first_token_ns=None)
+    child=subprocess.Popen(command)
+    try:
+        while child.poll() is None:
+            view.capture();handle=k.CreateFileW('CONOUT$',0x80000000,3,None,3,0,None)
+            if handle not in (None,invalid):
+                try:active=console_view(handle)
+                finally:k.CloseHandle(handle)
+            else:active=None
+            if active is None:record['unavailable']+=1
+            else:
+                record['captures']+=1
+                if active!=prev:
+                    stamp=time.monotonic_ns();prev=active
+                    write_snapshot(folder/'peer-active-screen.json',dict(text=active,monotonic_ns=stamp))
+                    if record['first_token_ns'] is None and token in active:
+                        record['first_token_ns']=stamp
+                        write_snapshot(folder/'peer-active-first-reply.json',dict(text=active,monotonic_ns=stamp))
+            time.sleep(.025)
+    finally:write_snapshot(folder/'peer-active-stats.json',record)
     return child.returncode
-
 
 if __name__=='__main__':sys.exit(observe(Path(sys.argv[1]),sys.argv[2:]))
