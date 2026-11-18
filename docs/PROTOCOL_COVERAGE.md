@@ -255,7 +255,8 @@ number of passing executables. Unlisted private extensions remain **unverified**
 | OSC 52 | Gated | `osc52`; read/write permissions separate, bounded streaming base64. Full CI covers native Unicode clipboard text, selection retention, synchronized output, lock contention and delayed rendering. Read permission defaults off; these checks do not establish X11 ownership semantics or every application. See [the protocol ledger](PROTOCOLS.md). |
 | OSC P / R (Linux palette legacy syntax) | Source only | Inherited handlers; separate from tested OSC 4 parsing. |
 | OSC 60/61/62 feature-policy reports | Partial; both complete CI workflows passed | GCC/Clang ASan+UBSan and MSVC pass 1,780 unchanged XTerm formatter replies from the 20-profile / 2,100-stream capture, 36 native-policy parser cases whole and bytewise, and actual permission gates. Local native GDI/ConPTY and both full CI products each pass 72 cases across three profiles; the single image passes 160 groups. Native settings use independent restrictions, not XTerm master overrides; ESC restart is a named parser difference. Local exact-product Sarasa acceptance remains pending. [Mapping, reference and scope](../research/feature-policy.md). |
-| OSC 3/30/31/46/50 and remaining xterm OSC commands | Missing | X properties and font/log/resource operations are not implemented. |
+| OSC 50 font query/change | Partial | The Windows frontend implements a per-view scalable font family and independent profile permissions for reading and changing it. Windows uses its installed fonts; there is no X11 bitmap font menu or XLFD lookup. [Independent XTerm 412, original Windows failures and exact-image checks](../research/osc-font-operations.md). |
+| OSC 3/30/31/46 and remaining xterm OSC commands | Missing | X properties and unlisted log/resource operations are not implemented. |
 
 ## Work queue from this audit
 
