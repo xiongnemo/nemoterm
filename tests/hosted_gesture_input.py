@@ -35,6 +35,7 @@ class DesktopInput:
         u.WindowFromPoint.argtypes,u.WindowFromPoint.restype=[w.POINT],w.HWND
         u.GetForegroundWindow.restype=w.HWND
         u.GetParent.argtypes,u.GetParent.restype=[w.HWND],w.HWND
+        u.GetAncestor.argtypes,u.GetAncestor.restype=[w.HWND,w.UINT],w.HWND
         u.SendMessageTimeoutW.argtypes=[w.HWND,w.UINT,w.WPARAM,w.LPARAM,w.UINT,w.UINT,c.POINTER(c.c_size_t)]
         u.GetWindowThreadProcessId.argtypes=[w.HWND,c.POINTER(w.DWORD)]
         u.GetGUIThreadInfo.argtypes=[w.DWORD,c.POINTER(ThreadInfo)]
@@ -64,7 +65,7 @@ class DesktopInput:
     def click_confirmation_button(self,hwnd,button,log):
         win=self.u; assert self.owned_confirmation()==hwnd
         b=win.GetDlgItem(hwnd,button);r=w.RECT();assert b and win.GetWindowRect(b,c.byref(r))
-        pt=w.POINT((r.left+r.right)//2,(r.top+r.bottom)//2);self.move_screen(pt.x,pt.y)
+        pt=w.POINT((r.left+r.right)//2,(r.top+r.bottom)//2)
         log.update(dialog=hwnd,button_id=button,button=b,point=[pt.x,pt.y],observations=[])
         start=time.monotonic()
         def observe(stage):
@@ -86,11 +87,26 @@ class DesktopInput:
         def button_state():
             reply=c.c_size_t();assert win.SendMessageTimeoutW(b,0xf2,0,0,2,500,c.byref(reply))  # BM_GETSTATE
             return reply.value
-        def hit():
-            state=observe('positioned');log['hover_state']=button_state()
-            return (state['cursor']==[pt.x,pt.y] and state['hit']==b and self.owned_confirmation()==hwnd
-                    and state['active']==hwnd and not state['left_down'] and log['hover_state']&0x200)  # BST_HOT
-        wait_for(hit)
+        # A dialog can appear underneath an already stationary pointer. Enter
+        # the button from elsewhere on this very dialog, as a real user would.
+        # Never move through another application, click twice, or repair focus.
+        def move_and_wait(x,y,stage,owned_hit,hot):
+            self.move_screen(x,y)
+            def arrived():
+                state=observe(stage);native=button_state();log[stage+'_state']=native
+                return (state['cursor']==[x,y] and owned_hit(state['hit'])
+                        and self.owned_confirmation()==hwnd and state['active']==hwnd
+                        and not state['left_down'] and bool(native & 0x200)==hot)  # BST_HOT
+            try: wait_for(arrived)
+            finally: log[stage+'_end_ms']=round(1000*(time.monotonic()-start))
+        def other_dialog_surface(h): return bool(h and h!=b and win.GetAncestor(h,2)==hwnd)
+        observe('before-approach')
+        approach=wait_for(lambda:next((q for q in [w.POINT(pt.x,r.top-3), w.POINT(r.left-3,pt.y),
+                                   w.POINT(pt.x,r.bottom+2)]
+                       if other_dialog_surface(win.WindowFromPoint(q))),None))
+        log['approach']=[approach.x,approach.y]
+        move_and_wait(approach.x,approach.y,'approach',other_dialog_surface,False)
+        move_and_wait(pt.x,pt.y,'hover',lambda h:h==b,True)
         # Wait for native button delivery before releasing, not merely SendInput insertion.
         down=Input();down.mouse.flags=2;up=Input();up.mouse.flags=4
         assert win.SendInput(1,c.byref(down),c.sizeof(Input))==1
