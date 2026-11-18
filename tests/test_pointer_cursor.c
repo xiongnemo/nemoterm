@@ -105,8 +105,62 @@ static int atlas(unsigned size)
     return 0;
 }
 
-int main(void)
+static void resources(const char *stage)
 {
+    printf("%-26s user=%lu gdi=%lu\n", stage,
+           GetGuiResources(GetCurrentProcess(), GR_USEROBJECTS),
+           GetGuiResources(GetCurrentProcess(), GR_GDIOBJECTS));
+    fflush(stdout);
+}
+
+/* Independent Win32 controls, each mode run in a new process. The resource
+ * gate below still starts from its original baseline. */
+static int cursor_control(const char *mode)
+{
+    HCURSOR stock=LoadCursor(NULL,IDC_IBEAM);
+    CHECK(stock);
+    resources("stock loaded");
+    if (!strcmp(mode,"--activate-only")) {
+        HCURSOR previous=SetCursor(stock); resources("SetCursor(stock)");
+        SetCursor(previous); resources("SetCursor(previous)"); return 0;
+    }
+    HDC dc=CreateCompatibleDC(NULL); CHECK(dc);
+    BITMAPINFO bi={0}; bi.bmiHeader.biSize=sizeof(BITMAPINFOHEADER);
+    bi.bmiHeader.biWidth=32; bi.bmiHeader.biHeight=-32;
+    bi.bmiHeader.biPlanes=1; bi.bmiHeader.biBitCount=32;
+    void *bits=NULL;
+    HBITMAP dib=CreateDIBSection(dc,&bi,DIB_RGB_COLORS,&bits,NULL,0); CHECK(dib && bits);
+    HGDIOBJ old=SelectObject(dc,dib); CHECK(old!=NULL && old!=HGDI_ERROR);
+    memset(bits,0xff,32*32*4);
+    resources("DIB ready");
+    CHECK(DrawIconEx(dc,0,0,stock,32,32,0,NULL,DI_NORMAL));CHECK(GdiFlush());
+    resources("DrawIconEx(stock)");
+    CHECK(SelectObject(dc,old)==dib);
+    if (!strcmp(mode,"--indirect")) {
+        unsigned char maskbits[128]={0};
+        HBITMAP mask=CreateBitmap(32,32,1,1,maskbits); CHECK(mask);
+        ICONINFO icon={0};icon.xHotspot=4;icon.yHotspot=5;
+        icon.hbmMask=mask;icon.hbmColor=dib;
+        HCURSOR custom=CreateIconIndirect(&icon);CHECK(custom);
+        resources("CreateIconIndirect");
+        HCURSOR previous=SetCursor(custom); resources("select indirect");
+        SetCursor(previous); CHECK(DestroyCursor(custom)); CHECK(DeleteObject(mask));
+        resources("destroy indirect");
+    }
+    CHECK(DeleteObject(dib));CHECK(DeleteDC(dc));CHECK(GdiFlush());resources("control released");
+    return 0;
+}
+
+int main(int argc, char **argv)
+{
+    if (argc==2) {
+        CHECK(!strcmp(argv[1],"--activate-only") || !strcmp(argv[1],"--draw-stock") || !strcmp(argv[1],"--indirect"));
+        resources("cold"); CHECK(observer_control()==0);resources("observer warm");
+        CHECK(cursor_control(argv[1])==0);resources("first pass");
+        CHECK(cursor_control(argv[1])==0);resources("second pass");
+        return 0;
+    }
+
     DWORD cold_gdi = GetGuiResources(GetCurrentProcess(), GR_GDIOBJECTS);
     CHECK(observer_control() == 0);
     DWORD control_gdi = GetGuiResources(GetCurrentProcess(), GR_GDIOBJECTS);
@@ -173,7 +227,9 @@ int main(void)
     CHECK(GetGuiResources(GetCurrentProcess(), GR_USEROBJECTS) == warmed_user);
     CHECK(GetGuiResources(GetCurrentProcess(), GR_GDIOBJECTS) == warmed_gdi);
     HCURSOR source = cache[0][NEMO_POINTER_CELL];
+    resources("before application colour");
     nemo_pointer_select(source, true, RGB(18,164,92), RGB(214,50,180));
+    resources("first application colour");
     HCURSOR first = GetCursor(); CHECK(first != NULL && first != source);
     nemo_pointer_select(source, true, RGB(18,164,92), RGB(214,50,180));
     CHECK(GetCursor() == first);
@@ -183,9 +239,11 @@ int main(void)
         nemo_pointer_select(source, true, RGB(i,3,1), RGB(1,2,255-i));
         CHECK(GetCursor() && GetCursor() != source);
     }
+    resources("after 120 recolours");
     CHECK(GetGuiResources(GetCurrentProcess(), GR_USEROBJECTS) == tinted_user);
     CHECK(GetGuiResources(GetCurrentProcess(), GR_GDIOBJECTS) == tinted_gdi);
     nemo_pointer_select(source, false, 0, 0); CHECK(GetCursor() == source);
+    resources("restored source"); CHECK(GdiFlush()); resources("after restore flush");
     CHECK(GetGuiResources(GetCurrentProcess(), GR_USEROBJECTS) == warmed_user);
     CHECK(GetGuiResources(GetCurrentProcess(), GR_GDIOBJECTS) == warmed_gdi);
     CHECK(atlas(32) == 0); CHECK(atlas(48) == 0); CHECK(atlas(96) == 0);

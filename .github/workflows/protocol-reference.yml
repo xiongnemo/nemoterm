@@ -32,6 +32,7 @@ on:
           - kitty-unicode-geometry
           - kitty-pointer
           - pointer-components
+          - pointer-resources
           - pointer-components-linux
           - pointer-window-replay
           - unicode-text-boundaries
@@ -132,13 +133,44 @@ jobs:
     uses: ./.github/workflows/pointer-window-replay.yml
     with:
       run_id: ${{ inputs.pointer_run }}
+  pointer-resources:
+    if: inputs.family == 'pointer-resources'
+    runs-on: windows-2025
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Compile the cursor fixture and run independent controls in fresh processes
+        shell: pwsh
+        run: |
+          $vswhere = "${env:ProgramFiles(x86)}/Microsoft Visual Studio/Installer/vswhere.exe"
+          $vs = & $vswhere -latest -products '*' -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+          Import-Module "$vs/Common7/Tools/Microsoft.VisualStudio.DevShell.dll"
+          Enter-VsDevShell -VsInstallPath $vs -SkipAutomaticLocation -DevCmdArguments '-arch=x64 -host_arch=x64'
+          cl /nologo /std:c11 /O2 /Ivendor/putty-0.85/windows /Ivendor/putty-0.85/terminal tests/test_pointer_cursor.c vendor/putty-0.85/windows/nemo_pointer_win.c vendor/putty-0.85/windows/nemo_pointer_glyph.c /Fecursor-check.exe user32.lib gdi32.lib 2>&1 | Tee-Object compiler.log
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          $failed=0
+          foreach ($mode in @('activate-only','draw-stock','indirect')) {
+            ./cursor-check.exe "--$mode" 2>&1 | Tee-Object "control-$mode.log"
+            if ($LASTEXITCODE) { $failed=1 }
+          }
+          ./cursor-check.exe 2>&1 | Tee-Object application-check.log
+          if ($LASTEXITCODE) { $failed=1 }
+          exit $failed
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: native-cursor-resources-${{ github.sha }}
+          path: |
+            *.log
+            cursor-check.exe
+          retention-days: 30
   pointer-components:
     if: inputs.family == 'pointer-components' || inputs.family == 'pointer-components-linux'
     uses: ./.github/workflows/pointer-shapes.yml
     with:
       skip_windows: ${{ inputs.family == 'pointer-components-linux' }}
   xterm-reference:
-    if: inputs.family != 'regis-product' && inputs.family != 'regis-core' && inputs.family != 'regis' && inputs.family != 'terminfo-database' && inputs.family != 'historical-xterm' && inputs.family != 'sidecar-wire' && inputs.family != 'kitty-graphics' && inputs.family != 'kitty-compression' && inputs.family != 'kitty-features' && inputs.family != 'kitty-query-errors' && inputs.family != 'kitty-relative' && inputs.family != 'kitty-unicode' && inputs.family != 'kitty-unicode-geometry' && inputs.family != 'kitty-pointer' && inputs.family != 'pointer-components' && inputs.family != 'pointer-components-linux' && inputs.family != 'pointer-window-replay'
+    if: inputs.family != 'regis-product' && inputs.family != 'regis-core' && inputs.family != 'regis' && inputs.family != 'terminfo-database' && inputs.family != 'historical-xterm' && inputs.family != 'sidecar-wire' && inputs.family != 'kitty-graphics' && inputs.family != 'kitty-compression' && inputs.family != 'kitty-features' && inputs.family != 'kitty-query-errors' && inputs.family != 'kitty-relative' && inputs.family != 'kitty-unicode' && inputs.family != 'kitty-unicode-geometry' && inputs.family != 'kitty-pointer' && inputs.family != 'pointer-resources' && inputs.family != 'pointer-components' && inputs.family != 'pointer-components-linux' && inputs.family != 'pointer-window-replay'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
