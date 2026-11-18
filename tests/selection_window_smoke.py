@@ -179,6 +179,22 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-selection-') as temporary:
             observed=wait_snapshot(lambda:read_snapshot(report),lambda v:v.get('input_barrier')==name)
             check.update(child_hex=observed['hex'],input_cp=observed['input_cp'])
             assert bytes.fromhex(check['child_hex'])==dsr+payload+dsr,check
+        # The locally handled right-up can go to another HWND. Drive only the
+        # messages the terminal receives; the uninjected desktop case also
+        # verifies the actual recipient of the missing up.
+        rr=evidence['right_release_outside']={}
+        begin_phase('right-copy-down','\x1b[?1049h\x1b[2J\x1b[5;3HLOCAL-COPY\x1b[?1002;1006h')
+        start,end=point(2,4),point(6,4)
+        u.SendMessageW(hwnd,0x201,5,start);u.SendMessageW(hwnd,0x200,5,end);u.SendMessageW(hwnd,0x202,4,end)
+        rr['shortcut_copy']=copy_shortcut();assert rr['shortcut_copy']=='LOCAL',rr
+        before=u.GetClipboardSequenceNumber();u.SendMessageW(hwnd,0x204,2,end)
+        wait_for(lambda:u.GetClipboardSequenceNumber()!=before);rr['right_copy']=clipboard_text(hwnd)
+        assert rr['right_copy']=='LOCAL',rr
+        rr['local_wire']=no_forwarded_input()  # intentionally no right-up at this HWND
+        begin_phase('right-app-pair','\x1b[?1049l\x1bc\x1b[?1002;1006h')
+        u.SendMessageW(hwnd,0x204,2,point(7,4));u.SendMessageW(hwnd,0x205,0,point(7,4))
+        try:rr['application_wire']=no_forwarded_input(b'\x1b[<2;8;5M\x1b[<2;8;5m')
+        finally:u.SendMessageW(hwnd,0x1f,0,0)
         from selection_history_drag import verify_history_drag
         verify_history_drag(hwnd,begin_phase,point,captured,tile,copy_shortcut,no_forwarded_input,evidence)
         evidence['completed']=True

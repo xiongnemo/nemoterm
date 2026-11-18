@@ -11,7 +11,7 @@ class GuiThread(c.Structure):
               ('capture',w.HWND),('menu',w.HWND),('sizing',w.HWND),('caret',w.HWND),('rect',w.RECT)]
 
 
-def verify_gestures(host, seat, child, Input, out, evidence, publish):
+def verify_gestures(host, seat, child, Input, out, evidence, publish, visible_text):
     assert os.environ.get('GITHUB_ACTIONS')=='true' and os.environ.get('RUNNER_ENVIRONMENT')=='github-hosted'
     hwnd=seat['hwnd']; wrect=w.RECT(); assert u.GetClientRect(hwnd,c.byref(wrect))
     cols,rows=seat['cols'],seat['rows'];assert (cols,rows)==(80,24)
@@ -32,7 +32,7 @@ def verify_gestures(host, seat, child, Input, out, evidence, publish):
     def event(kind,code,down):
         e=Input();e.kind=kind
         if kind:e.key.key=code;e.key.flags=0 if down else 2
-        else:e.mouse.flags={0:(2,4),1:(8,16)}[code][not down]
+        else:e.mouse.flags=({0:2,1:8} if down else {0:4,1:16})[code]
         assert u.SendInput(1,c.byref(e),c.sizeof(e))==1
         if down:held.append((kind,code))
         else:held.remove((kind,code))
@@ -121,20 +121,34 @@ def verify_gestures(host, seat, child, Input, out, evidence, publish):
             return bytes.fromhex(wait_for(lambda:v if (v:=read_snapshot(child['report']) or {}).get('input_barrier')==key else None)['hex'])
         def cell(x,y):
             p=move(1+x*cw+cw//2,1+y*ch+ch//2);wait_for(lambda:u.WindowFromPoint(p)==hwnd);return p
-        request=start_right_phase('copy','\x1bc\x1b[2J\x1b[HLOCAL-COPY\x1b[?1002;1006h')
-        cell(0,0);event(1,0x10,True);event(0,0,True);wait_for(lambda:capture_owner()==hwnd)
-        cell(4,0);event(0,0,False);wait_for(lambda:capture_owner()!=hwnd);event(1,0x10,False)
+        request=start_right_phase('copy','\x1b[?1049h\x1b[0m\x1b[?25l\x1b[2J\x1b[5;3HLOCAL-COPY\x1b[?1002;1006h')
+        def visible_label():
+            lines=visible_text().splitlines();return len(lines)>4 and lines[4][2:12]=='LOCAL-COPY'
+        try:wait_for(visible_label)
+        finally:check['source_text']=visible_text();capture(hwnd,str(out/'outside-source.png'));publish()
+        def cells(image):
+            return [b''.join(image[((1+4*ch+dy)*wrect.right+1+x*cw)*3:((1+4*ch+dy)*wrect.right+1+(x+1)*cw)*3] for dy in range(ch)) for x in range(1,8)]
+        source=cells(capture(hwnd,return_pixels=True));cell(2,4);event(1,0x10,True);event(0,0,True);wait_for(lambda:capture_owner()==hwnd)
+        cell(6,4)
+        def highlighted():
+            now=cells(capture(hwnd,return_pixels=True));check['highlight_cells']=[a!=b for a,b in zip(source,now)]
+            return check['highlight_cells']==[False,True,True,True,True,True,False]
+        try:wait_for(highlighted)
+        finally:capture(hwnd,str(out/'outside-highlight.png'));publish()
+        event(0,0,False);wait_for(lambda:capture_owner()!=hwnd);event(1,0x10,False)
+        before=u.GetClipboardSequenceNumber();shortcut(ord('C'));wait_for(lambda:u.GetClipboardSequenceNumber()!=before)
+        check['shortcut_copy']=clipboard_text(hwnd);assert check['shortcut_copy']=='LOCAL',check
         before=u.GetClipboardSequenceNumber();event(0,1,True)
-        wait_for(lambda:u.GetClipboardSequenceNumber()!=before);check['copied']=clipboard_text(hwnd)
+        try:wait_for(lambda:u.GetClipboardSequenceNumber()!=before)
+        finally:check.update(copied=clipboard_text(hwnd),clipboard_changes=[before,u.GetClipboardSequenceNumber()],capture_at_copy=capture_owner());publish()
         assert check['copied']=='LOCAL',check
-        # A no-activate STATIC window owned by this fixture receives the actual
+        # A fixture-owned no-activate button receives the actual
         # system release. Keep the terminal focused and never click the desktop.
         dest=w.POINT(1+12*cw,1+3*ch);assert u.ClientToScreen(hwnd,c.byref(dest))
         u.CreateWindowExW.argtypes=[w.DWORD,w.LPCWSTR,w.LPCWSTR,w.DWORD,c.c_int,c.c_int,c.c_int,c.c_int,w.HWND,w.HMENU,w.HINSTANCE,c.c_void_p]
         u.CreateWindowExW.restype=w.HWND;u.DestroyWindow.argtypes=[w.HWND]
         u.PeekMessageW.argtypes=[c.POINTER(w.MSG),w.HWND,w.UINT,w.UINT,w.UINT]
-        # A bordered static is hit-testable; SS_NOTIFY avoids HTTRANSPARENT.
-        sink=u.CreateWindowExW(0x08000088,'STATIC','release target',0x90000100,dest.x-12,dest.y-12,24,24,None,None,None,None)
+        sink=u.CreateWindowExW(0x08000088,'BUTTON','release target',0x90000000,dest.x-12,dest.y-12,24,24,None,None,None,None)
         assert sink
         try:
             assert u.SetCursorPos(dest.x,dest.y);wait_for(lambda:u.WindowFromPoint(dest)==sink)
@@ -144,7 +158,7 @@ def verify_gestures(host, seat, child, Input, out, evidence, publish):
         finally:u.DestroyWindow(sink)
         check['local_wire']=confirm(request).hex();assert check['local_wire']==(dsr+dsr).hex(),check
         # RIS discards the selection. The peer requests button tracking again.
-        request=start_right_phase('application','\x1bc\x1b[?1002;1006h');assert u.GetForegroundWindow()==host
+        request=start_right_phase('application','\x1b[?1049l\x1bc\x1b[?1002;1006h');assert u.GetForegroundWindow()==host
         cell(7,4);event(0,1,True);wait_for(lambda:capture_owner()==hwnd);event(0,1,False)
         expected=dsr+b'\x1b[<2;8;5M\x1b[<2;8;5m'+dsr
         observed=confirm(request);check.update(application_wire=observed.hex(),expected_wire=expected.hex(),capture_after_release=capture_owner());publish()
