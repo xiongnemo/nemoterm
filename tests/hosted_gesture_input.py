@@ -91,6 +91,17 @@ class DesktopInput:
         # the button from elsewhere on this very dialog, as a real user would.
         # Never move through another application, click twice, or repair focus.
         def move_and_wait(x,y,stage,owned_hit,hot,control):
+            if hot:
+                # Model one approach through distinct interior pixels. A jump
+                # to the centre alone can arrive before a freshly created
+                # modal starts consuming button motion on the hosted desktop.
+                bounds=w.RECT();assert win.GetWindowRect(control,c.byref(bounds))
+                radius=min(12,(x-bounds.left)//2);assert radius>=3
+                for dx in (-radius,-(2*radius//3),-(radius//3)):
+                    if self.owned_confirmation()!=hwnd or not owned_hit(win.WindowFromPoint(w.POINT(x+dx,y))):
+                        raise AssertionError('Another surface obscures the button approach')
+                    self.move_screen(x+dx,y)
+                    observe(stage+'-moving');time.sleep(.030)
             self.move_screen(x,y)
             def arrived():
                 state=observe(stage);native=button_state(control);log[stage+'_state']=native
