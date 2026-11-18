@@ -261,11 +261,11 @@ def main():
             winreg.SetValueEx(key,'RightClickCopyAndPaste',0,winreg.REG_DWORD,1)
         if args.selection_renderer:
             winreg.SetValueEx(key, 'NemoRenderer', 0, winreg.REG_DWORD, {'gdi':0,'directx':2}[args.selection_renderer])
-            # This isolated client session has only generated data. Preserve its
-            # incoming VT traffic to identify the mouse protocol at the drag.
-            for setting,value in (('LogType',2),('LogFileClash',1),('LogFlush',1)):
-                winreg.SetValueEx(key, setting, 0, winreg.REG_DWORD, value)
-            winreg.SetValueEx(key, 'LogFileName', 0, winreg.REG_SZ, str(folder/'client-output.log'))
+        # Capture only the disposable fixture's generated application output;
+        # image cases also need the exact negotiation in effect at the gesture.
+        for setting,value in (('LogType',2),('LogFileClash',1),('LogFlush',1)):
+            winreg.SetValueEx(key, setting, 0, winreg.REG_DWORD, value)
+        winreg.SetValueEx(key, 'LogFileName', 0, winreg.REG_SZ, str(folder/'client-output.log'))
         winreg.SetValueEx(key, 'WarnOnClose', 0, winreg.REG_DWORD, 0)
         winreg.SetValueEx(key, 'CloseOnExit', 0, winreg.REG_DWORD, 1)
     server = Provider()

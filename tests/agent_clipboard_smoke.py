@@ -1,6 +1,8 @@
 """Real Codex/OpenCode image paste, with no live model or tool execution."""
 import argparse
 import json
+import hashlib
+import traceback
 import os
 from pathlib import Path
 import struct
@@ -28,7 +30,7 @@ def main():
     args=parser.parse_args()
     folder=Path(tempfile.mkdtemp(prefix='agent-image-',dir=ROOT/'build'))
     result=dict(client=args.client,cases=[],live_model=False,tool_responses=False,font=args.font)
-    result['system_input']=args.system_input
+    result.update(system_input=args.system_input,failures=[])
     for name,mods in [('ctrl-v',2),('ctrl-shift-v',3)]:
         if args.binding and args.binding!=name:continue
         case=folder/name;report=case/'observed.json';control=case/'control.json'
@@ -60,6 +62,11 @@ def main():
                 wait_for(lambda:marker in api.request(endpoint,'text',seat),timeout=20)
                 write_snapshot(control,dict(id=1,action='bitmap'))
                 wait_for(lambda:read_snapshot(report).get('clipboard_action')==1)
+                trace=case/'client-output.log'
+                before=trace.read_bytes() if trace.is_file() else b''
+                (case/'at-paste.vt').write_bytes(before)
+                write_snapshot(case/'at-paste.json',dict(marker=marker,system=bool(desk),binding=name,
+                    bytes=len(before),sha256=hashlib.sha256(before).hexdigest(),session=session))
                 attachment_started=time.monotonic()
                 key(86,mods)
                 # OpenCode launches Windows PowerShell/WinForms to read images.
@@ -95,7 +102,8 @@ def main():
                 write_snapshot(ROOT/f'research/agent-{args.client}-{name}.json',observed)
                 result['cases'].append(observed)
                 print(args.client+' '+name+': exact generated image received; natural cleanup',flush=True)
-            except BaseException:
+            except Exception:
+                result['failures'].append(dict(binding=name,error=traceback.format_exc()))
                 try:
                     write_snapshot(control,dict(id=90,action='clipboard-probe'))
                     probe=wait_for(lambda:read_snapshot(report).get('clipboard_probe'),timeout=35)
@@ -107,7 +115,8 @@ def main():
                     (case/'failure.png').write_bytes(api.png_from_bmp(api.request(endpoint,'image',seat)))
                 except Exception:pass
                 print('Failure evidence: '+str(case),flush=True)
-                raise
+                # The other shortcut has a fresh process, profile and clipboard.
+                # Run it as well; either original failure still fails this case.
             finally:
                 if desk:
                     desk.restore();write_snapshot(case/'system-input.json',events)
@@ -117,9 +126,10 @@ def main():
                     except subprocess.TimeoutExpired:pass
                 job.finish()
                 write_snapshot(ROOT/f'research/agent-clipboard-{args.client}.json',result)
-    result['completed']=True
+    result['completed']=not result['failures']
     write_snapshot(ROOT/f'research/agent-clipboard-{args.client}.json',result)
     print(json.dumps(result,indent=2))
+    if result['failures']:raise SystemExit(1)
 
 
 if __name__=='__main__':main()
