@@ -1542,6 +1542,6 @@ CONF_OPTION(nemo_profile,
 )
 
 CONF_OPTION(nemo_sixel_colour_continuation,
-    VALUE_TYPE(BOOL), DEFAULT_BOOL(false),
-    SAVE_KEYWORD("SixelXtermColourContinuation"),
+    VALUE_TYPE(BOOL), DEFAULT_BOOL(true),
+    SAVE_KEYWORD("SixelXtermColourContinuation"), LOAD_CUSTOM,
 )

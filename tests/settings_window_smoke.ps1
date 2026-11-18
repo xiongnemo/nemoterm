@@ -441,7 +441,9 @@ try {
     Select-Node $dialog 'Rendering' | Out-Null
     if (!(Find-Name $dialog 'GDI (low memory)').GetCurrentPattern([System.Windows.Automation.SelectionItemPattern]::Pattern).Current.IsSelected) { throw 'GDI was not the default renderer' }
     $sixel=Sixel-Toggle $dialog
-    if ($sixel.Current.ToggleState -ne [System.Windows.Automation.ToggleState]::Off) {throw 'Sixel XTerm setting should default off'}
+    if ($sixel.Current.ToggleState -ne [System.Windows.Automation.ToggleState]::On) {throw 'New profiles should use XTerm Sixel colours'}
+    $sixel.Toggle()
+    if ($sixel.Current.ToggleState -ne [System.Windows.Automation.ToggleState]::Off) {throw 'Could not choose independent Sixel colours'}
     $sixel.Toggle()
     Select-Node $dialog 'DirectX (GPU composition)' | Out-Null
     python "$PSScriptRoot/settings_capture.py" $app.Id $dialog.Current.NativeWindowHandle rendering-settings.png
@@ -748,7 +750,7 @@ try {
     $evidence = @{executable_sha256=(Get-FileHash -LiteralPath $exe -Algorithm SHA256).Hash.ToLower();
         default_grid=@(160,48);tab_host=[bool]$TabHost;saved_tab_side=2;saved_tab_bindings=$tabBindings;saved_bindings=$customBindings;duplicate_binding_rejected=$true;live_renderer_changes=$rendererChanges;
         saved_shell_bindings=$customShellBindings;saved_renderer=2;initial_renderer=$initialRenderer;
-        sixel_default=$false;sixel_checks=$sixelChecks;
+        sixel_default=$true;sixel_checks=$sixelChecks;
         grapheme_default=$false;saved_grapheme=$true;grapheme_checks=$graphemeChecks;
         selection_colour_default='inverse';saved_selection_rgb=$selectionRGB;selection_colour_checks=$selectionColourChecks;
         saved_attribute_rgb=$attributeRGB;saved_attribute_modes=49;saved_attribute_keep_styles=1;attribute_colour_checks=$attributeChecks;

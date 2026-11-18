@@ -72,7 +72,8 @@ def main():
     evidence['terminal_parser']=args.terminal
     evidence['image_views']=args.views
     evidence['transport']='bytewise' if args.bytewise else 'whole'
-    evidence['xterm_sixel_colour_continuation']=bool(args.colour_stream)
+    evidence['sixel_profile_source']='explicit on' if args.colour_stream else 'unmodified default' if args.terminal else None
+    if args.terminal: command+=['--report-stream']
     if args.colour_stream: command+=['--colour-stream']
     if args.bytewise:
         assert args.terminal,'bytewise applies to the real terminal parser'
@@ -137,6 +138,11 @@ def main():
             process=subprocess.run(command,input=wire,capture_output=True,timeout=30)
             record=dict(exit_code=process.returncode,stderr=process.stderr.decode(errors='replace'),steps=[])
             evidence['cases'][name]=record
+            if args.terminal and not process.returncode:
+                match=re.search(r'^SixelXtermColourContinuation=([01])$',record['stderr'].replace('\r',''),re.M)
+                assert match,(name,record['stderr'])
+                setting=match[1]=='1'
+                assert evidence.setdefault('xterm_sixel_colour_continuation',setting)==setting
             if process.returncode:
                 evidence['failures'].append(dict(case=name,kind='process',code=process.returncode))
                 continue

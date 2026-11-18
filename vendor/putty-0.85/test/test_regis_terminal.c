@@ -298,6 +298,8 @@ static void check_colour_stream_ownership(Mock *mk)
     const char *seed="\033[?1070h\033P0;1q#2;2;100;0;17\033\\";
     const char *blue="\033[?1070h\033P0;1q#2;2;0;0;100!8~\033\\";
     test_context(mk,"Sixel colour syntax belongs to one terminal and clears on profile change");
+    IEQUAL(conf_get_bool(other->conf,CONF_nemo_sixel_colour_continuation),true);
+    configure_colour_stream(mk,false); /* explicitly independent pictures */
     feed_regis(mk,"\033c");
     feed_regis(mk,seed);
     IEQUAL(mk->term->sixel_colour_tail.kind,NEMO_SIXEL_NO_TAIL);
@@ -437,7 +439,7 @@ int main(int argc,char **argv)
     if (!actions || strcmp(actions,"true") || !hosted || strcmp(hosted,"github-hosted")) return 2;
     regis_vtable=mock_termwin_vt;
     if (argc==2 && !strcmp(argv[1],"--self-test")) return framing_tests();
-    bool bytewise=false,views=false,colour_stream=false;
+    bool bytewise=false,views=false,colour_stream=false,report_stream=false;
     for (int i=1;i<argc;i++) {
         if (!strcmp(argv[i],"--font-inputs") && i+1<argc) {
             if (!font_inputs_load(&font_inputs,argv[++i])) return 3;
@@ -445,6 +447,7 @@ int main(int argc,char **argv)
         } else if (!strcmp(argv[i],"--bytewise")) bytewise=true;
         else if (!strcmp(argv[i],"--views")) views=true;
         else if (!strcmp(argv[i],"--colour-stream")) colour_stream=true;
+        else if (!strcmp(argv[i],"--report-stream")) report_stream=true;
         else if (!strcmp(argv[i],"--grid-font") && i+1<argc) {
             FILE *font=fopen(argv[++i],"rb"); char magic[8];
             if (!font || fread(magic,1,8,font)!=8 || memcmp(magic,"NEMOFIX2",8) ||
@@ -458,6 +461,8 @@ int main(int argc,char **argv)
 #endif
     Mock *mk=regis_mock();
     if (colour_stream) configure_colour_stream(mk,true);
+    if (report_stream) fprintf(stderr,"SixelXtermColourContinuation=%d\n",
+        (int)conf_get_bool(mk->conf,CONF_nemo_sixel_colour_continuation));
     char header[128];
     while (fgets(header,sizeof(header),stdin)) {
         size_t length;
