@@ -35,17 +35,7 @@ class IconInfo(c.Structure):
 class Bitmap(c.Structure):
     _fields_ = [('kind', w.LONG), ('width', w.LONG), ('height', w.LONG),
                 ('stride', w.LONG), ('planes', w.WORD), ('depth', w.WORD), ('bits', c.c_void_p)]
-class MouseInput(c.Structure):
-    _fields_ = [('x', w.LONG), ('y', w.LONG), ('data', w.DWORD),
-                ('flags', w.DWORD), ('time', w.DWORD), ('extra', c.c_size_t)]
-class KeyboardInput(c.Structure):
-    _fields_ = [('key', w.WORD), ('scan', w.WORD), ('flags', w.DWORD),
-                ('time', w.DWORD), ('extra', c.c_size_t)]
-class InputUnion(c.Union):
-    _fields_ = [('mouse', MouseInput), ('key', KeyboardInput)]
-class Input(c.Structure):
-    _anonymous_ = ('data',)
-    _fields_ = [('kind', w.DWORD), ('data', InputUnion)]
+from hosted_gesture_input import Input
 
 u.GetCursorInfo.argtypes = [c.POINTER(CursorInfo)]
 u.GetIconInfo.argtypes = [w.HANDLE, c.POINTER(IconInfo)]

@@ -35,12 +35,13 @@ def main():
     parser.add_argument('--client-exe',required=True)
     parser.add_argument('--font',required=True)
     parser.add_argument('--renderer',choices=('gdi','directx'),required=True)
+    parser.add_argument('--system-input',action='store_true')
     args=parser.parse_args()
     out=ROOT/'research';out.mkdir(exist_ok=True)
     folder=Path(tempfile.mkdtemp(prefix='opencode-selection-',dir=ROOT/'build'))
     case=folder/'client'; report=case/'observed.json'; control=case/'control.json'
-    tag='opencode-selection-'+args.renderer
-    evidence=dict(completed=False,font=args.font,requested_renderer=args.renderer,checks=[],screenshots=[],global_input=False,frontend_samples=[])
+    tag='opencode-selection-'+args.renderer+('-system' if args.system_input else '')
+    evidence=dict(completed=False,font=args.font,requested_renderer=args.renderer,checks=[],screenshots=[],global_input=args.system_input,frontend_samples=[])
     with OwnedJob() as job,(folder/'fixture.log').open('w',encoding='utf-8') as log:
         proc=job.spawn([sys.executable,str(ROOT/'tests/agent_clipboard_fixture.py'),
             '--client','opencode','--client-exe',str(Path(args.client_exe).resolve()),
@@ -50,7 +51,7 @@ def main():
         def child():
             value=read_snapshot(report);assert proc.poll() is None and not value.get('errors'),value
             return value
-        endpoint=seat=handle=None
+        endpoint=seat=handle=desktop=None
         try:
             observed=wait_for(child,timeout=40)
             instance=wait_for(lambda: next(iter(api.discover(observed['pid'])),None),timeout=20)
@@ -66,6 +67,15 @@ def main():
                     runtime_snapshot(evidence,phase,handle,job,os.environ['NEMOTERM_TEST_EXE'],args.client_exe)
             text=lambda:api.request(endpoint,'text',seat)
             def key(vk,mods=0):api.request(endpoint,'key',seat,struct.pack('<II',vk,mods))
+            if args.system_input:
+                from hosted_gesture_input import DesktopInput
+                evidence['desktop']={}
+                desktop=DesktopInput(observed['pid'],session['window'],hwnd,evidence['desktop'])
+            def press(vk,mods=0):
+                if desktop:
+                    if mods==3:desktop.chord(0x11,0x10,vk)
+                    else:assert mods==0;desktop.chord(vk)
+                else:key(vk,mods)
             def frame(name,bmp=None):
                 filename=tag+'-'+name+'.png'
                 (out/filename).write_bytes(api.png_from_bmp(bmp if bmp is not None else api.request(endpoint,'image',seat)))
@@ -73,7 +83,7 @@ def main():
             wait_for(lambda:'Ask anything' in text(),timeout=60)
             sample('startup')
             api.request(endpoint,'input',seat,SELECTION_TRIGGER)
-            wait_for(lambda:SELECTION_TRIGGER in text());time.sleep(.2);key(13)
+            wait_for(lambda:SELECTION_TRIGGER in text());time.sleep(.2);press(13)
             screen=wait_for(lambda:s if SELECTION_TEXT in (s:=text()) else None,timeout=40)
             lines=screen.split('\n');row,=[i for i,line in enumerate(lines) if SELECTION_TEXT in line]
             width=lambda s:sum(0 if unicodedata.combining(ch) else 2 if unicodedata.east_asian_width(ch) in ('W','F') else 1 for ch in s)
@@ -117,7 +127,8 @@ def main():
                         tracking.append(dict(offset=match.start(),seq=match[0].hex(),mode=int(item),active=match[2]==b'h'))
             evidence['mouse_requests_at_drag']=dict(bytes=len(raw),sha256=hashlib.sha256(raw).hexdigest(),events=tracking)
             assert tracking and tracking[-1]['active'],('No active mouse request in the recorded client output',tracking)
-            u.SendMessageW(hwnd,0x201,5,pos(first));u.SendMessageW(hwnd,0x200,5,pos(last));u.SendMessageW(hwnd,0x202,4,pos(last))
+            if desktop:desktop.drag(ox+first*cw+cw//2,ox+last*cw+cw//2,oy+row*ch+ch//2)
+            else:u.SendMessageW(hwnd,0x201,5,pos(first));u.SendMessageW(hwnd,0x200,5,pos(last));u.SendMessageW(hwnd,0x202,4,pos(last))
             # A new paint may not be presented when the mouse-up call returns.
             # Check the source background in every selected cell (including the
             # spaces) and confirm it stays unchanged in both neighbouring cells.
@@ -145,14 +156,14 @@ def main():
             # mouse-up, a prior run or the source prompt from passing Copy.
             write_snapshot(control,dict(id=1,action='bitmap'))
             wait_for(lambda:child().get('clipboard_action')==1);assert clipboard_text(hwnd) is None
-            key(67,3);copied=wait_for(lambda:clipboard_text(hwnd));evidence['copied']=copied
+            press(67,3);copied=wait_for(lambda:clipboard_text(hwnd));evidence['copied']=copied
             assert copied==SELECTION_TEXT,(copied,SELECTION_TEXT)
             sample('copy')
             evidence['checks'].append('Shift drag and default Copy replace the sentinel with exact Unicode')
             api.request(endpoint,'input',seat,SELECTION_PREFIX)
-            wait_for(lambda:SELECTION_PREFIX.rstrip() in text());key(86,3)
+            wait_for(lambda:SELECTION_PREFIX.rstrip() in text());press(86,3)
             wait_for(lambda:SELECTION_PREFIX+SELECTION_TEXT in text(),timeout=20);frame('composer');sample('composer')
-            time.sleep(.2);key(13)
+            time.sleep(.2);press(13)
             wait_for(lambda:any(r['selection_received'] for r in child()['requests']),timeout=30)
             wait_for(lambda:'NEMOTERM_TEXT_ACCEPTED' in text());evidence['checks'].append('real OpenCode submitted exact combined prompt to the loopback provider')
             sample('submitted')
@@ -174,6 +185,7 @@ def main():
                 except Exception:pass
             raise
         finally:
+            if desktop:desktop.restore()
             if handle:k.CloseHandle(handle)
             if proc.poll() is None:
                 write_snapshot(control,dict(id=99,action='finish'))
