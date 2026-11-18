@@ -146,59 +146,11 @@ jobs:
       product_commit: ${{ github.sha }}
   profiles:
     if: ${{ inputs.scope != 'dpi' }}
-    name: Profiles and default tabs on the single executable
     needs: source-host
-    runs-on: windows-2025
-    timeout-minutes: 12
-    steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
-      - name: Download the exact source-built single image
-        shell: pwsh
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          gh run download "$env:GITHUB_RUN_ID" --repo "$env:GITHUB_REPOSITORY" --name "source-console-host-x64-$env:GITHUB_SHA" --dir build/profile-product
-          if ($LASTEXITCODE) { exit $LASTEXITCODE }
-          $record = Get-Content build/profile-product/SOURCE-HOST.json -Raw | ConvertFrom-Json
-          $exe = (Resolve-Path build/profile-product/nemoterm.exe).Path
-          if ($record.SourceCommit -ne $env:GITHUB_SHA -or $record.Executable.SHA256 -ne (Get-FileHash $exe -Algorithm SHA256).Hash.ToLowerInvariant()) { throw 'Product identity mismatch' }
-          New-Item -ItemType Directory build/profile-check/research, build/profile-check/tools | Out-Null
-          Copy-Item tests build/profile-check/tests -Recurse
-          Copy-Item tools/nemoterm_debug.py build/profile-check/tools/
-          "NEMOTERM_TEST_EXE=$exe" | Out-File $env:GITHUB_ENV -Append -Encoding utf8
-      - name: Verify default tabs, shortcut and explicit profile options
-        run: python build/profile-check/tests/command_line_profile_window_smoke.py
-      - name: Verify ordinary and jump-list profile terminal identity
-        if: ${{ !cancelled() && env.NEMOTERM_TEST_EXE != '' }}
-        run: python build/profile-check/tests/profile_term_environment.py
-      - name: Verify default tab host fits the work area
-        if: ${{ !cancelled() && env.NEMOTERM_TEST_EXE != '' }}
-        run: python build/profile-check/tests/startup_size_window_smoke.py
-      - name: Verify profile CRUD and persistent live settings in a tab host
-        if: ${{ !cancelled() && env.NEMOTERM_TEST_EXE != '' }}
-        run: powershell.exe -NoProfile -File build/profile-check/tests/settings_window_smoke.ps1 -TabHost
-      - name: Verify profile CRUD and persistent live settings in a standalone window
-        if: ${{ !cancelled() && env.NEMOTERM_TEST_EXE != '' }}
-        run: powershell.exe -NoProfile -File build/profile-check/tests/settings_window_smoke.ps1
-      - name: Cancel session or window close and immediately type into the child
-        if: ${{ !cancelled() && env.NEMOTERM_TEST_EXE != '' }}
-        run: python build/profile-check/tests/close_cancel_input.py
-      - name: Verify dialog modality, Bell layout and default zoom keys
-        if: ${{ !cancelled() && env.NEMOTERM_TEST_EXE != '' }}
-        shell: pwsh
-        run: |
-          powershell.exe -NoProfile -File build/profile-check/tests/dialog_window_smoke.ps1 -TabHost
-          if ($LASTEXITCODE) { exit $LASTEXITCODE }
-          powershell.exe -NoProfile -File build/profile-check/tests/dialog_window_smoke.ps1
-          exit $LASTEXITCODE
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
-        if: always()
-        with:
-          name: profiles-evidence-${{ github.sha }}
-          path: |
-            build/profile-product/SOURCE-HOST.json
-            build/profile-check/research/
-          retention-days: 14
+    uses: ./.github/workflows/profile-checks.yml
+    with:
+      product_run: ${{ github.run_id }}
+      product_commit: ${{ github.sha }}
   cluster-msvc-diagnostics:
     if: ${{ inputs.scope != 'dpi' }}
     name: MSVC native renderer diagnostics

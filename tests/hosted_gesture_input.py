@@ -1,5 +1,6 @@
 """Real user input scoped to one foreground terminal on a disposable Actions desktop."""
 import os
+import time
 from native_test_utils import c, w, wait_for
 from owned_window_focus import focus_owned_window
 
@@ -64,20 +65,40 @@ class DesktopInput:
         win=self.u; assert self.owned_confirmation()==hwnd
         b=win.GetDlgItem(hwnd,button);r=w.RECT();assert b and win.GetWindowRect(b,c.byref(r))
         pt=w.POINT((r.left+r.right)//2,(r.top+r.bottom)//2);assert win.SetCursorPos(pt.x,pt.y)
-        def hit():
+        log.update(dialog=hwnd,button_id=button,button=b,point=[pt.x,pt.y],observations=[])
+        start=time.monotonic()
+        def observe(stage):
             current=w.POINT();assert win.GetCursorPos(c.byref(current))
-            return (current.x,current.y)==(pt.x,pt.y) and win.WindowFromPoint(current)==b and self.owned_confirmation()==hwnd
-        wait_for(hit); log.update(dialog=hwnd,button_id=button,button=b,point=[pt.x,pt.y])
+            foreground=win.GetForegroundWindow();pid=w.DWORD()
+            if foreground:win.GetWindowThreadProcessId(foreground,c.byref(pid))
+            info=self.state();hit=win.WindowFromPoint(current)
+            value=dict(stage=stage,foreground=foreground,foreground_pid=pid.value,active=info.active,
+                       focus=info.focus,capture=info.capture,cursor=[current.x,current.y],hit=hit,
+                       dialog_alive=bool(win.IsWindow(hwnd)),button_alive=bool(win.IsWindow(b)),
+                       host_enabled=bool(win.IsWindowEnabled(self.host)),left_down=bool(win.GetAsyncKeyState(1)&0x8000))
+            # Keep changed states only. Never activate a window or repeat a missed click.
+            history=log['observations']
+            if not history or value!=history[-1]['state']:
+                if len(history)<96:history.append(dict(ms=round(1000*(time.monotonic()-start)),state=value))
+                else:log['last_overflow_state']=value
+            return value
+        def hit():
+            state=observe('positioned')
+            return state['cursor']==[pt.x,pt.y] and state['hit']==b and self.owned_confirmation()==hwnd
+        wait_for(hit)
         # Wait for native button delivery before releasing, not merely SendInput insertion.
         down=Input();down.mouse.flags=2;up=Input();up.mouse.flags=4
         assert win.SendInput(1,c.byref(down),c.sizeof(Input))==1
         try:
             def pressed():
-                reply=c.c_size_t();assert win.SendMessageTimeoutW(b,0xf2,0,0,2,500,c.byref(reply))  # BM_GETSTATE
-                info=self.state();log.update(button_state=reply.value,capture=info.capture,focus=info.focus)
-                return info.capture==b and bool(reply.value & 4)  # BST_PUSHED
+                state=observe('down');reply=c.c_size_t()
+                assert win.SendMessageTimeoutW(b,0xf2,0,0,2,500,c.byref(reply))  # BM_GETSTATE
+                log.update(button_state=reply.value,capture=state['capture'],focus=state['focus'])
+                return state['capture']==b and bool(reply.value & 4)  # BST_PUSHED
             wait_for(pressed,timeout=3)
-        finally: assert win.SendInput(1,c.byref(up),c.sizeof(Input))==1
+        finally:
+            assert win.SendInput(1,c.byref(up),c.sizeof(Input))==1
+            observe('up-inserted')
     def event(self,vk,down,*,extended=False):
         if down:self.target()
         event=Input()
