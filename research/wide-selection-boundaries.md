@@ -1,0 +1,5 @@
+# Selecting a displayed character by its trailing cell
+
+In the [exact `324d2ab` replay](wide-selection-before-324d2ab.zip) (hosted run `44313522366`, artifact `14431596694`, SHA-256 `52dcf98d193a5458c38e530945b8ac19c1f0b16a9be28bca84322195f0571fd8`), GDI and DirectX agreed on all eight observations. With application mouse reporting on, Shift-drag from the second cell of `中` to the following `e` + U+0301 selected and copied only the latter. A reverse drag missed the same glyph. A rectangle covering the trailing cell of `中` on the first row and `C` on the second produced an empty first row. Starting at the leading half, or dragging between the two halves, already copied `中` once. All gestures delivered just the two synchronization replies to the peer.
+
+A separate case retained both selection highlight and the neighboring U+10001 but dropped U+10000 from the clipboard. The Windows rendering and clipboard conversions both excluded the first supplementary code point from their UTF-16 surrogate-pair branch. The regression checks exact text for both neighboring scalars. It does not check font coverage of these Linear B glyphs.

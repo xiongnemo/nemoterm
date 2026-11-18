@@ -11141,6 +11141,14 @@ static void nemo_paint_attribute_colours(Terminal *term, const rgb colours[5],
     }
 }
 
+/* Selection edges are half-open cell boundaries. A boundary before a
+ * UCSWIDE continuation splits a glyph; include its other cell on this row. */
+static int whole_glyph_edge(const termline *line, int cols, int edge, int outward)
+{
+    return (edge > 0 && edge < cols && edge < line->cols &&
+            line->chars[edge].chr == UCSWIDE) ? edge + outward : edge;
+}
+
 static void do_paint(Terminal *term)
 {
     uint64_t kitty_generation=nemo_kitty_placements_generation(
@@ -11266,6 +11274,13 @@ static void do_paint(Terminal *term)
 
         scrpos.y = i + term->disptop;
         ldata = lineptr(scrpos.y);
+        pos block_start = term->selstart, block_end = term->selend;
+        if ((term->selstate == DRAGGING || term->selstate == SELECTED) &&
+            term->seltype == RECTANGULAR &&
+            scrpos.y >= block_start.y && scrpos.y <= block_end.y) {
+            block_start.x = whole_glyph_edge(ldata, term->cols, block_start.x, -1);
+            block_end.x = whole_glyph_edge(ldata, term->cols, block_end.x, +1);
+        }
 
         /* Do Arabic shaping and bidi. */
         lchars = term_bidi_line(term, ldata, i);
@@ -11369,8 +11384,8 @@ static void do_paint(Terminal *term)
                     selected = (posle(term->selstart, scrpos) &&
                                 poslt(scrpos, term->selend));
                 else
-                    selected = (posPle(term->selstart, scrpos) &&
-                                posPle_left(scrpos, term->selend));
+                    selected = (posPle(block_start, scrpos) &&
+                                posPle_left(scrpos, block_end));
             } else
                 selected = false;
             if (term->mouse_highlight == HIGHLIGHT_ACTIVE) {
@@ -11599,7 +11614,7 @@ static void do_paint(Terminal *term)
             sgrowarrayn(ch, chlen, ccount, 2);
 
 #ifdef PLATFORM_IS_UTF16
-            if (tchar > 0x10000 && tchar < 0x110000) {
+            if (tchar >= 0x10000 && tchar < 0x110000) {
                 ch[ccount++] = (wchar_t) HIGH_SURROGATE_OF(tchar);
                 ch[ccount++] = (wchar_t) LOW_SURROGATE_OF(tchar);
             } else
@@ -11630,7 +11645,7 @@ static void do_paint(Terminal *term)
                     sgrowarrayn(ch, chlen, ccount, 2);
 
 #ifdef PLATFORM_IS_UTF16
-                    if (schar > 0x10000 && schar < 0x110000) {
+                    if (schar >= 0x10000 && schar < 0x110000) {
                         ch[ccount++] = (wchar_t) HIGH_SURROGATE_OF(schar);
                         ch[ccount++] = (wchar_t) LOW_SURROGATE_OF(schar);
                     } else
@@ -11941,6 +11956,8 @@ static void clipme(Terminal *term, pos top, pos bottom, bool rect, bool desel,
          * right.)
          */
         if (rect) {
+            top.x = whole_glyph_edge(ldata, term->cols, top.x, -1);
+            /* A leading cell already emits the complete glyph at the right. */
             if (nlpos.x > bottom.x)
                 nlpos.x = bottom.x;
             nl = (top.y < bottom.y);
@@ -11985,9 +12002,9 @@ static void clipme(Terminal *term, pos top, pos bottom, bool rect, bool desel,
 
                 c = (uc & ~CSET_MASK);
 #ifdef PLATFORM_IS_UTF16
-                if (uc > 0x10000 && uc < 0x110000) {
-                    cbuf[0] = 0xD800 | ((uc - 0x10000) >> 10);
-                    cbuf[1] = 0xDC00 | ((uc - 0x10000) & 0x3FF);
+                if (uc >= 0x10000 && uc < 0x110000) {
+                    cbuf[0] = (wchar_t) HIGH_SURROGATE_OF(uc);
+                    cbuf[1] = (wchar_t) LOW_SURROGATE_OF(uc);
                     cbuf[2] = 0;
                 } else
 #endif
@@ -12287,6 +12304,10 @@ static pos sel_spread_half(Terminal *term, pos p, int dir)
             if (p.x >= q - ldata->chars)
                 p.x = (dir == -1 ? q - ldata->chars : term->cols - 1);
         }
+        if (dir < 0)
+            p.x = whole_glyph_edge(ldata, term->cols, p.x, -1);
+        else
+            p.x = whole_glyph_edge(ldata, term->cols, p.x + 1, +1) - 1;
         break;
       case SM_WORD:
         /*
