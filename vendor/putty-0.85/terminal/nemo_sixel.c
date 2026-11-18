@@ -265,7 +265,7 @@ void nemo_sixel_set_aspect(NemoSixel *s, unsigned vertical, unsigned horizontal)
     s->aspect_horizontal = horizontal / a;
 }
 
-static bool commit_parameters(NemoSixel *s)
+static bool commit_parameters(NemoSixel *s, bool apply_colour)
 {
     const uint32_t *p = s->params;
     if (s->parameter_overflow) return fail(s, NEMO_SIXEL_MALFORMED);
@@ -279,7 +279,7 @@ static bool commit_parameters(NemoSixel *s)
             else if (p[1] == 1)
                 colour = hls(p[2], p[3], p[4]);
             else return fail(s, NEMO_SIXEL_MALFORMED);
-            if (palette[reg] != colour) {
+            if (apply_colour && palette[reg] != colour) {
                 palette[reg] = colour;
                 if (s->palette_changed) s->palette_changed(s->palette_context);
             }
@@ -323,7 +323,7 @@ static bool feed_byte(NemoSixel *s, unsigned char c)
                 return fail(s, NEMO_SIXEL_MALFORMED);
             return draw_sixel(s, c - '?', repeat);
         }
-        if (!commit_parameters(s)) return false;
+        if (!commit_parameters(s, true)) return false;
     }
     if (c >= '?' && c <= '~') return draw_sixel(s, c - '?', 1);
     if (c == '!' || c == '#' || c == '"') {
@@ -361,7 +361,11 @@ bool nemo_sixel_finish(NemoSixel *s)
     if (!s || s->status != NEMO_SIXEL_OK) return false;
     if (s->finished) return true;
     if (s->command == '!') return fail(s, NEMO_SIXEL_MALFORMED);
-    if (s->command && !commit_parameters(s)) return false;
+    /* ST closes the DCS, not the final number of a shared palette write.
+     * Validate it, but publish only definitions ended by a payload command.
+     * Finishing a private image keeps its existing local colour semantics. */
+    if (s->command && !commit_parameters(s, s->shared_palette == NULL))
+        return false;
     s->finished = true;
     return true;
 }

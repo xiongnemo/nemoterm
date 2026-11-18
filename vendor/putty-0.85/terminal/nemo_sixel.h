@@ -48,7 +48,9 @@ void nemo_sixel_free(NemoSixel *s);
  * Any chunk boundaries are permitted, including one byte at a time.
  * false means discard this image; continue consuming the enclosing DCS in
  * the terminal parser until ST or cancellation. Further feeds are harmless.
- * Finish commits a pending color/raster command and rejects a dangling '!'.
+ * Finish validates pending parameters and rejects a dangling '!'. A trailing
+ * raster or private color is applied to this image. A shared register write
+ * needs a subsequent payload command: ST itself does not publish the color.
  */
 bool nemo_sixel_feed(NemoSixel *s, const void *data, size_t size);
 bool nemo_sixel_finish(NemoSixel *s);

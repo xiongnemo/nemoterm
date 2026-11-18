@@ -168,6 +168,40 @@ static void shared_palette_lifetime(void)
     nemo_sixel_free(private);
 }
 
+/* Read through an already drawn image, the observed bank and a new image:
+ * a missing repaint alone cannot explain all three observations. */
+static void shared_palette_terminator(void)
+{
+    static const char *const preceding[] = {"", "#1!12~"};
+    static const char *const terminators[] = {"", "$", "#1", "?"};
+    for (unsigned i = 0; i < sizeof(preceding)/sizeof(*preceding); ++i)
+        for (unsigned j = 0; j < sizeof(terminators)/sizeof(*terminators); ++j) {
+            uint32_t shared[256], expected = j ? GREEN : RED;
+            unsigned notices = 0;
+            NemoSixel *old = fresh(true), *writer = fresh(true), *reader = fresh(true);
+            nemo_sixel_get_palette(old, shared);
+            shared[1] = RED;
+            assert(nemo_sixel_share_palette(old, shared, palette_notification, &notices));
+            assert(nemo_sixel_share_palette(writer, shared, palette_notification, &notices));
+            assert(nemo_sixel_share_palette(reader, shared, palette_notification, &notices));
+            feed(old, "#1~");
+            assert(nemo_sixel_feed(writer, preceding[i], strlen(preceding[i])));
+            const char *definition = "#1;2;0;100;0";
+            for (const char *p = definition; *p; ++p)
+                assert(nemo_sixel_feed(writer, p, 1));
+            assert(shared[1] == RED && !notices);
+            feed(writer, terminators[j]);
+            assert(nemo_sixel_finish(writer)); /* idempotent even for a writer */
+            feed(reader, "#1~");
+            assert(notices == (j != 0) && shared[1] == expected);
+            assert(pixel(old, 0, 0) == expected && pixel(reader, 0, 0) == expected);
+            if (i) assert(pixel(writer, 0, 0) == expected);
+            nemo_sixel_free(reader);
+            nemo_sixel_free(writer);
+            nemo_sixel_free(old);
+        }
+}
+
 static void extents_and_repeat(void)
 {
     NemoSixel *s = fresh(false);
@@ -398,6 +432,7 @@ int main(void)
     color_and_overlay();
     palette_identity();
     shared_palette_lifetime();
+    shared_palette_terminator();
     extents_and_repeat();
     arbitrary_chunk_boundaries();
     rejected_inputs();

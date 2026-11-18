@@ -79,6 +79,19 @@ def exercise(phase,block):
     red=expected(line(20,'red'))
     check('sixel-recolours-regis',DCS+'0;1q#3;2;100;0;0#3'+ST,red)
     expose('recoloured-regis-redraw',red)
+    # Keep the retained ReGIS line. Read a pending/committed colour again via
+    # new Sixel pixels on a different row, including after native invalidation.
+    def swatch(col, colour):
+        return dict(x=BORDER+col*cw,y=BORDER+2*ch,width=12,height=6,colour=colour)
+    green_setup=reset(False)+regis('S(E)S(M3(R0G100B0))W(I3)P[20,20]V[120,20]',1)
+    check('shared-st-pending',green_setup+DCS+'9;1q#3;2;100;0;0'+ST,expected(line(20)))
+    green_read=expected(line(20),swatch(2,'green'))
+    check('shared-st-fresh-read',CSI+'3;3H'+DCS+'9;1q#3!12~'+ST,green_read)
+    expose('shared-st-fresh-read-redraw',green_read)
+    red_read=expected(line(20,'red'),swatch(2,'red'),swatch(6,'red'))
+    check('shared-dollar-fresh-read',DCS+'9;1q#3;2;100;0;0$'+ST+
+          CSI+'3;7H'+DCS+'9;1q#3!12~'+ST,red_read)
+    expose('shared-dollar-fresh-read-redraw',red_read)
     check('shared-sixel-before',reset(False)+DCS+'0;1q#3;2;0;100;0!100~'+ST,
           expected(dict(x=BORDER,y=BORDER,width=100,height=6,colour='green')))
     red_raster=expected(dict(x=BORDER,y=BORDER,width=100,height=6,colour='red'))
