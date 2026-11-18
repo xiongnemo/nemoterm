@@ -76,14 +76,37 @@ def product(exe, renderer, folder, rec):
             assert proc.wait(timeout=12)==0;rec['cleanup']=job.finish();assert not rec['cleanup']['terminated_remaining']
     finally:winreg.DeleteKey(winreg.HKEY_CURRENT_USER,key)
 
+def console_client(folder,cmd):
+    # Explicitly open the native handles of *this* Windows console. The
+    # controller pipes belong only to the system ConPTY peer; under redirected
+    # CI startup a child can otherwise treat inherited stdin as a prompt file
+    # and wait for EOF rather than start its interactive composer.
+    import msvcrt
+    k.GetStdHandle.argtypes=[w.DWORD]; k.GetStdHandle.restype=w.HANDLE
+    k.GetFileType.argtypes=[w.HANDLE]; k.GetConsoleMode.argtypes=[w.HANDLE,c.POINTER(w.DWORD)]
+    k.CreateFileW.argtypes=[w.LPCWSTR,w.DWORD,w.DWORD,c.c_void_p,w.DWORD,w.DWORD,w.HANDLE];k.CreateFileW.restype=w.HANDLE
+    def state(handle):
+        mode=w.DWORD();ok=k.GetConsoleMode(handle,c.byref(mode));return dict(file_type=k.GetFileType(handle),console=bool(ok),mode=mode.value)
+    def fd(device,flags):
+        h=k.CreateFileW(device,0xc0000000,3,None,3,0,None)
+        if h==c.c_void_p(-1).value:raise c.WinError()
+        return os.fdopen(msvcrt.open_osfhandle(h,flags|os.O_BINARY),'rb' if flags==os.O_RDONLY else 'wb',buffering=0)
+    states=dict(original=[state(k.GetStdHandle(id)) for id in (-10,-11,-12)])
+    with fd('CONIN$',os.O_RDONLY) as cin,fd('CONOUT$',os.O_WRONLY) as cout:
+        states['explicit']=[state(msvcrt.get_osfhandle(x.fileno())) for x in (cin,cout)]
+        write_snapshot(folder/'console-handles.json',states)
+        assert all(x['console'] and x['file_type']==2 for x in states['explicit']),states
+        return subprocess.call(cmd,stdin=cin,stdout=cout,stderr=cout)
+
 def reference(helper,client,folder,rec):
-    folder.mkdir();home,work,env=isolated_home(folder);env.pop('NEMOTERM_CONPTY',None)
+    folder.mkdir();home,work,env=isolated_home(folder);env.pop('NEMOTERM_CONPTY',None);env['NEMOTERM_HOSTED_REFERENCE']='1'
     server=Provider();server.selection=True
     thread=threading.Thread(target=server.serve_forever,daemon=True);thread.start()
     try:
         cmd=claude_command(str(client),folder,home,work,env,'http://127.0.0.1:%d/v1'%server.server_port)
         with OwnedJob() as job,(folder/'helper-stderr.txt').open('wb') as err:
-            proc=job.spawn([str(helper),subprocess.list2cmdline(cmd)],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=err,cwd=work,env=env,bufsize=0,creationflags=subprocess.CREATE_NO_WINDOW)
+            target=[sys.executable,str(Path(__file__).resolve()),'--console-client',str(folder),*cmd]
+            proc=job.spawn([str(helper),subprocess.list2cmdline(target)],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=err,cwd=work,env=env,bufsize=0,creationflags=subprocess.CREATE_NO_WINDOW)
             raw=bytearray()
             def drain():
                 with (folder/'system-output.vt').open('wb') as f:
@@ -128,6 +151,10 @@ def reference(helper,client,folder,rec):
     finally:server.shutdown();server.server_close();thread.join(3)
 
 def main():
+    # The child inherits only the isolated client environment (no runner tokens).
+    if sys.argv[1:2]==['--console-client']:
+        if os.environ.get('NEMOTERM_HOSTED_REFERENCE')!='1':raise RuntimeError('Reference must be spawned on the hosted runner')
+        return console_client(Path(sys.argv[2]),sys.argv[3:])
     if os.environ.get('GITHUB_ACTIONS')!='true' or os.environ.get('RUNNER_ENVIRONMENT')!='github-hosted':raise RuntimeError('GitHub hosted runner required')
     if sys.argv[1:2]==['--child']:return child(Path(sys.argv[2]))
     parser=argparse.ArgumentParser();parser.add_argument('--claude',type=Path,required=True);parser.add_argument('--reference-helper',type=Path,required=True);args=parser.parse_args()

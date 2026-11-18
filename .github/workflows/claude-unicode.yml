@@ -46,6 +46,7 @@ jobs:
             build/interaction-dependencies/environment.json
             build/unicode-boundary/summary.json
             build/unicode-boundary/*/native.json
+            build/unicode-boundary/*/console-handles.json
             build/unicode-boundary/*/helper-stderr.txt
             build/unicode-boundary/*/system-output.vt
             build/unicode-boundary/*/claude-debug.log
