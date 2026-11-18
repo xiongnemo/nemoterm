@@ -129,7 +129,7 @@ def main(background_exercise=None, *, suite_name=None, font='Consolas', before_e
                                 width=count, height=height, colour=colour)
 
                 def phase(name, sequence, regions, *, stable_seconds=0, expected_reply=None,
-                          expected_error_reply=None, grid=(COLS, ROWS)):
+                          expected_error_reply=None, grid=(COLS, ROWS), pixel_check=None):
                     width, height = grid[0]*cw+2*BORDER, grid[1]*ch+2*BORDER
                     serial = len(evidence['checks'])+1
                     record = dict(name=name, sequence=sequence, sequence_hex=sequence.encode().hex(),
@@ -199,7 +199,7 @@ def main(background_exercise=None, *, suite_name=None, font='Consolas', before_e
                             unexpected=sorted(observed.get(colour, set())-wanted.get(colour, set()))[:8])
                             for colour in sorted(wanted.keys() | observed.keys())}
                         record['capture_samples'] = record.get('capture_samples', 0)+1
-                        if observed != wanted:
+                        if observed != wanted or (pixel_check and not pixel_check(record,width,pixels)):
                             stable_since = None
                             return False
                         now = time.monotonic()

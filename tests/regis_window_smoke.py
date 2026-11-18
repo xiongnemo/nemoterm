@@ -4,6 +4,7 @@ These are explicit geometry/lifecycle checks, separate from the unchanged
 historical XTerm frame comparison. They do not claim full ReGIS conformance.
 """
 import os
+import hashlib
 if os.environ.get('GITHUB_ACTIONS')!='true' or os.environ.get('RUNNER_ENVIRONMENT')!='github-hosted':
     raise SystemExit('Native ReGIS checks require a GitHub-hosted runner')
 
@@ -102,6 +103,38 @@ def exercise(phase,block):
         bank(tag+'redundant-leave',leave,expected(),'main')
         bank(tag+'reenter',enter,expected(),'empty')
         bank(tag+'finish',leave,expected(),'main')
+
+    # The ReGIS canvas can occlude valid text cells. Check a separate text-only
+    # bank with the actual pixels of this renderer, including the presented DC.
+    glyphs={}
+    def text_pixels(name,wire,key,learn=False):
+        def inspect(record,width,bgra):
+            left=BORDER+34*cw
+            glyph=b''.join(bgra[4*(y*width+left+x):4*(y*width+left+x)+3]
+                           for y in range(BORDER,BORDER+ch) for x in range(3*cw))
+            digest=hashlib.sha256(glyph).hexdigest()
+            def ink(row,col):
+                i=3*(row*3*cw+col)
+                return any(glyph[i:i+3])
+            counts=[sum(ink(y,x) for y in range(ch) for x in range(cell*cw,(cell+1)*cw))
+                    for cell in range(3)]
+            record['marker_strip']=dict(bank=key,cell_ink=counts,bgr_sha256=digest,learn=learn)
+            if key=='empty':return not any(counts)
+            if not all(counts):return False
+            if learn:glyphs[key]=digest
+            return digest==glyphs[key]
+        phase(name,wire,expected(),expected_reply=b'',stable_seconds=.12,pixel_check=inspect)
+    for mode in (1047,1049):
+        tag=f'text-{mode}-';enter=CSI+f'?{mode}h';leave=CSI+f'?{mode}l'
+        text_pixels(tag+'main',reset()+text_pos+'M1X','main',True)
+        text_pixels(tag+'enter',enter,'empty')
+        text_pixels(tag+'write',text_pos+'A2Y','alt',True)
+        assert glyphs['main']!=glyphs['alt']
+        text_pixels(tag+'repeat',enter,'alt' if mode==1047 else 'empty')
+        text_pixels(tag+'leave',leave,'main')
+        text_pixels(tag+'redundant-leave',leave,'main')
+        text_pixels(tag+'reenter',enter,'empty')
+        text_pixels(tag+'finish',leave,'main')
 
     check('shared-regis-before',reset(False)+regis('S(E)S(M3(R0G100B0))W(I3)P[20,20]V[120,20]',1),expected(line(20)))
     red=expected(line(20,'red'))
