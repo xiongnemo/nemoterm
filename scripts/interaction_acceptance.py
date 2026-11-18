@@ -23,6 +23,8 @@ def catalog():
     for api in ('byte', 'wide'):
         add('input-'+api, 'input', 'input_method_window_smoke.py',
             ['--tabs', '--input-api', api, '--font', FONT, '--foreground'], 'foreground; IMM; synthetic DPI')
+    add('held-selection-native', 'selection', 'pointer_window_smoke.py',
+        ['--history-drag','--font',FONT], 'owned foreground; system input, capture lifecycle and clipboard roundtrip')
     add('bindings', 'selection', 'bindings_window_smoke.py', effects='clipboard; temporary saved bindings')
     for renderer, number, side in [('gdi', '0', 'top'), ('directx', '2', 'left')]:
         add('selection-'+renderer, 'selection', 'selection_window_smoke.py',

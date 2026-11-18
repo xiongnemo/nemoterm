@@ -18,6 +18,7 @@ parser = argparse.ArgumentParser(description=__doc__)
 mode = parser.add_mutually_exclusive_group(required=True)
 mode.add_argument('--masks', type=Path)
 mode.add_argument('--colour-reference', type=Path)
+mode.add_argument('--history-drag', action='store_true')
 parser.add_argument('--font', default='Consolas')
 parser.add_argument('--conpty', choices=('system','bundled'), default='bundled')
 args = parser.parse_args()
@@ -140,7 +141,8 @@ try:
             process=job.spawn([str(exe),'-load',profile,'--automation','--tabs','--cols','80','--rows','24',
                 '--font',args.font,'--shell-command',subprocess.list2cmdline(
                     [sys.executable,str(root/'tests/session_fixture.py'),str(tmp)])],
-                env=dict(os.environ,NEMOTERM_CONPTY=args.conpty,NEMOTERM_TEST_EXACT_OUTPUT='1'),
+                env=dict(os.environ,NEMOTERM_CONPTY=args.conpty,NEMOTERM_TEST_EXACT_OUTPUT='1',
+                         **({'NEMOTERM_TEST_UTF8_INPUT':'1'} if args.history_drag else {})),
                 creationflags=subprocess.CREATE_NO_WINDOW)
             instance=wait_for(lambda:next(iter(api.discover(process.pid)),None),timeout=20)
             endpoint=instance['endpoint'];first=instance['sessions'][0]
@@ -217,7 +219,10 @@ try:
             u.SetForegroundWindow(host);wait_for(lambda:u.GetForegroundWindow()==host)
             emit(first_child,'\x1b[2J\x1b[H','0')
             expect('automatic text pointer','text',first)
-            if args.colour_reference:
+            if args.history_drag:
+                from selection_capture_gestures import verify_gestures
+                verify_gestures(host,first,first_child,Input,out,evidence,publish)
+            elif args.colour_reference:
                 from pointer_colour_comparison import compare_cursor_colours, check_colour_tabs
                 compare_cursor_colours(args.colour_reference, first_child, first, out, evidence,
                                        native_cursor, pointer_png, point_in, emit, publish)
