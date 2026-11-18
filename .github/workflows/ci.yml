@@ -91,6 +91,14 @@ jobs:
       run: ${{ github.run_id }}
       commit: ${{ github.sha }}
       suite: sixel
+  wsl-colour:
+    if: ${{ inputs.scope != 'dpi' }}
+    needs: source-host
+    uses: ./.github/workflows/wsl-tui.yml
+    with:
+      run: ${{ github.run_id }}
+      commit: ${{ github.sha }}
+      suite: colour
   wsl-vim:
     if: ${{ inputs.scope != 'dpi' }}
     needs: source-host
