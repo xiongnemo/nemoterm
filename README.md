@@ -13,6 +13,8 @@ Nemoterm 是 **PuTTY 0.85 Windows pterm 的下游 fork**，沿用其终端核心
 本页描述所在分支的代码；下载产物按下面的提交和验证记录区分。已实现功能与测试边界见 [协议支持表](docs/PROTOCOLS.md)
 和 [需求与验证记录](docs/REQUIREMENTS.md)。
 
+[单文件测试版 `f564927`](https://github.com/xiongnemo/nemoterm/actions/runs/44374468391/artifacts/14460047904)：修复“窗口 → 外观 → 字体访问”的快捷键与“取消”冲突。在 GDI 和 DirectX 上均已验证：应用改变当前标签的字体不会修改 profile；撤销权限后立即恢复原字体。见[同一 EXE 的实测记录](research/osc-font-operations.md)。
+
 新版 38de2ad 已验证 WSL 子程序能收到终端类型、真彩色提示和终端名称；见[两种 TERM 的真实 less 回放](research/wsl-terminal-identity.md)。
 
 [单文件预览 `a9c8150`](https://github.com/xiongnemo/nemoterm/actions/runs/44338343977/artifacts/14443251390) 修复了调试接口把方向键当作数字小键盘的问题。以 `TERM=xterm` 和 `xterm-256color` 运行真实 WSL `less`，用系统键盘和调试接口都能向下滚动、翻页、搜索并在退出后恢复原屏。真实 WSL Vim 也验证了应用接管鼠标、Shift 复制中文、窗口缩放和粘贴保存。[原始交互报告](research/interaction-a9c8150.md)：72/74 项通过；首次出现输入框时立即给 Codex 贴图的两项未通过，编辑器就绪后贴图通过。160×48 压力测试前端私有工作集峰值为 GDI **19.79 MB**、DirectX **28.49 MB**。以下较早版本的内存和汇总成绩只对应各自的 EXE。
