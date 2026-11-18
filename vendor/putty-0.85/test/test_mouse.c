@@ -645,6 +645,7 @@ static void test_ctrl_rectangle(Mock *mk)
      * button-up; preserve the display hit, not the source endpoint hull. */
     for (int reverse = 0; reverse < 2; reverse++) {
         mouse_setup(mk, "Shift stream over a reordered run and soft wrap", "");
+        mk->term->rect_select = false; /* previous case exercised the block default */
         term_size(mk->term, 3, 12, 100);
         mk->term->no_bidi = false;
         term_data_fragmented(mk->term, "\033[?1002;1006hA\xd7\x90\xd7\x91\xd7\x92\xd6\xb0Z0123456WXYZ");

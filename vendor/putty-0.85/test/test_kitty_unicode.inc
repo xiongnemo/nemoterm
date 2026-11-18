@@ -142,7 +142,7 @@ static void test_kitty_unicode_selection(Mock *parent)
             term_mouse(t,MBT_LEFT,MBT_SELECT,MA_DRAG,block ? 1 : 2,1,true,block,false);
             term_mouse(t,MBT_LEFT,MBT_SELECT,MA_RELEASE,block ? 1 : 2,1,false,false,false);
             IEQUAL(t->selstate,SELECTED);
-            IEQUAL(t->seltype,block ? RECTANGULAR : LEXICOGRAPHIC);
+            IEQUAL(t->seltype,block ? RECTANGULAR : VISUAL_STREAM);
             IEQUAL(mk->to_backend->len,0);
             mk->clipboard_writes=0;
             term_request_copy(t,&clipboard,1);

@@ -49,6 +49,11 @@ def agent_grid_case(path,row,identity):
             and wide['up']==right-1 and paint['cells']==4 and paint['source']!=paint['selected']
             and paint['min_selected_ratio']>=.5 and min(paint['guard_ratios'])>=.9,
             'incomplete wide-cell system drag, highlight, or clipboard result')
+    witness=obs['bidi_system_copy'];paint=obs['bidi_highlight'];left,right=witness['columns']
+    require(witness['copied']=='A\u05d2\u05b0' and right==left+1 and witness['row']==obs['selection'][1]
+            and witness['actual_digests']==witness['reference_digests'] and len(set(witness['reference_digests']))==3
+            and paint['cells']==2 and paint['source']!=paint['selected'] and paint['min_selected_ratio']>=.5
+            and min(paint['guard_ratios'])>=.9,'missing bidi glyph identity, physical highlight, or original clipboard text')
     modal=obs['close_cancel'];http=obs['http_receipt']
     require(modal['button_id']==2 and modal['dialog']!=sess['window'] and modal['owner_disabled']
             and modal['capture']==modal['button'] and modal['button_state'] & 4 and modal['foreground']==sess['window']
