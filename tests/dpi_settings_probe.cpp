@@ -53,12 +53,19 @@ static bool text_fits(IUIAutomationElement *element) {
     UIA_HWND native=0;check(element->get_CurrentNativeWindowHandle(&native));
     HWND hwnd=(HWND)native;
     wchar_t classname[64]={};GetClassNameW(hwnd,classname,64);
-    if(wcscmp(classname,L"Static"))return true;
-    LONG_PTR type=GetWindowLongPtrW(hwnd,GWL_STYLE)&SS_TYPEMASK;
-    if(type!=SS_LEFT && type!=SS_LEFTNOWORDWRAP)return true;
+    LONG_PTR style=GetWindowLongPtrW(hwnd,GWL_STYLE);
+    LONG_PTR type=style&SS_TYPEMASK;
+    bool box=!wcscmp(classname,L"Button") && (style&BS_TYPEMASK)==BS_AUTOCHECKBOX;
+    if(!box && (wcscmp(classname,L"Static") || (type!=SS_LEFT && type!=SS_LEFTNOWORDWRAP)))return true;
     std::wstring text((size_t)GetWindowTextLengthW(hwnd)+1,L'\0');
     GetWindowTextW(hwnd,&text[0],(int)text.size());
-    RECT area={};GetClientRect(hwnd,&area);RECT measured=area;
+    RECT area={};GetClientRect(hwnd,&area);
+    if(box) {
+        // Reserve the native checkbox glyph, label gap and focus margins.
+        RECT glyph={0,0,12,0};MapDialogRect(GetParent(hwnd),&glyph);
+        area.right-=glyph.right;
+    }
+    RECT measured=area;
     HDC dc=GetDC(hwnd);
     HFONT remote_font=(HFONT)SendMessageW(hwnd,WM_GETFONT,0,0);
     LOGFONTW description={};
@@ -74,7 +81,7 @@ static bool text_fits(IUIAutomationElement *element) {
         DeleteObject(font);ReleaseDC(hwnd,dc);throw std::runtime_error("Cannot select measurement font");
     }
     UINT flags=DT_CALCRECT|DT_EDITCONTROL;
-    flags|=type==SS_LEFT?DT_WORDBREAK:DT_SINGLELINE;
+    flags|=(box?(style&BS_MULTILINE)!=0:type==SS_LEFT)?DT_WORDBREAK:DT_SINGLELINE;
     DrawTextW(dc,text.c_str(),-1,&measured,flags);
     SelectObject(dc,old);DeleteObject(font);ReleaseDC(hwnd,dc);
     return measured.bottom<=area.bottom+1 && measured.right<=area.right+1;
@@ -119,6 +126,7 @@ static const Page pages[]={
     {L"bell-overload",{L"Terminal",L"Bell",L"Overload"},{L"Bell is temporarily disabled when over-used",L"Seconds of silence required"}},
     {L"bindings",{L"Window",L"Bindings"},{L"Reset bindings",L"Rectangle modifier"}},
     {L"font",{L"Window",L"Bindings",L"Font"},{L"Increase key",L"Decrease key",L"Reset key"}},
+    {L"rendering",{L"Window",L"Rendering"},{L"GDI (low memory)",L"OpenGL (GPU composition)",L"DirectX (GPU composition)",L"Continue unfinished Sixel colours across images (XTerm)",L"Move ReGIS graphics down with full-screen text scrolling"}},
     {L"translation",{L"Window",L"Translation"},{L"Remote character set:",L"Treat CJK ambiguous characters as wide",L"Use grapheme cluster widths at startup",L"Caps Lock acts as Cyrillic switch"}},
     {L"line-drawing",{L"Window",L"Translation",L"Line drawing"},{L"Use Unicode line drawing code points",L"Poor man's line drawing (+, - and |)",L"Font has XWindows encoding",L"Use font in both ANSI and OEM modes",L"Use font in OEM mode only",L"Copy and paste line drawing characters as lqqqk",L"Enable VT100 line drawing even in UTF-8 mode"}},
     {L"tabs",{L"Window",L"Tabs"},{L"Top",L"Bottom",L"Left",L"Right",L"Preview terminal on hover"}}
