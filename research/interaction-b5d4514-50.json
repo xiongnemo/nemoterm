@@ -1,0 +1,414 @@
+{
+  "product_commit": "b5d4514504e5acde7c194568903bea3092a9f147",
+  "product_run": "44268562782",
+  "fixture_commit": "b5d4514504e5acde7c194568903bea3092a9f147",
+  "workflow_run": "44268562782",
+  "attempt": "1",
+  "groups": {
+    "input": {
+      "expected": [
+        "input-byte",
+        "input-wide"
+      ],
+      "cases": {
+        "input-byte": {
+          "status": "passed",
+          "verified": true
+        },
+        "input-wide": {
+          "status": "passed",
+          "verified": true
+        }
+      },
+      "artifact": "interaction-input-44268562782-1"
+    },
+    "selection": {
+      "expected": [
+        "held-selection-native",
+        "bindings",
+        "selection-gdi",
+        "selection-directx"
+      ],
+      "cases": {
+        "held-selection-native": {
+          "status": "passed",
+          "verified": true
+        },
+        "bindings": {
+          "status": "passed",
+          "verified": true
+        },
+        "selection-gdi": {
+          "status": "passed",
+          "verified": true
+        },
+        "selection-directx": {
+          "status": "passed",
+          "verified": true
+        }
+      },
+      "artifact": "interaction-selection-44268562782-1"
+    },
+    "agents": {
+      "expected": [
+        "agent-image-codex",
+        "agent-image-opencode",
+        "agent-selection-roundtrip",
+        "agent-selection-directx",
+        "opencode-selection-gdi",
+        "opencode-system-gdi",
+        "opencode-right-default-gdi",
+        "opencode-right-copy-paste-gdi",
+        "opencode-selection-directx",
+        "opencode-system-directx",
+        "opencode-right-default-directx",
+        "opencode-right-copy-paste-directx"
+      ],
+      "cases": {
+        "agent-image-codex": {
+          "status": "passed",
+          "verified": true
+        },
+        "agent-image-opencode": {
+          "status": "passed",
+          "verified": true
+        },
+        "agent-selection-roundtrip": {
+          "status": "passed",
+          "verified": true
+        },
+        "agent-selection-directx": {
+          "status": "passed",
+          "verified": true
+        },
+        "opencode-selection-gdi": {
+          "status": "passed",
+          "verified": true
+        },
+        "opencode-system-gdi": {
+          "status": "passed",
+          "verified": true
+        },
+        "opencode-right-default-gdi": {
+          "status": "passed",
+          "verified": true
+        },
+        "opencode-right-copy-paste-gdi": {
+          "status": "passed",
+          "verified": true
+        },
+        "opencode-selection-directx": {
+          "status": "passed",
+          "verified": true
+        },
+        "opencode-system-directx": {
+          "status": "passed",
+          "verified": true
+        },
+        "opencode-right-default-directx": {
+          "status": "passed",
+          "verified": true
+        },
+        "opencode-right-copy-paste-directx": {
+          "status": "passed",
+          "verified": true
+        }
+      },
+      "artifact": "interaction-agents-44268562782-1"
+    },
+    "rendering": {
+      "expected": [
+        "unicode-presented-gdi",
+        "renderers",
+        "font-zoom"
+      ],
+      "cases": {
+        "unicode-presented-gdi": {
+          "status": "passed",
+          "verified": true
+        },
+        "renderers": {
+          "status": "passed",
+          "verified": true
+        },
+        "font-zoom": {
+          "status": "passed",
+          "verified": true
+        }
+      },
+      "artifact": "interaction-rendering-44268562782-1"
+    },
+    "mouse": {
+      "expected": [
+        "mouse-wire",
+        "mouse-colours"
+      ],
+      "cases": {
+        "mouse-wire": {
+          "status": "passed",
+          "verified": true
+        },
+        "mouse-colours": {
+          "status": "passed",
+          "verified": true
+        }
+      },
+      "artifact": "interaction-mouse-44268562782-1"
+    },
+    "tabs": {
+      "expected": [
+        "tabs-top",
+        "resize-top",
+        "tabs-bottom",
+        "resize-bottom",
+        "tabs-left",
+        "resize-left",
+        "tabs-right",
+        "resize-right"
+      ],
+      "cases": {
+        "tabs-top": {
+          "status": "passed",
+          "verified": true
+        },
+        "resize-top": {
+          "status": "passed",
+          "verified": true
+        },
+        "tabs-bottom": {
+          "status": "passed",
+          "verified": true
+        },
+        "resize-bottom": {
+          "status": "passed",
+          "verified": true
+        },
+        "tabs-left": {
+          "status": "passed",
+          "verified": true
+        },
+        "resize-left": {
+          "status": "passed",
+          "verified": true
+        },
+        "tabs-right": {
+          "status": "passed",
+          "verified": true
+        },
+        "resize-right": {
+          "status": "passed",
+          "verified": true
+        }
+      },
+      "artifact": "interaction-tabs-44268562782-1"
+    },
+    "settings": {
+      "expected": [
+        "settings",
+        "settings-tabs"
+      ],
+      "cases": {
+        "settings": {
+          "status": "passed",
+          "verified": true
+        },
+        "settings-tabs": {
+          "status": "passed",
+          "verified": true
+        }
+      },
+      "artifact": "interaction-settings-44268562782-1"
+    },
+    "bell": {
+      "expected": [
+        "bell-api",
+        "bell-visual"
+      ],
+      "cases": {
+        "bell-api": {
+          "status": "passed",
+          "verified": true
+        },
+        "bell-visual": {
+          "status": "passed",
+          "verified": true
+        }
+      },
+      "artifact": "interaction-bell-44268562782-1"
+    },
+    "memory-gdi": {
+      "expected": [
+        "full-grid-text-gdi",
+        "full-grid-inline-gdi",
+        "full-grid-animated-gdi",
+        "full-grid-kitty-gdi",
+        "full-grid-compressed-kitty-gdi",
+        "full-grid-unicode-kitty-gdi"
+      ],
+      "cases": {
+        "full-grid-text-gdi": {
+          "status": "passed",
+          "verified": true,
+          "frontend_peak_bytes": {
+            "private_ws": 16596992,
+            "total_ws": 52412416,
+            "private_commit": 18952192
+          }
+        },
+        "full-grid-inline-gdi": {
+          "status": "passed",
+          "verified": true,
+          "frontend_peak_bytes": {
+            "private_ws": 17436672,
+            "total_ws": 54149120,
+            "private_commit": 19619840
+          }
+        },
+        "full-grid-animated-gdi": {
+          "status": "passed",
+          "verified": true,
+          "frontend_peak_bytes": {
+            "private_ws": 17489920,
+            "total_ws": 54247424,
+            "private_commit": 19648512
+          }
+        },
+        "full-grid-kitty-gdi": {
+          "status": "passed",
+          "verified": true,
+          "frontend_peak_bytes": {
+            "private_ws": 17326080,
+            "total_ws": 53870592,
+            "private_commit": 19554304
+          }
+        },
+        "full-grid-compressed-kitty-gdi": {
+          "status": "passed",
+          "verified": true,
+          "frontend_peak_bytes": {
+            "private_ws": 18132992,
+            "total_ws": 54980608,
+            "private_commit": 20365312
+          }
+        },
+        "full-grid-unicode-kitty-gdi": {
+          "status": "passed",
+          "verified": true,
+          "frontend_peak_bytes": {
+            "private_ws": 19017728,
+            "total_ws": 55762944,
+            "private_commit": 22544384
+          }
+        }
+      },
+      "artifact": "interaction-memory-gdi-44268562782-1"
+    },
+    "memory-directx": {
+      "expected": [
+        "full-grid-text-directx",
+        "full-grid-inline-directx",
+        "full-grid-animated-directx",
+        "full-grid-kitty-directx",
+        "full-grid-compressed-kitty-directx",
+        "full-grid-unicode-kitty-directx"
+      ],
+      "cases": {
+        "full-grid-text-directx": {
+          "status": "passed",
+          "verified": true,
+          "frontend_peak_bytes": {
+            "private_ws": 26279936,
+            "total_ws": 70369280,
+            "private_commit": 28913664
+          }
+        },
+        "full-grid-inline-directx": {
+          "status": "passed",
+          "verified": true,
+          "frontend_peak_bytes": {
+            "private_ws": 27619328,
+            "total_ws": 72839168,
+            "private_commit": 30408704
+          }
+        },
+        "full-grid-animated-directx": {
+          "status": "passed",
+          "verified": true,
+          "frontend_peak_bytes": {
+            "private_ws": 27066368,
+            "total_ws": 72118272,
+            "private_commit": 29990912
+          }
+        },
+        "full-grid-kitty-directx": {
+          "status": "passed",
+          "verified": true,
+          "frontend_peak_bytes": {
+            "private_ws": 27455488,
+            "total_ws": 72429568,
+            "private_commit": 30121984
+          }
+        },
+        "full-grid-compressed-kitty-directx": {
+          "status": "passed",
+          "verified": true,
+          "frontend_peak_bytes": {
+            "private_ws": 27615232,
+            "total_ws": 72888320,
+            "private_commit": 30367744
+          }
+        },
+        "full-grid-unicode-kitty-directx": {
+          "status": "passed",
+          "verified": true,
+          "frontend_peak_bytes": {
+            "private_ws": 29462528,
+            "total_ws": 74715136,
+            "private_commit": 33329152
+          }
+        }
+      },
+      "artifact": "interaction-memory-directx-44268562782-1"
+    },
+    "clipboard": {
+      "expected": [
+        "drop-gdi",
+        "drop-directx"
+      ],
+      "cases": {
+        "drop-gdi": {
+          "status": "passed",
+          "verified": true
+        },
+        "drop-directx": {
+          "status": "passed",
+          "verified": true
+        }
+      },
+      "artifact": "interaction-clipboard-44268562782-1"
+    },
+    "shells": {
+      "expected": [
+        "shells"
+      ],
+      "cases": {
+        "shells": {
+          "status": "passed",
+          "verified": true
+        }
+      },
+      "artifact": "interaction-shells-44268562782-1"
+    }
+  },
+  "errors": [],
+  "scope": "all interaction groups",
+  "images": [
+    {
+      "sha256": "1c7721faac3804855dcd6fc948252b388a8330d4f672e8f566318e41ad3bebd8",
+      "bytes": 4859392
+    }
+  ],
+  "expected": 50,
+  "verified": 50,
+  "passed": true
+}
