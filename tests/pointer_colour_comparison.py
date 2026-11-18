@@ -9,7 +9,7 @@ import zipfile
 from native_test_utils import read_snapshot, wait_for, write_snapshot
 
 
-REFERENCE = '9d53c96d09b1e313c853f9767e246c403d1f86a681437e79e15b1e3a055bb346'
+REFERENCE = '45d1b8c67962304696bf583e035c051bfbf257d362ec1ffadd1a799d80974770'
 DSR = b'\x1b[5n'
 OK = b'\x1b[0n'
 
@@ -20,7 +20,7 @@ def compare_cursor_colours(reference, child, seat, out, evidence, native_cursor,
     assert hashlib.sha256(reference.read_bytes()).hexdigest() == REFERENCE
     with zipfile.ZipFile(reference) as z:
         profile = json.loads(z.read('pointer-colour/default/observed.json'))
-        assert profile['completed'] and profile['exit_code'] == 0 and len(profile['steps']) == 19
+        assert profile['completed'] and profile['exit_code'] == 0 and len(profile['steps']) == 31
         evidence['reference'] = dict(archive_sha256=REFERENCE, profile='default',
                                      identity=json.loads(z.read('pointer-colour/identity.json')))
     checks = evidence['colour_checks'] = []
@@ -29,6 +29,7 @@ def compare_cursor_colours(reference, child, seat, out, evidence, native_cursor,
     # separate from the colour commands collected in the XTerm reference.
     emit(child, '\x1b]22;cell\x1b\\', 'cell')
     point_in(seat)
+    stock_handle = evidence['checks'][0]['handle']  # verified against IDC_IBEAM
     previous_image = None
     for row in profile['steps']:
         stage = row['stage']
@@ -58,18 +59,25 @@ def compare_cursor_colours(reference, child, seat, out, evidence, native_cursor,
             swap = {colours[0]:colours[1], colours[1]:colours[0]}
             return (all(image[i:i+3] == swap.get(previous_image[i:i+3], previous_image[i:i+3])
                         for i in range(0, len(previous_image), 3)) and previous_image != image)
+        stock_expected = stage in ('plain-reset-both', 'soft-plain-resets', 'ris-plain-resets', 'unchanged-pop-resets')
+        def presentation(rec, counts):
+            # Both resets restore the unmodified system cursor; its themed ink
+            # on this runner need not be the literal default black and white.
+            if stock_expected: return rec.get('handle') == stock_handle
+            return expected.issubset(counts)
         while True:
             rec, image, counts = sample()
-            if expected.issubset(counts) and reverse_matches(image): break
+            if presentation(rec, counts) and reverse_matches(image): break
             if time.monotonic() >= until: break
             time.sleep(.04)
         rec, image, counts = sample(str(out / (phase+'.png')))
         result = dict(stage=stage, input_hex=wire.hex(), expected_reply_hex=row['reply_hex'],
                       reply_hex=reply.hex(), reply_matches=reply.hex()==row['reply_hex'],
                       expected_inks=sorted(expected), observed_rgb_counts=counts, os_cursor=rec,
-                      inks_present=expected.issubset(counts), reverse_matches=reverse_matches(image))
+                      inks_present=expected.issubset(counts), stock_expected=stock_expected,
+                      presentation_matches=presentation(rec,counts), reverse_matches=reverse_matches(image))
         checks.append(result)
-        if not (result['reply_matches'] and result['inks_present'] and result['reverse_matches']):
+        if not (result['reply_matches'] and result['presentation_matches'] and result['reverse_matches']):
             failures.append(stage)
         previous_image = image
         publish()

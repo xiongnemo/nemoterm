@@ -15,6 +15,7 @@ typedef struct PointerTerminalReference {
     size_t chunk_count;
 } PointerTerminalReference;
 #include "../../../tests/pointer_terminal_reference.h"
+#include "../../../tests/pointer_colour_reference.h"
 
 static unsigned presented_shape;
 static unsigned presentation_calls;
@@ -123,6 +124,32 @@ static void test_ownership(Mock *mk)
     IEQUAL(mk->term->pointer_shapes == NULL, true);
 }
 
+static bool test_pointer_colours(bool fragmented)
+{
+    Mock *mk = mock_new();
+    TermWinVtable vt = mock_termwin_vt;
+    vt.set_pointer_shape = pointer_present;
+    mk->tw.vt = &vt;
+    mk->term = term_init(mk->conf, mk->ucsdata, &mk->tw);
+    mk->ldisc = ldisc_create(mk->conf, mk->term, &mk->backend, &mk->seat);
+    reset(mk);
+    for (size_t i=0; i<lenof(pointer_colour_reference); i++) {
+        const char *wire=pointer_colour_reference[i].wire, *reply=pointer_colour_reference[i].reply;
+        test_context(mk, "mouse colour %s / %s", pointer_colour_reference[i].name,
+                     fragmented ? "single bytes" : "whole");
+        if (fragmented) {
+            for (size_t j=0; wire[j]; j++) term_data(mk->term, wire+j, 1);
+        } else term_data(mk->term, wire, strlen(wire));
+        term_update(mk->term);
+        pointer_response(mk, reply, strlen(reply));
+    }
+    bool failed = mk->any_test_failed;
+    mock_free(mk);
+    printf("XTerm mouse colours: %zu stages, %s: %s\n", lenof(pointer_colour_reference),
+           fragmented ? "single bytes" : "whole", failed ? "FAILED" : "passed");
+    return failed;
+}
+
 int main(void)
 {
     Mock *mk = mock_new();
@@ -136,6 +163,8 @@ int main(void)
     test_ownership(mk);
     bool failed = mk->any_test_failed;
     mock_free(mk);
+    failed |= test_pointer_colours(false);
+    failed |= test_pointer_colours(true);
     printf("Pointer terminal: %zu upstream stages x 2 fragmentation modes; %u presentations; %s\n",
            lenof(pointer_terminal_reference), presentation_calls,
            failed ? "FAILED" : "passed");

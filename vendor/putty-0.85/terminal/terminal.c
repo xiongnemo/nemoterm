@@ -127,6 +127,7 @@ struct nemo_title_stack {
 struct NemoPaletteSnapshot {
     rgb entries[OSC4_NCOLOURS];
     optionalrgb selection[2];
+    optionalrgb pointer[2];
     optionalrgb attributes[5];
 };
 struct NemoPaletteStack {
@@ -4215,7 +4216,29 @@ static void nemo_set_reverse_video(Terminal *term, bool state)
             palette_rebuild(term);
         }
     }
+    if (term->rvideo != state &&
+        (term->pointer_colours[0].enabled || term->pointer_colours[1].enabled)) {
+        term->win_app_pointer_pending = true;
+        term_schedule_update(term);
+    }
     term->rvideo = state;
+}
+
+rgb term_pointer_colour(const Terminal *term, unsigned which)
+{
+    assert(which < 2);
+    optionalrgb c = term->pointer_colours[which];
+    unsigned char d = which == 0 ? 255 : 0;
+    return c.enabled ? (rgb){c.r,c.g,c.b} : (rgb){d,d,d};
+}
+
+static void nemo_pointer_colour_set(Terminal *term, unsigned which, optionalrgb c)
+{
+    if (!optionalrgb_equal(c, term->pointer_colours[which])) {
+        term->pointer_colours[which] = c;
+        term->win_app_pointer_pending = true;
+        term_schedule_update(term);
+    }
 }
 
 static void nemo_selection_colour_set(Terminal *term, unsigned which,
@@ -4279,6 +4302,7 @@ static void nemo_palette_stack_op(Terminal *term, bool push)
             if (!stack->slot[slot])
                 stack->slot[slot] = snew(struct NemoPaletteSnapshot);
             memcpy(stack->slot[slot]->entries, term->palette, sizeof(term->palette));
+            memcpy(stack->slot[slot]->pointer, term->pointer_colours, sizeof(term->pointer_colours));
             memcpy(stack->slot[slot]->selection, term->selection_colours,
                    sizeof(term->selection_colours));
             memcpy(stack->slot[slot]->attributes, term->attribute_colours,
@@ -4289,6 +4313,14 @@ static void nemo_palette_stack_op(Terminal *term, bool push)
             stack->used = omitted ? used+1 : arg;
             if (omitted && stack->last < stack->used) stack->last = stack->used;
         } else if (stack && stack->slot[slot]) {
+            bool changed = false;
+            for (unsigned i = 0; i < 2; i++) {
+                optionalrgb saved = stack->slot[slot]->pointer[i];
+                changed |= !optionalrgb_equal(saved, term->pointer_colours[i]);
+                nemo_pointer_colour_set(term, i, saved);
+            }
+            if (changed) term->pointer_named = 0;
+
             memcpy(term->subpalettes[SUBPAL_SESSION].values,
                    stack->slot[slot]->entries, sizeof(term->palette));
             for (unsigned i = 0; i < OSC4_NCOLOURS; i++)
@@ -6898,7 +6930,13 @@ static bool osc_colours(Terminal *term, bool bel)
         }
         palette_rebuild(term);
     } else if (command >= 110) {
-        if (command == 117 || command == 119) {
+        if (command == 113 || command == 114) {
+            unsigned which = command - 113;
+            if (!*next && (term->pointer_named & (1u << which))) {
+                nemo_pointer_colour_set(term, which, optionalrgb_none);
+                term->pointer_named &= ~(1u << which);
+            }
+        } else if (command == 117 || command == 119) {
             unsigned which = (command == 117 ? 0 : 1) ^ (term->rvideo ? 1 : 0);
             /* Like XTerm ResetColorsRequest, selection resets ignore payload. */
             nemo_selection_colour_set(term, which, optionalrgb_none);
@@ -6913,9 +6951,18 @@ static bool osc_colours(Terminal *term, bool bel)
         for (; command <= 19 && (token = osc_token(&next)) != NULL; command++) {
             if (command <= 12)
                 osc_colour(term, command, osc_dynamic_colour_index(term, command-10), token, bel);
-            else if (command == 17 || command == 19)
+            else if ((command == 13 || command == 14) && term->win->vt->set_pointer_shape) {
+                unsigned which = command - 13;
+                NemoColour c;
+                if (!strcmp(token, "?")) {
+                    osc_colour_reply(term, command, 0, term_pointer_colour(term, which), bel);
+                } else if (nemo_colour_parse(token, strlen(token), &c)) {
+                    term->pointer_named |= 1u << which;
+                    nemo_pointer_colour_set(term, which, (optionalrgb){true,c.r,c.g,c.b});
+                }
+            } else if (command == 17 || command == 19)
                 osc_selection_colour(term, command, token, bel);
-            /* Preserve parameter positions across unsupported pointer/Tek
+            /* Preserve parameter positions across unsupported Tek
              * colours. They must never alias a supported colour slot. */
         }
     }

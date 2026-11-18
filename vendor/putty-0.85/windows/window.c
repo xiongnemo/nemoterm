@@ -1495,7 +1495,15 @@ void nemo_update_mouse_pointer(WinGuiSeat *wgs)
         int size = p_GetSystemMetricsForDpi ?
             p_GetSystemMetricsForDpi(SM_CXCURSOR, (UINT)max(96, wgs->dpi_info.cur_dpi.x)) :
             GetSystemMetrics(SM_CXCURSOR);
-        SetCursor(nemo_pointer_cursor(shape, (unsigned)max(32, size)));
+        HCURSOR source = nemo_pointer_cursor(shape, (unsigned)max(32, size));
+        Terminal *term = wgs->term;
+        if (term && (term->pointer_colours[0].enabled || term->pointer_colours[1].enabled)) {
+            rgb fg = term_pointer_colour(term, term->rvideo ? 1 : 0);
+            rgb bg = term_pointer_colour(term, term->rvideo ? 0 : 1);
+            nemo_pointer_select(source, true, RGB(fg.r,fg.g,fg.b), RGB(bg.r,bg.g,bg.b));
+        } else {
+            nemo_pointer_select(source, false, 0, 0);
+        }
     }
     if (force_visible != forced_visible) {
         /* We want some cursor shapes to be visible always.

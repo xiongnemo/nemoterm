@@ -596,6 +596,9 @@ struct terminal_tag {
      * Unset fields retain the existing per-cell inverse-video selection. */
     optionalrgb selection_colours[2];
     optionalrgb selection_defaults[2];
+    /* OSC 13/14: logical foreground and background, shared by both screens. */
+    optionalrgb pointer_colours[2];
+    unsigned char pointer_named; /* XTerm numeric palette restores lose colour names. */
     /* OSC 5: bold, underline, blink, reverse, italic. These are distinct
      * from PuTTY's internal default/cursor indices 256..261. */
     optionalrgb attribute_colours[5];
@@ -851,6 +854,7 @@ enum {
     #undef DEFINE_FLAG_BIT
 };
 
+rgb term_pointer_colour(const Terminal *term, unsigned which);
 termline *term_get_line(Terminal *term, int y);
 void term_release_line(termline *line);
 

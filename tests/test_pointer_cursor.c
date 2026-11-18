@@ -172,6 +172,22 @@ int main(void)
                 CHECK(nemo_pointer_cursor((NemoPointerShape)shape, size) == cache[(size-32)/8][shape]);
     CHECK(GetGuiResources(GetCurrentProcess(), GR_USEROBJECTS) == warmed_user);
     CHECK(GetGuiResources(GetCurrentProcess(), GR_GDIOBJECTS) == warmed_gdi);
+    HCURSOR source = cache[0][NEMO_POINTER_CELL];
+    nemo_pointer_select(source, true, RGB(18,164,92), RGB(214,50,180));
+    HCURSOR first = GetCursor(); CHECK(first != NULL && first != source);
+    nemo_pointer_select(source, true, RGB(18,164,92), RGB(214,50,180));
+    CHECK(GetCursor() == first);
+    DWORD tinted_user = GetGuiResources(GetCurrentProcess(), GR_USEROBJECTS);
+    DWORD tinted_gdi = GetGuiResources(GetCurrentProcess(), GR_GDIOBJECTS);
+    for (unsigned i=0; i<120; i++) {
+        nemo_pointer_select(source, true, RGB(i,3,1), RGB(1,2,255-i));
+        CHECK(GetCursor() && GetCursor() != source);
+    }
+    CHECK(GetGuiResources(GetCurrentProcess(), GR_USEROBJECTS) == tinted_user);
+    CHECK(GetGuiResources(GetCurrentProcess(), GR_GDIOBJECTS) == tinted_gdi);
+    nemo_pointer_select(source, false, 0, 0); CHECK(GetCursor() == source);
+    CHECK(GetGuiResources(GetCurrentProcess(), GR_USEROBJECTS) == warmed_user);
+    CHECK(GetGuiResources(GetCurrentProcess(), GR_GDIOBJECTS) == warmed_gdi);
     CHECK(atlas(32) == 0); CHECK(atlas(48) == 0); CHECK(atlas(96) == 0);
     SetCursor(cache[0][NEMO_POINTER_ZOOM_IN]);
     nemo_pointer_cursors_free();
