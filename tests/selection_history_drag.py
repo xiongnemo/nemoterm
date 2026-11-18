@@ -9,7 +9,7 @@ class ScrollInfo(c.Structure):
               ('page',w.UINT),('pos',c.c_int),('track',c.c_int)]
 
 
-def verify_history_drag(hwnd, begin_phase, point, ch, capture, tile, copy, barrier, evidence):
+def verify_history_drag(hwnd, begin_phase, point, capture, tile, copy, barrier, evidence):
     u.GetScrollInfo.argtypes=[w.HWND,c.c_int,c.POINTER(ScrollInfo)]
     lines=['R%02d:中e\u0301 END'%i for i in range(54)]
     scene='\x1b[?1049l\x1b[0m\x1b[?25l\x1b[2J\x1b[3J\x1b[H'+'\r\n'.join(lines)+'\x1b[?1002;1006h'

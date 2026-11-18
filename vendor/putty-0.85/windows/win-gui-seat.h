@@ -135,6 +135,10 @@ struct WinGuiSeat {
     int lastclick_x, lastclick_y;
     Mouse_Button lastbtn;
 
+    /* Last real local drag coordinate, only used while the HWND owns capture. */
+    bool selection_scroll_active;
+    LPARAM selection_scroll_pos;
+    WPARAM selection_scroll_keys;
     bool send_raw_mouse;
     int wheel_accumulator, horizontal_wheel_accumulator;
     int font_zoom_wheel_accumulator;

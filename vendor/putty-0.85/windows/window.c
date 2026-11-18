@@ -2899,6 +2899,17 @@ static void wm_size_resize_term(WinGuiSeat *wgs, LPARAM lParam)
     conf_set_int(wgs->conf, CONF_width, w);
 }
 
+/* An OS timer runs only while a local selection is held outside the grid.
+ * It belongs to the terminal view, not the shared tab host or application. */
+#define NEMO_SELECTION_SCROLL_TIMER 0x4e535343u
+static void nemo_stop_selection_scroll(WinGuiSeat *wgs, HWND hwnd)
+{
+    if (wgs->selection_scroll_active) {
+        wgs->selection_scroll_active = false;
+        KillTimer(hwnd, NEMO_SELECTION_SCROLL_TIMER);
+    }
+}
+
 static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
                                 WPARAM wParam, LPARAM lParam)
 {
@@ -2943,6 +2954,7 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
         return 0;
       }
       case WM_DESTROY:
+        nemo_stop_selection_scroll(wgs, hwnd);
         if (wgs->tabbed && !wgs->closing) {
             wgs_request_close(wgs);nemo_host_remove(wgs);
         }
@@ -3513,6 +3525,7 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
                      (wgs->send_raw_mouse && !(wParam & MK_SHIFT))))
                     SetCapture(hwnd);
             } else {
+                if (button == MBT_LEFT) nemo_stop_selection_scroll(wgs, hwnd);
                 term_mouse_pixels(wgs->term, button, translate_button(wgs, button),
                            MA_RELEASE, TO_CHR_X(X_POS(lParam)),
                            TO_CHR_Y(Y_POS(lParam)),
@@ -3526,7 +3539,7 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
         }
         nemo_update_mouse_pointer(wgs);
         return message == WM_XBUTTONDOWN || message == WM_XBUTTONUP ? TRUE : 0;
-      case WM_MOUSEMOVE:
+      case WM_MOUSEMOVE: {
         /*
          * Windows seems to like to occasionally send MOUSEMOVE
          * events even if the mouse hasn't moved. Don't unhide
@@ -3546,6 +3559,10 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
          */
         noise_ultralight(NOISE_SOURCE_MOUSEPOS, lParam);
 
+        int drag_y = TO_CHR_Y(Y_POS(lParam));
+        if (!(wParam & MK_LBUTTON) || GetCapture() != hwnd ||
+            (drag_y >= 0 && drag_y < wgs->term->rows))
+            nemo_stop_selection_scroll(wgs, hwnd);
         if (nemo_link_motion(wgs, &wParam, lParam)) return 0;
         if (wParam & (MK_LBUTTON | MK_MBUTTON | MK_RBUTTON |
                       MK_XBUTTON1 | MK_XBUTTON2) &&
@@ -3561,12 +3578,23 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
                 b = MBT_X1;
             else
                 b = MBT_X2;
+            bool outside = drag_y < 0 || drag_y >= wgs->term->rows;
+            /* Fresh motion updates the horizontal endpoint immediately. Once
+             * armed, scroll speed follows the timer rather than mouse noise. */
+            int input_y = wgs->selection_scroll_active && wgs->term->selstate == DRAGGING ?
+                max(0, min(drag_y, wgs->term->rows-1)) : drag_y;
             term_mouse_pixels(wgs->term, b, translate_button(wgs, b), MA_DRAG,
-                       TO_CHR_X(X_POS(lParam)),
-                       TO_CHR_Y(Y_POS(lParam)),
+                       TO_CHR_X(X_POS(lParam)), input_y,
                        X_POS(lParam)-wgs->offset_width,
                        Y_POS(lParam)-wgs->offset_height, wParam & MK_SHIFT,
                        wParam & MK_CONTROL, is_alt_pressed());
+            if (b == MBT_LEFT && outside && wgs->term->selstate == DRAGGING) {
+                wgs->selection_scroll_pos = lParam;
+                wgs->selection_scroll_keys = wParam;
+                if (!wgs->selection_scroll_active)
+                    wgs->selection_scroll_active =
+                        SetTimer(hwnd, NEMO_SELECTION_SCROLL_TIMER, 60, NULL) != 0;
+            } else nemo_stop_selection_scroll(wgs, hwnd);
         } else {
             term_mouse_pixels(wgs->term, MBT_NOTHING, MBT_NOTHING, MA_MOVE,
                        TO_CHR_X(X_POS(lParam)),
@@ -3577,10 +3605,12 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
         }
         nemo_update_mouse_pointer(wgs);
         return 0;
+      }
       case WM_CAPTURECHANGED:
         if ((HWND)lParam == hwnd) return 0;
         /* fall through: only an actual loss cancels reported buttons */
       case WM_CANCELMODE:
+        nemo_stop_selection_scroll(wgs, hwnd);
         nemo_link_cancel(wgs);
         term_mouse_cancel(wgs->term);
         term_cancel_selection_drag(wgs->term);
@@ -3790,6 +3820,7 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
         break;
       }
       case WM_KILLFOCUS:
+        nemo_stop_selection_scroll(wgs, hwnd);
         memset(wgs->font_zoom_keys, 0, sizeof(wgs->font_zoom_keys));
         wgs->font_zoom_wheel_accumulator = 0;
         wgs->font_zoom_wheeling = false;
@@ -4364,6 +4395,29 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
         nemo_osc52_poll(wgs, wParam);
         return 0;
       case WM_TIMER:
+        if (wParam == NEMO_SELECTION_SCROLL_TIMER) {
+            if (!wgs->selection_scroll_active) return 0;
+            Terminal *term = wgs->term;
+            LPARAM pos = wgs->selection_scroll_pos;
+            WPARAM keys = wgs->selection_scroll_keys;
+            int y = TO_CHR_Y(Y_POS(pos));
+            if (wgs->closing || !wgs_active(wgs) || !IsWindowVisible(hwnd) ||
+                !IsWindowEnabled(wgs_window(wgs)) || GetCapture() != hwnd ||
+                term->selstate != DRAGGING || (y >= 0 && y < term->rows)) {
+                nemo_stop_selection_scroll(wgs, hwnd);
+                return 0;
+            }
+            int before = term->disptop;
+            int depth = y < 0 ? -y : y-term->rows+1;
+            int extra = min(depth, 8)-1;
+            if (extra) term_scroll(term, 0, y < 0 ? -extra : extra);
+            term_mouse_pixels(term, MBT_LEFT, translate_button(wgs, MBT_LEFT),
+                              MA_DRAG, TO_CHR_X(X_POS(pos)), y,
+                              X_POS(pos)-wgs->offset_width, Y_POS(pos)-wgs->offset_height,
+                              (keys & MK_SHIFT)!=0, (keys & MK_CONTROL)!=0, is_alt_pressed());
+            if (term->disptop == before) nemo_stop_selection_scroll(wgs, hwnd);
+            return 0;
+        }
         if (wParam == NEMO_OSC52_TIMER) {
             nemo_osc52_poll(wgs, 0);
             return 0;
