@@ -26,6 +26,12 @@ void gui_term_process_cmdline(Conf *conf, char *cmdline)
     }
     conf_set_str(conf, CONF_remote_cmd, "");
 
+    /* The @profile and duplicated-session shortcuts can return immediately.
+     * Their children have the same terminal as a normal command-line launch. */
+    SetEnvironmentVariableA("TERM", NEMO_TERM_NAME);
+    SetEnvironmentVariableA("COLORTERM", "truecolor");
+    SetEnvironmentVariableA("TERM_PROGRAM", "nemoterm");
+
     cmdline = handle_restrict_acl_cmdline_prefix(cmdline);
     if (handle_special_sessionname_cmdline(cmdline, conf) ||
         handle_special_filemapping_cmdline(cmdline, conf))
@@ -188,10 +194,6 @@ void gui_term_process_cmdline(Conf *conf, char *cmdline)
     }
     if ((show_settings || (!explicit_command && conf_get_bool(conf, CONF_nemo_choose_shell))) && !do_config(conf))
         cleanup_exit(0);
-
-    SetEnvironmentVariableA("TERM", NEMO_TERM_NAME);
-    SetEnvironmentVariableA("COLORTERM", "truecolor");
-    SetEnvironmentVariableA("TERM_PROGRAM", "nemoterm");
 }
 
 const struct BackendVtable *backend_vt_from_conf(Conf *conf)
