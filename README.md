@@ -13,7 +13,7 @@ Nemoterm 是 **PuTTY 0.85 Windows pterm 的下游 fork**，沿用其终端核心
 本页描述所在分支的代码；下载产物按下面的提交和验证记录区分。已实现功能与测试边界见 [协议支持表](docs/PROTOCOLS.md)
 和 [需求与验证记录](docs/REQUIREMENTS.md)。
 
-[松开时按最终字符格复制的预览 `6cf4387`](https://github.com/xiongnemo/nemoterm/actions/runs/44306179760/artifacts/14427942582)：应用接管鼠标时，Shift 拖选和矩形选区都能复制到松开鼠标的那一格。GDI、DirectX 已核对[高亮、剪贴板和修复前后的对照](research/selection-release-cell.md)。
+[松开时按最终字符格复制的预览 `6cf4387`](https://github.com/xiongnemo/nemoterm/actions/runs/44306179760/artifacts/14427942582)：应用接管鼠标时，Shift 拖选和矩形选区都能复制到松开鼠标的那一格。GDI、DirectX 已核对[高亮与剪贴板](research/selection-release-cell.md)。同一 EXE 的交互验收为 72/74；两项未通过都是 Codex 刚启动时贴图，等待就绪后两种输入方式均通过。满屏压力测试私有工作集峰值为 GDI **19.50 MB**、DirectX **28.77 MB**。
 
 [右键修复预览 `f628d89`](https://github.com/xiongnemo/nemoterm/actions/runs/44298297621/artifacts/14424658437)：如果右键复制后在另一个窗口松开，接管鼠标的程序仍能收到下一次右键的按下和松开。同一份 EXE 在 GitHub 托管 Windows 上通过 [74/74 项交互验收](research/right-button-release.md#complete-interaction-replay)，包括 36 项真实客户端交互；[仅含该 EXE 的验证包](https://github.com/xiongnemo/nemoterm/actions/runs/44298297621/artifacts/14427902321)另通过 170 项单文件检查。160×48 满屏压力测试的前端私有工作集峰值为 GDI **19.71 MB**、DirectX **29.37 MB**。
 
