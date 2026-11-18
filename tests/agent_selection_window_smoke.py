@@ -86,10 +86,28 @@ def main():
                 (out/filename).write_bytes(api.png_from_bmp(bmp if bmp is not None else api.request(endpoint,'image',seat)))
                 evidence['screenshots'].append(filename)
             ready={'opencode':'Ask anything','codex':'Ask Codex to do anything','claude':'plan mode on'}[args.client]
+            if args.client=='claude':
+                # A new Claude home may explicitly ask about this newly created
+                # test directory. Confirm only after matching its entire path.
+                screen=wait_for(lambda:s if ready in (s:=text()) or 'Yes, I trust this folder' in s else None,timeout=60)
+                if ready not in screen:
+                    lines=[line.strip() for line in screen.splitlines() if line.strip()]
+                    begin=lines.index('Accessing workspace:')+1
+                    end=next(i for i in range(begin,len(lines)) if lines[i].startswith('Quick safety check:'))
+                    shown=''.join(lines[begin:end]); expected=(case/'work').resolve(strict=True)
+                    assert Path(shown).resolve(strict=True)==expected and (expected/'.git').is_dir(),shown
+                    if any(line.startswith('❯ No, exit') for line in lines): press(0x28)
+                    wait_for(lambda:'❯ Yes, I trust this folder' in text())
+                    press(13); evidence['confirmed_fixture_directory']=str(expected)
             wait_for(lambda:ready in text(),timeout=60)
-            sample('startup')
+            def client_trace(label):
+                path=case/'client-output.log'
+                if path.is_file():
+                    raw=path.read_bytes(); evidence.setdefault('trace_points',[]).append(dict(
+                        phase=label,seconds=time.monotonic(),bytes=len(raw),sha256=hashlib.sha256(raw).hexdigest()))
+            client_trace('initial-ready');sample('startup')
             api.request(endpoint,'input',seat,SELECTION_TRIGGER)
-            wait_for(lambda:SELECTION_TRIGGER in text());time.sleep(.2);press(13)
+            wait_for(lambda:SELECTION_TRIGGER in text());client_trace('trigger-visible');time.sleep(.2);press(13);client_trace('enter-sent')
             screen=wait_for(lambda:s if SELECTION_TEXT in (s:=text()) else None,timeout=40)
             if args.right_click:
                 # Put an identifiable prefix in the composer first. The HTTP
@@ -232,6 +250,10 @@ def main():
                 except Exception:pass
             raise
         finally:
+            trace=case/'client-output.log'
+            if trace.is_file():
+                raw=trace.read_bytes();name=tag+'-client-output.vt';(out/name).write_bytes(raw)
+                evidence['client_output']=dict(file=name,bytes=len(raw),sha256=hashlib.sha256(raw).hexdigest())
             if desktop:desktop.restore()
             if handle:k.CloseHandle(handle)
             if proc.poll() is None:

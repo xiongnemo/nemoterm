@@ -95,7 +95,12 @@ class Handler(BaseHTTPRequestHandler):
                         latest_user_parts.append(value)
                         text.extend(re.findall(r'NEMOTERM_[A-Z0-9_]+',value))
             selected=SELECTION_PREFIX+SELECTION_TEXT in latest_user_parts
+            # Retain only fixed-fixture prompt contamination, allowing direct
+            # comparison of early user input and terminal OSC replies.
+            first_parts=[p for p in latest_user_parts if p.startswith(SELECTION_TRIGGER)]
             self.server.requests.append(dict(selection_received=selected,
+                                              source_prompt_exact=SELECTION_TRIGGER in latest_user_parts,
+                                              source_suffix=[p[len(SELECTION_TRIGGER):][:160] for p in first_parts],
                                               selected_text_occurrences=sum(part.count(SELECTION_TEXT) for part in latest_user_parts),
                                               path=path, images=images, text=text,
                                               advertised_tools=len(request.get('tools', [])),
