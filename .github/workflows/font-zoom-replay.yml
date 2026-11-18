@@ -265,7 +265,7 @@ jobs:
         run: |
           if (Test-Path research/profile-term-environment.json) { Copy-Item -LiteralPath research/profile-term-environment.json -Destination build/focused-evidence/ }
       - name: Retain complete observations
-        if: ${{ always() && inputs.suite != 'profile-env' }}
+        if: ${{ always() && inputs.suite != 'profile-env' && inputs.suite != 'fullscreen' }}
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Force build/focused-evidence | Out-Null

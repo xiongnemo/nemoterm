@@ -24,6 +24,8 @@ gh workflow run font-zoom-replay.yml --ref <branch> -f suite=interaction -f sour
 
 `suite=close-cancel` 在双标签下分别关闭当前会话、关闭整个窗口，再在独立窗口重复。先让子进程接收实际按键 `a`，用鼠标点关闭确认的 Cancel，立即按 `b`；再次关闭时用 Esc 取消，再按 `c`。取消后不点击终端、不请求激活、不打开设置。检查原子进程收到的精确字节、键盘焦点、现存会话和最后点 OK 的效果。原始记录在制品的 `dialog-close-input.json`。完整回归的 profile 任务也运行这套检查。
 
+`suite=fullscreen` 在独立窗口和标签窗口中让子程序发送 `CSI 10 ; Ps t`，用 Win32 读取顶层窗口的实际矩形、边框和最大化状态。进入时必须铺满显示器；退出时必须完整恢复原状。禁用远程调整大小或锁定窗口后，进入和切换请求都必须保持原状。两份结果和被测 EXE 的哈希保存在同一制品中。
+
 `suite=font-ops` 在同一个 EXE 上分别验证 GDI 和 DirectX。先用独立启动的 Sarasa、Consolas 窗口核对实际字形和字符格，再验证标签间字体互不影响，以及从“窗口 → 外观 → 字体访问”保存配置和撤销权限。原始数据和首次失败见 [OSC 50 实测](../research/osc-font-operations.md)。
 
 `suite=rendering-settings` 在远程显示器实际支持的缩放比例下打开英文、简体中文“渲染”页，记录两个复选框的文字边界、与底部按钮的间距和窗口截图。分别检查标签窗口、独立窗口和运行中改变 DPI 的情况。

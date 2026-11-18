@@ -188,6 +188,7 @@ number of passing executables. Unlisted private extensions remain **unverified**
 | #P/#Q/#R (palette stack) | Tested | Ten lazy snapshots of the implemented indexed/default palette; indexed access, zero/omitted arguments, high-water reports, reset/alternate-screen retention, invalidation and synchronized pixels. See [palette stacks](../research/palette-stacks.md); unsupported OSC color namespaces remain separate. |
 | #S (title-stack position query) | Tested | Logical depth and ten retained slots; fixes the former depth clamp. The combined palette/title oracle has 101 exact XTerm cases through core and all three native renderers. |
 | t, operations 1–9, 11, 13–16, 18–23 and line count >=24 | Partial | `queries`, `titles`, `window_resize`; native movement, size and title policies apply. Other window operations remain missing. |
+| t, operation 10 (`FullscreenWin`) | Development | Enter, leave and toggle native fullscreen on the active resizable Windows terminal. `suite=fullscreen` compares the real monitor, frame and restored placement in both host modes. [Original failure and replay](../research/xtwinops-fullscreen.md). |
 | >t / >T (title modes) | Tested | `titles`, independent raw-byte title-mode oracle. |
 | *\| / $\| (DECSNLS/DECSCPP) | Gated | `queries`, `window_resize`; remote resizing setting and monitor work-area clamp. |
 | i / ?i (media copy) | Source only | Configured printer start/stop subset; not a full screen-to-printer implementation. |

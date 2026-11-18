@@ -63,6 +63,8 @@ platform differences in the eventual component/native replay.
 
 ## Native policy mapping
 
+This section records the original policy snapshot. Later Windows builds added [fullscreen window requests](xtwinops-fullscreen.md) and [font operations](osc-font-operations.md); the original receipts remain below.
+
 Nemoterm has independent permissions rather than XTerm's master overrides.
 OSC 60 therefore lists a category when all its supported operations are allowed;
 OSC 61 reports current local restrictions; OSC 62 lists supported operations.
