@@ -868,15 +868,21 @@ static void test_sixel_palette_lifetime(Mock *mk)
     const uint32_t blue = UINT32_C(0xff0000ff);
     Terminal *t = mk->term;
     reset(mk);
-    test_context(mk, "Sixel within-DCS palette identity and overwritten pixels");
+    test_context(mk, "Sixel ST does not recolour existing private pixels");
     term_data_fragmented(t,
         "\033P0;1q#1;2;100;0;0!8~#2;2;100;0;0!8~#1;2;0;100;0\033\\");
+    IEQUAL(image_count(t), 1);
+    palette_pixels(mk, t->images, 0, 16, red);
+    reset(mk);
+    test_context(mk, "Sixel within-DCS palette identity and overwritten pixels");
+    term_data_fragmented(t,
+        "\033P0;1q#1;2;100;0;0!8~#2;2;100;0;0!8~#1;2;0;100;0$\033\\");
     IEQUAL(image_count(t), 1);
     palette_pixels(mk, t->images, 0, 8, green);
     palette_pixels(mk, t->images, 8, 8, red);
     term_data_fragmented(t,
         "\033[4;1H\033P0;1q#1;2;100;0;0!16~$#2;2;0;0;100!8~"
-        "#1;2;0;100;0\033\\");
+        "#1;2;0;100;0$\033\\");
     IEQUAL(image_count(t), 2);
     if (!t->images || !t->images->next) return;
     palette_pixels(mk, t->images->next, 0, 8, blue);

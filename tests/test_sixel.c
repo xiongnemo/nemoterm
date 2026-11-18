@@ -93,24 +93,31 @@ static void color_and_overlay(void)
 static void palette_identity(void)
 {
     NemoSixel *s = fresh(true);
-    /* Equal RGB values do not merge the identities of two registers. */
-    feed(s, "#1;2;100;0;0!8~#2;2;100;0;0!8~#1;2;0;100;0");
-    for (unsigned y = 0; y < 6; y++)
-        for (unsigned x = 0; x < 16; x++)
-            assert(pixel(s, x, y) == (x < 8 ? GREEN : RED));
-    nemo_sixel_reset(s, true);
-    /* An overwritten pixel follows its new register, not its old one. */
-    feed(s, "#1;2;100;0;0!16~$#2;2;0;0;100!8~#1;2;0;100;0");
-    for (unsigned y = 0; y < 6; y++)
-        for (unsigned x = 0; x < 16; x++)
-            assert(pixel(s, x, y) == (x < 8 ? BLUE : GREEN));
-    nemo_sixel_reset(s, false);
-    /* Register zero is the fill identity, including unallocated tiles.
-     * Default foreground pixels retain their independent register 3. */
-    feed(s, "\"1;1;64;6@#0;2;100;0;0@#0;1;240;50;100");
-    assert(pixel(s, 0, 0) == DEFAULT_FG);
-    assert(pixel(s, 1, 0) == GREEN);
-    assert(pixel(s, 1, 1) == GREEN && pixel(s, 63, 5) == GREEN);
+    /* Original XTerm scenes: keep both equal-colour register identities,
+     * and keep overwritten pixels bound to the register that painted last. */
+    for (unsigned ended = 0; ended <= 1; ++ended) {
+        uint32_t final_one = ended ? GREEN : RED;
+        const char *ending = ended ? "$" : "";
+        const char *writers[] = {"#1;2;100;0;0!8~#2;2;100;0;0!8~#1;2;0;100;0",
+                                 "#1;2;100;0;0!16~$#2;2;0;0;100!8~#1;2;0;100;0"};
+        for (unsigned shape = 0; shape < 2; ++shape) {
+            nemo_sixel_reset(s, true);
+            assert(nemo_sixel_feed(s, writers[shape], strlen(writers[shape])));
+            feed(s, ending);
+            uint32_t left = shape ? BLUE : final_one, right = shape ? final_one : RED;
+            for (unsigned y = 0; y < 6; ++y)
+                for (unsigned x = 0; x < 16; ++x)
+                    assert(pixel(s,x,y) == (x < 8 ? left : right));
+        }
+        nemo_sixel_reset(s, false);
+        /* Register zero is also the fill identity, including unallocated tiles.
+         * The first foreground pixel keeps its independent register 3. */
+        const char *background = "\"1;1;64;6@#0;2;100;0;0@#0;1;240;50;100";
+        assert(nemo_sixel_feed(s, background, strlen(background)));
+        feed(s, ending);
+        assert(pixel(s, 0, 0) == DEFAULT_FG && pixel(s, 1, 0) == final_one);
+        assert(pixel(s, 1, 1) == final_one && pixel(s, 63, 5) == final_one);
+    }
     uint32_t palette[256];
     nemo_sixel_get_palette(s, palette);
     palette[0] = BLUE;

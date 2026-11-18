@@ -361,11 +361,9 @@ bool nemo_sixel_finish(NemoSixel *s)
     if (!s || s->status != NEMO_SIXEL_OK) return false;
     if (s->finished) return true;
     if (s->command == '!') return fail(s, NEMO_SIXEL_MALFORMED);
-    /* ST closes the DCS, not the final number of a shared palette write.
-     * Validate it, but publish only definitions ended by a payload command.
-     * Finishing a private image keeps its existing local colour semantics. */
-    if (s->command && !commit_parameters(s, s->shared_palette == NULL))
-        return false;
+    /* ST ends the DCS, not a colour parameter in its payload. Pending
+     * definitions still get validated, but neither kind of palette changes. */
+    if (s->command && !commit_parameters(s, false)) return false;
     s->finished = true;
     return true;
 }
