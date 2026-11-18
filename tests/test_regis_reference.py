@@ -31,9 +31,17 @@ def main():
                         help='Additional two-way palette scenes against separately retained XTerm full repaints')
     parser.add_argument('--register-readback',action='store_true',
                         help='Compare four fresh Sixel register readbacks against pinned XTerm repaints')
+    parser.add_argument('--private-registers',action='store_true',
+                        help='Compare both stages of four private Sixel register scenes with original XTerm')
     args=parser.parse_args()
+    register_scenes=args.register_readback or args.private_registers
+    assert sum((args.shared_palette,args.register_readback,args.private_registers))<=1
     args.output.mkdir(parents=True,exist_ok=True)
-    if args.register_readback:
+    if args.private_registers:
+        assert args.terminal and args.views
+        original=Path('research/private-sixel-terminator-xterm.zip').read_bytes()
+        assert hashlib.sha256(original).hexdigest()=='43325228851c7292d71a3dc846f64e8cacaef99ef98b394a5ecc5016cee91b4c'
+    elif args.register_readback:
         assert args.terminal and args.views and not args.shared_palette
         original=Path('research/shared-register-readback-xterm.zip').read_bytes()
         assert hashlib.sha256(original).hexdigest()=='193fc60e26d512680bf3bd357bcaf0da2a1b0c85323b7d92ae834f12e7840255'
@@ -49,7 +57,7 @@ def main():
                   fixture_commit=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),
                   cases={},excluded={},failures=[],completed=False)
     evidence['reference_archive_sha256']=hashlib.sha256(original).hexdigest()
-    evidence['reference_frame']='repaint' if args.shared_palette or args.register_readback else 'frame'
+    evidence['reference_frame']='repaint' if args.shared_palette or register_scenes else 'frame'
     command=[str(args.exe.resolve())]
     evidence['terminal_parser']=args.terminal
     evidence['image_views']=args.views
@@ -73,22 +81,23 @@ def main():
         if args.shared_palette:
             assert observed['completed'] and not observed['transport_mismatches'] and not observed['control_failures']
             assert {'shared-palette-sixel-terminated','shared-palette-regis-recolour'}<=observed['cases'].keys()
-        if args.register_readback:
-            readbacks = {'shared-register-readback-'+prefix+'-'+end
-                         for prefix in ('empty','painted') for end in ('st','dollar')}
+        if register_scenes:
+            family,prefixes=(('private-register-',('identity','overwrite')) if args.private_registers
+                             else ('shared-register-readback-',('empty','painted')))
+            readbacks={family+prefix+'-'+end for prefix in prefixes for end in ('st','dollar')}
             assert observed['completed'] and not observed['transport_mismatches'] and not observed['control_failures']
             assert readbacks <= observed['cases'].keys()
-        reference_transport=evidence['transport'] if args.register_readback else 'whole'
+        reference_transport=evidence['transport'] if register_scenes else 'whole'
         for name,variants in observed['cases'].items():
-            if args.register_readback and name not in readbacks:
-                evidence['excluded'][name]='Outside the four fresh register readbacks.'
+            if register_scenes and name not in readbacks:
+                evidence['excluded'][name]='Outside the four selected register scenes.'
                 continue
             if args.shared_palette and not name.startswith('shared-palette-'):
                 evidence['excluded'][name]='Outside the additional two-way shared-palette comparison; original gates remain separate.'
                 continue
             steps=variants[reference_transport]['steps']
-            if args.register_readback:
-                assert variants[reference_transport]['completed'] and len(steps)==3
+            if register_scenes:
+                assert variants[reference_transport]['completed'] and len(steps)==(2 if args.private_registers else 3)
             matches=[re.fullmatch(pattern,bytes.fromhex(s['sequence_hex'])) for s in steps]
             if args.views and name=='control-capability':
                 evidence['excluded'][name]='Terminal identity control; ReGIS capability is not advertised yet.'

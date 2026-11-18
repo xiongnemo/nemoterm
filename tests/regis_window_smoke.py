@@ -153,6 +153,18 @@ def exercise(phase,block):
         check(case+'-grow','',both)
         expose(case+'-grow-redraw',both)
 
+    # Same bytes as the XTerm private-register oracle. A dollar ends the
+    # colour number before ST, letting a completed write recolour one register.
+    for shape, paint in [('identity','#1;2;100;0;0!8~#2;2;100;0;0!8~'),
+                         ('overwrite','#1;2;100;0;0!16~$#2;2;0;0;100!8~')]:
+        for end, delimiter in [('st',''),('dollar','$')]:
+            name='private-register-'+shape+'-'+end
+            left=('blue' if shape=='overwrite' else 'green' if delimiter else 'red')
+            right=('green' if shape=='overwrite' and delimiter else 'red')
+            pairs=expected(block(2,left,cw,8),block(2,right,cw+8,8))
+            check(name,reset()+CSI+'2;4H'+DCS+'0;1q'+paint+'#1;2;0;100;0'+delimiter+ST,pairs)
+            expose(name+'-redraw',pairs)
+
 if __name__=='__main__':
     main(background_exercise=exercise,suite_name='regis-window',
          font=os.environ['NEMOTERM_TEST_FONT'],before_exercise=before,
