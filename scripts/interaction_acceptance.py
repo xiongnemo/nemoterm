@@ -185,8 +185,9 @@ def prepare(args):
     # The manual launcher imports this exact module beside itself.
     shutil.copy2(__file__, stage/'interaction_acceptance.py')
     clients = {}
-    for name in ('codex', 'opencode','claude'):
-        path = getattr(args, name)
+    for name in ('codex', 'opencode', 'claude'):
+        # Callers staging only shell cases do not supply any agent clients.
+        path = getattr(args, name, None)
         if path:
             path = path.resolve(strict=True)
             clients[name] = dict(path=str(path), sha256=digest(path))
