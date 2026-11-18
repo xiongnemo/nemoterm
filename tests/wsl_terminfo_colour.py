@@ -7,6 +7,7 @@ from pathlib import Path
 import shutil
 import subprocess
 import sys
+import time
 import traceback
 import uuid
 import winreg
@@ -80,9 +81,26 @@ def exercise(renderer, index):
                 assert not (folder/'exit').exists() and proc.poll() is None,word
                 return word in request('text')
             wait_for(seen,timeout=15)
-        def capture(name):
-            bmp=request('image'); (folder/(name+'.png')).write_bytes(api.png_from_bmp(bmp)); return Image.open(io.BytesIO(bmp)).convert('RGB')
-        marker('COL_PRIOR_SCREEN'); initial=capture('before')
+        # The grid text can be ahead of a presented DirectX frame. Wait only for
+        # independently positioned marker text, never for the swatches under test.
+        def capture(name, visible_row, cleared_row=None):
+            start=time.monotonic(); observations=[]; bmp=None; image=None
+            def ink(row):
+                data=image.crop((1,1+row*ch,1+8*cw,1+(row+1)*ch)).convert('L')
+                return sum(data.histogram()[16:])
+            def presented():
+                nonlocal bmp,image
+                bmp=request('image'); image=Image.open(io.BytesIO(bmp)).convert('RGB')
+                current=ink(visible_row); cleared=ink(cleared_row) if cleared_row is not None else 0
+                observations.append([round(time.monotonic()-start,4),current,cleared])
+                if len(observations)==1: (folder/(name+'-first.png')).write_bytes(api.png_from_bmp(bmp))
+                return current>=12 and cleared==0
+            try: wait_for(presented,timeout=5)
+            finally:
+                report.setdefault('frame_markers',{})[name]=observations
+                if bmp: (folder/(name+'.png')).write_bytes(api.png_from_bmp(bmp))
+            return image
+        marker('COL_PRIOR_SCREEN'); initial=capture('before',0)
         boxes=[(1+col*cw,1+2*ch,1+(col+4)*cw,1+3*ch) for col in (4,10,16)]
         # Include a blank cell on either side of every four-cell swatch.
         guards=[(1+col*cw,1+2*ch,1+(col+1)*cw,1+3*ch) for col in (3,8,9,14,15,20)]
@@ -95,7 +113,7 @@ def exercise(renderer, index):
             r['pixel_phases']={}
             for phase in ('drawn','repainted'):
                 if phase=='repainted': assert u.RedrawWindow(sess['hwnd'],None,None,0x101)
-                image=capture(term+'-'+phase); actual=[]
+                image=capture(term+'-'+phase,6,0); actual=[]
                 for box,wanted in zip(boxes,[bg,fg,'#12569b']):
                     wanted_rgb=bytes.fromhex(wanted[1:]); data=pixels(image,box)
                     actual.append(dict(expected=wanted,first=data[:3].hex(),wrong=sum(data[i:i+3]!=wanted_rgb for i in range(0,len(data),3))))
@@ -103,7 +121,7 @@ def exercise(renderer, index):
                 assert all(x['wrong']==0 for x in actual), (term,phase,actual)
                 assert all(pixels(image,g)==pixels(initial,g) for g in guards),(term,phase,'neighbours')
             (folder/('leave-'+term)).touch(); marker('COL_RESTORED:'+term+':'); assert 'COL_PRIOR_SCREEN' in request('text') and 'COL_DRAWN:' not in request('text')
-            image=capture(term+'-restored'); assert all(pixels(image,g)==pixels(initial,g) for g in boxes+guards)
+            image=capture(term+'-restored',0,6); assert all(pixels(image,g)==pixels(initial,g) for g in boxes+guards)
             r['restored']=True
         (folder/'finish').touch(); assert proc.wait(timeout=15)==0 and (folder/'exit').read_text().strip()=='0'; report['completed']=True
     except Exception:
