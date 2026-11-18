@@ -21,3 +21,9 @@
 [这个 Windows 单文件](https://github.com/xiongnemo/nemoterm/actions/runs/44404296808/artifacts/14474875134)为 4,868,608 字节，SHA-256 `c8c3ccc3a5064faf0234687bdb0aaa1ba295b67f2d17f331757dc4f46638cec2`。在[同文件的 profile 与关闭确认回放](profile-close-b7f4bfa.zip)中，关闭标签、整窗和独立窗口，点 Cancel 和按 Esc 后都能立即接着输入，三个子进程各收到 `abc`。原始制品 `14474658273`，SHA-256 `05f9bace252194086928f34cb5c5aca9b6f3161cf294c46eb0466529df33d036`。
 
 应用兼容性也用同一份 `c8c3ccc3…` 单文件复测：[真实 WSL Vim](wsl-vim-b7f4bfa.zip) 在 `TERM=xterm`、`TERM=xterm-256color` × GDI、DirectX 四个窗口通过；[terminfo 颜色](wsl-colour-b7f4bfa.zip) 在两种渲染器上检查 `xterm`、`xterm-256color`、`xterm-direct`；[实际 WSL Sixel](wsl-sixel-b7f4bfa.zip) 在两种渲染器上分别检查显示、重绘和清除。[原始 Unicode 边界报告](unicode-boundary-b7f4bfa.zip)为 3/4：产品 GDI、DirectX 和系统 ConPTY/Claude 通过；独立 winpty/Claude 对照未能在原定时限内显示正常视图的回复，发送两次 Ctrl+C 后等待退出 18 秒超时。没有把诊断中后续出现的回复改计为通过。
+
+[此版本的真实客户端输入记录](agents-receipts-b7f4bfa.zip)是 28/30：Codex 的两种启动期贴图失败，编辑器就绪后的两种均通过。[160×48 逐窗口记录](agents-grid-receipts-b7f4bfa.zip)是 6/8：所有窗口都实际从画面反向拖选、写入剪贴板并向回环服务器提交了一份与高亮一致的文本；默认 Claude Code 的两种渲染器和提供给它的原文预期字序不同。显式保留应用字序的 Claude、默认 Codex 和 OpenCode 均通过原文与屏幕字形逐项对照。没有用独立的终端输入测试替代真实客户端提交。
+
+在同一个 `b7f4bfa` 前端，Sarasa Light、160×48 的[六项 GDI](memory-gdi-b7f4bfa.zip)和[六项 DirectX](memory-directx-b7f4bfa.zip)压力负载均通过。两种渲染器的峰值都出现在 Unicode 与 Kitty 图片混合负载。GDI 最高私有工作集 19,095,552 B、总工作集 55,820,288 B、私有提交 22,577,152 B；DirectX 分别为 29,130,752 B、74,354,688 B、32,837,632 B。20/30 MB 门槛按私有工作集判定，不把总工作集或私有提交和它混用。
+
+[完整交互汇总](interaction-rollup-b7f4bfa.zip)（run `44404296808`，制品 `14476521053`）对同一文件验出 **74/78**，四个失败是上述两项 Codex 启动贴图与两项默认 Claude 字序。[加强核验后的单组选区回放](selection-verified-rollup-b7f4bfa.zip)（run `44407058129`，测试 `c00763d`，制品 `14476411166`）为 **6/6**；四个图形窗口在汇总中各有 **8** 项逐条核验的光标更新。汇总从对应测试产物按哈希读取真实记录，复核左、右相邻字符、选区背景、剪贴板及应用输入。这个 6/6 不替代完整 74/78，也不覆盖单独的 ReGIS 原版画面对照。
