@@ -1,6 +1,8 @@
 """Shift-select a real OpenCode reply in a DirectX tab and submit the copied text."""
 import argparse
 import os
+import re
+import hashlib
 import struct
 import subprocess
 import sys
@@ -67,6 +69,19 @@ def main():
             assert cw>0 and ch>0 and 0<=first<=last<cols and 0<=row<rows
             pos=lambda x:(oy+row*ch+ch//2)<<16 | (ox+x*cw+cw//2)
             evidence.update(source_line=lines[row],selection=[first,row,last],cell=[cw,ch],offset=[ox,oy]);frame('source')
+            # Only inspect bytes already emitted by the real client. Do not
+            # enable mouse modes from the harness. The full prefix is retained.
+            raw=(case/'client-output.log').read_bytes()
+            (out/'opencode-at-drag.vt').write_bytes(raw)
+            tracking=[]
+            for match in re.finditer(rb'\x1b\[\?([0-9;]+)([hl])|\x1bc|\x1b\[!p',raw):
+                if match[1] is None:
+                    tracking.append(dict(offset=match.start(),seq=match[0].hex(),active=False));continue
+                for item in match[1].split(b';'):
+                    if item in (b'9',b'1000',b'1001',b'1002',b'1003'):
+                        tracking.append(dict(offset=match.start(),seq=match[0].hex(),mode=int(item),active=match[2]==b'h'))
+            evidence['mouse_requests_at_drag']=dict(bytes=len(raw),sha256=hashlib.sha256(raw).hexdigest(),events=tracking)
+            assert tracking and tracking[-1]['active'],('No active mouse request in the recorded client output',tracking)
             u.SendMessageW(hwnd,0x201,5,pos(first));u.SendMessageW(hwnd,0x200,5,pos(last));u.SendMessageW(hwnd,0x202,4,pos(last))
             frame('selected')
             # Replacing the clipboard with image-only data prevents auto-copy at
