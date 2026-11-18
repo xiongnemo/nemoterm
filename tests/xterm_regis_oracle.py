@@ -145,6 +145,22 @@ def cases():
             add('private-register-'+label+'-'+end,
                 C+b'?1070h'+C+b'2;4H'+E+b'P0;1q'+prefix+b'#1;2;0;100;0'+delimiter+ST,
                 C+b'6;4H'+E+b'P0;1q#1;2;0;100;0!16~'+ST)
+    # A new DCS should make its first payload byte observable separately from
+    # the colour of the previous graphic. Use two colours deliberately unlike
+    # the reference's default register 3 and capture all later reads as well.
+    seed=C+b'?1070h'+C+b'2;4H'+E+b'P0;1q#1;2;100;0;0!8~#1;2;0;100;0'
+    for name, previous_end, barrier, first in (
+            ('pending-selector',b'',b'',b'#2;2;0;0;100!8~'),
+            ('ended-selector',b'$',b'',b'#2;2;0;0;100!8~'),
+            ('pending-dollar',b'',b'',b'$#2;2;0;0;100!8~'),
+            ('pending-repeat',b'',b'',b'!8~#2;2;0;0;100!8~'),
+            ('pending-literal',b'',b'',b'~#2;2;0;0;100!8~'),
+            ('pending-plain-text',b'',C+b'1;1H'+b'T',b'#2;2;0;0;100!8~'),
+            ('pending-mode-toggle',b'',C+b'?1070l'+C+b'?1070h',b'#2;2;0;0;100!8~'),
+            ('pending-ris',b'',E+b'c'+C+b'?25l'+C+b'?1070h',b'#2;2;0;0;100!8~')):
+        add('sixel-next-dcs-'+name,seed+previous_end+ST,
+            barrier+C+b'6;4H'+E+b'P0;1q'+first+ST,
+            C+b'9;4H'+E+b'P0;1q#2;2;0;0;100!8~'+ST)
     add('shared-palette-regis-recolour', C+b'?1070l'+E+b'P0;1q#3;2;20;80;20!100~'+ST,
         regis('S(M3(R100G0B0))R(P)',1))
     add('alternate-restore-without-regis',regis(
