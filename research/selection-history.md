@@ -1,0 +1,14 @@
+# Held Shift selection through scrollback
+
+Each test starts a Windows terminal with 24 visible rows and 54 numbered Unicode lines. The child requests mouse reporting. A single movement beyond the top or bottom edge must scroll while the left button remains held. Checks compare scrollbar positions, endpoint pixels, exact copied characters and the input bytes received by the child.
+
+| Image | Hosted observation |
+| --- | --- |
+| `57217fd` | Both GDI and DirectX moved only one row (30→29 and 0→1), then stopped. [Original failed group](selection-history-baseline.zip), run 44245791704. |
+| `463c79c` | On both renderers the viewport reached 30→0 upward and 0→30 downward. The clipboard held exactly 35 lines upward (445 characters) and 34 downward (432). The endpoint was highlighted and the lower guard cell stayed unselected. [Original group](selection-history-463c79c.zip), run 44246209592. |
+| Same `463c79c` | Actual mouse input, system copy/paste shortcuts, re-entry and release outside passed before an immediate hit-test failed. [Original failure](selection-history-native-attempt1.zip), run 44247078350. |
+| Same `463c79c` | The hit-test recorded the tab hover preview briefly covering the terminal. Waiting for the terminal before each new press allowed all five system gestures to pass, including cancel and application-controlled drag. A separate test failed on both renderers when Shift was first pressed during the outward movement: the child got its matching release, but the viewport stayed at 30. [Original replay](selection-history-takeover-baseline.zip), run 44247606690. |
+
+The `463c79c` executable is 4,857,856 bytes, SHA-256 `994d313e802efedd3c91e7e101ec1e3df5bbfc7d661ed6b2192626dfef5efd54`. Each view starts a Windows timer only during a captured local drag outside the grid. Commit `1b24e72` also starts the timer from the new anchor when Shift takes over an application drag. Its [aggregate run](https://github.com/xiongnemo/nemoterm/actions/runs/44248020960) is separate from the results above.
+
+For `463c79c`, all six 160×48 DirectX memory cases passed the inclusive 30,000,000-byte private-working-set budget. The largest frontend sample was the dense Unicode and Kitty image workload: 29,085,696 bytes private working set, 74,358,784 bytes total working set and 33,447,936 bytes private commit. The highest value among the other five private-working-set samples was 27,639,808 bytes. The six reports, image identity and case outcomes are in the [original DirectX group artifact](held-selection-dx-memory-463c79c.zip) from run 44246209592 (archive SHA-256 `473af091eb0ae913c9833bcab39b8f51fa3b9348a282f3ce69f60c106c4e2db9`). In the separate agent group on this image, the DirectX frontend reached 13,373,440 bytes during the Codex reply/resize test and 9,232,384 bytes across the five sampled OpenCode phases. These values exclude the client and console host processes.

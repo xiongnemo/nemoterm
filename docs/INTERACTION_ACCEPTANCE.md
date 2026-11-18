@@ -113,3 +113,5 @@ Sarasa Light 从固定 v2.3.1 压缩包安装，校验下载及实际字体名�
 单独复核应用设置鼠标颜色时，可用 `font-zoom-replay.yml` 的 `suite=pointer-colour` 指定确切的 `source_run` 和 `source_commit`；完整交互的 `mouse` 组使用同一套输入和像素检查。独立 XTerm 原始捕获入口为 `protocol-reference.yml` 的 `family=pointer-colour`，Win32/GDI 资源对照为 `family=pointer-resources`。见[原始回复、光标截图和资源记录](../research/pointer-colours.md)。
 
 `selection` 组覆盖越界拖选：一次移动后保持左键，在两端从滚动缓冲区复制有编号的中文和组合字符，并检查选区像素。另一个用例在独立的托管 Windows 桌面上使用系统鼠标键盘输入，检查应用接管、重新移入、松键、取消捕获及粘贴给子进程的字节。
+
+先按鼠标、在越过边沿时才按 Shift 的情形另行核对应用收到的按下和松开。见[拖选版本对照及原始记录](../research/selection-history.md)。
