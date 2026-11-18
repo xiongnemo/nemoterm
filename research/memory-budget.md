@@ -18,6 +18,8 @@ GitHub Actions run `44277391833` tested `ba91594` (EXE SHA-256 `c4963dba443aa810
 
 On the same image all [six GDI workloads](ba91594-gdi-memory-receipt.zip) passed as well. The highest private working set was **19,140,608 bytes** (`full-grid-unicode-kitty-gdi`). Original GitHub receipt: `14416512219`, SHA-256 `e27dfc1f4457bf2ccba5624594377cb94fa8bfc55c697526d100ab8cf854c82f`.
 
+For the quieter case of a single completed Codex reply, see the [same-runner pterm, default tab and standalone GDI comparison](pterm-findings.md#同一台-runner-上的真实-codex-对照). It reports steady medians; the acceptance limits above apply to sampled peaks.
+
 ### Default grid with real clients
 
 On `ba91594`, the [six original default-window receipts](real-agent-default-grid-ba91594.zip) from run `44293961012` all passed on GitHub-hosted Windows. The launch supplied **no width or height override**. Each run verified the actual 160×48 grid, actual GDI or DirectX renderer, Sarasa Light face, a real Shift-drag and system keyboard clipboard, exact text at the local provider and natural process cleanup. A background sampler observed the frontend from discovery through submission without attaching to it. The table takes the highest private working set among the periodic observations and five named milestones per run; these are sampled maxima, not an OS lifetime high-water mark. The client and separate console host are excluded.

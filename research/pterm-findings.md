@@ -54,7 +54,23 @@ REA session 报告 Ghidra 未配置，故没有伪装成已完成反编译或调
 
 [Microsoft 的工作集定义](https://learn.microsoft.com/en-us/windows/win32/memory/working-set) 指当前驻留物理内存的页，其中可能包含可共享页；[PROCESS_MEMORY_COUNTERS_EX](https://learn.microsoft.com/en-us/windows/win32/api/psapi/ns-psapi-process_memory_counters_ex) 的 PrivateUsage 则是私有提交，不等于当前实际驻留内存。测试 NemoTerm 时应同时记录三项，不能通过 `EmptyWorkingSet` 或最小化窗口人为压低验收值。
 
-可重复执行 `pwsh -File research/measure-pterm.ps1`，会产生带时间和路径的 `pterm-memory-latest.json`，不会覆盖初始快照。
+上表是历史快照，未验证这五个窗口内各自运行的应用。现在通过 GitHub 托管 Windows 做可复现的对照，不在开发电脑上采集。
+
+## 同一台 Runner 上的真实 Codex 对照
+
+[运行 44296258971 的原始记录](pterm-pair-aa84ac2.zip)使用了与本机散列完全一致的官方 pterm 0.85，以及 Nemoterm `ba91594` 的 GDI 单文件构建。三个前端配置轮流在同一个 Windows Runner 上运行固定的 Codex 0.167.0：160×48 字符、1122×818 像素的终端绘图区、10 磅 `SarasaTermSC Nerd Light`，相同的提示词和本地回复。先按表中顺序运行，再倒序各运行一次。六次均核对了真实请求、终端上的回复以及正常退出。
+
+| 前端 | 启动 Codex 前：私有工作集 (MB) | 回复稳定后：私有工作集 (MB) | 回复稳定后：总工作集 (MB) |
+| --- | ---: | ---: | ---: |
+| pterm 0.85 | 2.92–2.96 | 3.75–3.78 | 21.79–22.59 |
+| Nemoterm，默认单标签 | 4.70–4.72 | 5.39–5.40 | 35.70–36.57 |
+| Nemoterm，独立窗口 | 4.57–4.62 | 5.43–5.47 | 35.38–35.41 |
+
+每个范围的两端是两次运行各自的中位数，单位为十进制 MB。以约 100 ms 的间隔采样；启动客户端前观察 2 秒，收到回复后观察 3 秒，仅统计终端前端。在这个短会话中，默认标签版的稳定私有工作集比官方 pterm 高约 1.6 MB。这里没有模拟长时间滚屏、复制或图形重绘；这些操作的[实际采样峰值和验收门槛](memory-budget.md)另计。
+
+![相同提示词和回复在三个前端的窗口截图裁剪](pterm-codex-pair.png)
+
+原始归档含各次采样、截图、窗口与进程身份；制品 `14422924994`，归档 SHA-256 `a216af52a38ce1ada5e9f039ca9a12eeb180c4d3064af847a5e35b439098b8b9`。可通过[远程交互验收入口](../docs/INTERACTION_ACCEPTANCE.md#pterm-memory)复现。
 
 ## 源码中的节省机制
 
@@ -74,5 +90,5 @@ REA session 报告 Ghidra 未配置，故没有伪装成已完成反编译或调
 - “所有转义序列”需要协议清单和逐项测试，不是 `TERM=xterm-256color` 环境变量就能证明。原版 `terminal/terminal.c:3135` 支持 SGR 鼠标 1006，`:3165` 支持 bracketed paste 2004；此检查并未认证完整 xterm、Windows Terminal 或 Alacritty 行为。
 - 在官方 `terminal/` 范围搜索 Sixel、OSC 8、kitty、同步更新等未找到对应实现；这是后续开发线索，不是严格的全程序不可达证明。
 - Sixel 解码图像和大窗口会改变预算：例如一张 1024×1024 RGBA 位图就需要 4 MiB。应对图像总量、尺寸和回滚存储设明确有界策略，并测试滚动、覆盖与释放。
-- 需要实际 Sarasa 字体、真实 agent、活动窗口、长输出、resize、回滚和图片组合负载；本报告仅证明 pterm 的基线，不证明新终端的 20 MB 验收。
-- 未完成：分配栈剖析、特性逐项协议一致性测试、相同内容与窗口尺寸的跨终端受控比较。没有把这些未知项说成已验证。
+- 需要实际 Sarasa 字体、真实 agent、活动窗口、长输出、resize、回滚和图片组合负载；上面的稳定读数不能代替新终端的峰值验收。
+- 未完成：分配栈剖析、特性逐项协议一致性测试、长时间滚屏和图形混排在相同条件下的跨终端对比。没有把这些未知项说成已验证。
