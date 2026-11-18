@@ -12969,6 +12969,12 @@ void term_mouse_pixels(Terminal *term, Mouse_Button braw, Mouse_Button bcooked,
     selpoint.x = x;
     unlineptr(ldata);
 
+    /* Button-up has its own cell. It can be the first observation of a
+     * new endpoint, even when no drag message arrived. A stationary single
+     * click still clears the selection. Raw application input returned above. */
+    bool finish_char_drag = bcooked == MBT_SELECT && a == MA_RELEASE &&
+        term->selmode == SM_CHAR && (term->selstate == DRAGGING ||
+        (term->selstate == ABOUT_TO && !poseq(term->selanchor, selpoint)));
     if (bcooked == MBT_SELECT && a == MA_CLICK) {
         deselect(term);
         term->selstate = ABOUT_TO;
@@ -12983,7 +12989,7 @@ void term_mouse_pixels(Terminal *term, Mouse_Button braw, Mouse_Button bcooked,
         term->selend = term->selstart;
         incpos(term->selend);
         sel_spread(term);
-    } else if ((bcooked == MBT_SELECT && a == MA_DRAG) ||
+    } else if (finish_char_drag || (bcooked == MBT_SELECT && a == MA_DRAG) ||
                (bcooked == MBT_EXTEND && a != MA_RELEASE)) {
         if (a == MA_DRAG &&
             (term->selstate == NO_SELECTION || term->selstate == SELECTED)) {
@@ -13062,8 +13068,8 @@ void term_mouse_pixels(Terminal *term, Mouse_Button braw, Mouse_Button bcooked,
             term->selend.y =   max(term->selanchor.y, selpoint.y);
         }
         sel_spread(term);
-    } else if ((bcooked == MBT_SELECT || bcooked == MBT_EXTEND) &&
-               a == MA_RELEASE) {
+    }
+    if ((bcooked == MBT_SELECT || bcooked == MBT_EXTEND) && a == MA_RELEASE) {
         if (term->selstate == DRAGGING) {
             /*
              * We've completed a selection. We now transfer the
