@@ -100,6 +100,8 @@ Sarasa Light 从固定 v2.3.1 压缩包安装，校验下载及实际字体名�
 
 真实 Windows DPI 的 100/125/150/175/200% 冷启动和动态切换由独立 [DPI 工作流](DPI-CI.md) 覆盖；交互组的模拟 DPI 不替代它。
 
+语言设置窗口的本地化标题在 `WM_INITDIALOG` 中填写。自动化须等该进程的设置对话框可见且分类树已创建，再独立核对实际标题。原 [44220302070](https://github.com/xiongnemo/nemoterm/actions/runs/44220302070) 在读到模板标题 `PuTTY Configuration` 后失败；同一 EXE（SHA-256 `0f660d027df3523b6d4423400d98d83f9a6c7a4a10caaeaa095438a9335f8950`）的[独立回放](https://github.com/xiongnemo/nemoterm/actions/runs/44223202777)通过 24 个真实缩放场景和 8 项语言交互。两次的[原始标题及回放测量记录](../research/i18n-settings-ready-evidence.zip)保留了各自的产品与测试提交身份。
+
 自动测试可以验证系统声音 API，但不能证明用户听到声音；注入输入不能证明某款物理鼠标、真实第三方输入法候选窗或多显示器驱动表现。报告如实记录这些边界与 runner 上可用的 IME，不自动签署人工验收。它们不构成本机测试前置条件。
 
 ## 历史证据
