@@ -20,12 +20,8 @@ def read(path):
     return json.loads(path.read_text(encoding='utf-8-sig'))
 
 
-def memory_case(path, row, renderer, executable):
-    blobs = row['evidence']
-    keys = [k for k in blobs if k.startswith('research/') and k.endswith('-memory.json')]
-    require(len(keys) == 1, 'missing or ambiguous memory record')
-    key, = keys
-    meta_key = key[:-len('-memory.json')] + '-observed.json'
+def record_reader(path,row):
+    blobs=row['evidence']
     # Select only a case-owned attempt. Do not resolve paths from the fixture log.
     matches = [p for p in (path/'interaction'/'attempts').glob(row['id']+'-*')
                if p.name == Path(row['directory']).name]
@@ -35,6 +31,34 @@ def memory_case(path, row, renderer, executable):
         data = (matches[0]/k).read_bytes()
         require(hashlib.sha256(data).hexdigest() == blobs[k], 'memory record digest mismatch')
         return json.loads(data.decode('utf-8-sig'))
+    return checked
+
+
+def agent_grid_case(path,row,identity):
+    client,renderer=row['id'].removeprefix('agent-grid-').rsplit('-',1)
+    actual={'gdi':1,'directx':3}[renderer]
+    keys=[k for k in row['evidence'] if k.startswith('research/') and k.endswith('-observed.json')]
+    require(len(keys)==1,'missing or ambiguous agent observation')
+    obs=record_reader(path,row)(keys[0]);sess=obs['session'];child=obs['child'];trace=obs['frontend_trace']
+    require(obs['client']==client and obs['completed'] and obs['global_input'] and obs['font']==identity['font']
+            and child['terminal_sha256']==identity['executable_sha256'] and child['client_sha256']==identity['clients'][client]['sha256']
+            and child['cleanup']['terminated_remaining'] is False and (sess['cols'],sess['rows'])==(160,48)
+            and sess['renderer']+1==actual,'agent identity, renderer, grid, or cleanup mismatch')
+    samples=trace['samples'];stages=obs['frontend_samples']
+    require(not trace['errors'] and len(samples)>=2 and all(a['seconds']<b['seconds'] for a,b in zip(samples,samples[1:]))
+            and [s['phase'] for s in stages]==['startup','reply','copy','composer','submitted'],'incomplete agent workload samples')
+    peaks={k:max(v[k] for v in samples+stages) for k in ('private_ws','total_ws','private_commit')}
+    require(private_ws_passes(actual,peaks['private_ws']) is True,'agent frontend exceeded its private working-set limit')
+    return peaks
+
+
+def memory_case(path, row, renderer, executable):
+    blobs = row['evidence']
+    keys = [k for k in blobs if k.startswith('research/') and k.endswith('-memory.json')]
+    require(len(keys) == 1, 'missing or ambiguous memory record')
+    key, = keys
+    meta_key = key[:-len('-memory.json')] + '-observed.json'
+    checked=record_reader(path,row)
     observation, memory = checked(meta_key), checked(key)
     require(observation['executable_sha256'].lower() == executable and observation['completed']
             and observation['memory_instrumented'] is False and observation['exact_grid_passed']
@@ -81,6 +105,7 @@ def main():
                             'did not pass and exit naturally')
                     if group.startswith('memory-'):
                         out['frontend_peak_bytes'] = memory_case(path,row,{'memory-gdi':1,'memory-directx':3}[group],exe)
+                    if group=='agents-grid':out['frontend_peak_bytes']=agent_grid_case(path,row,identity)
                     out['verified'] = True
                 except (OSError, ValueError, TypeError, KeyError) as failure:
                     errors.append(f'{group}/{case}: {failure}')

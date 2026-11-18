@@ -18,6 +18,16 @@ GitHub Actions run `44277391833` tested `ba91594` (EXE SHA-256 `c4963dba443aa810
 
 On the same image all [six GDI workloads](ba91594-gdi-memory-receipt.zip) passed as well. The highest private working set was **19,140,608 bytes** (`full-grid-unicode-kitty-gdi`). Original GitHub receipt: `14416512219`, SHA-256 `e27dfc1f4457bf2ccba5624594377cb94fa8bfc55c697526d100ab8cf854c82f`.
 
+On the same EXE, [20 real-client desktop selection cases and their original observations](real-agent-frontend-ba91594.zip) ran at **100×30**, on the `SarasaTermSC Nerd Light` Windows face. Each sampled only the frontend at five milestones: startup, first reply, copy, composer, and submission. These are the highest of those five readings across the cases, **not** continuous process high-water marks or total memory for the client and its shell.
+
+| Real client | GDI private working set (bytes) | DirectX private working set (bytes) | Runs per renderer |
+| --- | ---: | ---: | ---: |
+| Codex | 6,086,656 | 8,933,376 | 3 |
+| OpenCode | 6,189,056 | 9,011,200 | 3 |
+| Claude Code | 6,406,144 | 9,195,520 | 4 |
+
+The 100 readings are from GitHub run `44286244961`, artifact `14419238081`, original SHA-256 `885bc0007951ec29808c48210a93e190b1c995aca3672629f07b851827a412c0`. Each case verified the actual renderer, native keyboard/mouse, provider receipt and process cleanup. Separate image-paste failures in that run remain failures. The results above do not estimate a default-sized interactive window.
+
 The [November 18 DirectX replay](directx-30mb.md) records the change from
 25 MB to 30 MB. In the [six 160x48 workloads for preview `1b24e72`](selection-history.md#candidate-1b24e72),
 DirectX peaked at 28,545,024 bytes, leaving 1,454,976 bytes below its limit.

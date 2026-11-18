@@ -36,7 +36,7 @@ Nemoterm 是 **PuTTY 0.85 Windows pterm 的下游 fork**，沿用其终端核心
 - **Shell 选择**：检测 PowerShell 7、Windows PowerShell、BusyBox ash、Git Bash、WSL Bash 和 cmd，支持保存默认 shell 与启动目录。
 - **多标签**：标签栏可放在上、下、左、右；支持悬停终端预览、中键关闭和标签滚动。
 - **原生交互**：鼠标上报、滚轮、矩形选择、可配置快捷键，以及窗口缩放与历史重排。
-- **文件与图片输入**：拖入文件/文件夹粘贴转义路径；纯图片剪贴板交给支持图片的终端应用读取。使用 Codex 0.167.0 时，请等启动画面的 `loading` 消失再贴图；启动草稿可以输入文字，但会忽略贴图快捷键。[两种快捷键的实测记录](research/agent-unicode-boundary.md#codex-image-paste-during-startup)
+- **文件与图片输入**：拖入文件/文件夹粘贴转义路径；纯图片剪贴板交给支持图片的终端应用读取。使用 Codex 0.167.0 时，启动草稿可以输入文字，但会忽略贴图快捷键。若未出现 `[Image #1]`，等主界面显示模型和快捷键提示，再按一次粘贴。[两种快捷键的实测记录](research/agent-unicode-boundary.md#codex-image-paste-during-startup)
 - **本机调试接口**：按需开启实例发现、标签页寻址、输入，以及文字和 PNG 画面快照。
 - **可切换渲染**：默认 GDI，可选 OpenGL 或 DirectX / Direct3D 11 合成；GPU 初始化或绘制失败时回退 GDI。
 - **终端能力**：UTF-8、真彩色、Sixel、OSC 1337 图片与 GIF、Kitty 图片的直接传输子集、OSC 8 超链接、括号粘贴、同步输出，以及 kitty 键盘和 xterm modifyOtherKeys 的已实现子集。

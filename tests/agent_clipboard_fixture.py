@@ -273,6 +273,7 @@ def main():
     parser.add_argument('--directory', required=True)
     parser.add_argument('--automation', action='store_true')
     parser.add_argument('--selection-renderer', choices=('gdi','directx'))
+    parser.add_argument('--default-grid',action='store_true',help='Use the default profile dimensions without CLI overrides')
     parser.add_argument('--stable-unicode',action='store_true')
     parser.add_argument('--right-copy-and-paste',action='store_true')
     parser.add_argument('--font',default='SarasaTermSC Nerd Font Light')
@@ -328,7 +329,7 @@ def main():
     saved = None
     try:
         with OwnedJob() as job:
-            process = job.spawn([args.terminal, '-load', profile, *(['--automation'] if args.automation else []), '--cols', '100', '--rows', '30',
+            process = job.spawn([args.terminal, '-load', profile, *(['--automation'] if args.automation else []), *([] if args.default_grid else ['--cols','100','--rows','30']),
                                  '--font', args.font, '-e', *command],
                                 cwd=work, env=env, creationflags=subprocess.CREATE_NO_WINDOW)
             hwnd = wait_for(lambda: find_window(process.pid), timeout=20)

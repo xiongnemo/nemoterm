@@ -45,9 +45,18 @@ class AcceptanceTests(unittest.TestCase):
 
     def test_catalog_has_unique_real_fixtures(self):
         cases = runner.catalog()
-        self.assertEqual(len(cases), 66)
-        self.assertEqual(len({c['id'] for c in cases}), 66)
+        self.assertEqual(len(cases), 74)
+        self.assertEqual(len({c['id'] for c in cases}), 74)
         for case in cases:self.assertTrue((ROOT/'tests'/case['script']).is_file())
+
+    def test_agent_grid_and_startup_controls_are_independent_cases(self):
+        cases=runner.catalog();full=runner.selected(cases,['agents-grid'])
+        self.assertEqual({c['id'] for c in full},{'agent-grid-'+client+'-'+r for client in ('claude','codex','opencode') for r in ('gdi','directx')})
+        for c in full:self.assertTrue({'--system-input','--default-grid'}.issubset(c['args']))
+        product={c['id']:c['args'] for c in runner.selected(cases,['agents'])}
+        for path in ('','-system'):
+            self.assertNotIn('--after-client-idle',product['agent-image'+path+'-codex'])
+            self.assertIn('--after-client-idle',product['agent-image-ready'+path+'-codex'])
 
     def test_full_grid_memory_requires_sarasa_and_unclamped_size(self):
         for renderer in ('gdi', 'directx'):

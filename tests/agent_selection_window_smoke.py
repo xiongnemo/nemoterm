@@ -11,6 +11,7 @@ import struct
 import subprocess
 import sys
 import tempfile
+import threading
 import time
 import traceback
 import unicodedata
@@ -58,6 +59,7 @@ def main():
     parser.add_argument('--font',required=True)
     parser.add_argument('--renderer',choices=('gdi','directx'),required=True)
     parser.add_argument('--stable-unicode',action='store_true')
+    parser.add_argument('--default-grid',action='store_true',help='Require actual 160x48 and sample the untouched frontend throughout interaction')
     parser.add_argument('--system-input',action='store_true')
     parser.add_argument('--right-click',choices=('default','copy-paste'))
     args=parser.parse_args()
@@ -74,13 +76,15 @@ def main():
             '--client',args.client,'--client-exe',str(Path(args.client_exe).resolve()),
             '--terminal',os.environ['NEMOTERM_TEST_EXE'],'--directory',str(case),
             '--automation','--selection-renderer',args.renderer,'--font',args.font]+
+            (['--default-grid'] if args.default_grid else [])+
             (['--stable-unicode'] if args.stable_unicode else [])+
             (['--right-copy-and-paste'] if args.right_click=='copy-paste' else []),stdout=log,stderr=subprocess.STDOUT,
             creationflags=subprocess.CREATE_NO_WINDOW)
         def child():
             value=read_snapshot(report);assert proc.poll() is None and not value.get('errors'),value
             return value
-        endpoint=seat=handle=desktop=None
+        endpoint=seat=handle=desktop=sampler=None
+        stop=threading.Event();samples=[];sample_errors=[]
         try:
             observed=wait_for(child,timeout=40)
             instance=wait_for(lambda: next(iter(api.discover(observed['pid'])),None),timeout=20)
@@ -90,6 +94,16 @@ def main():
             assert hwnd!=session['window'],'Expected the default multi-tab host'
             handle=k.OpenProcess(0x0410,False,observed['pid']);assert handle
             actual=session['renderer']+1
+            if args.default_grid:
+                assert (session['cols'],session['rows'])==(160,48),session
+                started=time.monotonic()
+                def sample_running():
+                    try:
+                        while not stop.is_set():
+                            samples.append(dict(seconds=time.monotonic()-started,**memory_sample(handle)))
+                            stop.wait(.1)
+                    except Exception:sample_errors.append(traceback.format_exc())
+                sampler=threading.Thread(target=sample_running,daemon=True);sampler.start()
             def sample(phase):
                 evidence['frontend_samples'].append(dict(phase=phase,**memory_sample(handle)))
                 if phase in ('startup','submitted'):
@@ -267,6 +281,10 @@ def main():
             evidence['http_receipt']=wait_for(submitted,timeout=30)
             wait_for(lambda:'NEMOTERM_TEXT_ACCEPTED' in text());evidence['checks'].append('submitted prompt matched the two independent client references' if ref else f'real {args.client} submitted the exact original prompt')
             sample('submitted')
+            if sampler:
+                stop.set();sampler.join(5)
+                assert not sampler.is_alive() and not sample_errors and len(samples)>=2,(len(samples),sample_errors)
+                assert all(private_ws_passes(actual,v['private_ws']) for v in samples),max(samples,key=lambda x:x['private_ws'])
             evidence['memory_policy']=private_ws_policy(actual)
             assert all(private_ws_passes(actual,v['private_ws']) for v in evidence['frontend_samples']),evidence['frontend_samples']
             write_snapshot(control,dict(id=2,action='restore'));wait_for(lambda:child().get('clipboard_restored'))
@@ -295,6 +313,9 @@ def main():
                 raw=trace.read_bytes();name=tag+'-client-output.vt';(out/name).write_bytes(raw)
                 evidence['client_output']=dict(file=name,bytes=len(raw),sha256=hashlib.sha256(raw).hexdigest())
             if desktop:desktop.restore()
+            if sampler:
+                stop.set();sampler.join(5)
+                evidence['frontend_trace']=dict(samples=samples,errors=sample_errors,start='session discovered',stop='after submitted reply or failure',requested_interval_ms=100)
             if handle:k.CloseHandle(handle)
             if proc.poll() is None:
                 write_snapshot(control,dict(id=99,action='finish'))

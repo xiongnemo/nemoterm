@@ -66,6 +66,12 @@ def catalog():
             for mode in ('default','copy-paste'):
                 add(client+'-right-'+mode+'-'+renderer, 'agents', 'agent_selection_window_smoke.py',
                     base+['--right-click',mode], 'real client; system right click after unmodified release; exact clipboard and HTTP user part')
+    for renderer in ('gdi','directx'):
+        for client in ('opencode','codex','claude'):
+            extra=['--stable-unicode'] if client=='claude' else []
+            add('agent-grid-'+client+'-'+renderer,'agents-grid','agent_selection_window_smoke.py',
+                ['--client',client,'--client-exe','{'+client+'}','--font',FONT,'--renderer',renderer,'--system-input','--default-grid',*extra],
+                'default-sized real agent window; exact Shift-selection, clipboard, HTTP text and frontend working-set samples')
     add('unicode-presented-gdi', 'rendering', 'kitty_unicode_window_smoke.py',
         ['--renderer', 'gdi', '--presented-gdi'], 'foreground; presented pixel capture')
     add('renderers', 'rendering', 'renderer_window_smoke.py')
