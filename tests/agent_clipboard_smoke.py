@@ -26,11 +26,13 @@ def main():
     parser.add_argument('--terminal',default=os.environ.get('NEMOTERM_TEST_EXE',str(ROOT/'dist/nemoterm.exe')))
     parser.add_argument('--font',default='SarasaTermSC Nerd Font Light')
     parser.add_argument('--system-input', action='store_true')
+    parser.add_argument('--after-client-idle',action='store_true',help='Also require Codex to report idle and redraw the marker after startup queries')
     parser.add_argument('--binding',choices=('ctrl-v','ctrl-shift-v'))
     args=parser.parse_args()
     folder=Path(tempfile.mkdtemp(prefix='agent-image-',dir=ROOT/'build'))
     result=dict(client=args.client,cases=[],live_model=False,tool_responses=False,font=args.font)
-    result.update(system_input=args.system_input,failures=[])
+    if args.after_client_idle:assert args.client=='codex'
+    result.update(system_input=args.system_input,after_client_idle=args.after_client_idle,failures=[])
     for name,mods in [('ctrl-v',2),('ctrl-shift-v',3)]:
         if args.binding and args.binding!=name:continue
         case=folder/name;report=case/'observed.json';control=case/'control.json'
@@ -60,13 +62,19 @@ def main():
                 # its asynchronous clipboard reader to attach an image.
                 api.request(endpoint,'paste',seat,marker)
                 wait_for(lambda:marker in api.request(endpoint,'text',seat),timeout=20)
+                trace=case/'client-output.log'
+                if args.after_client_idle:
+                    def idle_redraw():
+                        if not trace.is_file():return False
+                        buf=trace.read_bytes();idle=buf.find(b'\x1b]7501;state=idle:app=codex');mark=marker.encode()
+                        return idle>=0 and b'\x1b]10;?' in buf[:idle] and b'\x1b]11;?' in buf[:idle] and mark in buf[idle:]
+                    wait_for(idle_redraw,timeout=60)
                 write_snapshot(control,dict(id=1,action='bitmap'))
                 wait_for(lambda:read_snapshot(report).get('clipboard_action')==1)
-                trace=case/'client-output.log'
                 before=trace.read_bytes() if trace.is_file() else b''
                 (case/'at-paste.vt').write_bytes(before)
                 write_snapshot(case/'at-paste.json',dict(marker=marker,system=bool(desk),binding=name,
-                    bytes=len(before),sha256=hashlib.sha256(before).hexdigest(),session=session))
+                    bytes=len(before),sha256=hashlib.sha256(before).hexdigest(),idle_before=b'\x1b]7501;state=idle:app=codex' in before,session=session))
                 attachment_started=time.monotonic()
                 key(86,mods)
                 # OpenCode launches Windows PowerShell/WinForms to read images.

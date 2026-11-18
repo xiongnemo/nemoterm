@@ -1,0 +1,61 @@
+name: Codex image paste before and after client startup
+on:
+  workflow_call:
+    inputs:
+      product_run: {required: true, type: string}
+      product_commit: {required: true, type: string}
+permissions:
+  contents: read
+  actions: read
+jobs:
+  records:
+    runs-on: windows-2025
+    timeout-minutes: 12
+    strategy:
+      fail-fast: false
+      matrix: {input: [system, api], phase: [immediate, idle]}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with: {fetch-depth: 0}
+      - name: Fetch the exact single executable
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PRODUCT_RUN: ${{ inputs.product_run }}
+          PRODUCT_COMMIT: ${{ inputs.product_commit }}
+        run: |
+          scripts/fetch-ci-product.ps1 -Run $env:PRODUCT_RUN -Commit $env:PRODUCT_COMMIT -Destination build/picture-keys-product
+          "NEMOTERM_TEST_EXE=$((Resolve-Path build/picture-keys-product/nemoterm.exe).Path)" | Out-File $env:GITHUB_ENV -Append -Encoding utf8
+      - name: Install and identify Sarasa Light
+        run: scripts/prepare-remote-interaction.ps1
+      - name: Install the exact real client
+        run: |
+          python -m pip install Pillow==13.0.0
+          if ($LASTEXITCODE) {exit $LASTEXITCODE}
+          npm ci --prefix tools/codex-fixture --ignore-scripts --no-audit --no-fund
+          if ($LASTEXITCODE) {exit $LASTEXITCODE}
+      - name: Submit generated clipboard pixels with both shortcuts
+        env:
+          INPUT_MODE: ${{ matrix.input }}
+          STARTUP_PHASE: ${{ matrix.phase }}
+        run: |
+          $clients=@(Get-ChildItem tools/codex-fixture/node_modules -Recurse -Filter codex.exe)
+          if ($clients.Count -ne 1) {throw 'Expected one pinned native Codex executable'}
+          $opts=@('tests/agent_clipboard_smoke.py','--client','codex','--client-exe',$clients[0].FullName)
+          if ($env:INPUT_MODE -eq 'system') {$opts+='--system-input'}
+          if ($env:STARTUP_PHASE -eq 'idle') {$opts+='--after-client-idle'}
+          python @opts
+          exit $LASTEXITCODE
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: codex-image-${{ matrix.input }}-${{ matrix.phase }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            research/agent-clipboard-codex.json
+            research/agent-codex-ctrl*
+            build/agent-image-*/*/*.json
+            build/agent-image-*/*/at-paste.vt
+            build/agent-image-*/*/client-output.log
+            build/agent-image-*/*/failure*
+            build/interaction-dependencies/environment.json
+            build/picture-keys-product/SOURCE-HOST.json
+          if-no-files-found: error
