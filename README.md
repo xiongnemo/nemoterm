@@ -13,7 +13,7 @@ Nemoterm 是 **PuTTY 0.85 Windows pterm 的下游 fork**，沿用其终端核心
 本页描述所在分支的代码；下载产物按下面的提交和验证记录区分。已实现功能与测试边界见 [协议支持表](docs/PROTOCOLS.md)
 和 [需求与验证记录](docs/REQUIREMENTS.md)。
 
-[当前单文件测试版 `6ee2996`](https://github.com/xiongnemo/nemoterm/actions/runs/44411510449/artifacts/14477886358) 修复了应用能画 ReGIS 图、却查询不到这项能力的问题。程序现在可在绘图前读到 800×480 的默认画布。GDI 与 DirectX 都验证了根据返回尺寸绘图、重绘后仍可见；同一文件通过选区与关闭确认回放。[前后截图、文件校验与未通过的画面对照](research/regis-discovery.md)。
+[当前单文件测试版 `6ee2996`](https://github.com/xiongnemo/nemoterm/actions/runs/44411510449/artifacts/14477886358) 修复了应用能画 ReGIS 图、却查询不到这项能力的问题。程序现在可在绘图前读到 800×480 的默认画布。GDI 与 DirectX 都验证了根据返回尺寸绘图、重绘后仍可见；同一文件通过选区与关闭确认回放。12 项 160×48 压力测试中，前端私有工作集最高 GDI **18.84 MB**、DirectX **28.86 MB**。整套交互为 **76/78**，剩余两项是默认 Claude 的混排字序。[前后截图、文件校验与未通过的画面对照](research/regis-discovery.md)。
 
 [单文件测试版 `b7f4bfa`](https://github.com/xiongnemo/nemoterm/actions/runs/44404296808/artifacts/14474875134) 修复了应用只移动光标就导致 Shift 选区消失、右键被应用接管的问题。现在应用可以继续更新旁边的文字，仍能右键复制原来高亮的内容；真正改写所选字形时才取消旧选区。同一版本六种 160×48 压力负载的最高前端私有工作集为 GDI **19.10 MB**、DirectX **29.13 MB**。[修复前后截图与 32 项窗口检查](research/selection-cursor-traffic.md) · [同机运行 Codex 的前端内存对照](research/pterm-findings.md) · [上一版的全屏与关闭确认检查](research/xtwinops-fullscreen.md) · [混排选区与客户端已知问题](research/interaction-3da2fc3.md)。
 
