@@ -1,0 +1,60 @@
+name: Same-host pterm and Nemoterm memory comparison
+on:
+  workflow_call:
+    inputs:
+      product_run: {required: true, type: string}
+      product_commit: {required: true, type: string}
+permissions: {contents: read, actions: read}
+jobs:
+  compare:
+    runs-on: windows-2025
+    timeout-minutes: 24
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with: {fetch-depth: 0}
+      - name: Identify both original executables
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PRODUCT_RUN: ${{ inputs.product_run }}
+          PRODUCT_COMMIT: ${{ inputs.product_commit }}
+        run: |
+          scripts/fetch-ci-product.ps1 -Run $env:PRODUCT_RUN -Commit $env:PRODUCT_COMMIT -Destination build/pair-product
+          "NEMOTERM_TEST_EXE=$((Resolve-Path build/pair-product/nemoterm.exe).Path)" | Out-File $env:GITHUB_ENV -Append -Encoding utf8
+          $uri='https://the.earth.li/~sgtatham/putty/0.85/w64/pterm.exe'
+          Invoke-WebRequest $uri -OutFile build/pair-product/pterm.exe
+          $sha=(Get-FileHash build/pair-product/pterm.exe).Hash.ToLowerInvariant()
+          if ($sha -ne '8580a3df4afe7696758c1cef43d0e88e3db5fd41c35c60166241aee72dd3ba3b') {throw 'Reference differs from the inspected Scoop installation'}
+          @{source=$uri;sha256=$sha;bytes=(Get-Item build/pair-product/pterm.exe).Length} | ConvertTo-Json | Set-Content build/pair-product/pterm.json
+      - name: Prepare the pinned Sarasa Light face, display and real Codex
+        run: |
+          scripts/prepare-remote-interaction.ps1
+          $vswhere="${env:ProgramFiles(x86)}/Microsoft Visual Studio/Installer/vswhere.exe"
+          $vs=& $vswhere -latest -products '*' -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+          Import-Module "$vs/Common7/Tools/Microsoft.VisualStudio.DevShell.dll"
+          Enter-VsDevShell -VsInstallPath $vs -SkipAutomaticLocation -DevCmdArguments '-arch=x64 -host_arch=x64'
+          cl /nologo /W4 /WX /EHsc /std:c++17 tests/dpi_display_probe.cpp /Febuild/interaction-dependencies/dpi-display.exe /Fobuild/interaction-dependencies/dpi-display.obj user32.lib
+          if ($LASTEXITCODE) {exit $LASTEXITCODE}
+          scripts/prepare-full-grid-display.ps1
+          python -m pip install Pillow==13.0.0
+          if ($LASTEXITCODE) {exit $LASTEXITCODE}
+          npm ci --prefix tools/codex-fixture --ignore-scripts --no-audit --no-fund
+          exit $LASTEXITCODE
+      - name: Sample each fresh frontend before Codex starts and after its visible loopback reply
+        run: |
+          $clients=@(Get-ChildItem tools/codex-fixture/node_modules -Recurse -Filter codex.exe)
+          if ($clients.Count -ne 1) {throw 'Expected one pinned native Codex client'}
+          python tests/paired_agent_memory.py --pterm build/pair-product/pterm.exe --codex $clients[0].FullName
+          exit $LASTEXITCODE
+      - if: always()
+        run: scripts/prepare-full-grid-display.ps1 -Restore
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: pterm-memory-pair-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            build/pair-product/*.json
+            build/interaction-dependencies/*.json
+            build/paired-agent-memory/summary.json
+            build/paired-agent-memory/*/*.json
+            build/paired-agent-memory/*/frontend.png
+          if-no-files-found: error

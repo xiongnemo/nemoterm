@@ -6,7 +6,7 @@ on:
       suite:
         description: Checks or notice-only packaging against the exact artifact
         type: choice
-        options: [font-bell, dpi, interaction, single, ui-regression, shell-lifetime, tcap, portable-notices, regis-window, pointer-colour, colour-input, unicode-boundary, picture-keys, image-timing, image-reference]
+        options: [font-bell, dpi, interaction, single, ui-regression, shell-lifetime, tcap, portable-notices, regis-window, pointer-colour, colour-input, unicode-boundary, picture-keys, image-timing, image-reference, pterm-memory]
         default: font-bell
       source_commit:
         description: Full source commit of the source-console-host artifact
@@ -26,6 +26,12 @@ permissions:
   actions: read
 
 jobs:
+  pterm-memory:
+    if: ${{ inputs.suite == 'pterm-memory' }}
+    uses: ./.github/workflows/pterm-memory.yml
+    with:
+      product_run: ${{ inputs.source_run }}
+      product_commit: ${{ inputs.source_commit }}
   regis-window:
     if: ${{ inputs.suite == 'regis-window' }}
     uses: ./.github/workflows/regis-window.yml
