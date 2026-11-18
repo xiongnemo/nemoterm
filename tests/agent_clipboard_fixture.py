@@ -188,19 +188,7 @@ def put_bitmap(hwnd):
             k.GlobalFree(handle)
 
 
-def main():
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--client', choices=('codex', 'opencode', 'claude'), required=True)
-    parser.add_argument('--client-exe', required=True)
-    parser.add_argument('--terminal', required=True)
-    parser.add_argument('--directory', required=True)
-    parser.add_argument('--automation', action='store_true')
-    parser.add_argument('--selection-renderer', choices=('gdi','directx'))
-    parser.add_argument('--right-copy-and-paste',action='store_true')
-    parser.add_argument('--font',default='SarasaTermSC Nerd Font Light')
-    args = parser.parse_args()
-    folder = Path(args.directory).resolve()
-    folder.mkdir(parents=True, exist_ok=False)
+def isolated_home(folder):
     home, work = folder/'home', folder/'work'
     home.mkdir(); work.mkdir()
     subprocess.run(['git','init','--quiet',str(work)],check=True,
@@ -218,6 +206,49 @@ def main():
     # provider is loopback-only and never returns a tool call.
     env.update(HTTP_PROXY='http://127.0.0.1:9', HTTPS_PROXY='http://127.0.0.1:9',
                ALL_PROXY='http://127.0.0.1:9', NO_PROXY='127.0.0.1,localhost')
+    return home,work,env
+
+
+def claude_command(client_exe,folder,home,work,env,base):
+    # The runner supplies an empty home and a local-only dummy API key.
+    # No account, extensions, MCP servers, external provider, or tool calls.
+    fixture_key='sk-ant-fixture-local-only-00000000000000000000'
+    # A fresh default Windows home keeps the global state file distinct
+    # from the .claude settings directory. The client and Git may spell
+    # the same canonical Windows workspace with different separators.
+    work_path=work.resolve(strict=True)
+    project_keys={str(work_path), work_path.as_posix(),
+                  os.path.normcase(str(work_path)), work_path.as_posix().lower()}
+    assert all(Path(key).samefile(work_path) for key in project_keys)
+    (home/'.claude.json').write_text(json.dumps(dict(hasCompletedOnboarding=True,theme='dark',
+        customApiKeyResponses=dict(approved=[fixture_key[-20:]],rejected=[]),
+        projects={key:dict(hasTrustDialogAccepted=True) for key in sorted(project_keys)})),encoding='utf-8')
+    # No Git network transports, including SSH fallback when the client
+    # tries to initialize a fresh plugin catalog.
+    env.update(HOME=str(home),GIT_ALLOW_PROTOCOL='file',GIT_TERMINAL_PROMPT='0',
+               ANTHROPIC_API_KEY=fixture_key,
+               ANTHROPIC_BASE_URL=base.removesuffix('/v1'),CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC='1',
+               DISABLE_AUTOUPDATER='1',DISABLE_TELEMETRY='1')
+    return [client_exe,'--bare','--model','claude-sonnet-4-6','--tools','',
+             '--debug-file',str(folder/'claude-debug.log'),
+             '--permission-mode','plan','--setting-sources','','--strict-mcp-config',
+             '--mcp-config','{"mcpServers":{}}']
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--client', choices=('codex', 'opencode', 'claude'), required=True)
+    parser.add_argument('--client-exe', required=True)
+    parser.add_argument('--terminal', required=True)
+    parser.add_argument('--directory', required=True)
+    parser.add_argument('--automation', action='store_true')
+    parser.add_argument('--selection-renderer', choices=('gdi','directx'))
+    parser.add_argument('--right-copy-and-paste',action='store_true')
+    parser.add_argument('--font',default='SarasaTermSC Nerd Font Light')
+    args = parser.parse_args()
+    folder = Path(args.directory).resolve()
+    folder.mkdir(parents=True, exist_ok=False)
+    home,work,env=isolated_home(folder)
     profile = 'image-fixture-'+uuid.uuid4().hex
     registry = 'Software\\Nemo\\Nemoterm\\Sessions\\'+profile
     with winreg.CreateKey(winreg.HKEY_CURRENT_USER, registry) as key:
@@ -239,29 +270,7 @@ def main():
     base = f'http://127.0.0.1:{server.server_port}/v1'
     if args.client == 'claude':
         assert args.selection_renderer
-        # The runner supplies an empty home and a local-only dummy API key.
-        # No account, extensions, MCP servers, external provider, or tool calls.
-        fixture_key='sk-ant-fixture-local-only-00000000000000000000'
-        # A fresh default Windows home keeps the global state file distinct
-        # from the .claude settings directory. The client and Git may spell
-        # the same canonical Windows workspace with different separators.
-        work_path=work.resolve(strict=True)
-        project_keys={str(work_path), work_path.as_posix(),
-                      os.path.normcase(str(work_path)), work_path.as_posix().lower()}
-        assert all(Path(key).samefile(work_path) for key in project_keys)
-        (home/'.claude.json').write_text(json.dumps(dict(hasCompletedOnboarding=True,theme='dark',
-            customApiKeyResponses=dict(approved=[fixture_key[-20:]],rejected=[]),
-            projects={key:dict(hasTrustDialogAccepted=True) for key in sorted(project_keys)})),encoding='utf-8')
-        # No Git network transports, including SSH fallback when the client
-        # tries to initialize a fresh plugin catalog.
-        env.update(HOME=str(home),GIT_ALLOW_PROTOCOL='file',GIT_TERMINAL_PROMPT='0',
-                   ANTHROPIC_API_KEY=fixture_key,
-                   ANTHROPIC_BASE_URL=base.removesuffix('/v1'),CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC='1',
-                   DISABLE_AUTOUPDATER='1',DISABLE_TELEMETRY='1')
-        command=[args.client_exe,'--bare','--model','claude-sonnet-4-6','--tools','',
-                 '--debug-file',str(folder/'claude-debug.log'),
-                 '--permission-mode','plan','--setting-sources','','--strict-mcp-config',
-                 '--mcp-config','{"mcpServers":{}}']
+        command=claude_command(args.client_exe,folder,home,work,env,base)
     elif args.client == 'codex':
         env['CODEX_HOME'] = str(home)
         config = f'''model = "nemoterm-image-fixture"

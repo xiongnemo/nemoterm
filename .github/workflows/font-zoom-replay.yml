@@ -6,7 +6,7 @@ on:
       suite:
         description: Checks or notice-only packaging against the exact artifact
         type: choice
-        options: [font-bell, dpi, interaction, single, ui-regression, shell-lifetime, tcap, portable-notices, regis-window, pointer-colour, colour-input]
+        options: [font-bell, dpi, interaction, single, ui-regression, shell-lifetime, tcap, portable-notices, regis-window, pointer-colour, colour-input, unicode-boundary]
         default: font-bell
       source_commit:
         description: Full source commit of the source-console-host artifact
@@ -29,6 +29,12 @@ jobs:
   regis-window:
     if: ${{ inputs.suite == 'regis-window' }}
     uses: ./.github/workflows/regis-window.yml
+    with:
+      product_run: ${{ inputs.source_run }}
+      product_commit: ${{ inputs.source_commit }}
+  unicode-boundary:
+    if: ${{ inputs.suite == 'unicode-boundary' }}
+    uses: ./.github/workflows/claude-unicode.yml
     with:
       product_run: ${{ inputs.source_run }}
       product_commit: ${{ inputs.source_commit }}

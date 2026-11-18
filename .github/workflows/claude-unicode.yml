@@ -1,0 +1,52 @@
+name: Windows clipboard and client Unicode boundary
+on:
+  workflow_call:
+    inputs:
+      product_run: {required: true, type: string}
+      product_commit: {required: true, type: string}
+permissions: {contents: read, actions: read}
+jobs:
+  records:
+    runs-on: windows-2025
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with: {fetch-depth: 0}
+      - name: Verify the selected frontend
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PRODUCT_RUN: ${{ inputs.product_run }}
+          PRODUCT_COMMIT: ${{ inputs.product_commit }}
+        run: |
+          scripts/fetch-ci-product.ps1 -Run $env:PRODUCT_RUN -Commit $env:PRODUCT_COMMIT -Destination build/unicode-product
+          "NEMOTERM_TEST_EXE=$((Resolve-Path build/unicode-product/nemoterm.exe).Path)" | Out-File $env:GITHUB_ENV -Append -Encoding utf8
+      - name: Prepare the reference and pinned client
+        run: |
+          scripts/prepare-remote-interaction.ps1
+          $vswhere = "${env:ProgramFiles(x86)}/Microsoft Visual Studio/Installer/vswhere.exe"
+          $vs = & $vswhere -latest -products '*' -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+          Import-Module "$vs/Common7/Tools/Microsoft.VisualStudio.DevShell.dll"
+          Enter-VsDevShell -VsInstallPath $vs -SkipAutomaticLocation -DevCmdArguments '-arch=x64 -host_arch=x64'
+          cl /nologo /W4 /WX /std:c11 /O2 /MT tests/hosted_conpty_reference.c /Febuild/system-conpty.exe /Fobuild/system-conpty.obj
+          if ($LASTEXITCODE) {exit $LASTEXITCODE}
+          npm ci --prefix tools/claude-fixture --ignore-scripts --no-audit --no-fund
+          if ($LASTEXITCODE) {exit $LASTEXITCODE}
+      - name: Compare real Windows shortcut input and direct system console input
+        run: |
+          $clients=@(Get-ChildItem tools/claude-fixture/node_modules -Recurse -Filter claude.exe)
+          if ($clients.Count -ne 1) {throw 'Expected one pinned Claude executable'}
+          python tests/claude_unicode_boundary.py --claude $clients[0].FullName --reference-helper build/system-conpty.exe
+          exit $LASTEXITCODE
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: unicode-boundary-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            build/unicode-product/SOURCE-HOST.json
+            build/interaction-dependencies/environment.json
+            build/unicode-boundary/summary.json
+            build/unicode-boundary/*/native.json
+            build/unicode-boundary/*/helper-stderr.txt
+            build/unicode-boundary/*/system-output.vt
+            build/unicode-boundary/*/claude-debug.log
+          if-no-files-found: error
