@@ -23,5 +23,6 @@ wchar_t *nemo_shell_command(const NemoShellList *, int);
 wchar_t *nemo_shell_command_at(const NemoShellList *, int, const wchar_t *directory);
 wchar_t *nemo_shell_git_environment(const wchar_t *);
 wchar_t *nemo_shell_powershell_environment(void);
+void nemo_shell_export_wsl_identity(void);
 char *nemo_shell_json(const NemoShellList *);
 #endif

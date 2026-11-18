@@ -108,6 +108,7 @@ trap 'stty "$old" </dev/tty; : >terminfo.done' EXIT
 stty -echo -icanon min 1 time 0 </dev/tty
 printf 'inherited=%s\n' "${TERM-}"
 printf 'colorterm=%s\nprogram=%s\n' "${COLORTERM-}" "${TERM_PROGRAM-}"
+printf 'kept=%s\nprefix=%s\n' "${NEMO_WSL_TEST_KEEP-}" "${COLORTERM_EXTRA-}"
 for which in inherited xterm; do
   (
     if [ "$which" = xterm ]; then export TERM=xterm; row=5; col=8; else row=2; col=3; fi
@@ -131,6 +132,7 @@ printf 'complete=yes\n'
     rows = dict(line.split('=', 1) for line in (evidence['log'] or '').splitlines() if '=' in line)
     assert rows.get('inherited') == 'xterm-256color' and rows.get('inherited-colors') == '256', rows
     evidence['child_identity'] = {k: rows.get(k) for k in ('inherited','colorterm','program')}
+    assert (rows.get('kept'),rows.get('prefix'))==('retained','prefix-preserved'),rows
     assert rows.get('xterm-colors') == '8', rows
     assert rows.get('inherited-reply') == b'\x1b[3;4R'.hex() and rows.get('xterm-reply') == b'\x1b[6;9R'.hex(), rows
     assert rows.get('complete') == 'yes', rows
@@ -165,10 +167,14 @@ try:
             marker = Path(temporary) / (sid + '.txt')
             command, ready_file = directory_command(marker, sid)
             font = os.environ.get('NEMOTERM_TEST_FONT') if sid=='wsl-bash' else None
+            child_env=dict(os.environ, NEMOTERM_CONPTY='bundled')
+            if sid=='wsl-bash':
+                # These are the caller's unrelated bridge rules, not terminal hints.
+                child_env.update(WSLENV='NEMO_WSL_TEST_KEEP/u:COLORTERM_EXTRA/u',NEMO_WSL_TEST_KEEP='retained',COLORTERM_EXTRA='prefix-preserved')
             process = subprocess.Popen([str(exe),*(['--automation'] if sid == 'wsl-bash' else []),
                 *(['--font',font] if font else []),'--no-tabs', '-load', profile, '--shell', sid,
                 '--directory', str(starting)],
-                env=dict(os.environ, NEMOTERM_CONPTY='bundled'),
+                env=child_env,
                 creationflags=subprocess.CREATE_NO_WINDOW)
             handle = k.OpenProcess(0x410, False, process.pid)
             try:

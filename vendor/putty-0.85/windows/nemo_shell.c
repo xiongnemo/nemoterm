@@ -188,6 +188,47 @@ wchar_t *nemo_shell_command_at(const NemoShellList *list, int which, const wchar
     sfree(exe); return out;
 }
 
+/* WSLENV is a colon-separated list of case-sensitive Linux variable names
+ * with optional /flags. Respect an existing explicit direction or mapping;
+ * the names we add carry /u (Windows -> WSL), never path translation. */
+static bool wsl_export_listed(const wchar_t *list, const wchar_t *name)
+{
+    size_t n = wcslen(name);
+    for (const wchar_t *p = list; *p;) {
+        if (!wcsncmp(p, name, n) && (!p[n] || p[n] == L':' || p[n] == L'/'))
+            return true;
+        const wchar_t *next = wcschr(p, L':');
+        if (!next) break;
+        p = next + 1;
+    }
+    return false;
+}
+
+void nemo_shell_export_wsl_identity(void)
+{
+    /* Set this process's environment once, before any sessions are created.
+     * A user can enter WSL from any child shell, including a custom command. */
+    wchar_t *block = GetEnvironmentStringsW();
+    if (!block) return;
+    const wchar_t *value = L"";
+    for (const wchar_t *p = block; *p; p += wcslen(p) + 1) {
+        if (!_wcsnicmp(p, L"WSLENV=", 7)) { value = p + 7; break; }
+    }
+    const wchar_t *const names[] = {L"TERM", L"COLORTERM", L"TERM_PROGRAM"};
+    wchar_t *merged = NULL;
+    for (size_t i = 0; i < lenof(names); i++) {
+        if (wsl_export_listed(value, names[i])) continue;
+        size_t len = wcslen(value);
+        wchar_t *next = dupwcscat(value, len && value[len-1] != L':' ? L":" : L"",
+                                  names[i], L"/u");
+        sfree(merged);
+        value = merged = next;
+    }
+    if (merged) SetEnvironmentVariableW(L"WSLENV", merged);
+    sfree(merged);
+    FreeEnvironmentStringsW(block);
+}
+
 static int compare_env(const void *a, const void *b)
 { return _wcsicmp(*(const wchar_t *const *)a, *(const wchar_t *const *)b); }
 

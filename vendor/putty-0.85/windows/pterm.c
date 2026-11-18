@@ -31,6 +31,7 @@ void gui_term_process_cmdline(Conf *conf, char *cmdline)
     SetEnvironmentVariableA("TERM", NEMO_TERM_NAME);
     SetEnvironmentVariableA("COLORTERM", "truecolor");
     SetEnvironmentVariableA("TERM_PROGRAM", "nemoterm");
+    nemo_shell_export_wsl_identity();
 
     cmdline = handle_restrict_acl_cmdline_prefix(cmdline);
     if (handle_special_sessionname_cmdline(cmdline, conf) ||

@@ -2,7 +2,7 @@
 
 所有自动测试在 GitHub-hosted runner 上执行。开发电脑只编辑源码、提交、调度 Actions 和下载证据；不需要启动测试终端、接管焦点或修改本机剪贴板。
 
-这里的 xterm 兼容性指应用在 `TERM=xterm` 或 `xterm-256color` 下能够正确交互。Nemoterm 的 Windows 启动代码设置 `TERM=xterm-256color` 和 `TERM_PROGRAM=nemoterm`。`shells` 组在实际 WSL Bash 中读取继承的 `TERM`，再用系统 `tput` 分别按默认条目和显式 `TERM=xterm` 移动光标，以终端返回的位置验收。这个检查覆盖名称、颜色能力查询和光标寻址；它不是所有 terminfo 能力的认证。 同一 shell 组还会在两个条目下启动真实 `less`：方向键下滚一行、Page Down 翻页、搜索到指定文本、退出后恢复先前的屏幕。逐步保存窗口文字和截图。原版 XTerm 的特定 ReGIS 逐帧对照单独报告，不代表普通 TUI 的兼容性；原失败记录仍保留。
+这里的 xterm 兼容性指应用在 `TERM=xterm` 或 `xterm-256color` 下能够正确交互。Nemoterm 的 Windows 启动代码设置 `TERM=xterm-256color`、`COLORTERM=truecolor` 和 `TERM_PROGRAM=nemoterm`。新构建通过进程内的 `WSLENV` 列表将这些变量传给 Linux 子程序；保留调用方已有的其他条目及显式方向。`shells` 组在实际 WSL Bash 中读取继承的 `TERM`，再用系统 `tput` 分别按默认条目和显式 `TERM=xterm` 移动光标，以终端返回的位置验收。这个检查覆盖名称、颜色能力查询和光标寻址；它不是所有 terminfo 能力的认证。 同一 shell 组还会在两个条目下启动真实 `less`：方向键下滚一行、Page Down 翻页、搜索到指定文本、退出后恢复先前的屏幕。逐步保存窗口文字和截图。原版 XTerm 的特定 ReGIS 逐帧对照单独报告，不代表普通 TUI 的兼容性；原失败记录仍保留。
 
 ## 入口
 
@@ -26,7 +26,7 @@ gh workflow run font-zoom-replay.yml --ref <branch> -f suite=interaction -f sour
 
 `suite=wsl-vim` 在两个 TERM 条目和实际 GDI、DirectX 下启动 Vim。普通鼠标点击须改变 Vim 自己报告的光标，Shift 拖选须复制完整中文字且不移动 Vim 光标；窗口两次改尺寸后 Vim 与前端应报告同一网格；最后用快捷键粘贴，验证保存文件的 UTF-8 字节和退出后的画面。
 
-`suite=profile-env` 可让 `--profile 名称` 和 Windows 跳转列表所用的 `@名称` 各启动一次父环境未设和一次父环境设置了不同 `TERM` 的子进程，读取其真实 `TERM`、`COLORTERM`、`TERM_PROGRAM`。
+`suite=profile-env` 可让 `--profile 名称` 和 Windows 跳转列表所用的 `@名称` 分别在父环境未设、设置了不同 `TERM`、已有全部 WSL 转发规则时启动子进程，读取其真实 `TERM`、`COLORTERM`、`TERM_PROGRAM`。
 
 `f628d89` 单文件预览的[完整回放和内存数据](../research/right-button-release.md#complete-interaction-replay)为 74/74。另一个 MinGW 便携构建出现[混合 profile 关闭超时](../research/mixed-profile-close-f628d89.md)；`tabs-close-replay.yml` 的 `profiles-mingw` 和 `profiles-api-mingw` 使用原失败产物，分别回放带探针和内置自动化的操作。
 
