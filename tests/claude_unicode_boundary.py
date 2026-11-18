@@ -3,6 +3,7 @@ import argparse
 import ctypes as c
 import hashlib
 import os
+import re
 from pathlib import Path
 import subprocess
 import sys
@@ -93,7 +94,23 @@ def reference(helper,client,folder,rec):
                 if proc.poll() is not None:raise RuntimeError('system reference exited: '+str(proc.returncode))
                 return pred()
             try:
-                wait_for(lambda:seen(lambda:b'shift+tab' in bytes(raw).lower()),timeout=45)
+                # Windows' console host requests focus and cursor information
+                # from its terminal peer; answer only observed requests. System
+                # ConPTY may split words with cursor-position/SGR sequences.
+                offset=0;rec['terminal_queries']=[]
+                pattern=re.compile(rb'\x1b\[(?:\?1004h|6n|\?6n|0?c)')
+                def ready():
+                    nonlocal offset
+                    data=bytes(raw)
+                    for m in pattern.finditer(data,offset):
+                        q=m.group();offset=m.end();reply={b'\x1b[?1004h':b'\x1b[I',b'\x1b[6n':b'\x1b[1;1R',
+                            b'\x1b[?6n':b'\x1b[?1;1R'}.get(q,b'\x1b[?1;2c')
+                        wrote(reply);rec['terminal_queries'].append([q.hex(),reply.hex()])
+                    plain=re.sub(rb'\x1b\[[0-?]*[ -/]*[@-~]',b'',data).lower()
+                    return b'shift+tab' in plain
+                # First native startup spent 43 s inside client setup before
+                # drawing. This is distinct from any input/receipt deadline.
+                wait_for(lambda:seen(ready),timeout=120)
                 rec['sent_hex']=WIRE.hex();wrote(WIRE)
                 wait_for(lambda:b'NEMOTERM_SUBMIT' in bytes(raw),timeout=15);time.sleep(.2);wrote(b'\r')
                 wait_for(lambda:seen(lambda:server.requests),timeout=35)
