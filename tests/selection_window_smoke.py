@@ -178,6 +178,8 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-selection-') as temporary:
             observed=wait_snapshot(lambda:read_snapshot(report),lambda v:v.get('input_barrier')==name)
             check.update(child_hex=observed['hex'],input_cp=observed['input_cp'])
             assert bytes.fromhex(check['child_hex'])==dsr+payload+dsr,check
+        from selection_history_drag import verify_history_drag
+        verify_history_drag(hwnd,begin_phase,point,ch,captured,tile,copy_shortcut,no_forwarded_input,evidence)
         evidence['completed']=True
         print('Rapid independent selections and 16 Ctrl rectangles, exact Unicode, shortcut/right-click copy and pixels passed')
     finally:
