@@ -10,7 +10,7 @@
 gh workflow run ci.yml --ref <branch> -f scope=full
 ```
 
-`Test and build` 汇总 Linux ASan/UBSan、C/C++ 单元测试、MSVC 渲染诊断、MinGW 原生协议和像素测试、单 EXE 完整套件、profile 持久化、DPI/双语界面，以及下表的 38 项检查（26 项交互、12 项完整 Sarasa 网格负载）。单 EXE、DPI 和交互任务共用这次 source-host 构建的准确 EXE，并校验来源提交、大小及 SHA-256。
+`Test and build` 汇总 Linux ASan/UBSan、C/C++ 单元测试、MSVC 渲染诊断、MinGW 原生协议和像素测试、单 EXE 完整套件、profile 持久化、DPI/双语界面，以及下表的 39 项检查（27 项交互、12 项完整 Sarasa 网格负载）。单 EXE、DPI 和交互任务共用这次 source-host 构建的准确 EXE，并校验来源提交、大小及 SHA-256。
 
 只回放测试脚本，不重复编译：
 
@@ -65,9 +65,9 @@ ReGIS 生产代码变化后的定向重建使用 `protocol-reference.yml -f fami
 | 组 | 用例数 | 覆盖 |
 | --- | ---: | --- |
 | input | 2 | byte/ReadConsoleW、中文/emoji、IMM、模拟 DPI 与组合窗位置 |
-| selection | 3 | 默认/自定义 bindings，GDI/DX 矩形、宽字符、Shift 选择 |
+| selection | 3 | 默认/自定义 bindings，GDI/DX 矩形、宽字符、Shift 选择，右键仅复制与复制后粘贴 |
 | clipboard | 2 | GDI/DX 文件/目录拖放，路径引用、应用接管与文本/图片优先级 |
-| agents | 2 | 固定版本 Codex/OpenCode 的 Ctrl+V、Ctrl+Shift+V 图片附件与精确像素 |
+| agents | 3 | 固定版本 Codex/OpenCode 的图片附件与精确像素；真实 Codex 回复经 Shift 拖选、Ctrl+Shift+C/V 后提交，逐字核对 |
 | rendering | 3 | 实际 GDI 客户区捕获、三种渲染器、字号缩放/恢复 |
 | mouse | 1 | 鼠标协议字节、按键、滚轮和坐标 |
 | tabs | 8 | 四侧标签栏/预览及四侧窗口缩放、会话与关闭回收 |

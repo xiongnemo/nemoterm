@@ -32,6 +32,9 @@ def catalog():
     for client in ('codex', 'opencode'):
         add('agent-image-'+client, 'agents', 'agent_clipboard_smoke.py',
             ['--client', client, '--client-exe', '{'+client+'}', '--font', FONT], 'clipboard; isolated real client; loopback provider')
+    add('agent-selection-roundtrip', 'agents', 'codex_window_smoke.py',
+        ['--codex', '{codex}', '--tabs', '--paste-selection', '--font', FONT],
+        'clipboard; isolated real Codex; selected response submitted to loopback provider')
     add('unicode-presented-gdi', 'rendering', 'kitty_unicode_window_smoke.py',
         ['--renderer', 'gdi', '--presented-gdi'], 'foreground; presented pixel capture')
     add('renderers', 'rendering', 'renderer_window_smoke.py')

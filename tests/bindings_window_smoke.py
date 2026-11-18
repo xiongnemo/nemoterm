@@ -8,7 +8,7 @@ profile='bindings-test-'+uuid.uuid4().hex
 path='Software\\Nemo\\Nemoterm\\Sessions\\'+profile
 with winreg.CreateKey(winreg.HKEY_CURRENT_USER,path) as key:
     for name,value in dict(NemoCopyBinding=0x658,NemoPasteBinding=0x559,
-                          NemoCopyPasteBinding=0x35a,NemoRectangleModifiers=4,WarnOnClose=0).items():
+                          NemoCopyPasteBinding=0x35a,NemoRectangleModifiers=4,RightClickCopyAndPaste=1,WarnOnClose=0).items():
         winreg.SetValueEx(key,name,0,winreg.REG_DWORD,value)
 evidence=dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),checks=[])
 font=os.environ.get('NEMOTERM_TEST_FONT')
@@ -75,6 +75,23 @@ try:
             expected_input=b'\x1b[0n\x1b[200~'+expected.replace('\r\n','\r').encode()+b'\x1b[201~'
             wait_snapshot(snapshot,lambda v:bytes.fromhex(v.get('hex',''))==expected_input)
             evidence['checks'].append(dict(action='Alt+Shift+Y bracketed paste',hex=expected_input.hex()))
+            # Select on the alternate screen while the client owns drag input.
+            # The saved right-click option must copy AND paste the selected
+            # cells exactly once; no mouse press/release may reach the child.
+            request=phase('right-click-copy-paste','\x1b[?1049h\x1b[2J\x1b[H!A中e\u0301Z!\x1b[?1002;1006;2004h')
+            action(modifiers=[16,160],mouse=[dict(message=0x201,keys=5,point=point(1,0)),
+                dict(message=0x200,keys=5,point=point(5,0)),dict(message=0x202,keys=4,point=point(5,0))])
+            previous=u.GetClipboardSequenceNumber()
+            action(mouse=[dict(message=0x204,keys=2,point=point(1,0)),dict(message=0x205,keys=0,point=point(1,0))])
+            wait_for(lambda:u.GetClipboardSequenceNumber()!=previous)
+            selected='A中e\u0301Z'
+            assert clipboard_text(hwnd)==selected
+            dsr=b'\x1b[0n'; payload=b'\x1b[200~'+selected.encode()+b'\x1b[201~'
+            wait_snapshot(snapshot,lambda v:bytes.fromhex(v.get('hex',''))==dsr+payload)
+            write_snapshot(control,dict(request,input_barrier='after-right-click'))
+            observed=wait_snapshot(snapshot,lambda v:v.get('input_barrier')=='after-right-click')
+            assert bytes.fromhex(observed['hex'])==dsr+payload+dsr,observed
+            evidence['checks'].append(dict(action='Saved right-click copies and pastes exactly once',text=selected,input_checkpoint=observed))
             phase('unbound-default','\x1b[?2004l')
             action(key=67,scan=46,modifiers=[16,17,160,162])
             action(key=86,scan=47,modifiers=[16,17,160,162])

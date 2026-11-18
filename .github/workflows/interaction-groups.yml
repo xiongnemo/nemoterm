@@ -1,0 +1,139 @@
+name: Windows interaction groups
+
+on:
+  workflow_call:
+    inputs:
+      product_run:
+        type: string
+        required: true
+      product_commit:
+        type: string
+        required: true
+      groups:
+        type: string
+        required: true
+      max_parallel:
+        type: number
+        required: true
+      shell_fixtures:
+        type: boolean
+        required: true
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  interaction:
+    name: Interaction / ${{ matrix.group }}
+    runs-on: windows-2025
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      max-parallel: ${{ inputs.max_parallel }}
+      matrix:
+        group: ${{ fromJSON(inputs.groups) }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+      - name: Verify and download the exact source-built executable
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PRODUCT_RUN: ${{ inputs.product_run }}
+          PRODUCT_COMMIT: ${{ inputs.product_commit }}
+        run: ./scripts/fetch-ci-product.ps1 -Run $env:PRODUCT_RUN -Commit $env:PRODUCT_COMMIT -Destination build/interaction-product
+      - name: Install pinned font and shell dependencies
+        shell: pwsh
+        env:
+          INSTALL_SHELLS: ${{ inputs.shell_fixtures }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if ($env:INSTALL_SHELLS -eq 'true') {
+            gh run download $env:GITHUB_RUN_ID --repo $env:GITHUB_REPOSITORY --name "interaction-busybox-$env:GITHUB_RUN_ID-$env:GITHUB_RUN_ATTEMPT" --dir build/interaction-busybox
+            if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          }
+          ./scripts/prepare-remote-interaction.ps1 -Shells:($env:INSTALL_SHELLS -eq 'true')
+      - name: Prepare a real desktop large enough for 160 by 48 Sarasa cells
+        if: ${{ matrix.group == 'memory-gdi' || matrix.group == 'memory-directx' }}
+        shell: pwsh
+        run: |
+          $vswhere="${env:ProgramFiles(x86)}/Microsoft Visual Studio/Installer/vswhere.exe"
+          $vs=& $vswhere -latest -products '*' -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+          Import-Module "$vs/Common7/Tools/Microsoft.VisualStudio.DevShell.dll"
+          Enter-VsDevShell -VsInstallPath $vs -SkipAutomaticLocation -DevCmdArguments '-arch=x64 -host_arch=x64'
+          cl /nologo /W4 /WX /EHsc /std:c++17 tests/dpi_display_probe.cpp /Febuild/interaction-dependencies/dpi-display.exe /Fobuild/interaction-dependencies/dpi-display.obj user32.lib
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          ./scripts/prepare-full-grid-display.ps1
+          'NEMOTERM_REQUIRE_DIRECTX=1' | Out-File $env:GITHUB_ENV -Append -Encoding utf8
+      - name: Install WSL Bash for shell and drop coverage
+        if: ${{ inputs.shell_fixtures }}
+        uses: Vampire/setup-wsl@4c48163d9f981914dd8caa0fc335fe19cca5bff4 # v7.2.0 built distribution
+        with:
+          distribution: Ubuntu-24.04
+          wsl-version: 1
+          set-as-default: 'true'
+          update: 'false'
+          use-cache: 'false'
+      - name: Install native instrumentation
+        run: python -m pip install frida==17.24.3 Pillow==13.0.0
+      - name: Install pinned isolated client fixtures
+        if: ${{ matrix.group == 'agents' }}
+        run: |
+          npm ci --prefix tools/codex-fixture --ignore-scripts --no-audit --no-fund
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          npm ci --prefix tools/opencode-fixture --ignore-scripts --no-audit --no-fund
+          exit $LASTEXITCODE
+      - name: Freeze product, fixtures and client identities
+        shell: pwsh
+        env:
+          TEST_GROUP: ${{ matrix.group }}
+        run: |
+          $exe=(Resolve-Path build/interaction-product/nemoterm.exe).Path
+          $arguments=@('scripts/interaction_acceptance.py','prepare','--stage','build/interaction','--exe',$exe,'--sha256',(Get-FileHash $exe).Hash.ToLowerInvariant())
+          if ($env:TEST_GROUP -eq 'agents') {
+            foreach ($client in @('codex','opencode')) {
+              $images=@(Get-ChildItem "tools/$client-fixture/node_modules" -Recurse -Filter "$client.exe")
+              if ($images.Count -ne 1) { throw "Expected one pinned $client executable" }
+              $arguments+=@("--$client",$images[0].FullName)
+            }
+          }
+          python @arguments
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          if ($env:TEST_GROUP -eq 'shells') {
+            'NEMOTERM_REQUIRED_SHELLS=pwsh,powershell,cmd,busybox-ash,git-bash,wsl-bash' | Out-File $env:GITHUB_ENV -Append -Encoding utf8
+            'NEMOTERM_TEST_WSL_DISTRO=Ubuntu-24.04' | Out-File $env:GITHUB_ENV -Append -Encoding utf8
+          }
+      - name: Run all cases in this group on the hosted desktop
+        shell: pwsh
+        env:
+          TEST_GROUP: ${{ matrix.group }}
+        run: python build/interaction/runner.py run --stage build/interaction --group $env:TEST_GROUP --continue-on-failure
+      - name: Publish case results
+        if: always()
+        shell: pwsh
+        run: |
+          if (Test-Path build/interaction/results.json) {
+            $results=Get-Content build/interaction/results.json -Raw | ConvertFrom-Json
+            '| Case | Result | Seconds |' | Out-File $env:GITHUB_STEP_SUMMARY -Append
+            '| --- | --- | ---: |' | Out-File $env:GITHUB_STEP_SUMMARY -Append
+            foreach ($case in $results) { "| $($case.id) | $($case.status) | $([int]$case.seconds) |" | Out-File $env:GITHUB_STEP_SUMMARY -Append }
+          }
+      - name: Restore the runner display and retain actual display modes
+        if: ${{ always() && (matrix.group == 'memory-gdi' || matrix.group == 'memory-directx') }}
+        shell: pwsh
+        run: ./scripts/prepare-full-grid-display.ps1 -Restore
+      - name: Retain identities, logs, screenshots and failure evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: interaction-${{ matrix.group }}-${{ github.run_id }}-${{ github.run_attempt }}
+          retention-days: 14
+          path: |
+            build/interaction-product/SOURCE-HOST.json
+            build/interaction-dependencies/*.json
+            build/interaction/*.json
+            build/interaction/attempts/*/output.log
+            build/interaction/attempts/*/research/
+            build/interaction/attempts/*/build/

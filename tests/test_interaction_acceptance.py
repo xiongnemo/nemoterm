@@ -43,8 +43,8 @@ class AcceptanceTests(unittest.TestCase):
 
     def test_catalog_has_unique_real_fixtures(self):
         cases = runner.catalog()
-        self.assertEqual(len(cases), 38)
-        self.assertEqual(len({c['id'] for c in cases}), 38)
+        self.assertEqual(len(cases), 39)
+        self.assertEqual(len({c['id'] for c in cases}), 39)
         for case in cases:self.assertTrue((ROOT/'tests'/case['script']).is_file())
 
     def test_full_grid_memory_requires_sarasa_and_unclamped_size(self):

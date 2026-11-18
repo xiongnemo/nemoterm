@@ -19,6 +19,7 @@ import winreg
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--codex', default=shutil.which('codex.exe'))
 parser.add_argument('--inline', action='store_true', help='Also test Codex --no-alt-screen')
+parser.add_argument('--paste-selection', action='store_true', help='Paste the exact selected response into the next real client prompt')
 parser.add_argument('--tabs', action='store_true', help='Run the real client inside the tab host')
 parser.add_argument('--input-text', default='NEMOTERM_INPUT 中文 e\u0301 \U0001f642')
 parser.add_argument('--trace-input', action='store_true', help='Trace owned Codex console reads for diagnosis')
@@ -31,6 +32,7 @@ codex = Path(args.codex).resolve()
 exe = Path(os.environ.get('NEMOTERM_TEST_EXE', root/'dist/nemoterm.exe')).resolve()
 mode = ('inline' if args.inline else 'default')+('-opengl' if args.renderer=='opengl' else '')
 if args.tabs:mode='tabs-'+mode
+if args.paste_selection:mode+='-roundtrip'
 evidence = dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),
     codex_launcher=str(codex), codex_launcher_sha256=hashlib.sha256(codex.read_bytes()).hexdigest(),
     codex_version=subprocess.check_output([str(codex), '--version'], text=True, timeout=15).strip(),
@@ -266,6 +268,12 @@ enabled = false
                 answer = wait_for(lambda: script.exports_sync.result())
                 assert not key_errors, key_errors
                 assert answer == {'id':serial}, answer
+            # A distinct composer prefix distinguishes the pasted input from
+            # the identical marker still visible in the response history.
+            prefix = 'NEMOTERM_ROUNDTRIP: '
+            if args.paste_selection:
+                type_text(prefix)
+                wait_for(lambda: prefix.rstrip() in all_text(), timeout=20)
             row = find_marker()
             evidence['selected_row'] = row
             frame('selection')
@@ -277,24 +285,31 @@ enabled = false
                 evidence['actual_copied_text'] = clipboard_text(hwnd)
                 raise
             evidence['checks'].append('shift-grid-select-ctrl-shift-c-exact-unicode')
-            set_clipboard(PASTE_TEXT)
+            if args.paste_selection:
+                expected_prompt = prefix + COPY_TEXT
+                # Keep the clipboard written by Ctrl+Shift+C untouched.
+            else:
+                set_clipboard(PASTE_TEXT)
+                expected_prompt = PASTE_TEXT
             delivered = script.exports_sync.clipboard_deliveries()
             paste_started = time.monotonic()
             chord(86,47,[16,17,160,162])
-            # Ctrl+V starts a clipboard worker. Copy All must not replace its
+            # Ctrl+Shift+V starts a clipboard worker. Copy All must not replace its
             # source before WM_GOT_CLIPDATA returns. Once delivered, observe
             # client consumption before starting Codex's Enter guard interval,
             # just as for the initial typed prompt above.
             wait_for(lambda: script.exports_sync.clipboard_deliveries() > delivered)
             evidence['paste_delivery_seconds'] = time.monotonic()-paste_started
             evidence['pasted_text'] = wait_for(lambda:
-                (text if PASTE_TEXT in (text := all_text()) else None), timeout=20)
+                (text if expected_prompt in (text := all_text()) else None), timeout=20)
             evidence['paste_visible_seconds'] = time.monotonic()-paste_started
             time.sleep(.2); key(13,28)
             wait_for(lambda: len(server.completed) == 2 or server.errors, timeout=20)
             assert not server.errors, server.errors
             submitted = [request for request in server.requests if not request['auxiliary']]
-            assert PASTE_TEXT in submitted[1]['user_text'], submitted[1]
+            assert submitted[1]['user_text'][-1] == expected_prompt, submitted[1]
+            if args.paste_selection:
+                evidence['checks'].append('selected-reply-pasted-intact-into-submitted-prompt')
             wait_for(lambda: 'NEMOTERM_REPLY_2_DONE' in all_text(), timeout=10)
             evidence['checks'].append('ctrl-shift-v-exact-unicode-through-real-client')
             frame('paste')
