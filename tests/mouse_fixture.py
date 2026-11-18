@@ -112,6 +112,8 @@ try:
         snapshot = {'phase': phase, 'hex': data.hex(), 'columns': size.columns,
                     'rows': size.lines, 'input_mode': 0x280, 'input_cp': k.GetConsoleCP(),
                     'input_api': 'ReadConsoleW' if wide_input else 'ReadFile'}
+        if request.get('report_responses'):
+            snapshot['flushed_responses'] = sorted(responded)
         if applied_blob is not None:
             snapshot['applied_blob'] = applied_blob
         if request.get('report_cursor'):

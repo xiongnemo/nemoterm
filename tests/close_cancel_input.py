@@ -5,6 +5,7 @@ if os.environ.get('GITHUB_ACTIONS') != 'true' or os.environ.get('RUNNER_ENVIRONM
 import traceback
 from native_test_utils import (c, w, u, root, Path, hashlib, json, sys, struct, time,
     subprocess, tempfile, wait_for, read_snapshot)
+from fixture_io import write_snapshot
 from hosted_gesture_input import DesktopInput, Input
 from protocol_oracle_window import saved_profile
 from owned_job import OwnedJob
@@ -23,9 +24,9 @@ def exercise(mode, row):
     tabs = mode != 'standalone'
     with tempfile.TemporaryDirectory() as tmp, saved_profile(dict(NemoTabs=int(tabs),
             WarnOnClose=1, NemoShell='custom', NemoShellCommand='cmd.exe /d /q', CloseOnExit=1)) as profile, OwnedJob() as job:
-        report = Path(tmp)/'report.json'
+        report,control = Path(tmp)/'report.json',Path(tmp)/'control.json'
         proc = job.spawn([str(exe), '--automation', '--profile', profile[1], '--cols', '64', '--rows', '16',
-            '-e', sys.executable, str(root/'tests/mouse_fixture.py'), str(report), str(Path(tmp)/'control.json'), '120'],
+            '-e', sys.executable, str(root/'tests/mouse_fixture.py'), str(report), str(control), '120'],
             env=dict(os.environ, NEMOTERM_CONPTY='bundled'), creationflags=subprocess.CREATE_NO_WINDOW)
         wait_for(lambda: 'hex' in read_snapshot(report))
         instance = wait_for(lambda: next(iter(api.discover(proc.pid)), None)); ep = instance['endpoint']
@@ -56,6 +57,16 @@ def exercise(mode, row):
                 assert u.PostMessageW(target,0x10,0,0)
                 dlg=wait_for(desktop.owned_confirmation);step['during']=state();assert not step['during']['enabled']
                 pair(ord('X'))  # A real key while the dialog owns input must never reach the child.
+                # Trigger normal VT output from the already running child
+                # while the system dialog owns the foreground. Observe its
+                # acknowledgement without asking the modal GUI thread to work.
+                marker=f'NEMO_REPLY_{proc.pid}_{key}'
+                write_snapshot(control,dict(report_responses=True,responses={marker:{
+                    'trigger':'61','sequence':'\r\n'+marker+'\r\n'}}))
+                flushed=wait_for(lambda: snap if marker in (snap:=read_snapshot(report)).get('flushed_responses',[]) else None)
+                step['background_output']=dict(marker=marker,flushed=True,during=state())
+                assert (flushed['hex']==expected.hex() and desktop.owned_confirmation()==dlg
+                        and not step['background_output']['during']['enabled']),step
                 if how=='cancel-button': desktop.click_confirmation_button(dlg,2,step.setdefault('click',{}))
                 else: assert desktop.owned_confirmation()==dlg;pair(0x1b)
                 try: wait_for(lambda: not u.IsWindow(dlg) and u.IsWindowEnabled(host))
@@ -67,6 +78,10 @@ def exercise(mode, row):
                 try: wait_for(lambda: read_snapshot(report).get('hex')==expected.hex(),timeout=3)
                 finally: step['typed']=state()
                 assert step['typed']['focus']==term and {s['id'] for s in sessions()}==ids
+                screen=wait_for(lambda: text if marker in (text:=api.request(ep,'text',seat['id'])) else None)
+                assert screen.count(marker)==1,(marker,screen)
+                step['background_output'].update(visible_after_key=True,matched_line=next(line.strip()
+                    for line in screen.splitlines() if marker in line))
             assert u.PostMessageW(target,0x10,0,0);dlg=wait_for(desktop.owned_confirmation)
             confirm=row['confirm']={};desktop.click_confirmation_button(dlg,1,confirm)
             try: wait_for(lambda: not u.IsWindow(dlg))
