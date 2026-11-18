@@ -32,7 +32,7 @@ def verify_gestures(host, seat, child, Input, out, evidence, publish):
     def event(kind,code,down):
         e=Input();e.kind=kind
         if kind:e.key.key=code;e.key.flags=0 if down else 2
-        else:e.mouse.flags=2 if down else 4
+        else:e.mouse.flags={0:(2,4),1:(8,16)}[code][not down]
         assert u.SendInput(1,c.byref(e),c.sizeof(e))==1
         if down:held.append((kind,code))
         else:held.remove((kind,code))
@@ -108,6 +108,50 @@ def verify_gestures(host, seat, child, Input, out, evidence, publish):
                 payload=b'\x1b[200~'+check['copied'].replace('\r\n','\r').encode()+b'\x1b[201~' if mode=='copy-paste' else b''
                 assert data==dsr+payload+dsr,(mode,data)
             check['passed']=True;publish()
+        # If a local right click releases over another window, the terminal sees
+        # no button-up. The next application's gesture still needs both edges.
+        check=evidence['right_release_outside']={};dsr=b'\x1b[0n'
+        def start_right_phase(name,sequence):
+            request=dict(phase='native-right-'+name,sequence=sequence+'\x1b[5n')
+            write_snapshot(child['control'],request)
+            wait_for(lambda:(v:=read_snapshot(child['report']) or {}).get('phase')==request['phase'] and bytes.fromhex(v.get('hex','')).endswith(dsr))
+            return request
+        def confirm(request):
+            key=request['phase'];write_snapshot(child['control'],dict(request,input_barrier=key))
+            return bytes.fromhex(wait_for(lambda:v if (v:=read_snapshot(child['report']) or {}).get('input_barrier')==key else None)['hex'])
+        def cell(x,y):
+            p=move(1+x*cw+cw//2,1+y*ch+ch//2);wait_for(lambda:u.WindowFromPoint(p)==hwnd);return p
+        request=start_right_phase('copy','\x1bc\x1b[2J\x1b[HLOCAL-COPY\x1b[?1002;1006h')
+        cell(0,0);event(1,0x10,True);event(0,0,True);wait_for(lambda:capture_owner()==hwnd)
+        cell(4,0);event(0,0,False);wait_for(lambda:capture_owner()!=hwnd);event(1,0x10,False)
+        before=u.GetClipboardSequenceNumber();event(0,1,True)
+        wait_for(lambda:u.GetClipboardSequenceNumber()!=before);check['copied']=clipboard_text(hwnd)
+        assert check['copied']=='LOCAL',check
+        # A no-activate STATIC window owned by this fixture receives the actual
+        # system release. Keep the terminal focused and never click the desktop.
+        dest=w.POINT(1+12*cw,1+3*ch);assert u.ClientToScreen(hwnd,c.byref(dest))
+        u.CreateWindowExW.argtypes=[w.DWORD,w.LPCWSTR,w.LPCWSTR,w.DWORD,c.c_int,c.c_int,c.c_int,c.c_int,w.HWND,w.HMENU,w.HINSTANCE,c.c_void_p]
+        u.CreateWindowExW.restype=w.HWND;u.DestroyWindow.argtypes=[w.HWND]
+        u.PeekMessageW.argtypes=[c.POINTER(w.MSG),w.HWND,w.UINT,w.UINT,w.UINT]
+        # A bordered static is hit-testable; SS_NOTIFY avoids HTTRANSPARENT.
+        sink=u.CreateWindowExW(0x08000088,'STATIC','release target',0x90000100,dest.x-12,dest.y-12,24,24,None,None,None,None)
+        assert sink
+        try:
+            assert u.SetCursorPos(dest.x,dest.y);wait_for(lambda:u.WindowFromPoint(dest)==sink)
+            event(0,1,False);msg=w.MSG()
+            wait_for(lambda:u.PeekMessageW(c.byref(msg),sink,0x205,0x205,1))
+            check['release_received_by_other_window']=msg.hwnd==sink;assert msg.hwnd==sink
+        finally:u.DestroyWindow(sink)
+        check['local_wire']=confirm(request).hex();assert check['local_wire']==(dsr+dsr).hex(),check
+        # RIS discards the selection. The peer requests button tracking again.
+        request=start_right_phase('application','\x1bc\x1b[?1002;1006h');assert u.GetForegroundWindow()==host
+        cell(7,4);event(0,1,True);wait_for(lambda:capture_owner()==hwnd);event(0,1,False)
+        expected=dsr+b'\x1b[<2;8;5M\x1b[<2;8;5m'+dsr
+        observed=confirm(request);check.update(application_wire=observed.hex(),expected_wire=expected.hex(),capture_after_release=capture_owner());publish()
+        try:assert observed==expected and check['capture_after_release']!=hwnd,check
+        finally:
+            if capture_owner()==hwnd:u.SendMessageW(hwnd,0x1f,0,0)
+        check['passed']=True;publish()
     finally:
         for kind,code in reversed(held[:]):event(kind,code,False)
         u.SetCursorPos(original.x,original.y);saved.restore();publish()
