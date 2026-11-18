@@ -73,13 +73,15 @@ def trial(out,kind,exe,client,font,rec):
     name='pair-'+uuid.uuid4().hex
     reg=('Software\\SimonTatham\\PuTTY\\Sessions\\' if kind=='pterm' else 'Software\\Nemo\\Nemoterm\\Sessions\\')+name
     options=dict(Font=font,FontIsBold=0,FontHeight=10,FontCharSet=0,TermWidth=160,TermHeight=48,LineCodePage='UTF-8',CloseOnExit=1,WarnOnClose=0)
-    if kind!='pterm':options.update(NemoRenderer=0)
+    is_tab=kind in ('nemoterm-tab','nemoterm-directx-tab')
+    target=2 if kind.startswith('nemoterm-directx-') else 0
+    if kind!='pterm':options.update(NemoRenderer=target)
     try:
         with winreg.CreateKey(winreg.HKEY_CURRENT_USER,reg) as key:
             for keyname,value in options.items():winreg.SetValueEx(key,keyname,0,winreg.REG_DWORD if isinstance(value,int) else winreg.REG_SZ,value)
         rec.update(profile=options,terminal_sha256=digest(exe),client_sha256=digest(client),kind=kind,samples=[])
         cmd=codex_command(str(client),home,work,env,f'http://127.0.0.1:{provider.server_port}/v1')+[PROMPT]
-        frontend=[str(exe),'-load',name]+({'pterm':[],'nemoterm-tab':['--tabs'],'nemoterm-standalone':['--no-tabs']}[kind])
+        frontend=[str(exe),'-load',name]+([] if kind=='pterm' else ['--tabs' if is_tab else '--no-tabs'])
         with OwnedJob() as job:
             proc=job.spawn(frontend+['-e',sys.executable,str(Path(__file__).resolve()),'--peer',str(out),*cmd],cwd=work,env=env,creationflags=subprocess.CREATE_NO_WINDOW)
             # The query handle belongs to this exact job-owned PID. Never
@@ -94,10 +96,15 @@ def trial(out,kind,exe,client,font,rec):
             try:
                 sampler=threading.Thread(target=sample,daemon=True);sampler.start()
                 grid=wait_for(lambda:read_snapshot(out/'grid.json'),timeout=30);rec['console']=grid;assert grid['grid']==[160,48],grid
-                hwnd=wait_for(lambda:gui(proc.pid,kind),timeout=15);host=terminal_host(hwnd);assert bool(host!=hwnd)==(kind=='nemoterm-tab')
+                hwnd=wait_for(lambda:gui(proc.pid,kind),timeout=15);host=terminal_host(hwnd);assert bool(host!=hwnd)==is_tab
                 from hosted_gesture_input import DesktopInput
                 desk=DesktopInput(proc.pid,host,hwnd,rec.setdefault('desktop',{}));cls=c.create_unicode_buffer(120);u.GetClassNameW(hwnd,cls,len(cls));r=w.RECT();assert u.GetClientRect(hwnd,c.byref(r))
                 rec['view']=dict(class_name=cls.value,client_px=[r.right,r.bottom],is_tab=host!=hwnd)
+                if kind!='pterm':
+                    u.GetPropW.argtypes=[w.HWND,w.LPCWSTR];u.GetPropW.restype=w.HANDLE
+                    actual=lambda:int(u.GetPropW(hwnd,'NemotermRenderer') or 0)
+                    wait_for(lambda:actual()==target+1,timeout=5)
+                    rec['renderer_before']=actual();assert rec['renderer_before']==target+1
                 stage[0]='empty';time.sleep(2);stage[0]='starting_agent';write_snapshot(out/'launch.json',dict(start=True))
                 wait_for(lambda:any(row['path']=='/v1/responses' and PROMPT in row['text'] for row in provider.requests),timeout=85)
                 def replied():
@@ -107,6 +114,8 @@ def trial(out,kind,exe,client,font,rec):
                 stage[0]='agent_reply';time.sleep(3);stop.set();sampler.join(3)
                 assert not sampler.is_alive() and not errors, errors
                 rec['empty']=phase(rec['samples'],'empty');rec['agent_reply']=phase(rec['samples'],'agent_reply')
+                if kind!='pterm':
+                    rec['renderer_after']=actual();assert rec['renderer_after']==target+1
                 runtime_snapshot(rec,'agent_reply',handle,job,exe,client)
                 # Only after the final measurement, preserve what the frontend
                 # actually painted; capture is outside the memory interval.
@@ -135,7 +144,7 @@ def main():
     original=p.pterm.resolve(strict=True);client=p.codex.resolve(strict=True);candidate=Path(os.environ['NEMOTERM_TEST_EXE']).resolve(strict=True)
     assert digest(original)==PTERM and digest(client)==CODEX
     out=ROOT/'build/paired-agent-memory';out.mkdir(parents=True,exist_ok=False)
-    kinds=('pterm','nemoterm-tab','nemoterm-standalone');report=dict(fixture_commit=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),cases={})
+    kinds=('pterm','nemoterm-tab','nemoterm-standalone','nemoterm-directx-tab','nemoterm-directx-standalone');report=dict(fixture_commit=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),cases={})
     for i,kind in enumerate((*kinds,*reversed(kinds)),1):
         name=f'{i}-{kind}';entry=report['cases'][name]=dict(passed=False)
         try:trial(out/name,kind,original if kind=='pterm' else candidate,client,os.environ['NEMOTERM_TEST_FONT'],entry);entry['passed']=True
