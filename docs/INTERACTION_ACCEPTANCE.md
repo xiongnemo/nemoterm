@@ -82,6 +82,8 @@ gh workflow run font-zoom-replay.yml --ref <branch> -f suite=regis-window -f sou
 
 ReGIS 生产代码变化后的定向重建使用 `protocol-reference.yml -f family=regis-product`，重新构建同一单文件配方后运行四组窗口检查。它不代替 `ci.yml -f scope=full` 完整回归。备用屏幕和滚动边界的失败、修复与证据见 [边界记录](../research/regis-screen-edges.md)。
 
+`protocol-reference.yml -f family=regis-discovery` 在两种页面尺寸下采集同一份启用 ReGIS 的 XTerm 的设备属性和图形查询回复。`suite=regis-window` 还包含真实窗口先查询、再据返回尺寸绘图以及重绘的验收。见[查询和历史画面差异](../research/regis-discovery.md)。
+
 ## 交互矩阵
 
 每组使用独立 Windows 2025 runner，最多同时运行五组；组内顺序执行并保留各自失败，不因另一组失败取消测试。`scripts/interaction_acceptance.py run` 拒绝本机及 self-hosted runner；`plan` 和 `prepare` 只处理清单和文件。
