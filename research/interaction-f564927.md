@@ -20,3 +20,5 @@
 [相同指针轨迹、包含其他设置操作的完整 Profile 顺序](profile-glide-f564927.zip)也在三个窗口模式全部通过（[44378688703](https://github.com/xiongnemo/nemoterm/actions/runs/44378688703)）。这是对同一文件的独立回放，并未覆盖旧的失败记录。
 
 在[单独的内存回放](https://github.com/xiongnemo/nemoterm/actions/runs/44377353243)里，控制器把较大的 VT 输出写入独立的只读用途文件，子进程读取并核对字节数和 SHA-256，再按原样发往终端；高频轮询的控制 JSON 里只有文件标识。所有负载仍要求子进程收到终端的有序回复、达到完整网格、满足原内存上限和正常退出。[GDI](memory-spool-gdi-f564927.zip) 和 [DirectX](memory-spool-directx-f564927.zip) 各六项通过。这个回放没有重跑其余 62 项，也不能证明前一版本偶发的 Windows 文件替换错误只有一个原因。
+
+在同一次源构建中：[真实 WSL Vim](preview-wsl-vim-f564927.zip) 在 `TERM=xterm` 和 `xterm-256color`、实际 GDI 和 DirectX 四种组合下，都确认普通点击到达 Vim，Shift 可复制中文且不移动 Vim 光标，Ctrl+Shift 跨行矩形选区有效，调整窗口大小后 Vim 和前端的网格一致，粘贴保存后文件字节正确。[WSL 的 img2sixel 输出](preview-wsl-sixel-f564927.zip) 在两种渲染器显示、重绘和清除时，指定区域连同一像素外边界都与独立预期逐像素一致。[WSL tput 调色板和 RGB 色块](preview-wsl-colour-f564927.zip)的原始回复和像素也已保存。这些是实际应用路径的证据，不代表所有 xterm 序列均已实现。
