@@ -10,8 +10,11 @@ parser=argparse.ArgumentParser()
 parser.add_argument('--renderer',type=int,choices=(0,1,2),default=0)
 parser.add_argument('--tabs',action='store_true')
 parser.add_argument('--tab-side',choices=('top','bottom','left','right'),default='top')
-parser.add_argument('--font',default=os.environ.get('NEMOTERM_TEST_FONT'))
+font_options=parser.add_mutually_exclusive_group()
+font_options.add_argument('--font',default=os.environ.get('NEMOTERM_TEST_FONT'))
+font_options.add_argument('--profile-font',action='store_true',help='Leave the clean profile font unchanged')
 args=parser.parse_args()
+if args.profile_font:args.font=None
 u.GetPropW.argtypes,u.GetPropW.restype=[w.HWND,w.LPCWSTR],w.HANDLE
 u.GetClassNameW.argtypes=[w.HWND,w.LPWSTR,c.c_int]
 profile='selection-'+uuid.uuid4().hex
@@ -68,6 +71,7 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-selection-') as temporary:
             assert bytes.fromhex(value['hex'])==b'\x1b[0n'+expected_mouse+b'\x1b[0n',value
             return value['hex']
         r=w.RECT();u.GetClientRect(hwnd,c.byref(r));cw,ch=(r.right-2)//80,(r.bottom-2)//24
+        evidence['cell_pixels']=[cw,ch]
         def select(x,y,end):
             start=(1+y*ch+ch//2)<<16|(1+x*cw+cw//2)
             finish=(1+y*ch+ch//2)<<16|(1+end*cw+cw//2)

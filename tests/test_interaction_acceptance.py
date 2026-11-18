@@ -45,8 +45,8 @@ class AcceptanceTests(unittest.TestCase):
 
     def test_catalog_has_unique_real_fixtures(self):
         cases = runner.catalog()
-        self.assertEqual(len(cases), 74)
-        self.assertEqual(len({c['id'] for c in cases}), 74)
+        self.assertEqual(len(cases), 76)
+        self.assertEqual(len({c['id'] for c in cases}), 76)
         for case in cases:self.assertTrue((ROOT/'tests'/case['script']).is_file())
 
     def test_agent_grid_and_startup_controls_are_independent_cases(self):

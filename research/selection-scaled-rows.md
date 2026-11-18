@@ -9,3 +9,5 @@ DEC 程序可以把一整行的字宽放大两倍（`ESC # 6`），也可以分�
 [修复版原始结果](selection-scale-after-83ee8a5.zip)来自 `44383008947` 的制品 `14464578916`；源提交 `83ee8a50ba43ba02b1747f5211c399cb0f77a79f`，Windows x64 EXE 为 4,850,176 字节，SHA-256 `3822bf211f3030f6da0af78ff7349a6e1af2cd1635537811a36fe02dbfade594`。GDI 和 DirectX 均使用 SarasaTermSC Nerd Light，四个场景分别通过：跨过放大行、从上半行反向拖、从下半行正向拖、只框一个屏幕列。放大行 `bcd` 的两个半字边缘正确展开，普通行保持原宽。四个 `selection` 子测试均通过，外层 Job 没有剩余进程。下图是两份 GDI 原始截图相同区域的裁剪，左为修复前，右为修复后。
 
 ![GDI 矩形选区修复前后：只有中间一行的字宽翻倍](selection-scaled-rows-gdi.png)
+
+在同一次完整 CI，未显式指定 Sarasa 的两套独立检查发现了另一个像素问题：[MinGW 记录](scaled-edge-mingw-83ee8a5.zip)、[隔离单文件的原始图与记录](scaled-edge-single-83ee8a5.zip)。两份结果的四种拖选都复制了正确的文字，但放大行最右侧的相邻一格也有像素变化。隔离窗口的原图为 722×386，字符格 9×16。`double-middle` 选中的屏幕列为 2–7；第 8 列左边缘（客户区 x=73）有 10 个像素从带字形抗锯齿的颜色变为原背景蓝，并非相邻整格被高亮。Sarasa 的绿色结果不能代替这个默认字体条件。新回归对默认 profile 字体与显式 Sarasa 分别检查两种渲染器，仍要求未选格零像素变化。

@@ -5203,14 +5203,28 @@ static void do_text_internal(
     sfree(cbuf);
 }
 
-/*
- * Wrapper that handles combining characters.
- */
 static void nemo_raster_text(
     TermWin *tw, int x, int y, wchar_t *text, int len,
     unsigned long attr, int lattr, truecolour truecolour)
 {
     WinGuiSeat *wgs = container_of(tw, WinGuiSeat, termwin);
+    /* A selection changes where terminal paint runs start and end. On a
+     * DEC enlarged row, GDI can otherwise leave antialiased ink in the
+     * next display cell only when both cells are part of the same run.
+     * Clip each enlarged glyph to its own cell, even on the first paint.
+     * Keep a composed grapheme and the legacy DBCS conversion intact. */
+    if (len > 1 && (lattr & LATTR_MODE) != LATTR_NORM &&
+        !(attr & TATTR_COMBINING) &&
+        !(wgs->ucsdata.dbcs_screenfont && (text[0] & CSET_MASK) == CSET_ACP)) {
+        for (int i = 0; i < len; ) {
+            int units;
+            nemo_text_cluster(text+i, len-i, &units);
+            do_text_internal(wgs, x, y, text+i, units, attr, lattr, truecolour);
+            x += (attr & ATTR_WIDE) ? 2 : 1;
+            i += units;
+        }
+        return;
+    }
     do_text_internal(wgs, x, y, text, len, attr, lattr, truecolour);
 }
 

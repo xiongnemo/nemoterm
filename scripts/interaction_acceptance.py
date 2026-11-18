@@ -29,6 +29,8 @@ def catalog():
     for renderer, number, side in [('gdi', '0', 'top'), ('directx', '2', 'left')]:
         add('selection-'+renderer, 'selection', 'selection_window_smoke.py',
             ['--renderer', number, '--tabs', '--tab-side', side, '--font', FONT], 'clipboard; selection pixels')
+        add('selection-profile-font-'+renderer, 'selection', 'selection_window_smoke.py',
+            ['--renderer', number, '--profile-font'], 'standalone; clean profile font; selection pixels and clipboard')
         add('drop-'+renderer, 'clipboard', 'drop_window_smoke.py',
             ['--renderer', renderer, '--font', FONT], 'clipboard; file-drop messages; isolated shell parsing')
     for client in ('codex', 'opencode'):
