@@ -119,6 +119,15 @@ def cases():
                             ('newline-scroll', C+b'12;1H'+b'\n')]:
         add(name, regis('S(E)W(I3)P[20,20]V[120,20]P[20,80]V[120,80]',1),
             operation, regis('R(P)'))
+    # Separate text-row motion (white markers outside the 160px graphic) from
+    # movement of the ReGIS origin. Capture the presented and exposed states
+    # before another ReGIS command has a chance to map a new page.
+    for name,operation in [('sd',C+b'2T'),('ri',E+b'M'+E+b'M'),('il',C+b'2L'),('su',C+b'2S')]:
+        add('scroll-origin-'+name,
+            C+b'3;32HA'+C+b'7;32HB'+C+b'H'+regis(
+                'S(E)S(M3(R0G100B0))W(I3)P[20,20]V[120,20]P[20,80]V[120,80]R(P)',1),
+            operation+C+b'6n', regis('R(P)'),
+            regis('S(M2(R100G0B0))W(I2)P[20,50]V[120,50]R(P)'))
     for private in (False,True):
         colour_mode = C+b'?1070'+(b'h' if private else b'l')
         # A palette-only Sixel changes the shared register without supplying
