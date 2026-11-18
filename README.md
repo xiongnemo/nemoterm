@@ -143,6 +143,8 @@ Nemoterm 使用系统中已有的 shell；单文件产物不包含 PowerShell 7�
 | 本地回滚 | `Shift+PageUp` / `Shift+PageDown` |
 | 当前标签字号放大 / 缩小 | `Ctrl++` / `Ctrl+-`，或 `Ctrl+滚轮`；应用接管鼠标时滚轮需加 `Shift` |
 
+Codex 刚启动时，输入提示可能比能接收图片的编辑框先出现。如果首次粘贴后没有附件，等正常编辑框就绪，确认草稿里仍没有图片，再在同一草稿按一次 `Ctrl+Shift+V` 即可。[原始回放](research/interaction-a9c8150.md)验证了第二次操作只提交一张图，不需要重启或先发送文字。
+
 右键已选中的文本默认只复制；可在 Window / Selection 改为复制并粘贴，
 或使用 `--right-click copy-paste` 启动；`--right-click copy` 恢复仅复制。
 Window / Bindings 可修改快捷键和矩形选择修饰键；Window / Tabs 配置标签位置与预览。
