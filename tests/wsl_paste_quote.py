@@ -5,18 +5,31 @@ import os
 from pathlib import Path
 import shutil
 import subprocess
+import time
 import traceback
 import zipfile
 from clipboard_test_utils import SavedClipboard, set_clipboard
 from fixture_io import read_snapshot
 from hosted_gesture_input import DesktopInput
-from native_test_utils import c,w,u,root,find_window,terminal_host,wait_for
+from native_test_utils import c,w,u,k,root,find_window,terminal_host,wait_for
 from owned_job import OwnedJob
 from protocol_oracle_window import saved_profile
 from xterm_paste_lines import TEXT
 
 
 def unix(p):return '/mnt/'+p.drive[0].lower()+p.as_posix()[2:]
+
+def job_images(job):
+    rows=[];unavailable=[]
+    for handle in job.member_handles(unavailable):
+        try:
+            path=c.create_unicode_buffer(32768);size=w.DWORD(len(path));row={'pid':k.GetProcessId(handle)}
+            if k.QueryFullProcessImageNameW(handle,0,path,c.byref(size)):row['image']=path.value
+            else:row['image_error']=c.get_last_error()
+            rows.append(row)
+        finally:k.CloseHandle(handle)
+    return {'members':rows,'unavailable':unavailable}
+
 
 def exercise(renderer,lnext,reference):
     folder=root/'research'/f'wsl-paste-quote-{renderer}-{lnext}';folder.mkdir()
@@ -36,11 +49,13 @@ def exercise(renderer,lnext,reference):
                 if value:return value
                 if proc.poll() is not None:raise ValueError(('WSL exited',proc.returncode,name))
             for stage,reference_name in [('raw-plain','default'),('raw-quote','quote'),('raw-all','all'),('canonical-quote',None)]:
-                ready=wait_for(lambda:snapshot(stage+'-ready.json'),timeout=35);desk.chord(0x11,0x10,ord('V'))
+                ready=wait_for(lambda:snapshot(stage+'-ready.json'),timeout=35)
+                if stage=='raw-plain':r.update(frontend_pid=proc.pid,job_at_ready=job_images(job))
+                begin=time.time_ns();desk.chord(0x11,0x10,ord('V'))
                 if reference_name:wait_for(lambda:snapshot(stage+'-period.json'),timeout=15)
                 desk.chord(0x0d);desk.chord(ord('7'))
                 if not reference_name:desk.chord(0x0d)
-                observed=wait_for(lambda:snapshot(stage+'-done.json'),timeout=18);r['cases'][stage]=observed
+                observed=wait_for(lambda:snapshot(stage+'-done.json'),timeout=18);observed.update(start_utc_ns=begin,end_utc_ns=time.time_ns());r['cases'][stage]=observed
                 if reference_name:
                     ref=reference['cases'][reference_name];expected=bytes.fromhex(ref['paste_hex'])+b'\r7';mode=ref['mode_hex']
                 else:
@@ -52,7 +67,8 @@ def exercise(renderer,lnext,reference):
             clip.restore();clip=None;desk.restore();desk=None
             (folder/'release').touch()
             assert proc.wait(timeout=15)==0;peer_result=read_snapshot(folder/'linux.json');assert peer_result['completed'] and r['peer_sha256']==peer_result['fixture_sha256']
-            r['cleanup']=job.finish();assert not r['cleanup']['terminated_remaining'];r['completed']=True
+            r['job_after_exit']=job_images(job);r['cleanup']=job.finish(grace=2,observe_after_deadline=5)
+            assert not r['cleanup']['grace_exceeded'] and not r['cleanup']['terminated_remaining'];r['completed']=True
         except BaseException:
             r['error']=traceback.format_exc();raise
         finally:

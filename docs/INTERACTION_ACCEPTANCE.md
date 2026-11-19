@@ -268,3 +268,7 @@ Windows 用 `font-zoom-replay.yml` 的 `suite=paste-quote` 对指定 EXE 重放�
 `49f11579` 的[四组原始回放](../research/paste-quote-frontend-49f11579.zip)在应用粘贴管道上各为 19/19，真实 Windows 子进程却只有 8/19：`中` 被读成三个 `U+FFFD`，emoji 被读成四个。后续回放同时检查默认 `^V` 和 profile 指定的 `^]`，包括正式的模式查询、括号边界、CRLF/LF 和紧随粘贴的实按 Enter。在任一端比较失败都不算通过。
 
 `font-zoom-replay.yml` 的 `suite=wsl-paste-quote` 将同一 EXE 放在托管 Windows 的 Ubuntu 24.04 中对照：原始 TTY 逐字节比对 XTerm 412 的剪贴板记录；启用 Linux 行编辑后，分别检查含中文、表情、Tab 和内嵌换行的完整一行及下一行哨兵。两种 renderer 和两个实际 `VLNEXT` 值分开记录。该检查也属于 `ci.yml scope=full`。
+
+候选 `9b5e1111` 的[原生 Windows 回执](../research/paste-quote-native-9b5e1111.zip)覆盖两种渲染器 × 三组剪贴板（默认 `^V` 的 CRLF 和 LF、自定义 `^]` 的 LF）× 19 个阶段，**114/114**。逐项比对了模式回复、输入管道中的真实字节、`ReadConsoleW` 接收的数据和自然退出。比如粘贴 `中` 时，管道有三次前缀，宽字符应用只收到一个前缀和一个完好的 `中`。同一归档内附 REA 对该 EXE 的 PE 导入表，未发现 WebView 导入。
+
+[同一 EXE 在托管 WSL1 的第一轮](../research/paste-quote-wsl-9b5e1111.zip)显示，这个结论不能直接推广到 Linux：Ubuntu 24.04 的 `/dev/tty1` 在四种组合里都给出正确的模式回复，普通粘贴正确；启用 `?2005` 后，原始读取在 `中` 前只有一次前缀，三个 UTF-8 字节之间没有前缀。按行读取拼接后的文字正确，但应用收到五次读取（按三个内嵌 LF 和两次手动提交分割），而非所需的两次。Linux 测试程序四次均正常完成；Windows 作业各留下两个进程，需要强制清理。上述差异分别保留。`wsl-paste-quote` 另在原生 Linux 和 WSL 的私有 `/dev/pts` 中直接写入同一份字节，并记录控制台要求的数据类型，供分层对照。

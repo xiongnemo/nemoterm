@@ -12,3 +12,4 @@
 - [pterm 为什么轻量](pterm-findings.md)：指定的本机 0.85 二进制、REA 静态导入、私有工作集与总工作集的区别，以及该推论的边界。[当前 EXE 与原版 pterm 的 24 轮 Codex 对照](agent-session-42232a2d.zip)：原版 / GDI / DirectX 前端私有工作集峰值分别为 3.78 / 5.49 / 9.66 MB。
 - [XTerm 逐字节粘贴](../docs/INTERACTION_ACCEPTANCE.md#逐字节粘贴xterm-私有模式-2005)：`42232a2d` 尚不识别 `?2005`。在 GDI/DirectX 及 CRLF/LF 四组中，[实际粘贴数据](paste-quote-pipe-42232a2d.zip)各有 8/19 组与原版相同，都是不需要逐字节引用的阶段。
 - 待审阅的兼容性取舍：[Codex 启动草稿和图片粘贴](codex-bitmap-requests.md)、[宽字在行尾移动时的三个 XTerm 差异](column-edge-integrity.md)、[ReGIS 图形重绘前后的实际画面](regis-presented-pairs.md)。
+- 开发候选 `9b5e1111`：[Windows 粘贴阶段的 114 项原始回执](paste-quote-native-9b5e1111.zip)均通过；[真实 WSL1 子程序的首轮回执](paste-quote-wsl-9b5e1111.zip)仍有逐字节引用、行边界和退出差异。详见[两端具体收到什么](../docs/INTERACTION_ACCEPTANCE.md#逐字节粘贴xterm-私有模式-2005)。[同机内存首轮](agent-session-9b5e1111-initial.zip)中，pterm 完成了 24 轮。GDI 的最后一轮先绘出回复结尾，随后才显示完整代码块；保存的最后一帧确有全部 16 行。这次未测完 DirectX，不能据此宣称候选版通过内存验收。

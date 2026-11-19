@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WindowsPerformanceRecorder Version="1.0" Author="Nemoterm">
+  <Profiles>
+    <EventCollector Id="ReaderCollector" Name="Nemoterm console read events">
+      <BufferSize Value="64"/><Buffers Value="64"/>
+    </EventCollector>
+    <EventProvider Id="ConsoleReader" Name="fe1ff234-1f09-50a8-d38d-c44fab43e818" ProcessExeFilter="nemoterm.exe" Level="5">
+      <Keywords><Keyword Value="0x100000000"/></Keywords>
+      <EventNameFilters FilterIn="true" Level="5">
+        <Keyword Value="0x100000000"/>
+        <EventName Value="API_ReadConsole"/><EventName Value="API_GetConsoleInput"/>
+        <EventName Value="API_GetConsoleMode"/><EventName Value="API_SetConsoleMode"/>
+      </EventNameFilters>
+    </EventProvider>
+    <Profile Id="ConsoleReaders.Verbose.File" Name="ConsoleReaders" Description="Which kind of input the console client requests" DetailLevel="Verbose" LoggingMode="File">
+      <Collectors><EventCollectorId Value="ReaderCollector"><EventProviders><EventProviderId Value="ConsoleReader"/></EventProviders></EventCollectorId></Collectors>
+    </Profile>
+  </Profiles>
+</WindowsPerformanceRecorder>

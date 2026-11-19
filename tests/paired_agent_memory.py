@@ -102,15 +102,36 @@ def exercise_turns(out, desk, provider, stage, samples, rec, renderer_probe):
             return provider.chat_receipts[turn] if len(provider.chat_receipts) > turn else None
         receipt = wait_for(received, timeout=35)
         assert receipt['turn_prompts'] == [prompt] and receipt['reply_sha256'] == hashlib.sha256(reply.encode()).hexdigest()
+        ack = f'ACKTURN{turn:02d}DONE'
+        lines = reply.split('```')[1].splitlines()[1:]
+        assert len(lines) == 16 and all(line.startswith(f'row {turn:02d}.') for line in lines)
+        first_partial = False
+        observed = {}
         def presented():
+            nonlocal first_partial, observed
             assert not provider.errors, provider.errors
             if receipt.get('sent_sha256') != receipt['reply_sha256']:
                 return None
-            observed=read_snapshot(out/'peer-screen.json')
-            return observed if f'ACKTURN{turn:02d}DONE' in observed.get('text','') else None
-        observed = wait_for(presented, timeout=30)
+            observed = read_snapshot(out/'peer-screen.json')
+            frame = observed.get('text', '')
+            if ack not in frame:
+                return None
+            assert observed['reader'] == 'ReadConsoleOutputW'
+            # The client can paint the ack before it has redrawn the code block.
+            # Require every expected line, in order before the ack, in one read.
+            positions = [frame.find(line) for line in [*lines, ack]]
+            if all(pos >= 0 for pos in positions) and positions == sorted(positions):
+                return observed
+            if not first_partial:
+                write_snapshot(out/(label+'-first-ack-only.json'), observed)
+                first_partial = True
+            return None
+        try:
+            observed = wait_for(presented, timeout=30)
+        except Exception:
+            write_snapshot(out/(label+'-last-frame.json'), observed)
+            raise
         frame = observed['text']
-        assert f'row {turn:02d}.16' in frame and '中文' in frame and observed['reader']=='ReadConsoleOutputW',frame
         write_snapshot(out/(label+'.json'), dict(prompt=prompt, reply_sha256=receipt['reply_sha256'], visible=frame,
                       reader=observed['reader'],legacy_available=observed['legacy_available'],legacy_ack_lines=observed['legacy_ack_lines']))
         time.sleep(5)  # include the quiet interval between normal user turns
@@ -217,6 +238,9 @@ def trial(out,kind,exe,client,font,rec,multi_turn=False):
 
 
 def main():
+    # A failed frame can contain glyphs absent from the hosted log code page.
+    # Keep the Unicode traceback in summary.json and continue with the next renderer.
+    if sys.stdout is not None:sys.stdout.reconfigure(errors='backslashreplace')
     if sys.argv[1:2]==['--peer']:return peer(Path(sys.argv[2]),sys.argv[3:])
     if os.environ.get('GITHUB_ACTIONS')!='true' or os.environ.get('RUNNER_ENVIRONMENT')!='github-hosted':raise RuntimeError('GitHub-hosted Windows required')
     parser=argparse.ArgumentParser();parser.add_argument('--pterm',type=Path,required=True);parser.add_argument('--codex',type=Path,required=True);parser.add_argument('--multi-turn',action='store_true');p=parser.parse_args()

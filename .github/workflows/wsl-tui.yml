@@ -9,6 +9,20 @@ permissions:
   contents: read
   actions: read
 jobs:
+  linux-pty:
+    if: inputs.suite == 'paste-quote'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Feed the XTerm capture to the kernel's private PTY
+        env: {NEMO_HOSTED_PTY_FIXTURE: '1'}
+        run: python3 tests/quoted_devpts_reference.py testdata/upstream/xterm412-paste-quote.zip records/linux-devpts.json
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: linux-quote-devpts-${{ github.run_id }}-${{ github.run_attempt }}
+          path: records/linux-devpts.json
+          if-no-files-found: error
   wsl:
     runs-on: windows-2025
     timeout-minutes: 18
@@ -42,6 +56,7 @@ jobs:
           WSL_FIXTURE_SUITE: ${{ inputs.suite }}
         run: ./scripts/prepare-hosted-wsl-packages.ps1 -Suite $env:WSL_FIXTURE_SUITE
       - name: Prepare font and fixture
+        id: prepare
         shell: pwsh
         run: |
           ./scripts/prepare-remote-interaction.ps1
@@ -49,11 +64,32 @@ jobs:
           New-Item -ItemType Directory -Force build/wsl-check/tools,build/wsl-check/research,build/wsl-check/build | Out-Null
           Copy-Item tests build/wsl-check/tests -Recurse
           Copy-Item tools/nemoterm_debug.py build/wsl-check/tools/
-      - name: Compare a Linux raw reader and canonical input with the XTerm clipboard
+      - name: Isolate the hosted WSL kernel line discipline with a fresh private PTY
         if: inputs.suite == 'paste-quote'
+        shell: pwsh
+        run: |
+          wsl.exe --distribution Ubuntu-24.04 --cd $env:GITHUB_WORKSPACE --exec /usr/bin/env NEMO_HOSTED_PTY_FIXTURE=1 /usr/bin/python3 tests/quoted_devpts_reference.py testdata/upstream/xterm412-paste-quote.zip build/wsl-check/research/wsl-devpts.json
+          exit $LASTEXITCODE
+      - name: Compare a Linux raw reader and canonical input with the XTerm clipboard
+        if: ${{ !cancelled() && inputs.suite == 'paste-quote' && steps.prepare.outcome == 'success' }}
         run: |
           Copy-Item testdata/upstream/xterm412-paste-quote.zip build/wsl-check/
-          python build/wsl-check/tests/wsl_paste_quote.py
+          $session = "NemoReaders-${{ github.run_id }}-${{ github.run_attempt }}"
+          wpr -start tests/console_readers.wprp!ConsoleReaders -filemode -instancename $session
+          $started = $LASTEXITCODE -eq 0
+          try {
+            python build/wsl-check/tests/wsl_paste_quote.py
+            $fixture = $LASTEXITCODE
+          } finally {
+            if ($started) {
+              wpr -stop build/wsl-check/research/console-readers.etl -instancename $session
+              if ($LASTEXITCODE) { throw 'Could not finalize the owned reader trace' }
+              tracerpt build/wsl-check/research/console-readers.etl -of XML -o build/wsl-check/research/console-readers.xml -y
+              if ($LASTEXITCODE) { throw 'Could not decode the reader trace; inspect the ETL' }
+            }
+          }
+          if (-not $started) { throw 'WPR did not start; clipboard evidence retained independently' }
+          exit $fixture
       - name: Compare a real WSL image against the libsixel decoder on GDI and DirectX
         if: inputs.suite == 'sixel'
         run: python build/wsl-check/tests/wsl_sixel_image.py
