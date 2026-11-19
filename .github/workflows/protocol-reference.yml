@@ -40,6 +40,7 @@ on:
           - historical-xterm
           - terminfo-database
           - regis
+          - regis-first-expose
           - regis-core
           - regis-discovery
           - regis-product
@@ -120,8 +121,10 @@ jobs:
     if: inputs.family == 'regis-core'
     uses: ./.github/workflows/regis-component.yml
   regis:
-    if: inputs.family == 'regis'
+    if: inputs.family == 'regis' || inputs.family == 'regis-first-expose'
     uses: ./.github/workflows/regis-reference.yml
+    with:
+      first_expose: ${{ inputs.family == 'regis-first-expose' }}
   terminfo-database:
     if: inputs.family == 'terminfo-database'
     uses: ./.github/workflows/terminfo-database.yml
@@ -175,7 +178,7 @@ jobs:
     with:
       skip_windows: ${{ inputs.family == 'pointer-components-linux' }}
   xterm-reference:
-    if: inputs.family != 'regis-discovery' && inputs.family != 'regis-product' && inputs.family != 'regis-core' && inputs.family != 'regis' && inputs.family != 'terminfo-database' && inputs.family != 'historical-xterm' && inputs.family != 'sidecar-wire' && inputs.family != 'kitty-graphics' && inputs.family != 'kitty-compression' && inputs.family != 'kitty-features' && inputs.family != 'kitty-query-errors' && inputs.family != 'kitty-relative' && inputs.family != 'kitty-unicode' && inputs.family != 'kitty-unicode-geometry' && inputs.family != 'kitty-pointer' && inputs.family != 'pointer-resources' && inputs.family != 'pointer-components' && inputs.family != 'pointer-components-linux' && inputs.family != 'pointer-window-replay'
+    if: inputs.family != 'regis-discovery' && inputs.family != 'regis-product' && inputs.family != 'regis-core' && inputs.family != 'regis' && inputs.family != 'regis-first-expose' && inputs.family != 'terminfo-database' && inputs.family != 'historical-xterm' && inputs.family != 'sidecar-wire' && inputs.family != 'kitty-graphics' && inputs.family != 'kitty-compression' && inputs.family != 'kitty-features' && inputs.family != 'kitty-query-errors' && inputs.family != 'kitty-relative' && inputs.family != 'kitty-unicode' && inputs.family != 'kitty-unicode-geometry' && inputs.family != 'kitty-pointer' && inputs.family != 'pointer-resources' && inputs.family != 'pointer-components' && inputs.family != 'pointer-components-linux' && inputs.family != 'pointer-window-replay'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:

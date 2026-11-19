@@ -2,6 +2,8 @@ name: Pinned ReGIS reference
 
 on:
   workflow_call:
+    inputs:
+      first_expose: {type: boolean, default: false}
 
 permissions:
   contents: read
@@ -39,9 +41,11 @@ jobs:
           ./xterm -version > version.txt
           dpkg-query -W > packages.txt
       - name: Capture original replies and stable pixels over both transports
+        env:
+          CAPTURE_MODE: ${{ inputs.first_expose && '--first-expose' || '--repaint' }}
         run: |
           set -o pipefail
-          /usr/bin/python3 tests/xterm_regis_oracle.py --xterm build/regis-reference/xterm --output build/regis-reference/observations.json --repaint 2>&1 | tee build/regis-reference/capture.log
+          /usr/bin/python3 tests/xterm_regis_oracle.py --xterm build/regis-reference/xterm --output build/regis-reference/observations.json "$CAPTURE_MODE" 2>&1 | tee build/regis-reference/capture.log
       - name: Capture independent fixed-grid font masks used by the reference
         if: ${{ !cancelled() }}
         run: |

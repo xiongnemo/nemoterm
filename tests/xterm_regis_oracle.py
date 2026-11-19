@@ -328,7 +328,7 @@ class Pixels(Display):
         raise AssertionError(('Unsettled reference pixels', attempts))
 
 
-def capture_case(executable, display_name, name, wires, transport, base, repaint=False):
+def capture_case(executable, display_name, name, wires, transport, base, repaint=False, repaint_at=None):
     folder = base/(name+'-'+transport)
     folder.mkdir()
     report, control = folder/'child.json', folder/'control.json'
@@ -388,7 +388,7 @@ def capture_case(executable, display_name, name, wires, transport, base, repaint
                 reply_hex=response[:-len(MARKER)].hex(),
                 wire_with_barrier_hex=(wire+C+b'5n').hex(),
                 reply_with_barrier_hex=response.hex(), frame=frame))
-            if repaint:
+            if repaint or index == repaint_at:
                 display.expose()
                 refreshed_barrier=command(b'')
                 refreshed=display.capture(width,height,folder/f'step-{index:02}-exposed.png')
@@ -457,7 +457,9 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--xterm',required=True)
     parser.add_argument('--output',required=True)
-    parser.add_argument('--repaint',action='store_true',help='Also capture a full Expose after each unchanged step')
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument('--first-expose',action='store_true',help='Fresh XTerm for each selected input prefix; expose only at its last step')
+    group.add_argument('--repaint',action='store_true',help='Also capture a full Expose after each unchanged step')
     args = parser.parse_args()
     output = Path(args.output).resolve()
     output.parent.mkdir(parents=True,exist_ok=True)
@@ -470,7 +472,7 @@ def main():
         fixture_commit=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),
         fixture_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
         helper_sha256=hashlib.sha256(Path(__file__).with_name('xterm_locator_oracle.py').read_bytes()).hexdigest(),
-        repaint=args.repaint,cases={}, transport_mismatches=[], control_failures=[])
+        repaint=args.repaint,first_expose=args.first_expose,cases={}, transport_mismatches=[], control_failures=[])
     read_fd,write_fd = os.pipe()
     with (base/'xvfb.log').open('wb') as log:
         xvfb = subprocess.Popen(['Xvfb','-displayfd',str(write_fd),'-screen','0',
@@ -481,10 +483,15 @@ def main():
         assert select.select([read_fd],[],[],5)[0], 'Xvfb startup timeout'
         display_name = ':'+os.read(read_fd,100).decode().strip()
         assert re.fullmatch(r':\d+',display_name), display_name
-        for name,wires in cases().items():
+        scenes=cases()
+        if args.first_expose:
+            from regis_first_expose import targets, verify_prefixes
+            scenes={tag:scenes[name][:last+1] for tag,(name,last) in targets().items()}
+            result['targets']=targets()
+        for name,wires in scenes.items():
             result['cases'][name] = {}
             for transport in ('whole','bytewise'):
-                observed = capture_case(str(executable),display_name,name,wires,transport,base,args.repaint)
+                observed = capture_case(str(executable),display_name,name,wires,transport,base,args.repaint,len(wires)-1 if args.first_expose else None)
                 result['cases'][name][transport] = observed
                 write(output,result)
                 print(name, transport, observed['completed'],
@@ -496,7 +503,8 @@ def main():
             if (not whole['completed'] or not bytewise['completed']
                     or comparable(whole) != comparable(bytewise)):
                 result['transport_mismatches'].append(name)
-        result['control_failures'] = verify_controls(result['cases'])
+        result['control_failures'] = (verify_prefixes(result,base) if args.first_expose
+                                      else verify_controls(result['cases']))
         result['completed'] = not result['transport_mismatches'] and not result['control_failures']
     finally:
         os.close(read_fd)
