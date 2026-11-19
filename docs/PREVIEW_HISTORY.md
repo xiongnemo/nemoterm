@@ -4,6 +4,10 @@
 
 ## 开发快照
 
+[下载 Windows x64 单文件测试版 `e02f0d0`](https://github.com/xiongnemo/nemoterm/actions/runs/44477059678/artifacts/14507241831)。解压后只需 `nemoterm.exe`；EXE 的 SHA-256 为 `be28e4e503383070855dac42d679c5427e224a68c3fb13195f7d2b820d0f2120`。
+
+按住 Shift 和鼠标左键之后，如果原来的字被滚出缓冲区或被分栏边界截断，松手会取消选择，右键也不会复制顶上来的文字。原字还在屏幕或滚动历史里时仍然能选。保持应用鼠标跟踪的 32 项丢字用例和 4 项实际键鼠均通过。同一 EXE 两轮六种 160×48 压力负载的前端私有工作集最高为 GDI **19.337 MB**、DirectX **29.372 MB**。[全组交互回放 79/80](../research/interaction-all-discard-e02f0d0.zip)，未通过的是 Codex 启动时的真实键盘贴图。[选区前后截图](../research/selection-discarded-scroll.md) · [本版交互、内存与未通过项](../research/interaction-preview-e02f0d0.md) · [完整 CI](https://github.com/xiongnemo/nemoterm/actions/runs/44477059678) · [历史测试版](#开发快照)。
+
 [下载 Windows x64 单文件测试版 `30304bc`](https://github.com/xiongnemo/nemoterm/actions/runs/44472521397/artifacts/14505341500)。解压后只需 `nemoterm.exe`；EXE 的 SHA-256 为 `712ed73e131f6498a354aac6eae77e31dd95a703f952a14189504486384b449a`。
 
 当应用只滚动部分列、而你已按下 Shift 和鼠标左键时，现在拖选能从原先按住的字开始，即使这段混排文字在屏幕上换了行或列。普通和矩形选择在两种字体、GDI 和 DirectX 上的 32 项都通过；实际键鼠也验证了右键只复制、Ctrl+Shift+V 才粘贴。整套交互 **78/80**；六种 160×48 压力负载的前端私有工作集峰值：GDI **19.186 MB**、DirectX **29.565 MB**。[选区前后截图](../research/selection-split-scroll.md) · [本版交互、内存与未通过项](../research/interaction-preview-30304bc.md) · [完整 CI](https://github.com/xiongnemo/nemoterm/actions/runs/44472521397)。
@@ -56,6 +60,8 @@
 历史开发构建 `329019d` 的单 EXE 为 4,800,000 字节；来源与 SHA-256 见 [本轮记录](../research/terminfo-product-regression.md)，新的 DirectX 30 MB 验收见[专项回放](../research/directx-30mb.md)。此前迁移基线 `2312edd` 为 19/19 全绿，但尚未包含后来新增的完整 Sarasa 网格门槛，见 [迁移基线](../research/remote-test-migration.md)。历史语言预览保留在 [语言预览记录](../research/i18n.md)，不将旧版本结果套用于新 EXE。
 
 ## 内存
+
+在同一台 GitHub Windows runner 上，用 Sarasa Light、160×48 和同一个 Codex 客户端运行 `e02f0d0`。收到回复后，单标签 GDI 前端的稳定私有工作集为 **5.362–5.419 MB**，DirectX 为 **10.027–10.031 MB**；同机 pterm 0.85 对照为 **3.748–3.781 MB**。每种配置分别按正序、反序冷启动。这些数值只统计前端进程；满屏图文的峰值另行验收。[完整采样与测试条件](../research/interaction-preview-e02f0d0.md)。
 
 同一测试版本 `ba91594` 以默认 160×48、Sarasa Light 分别运行真实 Codex、OpenCode、Claude Code，实际 Shift 拖选并回贴。六个场景均通过；前端私有工作集最高为 GDI **13.90 MB**、DirectX **17.58 MB**。密集 Unicode 加图像压力测试另为 **19.14 MB / 28.86 MB**。[逐客户端原始记录与采样范围](../research/memory-budget.md#default-grid-with-real-clients)
 DirectX 的上限由用户于 2026-11-18 调整为 30 MB；历史测试仍保留当时的门槛与结果。
