@@ -11,3 +11,18 @@
 [候选单文件的 REA 导入表](rea-0d8f731-imports.json.gz)与[旧版导入表](rea-2c63154-imports-20261119.json.gz)逐项比对，81 个普通 DLL 描述符、672 个普通导入和一个 ICU 延迟加载描述符的 11 个导入相同，未发现 WebView、Chromium 或 CEF 导入。本机安装的 pterm 0.85 的 REA 标识与[原有静态记录](native-imports-pterm-e02f0d0.zip)一致（8 个 DLL、319 个普通导入）。导入表本身不枚举运行中动态加载的库。旧版 Nemoterm 的[同一 EXE 实际客户端对照](selection-erase-pterm-2c63154.zip)另有 8 份运行中前端模块和关联进程快照，没有匹配被检查的浏览器引擎。
 
 候选 EXE 为 4,858,368 字节，SHA-256 `8e8fdd89176d0204d72c05fd62b8bb62754eba052fab2c8e399bc8bc8fa7af12`，来自[源码构建](https://github.com/xiongnemo/nemoterm/actions/runs/44515756392/artifacts/14525912387)。[同一 EXE 的三个原始专项制品](bidi-words-ui-0d8f731.zip)覆盖 GDI/DirectX 的真实 WSL Sixel 显示、重绘、擦除，WSL1 下 tmux 3.4 内 Vim 的四组鼠标、矩形、粘贴与缩放，以及三种窗口在关闭确认后点 Cancel 继续输入。三种关闭场景的子进程都实际收到了 `A` 的按下和松开。
+
+[10 项默认 160×48 窗口交互](bidi-words-agent-grid-0d8f731.zip)在这份候选 EXE 的 GDI 和 DirectX 上全部通过，分别使用真正的 Codex、OpenCode 或 Claude Code。[与安装版本相同的 pterm 0.85 对照](bidi-words-pterm-0d8f731.zip)为 10/10，均使用 SarasaTermSC Nerd Light、同一 Codex、相同网格。首轮回复后两次冷启动的前端私有工作集中位数范围（十进制 MB）：pterm 3.756–3.777，Nemoterm 单标签 GDI 5.067–5.177，单标签 DirectX 9.691–9.736。对应总工作集中位数是 21.811–22.581、33.075–34.058 和 44.610–44.646 MB。这些是稳定窗口观测，不是压力峰值。8 次候选前端运行的模块和关联进程快照也都没有匹配所检查的浏览器引擎。
+
+![远程 GDI 画面放大：上为点击前，下为 Shift 双击最左字后的高亮；左旧右新](bidi-word-comparison.png)
+
+使用[相同的两类跨行用例在旧版回放](bidi-words-before-paired-2c63154.zip)（[运行](https://github.com/xiongnemo/nemoterm/actions/runs/44516662134)，制品 `14526247185`）和[新版回放](bidi-words-after-0d8f731.zip)（[运行](https://github.com/xiongnemo/nemoterm/actions/runs/44516666888)，制品 `14525374307`）。下表要求按键和鼠标没有泄露给应用、屏幕高亮范围准确、剪贴板含原始组合附标，且跨行选词包含正确的上一行格子。
+
+| 手势 | 旧 `2c63154` | 新 `0d8f731` |
+| --- | ---: | ---: |
+| 8 种双击／三击 × 2 种渲染器 × 2 种字体配置 | 12/32 | 32/32 |
+| 真实系统鼠标、键盘、剪贴板，3 种双击 × 2 种渲染器 | 2/6 | 6/6 |
+
+可用 `scripts/compare-bidi-word-records.py` 从两份下载的原始记录复核这 38 项，并用 `--image` 重建上图。上图取自系统鼠标回放的实际窗口，没有重新排版终端中的字。
+
+[原始完整 CI](https://github.com/xiongnemo/nemoterm/actions/runs/44515756392)在独立单文件测试中保留的 `selection.log` 显示，`soft-wrap` 已选择正确的两个可视字格 `[0,1]`，但实际还包含上一行的句点，与首次夹具的短字符串预期不同。[修正夹具的独立单文件回放](https://github.com/xiongnemo/nemoterm/actions/runs/44517870299)复用同一源码构建的 EXE。两个运行单独记录；专项结果不能覆盖完整 CI 的初始失败。
