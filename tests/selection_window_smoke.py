@@ -254,12 +254,15 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-selection-') as temporary:
                 words_ok=verify_words(hwnd,begin_phase,point,captured,tile,system_copy,no_forwarded_input,evidence,desktop) and words_ok
                 from selection_height_resize import verify as verify_height_resize
                 height_ok=verify_height_resize(host,hwnd,begin_phase,point,captured,tile,no_forwarded_input,desktop,evidence)
+                from selection_screen_modes import verify as verify_screen_modes
+                screen_ok=verify_screen_modes(hwnd,begin_phase,point,captured,tile,no_forwarded_input,desktop,evidence)
             finally:desktop.restore()
         assert split_messages_ok and split_system_ok, (evidence['split_scroll_press'],evidence.get('split_scroll_system'))
         assert discard_ok,evidence['discarded_scroll_press']
         assert horizontal_ok,[(r['case'],r.get('right_copy'),r.get('highlight')) for k in ('horizontal_press','horizontal_press_system') for r in evidence.get(k,[]) if not r['passed']]
         assert words_ok,[(r['case'],r.get('copied'),r.get('highlight')) for group in ('bidi_word_messages','bidi_word_system') for r in evidence.get(group,[]) if not r['passed']]
         if args.tabs:assert height_ok,evidence['height_selection']
+        if args.tabs:assert screen_ok,evidence['screen_selection']
         evidence['completed']=True
         print('Rapid independent selections and 16 Ctrl rectangles, exact Unicode, shortcut/right-click copy and pixels passed')
     finally:
