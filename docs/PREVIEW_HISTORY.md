@@ -6,7 +6,7 @@
 
 [下载 Windows x64 单文件测试版 `6a2dc83`](https://github.com/xiongnemo/nemoterm/actions/runs/44523229386/artifacts/14528333115)。解压后只需 `nemoterm.exe`；EXE 的 SHA-256 为 `39c3b368061f104858dff466dd5a2416887c76dfc94481be68f9d7b79841d450`。
 
-按住 Shift 和鼠标左键拖选时切换标签，再松开鼠标，目标标签已有的选区现在会保留，可以立即复制。真实键鼠的标签组从 8/9 改善到 9/9；GDI 与 DirectX 之间两个切换方向均已验证。160×48 压力测试各 6/6，前端私有工作集峰值分别为 19.579 MB 和 29.061 MB。[对照截图和原始记录](../research/tab-drag-release.md)。
+按住 Shift 和鼠标左键拖选时切换标签，再松开鼠标，目标标签已有的选区现在会保留，可以立即复制。真实键鼠的标签组从 8/9 改善到 9/9；GDI 与 DirectX 之间两个切换方向均已验证。160×48 压力测试各 6/6，前端私有工作集峰值分别为 19.579 MB 和 29.061 MB。[对照截图和原始记录](https://github.com/xiongnemo/nemoterm/blob/ebbd444665d223d09e88895f93a7496b2d46e0cc/research/tab-drag-release.md)。
 
 这是开发测试版。[严格 XTerm 412 宽字对照](../research/column-edge-integrity.md)和 [ReGIS 历史画面对照](../research/regis-presented-pairs.md)仍有差异。Codex 正常编辑器可贴图。[这一版的完整 CI](https://github.com/xiongnemo/nemoterm/actions/runs/44523229386) · [同一 EXE 的交互回放：81/81](https://github.com/xiongnemo/nemoterm/actions/runs/44525718005)。
 
@@ -119,3 +119,9 @@ GDI 总工作集最高 **40.05 MB**，DX 最高 **59.69 MB**；约 50 MB 的总�
 [分配诊断](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/local-directx-heap.md)、[初始化探针](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/graphics-initialization.md)、
 [Direct3D 11 实验](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/d3d11-copy.md) 和 [句柄调查](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/handle-lifetime.md) 保留了改动依据与未解决问题。
 [按需加载实验](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/delay-load.md) 收益不足，未合入；其中出现的初始化和 USER 对象计数失败仍保留，后续计时器观测与检查方法见 [资源回落记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/resource-settle.md)。
+
+## `6a2dc83` 后续回放
+
+- [上一版 `6a2dc83` 的跨标签修复、画面和内存记录](https://github.com/xiongnemo/nemoterm/blob/ebbd444665d223d09e88895f93a7496b2d46e0cc/research/tab-drag-release.md)。其[完整交互回执](https://github.com/xiongnemo/nemoterm/blob/ebbd444665d223d09e88895f93a7496b2d46e0cc/research/interaction-report-44525718005.zip)覆盖 13 组、81/81；报告只对所列交互负责。另一次同文件回放的[右键策略原始回执及启动贴图失败记录](https://github.com/xiongnemo/nemoterm/blob/ebbd444665d223d09e88895f93a7496b2d46e0cc/research/right-click-6a2dc83.zip)：右键 12/12，整个客户端组 29/30。
+- [上一版 `6a2dc83` 的聊天正文贴图复核](https://github.com/xiongnemo/nemoterm/blob/ebbd444665d223d09e88895f93a7496b2d46e0cc/research/chat-attachments-6a2dc83.zip)：[Windows 回放 44533935921](https://github.com/xiongnemo/nemoterm/actions/runs/44533935921) 客户端组 30/30。六个贴图场景各测两个快捷键；12 次在带有本次输入标记的第一条聊天请求中均收到一张像素正确的 PNG。OpenCode 四次还各有一张图出现在独立标题请求中。Codex 本轮首次看到输入文字即贴图也通过，不改变此前的启动草稿失败。
+- [重新构建后的全套交互报告](https://github.com/xiongnemo/nemoterm/blob/ebbd444665d223d09e88895f93a7496b2d46e0cc/research/interaction-report-44529182879.zip)：`23d8118` 的 EXE（SHA-256 `30d406988c7b2a58f2f51c19ea5b6a78dfbf9442ea7837121a052899bf857c50`）为 79/81，仅 Codex 首次显示输入文字即贴图的窗口接口与系统键盘两项失败。就绪后两项均通过，选择 6/6、实际客户端默认网格 10/10；160×48 压力负载 GDI 和 DirectX 各 6/6，私有工作集峰值分别为 18,718,720 和 28,733,440 字节。这份报告对应另一份 EXE，不替换 `dist` 版本或其原始记录。
