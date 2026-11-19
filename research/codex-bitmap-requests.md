@@ -1,5 +1,7 @@
 # Codex 启动时，Windows 何时收到位图读取请求？
 
+**换一个终端宿主也会发生。** 在不运行 Nemoterm 的[独立回放](https://github.com/xiongnemo/nemoterm/actions/runs/44292905252)里，同一版本 Codex 分别由 Windows 系统 ConPTY 和 WinPTY 启动。刚看到输入文字时发送同一组原生按键，两边都只提交文字（0 张图）；完成一轮回复后发送，服务端各收到 1 张逐像素匹配的 32×16 PNG。这是两个控制台宿主的对照，没有运行 Windows Terminal 或 Alacritty 的图形界面。[四个场景的原始回执](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/codex-independent-image-4db9c54.zip)与[另一次系统 ConPTY 在首次文字可见时即成功的记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/codex-independent-image-212034f.zip)共同说明：文字已经出现，不能据此判断是哪一个编辑器在接收按键。
+
 同一份 `e02f0d0` 的 Nemoterm 上，固定的 Codex 0.167.0 有三次在输入文字已经显示、但还没有 idle 信号时收到了测试手势。Windows 在接下来的约 20 秒里没有要求剪贴板所有者提供位图，屏幕上也没有附件。等到同一份草稿就绪，再按一次，三次都出现了附件，回环服务端均只收到一张像素正确的 32×16 图片。**发键时已经有 idle 信号的五次，第一次就成功了。** 这个信号用于对齐测试记录，不能把窗口标题当作同等的用户可见提示。
 
 | 配置 | 首次发键前已有 idle | 第一次就取得图片 | 首次未取得；第二次成功 |
