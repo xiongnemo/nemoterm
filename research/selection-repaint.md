@@ -14,3 +14,11 @@
 另外六种新场景在相同 EXE 上检查组合附标、emoji 后续变宽、跨行占用下一行、旁边仍完整的字、插入模式，以及期间先改字再改回。加上之前的列移动用例，扩展组共有 **112/112** 项窗口消息检查和 **10/10** 项实际键鼠检查。这个数字只代表被测选择手势，不是完整 CI 的通过率。源代码只在相关行有未完成的鼠标选择时才需要跟踪按住的字，没有增加每个终端字符格的存储。
 
 [旧版同一套输入](selection-repaint-before-b7bf0fd.zip) · [新版原始对照](selection-repaint-first-2c0152c.zip) · [新版扩展记录与所有截图](selection-repaint-2c0152c.zip) · [远程扩展回放](https://github.com/xiongnemo/nemoterm/actions/runs/44504339992) · [完整 CI](https://github.com/xiongnemo/nemoterm/actions/runs/44503310589)。新 EXE 为 4,873,728 字节，SHA-256 `79e504be64bfc37c2fdfaa79ae179b9a5e9da4ca08ebae29cc8782e3a28ec663`。
+
+[同机运行 Codex 的内存对照](selection-repaint-pterm-2c0152c.zip)共 10/10 通过。字体为 SarasaTermSC Nerd Light，网格 160×48，每种配置以正序和反序各冷启动一次。下表为首个回复出现之后，两轮前端进程测得的中位数范围（十进制 MB）；不包括 Codex 和控制台子进程，未对进程执行内存整理。
+
+| 前端 | 私有工作集 | 总工作集 | 私有提交量 |
+| --- | ---: | ---: | ---: |
+| pterm 0.85 | 3.752–3.781 | 21.848–22.639 | 4.440–4.469 |
+| Nemoterm 单标签 GDI | 5.071–5.112 | 33.178–34.091 | 6.517–6.541 |
+| Nemoterm 单标签 DirectX | 9.724–9.761 | 44.749–44.790 | 11.256–11.362 |
