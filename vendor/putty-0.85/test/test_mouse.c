@@ -532,6 +532,34 @@ static void test_shift_takeover(Mock *mk)
     MOUSE_BYTES("");
 }
 
+/* A release can be delivered to either terminal after Win32 switches tabs.
+ * Copy has its own cached text. Verify the live highlight separately. */
+static void test_unmatched_local_release(Mock *mk)
+{
+    for (int tracking = 0; tracking <= 1; tracking++) {
+        mouse_setup(mk, "unmatched release in destination with a selection",
+                    tracking ? "ABCDE\033[?1002;1006h" : "ABCDE");
+        send_mouse(mk, MBT_LEFT, MA_CLICK, 1, 0, true, false, false);
+        send_mouse(mk, MBT_LEFT, MA_RELEASE, 3, 0, true, false, false);
+        IEQUAL(mk->term->selstate, SELECTED);
+        /* Locally bound left button; then a locally bound extend button. */
+        send_mouse(mk, MBT_LEFT, MA_RELEASE, 4, 1, tracking, false, false);
+        term_mouse(mk->term, MBT_RIGHT, MBT_EXTEND, MA_RELEASE,
+                   0, 1, tracking, false, false);
+        IEQUAL(mk->term->selstate, SELECTED);
+        IEQUAL(mk->term->selstart.x, 1); IEQUAL(mk->term->selend.x, 4);
+        IEQUAL(mk->term->selstart.y, 0); IEQUAL(mk->term->selend.y, 0);
+        int clipboard = CLIP_LOCAL + 1;
+        term_request_copy(mk->term, &clipboard, 1);
+        check_clipboard(mk, L"BCD");
+        /* A real stationary click still clears the highlight. */
+        send_mouse(mk, MBT_LEFT, MA_CLICK, 4, 0, true, false, false);
+        send_mouse(mk, MBT_LEFT, MA_RELEASE, 4, 0, true, false, false);
+        IEQUAL(mk->term->selstate, NO_SELECTION);
+        MOUSE_BYTES("");
+    }
+}
+
 static void test_unencodable_release_cancel(Mock *mk)
 {
     mouse_setup(mk, "capture cancellation recovers an out-of-range legacy release",
@@ -791,6 +819,7 @@ int main(void)
     test_alternate_scroll(mk);
     test_cancel_reported_buttons(mk);
     test_shift_takeover(mk);
+    test_unmatched_local_release(mk);
     test_unencodable_release_cancel(mk);
     test_shift_selection(mk);
     test_ctrl_rectangle(mk);

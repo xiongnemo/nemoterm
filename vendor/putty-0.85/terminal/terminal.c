@@ -13558,8 +13558,12 @@ void term_mouse_pixels(Terminal *term, Mouse_Button braw, Mouse_Button bcooked,
                    term->mouse_select_clipboards,
                    term->n_mouse_select_clipboards);
             term->selstate = SELECTED;
-        } else
+        } else if (term->selstate == ABOUT_TO) {
+            /* A stationary click in this terminal clears its selection. A
+             * release can also arrive after another tab lost capture: that
+             * terminal owned the down, so leave our completed selection alone. */
             term->selstate = NO_SELECTION;
+        }
     } else if (bcooked == MBT_PASTE
                && (a == MA_CLICK
 #if MULTICLICK_ONLY_EVENT
