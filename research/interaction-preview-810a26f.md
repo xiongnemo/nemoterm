@@ -4,7 +4,8 @@
 
 [同一 EXE 的完整交互汇总](interaction-report-810a26f.zip)：13 个分组、80 个用例中 78 个通过。以下独立重放和其他 CI 作业不并入此分数。
 
-- [滚屏时的选区](selection-during-scroll.md)：旧 EXE 在向下滚屏时 0/8；此 EXE 向下 8/8，向上 8/8。普通与矩形选择都核对了系统剪贴板、实际高亮及应用收到的字节。
+- [滚屏时的选区](selection-during-scroll.md)：旧 EXE 在整行向下滚屏时 0/8；此 EXE 向下 8/8，向上 8/8。普通与矩形选择都核对了系统剪贴板、实际高亮及应用收到的字节。
+- 这一版本另有[分栏滚动的原始回执](selection-split-before-810a26f.zip)和[实际窗口截图](selection-split-before-810a26f.png)。当滚动边界穿过一段双向文字时，按住 Shift、等待分栏滚动后再完成选择，普通和矩形均可能选错。新增的 32 项检查不在上述 80 项的计数中。
 - [默认 160×48 真实客户端](agent-grid-810a26f.zip)：10/10，包括 Codex、OpenCode、Claude；GDI 和 DirectX 均验证实际字格、系统鼠标键盘、复制回贴和服务端收件。[连续长粘贴](paste-810a26f.zip)：接口和真实 Ctrl+Shift+V 各 4/4，不丢第二次粘贴前的第一段内容。
 - [WSL Vim 首轮](wsl-vim-first-810a26f.zip)3/4，DirectX + `TERM=xterm` 的测试请求文件在跨 WSL 替换时返回 WinError 5。测试改成每次创建独立的编号请求，Vim 应答必须带同一编号；没有改变产品、用户输入或等待时限。[同一 EXE 的重放](wsl-vim-replay-810a26f.zip)4/4（[工作流](https://github.com/xiongnemo/nemoterm/actions/runs/44470601311)），每个窗口都验证了普通鼠标归 Vim、Shift 选择及剪贴板、两次窗口缩放、矩形选择、实际粘贴和退出还原。
 - [真实客户端 30 个场景](agent-cases-810a26f.zip)中 28 个通过。两项失败都是 Codex 在启动草稿阶段立即贴图；编辑器就绪后的窗口接口与系统键盘贴图均通过。[客户端输入阶段说明](codex-file-draft-order.md)。

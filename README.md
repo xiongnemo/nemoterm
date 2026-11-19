@@ -35,7 +35,7 @@ Kitty 图片支持直接 RGB/RGBA/PNG、压缩传输、裁剪、透明度、查�
 
 [下载 Windows x64 单文件测试版 `810a26f`](https://github.com/xiongnemo/nemoterm/actions/runs/44468952910/artifacts/14503279012)。解压后只需 `nemoterm.exe`；EXE 的 SHA-256 为 `24deed2cdaa8a3743793c014048ce057333c7f9bc77c4b59de545e5b7bbd27d3`。
 
-按住 Shift 后若应用先滚屏再拖动，现在能选中原先按住的字，不会多复制相邻的一行。普通和矩形选择在两种字体、GDI 和 DirectX 上的 16 项均通过。连续两次粘贴长文本也通过。整套交互 **78/80**；160×48 六种压力负载的前端私有工作集峰值为 GDI **18.907 MB**、DirectX **29.630 MB**。[选区前后对照](research/selection-during-scroll.md) · [本版交互、内存与未通过项](research/interaction-preview-810a26f.md) · [完整 CI](https://github.com/xiongnemo/nemoterm/actions/runs/44468952910) · [历史测试版](docs/PREVIEW_HISTORY.md)。
+按住 Shift 后若应用先整行滚屏再拖动，现在能选中原先按住的字，不会多复制相邻的一行。部分列单独滚动时，此测试版仍可能多选邻字或邻行。普通和矩形选择在两种字体、GDI 和 DirectX 上的 16 项均通过。连续两次粘贴长文本也通过。整套交互 **78/80**；160×48 六种压力负载的前端私有工作集峰值为 GDI **18.907 MB**、DirectX **29.630 MB**。[选区前后对照](research/selection-during-scroll.md) · [本版交互、内存与未通过项](research/interaction-preview-810a26f.md) · [完整 CI](https://github.com/xiongnemo/nemoterm/actions/runs/44468952910) · [历史测试版](docs/PREVIEW_HISTORY.md)。
 
 在 Codex 0.167.0 中，请等编辑器就绪后再贴图，看到输入框中出现图片附件再发送。启动草稿可能接受文字却忽略贴图，窗口标题也不能可靠地判断是否就绪。[实际提交与截图](research/codex-file-draft-order.md)。
 
