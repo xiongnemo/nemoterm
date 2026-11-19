@@ -39,3 +39,11 @@
 | DirectX | 6/6 | 29,327,360 字节 | 74,698,752 字节 | 32,849,920 字节 |
 
 GDI 和 DirectX 的前端私有工作集分别在 20 MB 与 30 MB 上限内；图像与 Unicode 压力下总工作集可超过约 50 MB。下载到 `dist/nemoterm.exe` 的测试版与上述记录的 EXE 哈希相同。
+
+[原始交互总报告和两次构建的身份记录](bidi-words-build-identities.zip)保留了第一次完整运行的 75/80：四项选择测试使用了错误的句点预期；另一个失败是 Codex 启动草稿立即贴图。修正预期后，对 `dist` 的同一份 EXE 运行选区组得到 6/6。修正版完整 CI 重新编译的是另一份 EXE（4,874,240 字节，SHA-256 `c871d74deb71237775092028f88998ff1c0d5b478734309ab5f2459ab6410ae0`）。虽然两次都请求 `windows-2025`，构建日志分别记录了镜像 `20261116.315.1`、MSVC `19.52.37029.0` 和镜像 `20261103.298.1`、MSVC `19.51.36260.0`。这个差异本身不能确定每个字节为何变化。为检验实际交付文件，[完整交互回放](https://github.com/xiongnemo/nemoterm/actions/runs/44519691446)直接取原始制品，不再编译。
+
+[双标签剪贴板回放](https://github.com/xiongnemo/nemoterm/actions/runs/44520778304)的 tabs 组为 9/9。[原始回执和四张截图](tab-clipboard-ownership-0d8f731.zip)绑定上述 `dist` 的确切 SHA-256。两个标签同时运行，各自打开应用鼠标和括号粘贴；GDI 标签选中 `A中Z`，DirectX 标签选中 `BéQ`。系统鼠标右键在默认标签只复制，在明确开启“复制并粘贴”的标签只粘贴一次。跨标签 Ctrl+Shift+V 仅把文本送入当前子进程；切回来用 Ctrl+Shift+C 仍能复制该标签的原选区，无须重选。六个阶段逐字节检查两个子进程的输入，两边界格的像素均未变化，两个子进程与前端正常退出。
+
+用户截图涉及的 Sixel、ReGIS 两个复选框在同一 EXE 的 [DPI 制品](https://github.com/xiongnemo/nemoterm/actions/runs/44515756392/artifacts/14524984661)有专门的页面检查。[从原制品提取的截图与控件测量](settings-wrap-dpi-0d8f731.zip)包括英文、简体中文和 100%、125%、150%、175%、200% 的实际系统缩放。两种语言在独立窗口与标签窗口各做冷启动与打开窗口后的缩放切换，每种语言 12/12。五档缩放下，标签窗口中两个复选框的文字都能放入控件，也没有进入底部按钮区域；英文在 100% 时为两项各预留 29 像素高度。测试机只有一台显示器，未验证跨不同 DPI 的显示器拖动窗口。
+
+[后续源码制品](https://github.com/xiongnemo/nemoterm/actions/runs/44521164017/artifacts/14528500843)已实测附带 runner 镜像版本、Windows SDK 版本，以及 `cl.exe`、`link.exe`、`MSBuild.exe` 的文件版本与 SHA-256。上述构建身份压缩包保留该清单。它仅补充构建可追溯性，不替换 `dist` 中通过专项测试的 EXE。
