@@ -1,5 +1,7 @@
 # Protocol coverage and remaining gaps
 
+Fresh shared Sixel/ReGIS colours, including private, RIS and DECSTR controls: the [pinned XTerm and presented GDI comparison](../research/shared-bank-start.md) improves from 2/7 to 7/7 on the `6bed777` candidate. This covers first-use colour registers, not the remaining historical ReGIS presentation differences.
+
 ## Current verification policy (2026-11-17)
 
 All automated builds and tests run on GitHub-hosted runners. The

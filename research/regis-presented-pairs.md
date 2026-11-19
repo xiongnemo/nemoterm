@@ -17,3 +17,5 @@ Windows 在以上七个终点的重绘前后自身均为零差异。XTerm 在两
 [10 份原始制品](regis-presented-pairs-e02f0d0.zip)包含未修改的 GitHub 下载 ZIP、每份的 ID 和 SHA-256、窗口完整截图和每次采集的裁剪摘要。外层 ZIP SHA-256 为 `0bce69d2d7216f6840eb37316760aaa162167db445c43aacc60c04988afc5114`。仅覆盖实际 GDI 与整段写入，不能外推到 GPU 或逐字节输入的 Windows 呈现。
 
 [相同输入在修复后 `6bed777` 的回放](https://github.com/xiongnemo/nemoterm/actions/runs/44486931747)中，这个首次取色步骤由 600 个像素不同变为 0，而同一场景的改红步骤仍是 600。其余九个终点的逐步差异数全部未变，历史回放仍只有三项对照通过。[新 EXE 的十份制品](regis-presented-pairs-6bed777.zip)，SHA-256 `3441313638664e463973be65081fede985133a084a1dade32ebcb1629d51b5bf`。
+
+[共享图形色表的七组完整前后对照](shared-bank-start.md)列出初始、软重置及硬重置时的实际色值。
