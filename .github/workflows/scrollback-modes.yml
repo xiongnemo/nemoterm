@@ -46,6 +46,11 @@ jobs:
         env:
           RENDERER: ${{ matrix.renderer }}
         run: python tests/selection_scroll_region.py
+      - name: Right-click the surviving selection or return the click to the TUI
+        if: ${{ !cancelled() && env.NEMOTERM_TEST_FONT != '' }}
+        env:
+          RENDERER: ${{ matrix.renderer }}
+        run: python tests/selection_scroll_region.py --right-click
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:

@@ -4,6 +4,7 @@ from ctypes import wintypes as w
 import json
 import os
 import struct
+import sys
 import time
 
 from clipboard_test_utils import SavedClipboard, clipboard_text
@@ -24,19 +25,21 @@ CASES = [('clip-top',0,2,-1), ('clip-bottom',7,5,1),
          ('span-up',0,7,-2), ('span-down',7,0,2)]
 
 
-def exercise(hwnd, phase, current):
+def exercise(hwnd, phase, current, action=None):
     renderer = {'gdi':1,'directx':3}[os.environ['RENDERER']]
     u.GetPropW.argtypes, u.GetPropW.restype = [w.HWND,w.LPCWSTR],w.HANDLE
     assert int(u.GetPropW(hwnd,'NemotermRenderer') or 0)==renderer
     pid=w.DWORD(); assert u.GetWindowThreadProcessId(hwnd,c.byref(pid))
     rect=w.RECT(); assert u.GetClientRect(hwnd,c.byref(rect))
     cw,ch=(rect.right-2)//80,(rect.bottom-2)//24
-    obs=dict(renderer=renderer,cases={},cell_px=[cw,ch]); clip=SavedClipboard(hwnd); desk=camera=None
+    tag = 'scrollback-region'+('-'+action if action else '')
+    obs=dict(renderer=renderer,cases={},action=action,cell_px=[cw,ch]); clip=SavedClipboard(hwnd); desk=camera=None
     def point(x,y): desk.point(1+x*cw+cw//2,1+y*ch+ch//2)
     try:
         desk=DesktopInput(pid.value,terminal_host(hwnd),hwnd,obs.setdefault('input',{}))
         camera=PresentedWindowCapture(pid.value,hwnd,directx=renderer==3); camera.wait_for_initial_geometry()
         for index,(name,anchor,end,shift) in enumerate(CASES):
+            if action and name not in ('clip-top','clip-bottom','keep-inside','split-top'): continue
             rec=obs['cases'][name]=dict(anchor=anchor,end=end,shift=shift)
             # Labels are outside the drag. A unique green component per case
             # ensures that even an unchanged row cannot satisfy a stale frame.
@@ -55,7 +58,7 @@ def exercise(hwnd, phase, current):
                     if labels==actual_labels and (not check_cols or actual==expect): return bmp
                 bmp=wait_for(inspect,timeout=5)
                 if stage=='scrolled' or index==0:
-                    capture_result(rect.right,rect.bottom,bmp[54:],f'scrollback-region-{name}-{stage}.png')
+                    capture_result(rect.right,rect.bottom,bmp[54:],f'{tag}-{name}-{stage}.png')
             phase(name+'-draw',CSI+'r'+CSI+'2J'+CSI+'H'+CSI+'?25l'+CSI+'?1002;1006h'+'\x1b]17;#223355\x07\x1b]11;#000000\x07'+'\r\n'.join(map(line,ROWS))+CSI+'3;6r','')
             sample('initial',ROWS,[],True)
             time.sleep(u.GetDoubleClickTime()/1000+.02)
@@ -75,19 +78,43 @@ def exercise(hwnd, phase, current):
             keep=survivors if not survivors or survivors==list(range(survivors[0],survivors[-1]+1)) else []
             sample('scrolled',ids,keep,False)
             rec['clipboard_after']=clipboard_text(hwnd);assert rec['clipboard_after']==rec['copy']
+            if action:
+                # The earlier explicit copy remains untouched until the user
+                # asks to copy again. Then the painted selection is authoritative.
+                seq=u.GetClipboardSequenceNumber();point(11,7)
+                desk.event('right',True);desk.event('right',False);desk.chord(ord('8'))
+                snapshot=wait_for(lambda:(v if (v:=current())['hex'].endswith('38') else None))
+                right=rec['right_click']={}
+                visible='\r\n'.join(f'{ids[y]:02}中!' for y in keep)
+                right['expected_clipboard']=visible if keep else rec['copy']
+                right['clipboard']=clipboard_text(hwnd);right['changed']=u.GetClipboardSequenceNumber()!=seq
+                right['expected_changed']=bool(keep)
+                body=(visible.replace('\r\n','\r').encode() if action=='copy-paste' else b'') if keep else b'\x1b[<2;12;8M\x1b[<2;12;8m'
+                right['wire']=snapshot['hex'];right['expected_wire']=(b'\x1b[0n'+body+b'8').hex()
     finally:
         try:
             if camera: obs['capture']=camera.close()
             if desk:desk.restore()
         finally:
-            clip.restore(); (root/'research/scrollback-region.json').write_text(json.dumps(obs,indent=2))
+            clip.restore(); (root/'research'/(tag+'.json')).write_text(json.dumps(obs,indent=2))
     return obs
 
 
 if __name__=='__main__':
     assert os.environ.get('RUNNER_ENVIRONMENT')=='github-hosted'
-    run('scrollback-modes-region',[],exercise=exercise,barrier=(CSI+'5n',b'\x1b[0n'),source_reference='Windows rectangular selection over a TUI scroll region',
-        font=os.environ['NEMOTERM_TEST_FONT'],profile=dict(WarnOnClose=0,NemoRenderer={'gdi':0,'directx':2}[os.environ['RENDERER']]))
-    obs=json.loads((root/'research/scrollback-region.json').read_bytes());assert len(obs['cases'])==len(CASES)
-    mismatches=[n for n,r in obs['cases'].items() if r['scrolled']['columns']!=r['scrolled']['expected_columns']]
+    actions = [None] if not sys.argv[1:] else ['default','copy-paste']
+    assert not sys.argv[1:] or sys.argv[1:]==['--right-click']
+    os.environ.update(NEMOTERM_TEST_INPUT_CP='65001',NEMOTERM_TEST_WIDE_INPUT='1')
+    mismatches=[]
+    for action in actions:
+        tag='scrollback-region'+('-'+action if action else '')
+        profile=dict(WarnOnClose=0,NemoRenderer={'gdi':0,'directx':2}[os.environ['RENDERER']])
+        if action=='copy-paste':profile['RightClickCopyAndPaste']=1
+        run(tag+'-window',[],exercise=lambda hwnd,phase,current:exercise(hwnd,phase,current,action),barrier=(CSI+'5n',b'\x1b[0n'),
+            source_reference='Windows rectangular selection over a TUI scroll region',font=os.environ['NEMOTERM_TEST_FONT'],profile=profile)
+        obs=json.loads((root/'research'/(tag+'.json')).read_bytes());assert len(obs['cases'])==(4 if action else len(CASES))
+        for n,r in obs['cases'].items():
+            if r['scrolled']['columns']!=r['scrolled']['expected_columns']:mismatches.append((tag,n,'highlight'))
+            if action:
+                q=r['right_click'];mismatches.extend((tag,n,k) for k in ('wire','clipboard','changed') if q[k]!=q['expected_'+k])
     assert not mismatches,mismatches
