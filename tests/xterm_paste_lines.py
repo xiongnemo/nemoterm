@@ -23,11 +23,35 @@ STAGES = {
 }
 
 
-def child(path):
+# Exercise the quote mode separately so the historical line-ending reference
+# remains replayable without regenerating its data or changing its 17 stages.
+QUOTE_QUERY = CSI+'?2004$p'+CSI+'?2005$p'+CSI+'?2006$p'
+QUOTE_STAGES = {
+    'default':'', 'restore-unset':CSI+'?2005r', 'quote':CSI+'?2005h',
+    'bracket-quote':CSI+'?2004h', 'all':CSI+'?2006h',
+    'save-all':CSI+'?2004;2005;2006s', 'plain':CSI+'?2004;2005;2006l',
+    'restore-quote':CSI+'?2005r', 'restore-lf':CSI+'?2006r',
+    'restore-bracket':CSI+'?2004r', 'alternate':CSI+'?1049h',
+    'alt-disable-quote':CSI+'?2005l', 'back':CSI+'?1049l',
+    'enable-quote':CSI+'?2005h', 'soft-reset':CSI+'!p', 'restore-soft':CSI+'?2005r',
+    'all-before-ris':CSI+'?2004;2005;2006h', 'hard-reset':'\x1bc',
+    'restore-ris':CSI+'?2004;2005;2006r',
+}
+
+
+def child(path, quote_next):
     import select
     import time
     import tty
+    import termios
     tty.setraw(0)
+    if quote_next == 'custom':
+        attrs = termios.tcgetattr(0)
+        attrs[6][termios.VLNEXT] = b'\x1d'
+        termios.tcsetattr(0, termios.TCSANOW, attrs)
+    lnext = termios.tcgetattr(0)[6][termios.VLNEXT]
+    lnext = lnext[0] if isinstance(lnext, bytes) else int(lnext)
+    stages, query = (QUOTE_STAGES, QUOTE_QUERY) if quote_next else (STAGES, QUERY)
     window = os.environ['WINDOWID']
     subprocess.run(['xdotool','windowfocus','--sync',window],check=True,timeout=5)
     def read_until(end):
@@ -39,23 +63,26 @@ def child(path):
         return bytes(b)
     results={}
     try:
-        for name, change in STAGES.items():
-            row=results[name]={'sequence':change+QUERY}
-            os.write(1,(change+QUERY).encode()+DSR); modes=read_until(ACK); assert modes.endswith(ACK)
+        for name, change in stages.items():
+            row=results[name]={'sequence':change+query}
+            os.write(1,(change+query).encode()+DSR); modes=read_until(ACK); assert modes.endswith(ACK)
             row['mode_hex']=modes[:-len(ACK)].hex()
             subprocess.run(['xdotool','key','F6'],check=True,timeout=4)
-            first=read_until(b'|END.'); os.write(1,DSR); tail=read_until(ACK); assert tail.endswith(ACK)
+            # The final period is unique even if each incoming byte gets its own quote.
+            first=read_until(b'.' if quote_next else b'|END.'); os.write(1,DSR); tail=read_until(ACK); assert tail.endswith(ACK)
             row['paste_hex']=(first+tail[:-len(ACK)]).hex()
         completed=True
     except BaseException as exc:
         path.write_text(json.dumps(dict(completed=False,error=repr(exc),cases=results),indent=2)); raise
-    path.write_text(json.dumps(dict(completed=completed,clipboard_hex=TEXT.encode().hex(),cases=results),indent=2))
+    result=dict(completed=completed,clipboard_hex=TEXT.encode().hex(),cases=results)
+    if quote_next: result.update(tty_lnext=lnext,quote_profile=quote_next)
+    path.write_text(json.dumps(result,indent=2))
 
 
 def main():
-    parser=argparse.ArgumentParser();parser.add_argument('--xterm');parser.add_argument('--child',action='store_true');parser.add_argument('--output',required=True,type=Path);args=parser.parse_args()
+    parser=argparse.ArgumentParser();parser.add_argument('--xterm');parser.add_argument('--child',action='store_true');parser.add_argument('--quote-next', choices=['default','custom']);parser.add_argument('--output',required=True,type=Path);args=parser.parse_args()
     assert os.environ.get('RUNNER_ENVIRONMENT')=='github-hosted'
-    if args.child:child(args.output);return
+    if args.child:child(args.output, args.quote_next);return
     data=TEXT.encode(); env=dict(os.environ, LC_ALL='C.UTF-8');args.output.parent.mkdir(parents=True,exist_ok=True)
     owner=subprocess.Popen(['xclip','-i','-quiet','-selection','clipboard','-target','UTF8_STRING'],env=env,stdin=subprocess.PIPE,stdout=subprocess.DEVNULL)
     try:
@@ -65,8 +92,9 @@ def main():
             if time.monotonic()>=deadline:raise AssertionError('X clipboard setup failed')
             time.sleep(.04)
         subprocess.run([args.xterm,'-u8','-geometry','80x24','-xrm','*VT100.Translations: #override\\n<Key>F6: insert-selection(CLIPBOARD)',
-            '-e',sys.executable,str(Path(__file__).resolve()),'--child','--output',str(args.output.resolve())],env=env,check=True,timeout=95)
-        r=json.loads(args.output.read_bytes());assert r['completed'] and list(r['cases'])==list(STAGES)
+            '-e',sys.executable,str(Path(__file__).resolve()),'--child','--output',str(args.output.resolve()),
+            *(['--quote-next',args.quote_next] if args.quote_next else [])],env=env,check=True,timeout=95)
+        r=json.loads(args.output.read_bytes());assert r['completed'] and list(r['cases'])==list(QUOTE_STAGES if args.quote_next else STAGES)
         r['xterm_sha256']=hashlib.sha256(Path(args.xterm).read_bytes()).hexdigest(); args.output.write_text(json.dumps(r,indent=2)+'\n')
     finally:
         owner.terminate();owner.wait(timeout=3)

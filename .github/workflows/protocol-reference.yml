@@ -13,6 +13,7 @@ on:
           - column-press
           - scrollback-modes
           - paste-lines
+          - paste-quote
           - attribute-colour
           - selection-colour
           - pointer-colour
@@ -214,6 +215,15 @@ jobs:
         run: |
           sudo apt-get install -y xclip xdotool xauth
           xvfb-run -a python3 tests/xterm_paste_lines.py --xterm /tmp/nemoterm-xterm-reference/xterm --output build/protocol-reference/paste-lines/result.json
+      - name: Capture paste quoting with the default and an alternate tty literal-next character
+        if: ${{ (success() || failure()) && (inputs.family == 'paste-quote' || inputs.family == 'all') }}
+        run: |
+          sudo apt-get install -y xclip xdotool xauth
+          status=0
+          for mode in default custom; do
+            xvfb-run -a python3 tests/xterm_paste_lines.py --quote-next "$mode" --xterm /tmp/nemoterm-xterm-reference/xterm --output "build/protocol-reference/paste-quote/$mode.json" || status=1
+          done
+          exit "$status"
       - name: Capture output and key scrollback mode replies for every startup policy
         if: ${{ (success() || failure()) && (inputs.family == 'scrollback-modes' || inputs.family == 'all') }}
         run: python3 tests/scrollback_mode_cases.py --xterm /tmp/nemoterm-xterm-reference/xterm --directory build/protocol-reference/scrollback-modes
