@@ -194,6 +194,47 @@ def patch_initial_window_visibility():
             "        _suppressVisibilityChange.load(std::memory_order_relaxed))")
 
 
+def patch_quoted_paste_input():
+    # The frontend still emits XTerm's byte stream. Opt only this console
+    # into the decoder after an application actually requests DECSET 2005.
+    # A queued paste snapshots its mode and may arrive after DECRST or RIS:
+    # keep recognizing the otherwise invalid encoding for this connection.
+    src = DEST / 'src'
+    shutil.copyfile(ROOT / 'native/single_exe/quoted_utf8.hpp', src / 'host/nemo_quoted_utf8.hpp')
+    replace(src / 'terminal/adapter/DispatchTypes.hpp', '        XTERM_BracketedPasteMode = DECPrivateMode(2004),',
+            '        XTERM_QuotePaste = DECPrivateMode(2005),\n        XTERM_BracketedPasteMode = DECPrivateMode(2004),')
+    replace(src / 'terminal/adapter/ITerminalApi.hpp', '            BracketedPaste\n',
+            '            BracketedPaste,\n            NemoQuotedPasteSeen\n')
+    replace(src / 'terminal/adapter/adaptDispatch.cpp',
+            '    case DispatchTypes::ModeParams::XTERM_BracketedPasteMode:\n        _api.SetSystemMode',
+            '    case DispatchTypes::ModeParams::XTERM_QuotePaste:\n'
+            '        if (enable) _api.SetSystemMode(ITerminalApi::Mode::NemoQuotedPasteSeen, true);\n'
+            '        break;\n    case DispatchTypes::ModeParams::XTERM_BracketedPasteMode:\n        _api.SetSystemMode')
+    replace(src / 'host/server.h', '    bool GetBracketedPasteMode() const noexcept;',
+            '    bool HasSeenQuotedPaste() const noexcept { return _nemoQuoteSeen.load(std::memory_order_relaxed); }\n'
+            '    void EnableQuotedPasteDecoder() noexcept { _nemoQuoteSeen.store(true, std::memory_order_relaxed); }\n'
+            '    bool GetBracketedPasteMode() const noexcept;')
+    replace(src / 'host/server.h', '    bool _bracketedPasteMode = false;',
+            '    std::atomic<bool> _nemoQuoteSeen{false};\n    bool _bracketedPasteMode = false;')
+    replace(src / 'host/outputStream.cpp', '    case Mode::BracketedPaste:\n        ServiceLocator',
+            '    case Mode::NemoQuotedPasteSeen:\n'
+            '        if (enabled) ServiceLocator::LocateGlobals().getConsoleInformation().EnableQuotedPasteDecoder();\n'
+            '        break;\n    case Mode::BracketedPaste:\n        ServiceLocator')
+    file = src / 'host/VtInputThread.cpp'
+    replace(file, '#include "VtInputThread.hpp"', '#include "VtInputThread.hpp"\n#include "nemo_quoted_utf8.hpp"')
+    replace(file, '    char buffer[4096];', '    nemo::QuotedUtf8Input quoted;\n    char* const buffer = quoted.input();')
+    text = file.read_text(encoding='utf-8'); assert text.count('sizeof(buffer)') == 2
+    file.write_text(text.replace('sizeof(buffer)', 'static_cast<DWORD>(nemo::QuotedUtf8Input::capacity)'), encoding='utf-8')
+    replace(file, '        FAILED_LOG(til::u8u16({ &buffer[0], gsl::narrow_cast<size_t>(read) }, wstr, u8State));\n    }',
+            '        const auto bytes = quoted.consume(read, ServiceLocator::LocateGlobals().getConsoleInformation().HasSeenQuotedPaste());\n'
+            '        FAILED_LOG(til::u8u16(bytes, wstr, u8State));\n    }\n'
+            '    if (const auto remaining = quoted.finish(); !remaining.empty())\n    {\n'
+            '        try {\n'
+            '            THROW_IF_FAILED(til::u8u16(remaining, wstr, u8State));\n'
+            '            LockConsole();\n            const auto unlock = wil::scope_exit([&] { UnlockConsole(); });\n'
+            '            _pInputStateMachine->ProcessString(wstr);\n        } CATCH_LOG();\n    }')
+
+
 def patch_closed_console_connections():
     # A child created before close can finish its initial console connection
     # after ProcessCtrlEvents took the close-event client snapshot. Such a
@@ -359,6 +400,7 @@ def main():
     patch_input_dcs_fragments()
     patch_cursor_sync_fragments()
     patch_initial_window_visibility()
+    patch_quoted_paste_input()
     patch_closed_console_connections()
 
     # No COM handoff registration or legacy conhost loading

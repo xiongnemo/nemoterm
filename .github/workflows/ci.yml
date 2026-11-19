@@ -1217,6 +1217,10 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Check quoted and ordinary UTF-8 across real input-buffer boundaries
+        run: |
+          clang++ -std=c++17 -Wall -Wextra -Werror -pedantic -g -O1 -fsanitize=address,undefined -fno-omit-frame-pointer tests/test_quoted_utf8.cpp -o test-quoted-utf8
+          ./test-quoted-utf8
       - name: Compile and test decoder with sanitizers
         run: |
           gcc -std=c99 -Wall -Wextra -Werror -pedantic -g -O1 \

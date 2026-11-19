@@ -264,3 +264,5 @@ Windows 用 `font-zoom-replay.yml` 的 `suite=paste-quote` 对指定 EXE 重放�
 [同一 EXE、同样按键的第二次回放](../research/paste-quote-pipe-42232a2d.zip)在四组中分别配对了七次查询。每组 19 个阶段的模式查询都不同（`?2005` 未识别）；在 8 个未启用引用的阶段粘贴字节完全一致，另 11 个缺少 literal-next。原始管道对照仍各只有 5/19 相同，未经改写；`ReadConsoleW` 对照各为 8/19。此处是旧产品的失败基线。
 
 后续候选还须单独验证 Windows 应用实际收到的中文与 emoji。对不能由 `ReadConsoleW` 表示的原始 PTY 序列，游标控制和括号边界不变，要求子进程在每个 Unicode 字符前读到一次 literal-next，并读到完整字符；发送管道仍须逐字节符合 XTerm。不能用“前端发送正确”掩盖子进程收到替换字符或丢字。两项各自记录，后者是 Windows 可用性要求，不是声称 XTerm 的 PTY 返回 UTF-16。
+
+`49f11579` 的[四组原始回放](../research/paste-quote-frontend-49f11579.zip)在应用粘贴管道上各为 19/19，真实 Windows 子进程却只有 8/19：`中` 被读成三个 `U+FFFD`，emoji 被读成四个。后续回放同时检查默认 `^V` 和 profile 指定的 `^]`，包括正式的模式查询、括号边界、CRLF/LF 和紧随粘贴的实按 Enter。在任一端比较失败都不算通过。

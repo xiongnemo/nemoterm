@@ -13,7 +13,7 @@ from protocol_oracle_window import run
 from xterm_paste_lines import ACK, CSI, QUERY, STAGES, TEXT, QUOTE_STAGES, QUOTE_QUERY
 
 
-def record_quote_pipe(path, details, cases):
+def record_quote_pipe(path, details, cases, literal_next):
     # Check the frontend at the byte boundary. ReadConsoleW below only returns
     # Unicode: prefixing every UTF-8 byte of a CJK character makes the raw PTY
     # data invalid UTF-8. Keep that separate downstream observation as well.
@@ -74,18 +74,23 @@ def record_quote_pipe(path, details, cases):
             data=bytes.fromhex(cases[name]['paste_hex']); framed=data.startswith(b'\x1b[200~')
             if framed:
                 assert data.endswith(b'\x1b[201~'); data=data[6:-6]
-            assert len(data)%2==0 and data[::2]==b'\x16'*(len(data)//2)
-            plain=data[1::2].decode('utf-8'); native=b''.join(b'\x16'+c.encode('utf-8') for c in plain)
+            marker=bytes([literal_next]);assert len(data)%2==0 and data[::2]==marker*(len(data)//2)
+            plain=data[1::2].decode('utf-8'); native=b''.join(marker+c.encode('utf-8') for c in plain)
             if framed: native=b'\x1b[200~'+native+b'\x1b[201~'
             native+=b'\r7'
         row['expected_native_input_hex']=native.hex()
         row['native_text_matches']=row['after_query_hex']==native.hex()
 
 
-def trial(kind, text, renderer, cases, digest, quote=False):
+def trial(kind, text, renderer, cases, digest, quote=False, literal_next=22):
     label = ('paste-quote-' if quote else 'paste-lines-') + kind
     stages, query = (QUOTE_STAGES, QUOTE_QUERY) if quote else (STAGES, QUERY)
     details = {'reference_zip_sha256': digest, 'cases': {}}
+    profile={'NemoRenderer': renderer-1, 'WarnOnClose': 0}
+    if quote:
+        details['literal_next']=literal_next
+        if literal_next==29: profile['TerminalModes']='LNEXT=V^]'
+        else: assert literal_next==22
     def exercise(hwnd, phase, current):
         u.GetPropW.argtypes, u.GetPropW.restype = [w.HWND, w.LPCWSTR], w.HANDLE
         details['renderer'] = int(u.GetPropW(hwnd, 'NemotermRenderer') or 0)
@@ -118,8 +123,8 @@ def trial(kind, text, renderer, cases, digest, quote=False):
             finally: clip.restore()
     try:
         run(label, [], exercise=exercise, barrier=(CSI+'5n', ACK),
-            profile={'NemoRenderer':renderer-1, 'WarnOnClose':0}, font=os.environ['NEMOTERM_TEST_FONT'])
-        if quote: record_quote_pipe(root/'research'/(label+'-wire.jsonl'), details, cases)
+            profile=profile, font=os.environ['NEMOTERM_TEST_FONT'])
+        if quote: record_quote_pipe(root/'research'/(label+'-wire.jsonl'), details, cases, literal_next)
     finally:
         (root/'research'/(label+'-keyboard.json')).write_text(json.dumps(details, indent=2))
     return all(r['mode_matches'] and (not quote or r['paste_pipe_matches']) and
@@ -141,6 +146,11 @@ def main():
     if quote: assert ref['tty_lnext']==22 and ref['quote_profile']=='default'
     renderer={'gdi':1,'directx':3}[os.environ['RENDERER']]
     results=[trial(kind, text, renderer, ref['cases'], digest, quote) for kind,text in [('crlf',TEXT.replace('\n','\r\n')),('lf',TEXT)]]
+    if quote:
+        with zipfile.ZipFile(path) as z: custom=json.loads(z.read('paste-quote/custom.json'))
+        assert custom['completed'] and custom['tty_lnext']==29 and custom['quote_profile']=='custom'
+        assert custom['clipboard_hex']==ref['clipboard_hex'] and custom['xterm_sha256']==ref['xterm_sha256'] and list(custom['cases'])==list(QUOTE_STAGES)
+        results.append(trial('custom-lf', TEXT, renderer, custom['cases'], digest, True, 29))
     assert all(results), 'See per-phase mode, paste, and Return bytes in the retained keyboard records'
 
 
