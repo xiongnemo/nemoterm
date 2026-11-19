@@ -246,3 +246,9 @@ The `selection` group holds Shift and the left button while the application eras
 固定 XTerm 412 参考：`protocol-reference.yml`，`family=paste-lines`。托管 X11 的 `UTF8_STRING` 剪贴板经 XTerm 自己的 `insert-selection(CLIPBOARD)` 送入原始 PTY。17 个连续阶段的输入、两份模式回复和实际粘贴内容保存在[原始制品](../testdata/upstream/xterm412-paste-lines.zip)。
 
 单 EXE 回放：`font-zoom-replay.yml` 的 `suite=paste-lines`，指定 `source_run` 与完整的 `source_commit`。`ci.yml scope=full` 也运行同一个检查。GDI 与 DirectX 分别对 CRLF、独立 LF 的 `CF_UNICODETEXT` 实按 Ctrl+Shift+V。子进程通过 `ReadConsoleW` 读取，记录重新编码为 UTF-8 的完整输入；用独立按下的 Enter 和 `7` 验证粘贴的边界。收集全部阶段后分别比较模式和输入。此测试覆盖文本粘贴，不使用图片剪贴板或 Codex。
+
+### TUI 局部滚屏时的矩形选区
+
+`font-zoom-replay.yml` 的 `suite=scrollback-modes` 和完整 CI 都在同一 EXE 上运行 `tests/selection_scroll_region.py`。让应用接管鼠标，只滚动中间四行，在固定和移动的行上实按 Ctrl+Shift+左键框选。用选区外每行不同的色块确认输出已经画到窗口，用背景像素逐格读出高亮，再比较原文、系统剪贴板和子进程输入。覆盖正反方向、整段替换、选区丢失和出现空隙的情况。
+
+`--right-click` 分开启动默认“仅复制”、可选“复制并粘贴”和快捷键复制的窗口。检查裁剪后显式复制的文本与新高亮相符；若选区消失，未加修饰的右键应重新由应用接管，子进程能读到完整的 SGR 鼠标按下和松开。每次交互后以独立实按的字符标记结束，不用剪贴板已有的值单独证明操作成功。
