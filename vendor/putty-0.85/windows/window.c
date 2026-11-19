@@ -7110,6 +7110,20 @@ static void wintw_clip_write(
         SendMessage(wgs->term_hwnd, WM_IGNORE_CLIP, false, 0);
 }
 
+/* Inspect at most one code unit while the clipboard is open. A malformed or
+ * unavailable text handle is distinct from an explicitly empty alternative. */
+static int clipboard_text_prefix(HGLOBAL block, bool unicode)
+{
+    if (!block || GlobalSize(block) < (unicode ? sizeof(wchar_t) : 1))
+        return -1;
+    const void *p = GlobalLock(block);
+    if (!p)
+        return -1;
+    int nonempty = unicode ? *(const wchar_t *)p != 0 : *(const char *)p != 0;
+    GlobalUnlock(block);
+    return nonempty;
+}
+
 static DWORD WINAPI clipboard_read_threadfunc(void *param)
 {
     NemoPasteRequest *request = param;
@@ -7123,10 +7137,23 @@ static DWORD WINAPI clipboard_read_threadfunc(void *param)
             request->data = GetClipboardData(CF_TEXT);
             request->unicode = false;
         }
-        if (!request->data)
-            request->application_paste=IsClipboardFormatAvailable(CF_DIB) ||
-                IsClipboardFormatAvailable(CF_DIBV5) || IsClipboardFormatAvailable(CF_BITMAP) ||
-                IsClipboardFormatAvailable(RegisterClipboardFormatW(L"PNG"));
+        if (!request->files &&
+            (!request->data || clipboard_text_prefix(request->data, request->unicode) == 0) &&
+            (IsClipboardFormatAvailable(CF_DIB) || IsClipboardFormatAvailable(CF_DIBV5) ||
+             IsClipboardFormatAvailable(CF_BITMAP) ||
+             IsClipboardFormatAvailable(RegisterClipboardFormatW(L"PNG")))) {
+            /* Some owners provide empty Unicode text beside a usable bitmap.
+             * Keep an independently supplied nonempty ANSI fallback, if any.
+             * Leave all pixel reads to the receiving application. */
+            HGLOBAL ansi = request->data && request->unicode ? GetClipboardData(CF_TEXT) : NULL;
+            if (clipboard_text_prefix(ansi, false) == 1) {
+                request->data = ansi;
+                request->unicode = false;
+            } else {
+                request->data = NULL;
+                request->application_paste = true;
+            }
+        }
         if (request->data)
             SendMessage(request->hwnd, WM_GOT_CLIPDATA,
                         request->session_id, (LPARAM)request);

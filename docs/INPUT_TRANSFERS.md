@@ -27,7 +27,10 @@ When the clipboard contains only an image, the terminal's Paste binding forwards
 Ctrl+V to the application after releasing the clipboard lock. The application
 then reads the native image clipboard. This works for the tested Windows Codex
 and OpenCode clients; image support still belongs to the receiving application.
-Text plus image uses the existing text paste behavior. This feature does not
+If both text and an image are offered, nonempty text still wins, including
+whitespace. An empty text alternative no longer discards an available image.
+If the Unicode alternative is empty but the ANSI alternative has text, that text
+is pasted. An empty clipboard text without an image still sends nothing. This feature does not
 change Sixel output or add an image codec to the terminal executable.
 
 ## Validation
