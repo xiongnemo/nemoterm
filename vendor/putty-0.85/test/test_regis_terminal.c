@@ -30,17 +30,13 @@ static Mock *regis_mock(void)
     mk->tw.vt=&regis_vtable;
     mk->term=term_init(mk->conf,mk->ucsdata,&mk->tw);
     mk->ldisc=ldisc_create(mk->conf,mk->term,&mk->backend,&mk->seat);
-    reset(mk);
     term_size(mk->term,12,40,0);
+    term_set_trust_status(mk->term,false);
     term_set_cell_size(mk->term,6,13);
     IEQUAL(term_regis_set_size(mk->term,160,120,160,120),true);
-    /* Match the reference's VT340 resources: 16 registers; the upstream
-     * shared bank is calloc-initialized, while private banks use VT340 RGB.
-     * Product-default 256-register Sixel behaviour is tested separately. */
+    /* Match the reference's VT340 register count only. This is a fresh
+     * terminal, not a post-RIS terminal; observe its own palette. */
     mk->term->sixel_register_count=16;
-    for (unsigned i=0;i<NEMO_SIXEL_PALETTE_SIZE;i++)
-        mk->term->sixel_palette[i]=UINT32_C(0xff000000);
-    mk->term->sixel_palette_valid=true;
     return mk;
 }
 

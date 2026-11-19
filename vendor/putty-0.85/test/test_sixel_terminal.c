@@ -1058,6 +1058,23 @@ static void test_sixel_implicit_background(Mock *mk)
     check_image_accounting(mk);
 }
 
+/* Run before any test helper that performs a terminal reset. */
+static void test_first_shared_palette(Mock *mk)
+{
+    Terminal *t = mk->term;
+    term_size(t, 12, 40, 0);
+    term_set_cell_size(t, 6, 13);
+    test_context(mk, "fresh shared Sixel colours, private colours and RIS");
+    term_data_fragmented(t, "\033[?1070l\033P9;1q#0~#1~#3~#15~\033\\");
+    palette_pixels(mk, t->images, 0, 4, UINT32_C(0xff000000));
+    term_data_fragmented(t, "\033[2;1H\033[?1070h\033P9;1q#3~\033\\");
+    IEQUAL(image_count(t), 2);
+    if (image_count(t) == 2)
+        palette_pixels(mk, t->images->next, 0, 1, UINT32_C(0xff33cc33));
+    term_data_fragmented(t, "\033c\033[?1070l\033P9;1q#3~\033\\");
+    palette_pixels(mk, t->images, 0, 1, UINT32_C(0xff33cc33));
+}
+
 #include "test_iterm_terminal.inc"
 #include "test_kitty_terminal.inc"
 
@@ -1067,6 +1084,7 @@ int main(void)
     Mock *mk = mock_new();
     mk->term = term_init(mk->conf, mk->ucsdata, &mk->tw);
     mk->ldisc = ldisc_create(mk->conf, mk->term, &mk->backend, &mk->seat);
+    test_first_shared_palette(mk);
     test_sixel_framing(mk);
     test_sixel_erase(mk);
     test_sixel_screen_lifecycle(mk);

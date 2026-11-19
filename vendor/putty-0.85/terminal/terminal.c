@@ -4540,6 +4540,12 @@ Terminal *term_init(Conf *myconf, struct unicode_data *ucsdata, TermWin *win)
     deselect(term);
     term->rows = term->cols = -1;
     power_on(term, true, false);
+    /* XTerm starts with a zeroed shared graphics register bank, but RIS
+     * reinstates the model palette. Our row API represents black as opaque
+     * ARGB, not zero (transparent). Private graphics keep their own palette. */
+    for (size_t i = 0; i < lenof(term->sixel_palette); i++)
+        term->sixel_palette[i] = UINT32_C(0xff000000);
+    term->sixel_palette_valid = true;
     /* This is a startup preference, not a replacement for mode 2027's
      * specified reset state: subsequent RIS/DECSTR must still disable it. */
     term_set_grapheme_clustering(term,
