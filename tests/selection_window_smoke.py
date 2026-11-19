@@ -56,11 +56,13 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-selection-') as temporary:
         def captured(name=None,return_pixels=False):
             return gpu.capture(name,return_pixels) if gpu else capture(hwnd,name,return_pixels)
         phase_request=None
-        def begin_phase(name,sequence,*,preserve_mouse=False):
+        def phase_state(name,wait_reply=True):
+            return wait_snapshot(lambda:read_snapshot(report),lambda v:v.get('phase')==name and (not wait_reply or bytes.fromhex(v.get('hex','')).endswith(b'\x1b[0n')))
+        def begin_phase(name,sequence,*,preserve_mouse=False,wait_reply=True):
             global phase_request
             phase_request=dict(phase=name,sequence=sequence+'\x1b[5n',preserve_mouse=preserve_mouse)
             write_snapshot(control,phase_request)
-            return wait_snapshot(lambda:read_snapshot(report),lambda v:v.get('phase')==name and bytes.fromhex(v.get('hex','')).endswith(b'\x1b[0n'))
+            return phase_state(name,wait_reply)
         def tracked_phase(name,sequence):
             if name.endswith(('-scroll','-right')):
                 # Prove BOTH application mouse modes are still set immediately
@@ -254,6 +256,8 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-selection-') as temporary:
                 words_ok=verify_words(hwnd,begin_phase,point,captured,tile,system_copy,no_forwarded_input,evidence,desktop) and words_ok
                 from selection_height_resize import verify as verify_height_resize
                 height_ok=verify_height_resize(host,hwnd,begin_phase,point,captured,tile,no_forwarded_input,desktop,evidence)
+                from selection_screen_active_drag import verify as verify_screen_drag
+                screen_drag_ok=verify_screen_drag(hwnd,begin_phase,phase_state,point,captured,tile,no_forwarded_input,desktop,evidence)
                 from selection_screen_modes import verify as verify_screen_modes
                 screen_ok=verify_screen_modes(hwnd,begin_phase,point,captured,tile,no_forwarded_input,desktop,evidence)
             finally:desktop.restore()
@@ -263,6 +267,7 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-selection-') as temporary:
         assert words_ok,[(r['case'],r.get('copied'),r.get('highlight')) for group in ('bidi_word_messages','bidi_word_system') for r in evidence.get(group,[]) if not r['passed']]
         if args.tabs:assert height_ok,evidence['height_selection']
         if args.tabs:assert screen_ok,evidence['screen_selection']
+        if args.tabs:assert screen_drag_ok,evidence['screen_active_drag']
         evidence['completed']=True
         print('Rapid independent selections and 16 Ctrl rectangles, exact Unicode, shortcut/right-click copy and pixels passed')
     finally:
