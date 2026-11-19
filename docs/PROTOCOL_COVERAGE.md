@@ -220,6 +220,7 @@ number of passing executables. Unlisted private extensions remain **unverified**
 | DEC modes 9/1000/1001/1002/1003 | Tested | X10, press/release, highlight, button/all motion; `mouse`, `highlight`, native HWND fixtures. |
 | DEC modes 1005/1006/1015/1016 | Tested | UTF-8/SGR/urxvt/pixel mouse encodings and bounded coordinates. |
 | DEC modes 1004/1007 | Tested | Focus reports and alternate-screen wheel behavior. |
+| DEC private modes 1010/1011 (rxvt scroll on output / keypress) | Implemented on the development branch | Independent set, reset, query, save and restore. The initial values come from the profile; changing a mode affects only the running terminal. [Original XTerm 412 replies](../testdata/upstream/xterm412-scrollback-modes.zip) and [Windows preview before implementation](../research/scrollback-modes-before-b3274ed.zip). |
 | DEC mode 2004 | Gated | Bracketed paste framing and local settings are tested. Native clipboard and real-client checks are retained in [input validation](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/automation-input.md) and full CI; physical gestures, all applications and sustained sessions remain separate. |
 | DEC modes 80/1070/8452 | Tested | Sixel display/palette/cursor-scroll behavior, `sixel_terminal`. |
 | DEC modes 2026/2027 | Partial | Synchronized frames and opt-in grapheme widths tested; see `sync`, `grapheme_terminal`, `graphemes.md`. Color-font/emoji policy and long workloads remain open. |
