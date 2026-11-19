@@ -33,13 +33,13 @@ Kitty 图片支持直接 RGB/RGBA/PNG、压缩传输、裁剪、透明度、查�
 
 ## 下载
 
-[下载 Windows x64 单文件测试版 `6a2dc83`](https://github.com/xiongnemo/nemoterm/actions/runs/44523229386/artifacts/14528333115)。解压后只需 `nemoterm.exe`；EXE 的 SHA-256 为 `39c3b368061f104858dff466dd5a2416887c76dfc94481be68f9d7b79841d450`。
+[下载 Windows x64 单文件测试版 `9d1da87`](https://github.com/xiongnemo/nemoterm/actions/runs/44535907093/artifacts/14536467740)。解压后只需 `nemoterm.exe`；文件大小为 4,858,368 字节，SHA-256 为 `1f08676cd15839bb0b2eccddaae22c7416beeccd661effb0c244e098ebac76e9`。
 
-按住 Shift 和鼠标左键拖选时切换标签，再松开鼠标，目标标签已有的选区现在会保留，可以立即复制。真实键鼠的标签组从 8/9 改善到 9/9；GDI 与 DirectX 之间两个切换方向均已验证。160×48 压力测试各 6/6，前端私有工作集峰值分别为 19.579 MB 和 29.061 MB。[对照截图和原始记录](research/tab-drag-release.md)。
+启用右键“复制并粘贴”时，快速对两段不同的选区分别点右键，终端会按点击顺序粘贴两段内容。以前可能把第二段粘贴两次。[修复前后子程序收到的输入](research/README.md)。
 
-这是开发测试版。[严格 XTerm 412 宽字对照](research/column-edge-integrity.md)和 [ReGIS 历史画面对照](research/regis-presented-pairs.md)仍有差异。Codex 正常编辑器可贴图；启动草稿的时序限制见下文。[这一版的完整 CI](https://github.com/xiongnemo/nemoterm/actions/runs/44523229386) · [同一 EXE 的交互回放：81/81](https://github.com/xiongnemo/nemoterm/actions/runs/44525718005) · [历史测试版](docs/PREVIEW_HISTORY.md)。
+同一 EXE 的[远程交互报告](research/preview-9d1da87.zip)覆盖 13 组，通过 **79/81**；仅 Codex 启动时立即贴图的两项未过。160×48 的六种压力场景中，前端私有工作集峰值为 GDI **18.985 MB**、DirectX **29.049 MB**。两种渲染器均未超过各自上限。[完整 CI](https://github.com/xiongnemo/nemoterm/actions/runs/44535907093)另有[严格 XTerm 412 宽字](research/column-edge-integrity.md)和 [ReGIS 历史画面](research/regis-presented-pairs.md)差异，以及独立 WinPTY Unicode 对照超时。[历史测试版](docs/PREVIEW_HISTORY.md)。
 
-在 Codex 0.167.0 中，请等编辑器就绪后再贴图，看到输入框中出现图片附件再发送。启动草稿可能接受文字却忽略贴图，窗口标题也不能可靠地判断是否就绪。[实际提交与截图](research/codex-file-draft-order.md) · [按键后 Windows 何时索取位图](research/codex-bitmap-requests.md)。
+Codex 0.167.0 的启动草稿只收文字。即使已经能打字，也请等正常编辑器接手后再贴图，看到图片附件再发送。绕过 Nemoterm 的系统 ConPTY 和 WinPTY 对照也复现过这个现象；窗口标题不能用来判断是否就绪。[实际提交与截图](research/codex-file-draft-order.md) · [按键后 Windows 何时索取位图](research/codex-bitmap-requests.md)。
 
 查找后续开发构建：
 

@@ -4,6 +4,12 @@
 
 ## 开发快照
 
+[下载 Windows x64 单文件测试版 `6a2dc83`](https://github.com/xiongnemo/nemoterm/actions/runs/44523229386/artifacts/14528333115)。解压后只需 `nemoterm.exe`；EXE 的 SHA-256 为 `39c3b368061f104858dff466dd5a2416887c76dfc94481be68f9d7b79841d450`。
+
+按住 Shift 和鼠标左键拖选时切换标签，再松开鼠标，目标标签已有的选区现在会保留，可以立即复制。真实键鼠的标签组从 8/9 改善到 9/9；GDI 与 DirectX 之间两个切换方向均已验证。160×48 压力测试各 6/6，前端私有工作集峰值分别为 19.579 MB 和 29.061 MB。[对照截图和原始记录](../research/tab-drag-release.md)。
+
+这是开发测试版。[严格 XTerm 412 宽字对照](../research/column-edge-integrity.md)和 [ReGIS 历史画面对照](../research/regis-presented-pairs.md)仍有差异。Codex 正常编辑器可贴图。[这一版的完整 CI](https://github.com/xiongnemo/nemoterm/actions/runs/44523229386) · [同一 EXE 的交互回放：81/81](https://github.com/xiongnemo/nemoterm/actions/runs/44525718005)。
+
 [下载 Windows x64 单文件测试版 `0d8f731`](https://github.com/xiongnemo/nemoterm/actions/runs/44515756392/artifacts/14525912387)。解压后只需 `nemoterm.exe`；EXE 的 SHA-256 为 `8e8fdd89176d0204d72c05fd62b8bb62754eba052fab2c8e399bc8bc8fa7af12`。
 
 按住 Shift 双击混排英文和从右向左书写的文字时，会选中屏幕上相邻的词，不再隔着标点选中远处的字。38 项高亮与剪贴板检查在旧版通过 14 项、新版全部通过。普通双击沿用 profile 里的选词规则。另在 tmux 内的 Vim 验证了 Shift 拖选和矩形复制，Codex、OpenCode、Claude Code 的 10 项默认网格交互也已通过。[对照截图、交互记录与内存](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/bidi-word-selection.md)。
