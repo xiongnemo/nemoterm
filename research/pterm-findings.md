@@ -151,3 +151,15 @@ The [ten-run original archive](https://github.com/xiongnemo/nemoterm/blob/fca0e6
 
 
 `6ee2996` 单文件的[十次同机 Codex 对照](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/pterm-paired-6ee2996.zip)仍使用本机 Scoop pterm 的相同哈希。在两次 pterm 回环回复后的页面清单中，总工作集 21.84–22.61 MB、私有工作集 3.78–3.79 MB；**18.06–18.81 MB 可共享**。pterm 自身 EXE 的私有驻留映像页均为 20,480 B，私有分配的驻留页为 2.82–2.83 MB。相同工况下，Nemoterm 默认 GDI 单标签为 5.04–5.10 MB、DirectX 单标签为 9.68–9.71 MB（均为前端私有工作集）。[对应新文件的 REA 导入证据](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/rea-6ee2996-imports.json.gz)没有新增 DLL、函数名或序号。完整产品 SHA 与测量边界见[本版记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/regis-discovery.md)。
+
+## `b3274ed`：同一份交互候选的普通 Codex 会话
+
+[十次托管 Windows 原始记录](selection-enter-pterm-b3274ed.zip)使用同一 runner、固定的 Codex 0.167.0、160×48 与 SarasaTermSC Nerd Light。五种前端配置正序、逆序各跑一次；十次均收到指定提示的回环请求、在屏上显示回复并自然退出。表中为每次回复可见后 3 秒内采样的中位数范围，单位为十进制 MB，仅计窗口前端。
+
+| 单窗口配置 | 私有工作集 | 总工作集 | 私有提交量 |
+| --- | ---: | ---: | ---: |
+| 原版 pterm 0.85 | 3.76–3.78 | 21.83–22.60 | 4.44–4.48 |
+| Nemoterm 默认单标签，GDI | 5.37–5.41 | 35.71–36.63 | 6.59–6.89 |
+| Nemoterm 单标签，DirectX | 9.95–10.04 | 47.17–47.25 | 11.56–11.78 |
+
+Nemoterm EXE 的 SHA-256 为 `c7f4f4be019a2fb0262f984d15e7f6177eb47da043558dd81971cf953af5979a`。各组也保留了模块、进程和驻留页清单；在这十次回复后的快照中没有观察到已登记的 WebView 运行库。不能用这 3 秒的中位数推断长时间运行峰值。
