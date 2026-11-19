@@ -221,3 +221,6 @@ G2/G3 的基本字符集、单次／锁定 GL 选择有核心与像素验证。
 按 Shift 双击混排文字时按可见字格扩词，软换行连接相邻的同类字符，普通双击保留原有选词规则。GDI／DirectX 的[38 项修复前后回放](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/bidi-word-selection.md)分别核对高亮位置、剪贴板和应用收到的字节。
 这不代表在线模型、Claude Code、物理输入设备或长期会话已完成验收；
 具体证据和边界见[真实客户端记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/real-agent.md)。
+
+
+**应用进度（Windows Terminal / ConEmu OSC 9;4）**：例如应用写出 `ESC ] 9 ; 4 ; 1 ; 50 BEL` 表示完成 50%，写出 `ESC ] 9 ; 4 ; 0 BEL` 清除。状态 2 表示错误，3 表示进度未知，4 表示暂停。每个标签持有自己的值；共享任务栏按钮优先显示错误、暂停、确定进度、未知进度，同级优先选中标签。应用不报告进度时不创建任务栏 COM 对象。上游语义见固定版本的 [Microsoft Terminal 测试](../vendor/microsoft-terminal/src/cascadia/UnitTests_TerminalCore/TerminalApiTest.cpp)；实际验收入口见 [交互回放](INTERACTION_ACCEPTANCE.md)。

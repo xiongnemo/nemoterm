@@ -4,6 +4,7 @@
 #include "nemo_tabs_layout.h"
 typedef struct NemoTabHost {
     HWND hwnd, preview;
+    NemoTaskbarButton task_button; /* one shell button for all tabs */
     WinGuiSeat *active, *hover;
     NemoTabLayout layout;
     NemoGPU *gpu;

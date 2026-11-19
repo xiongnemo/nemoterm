@@ -290,3 +290,6 @@ The tabbed `selection` cases also change the top-level window height while the a
 [Before/after height-selection evidence](../research/selection-height.md).
 
 For an exact-image Windows quoted-paste exit diagnostic, run `font-zoom-replay.yml` with `suite=paste-quote-exit`, `source_run` and `source_commit`. Each renderer opens six independent windows for the same three inputs, with and without the pipe observer. Both arms require mode and wide receiver bytes, native input and natural exit within the original ten seconds; only the instrumented arm also measures the frontend pipe. A missed deadline remains a failure even if the process subsequently exits. The diagnostic additionally captures an owned-process minidump only on such a miss. [Product and fixture identities, observed windows, raw receipts and limits](../research/acceptance-6072ebc9.md).
+
+
+`suite=taskbar-progress` 在 GDI 和 DirectX 各启动真正的 Windows 子程序，交替以 BEL 和 ST 结束 OSC 9;4。它逐步比较实际标签栏的进度长度、颜色及未知进度条纹，包括重置和非法输入。旧版 `6072ebc9` [首次对照](https://github.com/xiongnemo/nemoterm/actions/runs/44602298022) 每种后端均仅通过 5/16 项（都是应为空白的对照），11 个应有标记的步骤实际上也全空白。独立桌面检查记录 Explorer 的 TaskbarButtonCreated 通知，以及独立窗口、同窗前后台标签和关闭后台标签后 ITaskbarList3 调用的返回值。没有真实 Shell 回执将使此项不通过；回执也不等同于截图看到了 Explorer 图标。

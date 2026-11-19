@@ -91,6 +91,8 @@
 #define WM_IGNORE_CLIP (WM_APP + 2)
 #define WM_FULLSCR_ON_MAX (WM_APP + 3)
 #define WM_GOT_CLIPDATA (WM_APP + 4)
+#define WM_NEMO_PROGRESS (WM_APP + 21)
+static UINT taskbar_button_created;
 
 typedef struct NemoPasteRequest {
     HWND hwnd;
@@ -259,6 +261,7 @@ static void wintw_set_raw_mouse_mode(TermWin *, bool enable);
 static void wintw_set_raw_mouse_mode_pointer(TermWin *, bool enable);
 static void wintw_set_pointer_shape(TermWin *, unsigned shape);
 static void wintw_set_scrollbar(TermWin *, int total, int start, int page);
+static void wintw_progress_changed(TermWin *);
 static void wintw_bell(TermWin *, int mode);
 static void wintw_bell_attention(TermWin *, bool urgent, bool raise);
 static void wintw_clip_write(
@@ -336,6 +339,7 @@ static const TermWinVtable windows_termwin_vt = {
     .osc52_write = nemo_osc52_system_write,
     .osc52_read = nemo_osc52_system_read,
     .refresh = wintw_refresh,
+    .progress_changed = wintw_progress_changed,
     .request_resize = wintw_request_resize,
     .request_window_resize = wintw_request_window_resize,
     .set_title = wintw_set_title,
@@ -973,6 +977,7 @@ static WinGuiSeat *wgs_create(Conf *conf, int show)
     return wgs;
 }
 
+#include "nemo_progress_ui.inc"
 #include "nemo_tabs_host.inc"
 #include "nemo_debug_ui.inc"
 
@@ -1053,6 +1058,7 @@ int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmdline, int show)
      */
     gui_term_process_cmdline(conf, cmdline);
 
+    taskbar_button_created = RegisterWindowMessageW(L"TaskbarButtonCreated");
     WNDCLASSW event_class = {0};
     event_class.lpfnWndProc = app_event_proc;
     event_class.hInstance = hinst;
@@ -1373,6 +1379,7 @@ void cleanup_exit(int code)
     shutdown_help();
 
     /* Clean up COM. */
+    nemo_shell_progress_cleanup();
     CoUninitialize();
 
     exit(code);
@@ -2955,6 +2962,7 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
     int resize_action;
     WinGuiSeat *wgs = (WinGuiSeat *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
     if (!wgs) return sw_DefWindowProc(hwnd, message, wParam, lParam);
+    if (!wgs->tabbed && progress_message(hwnd,message,wgs)) return 0;
     if (win_modal_redirect_activation(hwnd,message,wParam))
         return message==WM_MOUSEACTIVATE ? MA_NOACTIVATEANDEAT : 0;
     if (win_modal_blocks_message(message)) {

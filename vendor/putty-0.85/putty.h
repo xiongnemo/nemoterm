@@ -1813,6 +1813,8 @@ struct TermWinVtable {
      * output has reduced. (Front ends will likely pass this straight
      * on to backend_unthrottle.) */
     void (*unthrottle)(TermWin *, size_t bufsize);
+    /* Optional host chrome update; independent of the text renderer. */
+    void (*progress_changed)(TermWin *);
 };
 
 static inline bool win_setup_draw_ctx(TermWin *win)

@@ -211,6 +211,7 @@ static void nemo_host_select(WinGuiSeat *w)
     term_invalidate(w->term);InvalidateRect(w->term_hwnd,NULL,TRUE);
     UpdateWindow(w->term_hwnd);nemo_host_title(w);
     nemo_update_mouse_pointer(w);
+    schedule_progress(tab_host.hwnd, &tab_host.task_button);
 }
 static void nemo_host_remove(WinGuiSeat *w)
 {
@@ -225,6 +226,7 @@ static void nemo_host_remove(WinGuiSeat *w)
         }
     }
     w->gpu=NULL;w->tab_ready=false;nemo_host_layout();
+    schedule_progress(tab_host.hwnd, &tab_host.task_button);
     /* Removing an earlier tab shifts the active index. It can now sit just
      * before the scroll origin even though the active seat did not change. */
     if (tab_host.active && !tab_host.active->closing) {
@@ -370,6 +372,7 @@ static void nemo_host_draw_label(HDC dc, NemoTabRect box, const wchar_t *text, C
 static LRESULT CALLBACK nemo_host_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 {
     WinGuiSeat *active=tab_host.active;
+    if (progress_message(hwnd,msg,NULL)) return 0;
     if (win_modal_redirect_activation(hwnd,msg,wp))
         return msg==WM_MOUSEACTIVATE ? MA_NOACTIVATEANDEAT : 0;
     if (win_modal_blocks_message(msg)) {
@@ -399,6 +402,7 @@ static LRESULT CALLBACK nemo_host_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp
             FillRect(dc,&r,bg);DeleteObject(bg);
             NemoTabRect label=box;label.x+=8;label.width=max(0,label.width-16-close.width);
             nemo_host_draw_label(dc,label,w->window_name,RGB(238,238,240));
+            draw_tab_progress(dc,r,w->term);
             if (close.width) nemo_host_draw_label(dc,close,L"\x00d7",RGB(190,192,198));
         }
         nemo_host_draw_label(dc,tab_host.layout.add,L"+",RGB(238,238,240));

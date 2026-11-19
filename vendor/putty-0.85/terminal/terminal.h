@@ -255,6 +255,7 @@ struct terminal_tag {
     NemoHyperlinks *hyperlinks;
     NemoCwd working_directory;
     NemoShellMarks shell_marks;
+    unsigned char progress_state, progress_value; /* OSC 9;4, per session */
     uint64_t shell_mark_selected; /* navigation target; zero means latest command */
     uint32_t curr_hyperlink, save_hyperlink, alt_save_hyperlink;
     uint32_t hover_hyperlink;

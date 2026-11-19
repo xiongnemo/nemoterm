@@ -126,7 +126,14 @@ static void nemo_debug_ui(NemoDebugRequest *r)
                                                       wgs->term->alt_which != 0)));
             wchar_t title[1024];GetWindowTextW(wgs->term_hwnd,title,lenof(title));
             char *utf8=dup_wc_to_mb(CP_UTF8,title,NULL);nemo_debug_json_string(r->output,utf8);sfree(utf8);
-            put_dataz(r->output,",\"profile\":");
+            const NemoTaskbarButton *button = wgs->tabbed ? &tab_host.task_button : &wgs->task_button;
+            put_fmt(r->output,",\"progress\":{\"state\":%u,\"value\":%u},"
+                "\"taskbar\":{\"button_ready\":%s,\"attempted\":%s,\"state\":%u,\"value\":%u,\"hresult\":",
+                (unsigned)wgs->term->progress_state, (unsigned)wgs->term->progress_value,
+                button->ready ? "true" : "false", button->attempted ? "true" : "false", button->state, button->value);
+            if (button->attempted) put_fmt(r->output,"%ld",(long)button->result);
+            else put_dataz(r->output,"null");
+            put_dataz(r->output,"},\"profile\":");
             nemo_debug_json_string(r->output,conf_get_str(wgs->conf,CONF_nemo_profile));
             put_byte(r->output,'}');
         }

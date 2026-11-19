@@ -3501,8 +3501,21 @@ static void nemo_pointer_reset(Terminal *term)
     term->win_app_pointer_pending = true;
 }
 
+static void term_progress(Terminal *term, unsigned state, unsigned value)
+{
+    if (!state) value = 0;
+    else if (state == 3) value = term->progress_value;
+    else if ((state == 2 || state == 4) && !value)
+        value = term->progress_value ? term->progress_value : 10;
+    if (term->progress_state == state && term->progress_value == value) return;
+    term->progress_state = state;
+    term->progress_value = value;
+    if (term->win->vt->progress_changed) term->win->vt->progress_changed(term->win);
+}
+
 static void power_on(Terminal *term, bool clear, bool keep_encoding)
 {
+    term_progress(term, 0, 0);
     nemo_udk_clear(term);
     nemo_pointer_reset(term);
     term->c1_8bit = false;
@@ -7896,6 +7909,34 @@ static int osc_string_limit(Terminal *term)
 #include "nemo_feature_policy_terminal.inc"
 #include "nemo_font_ops.inc"
 
+/* Consume one optional decimal field. Clamp without wrapping a long number;
+ * malformed fields must not turn into a valid clear or percentage. */
+static bool progress_field(ptrlen *payload, unsigned limit, unsigned *value)
+{
+    const char *p = payload->ptr;
+    unsigned n = 0;
+    size_t i = 0;
+    while (i < payload->len && p[i] != ';') {
+        if (p[i] < '0' || p[i] > '9') return false;
+        unsigned digit = (unsigned)(p[i++]-'0');
+        n = min(limit, 10*n + digit);
+    }
+    *value = n;
+    if (i < payload->len) i++;
+    *payload = make_ptrlen(p+i, payload->len-i);
+    return true;
+}
+
+static void osc_progress(Terminal *term)
+{
+    ptrlen fields = make_ptrlen(term->osc_string, term->osc_strlen);
+    unsigned action, state, value;
+    if (progress_field(&fields, 5, &action) && action == 4 &&
+        progress_field(&fields, 5, &state) && state <= 4 &&
+        progress_field(&fields, 100, &value))
+        term_progress(term, state, value);
+}
+
 static void do_osc(Terminal *term, bool bel)
 {
     switch (term->osc_type) {
@@ -7932,6 +7973,7 @@ static void do_osc(Terminal *term, bool bel)
             if (term->esc_args[0] == 1337 && nemo_inline_finish(term)) break;
             if (term->esc_args[0] == 1337 && nemo_iterm_report(term)) break;
             if (!term->osc_overflow) {
+                if (term->esc_args[0] == 9) osc_progress(term);
                 nemo_cwd_update(&term->working_directory, term->esc_args[0],
                                 term->osc_string, term->osc_strlen);
                 if (!term->alt_which)

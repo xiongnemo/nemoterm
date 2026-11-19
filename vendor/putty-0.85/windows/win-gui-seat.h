@@ -5,6 +5,7 @@
  */
 
 #include "nemo_drop.h"
+#include "nemo_progress.h"
 
 typedef struct WinGuiSeat WinGuiSeat;
 
@@ -61,6 +62,7 @@ struct WinGuiSeat {
     LogPolicy logpolicy;
 
     HWND term_hwnd;
+    NemoTaskbarButton task_button; /* standalone window */
     UINT_PTR session_id; /* Never reused when a window handle is recycled. */
     bool closing;
     bool tabbed, tab_ready;
