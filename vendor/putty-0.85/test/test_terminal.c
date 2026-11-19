@@ -703,7 +703,7 @@ static void test_pressed_scroll(Mock *mk)
             int y = outside ? 1 : 8, moved = outside ? y : y + direction*2;
             term_mouse(mk->term, MBT_LEFT, MBT_SELECT, MA_CLICK, 1, y, true, false, false);
             term_data_fragmented(mk->term, direction > 0 ? "\033[2T" : "\033[2S");
-            IEQUAL(get_termchar(mk->term, 1, moved).chr, 'A');
+            IEQUAL(get_termchar(mk->term, 1, moved).chr, CSET_ASCII | 'A');
             term_mouse(mk->term, MBT_LEFT, MBT_SELECT, MA_RELEASE, 4, moved, false, false, false);
             term_request_copy(mk->term, &clipboard, 1);
             check_clipboard(mk, L"A\x4e2d" L"e\x0301");
