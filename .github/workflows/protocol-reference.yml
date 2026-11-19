@@ -10,6 +10,7 @@ on:
         options:
           - identity
           - guarded-area
+          - column-press
           - attribute-colour
           - selection-colour
           - pointer-colour
@@ -216,6 +217,9 @@ jobs:
       - name: Compare identity argument and cursor semantics
         if: ${{ (success() || failure()) && (inputs.family == '' || inputs.family == 'identity' || inputs.family == 'all') }}
         run: python3 tests/xterm_identity_oracle.py --xterm /tmp/nemoterm-xterm-reference/xterm --output build/protocol-reference/identity-xterm.json
+      - name: Capture original, inserted, deleted and shifted rows for held-glyph selection
+        if: ${{ (success() || failure()) && (inputs.family == 'column-press' || inputs.family == 'all') }}
+        run: python3 tests/column_press_cells.py --output build/protocol-reference/column-press-xterm.json
       - name: Compare guarded-area and pending-wrap semantics
         if: ${{ (success() || failure()) && (inputs.family == 'guarded-area' || inputs.family == 'all') }}
         run: python3 tests/xterm_guarded_area_oracle.py --xterm /tmp/nemoterm-xterm-reference/xterm --output build/protocol-reference/guarded-area-xterm.json
