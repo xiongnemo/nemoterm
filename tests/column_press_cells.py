@@ -21,7 +21,31 @@ def cells(raw):
     assert [int(i) for i,_ in hits]==list(range(1,27)) and b''.join(b'\x1bP'+i+b'!~'+v+b'\x1b\\' for i,v in hits)==raw,raw
     return [int(v,16) for _,v in hits]
 
+def product():
+    import hashlib
+    import os
+    from protocol_oracle_window import run
+    assert os.environ.get('RUNNER_ENVIRONMENT')=='github-hosted'
+    root=Path(__file__).resolve().parents[1]; path=root/'research/column-press-observed.json'
+    ref=json.loads((root/'tests/fixtures/column-press-xterm.json').read_bytes()); inputs=scenes()
+    assert set(inputs)==set(ref['cases'])
+    for n,s in inputs.items():assert hashlib.sha256(s.encode()).hexdigest()==ref['cases'][n]['input_sha256'],n
+    marker=b'\x1b[0n'
+    run('column-press',[],extra_cases=[(n,s,None) for n,s in inputs.items()],barrier=(CSI+'5n',marker),
+        profile=dict(NemoAllowChecksum=1,UTF8linedraw=1,WarnOnClose=0),font=os.environ['NEMOTERM_TEST_FONT'])
+    j=json.loads(path.read_bytes());j['reference_sha256']=ref['sha256'];j['differences']={}
+    for n,r in ref['cases'].items():
+        raw=bytes.fromhex(j['cases'][n]);assert raw.endswith(marker),n
+        expected=cells(bytes.fromhex(r['reply_hex']));actual=cells(raw[:-len(marker)])
+        j['differences'][n]=[[i,a,b] for i,(a,b) in enumerate(zip(expected,actual)) if a!=b]
+    mismatches={n:v for n,v in j['differences'].items() if v};j['matched']=len(inputs)-len(mismatches)
+    path.write_text(json.dumps(j,indent=2),encoding='utf8');assert not mismatches,mismatches
+
+
 if __name__=='__main__':
+    import sys
+    if sys.argv[1:]==['--product']:
+        product();sys.exit(0)
     parser=argparse.ArgumentParser();parser.add_argument('--xterm',default='/tmp/nemoterm-xterm-reference/xterm');parser.add_argument('--output',required=True);args=parser.parse_args()
     from xterm_state_oracle import run_cases
     path=Path(args.output); inputs=scenes();run_cases(args.xterm,str(path),inputs,['-ti','vt520','-xrm','*allowWindowOps: true'],raw_replies=True)

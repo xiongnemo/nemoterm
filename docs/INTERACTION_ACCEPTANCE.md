@@ -214,3 +214,5 @@ Use `suite=profile-sequence` on the exact EXE to replay the aggregate profile wo
 
 
 `selection` 另覆盖滚动分栏穿过双向文字的场景：先在原图与滚动后截图中用字格底色定位同一字，再检查系统剪贴板和应用实际收到的字节。分开记录窗口消息和 Windows 实按 Shift、鼠标、Ctrl+Shift+C。[分栏选区前后对比](../research/selection-split-scroll.md)。如果按下的字被整个滚出或被栏边截断，要同时检查松手后无高亮、右键归应用、后续新选区仍可复制。[原始失败与检验步骤](../research/selection-discarded-scroll.md)。
+
+`protocol-reference.yml` with `family=column-press` captures 26 logical cells on each of 28 rows after ICH, DCH, SL, SR, DECIC and DECDC or the corresponding unedited control. `font-zoom-replay.yml` with `suite=column-cells` compares an exact executable with the original XTerm replies, retaining each different column. `suite=interaction`, `groups=["selection"]` separately checks the rendered highlight, copied text and raw mouse input during a held Shift gesture. The upstream cell checks do not prescribe Windows mouse bindings.
