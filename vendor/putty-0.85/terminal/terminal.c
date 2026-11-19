@@ -3893,8 +3893,6 @@ static void term_copy_stuff_from_conf(Terminal *term)
     term->rect_select = conf_get_bool(term->conf, CONF_rect_select);
     term->remote_qtitle_action = conf_get_int(term->conf, CONF_remote_qtitle_action);
     term->rxvt_homeend = conf_get_bool(term->conf, CONF_rxvt_homeend);
-    term->scroll_on_disp = conf_get_bool(term->conf, CONF_scroll_on_disp);
-    term->scroll_on_key = conf_get_bool(term->conf, CONF_scroll_on_key);
     term->xterm_mouse_forbidden = conf_get_bool(term->conf, CONF_no_mouse_rep);
     term->xterm_256_colour = conf_get_bool(term->conf, CONF_xterm_256_colour);
     term->true_colour = conf_get_bool(term->conf, CONF_true_colour);
@@ -3940,6 +3938,13 @@ void term_pre_reconfig(Terminal *term, Conf *conf)
  */
 void term_reconfig(Terminal *term, Conf *conf)
 {
+    /* DEC private modes 1010/1011 are live window policy. Applying a
+     * different profile value overrides that mode, while applying an
+     * unrelated setting must not move the reader out of history. */
+    if (conf_get_bool(term->conf, CONF_scroll_on_disp) != conf_get_bool(conf, CONF_scroll_on_disp))
+        term->scroll_on_disp = conf_get_bool(conf, CONF_scroll_on_disp);
+    if (conf_get_bool(term->conf, CONF_scroll_on_key) != conf_get_bool(conf, CONF_scroll_on_key))
+        term->scroll_on_key = conf_get_bool(conf, CONF_scroll_on_key);
     if (conf_get_bool(term->conf, CONF_nemo_sixel_colour_continuation) !=
         conf_get_bool(conf, CONF_nemo_sixel_colour_continuation)) {
         term->sixel_colour_tail.kind = NEMO_SIXEL_NO_TAIL;
@@ -4535,6 +4540,8 @@ Terminal *term_init(Conf *myconf, struct unicode_data *ucsdata, TermWin *win)
     term->answerback = strbuf_new();
     term->bell_is_urgent = conf_get_int(term->conf, CONF_beep_ind) != B_IND_DISABLED;
     term->bell_raise = conf_get_bool(term->conf, CONF_nemo_bell_raise);
+    term->scroll_on_disp = conf_get_bool(term->conf, CONF_scroll_on_disp);
+    term->scroll_on_key = conf_get_bool(term->conf, CONF_scroll_on_key);
 
     term_copy_stuff_from_conf(term);
 
@@ -6886,6 +6893,12 @@ static void toggle_mode(Terminal *term, int mode, int query, bool state)
           case 1007:
             term->mouse_alternate_scroll = state;
             break;
+          case 1010:                  /* rxvt: scroll to bottom on output */
+            term->scroll_on_disp = state;
+            break;
+          case 1011:                  /* rxvt: scroll to bottom on keypress */
+            term->scroll_on_key = state;
+            break;
           case 1005:                   /* UTF-8 coordinates */
           case 1006:                   /* SGR cell coordinates */
           case 1015:                   /* urxvt coordinates */
@@ -7022,6 +7035,8 @@ static unsigned term_mode_status(Terminal *term, unsigned mode, bool dec)
             if (term->no_mouse_rep) return 4;
             state = term->mouse_focus_reporting; break;
           case 1007: state = term->mouse_alternate_scroll; break;
+          case 1010: state = term->scroll_on_disp; break;
+          case 1011: state = term->scroll_on_key; break;
           case 2004:
             if (term->no_bracketed_paste) return 4;
             state = term->bracketed_paste; break;
@@ -7055,7 +7070,7 @@ static void nemo_saved_dec_mode(Terminal *term, unsigned mode, bool save)
     static const unsigned modes[] = {
         1, 3, 5, 6, 7, 8, 9, 12, 25, 47, 66, 69, 80,
         1000, 1004, 1005, 1007, 1070, 2004, 2026, 2027, 8452, 9001, 45, 1045, 42,
-        1042, 1043
+        1042, 1043, 1010, 1011
     };
     assert(lenof(modes) == lenof(term->saved_dec_modes));
     size_t i;

@@ -607,6 +607,37 @@ static void test_saved_modes(Mock *mk)
     }
 }
 
+static void test_scrollback_modes(Mock *mk)
+{
+    Terminal *t = mk->term;
+    reset(mk);
+    test_context(mk, "rxvt scroll policies are independent of each other and of persisted settings");
+    conf_set_bool(mk->conf, CONF_scroll_on_disp, true);
+    conf_set_bool(mk->conf, CONF_scroll_on_key, false);
+    term_reconfig(t, mk->conf);
+    state_reply(mk, "\033[?1010l\033[?1011h\033[?1010;1011s\033[?1010$p\033[?1011$p",
+                "\033[?1010;2$y\033[?1011;1$y");
+    IEQUAL(conf_get_bool(t->conf, CONF_scroll_on_disp), true);
+    IEQUAL(conf_get_bool(t->conf, CONF_scroll_on_key), false);
+    /* An unrelated settings apply preserves the live modes. Changing one
+     * checkbox updates only its own flag, including after a remote change. */
+    term_reconfig(t, mk->conf);
+    state_reply(mk, "\033[?1010$p\033[?1011$p", "\033[?1010;2$y\033[?1011;1$y");
+    term_data_fragmented(t, "\033[?1010h");
+    conf_set_bool(mk->conf, CONF_scroll_on_disp, false);
+    term_reconfig(t, mk->conf);
+    state_reply(mk, "\033[?1010$p\033[?1011$p", "\033[?1010;2$y\033[?1011;1$y");
+    term_data_fragmented(t, "\033[?1010h\033[?1011l");
+    conf_set_bool(mk->conf, CONF_scroll_on_key, true);
+    term_reconfig(t, mk->conf);
+    state_reply(mk, "\033[?1010$p\033[?1011$p", "\033[?1010;1$y\033[?1011;1$y");
+    state_reply(mk, "\033[!p\033c\033[?1010;1011r\033[?1010$p\033[?1011$p",
+                "\033[?1010;2$y\033[?1011;1$y");
+    conf_set_bool(mk->conf, CONF_scroll_on_disp, true);
+    conf_set_bool(mk->conf, CONF_scroll_on_key, false);
+    term_reconfig(t, mk->conf);
+}
+
 static void test_cursor_aliases_and_origin(Mock *mk)
 {
     reset(mk);
@@ -687,6 +718,7 @@ int main(void)
     test_double_size(mk);
     test_alignment(mk);
     test_bell_policy(mk);
+    test_scrollback_modes(mk);
     bool failed=mk->any_test_failed;
     mock_free(mk);
     puts(failed ? "State control suite FAILED" : "State control suite passed");
