@@ -30,12 +30,22 @@ class AcceptanceTests(unittest.TestCase):
         self.exe = self.base/'candidate.exe'
         self.exe.write_bytes(b'not executable; preparation must only hash and copy')
         self.args = argparse.Namespace(stage=self.base/'stage', exe=self.exe,
-            sha256=runner.digest(self.exe), codex=None, opencode=None, claude=None)
+            sha256=runner.digest(self.exe), codex=None, opencode=None, claude=None,require_clean_fixture=False)
 
-    def prepare(self):
+    def prepare(self, changes=''):
+        outputs = {('git','rev-parse','HEAD'): 'a'*40+'\n', ('git','status','--porcelain'): changes}
         with patch.object(runner, 'ROOT', self.source), patch.object(runner.subprocess, 'check_output',
-                side_effect=['a'*40+'\n', '']), patch.object(runner.subprocess, 'Popen', side_effect=AssertionError('No launch')):
+                side_effect=lambda command,**kwargs: outputs[tuple(command)]), patch.object(runner.subprocess, 'Popen', side_effect=AssertionError('No launch')):
             with contextlib.redirect_stdout(io.StringIO()):runner.prepare(self.args)
+
+    def test_required_clean_stage_keeps_reason_and_never_runs(self):
+        self.args.require_clean_fixture = True
+        with self.assertRaisesRegex(RuntimeError, 'tests/probe.py'):
+            self.prepare(' M tests/probe.py\n')
+        ident = runner.load(self.args.stage/'identity.json')
+        self.assertTrue(ident['fixture_dirty'])
+        self.assertEqual(ident['fixture_changes'], [' M tests/probe.py'])
+        self.assertFalse((self.args.stage/'results.json').exists())
 
     def test_default_only_lists_plan(self):
         with patch.object(runner, 'prepare', side_effect=AssertionError()), patch.object(runner, 'run', side_effect=AssertionError()):
