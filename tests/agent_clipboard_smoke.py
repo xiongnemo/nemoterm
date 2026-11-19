@@ -83,12 +83,12 @@ def main():
                     desk=DesktopInput(observed['pid'],session['window'],session['hwnd'],events)
                 gesture_clock=[]
                 def key(vk,mods):
-                    stamp=time.monotonic_ns() if args.witness_bitmap and vk==86 else None
+                    stamp=time.perf_counter_ns() if args.witness_bitmap and vk==86 else None
                     if desk:
                         keys={0:(),2:(0x11,),3:(0x11,0x10)}[mods];desk.chord(*keys,vk)
                     else:api.request(endpoint,'key',seat,struct.pack('<II',vk,mods))
                     if stamp is not None:
-                        gesture_clock.append(dict(start_ns=stamp,end_ns=time.monotonic_ns()))
+                        gesture_clock.append(dict(start_ns=stamp,end_ns=time.perf_counter_ns()))
                         write_snapshot(case/'bitmap-gestures.json',gesture_clock)
                 if args.image_file:
                     write_snapshot(control,dict(id=1,action='image-file'))
@@ -190,7 +190,7 @@ def main():
                 if args.witness_bitmap:
                     witness=read_snapshot(case/'bitmap-requests.json')
                     hits=[e for e in witness['events'] if e['reason']=='WM_RENDERFORMAT' and e['supplied']]
-                    assert not witness['errors'] and len(hits)==1 and witness['published_ns']<=gesture_clock[0]['start_ns']<=hits[0]['ns']<hits[0]['supplied_ns'],(witness,gesture_clock)
+                    assert not witness['errors'] and len(hits)==1 and witness['published_ns']<=gesture_clock[0]['start_ns']<=hits[0]['ns']<=hits[0]['supplied_ns'],(witness,gesture_clock)
                 if args.image_file or args.after_window_caption or args.witness_bitmap or followup is not None:
                     relevant=[r for r in observed['requests'] if marker in r['text'] and r['images']]
                     assert len(relevant)==1 and len(relevant[0]['images'])==1 and relevant[0]['images'][0]['generated_pixels_match'],relevant

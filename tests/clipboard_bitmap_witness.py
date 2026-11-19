@@ -36,7 +36,8 @@ u.GetClipboardSequenceNumber.restype = w.DWORD
 class BitmapWitness:
     def __init__(self, path, data):
         self.path, self.data, self.pending = path, data, False
-        self.record = dict(events=[], errors=[], published_ns=None, clock='monotonic_ns')
+        self.record = dict(events=[], errors=[], published_ns=None, clock='perf_counter_ns',
+                           clock_resolution_seconds=time.get_clock_info('perf_counter').resolution)
         self.proc = SUBPROC(self.on_message)
         self.hwnd = u.CreateWindowExW(0, 'STATIC', 'Nemoterm generated bitmap owner', 0,
                                       0, 0, 1, 1, None, None, None, None)
@@ -53,13 +54,13 @@ class BitmapWitness:
             u.SetClipboardData(DIB, None)  # NULL is also the success return here.
             assert u.GetClipboardOwner() == self.hwnd and u.IsClipboardFormatAvailable(DIB)
             self.pending = True
-            self.record['published_ns'] = time.monotonic_ns()
+            self.record['published_ns'] = time.perf_counter_ns()
         finally:
             u.CloseClipboard()
         self.save()
 
     def render(self, reason):
-        event = dict(ns=time.monotonic_ns(), reason=reason, supplied=False,
+        event = dict(ns=time.perf_counter_ns(), reason=reason, supplied=False,
                      sequence=u.GetClipboardSequenceNumber())
         self.record['events'].append(event)
         # This is the HWND passed to OpenClipboard, if one was supplied. It is
@@ -78,7 +79,7 @@ class BitmapWitness:
             if not u.SetClipboardData(DIB, handle): raise c.WinError()
             handle = None
             self.pending = False
-            event.update(supplied=True, supplied_ns=time.monotonic_ns())
+            event.update(supplied=True, supplied_ns=time.perf_counter_ns())
         finally:
             if handle: k.GlobalFree(handle)
 
