@@ -110,11 +110,21 @@ Nemoterm 使用系统中已有的 shell；单文件产物不包含 PowerShell 7�
 - Windows PowerShell 从系统目录查找；Git Bash 需有有效的 Git 安装；WSL Bash 需有已注册的默认发行版。
 - 检测到 WSL 发行版不代表其中一定安装了 Bash；显式指定的 shell 不存在时会报错。
 - `--directory "路径"` 指定启动目录，留空时继承启动器目录；Git Bash / WSL Bash 也接受各自的 POSIX 路径。
+
 - `-e` 后的内容作为自定义启动命令，优先于保存的 shell。**Nemoterm 参数应写在 `-e` 之前。**
 - 明确的命令行设置优先于保存配置，包括 `--tabs`、字体及尺寸；见[参数验证](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/command-line-profile.md)。
 - 开发分支还修复了标签窗口在最小化期间接收尺寸请求后、恢复时内容区域偏小的问题，见[恢复尺寸验证](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/host-restore-size.md)。
 - 在 **Profile / Shell** 中选择 shell，使用 **Save and Apply** 保存当前 profile；`--profile "名称"` 可加载命名 profile。
 - **Profile / Shell** 用于编辑自定义命令和启动目录；命令行也可用 `--shell custom --shell-command "命令"`。
+
+从[开发候选 `fc769def`](research/paste-key-order.md) 起，如果 WSL 程序使用 `?2005` 逐字节引用粘贴，可以在启动 Nemoterm 的 PowerShell 中选择内嵌的 Linux PTY：
+
+```powershell
+$env:NEMOTERM_WSL_PTY_RELAY = 'builtin'
+.\nemoterm.exe --shell wsl-bash
+```
+
+这仍是单 EXE 分发，不用在发行版里安装软件；正常关闭会话会删除临时 ELF。删除该环境变量后，新窗口恢复默认 ConPTY。适用于 x86-64 Linux 发行版。WSL1 原始输入可以保持中文和 emoji 的全部引用前缀；按行读取内嵌换行的差异见[窗口实测](research/wsl-relay-window.md)。
 
 更多说明见 [Shell 检测](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/shell-selection.md) 与 [工作目录集成](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/working-directory.md)。
 
