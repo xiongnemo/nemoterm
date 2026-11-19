@@ -102,6 +102,10 @@ def run(name, cases, scene=None, extra_cases=(), exercise=None, barrier=None, re
                                        child_at_deadline=read_snapshot(folder/'stop.json'))
                     from owned_failure_state import record_owned_failure
                     record_owned_failure(process, job, exit_record, 'protocol-window-exit')
+                    if helper := os.environ.get('NEMOTERM_QUOTE_EXIT_DUMP'):
+                        from native_failure_dump import capture_owned_failure_dump
+                        exit_record['timeout_capture'] = capture_owned_failure_dump(
+                            helper, process, job, root/'research'/'quote-exit-diagnostics'/name)
                 raise
             if observe_exit:
                 exit_record.update(deadline_missed=False, observed_ns=time.perf_counter_ns(),

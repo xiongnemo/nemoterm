@@ -3,6 +3,7 @@ on:
   workflow_call:
     inputs:
       quote_only: {type: boolean, default: false}
+      diagnose_exit: {type: boolean, default: false}
       product_run: {required: true, type: string}
       product_commit: {required: true, type: string}
 permissions:
@@ -36,12 +37,18 @@ jobs:
       - name: Install the read-only frontend pipe observer for the quote replay
         if: inputs.quote_only
         run: python -m pip install frida==17.24.3
+      - name: Verify the timeout-only owned-process diagnostic on the runner
+        if: inputs.diagnose_exit
+        run: |
+          scripts/test-failure-dump.ps1 -Destination build/quote-exit-controls
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          "NEMOTERM_QUOTE_EXIT_DUMP=$((Resolve-Path build/quote-exit-controls/helper.exe).Path)" | Out-File $env:GITHUB_ENV -Append -Encoding utf8
       - name: Compare the quoted Unicode clipboard and a separate physical Return with XTerm
         id: quote
         if: inputs.quote_only
         env: {RENDERER: "${{ matrix.renderer }}", NEMOTERM_PROTOCOL_WIRE_TRACE: "1"}
         run: python tests/paste_lines_window.py --quote
-      - name: Check the same custom quote and window exit without a pipe observer
+      - name: Check quoted paste and window exit without a pipe observer
         if: ${{ !cancelled() && inputs.quote_only && steps.quote.outcome != 'skipped' }}
         env: {RENDERER: "${{ matrix.renderer }}"}
         run: python tests/paste_lines_window.py --quote --exit-control
@@ -53,6 +60,8 @@ jobs:
             research/paste-lines-*.json
             research/paste-quote-*.json
             research/paste-quote-*.jsonl
+            research/quote-exit-diagnostics/
+            build/quote-exit-controls/test.log
             build/paste-lines-product/SOURCE-HOST.json
             build/interaction-dependencies/environment.json
           if-no-files-found: error

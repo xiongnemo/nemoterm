@@ -82,7 +82,7 @@ def main():
     assert os.environ.get('RUNNER_ENVIRONMENT') == 'github-hosted'
     os.environ.update(NEMOTERM_TEST_INPUT_CP='65001', NEMOTERM_TEST_WIDE_INPUT='1')
     parser=argparse.ArgumentParser();parser.add_argument('--quote',action='store_true')
-    parser.add_argument('--exit-control',action='store_true',help='Independent uninstrumented custom-LNEXT window')
+    parser.add_argument('--exit-control',action='store_true',help='Independent uninstrumented windows for the same three profiles')
     args=parser.parse_args();quote=args.quote
     if args.exit_control:
         assert quote and os.environ.get('NEMOTERM_PROTOCOL_WIRE_TRACE') != '1'
@@ -95,13 +95,23 @@ def main():
     assert ref['completed'] and ref['clipboard_hex']==TEXT.encode().hex() and list(ref['cases'])==list(QUOTE_STAGES if quote else STAGES)
     if quote: assert ref['tty_lnext']==22 and ref['quote_profile']=='default'
     renderer={'gdi':1,'directx':3}[os.environ['RENDERER']]
-    results=[] if args.exit_control else [trial(kind, text, renderer, ref['cases'], digest, quote) for kind,text in [('crlf',TEXT.replace('\n','\r\n')),('lf',TEXT)]]
+    trials = [('crlf', TEXT.replace('\n','\r\n'), ref, 22), ('lf', TEXT, ref, 22)]
     if quote:
         with zipfile.ZipFile(path) as z: custom=json.loads(z.read('paste-quote/custom.json'))
         assert custom['completed'] and custom['tty_lnext']==29 and custom['quote_profile']=='custom'
         assert custom['clipboard_hex']==ref['clipboard_hex'] and custom['xterm_sha256']==ref['xterm_sha256'] and list(custom['cases'])==list(QUOTE_STAGES)
-        results.append(trial('custom-lf', TEXT, renderer, custom['cases'], digest, True, 29, untraced=args.exit_control))
-    assert all(results), 'See per-phase mode, paste, and Return bytes in the retained keyboard records'
+        trials.append(('custom-lf', TEXT, custom, 29))
+    failures = []
+    for kind, text, reference, literal_next in trials:
+        try:
+            ok = trial(kind, text, renderer, reference['cases'], digest, quote, literal_next,
+                       untraced=args.exit_control)
+            if not ok: raise AssertionError(f'{kind}: retained input differs from reference')
+        except Exception as error:
+            # Each trial has its own terminal/clipboard/Job. Keep every failed
+            # receipt, including teardown, without skipping later fresh windows.
+            failures.append(error)
+    if failures: raise ExceptionGroup('Native clipboard trials failed', failures)
 
 
 if __name__=='__main__': main()
