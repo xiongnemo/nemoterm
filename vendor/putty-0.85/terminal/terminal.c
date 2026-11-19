@@ -7079,8 +7079,10 @@ static void nemo_saved_dec_mode(Terminal *term, unsigned mode, bool save)
     unsigned status = term_mode_status(term, mode, true);
     if (!status || status >= 3) return; /* local policy always wins */
     if (save) {
-        term->saved_dec_modes[i] = mode == 9 || mode == 1000 ? term->xterm_mouse :
+        int value = mode == 9 || mode == 1000 ? term->xterm_mouse :
             mode == 1005 ? term->mouse_encoding : status == 1;
+        assert(value >= -1 && value <= 1016);
+        term->saved_dec_modes[i] = (int16_t)value;
     } else {
         int value = term->saved_dec_modes[i];
         if (mode == 9 || mode == 1000) {

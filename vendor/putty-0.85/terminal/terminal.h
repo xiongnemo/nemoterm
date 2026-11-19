@@ -368,7 +368,9 @@ struct terminal_tag {
     unsigned win32_input_epoch; /* invalidate held raw keys after reset/toggle */
     /* XTSAVE/XTRESTORE is one shared cache, not a stack. Enum-valued mouse
      * groups and alternate-screen aliases share entries. */
-    int saved_dec_modes[30];
+    /* Saved values are booleans, mouse tracking (-1..5), or a mouse
+     * encoding (0, 1005, 1006, 1015, 1016). */
+    int16_t saved_dec_modes[30];
     uint32_t esc_arg_present;
     int alt_sblines; /* # of lines on alternate screen that should be used for scrollback. */
 
