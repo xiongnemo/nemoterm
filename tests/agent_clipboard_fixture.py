@@ -184,13 +184,16 @@ class Handler(BaseHTTPRequestHandler):
                 pass
 
 
-def put_bitmap(hwnd):
+def bitmap_bytes():
     width, height = 32, 16
     # A small generated blue/red checkerboard, never an image from the user.
     pixels = b''.join(bytes((180, 40, 230) if (x//4+y//4)%2 else (30, 210, 70))
                       for y in range(height) for x in range(width))
-    data = struct.pack('<IiiHHIIiiII', 40, width, height, 1, 24, 0, len(pixels), 0, 0, 0, 0)+pixels
-    put_clipboard_block(hwnd, 8, data)  # CF_DIB
+    return struct.pack('<IiiHHIIiiII', 40, width, height, 1, 24, 0, len(pixels), 0, 0, 0, 0)+pixels
+
+
+def put_bitmap(hwnd):
+    put_clipboard_block(hwnd, 8, bitmap_bytes())  # CF_DIB
 
 
 def put_clipboard_block(hwnd, fmt, data):
@@ -314,6 +317,7 @@ def main():
     parser.add_argument('--terminal', required=True)
     parser.add_argument('--directory', required=True)
     parser.add_argument('--automation', action='store_true')
+    parser.add_argument('--witness-bitmap',action='store_true')
     parser.add_argument('--draft-order',action='store_true')
     parser.add_argument('--selection-renderer', choices=('gdi','directx'))
     parser.add_argument('--confirm-close',action='store_true')
@@ -382,7 +386,7 @@ def main():
     report = dict(client=args.client, client_sha256=hashlib.sha256(Path(args.client_exe).read_bytes()).hexdigest(),
                   terminal_sha256=hashlib.sha256(Path(args.terminal).read_bytes()).hexdigest(),
                   backend=base, generated_bitmap=[32, 16], requests=server.requests, errors=server.errors)
-    saved = None
+    saved = witness = None
     try:
         with OwnedJob() as job:
             process = job.spawn([args.terminal, '-load', profile, *(['--automation'] if args.automation else []), *([] if args.default_grid else ['--cols','100','--rows','30']),
@@ -390,18 +394,24 @@ def main():
                                 cwd=work, env=env, creationflags=subprocess.CREATE_NO_WINDOW)
             hwnd = wait_for(lambda: find_window(process.pid), timeout=20)
             report.update(pid=process.pid, hwnd=hwnd)
-            saved = SavedClipboard(hwnd)
+            if args.witness_bitmap:
+                assert os.environ.get('RUNNER_ENVIRONMENT')=='github-hosted' and args.client=='codex'
+                from clipboard_bitmap_witness import BitmapWitness
+                witness = BitmapWitness(folder/'bitmap-requests.json',bitmap_bytes())
+            saved = SavedClipboard(witness.hwnd if witness else hwnd)
             serial = None
             deadline = time.monotonic()+600
             print(json.dumps(dict(pid=process.pid, hwnd=hwnd, directory=str(folder))), flush=True)
             try:
                 while time.monotonic()<deadline and process.poll() is None:
+                    if witness: witness.pump()
                     control = read_snapshot(folder/'control.json') or {}
                     if control.get('id') != serial:
                         serial = control.get('id')
                         action = control.get('action')
                         if action == 'bitmap':
-                            put_bitmap(hwnd)
+                            if witness: witness.publish()
+                            else: put_bitmap(hwnd)
                             report['clipboard_action'] = serial
                         elif action == 'draft-text' and args.draft_order:
                             put_clipboard_block(hwnd,13,('NEMOTERM_CODEX_IMAGE_CTRL_SHIFT_V'+chr(0)).encode('utf-16-le'))
@@ -436,7 +446,11 @@ def main():
                         elif action == 'finish':
                             break
                     write_snapshot(folder/'observed.json', report)
-                    time.sleep(.1)
+                    if witness:
+                        until=time.monotonic()+.1
+                        while time.monotonic()<until:
+                            witness.pump(); time.sleep(.005)
+                    else: time.sleep(.1)
             finally:
                 if saved:
                     saved.restore(); saved = None
@@ -446,6 +460,7 @@ def main():
     finally:
         if saved:
             saved.restore()
+        if witness: witness.close()
         server.shutdown(); server.server_close(); thread.join(timeout=3)
         winreg.DeleteKey(winreg.HKEY_CURRENT_USER, registry)
 

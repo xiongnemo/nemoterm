@@ -159,6 +159,9 @@ Codex 首次输入会同时触发颜色查询。托管 Windows 控制台用相�
 
 同一 EXE 可用 `font-zoom-replay.yml` 的 `suite=image-timing` 分别重放 Codex 首次显示输入与报告就绪后的两种贴图快捷键；`suite=picture-keys` 则用同一批启动输出核对原生 Windows 键盘记录。见[启动时序、实际图片与原始记录](../research/agent-unicode-boundary.md#codex-image-paste-during-startup)。
 
+`suite=image-reads` 使用相同的产物和固定 Codex，独立诊断启动与就绪阶段。剪贴板由隐藏窗口按需提供同一张 32×16 位图；先做格式可用性查询和两次读回原始像素的对照，再分别记录两种快捷键、Windows 第一次索取像素的时点、应用附件和服务端像素校验。`bitmap-gestures.json` 和 `bitmap-requests.json` 共用单调时钟。Windows 会缓存已提供的像素，本记录不能计数后续读取或单凭窗口句柄认定读取者。这个实验不替代普通剪贴板验收，后续手动重试成功也不改变第一次的结果。
+
+
 `suite=image-files` 另外以只含 Windows 文件列表（`CF_HDROP`）的剪贴板交给同一产品，PNG 路径含空格和中文。首次绘出已输入文字和 idle 后分别在窗口接口、系统按键下测试两种快捷键；必须出现图片附件、服务端收到且只收到一张像素正确的图片。它不计入位图启动检查，也不以粘入了路径文字为通过。
 
 同组的 `system / caption` 在测试项目名 `work` 出现在前台原生窗口标题后立刻实按一次快捷键，不等待客户端空闲、日志或额外重绘。它保留标题截图、按键记录和回环服务收到的图片；该观测只适用于这个客户端配置，独立于启动期与空闲期的原有验收。

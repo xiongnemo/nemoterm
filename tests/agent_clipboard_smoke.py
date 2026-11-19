@@ -47,11 +47,15 @@ def main():
     parser.add_argument('--after-client-idle',action='store_true',help='Also require Codex to report idle and redraw the marker after startup queries')
     parser.add_argument('--observe-first-miss', action='store_true', help='Keep the failed startup gesture and separately observe one subsequent user action in that same session')
     parser.add_argument('--after-window-caption',action='store_true',help='Physically paste when the real window displays the fixture project name, without waiting for a VT status or redraw')
+    parser.add_argument('--witness-bitmap',action='store_true',help='Observe first Windows request for the generated bitmap with a delayed-rendering owner')
     parser.add_argument('--image-file', action='store_true', help='Paste a real copied PNG file (CF_HDROP only) instead of a clipboard bitmap')
     parser.add_argument('--binding',choices=('ctrl-v','ctrl-shift-v'))
     args=parser.parse_args()
     folder=Path(tempfile.mkdtemp(prefix='agent-image-',dir=ROOT/'build'))
     result=dict(client=args.client,cases=[],live_model=False,tool_responses=False,font=args.font)
+    if args.witness_bitmap:
+        assert os.environ.get('RUNNER_ENVIRONMENT')=='github-hosted' and args.client=='codex' and not args.image_file and not args.after_window_caption
+        result['delayed_bitmap_diagnostic']=True
     if args.image_file:assert args.client=='codex' and not args.after_window_caption and not args.observe_first_miss
     if args.after_window_caption:assert args.client=='codex' and args.system_input and not args.after_client_idle and not args.observe_first_miss
     if args.after_client_idle:assert args.client=='codex'
@@ -64,7 +68,7 @@ def main():
             process=job.spawn([sys.executable,str(ROOT/'tests/agent_clipboard_fixture.py'),
                 '--client',args.client,'--client-exe',str(Path(args.client_exe).resolve()),
                 '--terminal',str(Path(args.terminal).resolve()),'--directory',str(case),
-                '--automation','--font',args.font],stdout=log,stderr=subprocess.STDOUT,
+                '--automation','--font',args.font,*(['--witness-bitmap'] if args.witness_bitmap else [])],stdout=log,stderr=subprocess.STDOUT,
                 creationflags=subprocess.CREATE_NO_WINDOW)
             desk=None;events={};followup=None
             try:
@@ -77,10 +81,15 @@ def main():
                 if args.system_input:
                     from hosted_gesture_input import DesktopInput
                     desk=DesktopInput(observed['pid'],session['window'],session['hwnd'],events)
+                gesture_clock=[]
                 def key(vk,mods):
+                    stamp=time.monotonic_ns() if args.witness_bitmap and vk==86 else None
                     if desk:
                         keys={0:(),2:(0x11,),3:(0x11,0x10)}[mods];desk.chord(*keys,vk)
                     else:api.request(endpoint,'key',seat,struct.pack('<II',vk,mods))
+                    if stamp is not None:
+                        gesture_clock.append(dict(start_ns=stamp,end_ns=time.monotonic_ns()))
+                        write_snapshot(case/'bitmap-gestures.json',gesture_clock)
                 if args.image_file:
                     write_snapshot(control,dict(id=1,action='image-file'))
                     file_state=wait_for(lambda:read_snapshot(report).get('file_clipboard'))
@@ -178,7 +187,11 @@ def main():
                 observed['attachment_seconds']=attachment_seconds
                 if args.after_window_caption:observed['caption']=caption_record
                 write_snapshot(ROOT/f'research/agent-{args.client}-{name}.json',observed)
-                if args.image_file or args.after_window_caption or followup is not None:
+                if args.witness_bitmap:
+                    witness=read_snapshot(case/'bitmap-requests.json')
+                    hits=[e for e in witness['events'] if e['reason']=='WM_RENDERFORMAT' and e['supplied']]
+                    assert not witness['errors'] and len(hits)==1 and witness['published_ns']<=gesture_clock[0]['start_ns']<=hits[0]['ns']<hits[0]['supplied_ns'],(witness,gesture_clock)
+                if args.image_file or args.after_window_caption or args.witness_bitmap or followup is not None:
                     relevant=[r for r in observed['requests'] if marker in r['text'] and r['images']]
                     assert len(relevant)==1 and len(relevant[0]['images'])==1 and relevant[0]['images'][0]['generated_pixels_match'],relevant
                 if followup is not None:
@@ -193,7 +206,7 @@ def main():
                         write_snapshot(case/'file-paste-failure.json',dict(
                             path_basename_visible='clipboard 图片 sample.png' in draft,
                             attachment_visible='[Image' in draft,requests=read_snapshot(report)['requests']))
-                    else:
+                    elif not args.witness_bitmap:
                         write_snapshot(control,dict(id=90,action='clipboard-probe'))
                         probe=wait_for(lambda:read_snapshot(report).get('clipboard_probe'),timeout=35)
                         print('Clipboard reader control:', json.dumps(probe), flush=True)
