@@ -10,6 +10,7 @@ import sys
 import traceback
 import uuid
 import winreg
+from hosted_gesture_input import DesktopInput
 from native_test_utils import root, wait_for
 from owned_job import OwnedJob
 from protocol_oracle_window import saved_profile
@@ -39,7 +40,7 @@ def exercise():
                 # No -e or custom WSL command: exercise the installed shell selected by the profile.
                 extra=['--shell','powershell'] if label=='windows-shell' else []
                 with OwnedJob() as job:
-                    proc=job.spawn([str(exe),*flags,'--no-tabs','--automation','--font',font,*extra],env=env,creationflags=subprocess.CREATE_NO_WINDOW)
+                    proc=job.spawn([str(exe),*flags,'--tabs' if label=='default' else '--no-tabs','--automation','--font',font,*extra],env=env,creationflags=subprocess.CREATE_NO_WINDOW)
                     try:
                         inst=wait_for(lambda:next(iter(api.discover(proc.pid)),None),timeout=30);seat,=inst['sessions']
                         pattern = r'^PS [^\r\n]*>\s*$' if label=='windows-shell' else r'^[^\r\n]*[$#]\s*$'
@@ -48,7 +49,7 @@ def exercise():
                             return next((line.rstrip() for line in reversed(lines) if re.fullmatch(pattern,line)),None)
                         rec['initial_prompt']=wait_for(prompt,timeout=30)
                         def send(text):api.request(inst['endpoint'],'input',seat['id'],text+'\r')
-                        def identify(step):
+                        def identify(step, is_relay=active):
                             tag=uuid.uuid4().hex;path=folder/(tag+'.txt')
                             linux='/mnt/'+path.drive[0].lower()+path.as_posix()[2:];dest=shlex.quote(linux);writing=shlex.quote(linux[:-4]+'.tmp')
                             # The marker is only acknowledged after the guest atomically publishes its own record.
@@ -56,7 +57,7 @@ def exercise():
                             wait_for(path.exists,timeout=30);fields=path.read_text(encoding='utf-8').splitlines()
                             assert len(fields)>=4 and fields[0].isdigit() and fields[1].isdigit() and fields[2] and fields[3].startswith('/dev/'),fields
                             files=list(temp.glob('nemoterm-wsl-*.elf'));observed=dict(pid=fields[0],ppid=fields[1],bash=fields[2],tty=fields[3],parent=fields[4:],files=[f.name for f in files]);rec[step]=observed
-                            if active:
+                            if is_relay:
                                 assert len(fields)==6 and fields[3].startswith('/dev/pts/') and len(files)==1,observed
                                 assert fields[4].endswith('/'+files[0].name) and fields[5].split()[0]==hashlib.sha256(files[0].read_bytes()).hexdigest()==expected,observed
                             else:assert not files and not any(expected in f for f in fields[4:]),observed
@@ -72,6 +73,24 @@ def exercise():
                                 ui=subprocess.run(cmd,capture_output=True,timeout=65);rec['settings']=dict(exit=ui.returncode,log=(ui.stdout+ui.stderr).decode(errors='replace'));ui.check_returncode()
                                 rec['saved_after']=saved();assert rec['saved_after']==int(change)
                                 assert identify('after_save')==before,'Save and Apply changed the live shell or its transport'
+                                if label=='default':
+                                    # The ordinary new-tab shortcut must use the setting just saved, without
+                                    # changing the already connected shell or restarting the frontend.
+                                    first=seat
+                                    desk=DesktopInput(proc.pid,seat['window'],seat['hwnd'],rec.setdefault('new_tab_keyboard',{}))
+                                    try:desk.chord(0x11,0x10,ord('T'))
+                                    finally:desk.restore()
+                                    def new_tab():
+                                        seats=api.request(inst['endpoint'])['sessions']
+                                        return next((s for s in seats if s['id']!=first['id']),None) if len(seats)==2 else None
+                                    seat=wait_for(new_tab,timeout=25)
+                                    assert seat['window']==first['window'] and seat['hwnd']!=first['hwnd']
+                                    rec['tab_ids']=[first['id'],seat['id']];wait_for(prompt,timeout=30)
+                                    fresh=identify('new_tab',True);assert fresh['pid']!=before['pid']
+                                    send('exit');seat=first
+                                    wait_for(lambda:[s['id'] for s in api.request(inst['endpoint'])['sessions']]==[first['id']])
+                                    wait_for(lambda:not list(temp.glob('nemoterm-wsl-*.elf')))
+                                    assert identify('after_tab_close')==before
                         send('exit');rec['exit_code']=proc.wait(timeout=20);assert rec['exit_code']==0
                     finally:rec['cleanup']=job.finish(grace=4)
                 rec['residual_files']=[f.name for f in temp.glob('nemoterm-wsl-*.elf')];assert not rec['cleanup']['terminated_remaining'] and not rec['residual_files']

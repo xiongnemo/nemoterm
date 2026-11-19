@@ -309,3 +309,5 @@ For an exact-image Windows quoted-paste exit diagnostic, run `font-zoom-replay.y
 `suite=wsl-relay-vim` 使用同一份单 EXE 的内嵌 WSL PTY，在真实 Vim 与 tmux 内的 Vim 中分别重放鼠标、Shift 强制选区、矩形复制、粘贴及窗口缩放。验证 guest 的 PTY、父进程与临时文件的实际散列，以及退出后临时文件的清理。
 
 `suite=paste-lines` 还会在托管 GDI 和 DirectX 窗口中用延迟提供 `CF_UNICODETEXT` 的所有者检查连续粘贴、回车和后续按键的真实顺序，以及超时放行与忽略迟到的结果。见[修复前后的按键、内容与时序](../research/paste-key-order.md)。
+
+在支持配置方案选择 WSL PTY 的构建上，`suite=wsl-relay-vim` 还会从普通命名 WSL Bash 配置启动，实际点击 Profile → Shell 复选框并保存。在原 shell 保持运行时实按 Ctrl+Shift+T，核对新标签的 Bash、TTY 和父进程文件散列，并检查关标签后原 shell 仍在。重新打开配置、关闭选项以及临时改用 Windows PowerShell 都独立检查。产品进程不继承 `NEMOTERM_WSL_PTY_RELAY`；`research/wsl-transport-profile/result.json` 记录每一次切换及自然退出。测试是否通过以对应 EXE 的回执为准。
