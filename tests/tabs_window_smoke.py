@@ -58,7 +58,10 @@ observation.add_argument('--virtual-memory-trace',action='store_true',
                     help='CI-only scoped virtual commit/release diagnostic; exits 2, never acceptance')
 observation.add_argument('--etw-memory-trace',action='store_true',
                     help='CI-only metadata under workflow-owned ETW recording; no injection, exits 2')
+parser.add_argument('--application-progress',action='store_true',help='Keep real shell progress active during the existing full-grid memory workload')
 args=parser.parse_args()
+if args.application_progress and (not args.workload_memory or not args.require_grid):
+    parser.error('--application-progress requires the full-grid memory workload')
 if not 1<=args.session_seconds<=1800:
     parser.error('--session-seconds must be between 1 and 1800')
 if args.kitty_compression and not args.kitty_images:
@@ -89,6 +92,7 @@ if args.kitty_images:prefix='kitty-'+prefix
 if args.kitty_compression:prefix='compressed-'+prefix
 if args.kitty_unicode:prefix='unicode-'+prefix
 base_scene=scene
+if args.application_progress:prefix='progress-'+prefix
 if args.resource_inventory:prefix='inventory-tabs'
 if args.exception_observer:prefix='exception-tabs'
 if args.probe_detach_mode:prefix='probe-'+args.probe_detach_mode+'-'+prefix
@@ -348,6 +352,18 @@ try:
                 assert evidence['memory_limit_passed'],evidence['peak_private_ws']
             if args.workload_memory:
                 evidence['phase']='memory-workload'
+                if args.application_progress:
+                    sys.path.insert(0,str(root/'tools'))
+                    import nemoterm_debug as progress_api
+                    endpoint=wait_for(lambda:next(iter(progress_api.discover(process.pid)),None))['endpoint']
+                    output(first,'\x1b]9;4;1;60\x1b\\'); output(second,'\x1b]9;4;4;25\x1b\\')
+                    def active_progress():
+                        seats=progress_api.request(endpoint)['sessions']
+                        states={s['hwnd']:(s['progress']['state'],s['progress']['value']) for s in seats}
+                        if states!={first['hwnd']:(1,60),second['hwnd']:(4,25)}:return None
+                        shell=seats[0]['taskbar']
+                        return seats if shell['button_ready'] and shell['attempted'] and shell['hresult']==0 and (shell['state'],shell['value'])==(4,25) else None
+                    evidence['progress_before_workload']=wait_for(active_progress)
                 if args.resize_dumps:
                     from owned_resize_observer import OwnedResizeObserver
                     resize_observer=OwnedResizeObserver(process,job,args.resize_dumps,
@@ -405,6 +421,7 @@ try:
                     evidence['post_memory_kitty']=[]
                     verify_images(process.pid,(first,second),select,
                         evidence['post_memory_kitty'],f'{prefix}-{args.renderer}-{args.side}')
+                if args.application_progress:evidence['progress_after_workload']=wait_for(active_progress)
                 if args.animated_images:
                     # Do not allocate screenshot buffers during acceptance sampling.
                     # Check retained images still animate in each real active renderer

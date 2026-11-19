@@ -4,13 +4,14 @@ on:
     inputs:
       product_run: {required: true, type: string}
       product_commit: {required: true, type: string}
+      memory_only: {type: boolean, default: false}
 permissions:
   contents: read
   actions: read
 jobs:
   records:
     runs-on: windows-2025
-    timeout-minutes: 12
+    timeout-minutes: 24
     strategy:
       fail-fast: false
       matrix: {renderer: [gdi, directx]}
@@ -28,19 +29,31 @@ jobs:
       - name: Install and identify Sarasa Light
         run: scripts/prepare-remote-interaction.ps1
       - name: Check pixels on the task tab after each child write
+        if: ${{ !inputs.memory_only }}
         env:
           RENDERER: ${{ matrix.renderer }}
         run: python tests/taskbar_progress_window.py
       - name: Check real shell API outcomes including competing sessions and tab closure
-        if: ${{ !cancelled() && env.NEMOTERM_TEST_FONT != '' }}
+        if: ${{ !cancelled() && !inputs.memory_only && env.NEMOTERM_TEST_FONT != '' }}
         env:
           RENDERER: ${{ matrix.renderer }}
         run: python tests/taskbar_shell_window.py
+      - name: Sample the full grid with progress active on both tabs
+        if: ${{ !cancelled() && env.NEMOTERM_TEST_FONT != '' }}
+        env:
+          RENDERER: ${{ matrix.renderer }}
+          NEMOTERM_REQUIRE_DIRECTX: '1'
+        run: |
+          python -m pip install frida==17.24.3 Pillow==13.0.0
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          $side=if ($env:RENDERER -eq 'directx') {'left'} else {'top'}
+          python tests/tabs_window_smoke.py --renderer $env:RENDERER --side $side --cols 160 --rows 48 --require-grid --font $env:NEMOTERM_TEST_FONT --workload-memory --kitty-images --kitty-unicode --application-progress --session-seconds 900
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
           name: taskbar-progress-${{ matrix.renderer }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
+            research/progress-*.json
             research/taskbar-progress-*.json
             research/taskbar-progress-*.png
             build/progress-product/SOURCE-HOST.json
