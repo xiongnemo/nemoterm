@@ -22,3 +22,12 @@
 - [连续粘贴](paste-discard-e02f0d0.zip)中，接口和 Ctrl+Shift+V 均 4/4。[Unicode 投递](unicode-discard-e02f0d0.zip)本轮 5/5，包括独立对照。
 - [WSL Vim](wsl-vim-discard-e02f0d0.zip)在两种 TERM 和 GDI、DirectX 的四种组合均完成普通应用鼠标、Shift 本地拖选、两次缩放、矩形选择和实际粘贴保存等六项检查。
 - 原生测试覆盖了与[被丢弃的字](selection-discarded-scroll.md)相反的情形：屏幕上第一行滚入仍然存在的那一个历史槽后可以复制 `KEEP`。第二次滚动覆盖该槽才丢弃起点。中间提交 `209ad34` 的测试把视口移到了当前屏幕（实测 `disptop=0`），因此错误地取了 8 个字符；[原始失败日志](https://github.com/xiongnemo/nemoterm/actions/runs/44476801522/artifacts/14507645616)保留。本次定位到历史顶端并要求 `disptop=-1` 后，GitHub Windows 原生测试通过。
+
+## 160×48 压力峰值
+
+[GDI 六项](memory-gdi-discard-e02f0d0.zip)与[DirectX 六项](memory-directx-discard-e02f0d0.zip)均通过。每列独立取全部采样的最大值，单位为字节。两个渲染器的私有工作集最高值都出现在密集 Unicode 和 Kitty 图像同屏。20 MB 和 30 MB 目标按前端私有工作集验收，不含 shell、控制台宿主和客户端。
+
+| 前端 | 私有工作集峰值 | 总工作集峰值 | 私有提交量峰值 |
+|---|---:|---:|---:|
+| GDI | 19,337,216 | 54,083,584 | 22,515,712 |
+| DirectX | 28,749,824 | 71,933,952 | 32,055,296 |
