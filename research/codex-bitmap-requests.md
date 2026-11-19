@@ -18,3 +18,9 @@
 **首轮计时错误。** [原始失败运行](https://github.com/xiongnemo/nemoterm/actions/runs/44482033870)和[四个原始制品](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/codex-bitmap-reads-44482033870.zip)均保留：该 runner 的首次时钟采样会把进入回调与提供完毕记录在同一刻，测试却要求严格大于。[修正](https://github.com/xiongnemo/nemoterm/commit/6eca999)改用性能计数器，同时允许同次回调内的两条记录具有相等时间；仍要求成功提供数据、时间不倒退、剪贴板在发键之前发布、窗口显示附件且服务端收到正确图片。两轮使用的 EXE SHA-256 都是 `be28e4e503383070855dac42d679c5427e224a68c3fb13195f7d2b820d0f2120`，实际客户端是 `edfdd48f8b458af0906e507b4cb05217b326c3d6e515e9f024e05e3b8d650f70`。每个证据包附 GitHub 原始制品 ID 和 SHA-256。
 
 这些观测与[固定版本客户端在启动草稿中禁用图片的源码和历史记录](codex-file-draft-order.md)吻合。对使用者而言，第一次没看到附件时，可以在编辑器就绪后再次粘贴，看到附件再发送。终端不自动重发手势，以免已就绪的客户端收到两次粘贴。
+
+## `476a2c76`：没有 idle 信号也可能已经能贴图
+
+[同一 EXE 的四台托管 runner](https://github.com/xiongnemo/nemoterm/actions/runs/44567002127)使用延迟提供位图的剪贴板。等客户端报告 idle 再发键的四种组合（实按或窗口接口，各用 Ctrl+V 与 Ctrl+Shift+V）均第一次得到正确图片。刚见到输入文字就发键的四次，**都还没观察到 idle**：一次实按 Ctrl+Shift+V 当场成功；其余三次约 20 秒内没有附件，也没有位图提供请求。同一份草稿就绪后，测试明确再按一次，这三次均收到 `WM_RENDERFORMAT`，提交时各带一张正确的图片。
+
+因此 idle 是可靠的测试等待点，却不是 Codex 能收图的必要条件；首个画面同样不能证明图片编辑器已经接手。第二次手势来自测试，不是终端自动补发。原始首次失败仍按失败计分。[四份原始制品、屏幕、手势和剪贴板时间记录](codex-reads-476a2c76.zip)。
