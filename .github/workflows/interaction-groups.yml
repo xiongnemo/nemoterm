@@ -72,11 +72,14 @@ jobs:
         uses: Vampire/setup-wsl@4c48163d9f981914dd8caa0fc335fe19cca5bff4 # v7.2.0 built distribution
         with:
           distribution: Ubuntu-24.04
-          additional-packages: ${{ matrix.group == 'shells' && 'less' || '' }}
           wsl-version: 1
           set-as-default: 'true'
           update: 'false'
           use-cache: 'false'
+      - name: Verify or install the WSL less fixture over HTTPS
+        if: ${{ inputs.shell_fixtures && matrix.group == 'shells' }}
+        shell: pwsh
+        run: ./scripts/prepare-hosted-wsl-packages.ps1 -Suite pager
       - name: Install native instrumentation
         run: python -m pip install frida==17.24.3 Pillow==13.0.0
       - name: Install pinned isolated client fixtures
@@ -141,6 +144,7 @@ jobs:
             build/interaction-dependencies/*.json
             build/interaction/*.json
             build/interaction/attempts/*/output.log
+            build/wsl-provision/*.log
             build/interaction/attempts/*/research/
             build/interaction/attempts/*/build/
       - name: Publish inputs for the combined interaction report

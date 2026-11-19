@@ -36,7 +36,11 @@ jobs:
           set-as-default: 'true'
           update: 'false'
           use-cache: 'false'
-          additional-packages: ${{ inputs.suite == 'sixel' && 'libsixel-bin' || inputs.suite == 'tmux-vim' && 'vim tmux ncurses-term' || inputs.suite == 'vim' && 'vim' || inputs.suite == 'colour' && 'ncurses-term' || 'less' }}
+      - name: Verify or install signed Ubuntu fixture packages over HTTPS
+        shell: pwsh
+        env:
+          WSL_FIXTURE_SUITE: ${{ inputs.suite }}
+        run: ./scripts/prepare-hosted-wsl-packages.ps1 -Suite $env:WSL_FIXTURE_SUITE
       - name: Prepare font and fixture
         shell: pwsh
         run: |
@@ -65,6 +69,7 @@ jobs:
         with:
           name: ${{ inputs.suite == 'sixel' && 'wsl-sixel' || inputs.suite == 'tmux-vim' && 'wsl-tmux-vim' || inputs.suite == 'vim' && 'wsl-vim' || inputs.suite == 'colour' && 'wsl-colour' || 'wsl-tui' }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
+            build/wsl-provision/*.log
             build/wsl-check/research/
             build/wsl-product/SOURCE-HOST.json
             build/interaction-dependencies/environment.json
