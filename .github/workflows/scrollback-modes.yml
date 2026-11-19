@@ -41,6 +41,11 @@ jobs:
         env:
           RENDERER: ${{ matrix.renderer }}
         run: python tests/selection_history_eviction.py
+      - name: Preserve copied columns across a TUI's partial vertical scroll region
+        if: ${{ !cancelled() && env.NEMOTERM_TEST_FONT != '' }}
+        env:
+          RENDERER: ${{ matrix.renderer }}
+        run: python tests/selection_scroll_region.py
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
@@ -48,6 +53,7 @@ jobs:
           path: |
             research/scrollback-modes-*.json
             research/scrollback-held-history.json
+            research/scrollback-region*
             research/scrollback-rectangle*
             build/scrollback-modes-product/SOURCE-HOST.json
             build/interaction-dependencies/environment.json
