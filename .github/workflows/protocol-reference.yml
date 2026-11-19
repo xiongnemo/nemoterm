@@ -40,6 +40,7 @@ on:
           - historical-xterm
           - terminfo-database
           - regis
+          - regis-bank-start
           - regis-first-expose
           - regis-core
           - regis-discovery
@@ -121,10 +122,11 @@ jobs:
     if: inputs.family == 'regis-core'
     uses: ./.github/workflows/regis-component.yml
   regis:
-    if: inputs.family == 'regis' || inputs.family == 'regis-first-expose'
+    if: inputs.family == 'regis' || inputs.family == 'regis-first-expose' || inputs.family == 'regis-bank-start'
     uses: ./.github/workflows/regis-reference.yml
     with:
       first_expose: ${{ inputs.family == 'regis-first-expose' }}
+      bank_start: ${{ inputs.family == 'regis-bank-start' }}
   terminfo-database:
     if: inputs.family == 'terminfo-database'
     uses: ./.github/workflows/terminfo-database.yml

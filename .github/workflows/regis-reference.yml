@@ -3,6 +3,7 @@ name: Pinned ReGIS reference
 on:
   workflow_call:
     inputs:
+      bank_start: {type: boolean, default: false}
       first_expose: {type: boolean, default: false}
 
 permissions:
@@ -42,7 +43,7 @@ jobs:
           dpkg-query -W > packages.txt
       - name: Capture original replies and stable pixels over both transports
         env:
-          CAPTURE_MODE: ${{ inputs.first_expose && '--first-expose' || '--repaint' }}
+          CAPTURE_MODE: ${{ inputs.first_expose && '--first-expose' || inputs.bank_start && '--bank-start' || '--repaint' }}
         run: |
           set -o pipefail
           /usr/bin/python3 tests/xterm_regis_oracle.py --xterm build/regis-reference/xterm --output build/regis-reference/observations.json "$CAPTURE_MODE" 2>&1 | tee build/regis-reference/capture.log
