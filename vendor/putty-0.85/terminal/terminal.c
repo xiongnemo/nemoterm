@@ -5567,6 +5567,39 @@ static void restore_pressed_cell(Terminal *term, pos dest, int half)
     term->selanchor = dest;
 }
 
+/* Keep the press on the glyph the user saw before a TUI repaint. Resolving
+ * the logical cell before the write also handles bidi reordering of a glyph
+ * outside the write span. No per-window or per-cell state is needed. */
+typedef struct PressedPaint {
+    pos logical;
+    int half;
+    bool follow;
+} PressedPaint;
+
+static PressedPaint begin_pressed_paint(Terminal *term, pos start, int cells,
+                                        int64_t replacement)
+{
+    PressedPaint p = {0};
+    int first, last;
+    if (!pressed_cell_source(term, start.y, start.y, &p.logical, &p.half, &first, &last))
+        return p;
+    if (first < start.x+cells && last >= start.x) {
+        termline *line = scrlineptr(start.y);
+        if (replacement < 0 || first != start.x || last+1 != start.x+cells ||
+            line->chars[first].chr != (unsigned long)replacement || line->chars[first].cc_next) {
+            discard_selection_press(term);
+            return p;
+        }
+    }
+    p.follow = true;
+    return p;
+}
+
+static void end_pressed_paint(Terminal *term, PressedPaint p)
+{
+    if (p.follow) restore_pressed_cell(term, p.logical, p.half);
+}
+
 static void clear_line(Terminal *term, termline *line)
 {
     resizeline(term, line, term->cols);
@@ -7969,6 +8002,7 @@ static void nemo_grapheme_append(Terminal *term, unsigned long scalar,
     unsigned cells = term->grapheme_cells;
     termline *line = scrlineptr(anchor.y);
     int right = nemo_write_right(term, line);
+    PressedPaint paint = begin_pressed_paint(term, anchor, cells, -1);
     check_selection(term, anchor, (pos){anchor.y, anchor.x+(int)cells});
     if (width.cells > cells) {
         if (anchor.x == right) {
@@ -7986,6 +8020,7 @@ static void nemo_grapheme_append(Terminal *term, unsigned long scalar,
             if (!term->marg_l && term->marg_r == term->cols-1)
                 line->lattr |= LATTR_WRAPPED | LATTR_WRAPPED2;
             else line->lattr |= LATTR_CURSOR_WRAPPED;
+            end_pressed_paint(term, paint);
             nemo_linefeed(term);
             term->curs.x = term->marg_l;
             term->wrapnext = false;
@@ -7994,9 +8029,20 @@ static void nemo_grapheme_append(Terminal *term, unsigned long scalar,
             check_trust_status(term, line);
             right = nemo_write_right(term, line);
             unsigned available = min(2, right-anchor.x+1);
-            check_boundary(term, anchor.x, anchor.y);
-            check_boundary(term, anchor.x+available, anchor.y);
+            /* Repair the original destination before insertion, as for an
+             * ordinary wrapped cluster. Only a straddling glyph is lost at
+             * this stage; insch will carry any other press with its cell. */
+            for (int side = 0; side < 2; ++side) {
+                int x = anchor.x + (side ? available : 0);
+                PressedPaint edge = {0};
+                if (term->selstate == ABOUT_TO && x > 0 && x < term->cols &&
+                    line->chars[x].chr == UCSWIDE)
+                    edge = begin_pressed_paint(term, (pos){anchor.y,x-1}, 2, -1);
+                check_boundary(term, x, anchor.y);
+                end_pressed_paint(term, edge);
+            }
             if (term->insert) insch(term, available);
+            paint = begin_pressed_paint(term, anchor, available, -1);
             check_selection(term, anchor, (pos){anchor.y,anchor.x+(int)available});
             copy_termchar(line, anchor.x, &saved->chars[0]);
             freetermline(saved);
@@ -8009,7 +8055,9 @@ static void nemo_grapheme_append(Terminal *term, unsigned long scalar,
                 goto finished;
             }
         } else {
+            end_pressed_paint(term, paint);
             if (term->insert) insch(term, 1);
+            paint = begin_pressed_paint(term, anchor, 2, -1);
             check_boundary(term, anchor.x+2, anchor.y);
         }
         check_selection(term, anchor, (pos){anchor.y, anchor.x+2});
@@ -8023,6 +8071,7 @@ static void nemo_grapheme_append(Terminal *term, unsigned long scalar,
     }
     add_cc(line, anchor.x, scalar);
   finished:
+    end_pressed_paint(term, paint);
     nemo_images_erase(term, anchor, (pos){anchor.y, anchor.x+(int)cells});
     nemo_grapheme_remember(term, anchor, cells, state, width);
     seen_disp_event(term);
@@ -8100,6 +8149,7 @@ static void term_display_graphic_char(Terminal *term, unsigned long c, uint64_t 
         }
     }
 
+    PressedPaint paint = {0};
     switch (width) {
       case 2:
         /*
@@ -8116,8 +8166,9 @@ static void term_display_graphic_char(Terminal *term, unsigned long c, uint64_t 
          * because they had the misfortune to start in the wrong parity
          * column. xterm concurs.)
          */
-        check_boundary(term, term->curs.x, term->curs.y);
         if (term->curs.x >= linecols-1) {
+            paint = begin_pressed_paint(term, term->curs, 1, -1);
+            check_boundary(term, term->curs.x, term->curs.y);
             assert(term->wrap);    /* we handled the non-wrapping case above */
             check_selection(term, term->curs, (pos){term->curs.y,term->curs.x+1});
             copy_termchar(cline, term->curs.x,
@@ -8126,6 +8177,7 @@ static void term_display_graphic_char(Terminal *term, unsigned long c, uint64_t 
                 cline->lattr |= LATTR_WRAPPED | LATTR_WRAPPED2;
             else cline->lattr |= LATTR_CURSOR_WRAPPED;
             nemo_images_erase(term, term->curs, (pos){term->curs.y,term->curs.x+1});
+            end_pressed_paint(term, paint);
             nemo_linefeed(term);
             term->curs.x = term->marg_l;
             cline = scrlineptr(term->curs.y);
@@ -8137,9 +8189,9 @@ static void term_display_graphic_char(Terminal *term, unsigned long c, uint64_t 
                 c = 0xfffd;
                 goto write_single_cell;
             }
-            /* Now we must check_boundary again, of course. */
-            check_boundary(term, term->curs.x, term->curs.y);
         }
+        paint = begin_pressed_paint(term, term->curs, 2, c);
+        check_boundary(term, term->curs.x, term->curs.y);
         check_selection(term, term->curs, (pos){term->curs.y,term->curs.x+2});
         check_boundary(term, term->curs.x+2, term->curs.y);
 
@@ -8172,6 +8224,7 @@ static void term_display_graphic_char(Terminal *term, unsigned long c, uint64_t 
         break;
       case 1:
       write_single_cell:
+        paint = begin_pressed_paint(term, term->curs, 1, c);
         check_selection(term, term->curs, (pos){term->curs.y,term->curs.x+1});
         cluster_anchor = term->curs;
         check_boundary(term, term->curs.x, term->curs.y);
@@ -8209,14 +8262,17 @@ static void term_display_graphic_char(Terminal *term, unsigned long c, uint64_t 
             }
 
             int cells = x+1 < term->cols && cline->chars[x+1].chr == UCSWIDE ? 2 : 1;
+            paint = begin_pressed_paint(term, (pos){term->curs.y,x}, cells, -1);
             check_selection(term, (pos){term->curs.y,x}, (pos){term->curs.y,x+cells});
             add_cc(cline, x, c);
+            end_pressed_paint(term, paint);
             seen_disp_event(term);
         }
         return;
       default:
         return;
     }
+    end_pressed_paint(term, paint);
     term->curs.x++;
     if (term->curs.x >= linecols) {
         term->curs.x = linecols - 1;
