@@ -197,4 +197,4 @@ Use `suite=profile-sequence` on the exact EXE to replay the aggregate profile wo
 
 `suite=draft-product` 与 `suite=draft-reference` 分别在受测 EXE（GDI、DirectX）和独立系统 ConPTY、WinPTY 上运行固定版本的真实 Codex。每种窗口、每个时点各开三个新会话，区分首次可见输入框与一个完整回复后。独立宿主一次写入整段原生按键记录；产品使用发现接口粘贴和实按 Ctrl+Shift+V。输入按原样只提交一次，不因字符串出错而重试，保存屏幕、原始输出和本地服务的回执。[原始证据与输入边界](../research/codex-file-draft-order.md)。
 
-`suite=paste-order` 用指定 EXE 在 Windows 原生接收端连续粘贴 4096 行和第二段 Unicode 文本；GDI、DirectX 各开关一次 bracketed paste。按原始 UTF-16 比较全部文字、回车、顺序和两段边界；失败也保留期望值和实收值。
+`suite=paste-order` 用指定 EXE 在 Windows 原生接收端连续粘贴 4096 行和第二段 Unicode 文本；GDI、DirectX 各开关一次 bracketed paste。按原始 UTF-16 比较全部文字、回车、顺序和两段边界；失败也保留期望值和实收值。 同套检查也在托管桌面实按两次 Ctrl+Shift+V。原生接收端确认已收到第一段的开头，才替换剪贴板并实按第二次；报告单列第二次按键前的接收字节数。

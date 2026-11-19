@@ -1,4 +1,5 @@
 """Collect the exact UTF-16 delivered to a native child by two overlapping pastes."""
+from contextlib import ExitStack
 import ctypes as c
 from ctypes import wintypes as w
 import hashlib
@@ -43,17 +44,18 @@ def child(folder, bracketed):
                 return
 
 
-def parent():
+def parent(clipboard):
     sys.path.insert(0, str(ROOT/'tools'))
     import nemoterm_debug as api
     exe = Path(os.environ['NEMOTERM_TEST_EXE']).resolve(strict=True)
-    base = ROOT/'build/focused-evidence/paste-order'; base.mkdir(parents=True, exist_ok=False)
+    suite = 'paste-order-clipboard' if clipboard else 'paste-order'
+    base = ROOT/'build/focused-evidence'/suite; base.mkdir(parents=True, exist_ok=False)
     first = ''.join(f'A{i:04d}\r\n' for i in range(4096)) + 'FIRST-END:中'
     result = dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(), cases=[])
     for renderer, number in [('gdi', 0), ('directx', 2)]:
         for bracketed in (False, True):
             folder = base/(renderer + ('-bracketed' if bracketed else '-plain')); folder.mkdir()
-            r = dict(renderer=renderer, bracketed=bracketed, passed=False); result['cases'].append(r)
+            r = dict(renderer=renderer, bracketed=bracketed, transport='clipboard' if clipboard else 'api', passed=False); result['cases'].append(r)
             def frame(s): return OPEN+s+CLOSE if bracketed else s
             expected = wide(frame(first.replace('\r\n','\r')) + frame(SECOND) + QUIT)
             (folder/'expected.utf16le').write_bytes(expected)
@@ -68,12 +70,30 @@ def parent():
                     seat, = inst['sessions']; assert seat['renderer'] == number
                     def send(op, payload=b''): return api.request(inst['endpoint'], op, seat['id'], payload)
                     wait_for(lambda: 'PASTE_RECEIVER_READY' in send('text'))
-                    send('paste', first); send('paste', SECOND)
                     path = folder/'received.utf16le'
-                    # Wait for a distinctive terminal suffix before injecting the independent
-                    # quit barrier: typing the barrier too soon would itself cancel a paste.
-                    suffix = wide(SECOND + (CLOSE if bracketed else ''))
-                    wait_for(lambda: path.exists() and path.read_bytes().endswith(suffix), timeout=50)
+                    with ExitStack() as resources:
+                        if clipboard:
+                            from hosted_gesture_input import DesktopInput
+                            from agent_clipboard_fixture import put_clipboard_block
+                            from clipboard_test_utils import SavedClipboard
+                            events = {}; desk = DesktopInput(p.pid, seat['window'], seat['hwnd'], events)
+                            resources.callback(write_snapshot, folder/'system-input.json', events)
+                            resources.callback(desk.restore)
+                            resources.callback(SavedClipboard(seat['hwnd']).restore)
+                            def set_clip(s): put_clipboard_block(seat['hwnd'], 13, wide(s+'\0'))
+                            set_clip(first); desk.chord(0x11, 0x10, 86)
+                            # The clipboard load is asynchronous. Never replace the first
+                            # payload until independent evidence shows it has been read.
+                            wait_for(lambda: path.exists() and wide('A0000') in path.read_bytes())
+                            set_clip(SECOND)
+                            r['received_bytes_before_second_chord'] = path.stat().st_size
+                            desk.chord(0x11, 0x10, 86)
+                        else:
+                            send('paste', first); send('paste', SECOND)
+                        # An ordinary key itself cancels unfinished pastes. Send the
+                        # independent quit barrier only after seeing the final suffix.
+                        suffix = wide(SECOND + (CLOSE if bracketed else ''))
+                        wait_for(lambda: path.exists() and path.read_bytes().endswith(suffix), timeout=50)
                     send('input', QUIT)
                     r.update(exit_code=p.wait(timeout=12), cleanup=job.finish())
                     assert r['exit_code']==0 and not r['cleanup']['terminated_remaining']
@@ -92,4 +112,4 @@ def parent():
 if __name__=='__main__':
     assert os.environ.get('GITHUB_ACTIONS')=='true' and os.environ.get('RUNNER_ENVIRONMENT')=='github-hosted'
     if sys.argv[1:2]==['child']: child(Path(sys.argv[2]), bool(int(sys.argv[3])))
-    else: sys.exit(parent())
+    else: sys.exit(parent(sys.argv[1:]==['--clipboard']))

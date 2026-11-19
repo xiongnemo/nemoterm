@@ -22,14 +22,18 @@ jobs:
         run: |
           scripts/fetch-ci-product.ps1 -Run $env:PRODUCT_RUN -Commit $env:PRODUCT_COMMIT -Destination build/paste-product
           "NEMOTERM_TEST_EXE=$((Resolve-Path build/paste-product/nemoterm.exe).Path)" | Out-File $env:GITHUB_ENV -Append -Encoding utf8
-      - run: scripts/prepare-remote-interaction.ps1
+      - id: prepare
+        run: scripts/prepare-remote-interaction.ps1
       - run: python tests/paste_order_window.py
+      - if: ${{ !cancelled() && steps.prepare.outcome == 'success' }}
+        run: python tests/paste_order_window.py --clipboard
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
           name: consecutive-paste-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
             build/focused-evidence/paste-order
+            build/focused-evidence/paste-order-clipboard
             build/paste-product/SOURCE-HOST.json
             build/interaction-dependencies/environment.json
           if-no-files-found: error
