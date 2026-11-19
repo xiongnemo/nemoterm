@@ -4,6 +4,12 @@
 
 ## 开发快照
 
+[下载 Windows x64 单文件测试版 `2c0152c`](https://github.com/xiongnemo/nemoterm/actions/runs/44503310589/artifacts/14519395078)。解压后只需 `nemoterm.exe`；EXE 的 SHA-256 为 `79e504be64bfc37c2fdfaa79ae179b9a5e9da4ca08ebae29cc8782e3a28ec663`。
+
+按住 Shift 和鼠标左键时，如果应用把 `K` 改成了 `Z`，松手不会误复制 `ZLM`；原字没变或只因双向排版而移动时，仍可继续选中它。宽字、组合附标、emoji 变宽和换行均已回放：112 项窗口消息检查和 10 项系统键鼠检查通过。[修复前后的高亮截图和剪贴板记录](../research/selection-repaint.md)。
+
+同一 EXE 的交互回归为 **78/80**：两项未通过的都是 Codex 刚启动时贴纯位图。真实客户端的 24 项选区和复制回放通过。六种 160×48 压力负载中，前端私有工作集最高 GDI **19.362 MB**、DirectX **28.828 MB**。严格 XTerm 宽字对照有[三处差异](../research/column-edge-integrity.md)，ReGIS 历史画面对照也未全过。[交互汇总和原始内存记录](../research/selection-repaint-aggregate-2c0152c.zip) · [完整 CI](https://github.com/xiongnemo/nemoterm/actions/runs/44503310589)。
+
 [下载 Windows x64 单文件测试版 `b7bf0fd`](https://github.com/xiongnemo/nemoterm/actions/runs/44496986357/artifacts/14516475194)。解压后只需 `nemoterm.exe`；EXE 的 SHA-256 为 `30de4cef81033fb47cc1dffce629bf7cfa22542f53dd5d158874efe51b6c44e9`。
 
 本版修复了按住 Shift 从屏幕选字时，应用插入或删除字符导致复制错字的问题。按住 `K` 时即使它被挪动两格，再拖到 `M`，复制的仍是 `KLM`。GDI、DirectX 上新增的 66 项选区检查通过；关闭确认点“取消”后直接输入、中英文渲染设置在 100%–200% 缩放下的排版也已复测。[截图与修复前后对照](../research/selection-column-edits.md)。

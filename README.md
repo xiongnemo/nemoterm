@@ -33,11 +33,11 @@ Kitty 图片支持直接 RGB/RGBA/PNG、压缩传输、裁剪、透明度、查�
 
 ## 下载
 
-[下载 Windows x64 单文件测试版 `2c0152c`](https://github.com/xiongnemo/nemoterm/actions/runs/44503310589/artifacts/14519395078)。解压后只需 `nemoterm.exe`；EXE 的 SHA-256 为 `79e504be64bfc37c2fdfaa79ae179b9a5e9da4ca08ebae29cc8782e3a28ec663`。
+[下载 Windows x64 单文件测试版 `2c63154`](https://github.com/xiongnemo/nemoterm/actions/runs/44510289348/artifacts/14523910915)。解压后只需 `nemoterm.exe`；EXE 的 SHA-256 为 `22e5cc72fee4c1f157468b29c5af8b2eaccbcbda1c90637467e74fb1309e739f`。
 
-按住 Shift 和鼠标左键时，如果应用把 `K` 改成了 `Z`，松手不会误复制 `ZLM`；原字没变或只因双向排版而移动时，仍可继续选中它。宽字、组合附标、emoji 变宽和换行均已回放：112 项窗口消息检查和 10 项系统键鼠检查通过。[修复前后的高亮截图和剪贴板记录](research/selection-repaint.md)。
+按住 Shift 和鼠标左键选字时，如果应用在拖动前擦掉了按住的字，松手会取消这次选择，不改剪贴板。如果只擦了邻字，或按住的字符受保护，则仍能正常复制。52 项擦除手势在 GDI 和 DirectX 上全部通过；同一 EXE 的 10 项默认网格真实客户端选区回放也已通过。[高亮截图、原始记录及内存样本](research/selection-erase.md)。
 
-同一 EXE 的交互回归为 **78/80**：两项未通过的都是 Codex 刚启动时贴纯位图。真实客户端的 24 项选区和复制回放通过。六种 160×48 压力负载中，前端私有工作集最高 GDI **19.362 MB**、DirectX **28.828 MB**。严格 XTerm 宽字对照有[三处差异](research/column-edge-integrity.md)，ReGIS 历史画面对照也未全过。[交互汇总和原始内存记录](research/selection-repaint-aggregate-2c0152c.zip) · [完整 CI](https://github.com/xiongnemo/nemoterm/actions/runs/44503310589) · [历史测试版](docs/PREVIEW_HISTORY.md)。
+这是供手动测试的开发版。严格 XTerm 宽字和 ReGIS 历史画面对照仍有差异；专项通过不代表全部协议或完整 CI 通过。[这份 EXE 的完整 CI](https://github.com/xiongnemo/nemoterm/actions/runs/44510289348) · [历史测试版和压力测试](docs/PREVIEW_HISTORY.md)。
 
 在 Codex 0.167.0 中，请等编辑器就绪后再贴图，看到输入框中出现图片附件再发送。启动草稿可能接受文字却忽略贴图，窗口标题也不能可靠地判断是否就绪。[实际提交与截图](research/codex-file-draft-order.md) · [按键后 Windows 何时索取位图](research/codex-bitmap-requests.md)。
 
