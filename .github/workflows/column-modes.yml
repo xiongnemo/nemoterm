@@ -41,6 +41,11 @@ jobs:
         env:
           RENDERER: ${{ matrix.renderer }}
         run: python tests/column_modes_window.py
+      - name: Verify both startup switches override the saved profile
+        if: ${{ !cancelled() && steps.prepare.outcome == 'success' }}
+        env:
+          RENDERER: ${{ matrix.renderer }}
+        run: python tests/column_modes_window.py --cli
       - name: Restore the runner display and retain its measured geometry
         if: always()
         shell: pwsh

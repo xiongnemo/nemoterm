@@ -288,7 +288,8 @@ struct terminal_tag {
     bool rvideo;                       /* global reverse video flag */
     unsigned long rvbell_startpoint;   /* for ESC[?5hESC[?5l vbell */
     bool cursor_on;                    /* cursor enabled flag */
-    bool reset_132;                    /* Flag ESC c resets to 80 cols */
+    bool reset_132, initial_132;       /* Requested column mode, not actual width */
+    bool allow_132, noclear_132;       /* XTerm ?40 and VT510 DECNCSM ?95 */
     bool use_bce;                      /* Use Background coloured erase */
     bool cblinker;                     /* When blinking is the cursor on ? */
     bool tblinker;                     /* When the blinking text is on */
@@ -374,7 +375,7 @@ struct terminal_tag {
      * groups and alternate-screen aliases share entries. */
     /* Saved values are booleans, mouse tracking (-1..5), or a mouse
      * encoding (0, 1005, 1006, 1015, 1016). */
-    int16_t saved_dec_modes[29];
+    int16_t saved_dec_modes[31];
     uint32_t esc_arg_present;
     int alt_sblines; /* # of lines on alternate screen that should be used for scrollback. */
 

@@ -3516,6 +3516,7 @@ static void term_progress(Terminal *term, unsigned state, unsigned value)
 
 static void power_on(Terminal *term, bool clear, bool keep_encoding)
 {
+    term->noclear_132 = false;
     term_progress(term, 0, 0);
     nemo_udk_clear(term);
     nemo_pointer_reset(term);
@@ -4542,6 +4543,9 @@ Terminal *term_init(Conf *myconf, struct unicode_data *ucsdata, TermWin *win)
     term->win = win;
     term->ucsdata = ucsdata;
     term->conf = conf_copy(myconf);
+    int column_start = conf_get_int(myconf, CONF_nemo_column_mode_start);
+    term->allow_132 = column_start != 2;
+    term->initial_132 = term->reset_132 = column_start == 1;
     nemo_tcap_configure(term, conf_get_str(myconf, CONF_nemo_tcap_name));
     term->compatibility_level = TM_PUTTY;
     term->ansi_level = 3;
@@ -7068,17 +7072,40 @@ static void toggle_mode(Terminal *term, int mode, int query, bool state)
             }
             term_schedule_tblink(term);
             break;
-          case 3:                      /* DECCOLM: 80/132 columns */
-            deselect(term);
-            if (!term->no_remote_resize)
-                term_request_resize(term, state ? 132 : 80, term->rows);
+          case 40:                     /* XTerm: permit DECCOLM */
+            term->allow_132 = state;
+            break;
+          case 95:                     /* VT510: retain contents on DECCOLM */
+            if (has_compat(VT510)) term->noclear_132 = state;
+            break;
+          case 3: {                    /* DECCOLM: 80/132 columns */
+            if (!term->allow_132 || term->no_remote_resize) break;
+            int width = state ? 132 : 80;
+            if (!term->noclear_132) lose_resize_selection(term);
+            if (state != term->reset_132 || term->cols != width)
+                term_request_resize(term, width, term->rows);
             term->reset_132 = state;
-            term->marg_t = 0;
-            term->marg_b = term->rows - 1;
+            term->marg_t = 0; term->marg_b = term->rows-1;
             term->marg_l = 0; term->marg_r = term->cols-1;
             move(term, 0, 0, 0);
-            erase_lots(term, false, true, true);
+            if (!term->noclear_132) {
+                erase_lots(term, false, true, true);
+            } else {
+                /* DECCOLM still restores single-width lines. Unrelated
+                 * ordinary glyphs retain their selection through reflow. */
+                for (int y = 0; y < term->rows; y++) {
+                    termline *line = scrlineptr(y);
+                    if (!(line->lattr & LATTR_MODE)) continue;
+                    if ((term->selstate == ABOUT_TO && term->selanchor.y == y) ||
+                        (term->selstate != ABOUT_TO && term->selstate != NO_SELECTION &&
+                         term->selstart.y <= y && y <= term->selend.y))
+                        lose_resize_selection(term);
+                    line->lattr &= ~LATTR_MODE;
+                }
+                seen_disp_event(term);
+            }
             break;
+          }
           case 5:                      /* DECSCNM: reverse video */
             /*
              * Toggle reverse video. If we receive an OFF within the
@@ -7276,6 +7303,12 @@ static unsigned term_mode_status(Terminal *term, unsigned mode, bool dec)
             if (term->no_applic_c) return 4;
             state = term->app_cursor_keys; break;
           case 2: state = !term->vt52_mode; break;
+          case 40:
+            if (term->no_remote_resize) return 4;
+            state = term->allow_132; break;
+          case 95:
+            if (!has_compat(VT510)) return 0;
+            state = term->noclear_132; break;
           case 3:
             if (term->no_remote_resize) return 4;
             state = term->reset_132; break;
@@ -7357,7 +7390,7 @@ static void nemo_saved_dec_mode(Terminal *term, unsigned mode, bool save)
     static const unsigned modes[] = {
         1, 3, 5, 6, 7, 8, 9, 12, 25, 47, 66, 69, 80,
         1000, 1004, 1005, 1007, 1070, 2026, 2027, 8452, 9001, 45, 1045, 42,
-        1042, 1043, 1010, 1011
+        1042, 1043, 1010, 1011, 40, 95
     };
     assert(lenof(modes) == lenof(term->saved_dec_modes));
     size_t i;
@@ -9555,11 +9588,9 @@ static void term_out(Terminal *term, bool called_from_term_data)
                     power_on(term, true, true);
                     if (term->ldisc)   /* cause ldisc to notice changes */
                         ldisc_echoedit_update(term->ldisc);
-                    if (term->reset_132) {
-                        if (!term->no_remote_resize)
-                            term_request_resize(term, 80, term->rows);
-                        term->reset_132 = false;
-                    }
+                    if (term->reset_132 && term->allow_132 && !term->no_remote_resize)
+                        term_request_resize(term, 80, term->rows);
+                    term->reset_132 = term->initial_132;
                     if (term->scroll_on_disp)
                         term->disptop = 0;
                     seen_disp_event(term);

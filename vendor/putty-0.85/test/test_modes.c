@@ -106,6 +106,45 @@ static void test_switchable_modes(Mock *mk)
     MODE_RESPONSE("\033[?2;1$y");
 }
 
+/* The wire oracle also checks physical resizing. Here isolate same-width
+ * DECCOLM, so none of these assertions depend on a mock window resizing. */
+static void test_column_mode_contents(Mock *mk)
+{
+    Terminal *t = mk->term;
+    reset(mk);
+    test_context(mk, "column switches preserve or erase text, independent of geometry");
+    term_data_fragmented(t, "\033[65;1\"p\033[?40;95h\033[?3l");
+    term_update(t);
+    term_data_fragmented(t, "\033[2;3HA\033[7;11H\033[?3l");
+    IEQUAL(get_termchar(t, 2, 1).chr, CSET_ASCII | 'A');
+    IEQUAL(t->curs.x, 0); IEQUAL(t->curs.y, 0);
+
+    term_data_fragmented(t, "\033[7;11H\033[?40l\033[?3h");
+    IEQUAL(t->curs.x, 10); IEQUAL(t->curs.y, 6);
+    term_data_fragmented(t, "\033[?40;95s\033[?40h\033[?95l\033[?40;95r\033[!p"
+                            "\033[?3$p\033[?40$p\033[?95$p");
+    MODE_RESPONSE("\033[?3;2$y\033[?40;2$y\033[?95;1$y");
+    term_data_fragmented(t, "\033[?40h\033[?95l\033[7;11H\033[?3l");
+    IEQUAL(get_termchar(t, 2, 1).chr, CSET_ASCII | ' ');
+    IEQUAL(t->curs.x, 0); IEQUAL(t->curs.y, 0);
+
+    test_context(mk, "local resize prohibition also protects screen contents and cursor");
+    t->no_remote_resize = true;
+    term_data_fragmented(t, "\033[2;3HB\033[7;11H\033[?40h\033[?3h\033[?3$p\033[?40$p");
+    MODE_RESPONSE("\033[?3;4$y\033[?40;4$y");
+    IEQUAL(get_termchar(t, 2, 1).chr, CSET_ASCII | 'B');
+    IEQUAL(t->curs.x, 10); IEQUAL(t->curs.y, 6);
+    t->no_remote_resize = false;
+
+    test_context(mk, "VT420 has no no-clear mode; hard reset drops it on VT520");
+    term_data_fragmented(t, "\033[64;1\"p\033[?95h\033[?95$p\033[?3l");
+    MODE_RESPONSE("\033[?95;0$y");
+    IEQUAL(get_termchar(t, 2, 1).chr, CSET_ASCII | ' ');
+    term_data_fragmented(t, "\033[65;1\"p\033[?95h\033[?40l\033c\033[?40$p\033[?95$p");
+    MODE_RESPONSE("\033[?40;2$y\033[?95;2$y");
+    term_data_fragmented(t, "\033[?40h");
+}
+
 static void test_tracking_queries(Mock *mk)
 {
     static const char *queries =
@@ -272,6 +311,7 @@ int main(void)
     test_unknown_and_parameter_handling(mk);
     test_fragmented_query_and_recovery(mk);
     test_synchronized_mode_queries(mk);
+    test_column_mode_contents(mk);
 
     bool failed = mk->any_test_failed;
     mock_free(mk);

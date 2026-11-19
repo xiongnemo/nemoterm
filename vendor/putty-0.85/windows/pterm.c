@@ -14,7 +14,7 @@ void gui_term_process_cmdline(Conf *conf, char *cmdline)
     bool show_settings = false;
     char *exec_command = NULL;
     char *shell_id = NULL, *shell_command = NULL, *directory = NULL;
-    int tabs = -1;
+    int tabs = -1, column_mode_start = -1;
     int tab_side = -1, cols = 0, rows = 0, scrollback = -1;
     int font_size = 0, right_click_paste = -1;
     char *font_name = NULL;
@@ -74,6 +74,10 @@ void gui_term_process_cmdline(Conf *conf, char *cmdline)
             if (!nemo_profile_exists(name)) cmdline_error("Unknown profile '%s'", name);
             do_defaults(nemo_profile_key(name), conf);
             arglistpos++;
+            continue;
+        }
+        if (!strcmp(argstr, "-132") || !strcmp(argstr, "+132")) {
+            column_mode_start = *argstr == '-' ? 1 : 2;
             continue;
         }
         if (!strcmp(argstr, "--tab-side")) {
@@ -171,6 +175,7 @@ void gui_term_process_cmdline(Conf *conf, char *cmdline)
      * Read unspecified font properties from the final loaded configuration. */
     if (tabs >= 0) conf_set_bool(conf, CONF_nemo_tabs, tabs != 0);
     if (tab_side >= 0) conf_set_int(conf, CONF_nemo_tab_side, tab_side);
+    if (column_mode_start >= 0) conf_set_int(conf, CONF_nemo_column_mode_start, column_mode_start);
     if (cols) conf_set_int(conf, CONF_width, cols);
     if (rows) conf_set_int(conf, CONF_height, rows);
     if (scrollback >= 0) conf_set_int(conf, CONF_savelines, scrollback);

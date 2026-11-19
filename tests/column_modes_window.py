@@ -46,6 +46,24 @@ def main():
             run(name,[],exercise=body,barrier=(C+'5n',b'\x1b[0n'),font=font,profile=dict(NemoTabs=1,NemoRenderer=renderer-1,NemoColumnModeStart=2 if profile.startswith('explicit') else 1,NoRemoteResize=int(profile=='local-deny'),NemoAllowChecksum=1,UTF8linedraw=1,FontHeight=8,WarnOnClose=0,LockSize=0))
     report['strict_matches']=sum(rows);report['strict_total']=len(rows);report['local_policy']=local
     (root/'research'/('column-mode-'+gpu+'-summary.json')).write_text(json.dumps(report,indent=2),encoding='utf-8')
-    assert all(rows) and all(local) and all(o.get('ink_matches',True) for v in report['profiles'].values() for o in v.values()),(sum(rows),len(rows),local)
+    assert len(rows)==132 and len(local)==3 and all(rows) and all(local) and all(o.get('ink_matches',True) for v in report['profiles'].values() for o in v.values()),(sum(rows),len(rows),local)
 
-if __name__=='__main__':main()
+def cli():
+    if os.environ.get('RUNNER_ENVIRONMENT')!='github-hosted':raise RuntimeError('GitHub-hosted runner required')
+    gpu=os.environ['RENDERER']; font=os.environ['NEMOTERM_TEST_FONT']
+    # Match the upstream startup reports at a real 80x24 geometry. Save the
+    # opposite preference in the profile so a parser that ignores CLI fails.
+    with zipfile.ZipFile(root/'testdata/upstream/xterm412-column-modes-profiles.zip') as z:
+        for arg,opposite,ref in [('-132',2,'enabled'),('+132',1,'explicit-off')]:
+            expected=bytes.fromhex(json.loads(z.read('column-modes/'+ref+'.json'))['cases']['initial']['reply_hex'])
+            run('column-mode-'+gpu+'-cli-'+ref,[('initial',PROBE,expected)],
+                barrier=(C+'5n',b'\x1b[0n'),font=font,frontend_args=[arg],
+                profile=dict(NemoTabs=1,NemoRenderer=0 if gpu=='gdi' else 2,
+                             NemoColumnModeStart=opposite,NemoAllowChecksum=1,FontHeight=8,WarnOnClose=0))
+
+
+if __name__=='__main__':
+    import argparse
+    ap=argparse.ArgumentParser();ap.add_argument('--cli',action='store_true')
+    if ap.parse_args().cli:cli()
+    else:main()

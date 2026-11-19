@@ -1562,3 +1562,9 @@ CONF_OPTION(nemo_regis_scroll_with_text,
 CONF_OPTION(nemo_wsl_linux_pty,
     VALUE_TYPE(BOOL), DEFAULT_BOOL(false), SAVE_KEYWORD("NemoWslLinuxPty"),
 )
+
+/* Native default, XTerm -132, XTerm +132. This is independent of the actual
+ * initial window width and never overrides the local resize permission. */
+CONF_OPTION(nemo_column_mode_start,
+    VALUE_TYPE(INT), DEFAULT_INT(0), SAVE_KEYWORD("NemoColumnModeStart"),
+)
