@@ -192,3 +192,5 @@ Use `suite=profile-sequence` on the exact EXE to replay the aggregate profile wo
 `picture-keys` 的原生接收器分别对 Ctrl+V、Ctrl+Shift+V 核对整条 Windows 按键记录（顺序、扫描码、字符、修饰、重复数）。800 ms 后可重试读取测试进程发布的快照，但不能补发按键，迟到或多余的按键均使测试失败。VT 协商字节另行运行。`agents-grid` 在整段回复提交后，还会反向拖选新回复中的两个混排字符，把剪贴板换成只有图片的哨兵，再用 Ctrl+Shift+C/V 复制、粘贴。服务端必须收到含这两个字符的独立用户消息，不能混入邻格或丢失组合附标。
 
 选区必须在应用只移动光标时保持可复制；应用实际改写选中字形时才取消。`suite=interaction` 的 `selection` 组在 Sarasa 和默认字体、GDI 和 DirectX 四个窗口中检查高亮、右键归属和原始应用输入。见[光标更新和选择记录](../research/selection-cursor-traffic.md)。
+
+`suite=colour-input` 还重放 `22ed829` 记录中 Codex 输入乱序现场在颜色查询前实际发出的 VT。原生 `ReadConsoleInputW` 接收器与真实客户端分开：同一 EXE 分别在 GDI、DirectX 下向它粘贴完整标记；无查询的对照以及查询前、并发启动和查询回复后三种顺序都保留原始按键记录。完整状态回复将输入定界；只移除明确的回复后，用户字节须与基准逐字相同。

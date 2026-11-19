@@ -23,15 +23,20 @@ jobs:
           scripts/fetch-ci-product.ps1 -Run $env:PRODUCT_RUN -Commit $env:PRODUCT_COMMIT -Destination build/colour-product
           "NEMOTERM_TEST_EXE=$((Resolve-Path build/colour-product/nemoterm.exe).Path)" | Out-File $env:GITHUB_ENV -Append -Encoding utf8
       - name: Install and identify Sarasa Light
+        id: prepare
         run: scripts/prepare-remote-interaction.ps1
       - name: Measure native key records and the two query deadlines under both renderers
         run: python tests/console_colour_roundtrip.py
+      - name: Read a whole startup draft between native input barriers
+        if: ${{ !cancelled() && steps.prepare.outcome == 'success' }}
+        run: python tests/console_draft_order.py
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
           name: console-colour-input-${{ github.sha }}
           path: |
             build/focused-evidence/colour-input
+            build/focused-evidence/draft-order
             build/interaction-dependencies/environment.json
             build/colour-product/SOURCE-HOST.json
           if-no-files-found: error
