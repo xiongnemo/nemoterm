@@ -220,6 +220,9 @@ jobs:
       - name: Capture original, inserted, deleted and shifted rows for held-glyph selection
         if: ${{ (success() || failure()) && (inputs.family == 'column-press' || inputs.family == 'all') }}
         run: python3 tests/column_press_cells.py --output build/protocol-reference/column-press-xterm.json
+      - name: Record wide trailing halves at both sides of a vacated column margin
+        if: ${{ (success() || failure()) && inputs.family == 'column-press' }}
+        run: python3 tests/column_edge_audit.py --xterm /tmp/nemoterm-xterm-reference/xterm --output build/protocol-reference/column-edge-xterm.json
       - name: Compare guarded-area and pending-wrap semantics
         if: ${{ (success() || failure()) && (inputs.family == 'guarded-area' || inputs.family == 'all') }}
         run: python3 tests/xterm_guarded_area_oracle.py --xterm /tmp/nemoterm-xterm-reference/xterm --output build/protocol-reference/guarded-area-xterm.json
