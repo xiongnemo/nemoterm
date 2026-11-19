@@ -4,6 +4,12 @@
 
 ## 开发快照
 
+[下载 Windows x64 单文件测试版 `b7bf0fd`](https://github.com/xiongnemo/nemoterm/actions/runs/44496986357/artifacts/14516475194)。解压后只需 `nemoterm.exe`；EXE 的 SHA-256 为 `30de4cef81033fb47cc1dffce629bf7cfa22542f53dd5d158874efe51b6c44e9`。
+
+本版修复了按住 Shift 从屏幕选字时，应用插入或删除字符导致复制错字的问题。按住 `K` 时即使它被挪动两格，再拖到 `M`，复制的仍是 `KLM`。GDI、DirectX 上新增的 66 项选区检查通过；关闭确认点“取消”后直接输入、中英文渲染设置在 100%–200% 缩放下的排版也已复测。[截图与修复前后对照](../research/selection-column-edits.md)。
+
+同一 EXE 的完整交互回归 **78/80**，两项未通过的都是 Codex 刚启动时贴纯位图。六种 160×48 压力负载中，前端私有工作集最高 GDI **19.120 MB**、DirectX **28.881 MB**。另有三个 XTerm 宽字边界单元格仍有差异，ReGIS 的历史对照也未全过。[原始交互与内存记录](../research/selection-aggregate-b7bf0fd.zip) · [完整 CI](https://github.com/xiongnemo/nemoterm/actions/runs/44496986357) · [历史测试版](#开发快照)。
+
 [下载 Windows x64 单文件测试版 `bec4002`](https://github.com/xiongnemo/nemoterm/actions/runs/44491317295/artifacts/14512847979)。解压后只需 `nemoterm.exe`；EXE 的 SHA-256 为 `9f43a0ddc23219f3ac3974fee73b3b6f8de8f45c63adf3e668d7eef99984275e`。
 
 本版修复了同时复制到位图和空文本时 Ctrl+Shift+V 没有反应的问题。非空文本和文件列表仍然优先。已就绪的真实 Codex 四项贴图全部通过，原生子进程十项输入全部通过；OpenCode 的正文及标题请求另外记录。[贴图动作与逐像素验证](../research/clipboard-empty-text.md)。同一 EXE 的 13 份交互分组记录共 78/80，未通过的两项均为 Codex 启动即贴纯位图。六种 160×48 压力负载，前端私有工作集峰值为 GDI **19.137 MB**、DirectX **28.750 MB**。[原始内存与交互记录](../research/clipboard-aggregate-bec4002.zip) · [完整 CI](https://github.com/xiongnemo/nemoterm/actions/runs/44491317295) · [历史测试版](#开发快照)。

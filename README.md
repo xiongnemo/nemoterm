@@ -33,11 +33,11 @@ Kitty 图片支持直接 RGB/RGBA/PNG、压缩传输、裁剪、透明度、查�
 
 ## 下载
 
-[下载 Windows x64 单文件测试版 `b7bf0fd`](https://github.com/xiongnemo/nemoterm/actions/runs/44496986357/artifacts/14516475194)。解压后只需 `nemoterm.exe`；EXE 的 SHA-256 为 `30de4cef81033fb47cc1dffce629bf7cfa22542f53dd5d158874efe51b6c44e9`。
+[下载 Windows x64 单文件测试版 `2c0152c`](https://github.com/xiongnemo/nemoterm/actions/runs/44503310589/artifacts/14519395078)。解压后只需 `nemoterm.exe`；EXE 的 SHA-256 为 `79e504be64bfc37c2fdfaa79ae179b9a5e9da4ca08ebae29cc8782e3a28ec663`。
 
-本版修复了按住 Shift 从屏幕选字时，应用插入或删除字符导致复制错字的问题。按住 `K` 时即使它被挪动两格，再拖到 `M`，复制的仍是 `KLM`。GDI、DirectX 上新增的 66 项选区检查通过；关闭确认点“取消”后直接输入、中英文渲染设置在 100%–200% 缩放下的排版也已复测。[截图与修复前后对照](research/selection-column-edits.md)。
+按住 Shift 和鼠标左键时，如果应用把 `K` 改成了 `Z`，松手不会误复制 `ZLM`；原字没变或只因双向排版而移动时，仍可继续选中它。宽字、组合附标、emoji 变宽和换行均已回放：112 项窗口消息检查和 10 项系统键鼠检查通过。[修复前后的高亮截图和剪贴板记录](research/selection-repaint.md)。
 
-同一 EXE 的完整交互回归 **78/80**，两项未通过的都是 Codex 刚启动时贴纯位图。六种 160×48 压力负载中，前端私有工作集最高 GDI **19.120 MB**、DirectX **28.881 MB**。另有三个 XTerm 宽字边界单元格仍有差异，ReGIS 的历史对照也未全过。[原始交互与内存记录](research/selection-aggregate-b7bf0fd.zip) · [完整 CI](https://github.com/xiongnemo/nemoterm/actions/runs/44496986357) · [历史测试版](docs/PREVIEW_HISTORY.md)。
+同一 EXE 的交互回归为 **78/80**：两项未通过的都是 Codex 刚启动时贴纯位图。真实客户端的 24 项选区和复制回放通过。六种 160×48 压力负载中，前端私有工作集最高 GDI **19.362 MB**、DirectX **28.828 MB**。严格 XTerm 宽字对照有[三处差异](research/column-edge-integrity.md)，ReGIS 历史画面对照也未全过。[交互汇总和原始内存记录](research/selection-repaint-aggregate-2c0152c.zip) · [完整 CI](https://github.com/xiongnemo/nemoterm/actions/runs/44503310589) · [历史测试版](docs/PREVIEW_HISTORY.md)。
 
 在 Codex 0.167.0 中，请等编辑器就绪后再贴图，看到输入框中出现图片附件再发送。启动草稿可能接受文字却忽略贴图，窗口标题也不能可靠地判断是否就绪。[实际提交与截图](research/codex-file-draft-order.md) · [按键后 Windows 何时索取位图](research/codex-bitmap-requests.md)。
 
@@ -175,7 +175,7 @@ GPU 模式使用 Windows 系统 DLL 与显卡驱动，不新增分发文件；�
 
 这里的 MB 按十进制字节计，20 MB 为 20,000,000 字节，30 MB 为 30,000,000 字节；私有工作集与私有提交量分别记录。
 
-在同一台 GitHub Windows runner 上，用 Sarasa Light、160×48 和同一个 Codex 客户端运行 `b7bf0fd`。收到回复后，单标签 GDI 前端的私有工作集中位数两轮都是 **5.112 MB**，DirectX 为 **9.695–9.732 MB**；同机 pterm 0.85 对照为 **3.748–3.781 MB**。每种配置分别按正序、反序冷启动。这些数值只统计前端进程；满屏图文的峰值另行验收。[本版完整采样](research/selection-pterm-b7bf0fd.zip) · [历史内存记录](docs/PREVIEW_HISTORY.md#内存)。
+在同一台 GitHub Windows runner 上，用 Sarasa Light、160×48 和同一个 Codex 客户端运行 `2c0152c`。收到回复后，单标签 GDI 前端的私有工作集中位数为 **5.071–5.112 MB**，DirectX 为 **9.724–9.761 MB**；同机 pterm 0.85 为 **3.752–3.781 MB**。GDI 和 DirectX 的总工作集分别为 **33.18–34.09 MB**、**44.75–44.79 MB**。每种配置分别按正序、反序冷启动；这些数字只统计前端进程，满屏图文的峰值另行验收。[完整采样与峰值](research/selection-repaint.md) · [历史内存记录](docs/PREVIEW_HISTORY.md#内存)。
 切回 GDI 后，驱动保留的内存可能需要关闭窗口才能释放。
 
 “单 EXE”指一个分发文件：程序仍会启动同一个 EXE 的隐藏控制台宿主进程，并运行所选 shell。
