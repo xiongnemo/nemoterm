@@ -871,6 +871,40 @@ static void test_local_paste_snapshot(Mock *mk)
     const char *wire = "\033[200~ONE\033[201~\033[200~-\033[201~\033[200~TWO\033[201~";
     IEQUAL(mk->to_backend->len, strlen(wire));
     SEQUAL(mk->to_backend->s, wire);
+    /* No callback between the gesture and typing. The bracket must end
+     * before the key; a pending large paste must still be interruptible. */
+    for (int bracketed = 0; bracketed < 2; bracketed++) {
+        for (int n = 255; n <= 256; n++) {
+            test_context(mk, "local paste (%d units, brackets=%d) then immediate key", n, bracketed);
+            strbuf_clear(mk->to_backend);
+            term_data_fragmented(term, bracketed ? "\033[?2004h" : "\033[?2004l");
+            term_request_paste(term, CLIP_LOCAL); /* still TWO */
+            wchar_t body[256];
+            for (int i = 0; i < n; i++) body[i] = L'x';
+            term_do_paste(term, body, n);
+            term_request_paste(term, CLIP_LOCAL);
+            IEQUAL(mk->to_backend->len, 0);
+            term_keyinput(term, -1, "\r", 1);
+            strbuf *want = strbuf_new();
+            const char *begin = bracketed ? "\033[200~" : "";
+            const char *end = bracketed ? "\033[201~" : "";
+            put_dataz(want, begin); put_dataz(want, "TWO"); put_dataz(want, end);
+            if (n == 255) {
+                put_dataz(want, begin);
+                for (int i = 0; i < n; i++) put_byte(want, 'x');
+                put_dataz(want, end);
+                put_dataz(want, begin); put_dataz(want, "TWO"); put_dataz(want, end);
+            }
+            put_byte(want, '\r');
+            IEQUAL(mk->to_backend->len, want->len);
+            SEQUAL(mk->to_backend->s, want->s);
+            for (int i = 0; i < 100 && term->paste_callback_queued; i++)
+                run_toplevel_callbacks();
+            IEQUAL(term->paste_callback_queued, false);
+            IEQUAL(mk->to_backend->len, want->len);
+            strbuf_free(want);
+        }
+    }
     conf_set_bool(term->conf, CONF_paste_controls, saved);
 }
 

@@ -66,6 +66,7 @@ static void nemo_bell(Terminal *term);
 #define has_compat(x) ( ((CL_##x)&term->compatibility_level) != 0 )
 
 static void term_paste_clear(Terminal *term);
+static void term_paste_finish_short_before_key(Terminal *term);
 static void term_enqueue_paste(Terminal *term, const wchar_t *data, size_t len,
                                bool defer_start);
 
@@ -8449,6 +8450,8 @@ static inline void term_bracketed_paste_stop(Terminal *term)
 static inline void term_keyinput_internal(
     Terminal *term, const void *buf, int len, bool interactive)
 {
+    if (interactive && term->paste_head)
+        term_paste_finish_short_before_key(term);
     if (term->srm_echo) {
         /*
          * Implement the terminal-level local echo behaviour that
@@ -12813,6 +12816,7 @@ struct TermPaste {
 
 #define PASTE_BACKLOG_LIMIT (1024U * 1024U)
 #define PASTE_CHUNK 4096
+#define PASTE_SHORT_LIMIT 256
 
 static void term_paste_clear(Terminal *term)
 {
@@ -12840,7 +12844,7 @@ static void term_paste_step(Terminal *term)
     wchar_t *text = snew_plus_get_aux(p);
     term_paste_begin(term, p);
     size_t n = min(p->len - p->pos, PASTE_CHUNK);
-    if (p->len >= 256) {
+    if (p->len >= PASTE_SHORT_LIMIT) {
         const wchar_t *cr = wmemchr(text + p->pos, L'\r', n);
         if (cr) n = cr + 1 - (text + p->pos);
 #ifdef PLATFORM_IS_UTF16
@@ -12863,6 +12867,17 @@ static void term_paste_step(Terminal *term)
         else term->paste_tail = NULL;
         sfree(p);
     }
+}
+
+/* A short paste normally arrives in one piece. Local selections are queued
+ * until we leave the mouse handler; a queued Return can run first. Deliver
+ * those short frames before the key is echoed or sent. Stop at any long
+ * paste so typing can still interrupt it and discard the work behind it. */
+static void term_paste_finish_short_before_key(Terminal *term)
+{
+    while (term->paste_head && !term->paste_head->started &&
+           term->paste_head->len < PASTE_SHORT_LIMIT)
+        term_paste_step(term);
 }
 
 static void term_paste_callback(void *vterm);
@@ -12976,7 +12991,7 @@ static void term_enqueue_paste(Terminal *term, const wchar_t *data, size_t len,
         term->paste_head = term->paste_tail = paste;
         if (!defer_start) {
             term_paste_begin(term, paste);
-            if (paste->len < 256) term_paste_step(term);
+            if (paste->len < PASTE_SHORT_LIMIT) term_paste_step(term);
         }
     }
     term_paste_schedule(term);
