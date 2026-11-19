@@ -9,3 +9,5 @@
 候选 `0d8f731` 从屏幕上的格子寻找词边界，通过已有的双向文字映射查询每个原字符的选词类别。跨软换行时转入相邻行；普通硬换行仍然终止选词。每次只查一次当前行的映射，不为终端格子增加字段。无 Shift 的普通双击继续按逻辑字符选词。
 
 [候选单文件的 REA 导入表](rea-0d8f731-imports.json.gz)与[旧版导入表](rea-2c63154-imports-20261119.json.gz)逐项比对，81 个普通 DLL 描述符、672 个普通导入和一个 ICU 延迟加载描述符的 11 个导入相同，未发现 WebView、Chromium 或 CEF 导入。本机安装的 pterm 0.85 的 REA 标识与[原有静态记录](native-imports-pterm-e02f0d0.zip)一致（8 个 DLL、319 个普通导入）。导入表本身不枚举运行中动态加载的库。旧版 Nemoterm 的[同一 EXE 实际客户端对照](selection-erase-pterm-2c63154.zip)另有 8 份运行中前端模块和关联进程快照，没有匹配被检查的浏览器引擎。
+
+候选 EXE 为 4,858,368 字节，SHA-256 `8e8fdd89176d0204d72c05fd62b8bb62754eba052fab2c8e399bc8bc8fa7af12`，来自[源码构建](https://github.com/xiongnemo/nemoterm/actions/runs/44515756392/artifacts/14525912387)。[同一 EXE 的三个原始专项制品](bidi-words-ui-0d8f731.zip)覆盖 GDI/DirectX 的真实 WSL Sixel 显示、重绘、擦除，WSL1 下 tmux 3.4 内 Vim 的四组鼠标、矩形、粘贴与缩放，以及三种窗口在关闭确认后点 Cancel 继续输入。三种关闭场景的子进程都实际收到了 `A` 的按下和松开。
