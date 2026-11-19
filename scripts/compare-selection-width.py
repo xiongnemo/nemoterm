@@ -63,7 +63,51 @@ def reflow_cases(evidence, obs):
     return records
 
 
-def inspect(path, reflow=False):
+def unicode_cases(evidence, obs):
+    # One reference tile for each half of 中; the plain e following the
+    # reference is a negative control for dropping the combining accent.
+    cw, ch = obs['cell_pixels']; labels = ('|','A','B','Q','中L','中R','é','V','|','e')
+    records = {}
+    for r in obs['reflow_unicode']:
+        name = r['case']; held = name=='unicode-trailing-press'; text = ('中' if held else 'Q中')+'e\u0301'
+        checks = {}; highlights = {}; masks = {}
+        for f in r['frames']:
+            stage = f['stage']; narrow = stage=='narrow'; w = 74 if narrow else 80
+            im = Image.open(BytesIO(evidence(name+'-'+stage+'.png'))).convert('L')
+            assert im.size == (2+w*cw,2+24*ch)
+            def shape(x,y):
+                tile = im.crop((1+x*cw,1+y*ch,1+(x+1)*cw,1+(y+1)*ch)); lo,hi=tile.getextrema()
+                bg = max(tile.getcolors(), key=lambda it:it[0])[1]
+                return bg, bytes(abs(v-bg)>(hi-lo)*.28 for v in tile.tobytes())
+            types = [shape(i,2) for i in (*range(9),10)]; marks=[]; chars=[]
+            for i in range(9):
+                bg,cell = shape(i-4,7) if narrow and i>=4 else shape(69+i,6)
+                delta = [sum(a!=b for a,b in zip(cell,ref)) for _,ref in types]
+                # A selected tile uses the opposite text/background colours.
+                # Whole-tile distance against unaccented e is unstable with
+                # subpixel AA. Inspect the accent above the actual base glyph.
+                nearest = min(delta[:9]); chars.append(sorted({k for k,d in zip(labels[:9],delta[:9]) if d==nearest}))
+                if i==6:
+                    accent_rows = [y for y in range(ch) if not any(types[9][1][y*cw:(y+1)*cw])
+                                   and any(types[6][1][y*cw:(y+1)*cw])]
+                    accent_ink = bool(accent_rows) and any(cell[y*cw+x] and types[6][1][y*cw+x]
+                                                          for y in accent_rows for x in range(cw))
+                if bg!=types[i][0]: marks.append(i)
+            pad_empty = not any(shape(73,6)[1]) if narrow else None
+            assert marks==f['highlight'] and pad_empty==f['pad_blank']
+            checks[stage+'_accent'] = accent_ink
+            checks[stage] = chars==[[k] for k in labels[:9]] and pad_empty is not False and marks==([] if stage=='initial' else list(range(4 if held else 3,7)))
+            highlights[stage] = marks; masks[stage] = chars
+        assert list(highlights)==(['initial','narrow','wide'] if held else ['initial','selected','narrow','wide'])
+        checks['gesture'] = r['gesture_wire']==(b'\x1b[?47;2$y\x1b[?1002;1$y\x1b[?1006;1$y'+ACK*2).hex()
+        for key in ('narrow','wide','right'): checks['copy_'+key]=r[key]=={'text':text,'wire':(ACK*2).hex()}
+        ok=all(checks.values());assert ok==r['passed'], (name,checks,masks);assert name not in records
+        records[name]=dict(passed=ok,checks=checks,highlight=highlights,glyphs=masks,clipboard={k:r[k] for k in ('narrow','wide','right')})
+    assert set(records)=={'unicode-span','unicode-trailing-press'}
+    return records
+
+
+def inspect(path, reflow=False, unicode=False):
     with ZipFile(path) as z:
         def read(name):
             return json.loads(z.read(name).decode('utf-8-sig'))
@@ -84,6 +128,9 @@ def inspect(path, reflow=False):
             assert obs['executable_sha256'] == sha and obs['active_renderer'] == number and obs['tab_host']
             assert obs['requested_font'] == 'SarasaTermSC Nerd Light' and obs['split_system_input']['focus']['completed']
             assert not case['cleanup']['terminated_remaining'] and not case['cleanup']['remaining_processes']
+            if unicode:
+                result['renderers'][renderer] = unicode_cases(evidence, obs)
+                continue
             if reflow:
                 result['renderers'][renderer] = reflow_cases(evidence, obs)
                 continue
@@ -119,10 +166,12 @@ def inspect(path, reflow=False):
 if __name__ == '__main__':
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('before', type=Path);p.add_argument('after', type=Path, nargs='?')
-    p.add_argument('--reflow', action='store_true', help='Inspect main-screen split/merge frames')
-    args=p.parse_args();before, old=inspect(args.before,args.reflow);result={'before':before}
+    group=p.add_mutually_exclusive_group()
+    group.add_argument('--unicode', action='store_true', help='Inspect wide glyphs and combining marks across a wrap')
+    group.add_argument('--reflow', action='store_true', help='Inspect main-screen split/merge frames')
+    args=p.parse_args();before, old=inspect(args.before,args.reflow,args.unicode);result={'before':before}
     if args.after:
-        after, new=inspect(args.after,args.reflow)
+        after, new=inspect(args.after,args.reflow,args.unicode)
         assert old.keys()==new.keys() and {k for k in old if old[k]!=new[k]}=={'dist/nemoterm.exe'}
         assert before['sha256']!=after['sha256'];result['after']=after
     print(json.dumps(result, indent=2))

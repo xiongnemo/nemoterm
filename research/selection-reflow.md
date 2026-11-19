@@ -16,3 +16,13 @@
 核心的 MinGW 测试还使用中文宽字符和组合附标。无法映射到保留字形的端点、经过双向文字重排而不能确认的坐标、以及不再构成一个矩形的选区都不会被猜测恢复。这里没有对每个全屏客户端重复四种操作。
 
 [记录包](selection-reflow-dc8b6913.zip)内含以上三个原始 GitHub 制品、来源和 SHA-256、[独立 PNG 核对脚本](../scripts/compare-selection-width.py)的两次输出。单 EXE `dc8b6913` 的 SHA-256 为 `d6780333dcf89afa73659e490523aef36f948537df456d9d06da7dc6c775c6a2`。
+
+## 汉字正好放不下，空出的一格会不会被复制？
+
+相同的测试脚本在[旧版](https://github.com/xiongnemo/nemoterm/actions/runs/44636915483/artifacts/14585431664)和[候选版](https://github.com/xiongnemo/nemoterm/actions/runs/44635620788/artifacts/14583442301)分别打开真实 GDI、DirectX 窗口。先显示 `|ABQ中éV|`，选中 `Q中é`，再缩窄窗口。`Q` 留在第 7 行右端，剩下的一格放不下宽字符；`中` 的两格和带附标的 `e` 移到第 8 行。第二种手势是在 `中` 的右半格按下 Shift+左键，保持按住直到缩窄后再拖到 `é`。子程序在两种操作中都启用了鼠标跟踪。
+
+旧版 **0/4**：两种手势都失去高亮，右键被子程序收到；第二种手势按 Ctrl+Shift+C 读到上次缓存的 `Q中é`。候选版 **4/4**：两种渲染器在 74 列、恢复到 80 列、右键复制三个时点都分别得到 `Q中é` 和 `中é`，没有多出空格或换行，也没有鼠标字节传给子程序。普通选区的高亮背景可以覆盖 `Q` 后面的空白格，但该格不会成为剪贴板字符。原始图中 `中` 的左右半都在；比较重音笔画所在的行，也可以把选中的 `é` 和单独的 `e` 区分开。
+
+![同一 GDI 窗口区域：缩窄后 Q 与中分行，旧版未高亮，新版保留高亮，包括 e 上方的附标。](selection-unicode-reflow.png)
+
+[两份未经修改的制品、散列与独立逐格核对](selection-unicode-reflow.zip)。在两次窗口中冻结的测试文件散列只有 EXE 不同。`scripts/compare-selection-width.py --unicode BEFORE.zip AFTER.zip` 可从原始 PNG 及子程序记录复核。[第一次调度旧 EXE](https://github.com/xiongnemo/nemoterm/actions/runs/44636325698)因生产源码与来源提交不匹配被拒绝，未运行产品；后续在真实旧源码上只叠加相同测试文件，通过了原有的身份检查。
