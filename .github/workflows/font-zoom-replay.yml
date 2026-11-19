@@ -28,34 +28,10 @@ permissions:
 jobs:
   column-cells:
     if: inputs.suite == 'column-cells'
-    runs-on: windows-2025
-    timeout-minutes: 10
-    steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
-        with: {fetch-depth: 0}
-      - name: Fetch the source-built frontend and select the pinned Sarasa face
-        env:
-          GH_TOKEN: ${{ github.token }}
-          PRODUCT_RUN: ${{ inputs.source_run }}
-          PRODUCT_COMMIT: ${{ inputs.source_commit }}
-        run: |
-          scripts/fetch-ci-product.ps1 -Run $env:PRODUCT_RUN -Commit $env:PRODUCT_COMMIT -Destination build/column-product
-          "NEMOTERM_TEST_EXE=$((Resolve-Path build/column-product/nemoterm.exe).Path)" | Out-File $env:GITHUB_ENV -Append -Encoding utf8
-          scripts/prepare-remote-interaction.ps1
-      - name: Record the complete margin-neighbour diagnostic rows
-        run: python tests/column_edge_audit.py --output research/column-edge-observed.json
-      - name: Compare all 728 reported cells with the original XTerm replies
-        run: python tests/column_press_cells.py --product
-      - if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
-        with:
-          name: column-cells-${{ github.run_id }}-${{ github.run_attempt }}
-          path: |
-            research/column-press-observed.json
-            research/column-edge-observed.json
-            build/column-product/SOURCE-HOST.json
-            build/interaction-dependencies/environment.json
-          if-no-files-found: error
+    uses: ./.github/workflows/column-cells.yml
+    with:
+      source_commit: ${{ inputs.source_commit }}
+      source_run: ${{ inputs.source_run }}
   wsl-tui:
     if: ${{ inputs.suite == 'wsl-tui' || inputs.suite == 'wsl-sixel' || inputs.suite == 'wsl-vim' || inputs.suite == 'wsl-colour' }}
     uses: ./.github/workflows/wsl-tui.yml

@@ -12,7 +12,7 @@ def scenes():
     # Column 22 is the inclusive right margin. Vary the old continuation's
     # position against the gap and put either kind of glyph at the last source.
     queries = CSI+'?69l'+CSI+'31#y'+''.join(f'{CSI}{x};1;9;{x};9;{x}*y' for x in range(1,27))
-    cases = {}
+    cases, expected = {}, {}
     for n in (1,2,3,4):
         for offset in (-1,0,1):
             tail = 22-n+offset  # zero-based; gap starts at 22-n
@@ -28,14 +28,29 @@ def scenes():
                 stem=f'n{n}-tail{offset:+d}-last'+('wide' if next_wide else 'original')
                 initial=ESC+'c'+CSI+'9;1H'+''.join(line)+CSI+'?69h'+CSI+'5;22s'+CSI+'5;17r'+CSI+'9;6H'
                 for name,op in [('before',''),('dch',CSI+f'{n}P'),('decdc',CSI+f"{n}'~"),('sl',CSI+f'{n} @')]:
-                    cases[stem+'-'+name]=initial+op+queries
-    return cases
+                    key=stem+'-'+name
+                    cases[key]=initial+op+queries
+                    # A complete glyph survives if all its source cells stay
+                    # outside the edit, or all move to valid destinations.
+                    # Space-fill first; never infer width from the resulting row.
+                    left=4 if name=='sl' else 5
+                    row=[32]*26;col=0
+                    for glyph in line:
+                        width=2 if glyph in ('中','界') else 1
+                        if not op or col+width<=left or col>=22: dest=col
+                        elif left+n<=col and col+width<=22: dest=col-n
+                        else: dest=None
+                        if dest is not None: row[dest:dest+width]=[ord(glyph)]+[0]*(width-1)
+                        col+=width
+                    assert col==len(row)==26
+                    expected[key]=row
+    return cases, expected
 
 
 def main():
     p=argparse.ArgumentParser();p.add_argument('--xterm');p.add_argument('--output',type=Path,required=True);args=p.parse_args()
     if os.environ.get('RUNNER_ENVIRONMENT')!='github-hosted':raise RuntimeError('Hosted runner required')
-    inputs=scenes()
+    inputs, expected=scenes()
     if args.xterm:
         from xterm_state_oracle import run_cases
         run_cases(args.xterm,str(args.output),inputs,['-ti','vt520','-xrm','*allowWindowOps: true'],raw_replies=True)
@@ -49,7 +64,13 @@ def main():
         assert all(v.endswith(b'\x1b[0n') for v in wire.values());raw={k:v[:-4] for k,v in wire.items()}
     assert set(raw)==set(inputs)
     j['observations']={k:dict(input_sha256=hashlib.sha256(s.encode()).hexdigest(),cells=cells(raw[k])) for k,s in inputs.items()}
+    j['whole_glyph_differences']={}
+    for k,r in j['observations'].items():
+        diffs=[[i+1,want,got] for i,(want,got) in enumerate(zip(expected[k],r['cells'])) if want!=got]
+        if diffs:j['whole_glyph_differences'][k]=diffs
     args.output.write_text(json.dumps(j,indent=2),encoding='utf8')
+    if not args.xterm and j['whole_glyph_differences']:
+        raise AssertionError(j['whole_glyph_differences'])
 
 
 if __name__=='__main__':main()

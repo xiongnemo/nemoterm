@@ -85,6 +85,13 @@ jobs:
     with:
       product_run: ${{ github.run_id }}
       product_commit: ${{ github.sha }}
+  column-cells:
+    if: ${{ inputs.scope != 'dpi' }}
+    needs: source-host
+    uses: ./.github/workflows/column-cells.yml
+    with:
+      source_commit: ${{ github.sha }}
+      source_run: ${{ github.run_id }}
   wsl-sixel:
     if: ${{ inputs.scope != 'dpi' }}
     needs: source-host
