@@ -4,6 +4,10 @@
 
 ## 开发快照
 
+[下载 Windows x64 单文件测试版 `bec4002`](https://github.com/xiongnemo/nemoterm/actions/runs/44491317295/artifacts/14512847979)。解压后只需 `nemoterm.exe`；EXE 的 SHA-256 为 `9f43a0ddc23219f3ac3974fee73b3b6f8de8f45c63adf3e668d7eef99984275e`。
+
+本版修复了同时复制到位图和空文本时 Ctrl+Shift+V 没有反应的问题。非空文本和文件列表仍然优先。已就绪的真实 Codex 四项贴图全部通过，原生子进程十项输入全部通过；OpenCode 的正文及标题请求另外记录。[贴图动作与逐像素验证](../research/clipboard-empty-text.md)。同一 EXE 的 13 份交互分组记录共 78/80，未通过的两项均为 Codex 启动即贴纯位图。六种 160×48 压力负载，前端私有工作集峰值为 GDI **19.137 MB**、DirectX **28.750 MB**。[原始内存与交互记录](../research/clipboard-aggregate-bec4002.zip) · [完整 CI](https://github.com/xiongnemo/nemoterm/actions/runs/44491317295) · [历史测试版](#开发快照)。
+
 [下载 Windows x64 单文件测试版 `6bed777`](https://github.com/xiongnemo/nemoterm/actions/runs/44486109121/artifacts/14511425344)。解压后只需 `nemoterm.exe`；EXE 的 SHA-256 为 `e50c888b1933893896de9889492b886a160f157ed3c4cd3ebbcd8c7d685019de`。
 
 新终端第一次显示 Sixel 图像时，尚未定义的共享颜色现在和 XTerm 一样是黑色。七个启动、复位和私有色表场景从 2/7 改善到 7/7。[实际窗口与 XTerm 对照](../research/shared-bank-start.md)。同一 EXE 的 [交互测试](../research/shared-bank-aggregate-6bed777.zip)通过 78/80；未通过的两项都是在 Codex 刚启动时贴图，等待编辑器就绪后两种贴图方式均通过。六种 160×48 压力负载的前端私有工作集最高为 GDI **18.678 MB**、DirectX **29.200 MB**。[完整 CI](https://github.com/xiongnemo/nemoterm/actions/runs/44486109121) · [历史测试版](#开发快照)。
