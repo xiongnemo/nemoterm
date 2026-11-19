@@ -23,14 +23,16 @@ BUFFER=['VIM_MOUSE_HEAD', 'COPY 中文 tail', 'CLICK_CURSOR_TARGET','UNCHANGED_E
 VIMRC=r'''set nocompatible encoding=utf-8 mouse=a ttymouse=sgr
 set nonumber norelativenumber nowrap nofoldenable noshowmode noruler noshowcmd laststatus=0
 set shortmess+=I ttimeout ttimeoutlen=100 nobackup nowritebackup noswapfile
+let s:next_request = 1
 function! NemoObserve(timer) abort
   if filereadable('stop') | qa! | endif
-  if !filereadable('request') | return | endif
-  let id = get(readfile('request'),0,'')
-  if id !~# '^\d\+$' || filereadable('state-'.id.'.json') | return | endif
-  let state={'grid':[&columns,&lines], 'cursor':[line('.'),col('.')], 'mode':mode(1), 'term':&term, 'mouse':&mouse, 'ttymouse':&ttymouse, 'lines':getline(1,'$')}
+  let id = s:next_request
+  if !filereadable('request-'.id) | return | endif
+  let state={'request_id':id, 'grid':[&columns,&lines], 'cursor':[line('.'),col('.')], 'mode':mode(1), 'term':&term, 'mouse':&mouse, 'ttymouse':&ttymouse, 'lines':getline(1,'$')}
   call writefile([json_encode(state)],'state-'.id.'.tmp')
-  call rename('state-'.id.'.tmp','state-'.id.'.json')
+  if rename('state-'.id.'.tmp','state-'.id.'.json') == 0
+    let s:next_request += 1
+  endif
 endfunction
 augroup NemoEvidence
   autocmd!
@@ -88,8 +90,11 @@ def trial(renderer,branch):
         def visible(text):wait_for(lambda:text in screen(),timeout=20)
         def state(label):
             nonlocal serial
-            serial+=1;tmp=folder/'request.tmp';tmp.write_text(str(serial),encoding='ascii');os.replace(tmp,folder/'request')
-            p=folder/f'state-{serial}.json';wait_for(p.exists,timeout=5);d=json.loads(p.read_text(encoding='utf-8'));report['states'].append(dict(stage=label,**d));return d
+            # WSL may hold a request open while Windows polls Vim's state. Each
+            # numbered empty marker is published only once and never replaced.
+            serial+=1;(folder/f'request-{serial}').touch(exist_ok=False)
+            p=folder/f'state-{serial}.json';wait_for(p.exists,timeout=5);d=json.loads(p.read_text(encoding='utf-8'));assert d['request_id']==serial,d
+            report['states'].append(dict(stage=label,**d));return d
         assert s['renderer']==renderer and (s['cols'],s['rows'])==GRID,s
         cw,rw=divmod(s['client_width']-2,60);ch,rh=divmod(s['client_height']-2,20);assert not (rw or rh) and min(cw,ch)>0
         def xy(col,row):return (1+col*cw+cw//2,1+row*ch+ch//2)
