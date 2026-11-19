@@ -156,14 +156,14 @@ number of passing executables. Unlisted private extensions remain **unverified**
 | I/Z (CHT/CBT) | Tested | `state_control`, defaults/counts, custom stops, margins and pending wrap; native oracle replay. |
 | g, parameters 0/3 (TBC) | Tested | Tabulation oracle, including extra parameters using the first value. |
 | ?W, parameters default/0/5 (DECST8C) | Tested | Tabulation oracle; VT510 compatibility capability required. |
-| @/P (ICH/DCH) | Partial | `margins`, `rectangle`, `reflow`; [held selection and 728 upstream cell observations](../research/selection-column-edits.md). One DCH margin case retains `V` where XTerm 412 reports a space. |
+| @/P (ICH/DCH) | Partial | `margins`, `rectangle`, `reflow`; [held selection and 728 upstream cell observations](../research/selection-column-edits.md). One DCH margin case retains `V` where XTerm 412 reports a space; [72 additional rows distinguish complete glyphs from literal upstream checksum parity](../research/column-edge-integrity.md). |
 | L/M (IL/DL) | Tested | `margins`, `sixel_terminal`, partial-region lifetimes. |
 | J/K/X (ED/EL/ECH) | Tested | `terminal`, `selective_erase`, `rectangle` and Sixel checks; ISO protection is covered by the 63-case guarded-area reference matrix and single-image native erasure/pixel checks. |
 | J parameter 3 (saved-line erase) | Gated | Local remote-clear-scrollback setting; active screen is separate. |
 | ?J/?K (DECSED/DECSEL) | Tested | Protected text/image checks include shared ISO family, empty whole-display retirement and wrap/drawn-span handling in the guarded-area core and single-image native fixtures. |
 | S/T (SU/SD) | Tested | `margins`, `sixel_terminal`; T also has mouse highlight syntax. Pending wrap is preserved, independently checked by XTerm and native cell/cursor replies. |
-| ^ (SD alias), SP @ / SP A (SL/SR) | Partial | `margins`, native `horizontal`: counts, margins, outside-region behavior, wide/double-size rows, origin and pending wrap. See [horizontal editing](../research/horizontal-editing.md) and the [SL wide-row difference](../research/selection-column-edits.md). |
-| ' } / ' ~ (DECIC/DECDC) | Partial | VT420 column insertion/deletion over vertical margins from the cursor column. Full cell lifetimes and bounded Sixel views are checked separately from the 198-case XTerm matrix; [one DECDC wide-row difference remains](../research/selection-column-edits.md). |
+| ^ (SD alias), SP @ / SP A (SL/SR) | Partial | `margins`, native `horizontal`: counts, margins, outside-region behavior, wide/double-size rows, origin and pending wrap. See [horizontal editing](../research/horizontal-editing.md) and the [SL wide-row difference](../research/column-edge-integrity.md). |
+| ' } / ' ~ (DECIC/DECDC) | Partial | VT420 column insertion/deletion over vertical margins from the cursor column. Full cell lifetimes and bounded Sixel views are checked separately from the 198-case XTerm matrix; [the DECDC wide-row difference](../research/column-edge-integrity.md) remains. |
 | b (REP) | Tested | `terminal`, `grapheme_terminal`; bounded repeats and optional whole clusters. |
 | r (DECSTBM); s with mode 69 (DECSLRM) | Tested | `margins`, independent xterm oracle. |
 | s/u without mode 69 | Tested | `state_control`; ANSI cursor save/restore aliases, including the supported-bank cache in the 44-case independent charset matrix and native restoration checks. |
