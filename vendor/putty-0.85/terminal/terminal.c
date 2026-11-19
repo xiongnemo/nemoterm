@@ -5595,6 +5595,30 @@ static PressedPaint begin_pressed_paint(Terminal *term, pos start, int cells,
     return p;
 }
 
+/* Erasing replaces complete characters with spaces. Resolve the press before
+ * check_boundary can split a wide glyph. A surviving glyph on the same line
+ * can move visually after erasing bidi neighbours. */
+static PressedPaint begin_pressed_erase(Terminal *term, pos start, pos end)
+{
+    PressedPaint p = {0};
+    int first, last;
+    if (!pressed_cell_source(term, start.y, end.y - (end.x == 0),
+                             &p.logical, &p.half, &first, &last))
+        return p;
+    int left = p.logical.y == start.y ? start.x : 0;
+    int right = p.logical.y == end.y ? end.x : term->cols;
+    if (first < right && last >= left) {
+        const termchar *cell = &scrlineptr(p.logical.y)->chars[first];
+        if (first != last || cell->cc_next ||
+            (cell->chr != term->erase_char.chr && cell->chr != ' ')) {
+            discard_selection_press(term);
+            return p;
+        }
+    }
+    p.follow = true;
+    return p;
+}
+
 static void end_pressed_paint(Terminal *term, PressedPaint p)
 {
     if (p.follow) restore_pressed_cell(term, p.logical, p.half);
@@ -6075,6 +6099,7 @@ static bool nemo_erase_row(Terminal *term, int row, int left, int right,
         if ((protected || x == right) && run >= 0) {
             erased = true;
             pos start = {row, run}, end = {row, x};
+            PressedPaint held = begin_pressed_erase(term, start, end);
             check_selection(term, start, end);
             nemo_images_erase(term, start, end);
             for (int col = run; col < x; col++) {
@@ -6108,6 +6133,7 @@ static bool nemo_erase_row(Terminal *term, int row, int left, int right,
                 }
                 copy_termchar(line, col, &fill);
             }
+            end_pressed_paint(term, held);
             run = -1;
         }
         if (x == right) break;
@@ -6409,7 +6435,6 @@ static void erase_lots(Terminal *term,
 {
     pos start, end;
     bool erase_lattr;
-    bool erasing_lines_from_top = false;
     if (!line_only && from_begin && to_end)
         nemo_kitty_clear_screen(term, term->alt_which, false);
 
@@ -6466,6 +6491,11 @@ static void erase_lots(Terminal *term,
         incpos(boundary);
         end = boundary;
     }
+    bool erasing_lines_from_top = start.y == 0 && start.x == 0 && end.x == 0 && erase_lattr;
+    bool scroll_to_erase = term->erase_to_scrollback && erasing_lines_from_top;
+    PressedPaint held = {0};
+    if (!scroll_to_erase)
+        held = begin_pressed_erase(term, start, end);
     if (!from_begin || !to_end)
         check_boundary(term, boundary.x, boundary.y);
     check_selection(term, start, end);
@@ -6475,12 +6505,7 @@ static void erase_lots(Terminal *term,
     if (start.y == 0 && start.x == 0 && end.y == term->rows)
         term_invalidate(term);
 
-    /* Lines scrolled away shouldn't be brought back on if the terminal
-     * resizes. */
-    if (start.y == 0 && start.x == 0 && end.x == 0 && erase_lattr)
-        erasing_lines_from_top = true;
-
-    if (term->erase_to_scrollback && erasing_lines_from_top) {
+    if (scroll_to_erase) {
         /* If it's a whole number of lines, starting at the top, and
          * we're fully erasing them, erase by scrolling and keep the
          * lines in the scrollback. */
@@ -6509,6 +6534,7 @@ static void erase_lots(Terminal *term,
                 check_trust_status(term, ldata);
             }
         }
+        end_pressed_paint(term, held);
     }
 
     /* After an erase of lines from the top of the screen, we shouldn't
@@ -10343,6 +10369,7 @@ static void term_out(Terminal *term, bool called_from_term_data)
                             n = term->cols - term->curs.x;
                         cursplus = term->curs;
                         cursplus.x += n;
+                        PressedPaint held = begin_pressed_erase(term, term->curs, cursplus);
                         check_boundary(term, term->curs.x, term->curs.y);
                         check_boundary(term, term->curs.x+n, term->curs.y);
                         check_selection(term, term->curs, cursplus);
@@ -10351,6 +10378,7 @@ static void term_out(Terminal *term, bool called_from_term_data)
                         blank.truecolour.decoration &= ~CELL_UNDRAWN;
                         while (n--)
                             copy_termchar(cline, p++, &blank);
+                        end_pressed_paint(term, held);
                         seen_disp_event(term);
                         break;
                       }
