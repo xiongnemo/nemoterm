@@ -24,3 +24,20 @@
 [同一 EXE 的四台托管 runner](https://github.com/xiongnemo/nemoterm/actions/runs/44567002127)使用延迟提供位图的剪贴板。等客户端报告 idle 再发键的四种组合（实按或窗口接口，各用 Ctrl+V 与 Ctrl+Shift+V）均第一次得到正确图片。刚见到输入文字就发键的四次，**都还没观察到 idle**：一次实按 Ctrl+Shift+V 当场成功；其余三次约 20 秒内没有附件，也没有位图提供请求。同一份草稿就绪后，测试明确再按一次，这三次均收到 `WM_RENDERFORMAT`，提交时各带一张正确的图片。
 
 因此 idle 是可靠的测试等待点，却不是 Codex 能收图的必要条件；首个画面同样不能证明图片编辑器已经接手。第二次手势来自测试，不是终端自动补发。原始首次失败仍按失败计分。[四份原始制品、屏幕、手势和剪贴板时间记录](codex-reads-476a2c76.zip)。
+
+## 原版 pterm 和 Nemoterm 的真实窗口
+
+[同一台托管 Windows 的八个新会话](https://github.com/xiongnemo/nemoterm/actions/runs/44593038636)使用了与本机安装文件散列相同的官方 pterm 0.85，以及本项目的 `cf091974` 单文件 GDI 窗口。两边都启动固定的 Codex 0.167.0，字体为 SarasaTermSC Nerd Light、网格为 160×48。在真实窗口按一次快捷键，只提交一次。下表是本次带 `8932` 的聊天请求里收到的图片数；有图片的三次均为一张逐像素相符的 32×16 PNG，有且仅有相应的三个窗口出现了 `[Image #1]`。八个窗口均自然退出。
+
+| 真实窗口与快捷键 | 首次看见键入的 `8932` | 一轮回复已经显示后 |
+| --- | ---: | ---: |
+| 原版 pterm，Ctrl+V | 0 | 1 |
+| Nemoterm，Ctrl+V | 0 | 1 |
+| 原版 pterm，Ctrl+Shift+V | 0 | 0 |
+| Nemoterm，Ctrl+Shift+V | 0 | 1 |
+
+![两个真实窗口按 Ctrl+V 后、提交前的原始输入行裁剪](pterm-gui-codex-paste.png)
+
+对照使用默认按键绑定。刚能打字时不附图，原版 pterm 也确实能复现；这不表示每次启动都会错过，也不表示必须先提交第一条消息。完成一轮只用于得到稳定的阳性对照。原版 pterm 的 Ctrl+Shift+V 在本次稳定阶段没有附图，不能用它来判断 Codex 就绪与否。这里采集的是 pterm 和 Nemoterm 的 Win32 窗口，没有实测 Windows Terminal 或 Alacritty。
+
+[全部八张原始窗口截图、实际按键、服务端回执和文件身份](pterm-gui-images-44593038636.zip)。[首轮原始记录](pterm-gui-images-44592058260.zip)已经出现三个正确位图回执，但测试只识别纯数字标记，未将 `8932[Image #1]` 识别为对应的提交，三例超时。后续使用相同 EXE 和客户端，允许这个精确的附件标记；原始失败没有覆盖或计入产品的 81 项验收。较早一次[分派错误的作业](https://github.com/xiongnemo/nemoterm/actions/runs/44591368740)只执行了内存测试，不作为贴图证据。
