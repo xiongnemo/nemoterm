@@ -66,6 +66,8 @@ static void nemo_bell(Terminal *term);
 #define has_compat(x) ( ((CL_##x)&term->compatibility_level) != 0 )
 
 static void term_paste_clear(Terminal *term);
+static void term_enqueue_paste(Terminal *term, const wchar_t *data, size_t len,
+                               bool defer_start);
 
 static const char *const EMPTY_WINDOW_TITLE = "";
 
@@ -12549,12 +12551,6 @@ void term_copyall(Terminal *term, const int *clipboards, int n_clipboards)
     clipme(term, top, bottom, LEXICOGRAPHIC, true, clipboards, n_clipboards);
 }
 
-static void paste_from_clip_local(void *vterm)
-{
-    Terminal *term = (Terminal *)vterm;
-    term_do_paste(term, term->last_selected_text, term->last_selected_len);
-}
-
 void term_request_copy(Terminal *term, const int *clipboards, int n_clipboards)
 {
     int i;
@@ -12575,9 +12571,15 @@ void term_request_paste(Terminal *term, int clipboard)
       case CLIP_NULL:
         /* Do nothing: CLIP_NULL never has data in it. */
         break;
-      case CLIP_LOCAL:
-        queue_toplevel_callback(paste_from_clip_local, term);
+      case CLIP_LOCAL: {
+        /* Another selection can replace this text before the next callback.
+         * Copy it into the ordinary paste queue now; defer delivery as before. */
+        size_t len = term->last_selected_len;
+        if (len && term->last_selected_text[len-1] == L'\0')
+            len--;  /* the clipboard terminator is not keyboard input */
+        term_enqueue_paste(term, term->last_selected_text, len, true);
         break;
+      }
       default:
         win_clip_request_paste(term->win, clipboard);
         break;
@@ -12892,7 +12894,8 @@ static bool wstartswith(const wchar_t *a, size_t alen,
     return alen >= blen && !wcsncmp(a, b, blen);
 }
 
-void term_do_paste(Terminal *term, const wchar_t *data, size_t len)
+static void term_enqueue_paste(Terminal *term, const wchar_t *data, size_t len,
+                               bool defer_start)
 {
     const wchar_t *p;
     bool paste_controls = conf_get_bool(term->conf, CONF_paste_controls);
@@ -12906,14 +12909,6 @@ void term_do_paste(Terminal *term, const wchar_t *data, size_t len)
         return;
     term_seen_key_event(term);
 
-    /* snmalloc checks the multiplication and addition before allocating.
-     * An individual large paste is valid; cap only the extra waiting copies.
-     * At capacity, deliver older input in order to make room. */
-    while (term->paste_head &&
-           (len > (PASTE_BACKLOG_LIMIT - sizeof(struct TermPaste)) / sizeof(wchar_t) ||
-            sizeof(struct TermPaste) + len * sizeof(wchar_t) >
-            PASTE_BACKLOG_LIMIT - term->paste_waiting_bytes))
-        term_paste_step(term);
     struct TermPaste *paste = snmalloc(len, sizeof(wchar_t), sizeof(*paste));
     *paste = (struct TermPaste){ .allocation = sizeof(*paste) + len * sizeof(wchar_t),
         .bracketed = term->bracketed_paste && !term->no_bracketed_paste };
@@ -12966,16 +12961,30 @@ void term_do_paste(Terminal *term, const wchar_t *data, size_t len)
         text[paste->len++] = wc;
     }
 
+    /* Draining older input may echo it into the terminal. Finish copying the
+     * caller's text first, in case that echo changes the current selection.
+     * Keep the waiting queue bounded; the active head may be a large paste. */
+    while (term->paste_head &&
+           paste->allocation > PASTE_BACKLOG_LIMIT - term->paste_waiting_bytes)
+        term_paste_step(term);
+
     if (term->paste_tail) {
         term->paste_tail->next = paste;
         term->paste_tail = paste;
         term->paste_waiting_bytes += paste->allocation;
     } else {
         term->paste_head = term->paste_tail = paste;
-        term_paste_begin(term, paste);
-        if (paste->len < 256) term_paste_step(term);
+        if (!defer_start) {
+            term_paste_begin(term, paste);
+            if (paste->len < 256) term_paste_step(term);
+        }
     }
     term_paste_schedule(term);
+}
+
+void term_do_paste(Terminal *term, const wchar_t *data, size_t len)
+{
+    term_enqueue_paste(term, data, len, false);
 }
 
 /* Coordinates sent to applications describe the viewport, before bidi,

@@ -845,6 +845,35 @@ static void drain_paste(Mock *mk)
     IEQUAL(mk->term->paste_head != NULL, 0);
 }
 
+/* Two selection pastes and a direct paste in one event turn. Delivery is
+ * deferred for a local selection, but its text and queue position are fixed. */
+static void test_local_paste_snapshot(Mock *mk)
+{
+    Terminal *term = mk->term;
+    const int clipboard = CLIP_LOCAL + 1;
+    reset(mk);
+    test_context(mk, "two local selections keep their text and submission order");
+    bool saved = conf_get_bool(term->conf, CONF_paste_controls);
+    conf_set_bool(term->conf, CONF_paste_controls, true);
+    term_data_fragmented(term, "ONE\r\nTWO\033[?1002;1006;2004h");
+    for (int row = 0; row < 2; row++) {
+        term_mouse(term, MBT_LEFT, MBT_SELECT, MA_CLICK, 0, row, true, false, false);
+        term_mouse(term, MBT_LEFT, MBT_SELECT, MA_DRAG, 2, row, true, false, false);
+        term_mouse(term, MBT_LEFT, MBT_SELECT, MA_RELEASE, 2, row, false, false, false);
+        term_request_copy(term, &clipboard, 1);
+        check_clipboard(mk, row ? L"TWO" : L"ONE");
+        mk->clipboard_writes = 0;
+        term_request_paste(term, CLIP_LOCAL);
+        if (!row) term_do_paste(term, L"-", 1);
+    }
+    IEQUAL(mk->to_backend->len, 0);
+    drain_paste(mk);
+    const char *wire = "\033[200~ONE\033[201~\033[200~-\033[201~\033[200~TWO\033[201~";
+    IEQUAL(mk->to_backend->len, strlen(wire));
+    SEQUAL(mk->to_backend->s, wire);
+    conf_set_bool(term->conf, CONF_paste_controls, saved);
+}
+
 static void test_consecutive_pastes(Mock *mk)
 {
     wchar_t first[320];
@@ -932,6 +961,7 @@ int main(void)
     test_colour_and_alternate_screen(mk);
     test_bracketed_paste(mk);
     test_consecutive_pastes(mk);
+    test_local_paste_snapshot(mk);
 
     bool failed = mk->any_test_failed;
     mock_free(mk);
