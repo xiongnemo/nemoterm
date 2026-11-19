@@ -875,6 +875,42 @@ static void drain_paste(Mock *mk)
     IEQUAL(mk->term->paste_head != NULL, 0);
 }
 
+/* A PTY quotes bytes, not display cells or UTF-16 units. Capture accepted
+ * control filtering and the framing around, but not inside, the payload. */
+static void test_paste_quoted(Mock *mk)
+{
+    Terminal *t = mk->term;
+    reset(mk);
+    mk->ucsdata->line_codepage = CP_UTF8;
+    char *old = dupstr(conf_get_str_str_opt(t->conf, CONF_ttymodes, "LNEXT"));
+    conf_set_str_str(t->conf, CONF_ttymodes, "LNEXT", "A");
+    bool controls = conf_get_bool(t->conf, CONF_paste_controls);
+    conf_set_bool(t->conf, CONF_paste_controls, false);
+    term_data_fragmented(t, "\033[?2004;2005;2006h\033[?2005s\033[?2005l\033[?2005r");
+    strbuf_clear(mk->to_backend);
+    term_do_paste(t, L"A\x4e2d\x01\n", 4);
+    SEQUAL(mk->to_backend->s, "\033[200~\026A\026\xe4\026\xb8\026\xad\026\n\033[201~");
+
+    /* A long paste is drained after its mode and profile have both changed. */
+    conf_set_str_str(t->conf, CONF_ttymodes, "LNEXT", "V^]");
+    wchar_t text[300]; for (size_t i = 0; i < lenof(text); i++) text[i] = L'x';
+    strbuf_clear(mk->to_backend);
+    term_do_paste(t, text, lenof(text));
+    term_data_fragmented(t, "\033[?2004;2005l");
+    conf_set_str_str(t->conf, CONF_ttymodes, "LNEXT", "V^V");
+    drain_paste(mk);
+    strbuf *want = strbuf_new(); put_data(want, "\033[200~", 6);
+    for (size_t i = 0; i < lenof(text); i++) put_data(want, "\035x", 2);
+    put_data(want, "\033[201~", 6); SEQUAL(mk->to_backend->s, want->s);
+    strbuf_free(want);
+    term_data_fragmented(t, "\033[?2005h\033[?2005s\033c\033[?2005r");
+    IEQUAL(t->paste_quote_mode, 0);
+    conf_set_bool(t->conf, CONF_paste_controls, controls);
+    if (old) conf_set_str_str(t->conf, CONF_ttymodes, "LNEXT", old);
+    else conf_del_str_str(t->conf, CONF_ttymodes, "LNEXT");
+    sfree(old);
+}
+
 /* Two selection pastes and a direct paste in one event turn. Delivery is
  * deferred for a local selection, but its text and queue position are fixed. */
 static void test_local_paste_snapshot(Mock *mk)
@@ -1025,6 +1061,7 @@ int main(void)
     test_colour_and_alternate_screen(mk);
     test_bracketed_paste(mk);
     test_paste_newlines(mk);
+    test_paste_quoted(mk);
     test_consecutive_pastes(mk);
     test_local_paste_snapshot(mk);
 

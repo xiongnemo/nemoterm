@@ -3618,7 +3618,7 @@ static void power_on(Terminal *term, bool clear, bool keep_encoding)
     win_set_raw_mouse_mode(term->win, false);
     term->win_pointer_shape_pending = true;
     term->win_pointer_shape_raw = false;
-    term->paste_brackets_mode = term->paste_literal_nl_mode = 0;
+    term->paste_brackets_mode = term->paste_quote_mode = term->paste_literal_nl_mode = 0;
     term->srm_echo = false;
     {
         int i;
@@ -6819,6 +6819,16 @@ static void nemo_request_window_size(Terminal *term, int w, int h, bool pixels)
     term_schedule_update(term);
 }
 
+static uint32_t *paste_mode_stack(Terminal *term, unsigned mode)
+{
+    switch (mode) {
+      case 2004: return &term->paste_brackets_mode;
+      case 2005: return &term->paste_quote_mode;
+      case 2006: return &term->paste_literal_nl_mode;
+      default: unreachable("not a readline paste mode");
+    }
+}
+
 /*
  * Toggle terminal mode `mode' to state `state'. (`query' indicates
  * whether the mode is a DEC private one or a normal one.)
@@ -7003,9 +7013,9 @@ static void toggle_mode(Terminal *term, int mode, int query, bool state)
                 term_set_grapheme_clustering(term, state);
             break;
           case 2004:                   /* bracket clipboard input */
+          case 2005:                   /* quote every encoded clipboard byte */
           case 2006: {                 /* preserve literal newlines */
-            uint32_t *flags = mode == 2004 ? &term->paste_brackets_mode :
-                                             &term->paste_literal_nl_mode;
+            uint32_t *flags = paste_mode_stack(term, mode);
             *flags = (*flags & ~1u) | (state ? 1u : 0u);
             break;
           }
@@ -7095,6 +7105,7 @@ static unsigned term_mode_status(Terminal *term, unsigned mode, bool dec)
           case 2004:
             if (term->no_bracketed_paste) return 4;
             state = term->paste_brackets_mode & 1; break;
+          case 2005: state = term->paste_quote_mode & 1; break;
           case 2006: state = term->paste_literal_nl_mode & 1; break;
           case 9001:
             if (!conf_get_bool(term->conf, CONF_nemo_win32_input)) return 4;
@@ -7113,10 +7124,9 @@ static unsigned term_mode_status(Terminal *term, unsigned mode, bool dec)
 
 static void nemo_saved_dec_mode(Terminal *term, unsigned mode, bool save)
 {
-    if (mode == 2004 || mode == 2006) {
+    if (mode >= 2004 && mode <= 2006) {
         if (mode == 2004 && term->no_bracketed_paste) return;
-        uint32_t *flags = mode == 2004 ? &term->paste_brackets_mode :
-                                         &term->paste_literal_nl_mode;
+        uint32_t *flags = paste_mode_stack(term, mode);
         *flags = save ? (*flags << 1) | (*flags & 1) : *flags >> 1;
         return;
     }
@@ -12900,7 +12910,8 @@ static void sel_spread(Terminal *term)
 struct TermPaste {
     struct TermPaste *next;
     size_t len, pos, allocation;
-    bool bracketed, started;
+    bool bracketed, started, quoted;
+    unsigned char literal_next;
     /* wchar_t data follows */
 };
 
@@ -12949,6 +12960,17 @@ static void term_paste_step(Terminal *term)
     }
     if (term->ldisc && n) {
         strbuf *buf = term_input_data_from_unicode(term, text + p->pos, n, true);
+        if (p->quoted) {
+            /* XTerm quotes the encoded PTY bytes, after line-ending and
+             * control filtering. The framing and subsequent keys bypass it.
+             * Grow only this bounded chunk, never the queued clipboard. */
+            size_t bytes = buf->len;
+            strbuf_append(buf, bytes);
+            for (size_t i = bytes; i-- > 0;) {
+                buf->u[2*i+1] = buf->u[i];
+                buf->u[2*i] = p->literal_next;
+            }
+        }
         assert(buf->len <= INT_MAX);
         term_keyinput_internal(term, buf->s, (int)buf->len, false);
         strbuf_free(buf);
@@ -13021,6 +13043,16 @@ static void term_enqueue_paste(Terminal *term, const wchar_t *data, size_t len,
     struct TermPaste *paste = snmalloc(len, sizeof(wchar_t), sizeof(*paste));
     *paste = (struct TermPaste){ .allocation = sizeof(*paste) + len * sizeof(wchar_t),
         .bracketed = (term->paste_brackets_mode & 1) && !term->no_bracketed_paste };
+    if (term->paste_quote_mode & 1) {
+        paste->quoted = true;
+        paste->literal_next = 0x16; /* default tty VLNEXT (^V) */
+        char *setting = conf_get_str_str_opt(term->conf, CONF_ttymodes, "LNEXT");
+        if (setting && setting[0] == 'V' && setting[1]) {
+            char *next = NULL;
+            char ctrl = ctrlparse(setting+1, &next);
+            paste->literal_next = (unsigned char)(next ? ctrl : setting[1]);
+        }
+    }
     wchar_t *text = snew_plus_get_aux(paste);
 
     p = data;

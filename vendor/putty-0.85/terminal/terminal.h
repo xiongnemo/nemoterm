@@ -346,8 +346,8 @@ struct terminal_tag {
     pos highlight_anchor, highlight_start, highlight_end, highlight_mouse;
 
     /* XTerm readline modes use bit 0 for current state; each private
-     * save pushes it into the remaining bits. RIS clears both histories. */
-    uint32_t paste_brackets_mode, paste_literal_nl_mode;
+     * save pushes it into the remaining bits. RIS clears their histories. */
+    uint32_t paste_brackets_mode, paste_quote_mode, paste_literal_nl_mode;
     bool bracketed_paste_active;
     bool no_bracketed_paste;           /* disabled in configuration */
 
