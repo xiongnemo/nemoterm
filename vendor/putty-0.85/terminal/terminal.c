@@ -3583,6 +3583,7 @@ static void power_on(Terminal *term, bool clear, bool keep_encoding)
     term->curr_truecolour.decoration = 0;
     term->rectangle_extent = 0;
     term->checksum_flags = 0;
+    term->writer_visual_order = false;
     term->save_truecolour = term->alt_save_truecolour = term->curr_truecolour;
     term->curr_hyperlink = term->save_hyperlink = term->alt_save_hyperlink = 0;
     term->hover_hyperlink = 0;
@@ -5803,6 +5804,7 @@ static void nemo_soft_reset(Terminal *term)
     term->cset_gr = 2;
     term->cset_ss = 0;
     term->checksum_flags = 0;
+    term->writer_visual_order = false;
     term_set_grapheme_clustering(term, false);
     term->insert = term->dec_om = false;
     term->marg_t = 0;
@@ -7563,6 +7565,17 @@ static void do_osc(Terminal *term, bool bel)
         term->osc_string[term->osc_strlen] = '\0';
         if (osc_colours(term, bel)) break;
         switch (term->esc_args[0]) {
+          case 777: {
+            /* Local console writer hint. Only subsequently printed cells
+             * acquire this ordering, even when two writers share a row. */
+            static const char prefix[] = "nemoterm:visual=";
+            if (!term->osc_overflow && term->osc_strlen == (int)sizeof(prefix) &&
+                !memcmp(term->osc_string, prefix, sizeof(prefix)-1)) {
+                char value = term->osc_string[sizeof(prefix)-1];
+                if (value == '0' || value == '1') term->writer_visual_order = value == '1';
+            }
+            break;
+          }
           case 50:
             nemo_font_operation(term, bel);
             break;
@@ -7765,7 +7778,7 @@ static void nemo_checksum_rectangle(Terminal *term)
                  * Bits 2/4 also gate its legacy combining-mark summation. */
                 bool styled = (attr & ~(ATTR_WIDE | ATTR_NARROW | DATTR_MASK)) != ATTR_DEFAULT ||
                     cell->truecolour.fg.enabled || cell->truecolour.bg.enabled ||
-                    (decoration & ~(CELL_UNDRAWN | CELL_CHECKSUM_MASK));
+                    (decoration & ~(CELL_UNDRAWN | CELL_CHECKSUM_MASK | CELL_VISUAL_ORDER));
                 if ((mode & 4) || first || value != ' ' || drawn || styled)
                     total += value;
                 if ((mode & (4 | 16)) == 4 && col < line->cols) {
@@ -7999,7 +8012,8 @@ static void term_display_graphic_char(Terminal *term, unsigned long c, uint64_t 
         cline->chars[term->curs.x].attr = term->curr_attr;
         cline->chars[term->curs.x].truecolour =
             term->curr_truecolour;
-        cline->chars[term->curs.x].truecolour.decoration |= checksum;
+        cline->chars[term->curs.x].truecolour.decoration |= checksum |
+            (term->writer_visual_order ? CELL_VISUAL_ORDER : 0);
         cline->chars[term->curs.x].hyperlink = term->curr_hyperlink;
 
         term->curs.x++;
@@ -8010,6 +8024,8 @@ static void term_display_graphic_char(Terminal *term, unsigned long c, uint64_t 
         cline->chars[term->curs.x].attr = term->curr_attr;
         cline->chars[term->curs.x].truecolour =
             term->curr_truecolour;
+        if (term->writer_visual_order)
+            cline->chars[term->curs.x].truecolour.decoration |= CELL_VISUAL_ORDER;
         cline->chars[term->curs.x].hyperlink = term->curr_hyperlink;
 
         break;
@@ -8028,7 +8044,8 @@ static void term_display_graphic_char(Terminal *term, unsigned long c, uint64_t 
         cline->chars[term->curs.x].attr = term->curr_attr;
         cline->chars[term->curs.x].truecolour =
             term->curr_truecolour;
-        cline->chars[term->curs.x].truecolour.decoration |= checksum;
+        cline->chars[term->curs.x].truecolour.decoration |= checksum |
+            (term->writer_visual_order ? CELL_VISUAL_ORDER : 0);
         cline->chars[term->curs.x].hyperlink = term->curr_hyperlink;
 
         break;
@@ -11004,6 +11021,12 @@ static void term_bidi_cache_store(Terminal *term, int line, termchar *lbefore,
     }
 }
 
+static bool supplied_visual_cell(const termline *line, const bidi_char *ch)
+{
+    return ch->index != BIDI_CHAR_INDEX_NONE &&
+        (line->chars[ch->index].truecolour.decoration & CELL_VISUAL_ORDER);
+}
+
 /*
  * Prepare the bidi information for a screen line. Returns the
  * transformed list of termchars, or NULL if no transformation at
@@ -11033,6 +11056,7 @@ static termchar *term_bidi_line(Terminal *term, struct termline *ldata,
                                      bidi_char);
             }
 
+            bool has_visual_cells = false;
             bool needs_processing=ldata->trusted && term->cols>TRUST_SIGIL_WIDTH;
             for (it=0; it<term->cols ; it++) {
                 unsigned long uc = (ldata->chars[it].chr);
@@ -11063,6 +11087,7 @@ static termchar *term_bidi_line(Terminal *term, struct termline *ldata,
                     (unsigned int)uc;
                 term->wcFrom[it].index = it;
                 term->wcFrom[it].nchars = 1;
+                has_visual_cells |= (ldata->chars[it].truecolour.decoration & CELL_VISUAL_ORDER) != 0;
                 needs_processing |= is_rtl(uc);
             }
 
@@ -11100,8 +11125,21 @@ static termchar *term_bidi_line(Terminal *term, struct termline *ldata,
                 nbc++;
             }
 
-            if (!term->no_bidi)
+            if (!term->no_bidi && !has_visual_cells) {
                 do_bidi(term->bidi_ctx, term->wcFrom, nbc);
+            } else if (!term->no_bidi) {
+                /* Client-ordered spans occupy fixed columns. Reorder the
+                 * remaining logical spans, retaining indices for hit tests. */
+                for (int pos = 0; pos < nbc;) {
+                    if (supplied_visual_cell(ldata, &term->wcFrom[pos])) {
+                        pos++;
+                        continue;
+                    }
+                    int beg = pos++;
+                    while (pos < nbc && !supplied_visual_cell(ldata, &term->wcFrom[pos])) pos++;
+                    do_bidi(term->bidi_ctx, term->wcFrom + beg, pos - beg);
+                }
+            }
 
             if (!term->no_arabicshaping) {
                 do_shape(term->wcFrom, term->wcTo, nbc);
@@ -11462,7 +11500,7 @@ static void do_paint(Terminal *term)
                  (tc.decoration & 255) >= 16))
                 tc.decoration &= ~UNDER_COLOUR_MASK;
 
-            tc.decoration &= ~CELL_CHECKSUM_MASK;
+            tc.decoration &= ~(CELL_CHECKSUM_MASK | CELL_VISUAL_ORDER);
 
             if (term->attribute_colour_modes & 31)
                 nemo_paint_attribute_colours(term, attribute_colours,

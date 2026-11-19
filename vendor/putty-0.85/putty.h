@@ -1039,6 +1039,8 @@ typedef struct truecolour {
 /* XTerm byte NRC uses font slot 30 for pound, while we retain Unicode for
  * rendering/copy. Its Unicode-checksum extension reports that legacy slot. */
 #define CELL_CHECKSUM_BYTE_POUND (UINT64_C(1) << 57)
+/* Layout metadata, never an SGR style or part of a screen checksum. */
+#define CELL_VISUAL_ORDER (UINT64_C(1) << 58)
 #define CELL_CHECKSUM_MASK (CELL_CHECKSUM_VALUE | CELL_CHECKSUM_VALID | CELL_CHECKSUM_BYTE_POUND)
 #define optionalrgb_equal(r1,r2) (                              \
         (r1).enabled==(r2).enabled &&                           \

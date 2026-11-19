@@ -23,6 +23,80 @@ def replace(path, before, after):
     path.write_text(value.replace(before, after), encoding="utf-8")
 
 
+def patch_visual_writer():
+    # The two endpoints travel in the single PE. GetProcessHandle identifies
+    # the writer of this call even when it was launched under another shell.
+    def sub(path, before, after):
+        replace(DEST / 'src' / path, before, after)
+
+    sub('server/ConsoleShimPolicy.h', '    bool IsCmdExe()',
+        '    bool SuppliesVisualCells() const noexcept { return _visualCells; }\n    bool IsCmdExe()')
+    sub('server/ConsoleShimPolicy.h', '    bool _isCmd', '    bool _visualCells{ false };\n    bool _isCmd')
+    sub('server/ConsoleShimPolicy.cpp', '#include "ConsoleShimPolicy.h"', '''#include "ConsoleShimPolicy.h"
+#include <winver.h>
+#pragma comment(lib, "version.lib")
+
+// Limit this compatibility rule to the native client build whose wire and
+// glyph order were measured. Unknown versions retain the normal policy.
+static bool measuredVisualWriter(const std::filesystem::path& path)
+{
+    DWORD unused{};
+    const auto size = GetFileVersionInfoSizeW(path.c_str(), &unused);
+    if (!size || size > 1024 * 1024) return false;
+    std::vector<BYTE> data(size);
+    void* block{};
+    UINT bytes{};
+    if (!GetFileVersionInfoW(path.c_str(), 0, size, data.data()) ||
+        !VerQueryValueW(data.data(), L"\\\\", &block, &bytes) || bytes < sizeof(VS_FIXEDFILEINFO)) return false;
+    const auto& info = *static_cast<const VS_FIXEDFILEINFO*>(block);
+    return info.dwSignature == VS_FFI_SIGNATURE && info.dwFileVersionMS == MAKELONG(1, 2) &&
+           info.dwFileVersionLS == MAKELONG(0, 322);
+}''')
+    sub('server/ConsoleShimPolicy.cpp', '        _isCmd =',
+        '        _visualCells = til::equals_insensitive_ascii(clientName, L"claude.exe") && measuredVisualWriter(processName);\n        _isCmd =')
+    sub('host/_stream.cpp', '#include "writeData.hpp"', '''#include "writeData.hpp"
+#include "../server/ApiMessage.h"
+#include "../server/ProcessHandle.h"
+
+static bool visualWriter(CONSOLE_API_MSG* message)
+{
+    const auto process = message ? message->GetProcessHandle() : nullptr;
+    return process && process->GetShimPolicy().SuppliesVisualCells();
+}''')
+    for name, sig in [('WriteCharsVT', 'const std::wstring_view& str'), ('DoWriteConsole', 'std::wstring_view str')]:
+        prefix = f'{name}(SCREEN_INFORMATION& screenInfo, {sig}'
+        sub('host/_stream.h', prefix + ');', prefix + ', bool visual = false);')
+        sub('host/_stream.cpp', prefix + ')', prefix + ', bool visual)')
+    sub('host/_stream.cpp', 'WriteCharsVT(screenInfo, str);', 'WriteCharsVT(screenInfo, str, visual);')
+    for obj, arg in [('screenInfo', 'wstr'), ('context', 'buffer')]:
+        sub('host/_stream.cpp', f'DoWriteConsole({obj}, {arg});', f'DoWriteConsole({obj}, {arg}, visualWriter(pWaitReplyMessage));')
+    for arg in ['screenInfo, std::move(wstr)', 'context, std::wstring{ buffer }']:
+        sub('host/_stream.cpp', f'new WriteData({arg}, gci.OutputCP)', f'new WriteData({arg}, gci.OutputCP, visualWriter(pWaitReplyMessage))')
+    sub('host/writeData.hpp', 'const UINT uiOutputCodepage);', 'const UINT uiOutputCodepage, bool visual = false);')
+    sub('host/writeData.hpp', '    bool _fLeadByteCaptured;', '    bool _visual;\n    bool _fLeadByteCaptured;')
+    sub('host/writeData.cpp', 'const UINT uiOutputCodepage) :', 'const UINT uiOutputCodepage, bool visual) :')
+    sub('host/writeData.cpp', '    _fLeadByteCaptured(false),', '    _visual(visual),\n    _fLeadByteCaptured(false),')
+    sub('host/writeData.cpp', 'DoWriteConsole(_siContext, _pwchContext)', 'DoWriteConsole(_siContext, _pwchContext, _visual)')
+    # Use the parser's printable spans, never raw WriteFile boundaries: an
+    # application may split a DCS, SGR or title across multiple calls.
+    for path, sig in [('terminal/parser/stateMachine.hpp', 'void ProcessString'), ('terminal/parser/stateMachine.cpp', 'void StateMachine::ProcessString')]:
+        default = ' = false' if path.endswith('.hpp') else ''
+        sub(path, sig + '(const std::wstring_view string)', sig + f'(const std::wstring_view string, bool visual{default})')
+    sub('terminal/parser/stateMachine.hpp', '        Count,\n    };\n\n    struct Injection',
+        '        VisualCellsBegin, VisualCellsEnd,\n        Count,\n    };\n\n    struct Injection')
+    sub('terminal/parser/stateMachine.cpp', '                _ActionPrintString(_CurrentRun());', '''                if (visual) _injections.emplace_back(InjectionType::VisualCellsBegin, _runOffset);
+                _ActionPrintString(_CurrentRun());
+                if (visual) InjectSequence(InjectionType::VisualCellsEnd);''')
+    sub('host/_stream.cpp', 'stateMachine.ProcessString(str);', 'stateMachine.ProcessString(str, visual && !!writer);')
+    sub('host/_stream.cpp', '            case InjectionType::RIS:', r'''            case InjectionType::VisualCellsBegin:
+                sequence = "\x1b]777;nemoterm:visual=1\x07";
+                break;
+            case InjectionType::VisualCellsEnd:
+                sequence = "\x1b]777;nemoterm:visual=0\x07";
+                break;
+            case InjectionType::RIS:''')
+
+
 def patch_cursor_sync():
     # ConPTY's internal CPR must not consume an application's outstanding CPR.
     # This same-image host uses a tagged Nemoterm query with viewport-absolute
@@ -280,6 +354,7 @@ def main():
                     CharToKeyEvents(wch, codepage, keyEvents);
                 }""")
 
+    patch_visual_writer()
     patch_cursor_sync()
     patch_input_dcs_fragments()
     patch_cursor_sync_fragments()

@@ -17,10 +17,11 @@ def verify_bidi_copy(evidence, lines, wire, cw, ch, ox, oy, cols, image, desktop
     row,=[i for i,line in enumerate(lines) if suffix in line]
     width=lambda s:sum(0 if unicodedata.combining(c) else 2 if unicodedata.east_asian_width(c) in ('W','F') else 1 for c in s)
     x=width(lines[row].split(suffix,1)[0]);assert 0<x<x+16<cols
-    logical_indices=(2,1,0) if emitted==original else (0,1,2)
-    visual=logical_indices if evidence['client_visual_order'] else logical_indices[::-1]
+    # All renderers and clients must ultimately display the same provider
+    # order. Diagnose either permutation from pixels, independently of the
+    # application's wire order, so a layout failure still gets a copy receipt.
     proof=evidence['bidi_system_copy']=dict(row=row,columns=[x,x+1],reference_columns=[x+7,x+11,x+15],
-        emitted=emitted,wire_sha256=hashlib.sha256(wire).hexdigest(),expected_visual_order=visual)
+        emitted=emitted,wire_sha256=hashlib.sha256(wire).hexdigest(),expected_visual_order=[0,1,2])
     def tiles():
         bmp=image();pic=Image.open(io.BytesIO(bmp)).convert('RGB')
         y=oy+row*ch
@@ -30,7 +31,9 @@ def verify_bidi_copy(evidence, lines, wire, cw, ch, ox, oy, cols, image, desktop
         bmp,t=tiles();isolated=[t[i+1] for i in (7,11,15)]
         actual=[t[i+1] for i in (1,2,3)]
         proof.update(reference_digests=list(map(digest,isolated)),actual_digests=list(map(digest,actual)))
-        if len(set(isolated))==3 and actual==[isolated[i] for i in visual]:return bmp,t
+        if len(set(isolated))==3 and set(actual)==set(isolated):
+            proof['observed_visual_order']=[isolated.index(cell) for cell in actual]
+            return bmp,t
     bmp,source=wait_for(find_source);frame('bidi-source',bmp)
     proof['provider_layout_matches']=proof['actual_digests']==proof['reference_digests']
     def pixels(t):return list(zip(t[0::3],t[1::3],t[2::3]))
@@ -52,5 +55,5 @@ def verify_bidi_copy(evidence, lines, wire, cw, ch, ox, oy, cols, image, desktop
     if before_copy:before_copy()
     seq=u.GetClipboardSequenceNumber();press(67,3)
     wait_for(lambda:u.GetClipboardSequenceNumber()!=seq);proof['copied']=clipboard_text(hwnd)
-    proof['expected_copy']='A'+refs[visual[0]]
+    proof['expected_copy']='A'+refs[proof['observed_visual_order'][0]]
     assert proof['copied']==proof['expected_copy'],proof

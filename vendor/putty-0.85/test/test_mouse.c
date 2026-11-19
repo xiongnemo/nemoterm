@@ -691,6 +691,24 @@ static void test_ctrl_rectangle(Mock *mk)
         check_clipboard(mk, L"\x5d0Z0123456W");
         MOUSE_BYTES("");
     }
+    /* A shell supplies logical text and an application supplies visual text
+     * on the very same row. Their visibly identical left edges must copy
+     * identically, including the mark, even with mouse reporting active. */
+    for (int source = 0; source < 2; source++) {
+        mouse_setup(mk, "Shift-copy logical and already ordered writers on one row", "");
+        mk->term->rect_select = false;
+        mk->term->no_bidi = false;
+        term_size(mk->term, 3, 16, 100);
+        term_data_fragmented(mk->term, "\033[?1002;1006hA\xd7\x90\xd7\x91\xd7\x92\xd6\xb0Z"
+                             "\033]777;nemoterm:visual=1\007A\xd7\x92\xd6\xb0\xd7\x91\xd7\x90Z"
+                             "\033]777;nemoterm:visual=0\007");
+        int x = 5 * source;
+        send_mouse(mk, MBT_LEFT, MA_CLICK, x, 0, true, false, false);
+        send_mouse(mk, MBT_LEFT, MA_RELEASE, x+1, 0, false, false, false);
+        term_request_copy(mk->term, &clipboard, 1);
+        check_clipboard(mk, L"A\x5d2\x5b0");
+        MOUSE_BYTES("");
+    }
     mouse_setup(mk, "Block copies original Arabic text rather than shaped glyphs", "");
     mk->term->no_bidi = mk->term->no_arabicshaping = false;
     term_data_fragmented(mk->term, "A\xd8\xb3\xd9\x84\xd8\xa7\xd9\x85Z");

@@ -526,6 +526,7 @@ struct terminal_tag {
     int bellovl_s;
     int bellovl_t;
     bool no_bidi;
+    bool writer_visual_order;
     bool bksp_is_delete;
     bool blink_cur;
     int cursor_type; /* current style, including application DECSCUSR */
