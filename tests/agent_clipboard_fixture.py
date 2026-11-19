@@ -119,7 +119,7 @@ class Handler(BaseHTTPRequestHandler):
             # Retain only fixed-fixture prompt contamination, allowing direct
             # comparison of early user input and terminal OSC replies.
             first_parts=[p for p in latest_user_parts if p.startswith(SELECTION_TRIGGER)]
-            self.server.requests.append(dict(selection_received=selected,
+            record = dict(selection_received=selected,
                                               selection_nfc_present=unicodedata.normalize('NFC',SELECTION_PREFIX+sample) in latest_user_parts,
                                               fixture_prompt_hashes=[hashlib.sha256(p.encode('utf8')).hexdigest() for p in latest_user_parts if p.startswith(SELECTION_PREFIX)],
                                               glyph_prompt_hashes=[hashlib.sha256(p.encode()).hexdigest() for p in glyph_parts],
@@ -131,22 +131,36 @@ class Handler(BaseHTTPRequestHandler):
                                               path=path, images=images, text=text,
                                               advertised_tools=len(request.get('tools', [])),
                                               tool_names=[t.get('name',t.get('function',{}).get('name',t.get('type')))
-                                                          for t in request.get('tools', [])]))
+                                                          for t in request.get('tools', [])])
+            self.server.requests.append(record)
             if getattr(self.server,'capture_draft',False):
-                self.server.requests[-1]['draft_parts']=[v for v in latest_user_parts if re.fullmatch(r'[A-Z0-9_]{1,96}',v)]
+                record['draft_parts']=[v for v in latest_user_parts if re.fullmatch(r'[A-Z0-9_]{1,96}',v)]
             plan = getattr(self.server, 'turn_plan', None)
-            turn = len(self.server.requests) - 1
             if plan is None:
-                assert turn < 12
+                assert len(self.server.requests) <= 12
             else:
-                assert path == '/v1/responses' and not images and turn < len(plan), (path, turn)
-                prompt, reply = plan[turn]
-                # Only the newest user message counts; old turns can be
-                # repeated verbatim in a Responses request's conversation.
+                assert path == '/v1/responses' and not images, path
                 matches = [p for p in latest_user_parts if p in self.server.turn_prompts]
-                self.server.requests[turn]['turn_prompts'] = matches
-                assert matches == [prompt], (turn, matches, prompt)
-                self.server.requests[turn]['reply_sha256'] = hashlib.sha256(reply.encode()).hexdigest()
+                record.update(turn_prompts=matches, body_sha256=hashlib.sha256(json.dumps(request,sort_keys=True).encode()).hexdigest())
+                with self.server.turn_lock:
+                    turn = len(self.server.chat_receipts)
+                    if matches:
+                        assert turn < len(plan) and matches == [plan[turn][0]], (turn, matches)
+                        record['turn_index'] = turn
+                        reply = plan[turn][1]
+                        record['reply_sha256'] = hashlib.sha256(reply.encode()).hexdigest()
+                        self.server.chat_receipts.append(record)
+                    else:
+                        # The pinned client also submits zero-tool background
+                        # requests containing a transcript. They cannot supply
+                        # an ACK, satisfy a turn, or advance the prompt index.
+                        assert not record['advertised_tools'] and text and 'NEMOTERM_MEMORY_PAIR' in text, record
+                        record['auxiliary'] = True
+                        record['latest_user_excerpt'] = [p[:160] for p in latest_user_parts[:3]]
+                        self.server.auxiliary_count += 1
+                        assert self.server.auxiliary_count <= 2*len(plan)
+                        reply = 'Fixture conversation'
+                    response_id = len(self.server.chat_receipts) + self.server.auxiliary_count
             self.send_response(200)
             if hasattr(self.server,'response_clock'):
                 self.server.response_clock.append(dict(stage='request',ns=time.monotonic_ns()))
@@ -182,7 +196,7 @@ class Handler(BaseHTTPRequestHandler):
                     self.wfile.write(('data: '+json.dumps(value)+'\n\n').encode())
                 self.wfile.write(b'data: [DONE]\n\n')
             else:
-                suffix = '' if plan is None else f'_{turn:03d}'
+                suffix = '' if plan is None else f'_{response_id:03d}'
                 response = dict(id='resp_fixture'+suffix, object='response', created_at=int(time.time()),
                                 model=request['model'], status='in_progress', output=[])
                 item = dict(id='msg_fixture'+suffix, type='message', role='assistant', status='in_progress', content=[])

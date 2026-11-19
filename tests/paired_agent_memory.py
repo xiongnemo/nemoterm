@@ -93,7 +93,7 @@ def exercise_turns(out, desk, provider, stage, samples, rec, renderer_probe):
         wait_for(lambda: visible(prompt)); desk.chord(13)
         def received():
             assert not provider.errors, provider.errors
-            return provider.requests[turn] if len(provider.requests) > turn else None
+            return provider.chat_receipts[turn] if len(provider.chat_receipts) > turn else None
         receipt = wait_for(received, timeout=35)
         assert receipt['turn_prompts'] == [prompt] and receipt['reply_sha256'] == hashlib.sha256(reply.encode()).hexdigest()
         frame = wait_for(lambda: visible(f'ACKTURN{turn:02d}DONE'), timeout=30)
@@ -104,7 +104,7 @@ def exercise_turns(out, desk, provider, stage, samples, rec, renderer_probe):
         if renderer_probe is not None:
             entry['actual_renderer'] = renderer_probe()
             entry['within_budget'] = private_ws_passes(entry['actual_renderer'], entry['memory']['max']['private_ws'])
-    assert len(provider.requests) == len(provider.turn_plan) and not provider.errors
+    assert len(provider.chat_receipts) == len(provider.turn_plan) and not provider.errors
 
 
 def trial(out,kind,exe,client,font,rec,multi_turn=False):
@@ -112,6 +112,9 @@ def trial(out,kind,exe,client,font,rec,multi_turn=False):
     if kind=='pterm':env.pop('NEMOTERM_CONPTY',None)
     provider=Provider();provider.selection=False;thread=threading.Thread(target=provider.serve_forever,daemon=True);thread.start()
     if multi_turn:
+        provider.turn_lock = threading.Lock()
+        provider.chat_receipts = []
+        provider.auxiliary_count = 0
         provider.turn_plan = conversation()
         provider.turn_prompts = {prompt for prompt, _ in provider.turn_plan}
     name='pair-'+uuid.uuid4().hex
@@ -184,6 +187,11 @@ def trial(out,kind,exe,client,font,rec,multi_turn=False):
                 if desk:desk.restore()
                 k.CloseHandle(handle);rec['sample_errors']=errors;rec['requests']=provider.requests;rec['provider_errors']=provider.errors;rec['cleanup']=job.finish()
             assert not provider.errors and not rec['cleanup']['terminated_remaining'],rec['cleanup']
+            if multi_turn:
+                rec['chat_requests'] = len(provider.chat_receipts)
+                rec['auxiliary_requests'] = provider.auxiliary_count
+                assert rec['chat_requests'] == len(provider.turn_plan)
+                assert rec['chat_requests']+rec['auxiliary_requests'] == len(provider.requests)
             if multi_turn and kind!='pterm':
                 assert all(e['actual_renderer']==target+1 and e['within_budget'] for e in rec['turns']),rec['turns']
                 assert private_ws_passes(target+1,rec['whole_run_peak']['private_ws']),rec['whole_run_peak']
