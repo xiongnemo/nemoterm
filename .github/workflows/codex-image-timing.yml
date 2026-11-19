@@ -21,7 +21,7 @@ jobs:
       fail-fast: false
       matrix:
         input: [system, api]
-        phase: ${{ fromJSON(inputs.mixed_opencode && '["composer"]' || inputs.mixed_bitmap && '["idle"]' || '["immediate","idle"]') }}
+        phase: ${{ fromJSON(inputs.mixed_opencode && '["composer","composer-no-title"]' || inputs.mixed_bitmap && '["idle"]' || '["immediate","idle"]') }}
         include: ${{ fromJSON((inputs.image_files || inputs.bitmap_witness || inputs.mixed_bitmap) && '[]' || '[{"input":"system","phase":"caption"}]') }}
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
@@ -59,6 +59,8 @@ jobs:
           if ($clients.Count -ne 1) {throw "Expected one pinned native $env:IMAGE_CLIENT executable"}
           $opts=@('tests/agent_clipboard_smoke.py','--client',$env:IMAGE_CLIENT,'--client-exe',$clients[0].FullName)
           if ($env:MIXED -eq 'yes') {$opts+='--mixed-bitmap'}
+          if ($env:STARTUP_PHASE -eq 'composer') {$opts+=@('--opencode-title','default')}
+          if ($env:STARTUP_PHASE -eq 'composer-no-title') {$opts+=@('--opencode-title','disabled')}
           if ($env:WITNESS -eq 'yes') {$opts+='--witness-bitmap'}
           if ($env:INPUT_MODE -eq 'system') {$opts+='--system-input'}
           if ($env:CLIPBOARD_KIND -eq 'file') {$opts+='--image-file'}

@@ -40,6 +40,18 @@ SELECTION_PREFIX = 'NEMOTERM_SUBMIT '
 GLYPH_PREFIX = 'NEMOTERM_GLYPH_SUBMIT '
 
 
+# OpenCode v1.19.3 session/prompt.ts: ensureTitle prepends this exact user
+# message before forwarding the first user's original turn to the small model.
+def has_title_instruction(request):
+    for msg in request.get('messages', []):
+        if msg.get('role') != 'user': continue
+        content = msg.get('content')
+        texts = ([content] if isinstance(content, str) else
+                 [p.get('text') for p in (content or []) if p.get('type') == 'text'])
+        if 'Generate a title for this conversation:\n' in texts: return True
+    return False
+
+
 class Provider(ThreadingHTTPServer):
     daemon_threads = True
 
@@ -114,6 +126,8 @@ class Handler(BaseHTTPRequestHandler):
                                               source_prompt_exact=SELECTION_TRIGGER in latest_user_parts,
                                               source_suffix=[p[len(SELECTION_TRIGGER):][:160] for p in first_parts],
                                               selected_text_occurrences=sum(part.count(sample) for part in latest_user_parts),
+                                              **({'has_opencode_title_instruction':has_title_instruction(request)}
+                                                 if getattr(self.server,'trace_title',False) else {}),
                                               path=path, images=images, text=text,
                                               advertised_tools=len(request.get('tools', [])),
                                               tool_names=[t.get('name',t.get('function',{}).get('name',t.get('type')))
@@ -323,6 +337,7 @@ def main():
     parser.add_argument('--directory', required=True)
     parser.add_argument('--automation', action='store_true')
     parser.add_argument('--witness-bitmap',action='store_true')
+    parser.add_argument('--image-title',choices=('default','disabled'))
     parser.add_argument('--draft-order',action='store_true')
     parser.add_argument('--selection-renderer', choices=('gdi','directx'))
     parser.add_argument('--confirm-close',action='store_true')
@@ -333,6 +348,7 @@ def main():
     parser.add_argument('--right-copy-and-paste',action='store_true')
     parser.add_argument('--font',default=os.environ.get('NEMOTERM_TEST_FONT','SarasaTermSC Nerd Light'))
     args = parser.parse_args()
+    if args.image_title:assert args.client=='opencode'
     folder = Path(args.directory).resolve()
     folder.mkdir(parents=True, exist_ok=False)
     home,work,env=isolated_home(folder)
@@ -374,6 +390,8 @@ def main():
                         options=dict(baseURL=base, apiKey='fixture-unused'), models={'nemoterm-image-fixture':
                         dict(name='Nemoterm image fixture', attachment=True, limit=dict(context=32000, output=2048),
                              modalities=dict(input=['text', 'image'], output=['text']))})})
+        if args.image_title == 'disabled':config['agent']={'title':{'disable':True}}
+        if args.image_title:server.trace_title=True
         config_path = home/'opencode.json'
         config_path.write_text(json.dumps(config, indent=2), encoding='utf-8')
         env.update(OPENCODE_CONFIG=str(config_path), OPENCODE_DISABLE_PROJECT_CONFIG='1',
@@ -420,6 +438,7 @@ def main():
                             report['clipboard_action'] = serial
                         elif action == 'mixed-bitmap':
                             put_clipboard_blocks(hwnd, [(13, bytes(2)), (8, bitmap_bytes())])
+                            if args.image_title:report['opencode_title_policy']=args.image_title
                             report['mixed_formats'] = ['empty CF_UNICODETEXT', 'CF_DIB']
                             report['clipboard_action'] = serial
                         elif action == 'draft-text' and args.draft_order:
