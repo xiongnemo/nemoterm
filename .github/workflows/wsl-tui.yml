@@ -35,6 +35,7 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with: {fetch-depth: 0}
       - name: Verify the source-built single executable
+        if: inputs.suite != 'byte-path'
         shell: pwsh
         env:
           GH_TOKEN: ${{ github.token }}
@@ -53,9 +54,10 @@ jobs:
       - name: Verify or install signed Ubuntu fixture packages over HTTPS
         shell: pwsh
         env:
-          WSL_FIXTURE_SUITE: ${{ inputs.suite }}
+          WSL_FIXTURE_SUITE: ${{ inputs.suite == 'byte-path' && 'paste-quote' || inputs.suite }}
         run: ./scripts/prepare-hosted-wsl-packages.ps1 -Suite $env:WSL_FIXTURE_SUITE
       - name: Prepare font and fixture
+        if: inputs.suite != 'byte-path'
         id: prepare
         shell: pwsh
         run: |
@@ -65,7 +67,7 @@ jobs:
           Copy-Item tests build/wsl-check/tests -Recurse
           Copy-Item tools/nemoterm_debug.py build/wsl-check/tools/
       - name: Check byte-preserving WSL pipes with a real Linux PTY
-        if: inputs.suite == 'paste-quote'
+        if: inputs.suite == 'paste-quote' || inputs.suite == 'byte-path'
         run: python tests/wsl_pipe_pty.py
       - name: Isolate the hosted WSL kernel line discipline with a fresh private PTY
         if: ${{ !cancelled() && inputs.suite == 'paste-quote' && steps.prepare.outcome == 'success' }}
@@ -111,7 +113,7 @@ jobs:
       - if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
-          name: ${{ inputs.suite == 'paste-quote' && 'wsl-paste-quote' || inputs.suite == 'sixel' && 'wsl-sixel' || inputs.suite == 'tmux-vim' && 'wsl-tmux-vim' || inputs.suite == 'vim' && 'wsl-vim' || inputs.suite == 'colour' && 'wsl-colour' || 'wsl-tui' }}-${{ github.run_id }}-${{ github.run_attempt }}
+          name: ${{ inputs.suite == 'byte-path' && 'wsl-byte-path' || inputs.suite == 'paste-quote' && 'wsl-paste-quote' || inputs.suite == 'sixel' && 'wsl-sixel' || inputs.suite == 'tmux-vim' && 'wsl-tmux-vim' || inputs.suite == 'vim' && 'wsl-vim' || inputs.suite == 'colour' && 'wsl-colour' || 'wsl-tui' }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
             build/wsl-provision/*.log
             build/wsl-check/research/
