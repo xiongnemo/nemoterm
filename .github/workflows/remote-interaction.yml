@@ -21,21 +21,30 @@ permissions:
 jobs:
   busybox:
     name: Build pinned BusyBox shell fixture
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: orchestration
     if: ${{ needs.orchestration.outputs.shell_groups != '[]' }}
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
+          sparse-checkout: scripts/install-hosted-ubuntu-packages.sh
+          sparse-checkout-cone-mode: false
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          path: busybox-src
           repository: rmyorston/busybox-w32
           ref: 5f09fb446adf81d005f0aad9dc47eca19ac3b74c
-      - name: Cross-compile the upstream Windows configuration
+      - name: Verify or install the MinGW compiler from signed Ubuntu HTTPS archives
         shell: bash
         run: |
           set -euo pipefail
-          sudo apt-get update -qq
-          sudo apt-get install -y gcc-mingw-w64-x86-64
+          sudo bash scripts/install-hosted-ubuntu-packages.sh busybox-build 2>&1 | tee compiler-setup.log
+      - name: Cross-compile the upstream Windows configuration
+        working-directory: busybox-src
+        shell: bash
+        run: |
+          set -euo pipefail
           # The ANSI build loses Chinese paths before the shell can parse
           # them. Use upstream's Unicode Windows configuration for UTF-8 tests.
           make mingw64u_defconfig
@@ -55,8 +64,15 @@ jobs:
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: interaction-busybox-${{ github.run_id }}-${{ github.run_attempt }}
-          path: product/
+          path: busybox-src/product/
           include-hidden-files: true
+          retention-days: 14
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: busybox-build-environment-${{ github.run_id }}-${{ github.run_attempt }}
+          path: compiler-setup.log
+          if-no-files-found: warn
           retention-days: 14
   orchestration:
     runs-on: ubuntu-latest

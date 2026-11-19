@@ -1,7 +1,8 @@
 #!/bin/bash
-# Invoked by prepare-hosted-wsl-packages.ps1 inside the disposable hosted distro.
+# Only for the disposable Ubuntu 24.04 environments configured in Actions.
 set -eu
 case "$1" in
+  busybox-build) pkgs=(gcc-mingw-w64-x86-64) ;;
   sixel) pkgs=(libsixel-bin) ;;
   tmux-vim) pkgs=(vim tmux ncurses-term) ;;
   vim) pkgs=(vim) ;;

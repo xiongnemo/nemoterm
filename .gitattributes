@@ -21,4 +21,4 @@ CMakeLists.txt text eol=lf
 # Byte-identical console paint input captured on a hosted runner.
 /tests/fixtures/codex-colour-probe/*.vt -text
 /tests/fixtures/codex-image-keys/*.vt -text
-/scripts/install-hosted-wsl-packages.sh text eol=lf
+/scripts/install-hosted-ubuntu-packages.sh text eol=lf

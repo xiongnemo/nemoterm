@@ -6,5 +6,5 @@ if ($env:GITHUB_ACTIONS -ne 'true' -or $env:RUNNER_ENVIRONMENT -ne 'github-hoste
 }
 $dir = Join-Path $env:GITHUB_WORKSPACE 'build/wsl-provision'
 New-Item -ItemType Directory -Force -Path $dir | Out-Null
-& wsl.exe --distribution Ubuntu-24.04 --user root --cd $env:GITHUB_WORKSPACE --exec /bin/bash scripts/install-hosted-wsl-packages.sh $Suite 2>&1 | Tee-Object -FilePath (Join-Path $dir "$Suite.log")
+& wsl.exe --distribution Ubuntu-24.04 --user root --cd $env:GITHUB_WORKSPACE --exec /bin/bash scripts/install-hosted-ubuntu-packages.sh $Suite 2>&1 | Tee-Object -FilePath (Join-Path $dir "$Suite.log")
 if ($LASTEXITCODE -ne 0) { throw "WSL package preparation failed ($LASTEXITCODE); see build/wsl-provision/$Suite.log" }
