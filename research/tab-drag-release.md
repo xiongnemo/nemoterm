@@ -15,3 +15,7 @@ A 与 B 在同一个原生终端窗口中运行，各自打开应用鼠标报告
 该候选在 [10 次同机 pterm / Nemoterm 对照](tab-drag-pterm-6a2dc83.zip)中使用同一个 Codex 和 `SarasaTermSC Nerd Light`（160×48）。在收到回复后采样，各次前端私有工作集中位数范围：pterm 3.744–3.768 MB，Nemoterm 单标签 GDI 5.050–5.100 MB，DirectX 9.654–9.728 MB。数字使用十进制 MB。八个 Nemoterm 进程用的是同一个候选 EXE。新版的[REA 导入表](rea-6a2dc83-imports.json.gz)与旧版在普通和延迟导入上全部字段相同；静态导入不能替代运行时模块观测。
 
 同一 EXE 的[其他专项记录](tab-drag-acceptance-6a2dc83.zip)：默认网格真实客户端 10/10、选区 6/6，英文和简体中文的实际系统 DPI 各 12/12。[构建清单与关闭确认回执](tab-drag-build-6a2dc83.zip)中的三个窗口场景，在取消后均恢复输入。
+
+远程完整 CI 中，WSL 的 Sixel、tmux/Vim、terminfo 颜色以及 Linux 上构建 BusyBox 的作业都曾在安装依赖时失败：Ubuntu 镜像的 HTTP 连接超时或索引不完整，产品尚未进入测试。工作流现在先检查请求的软件包；确需安装时，使用 HTTPS 并要求 Ubuntu 签名索引验证成功，记录实际包版本。BusyBox 仍从原有固定源码和 Unicode 配置交叉编译。只使用 GitHub 托管 runner，不依赖开发机 WSL 或 `/tmp`。
+
+同一候选上的 [Sixel 回放](https://github.com/xiongnemo/nemoterm/actions/runs/44525493045)（两种渲染器）、[tmux/Vim 回放](https://github.com/xiongnemo/nemoterm/actions/runs/44525492410)（GDI、DirectX 各 `TERM=xterm`、`xterm-256color` 两种）以及 [terminfo 颜色回放](https://github.com/xiongnemo/nemoterm/actions/runs/44525560769)（两种渲染器）均通过。[原始失败摘录与日志摘要、新回放原件和包清单](tab-drag-wsl-6a2dc83.zip)包含 BusyBox 重建记录。[修正准备流程后的 81 项交互总回放](https://github.com/xiongnemo/nemoterm/actions/runs/44525718005)与首次完整 CI 分开记录。
