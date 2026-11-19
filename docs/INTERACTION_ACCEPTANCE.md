@@ -186,6 +186,8 @@ gh workflow run font-zoom-replay.yml --ref fix/legacy-key-modifiers-20261116 -f 
 
 [六次运行的数字和截图](../research/pterm-findings.md#同一台-runner-上的真实-codex-对照)。 当前预览另有[十次正反序对照](../research/pterm-findings.md#f564927-普通-codex-会话实际驻留了什么)。每次在启动 Codex 前、收到固定回复后，分别将前端的驻留页按自身 EXE、其他映像、私有分配和映射段分类，保留每类的私有页与可共享页数。后一次清单在普通工作集计数结束、窗口截图开始之前采集。
 
+`suite=agent-session-memory` 另用同一 EXE 执行多轮会话。pterm、Nemoterm GDI 单标签和 DirectX 单标签各只开一次，先收到初始回复，再在该窗口连续提交 24 条不同的提示。每轮用 Windows 键盘输入数字，回环服务检查最新一条用户消息；确认子进程可见屏幕中出现本轮回复末行和独有的结束标记后，继续采样至少 5 秒。记录各轮前端的私有工作集、总工作集和私有提交量；GDI <20,000,000 字节、DirectX ≤30,000,000 字节按整段采样峰值验收。与上面的短会话是两个独立的工作负载，不替换已有记录。
+
 在 `agents-grid` 的六个真实客户端／渲染器组合中，系统鼠标另从「中」的右半格拖到「文」的左半格；要求四格全部高亮、紧邻两格不变、Ctrl+Shift+C 复制为「中文」。然后仍须完成原有整条回复的选择、复制、粘贴与 HTTP 核对。该检查覆盖 160×48 并使用固定 Sarasa Light 字体。每次结果只对回放的那份 EXE 有效。
 
 The six default-grid agent cases also exercise the live close-tab shortcut after copying a reply. The hosted controller clicks the native Cancel button, observes that keyboard focus returns to the same terminal child, physically types the submission prefix, pastes, and submits. No terminal click or focus repair is allowed after Cancel. Each receipt includes the button's pressed/capture state, restored foreground and focus handles, and the provider's digest of the complete prompt.

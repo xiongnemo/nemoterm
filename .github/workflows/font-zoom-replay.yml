@@ -6,7 +6,7 @@ on:
       suite:
         description: Checks or notice-only packaging against the exact artifact
         type: choice
-        options: [font-bell, dpi, interaction, single, ui-regression, shell-lifetime, tcap, portable-notices, regis-window, regis-frame-pair, regis-presented-matrix, regis-bank-start, column-cells, pointer-colour, colour-input, unicode-boundary, picture-keys, image-timing, image-mixed, image-mixed-opencode, image-reads, image-files, image-reference, draft-reference, draft-product, paste-order, pterm-memory, profile-dump, profile-env, wsl-tui, wsl-sixel, wsl-vim, wsl-tmux-vim, wsl-colour, rendering-settings, close-cancel, profile-sequence, font-ops, fullscreen]
+        options: [font-bell, dpi, interaction, single, ui-regression, shell-lifetime, tcap, portable-notices, regis-window, regis-frame-pair, regis-presented-matrix, regis-bank-start, column-cells, pointer-colour, colour-input, unicode-boundary, picture-keys, image-timing, image-mixed, image-mixed-opencode, image-reads, image-files, image-reference, draft-reference, draft-product, paste-order, pterm-memory, agent-session-memory, profile-dump, profile-env, wsl-tui, wsl-sixel, wsl-vim, wsl-tmux-vim, wsl-colour, rendering-settings, close-cancel, profile-sequence, font-ops, fullscreen]
         default: font-bell
       source_commit:
         description: Full source commit of the source-console-host artifact
@@ -71,9 +71,10 @@ jobs:
           path: build/profile-dump/report/
           if-no-files-found: error
   pterm-memory:
-    if: ${{ inputs.suite == 'pterm-memory' }}
+    if: ${{ inputs.suite == 'pterm-memory' || inputs.suite == 'agent-session-memory' }}
     uses: ./.github/workflows/pterm-memory.yml
     with:
+      multi_turn: ${{ inputs.suite == 'agent-session-memory' }}
       product_run: ${{ inputs.source_run }}
       product_commit: ${{ inputs.source_commit }}
   regis-presented-matrix:

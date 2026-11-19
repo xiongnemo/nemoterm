@@ -22,6 +22,7 @@ from frontend_runtime_snapshot import snapshot as runtime_snapshot
 from native_test_utils import capture, find_window, k, memory_sample, terminal_host, u, wait_for
 from owned_job import OwnedJob
 from paired_residency import resident_backing
+from memory_limits import private_ws_passes
 
 ROOT=Path(__file__).resolve().parents[1]
 PTERM='8580a3df4afe7696758c1cef43d0e88e3db5fd41c35c60166241aee72dd3ba3b'
@@ -67,10 +68,52 @@ def phase(samples,label):
         median={k:statistics.median(s[k] for s in selected) for k in FIELDS},max={k:max(s[k] for s in selected) for k in FIELDS})
 
 
-def trial(out,kind,exe,client,font,rec):
+def conversation():
+    plan = [(PROMPT, REPLY)]
+    for turn in range(1, 25):
+        # The last line is unique to the reply. Use code blocks so the
+        # real client lays out separate rows, including wide characters.
+        lines = [f'row {turn:02d}.{n:02d}  中文  café  history' for n in range(1, 17)]
+        reply = '```text\n' + '\n'.join(lines) + f'\n```\n\nACKTURN{turn:02d}DONE'
+        plan.append((str(57000000 + turn), reply))
+    return plan
+
+
+def exercise_turns(out, desk, provider, stage, samples, rec, renderer_probe):
+    rec['turns'] = []
+    for turn, (prompt, reply) in enumerate(provider.turn_plan[1:], 1):
+        label = stage[0] = f'turn-{turn:02d}'
+        entry = dict(prompt=prompt, stage=label)
+        rec['turns'].append(entry)
+        def visible(needle):
+            text = read_snapshot(out/'peer-screen.json').get('text', '')
+            return text if needle in text else None
+        for digit in prompt:
+            desk.chord(ord(digit))
+        wait_for(lambda: visible(prompt)); desk.chord(13)
+        def received():
+            assert not provider.errors, provider.errors
+            return provider.requests[turn] if len(provider.requests) > turn else None
+        receipt = wait_for(received, timeout=35)
+        assert receipt['turn_prompts'] == [prompt] and receipt['reply_sha256'] == hashlib.sha256(reply.encode()).hexdigest()
+        frame = wait_for(lambda: visible(f'ACKTURN{turn:02d}DONE'), timeout=30)
+        assert f'row {turn:02d}.16' in frame, frame
+        write_snapshot(out/(label+'.json'), dict(prompt=prompt, reply_sha256=receipt['reply_sha256'], visible=frame))
+        time.sleep(5)  # include the quiet interval between normal user turns
+        entry['memory'] = phase(samples, label)
+        if renderer_probe is not None:
+            entry['actual_renderer'] = renderer_probe()
+            entry['within_budget'] = private_ws_passes(entry['actual_renderer'], entry['memory']['max']['private_ws'])
+    assert len(provider.requests) == len(provider.turn_plan) and not provider.errors
+
+
+def trial(out,kind,exe,client,font,rec,multi_turn=False):
     out.mkdir();home,work,env=isolated_home(out);env.update(HOME=str(home),GIT_ALLOW_PROTOCOL='file',GIT_TERMINAL_PROMPT='0',NEMOTERM_HOSTED_REFERENCE='1')
     if kind=='pterm':env.pop('NEMOTERM_CONPTY',None)
     provider=Provider();provider.selection=False;thread=threading.Thread(target=provider.serve_forever,daemon=True);thread.start()
+    if multi_turn:
+        provider.turn_plan = conversation()
+        provider.turn_prompts = {prompt for prompt, _ in provider.turn_plan}
     name='pair-'+uuid.uuid4().hex
     reg=('Software\\SimonTatham\\PuTTY\\Sessions\\' if kind=='pterm' else 'Software\\Nemo\\Nemoterm\\Sessions\\')+name
     options=dict(Font=font,FontIsBold=0,FontHeight=10,FontCharSet=0,TermWidth=160,TermHeight=48,LineCodePage='UTF-8',CloseOnExit=1,WarnOnClose=0)
@@ -114,13 +157,19 @@ def trial(out,kind,exe,client,font,rec):
                     text=read_snapshot(out/'peer-screen.json').get('text','')
                     return text if PROMPT in text and REPLY in text else None
                 content=wait_for(replied,timeout=30);write_snapshot(out/'accepted.json',dict(text=content))
-                stage[0]='agent_reply';time.sleep(3);stop.set();sampler.join(3)
+                stage[0]='agent_reply';time.sleep(3)
+                if multi_turn:
+                    exercise_turns(out,desk,provider,stage,rec['samples'],rec,None if kind=='pterm' else actual)
+                stop.set();sampler.join(3)
                 assert not sampler.is_alive() and not errors, errors
                 rec['empty']=phase(rec['samples'],'empty');rec['agent_reply']=phase(rec['samples'],'agent_reply')
+                if multi_turn:
+                    rec['whole_run_peak']={field:max(s[field] for s in rec['samples']) for field in FIELDS}
                 if kind!='pterm':
                     rec['renderer_after']=actual();assert rec['renderer_after']==target+1
-                rec['resident_backing']['agent_reply']=resident_backing(handle,exe)
-                runtime_snapshot(rec,'agent_reply',handle,job,exe,client)
+                final_phase='after_conversation' if multi_turn else 'agent_reply'
+                rec['resident_backing'][final_phase]=resident_backing(handle,exe)
+                runtime_snapshot(rec,final_phase,handle,job,exe,client)
                 # Only after the final measurement, preserve what the frontend
                 # actually painted; capture is outside the memory interval.
                 rgb=capture(hwnd,return_pixels=True);from PIL import Image
@@ -135,6 +184,9 @@ def trial(out,kind,exe,client,font,rec):
                 if desk:desk.restore()
                 k.CloseHandle(handle);rec['sample_errors']=errors;rec['requests']=provider.requests;rec['provider_errors']=provider.errors;rec['cleanup']=job.finish()
             assert not provider.errors and not rec['cleanup']['terminated_remaining'],rec['cleanup']
+            if multi_turn and kind!='pterm':
+                assert all(e['actual_renderer']==target+1 and e['within_budget'] for e in rec['turns']),rec['turns']
+                assert private_ws_passes(target+1,rec['whole_run_peak']['private_ws']),rec['whole_run_peak']
     finally:
         provider.shutdown();provider.server_close();thread.join(3)
         try:winreg.DeleteKey(winreg.HKEY_CURRENT_USER,reg)
@@ -144,14 +196,16 @@ def trial(out,kind,exe,client,font,rec):
 def main():
     if sys.argv[1:2]==['--peer']:return peer(Path(sys.argv[2]),sys.argv[3:])
     if os.environ.get('GITHUB_ACTIONS')!='true' or os.environ.get('RUNNER_ENVIRONMENT')!='github-hosted':raise RuntimeError('GitHub-hosted Windows required')
-    parser=argparse.ArgumentParser();parser.add_argument('--pterm',type=Path,required=True);parser.add_argument('--codex',type=Path,required=True);p=parser.parse_args()
+    parser=argparse.ArgumentParser();parser.add_argument('--pterm',type=Path,required=True);parser.add_argument('--codex',type=Path,required=True);parser.add_argument('--multi-turn',action='store_true');p=parser.parse_args()
     original=p.pterm.resolve(strict=True);client=p.codex.resolve(strict=True);candidate=Path(os.environ['NEMOTERM_TEST_EXE']).resolve(strict=True)
     assert digest(original)==PTERM and digest(client)==CODEX
     out=ROOT/'build/paired-agent-memory';out.mkdir(parents=True,exist_ok=False)
     kinds=('pterm','nemoterm-tab','nemoterm-standalone','nemoterm-directx-tab','nemoterm-directx-standalone');report=dict(fixture_commit=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),cases={})
-    for i,kind in enumerate((*kinds,*reversed(kinds)),1):
+    order=('pterm','nemoterm-tab','nemoterm-directx-tab') if p.multi_turn else (*kinds,*reversed(kinds))
+    report['scenario']='24-followups' if p.multi_turn else 'paired-short-session'
+    for i,kind in enumerate(order,1):
         name=f'{i}-{kind}';entry=report['cases'][name]=dict(passed=False)
-        try:trial(out/name,kind,original if kind=='pterm' else candidate,client,os.environ['NEMOTERM_TEST_FONT'],entry);entry['passed']=True
+        try:trial(out/name,kind,original if kind=='pterm' else candidate,client,os.environ['NEMOTERM_TEST_FONT'],entry,p.multi_turn);entry['passed']=True
         except Exception:entry['error']=traceback.format_exc();print(name,entry['error'],flush=True)
         finally:write_snapshot(out/'summary.json',report)
     return int(not all(r['passed'] for r in report['cases'].values()))

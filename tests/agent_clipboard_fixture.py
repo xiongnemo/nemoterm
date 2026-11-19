@@ -134,7 +134,19 @@ class Handler(BaseHTTPRequestHandler):
                                                           for t in request.get('tools', [])]))
             if getattr(self.server,'capture_draft',False):
                 self.server.requests[-1]['draft_parts']=[v for v in latest_user_parts if re.fullmatch(r'[A-Z0-9_]{1,96}',v)]
-            assert len(self.server.requests) <= 12
+            plan = getattr(self.server, 'turn_plan', None)
+            turn = len(self.server.requests) - 1
+            if plan is None:
+                assert turn < 12
+            else:
+                assert path == '/v1/responses' and not images and turn < len(plan), (path, turn)
+                prompt, reply = plan[turn]
+                # Only the newest user message counts; old turns can be
+                # repeated verbatim in a Responses request's conversation.
+                matches = [p for p in latest_user_parts if p in self.server.turn_prompts]
+                self.server.requests[turn]['turn_prompts'] = matches
+                assert matches == [prompt], (turn, matches, prompt)
+                self.server.requests[turn]['reply_sha256'] = hashlib.sha256(reply.encode()).hexdigest()
             self.send_response(200)
             if hasattr(self.server,'response_clock'):
                 self.server.response_clock.append(dict(stage='request',ns=time.monotonic_ns()))
@@ -149,6 +161,8 @@ class Handler(BaseHTTPRequestHandler):
                     answer+='\n\nROW '+BIDI_WITNESS.strip().replace('END_BIDI','END_PASTE')
                 elif glyph_match:
                     answer='NEMOTERM_GLYPH_ACCEPTED'
+            if plan is not None:
+                answer = reply
             if path=='/v1/messages':
                 message=dict(id='msg_fixture_'+str(len(self.server.requests)),type='message',role='assistant',
                              model=request['model'],content=[],stop_reason=None,stop_sequence=None,
@@ -168,9 +182,10 @@ class Handler(BaseHTTPRequestHandler):
                     self.wfile.write(('data: '+json.dumps(value)+'\n\n').encode())
                 self.wfile.write(b'data: [DONE]\n\n')
             else:
-                response = dict(id='resp_fixture', object='response', created_at=int(time.time()),
+                suffix = '' if plan is None else f'_{turn:03d}'
+                response = dict(id='resp_fixture'+suffix, object='response', created_at=int(time.time()),
                                 model=request['model'], status='in_progress', output=[])
-                item = dict(id='msg_fixture', type='message', role='assistant', status='in_progress', content=[])
+                item = dict(id='msg_fixture'+suffix, type='message', role='assistant', status='in_progress', content=[])
                 part = dict(type='output_text', text='', annotations=[], logprobs=[])
                 events = [
                     ('response.created', dict(response=response.copy())),

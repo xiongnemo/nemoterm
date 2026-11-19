@@ -2,6 +2,7 @@ name: Same-host pterm and Nemoterm memory comparison
 on:
   workflow_call:
     inputs:
+      multi_turn: {type: boolean, default: false}
       product_run: {required: true, type: string}
       product_commit: {required: true, type: string}
 permissions: {contents: read, actions: read}
@@ -43,14 +44,16 @@ jobs:
         run: |
           $clients=@(Get-ChildItem tools/codex-fixture/node_modules -Recurse -Filter codex.exe)
           if ($clients.Count -ne 1) {throw 'Expected one pinned native Codex client'}
-          python tests/paired_agent_memory.py --pterm build/pair-product/pterm.exe --codex $clients[0].FullName
+          $flags = @()
+          if ('${{ inputs.multi_turn }}' -eq 'true') { $flags += '--multi-turn' }
+          python tests/paired_agent_memory.py --pterm build/pair-product/pterm.exe --codex $clients[0].FullName @flags
           exit $LASTEXITCODE
       - if: always()
         run: scripts/prepare-full-grid-display.ps1 -Restore
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
-          name: pterm-memory-pair-${{ github.run_id }}-${{ github.run_attempt }}
+          name: ${{ inputs.multi_turn && 'agent-session-memory' || 'pterm-memory-pair' }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
             build/pair-product/*.json
             build/interaction-dependencies/*.json
