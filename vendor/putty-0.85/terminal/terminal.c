@@ -65,6 +65,8 @@ static void nemo_bell(Terminal *term);
 
 #define has_compat(x) ( ((CL_##x)&term->compatibility_level) != 0 )
 
+static void term_paste_clear(Terminal *term);
+
 static const char *const EMPTY_WINDOW_TITLE = "";
 
 /* Only call this for generated protocol records. Payload bytes are not scanned:
@@ -4617,7 +4619,7 @@ void term_free(Terminal *term)
     if (term->print_job)
         printer_finish_job(term->print_job);
     bufchain_clear(&term->printer_buf);
-    sfree(term->paste_buffer);
+    term_paste_clear(term);
     sfree(term->last_selected_text);
     sfree(term->last_selected_attr);
     sfree(term->last_selected_tc);
@@ -12574,36 +12576,85 @@ static void sel_spread(Terminal *term)
     }
 }
 
+/* Clipboard, dropped paths and automation all submit independent pastes. Keep
+ * the unfinished head and start the next frame only after closing this one. */
+struct TermPaste {
+    struct TermPaste *next;
+    size_t len, pos, allocation;
+    bool bracketed, started;
+    /* wchar_t data follows */
+};
+
+#define PASTE_BACKLOG_LIMIT (1024U * 1024U)
+#define PASTE_CHUNK 4096
+
+static void term_paste_clear(Terminal *term)
+{
+    while (term->paste_head) {
+        struct TermPaste *p = term->paste_head;
+        term->paste_head = p->next;
+        sfree(p);
+    }
+    term->paste_tail = NULL;
+    term->paste_waiting_bytes = 0;
+}
+
+static void term_paste_begin(Terminal *term, struct TermPaste *p)
+{
+    if (!p->started) {
+        p->started = true;
+        if (p->bracketed)
+            term_bracketed_paste_start(term);
+    }
+}
+
+static void term_paste_step(Terminal *term)
+{
+    struct TermPaste *p = term->paste_head;
+    wchar_t *text = snew_plus_get_aux(p);
+    term_paste_begin(term, p);
+    size_t n = min(p->len - p->pos, PASTE_CHUNK);
+    if (p->len >= 256) {
+        const wchar_t *cr = wmemchr(text + p->pos, L'\r', n);
+        if (cr) n = cr + 1 - (text + p->pos);
+#ifdef PLATFORM_IS_UTF16
+        if (n && p->pos + n < p->len &&
+            IS_SURROGATE_PAIR(text[p->pos+n-1], text[p->pos+n]))
+            n++;
+#endif
+    }
+    if (term->ldisc && n) {
+        strbuf *buf = term_input_data_from_unicode(term, text + p->pos, n, true);
+        assert(buf->len <= INT_MAX);
+        term_keyinput_internal(term, buf->s, (int)buf->len, false);
+        strbuf_free(buf);
+    }
+    p->pos += n;
+    if (p->pos == p->len) {
+        term_bracketed_paste_stop(term);
+        term->paste_head = p->next;
+        if (p->next) term->paste_waiting_bytes -= p->next->allocation;
+        else term->paste_tail = NULL;
+        sfree(p);
+    }
+}
+
+static void term_paste_callback(void *vterm);
+
+static void term_paste_schedule(Terminal *term)
+{
+    if (term->paste_head && !term->paste_callback_queued) {
+        term->paste_callback_queued = true;
+        queue_toplevel_callback(term_paste_callback, term);
+    }
+}
+
 static void term_paste_callback(void *vterm)
 {
-    Terminal *term = (Terminal *)vterm;
-
-    if (term->paste_len == 0)
-        return;
-
-    while (term->paste_pos < term->paste_len) {
-        size_t n = 0;
-        while (n + term->paste_pos < term->paste_len) {
-            if (term->paste_buffer[term->paste_pos + n++] == '\015')
-                break;
-        }
-        if (term->ldisc) {
-            strbuf *buf = term_input_data_from_unicode(
-                term, term->paste_buffer + term->paste_pos, n, true);
-            term_keyinput_internal(term, buf->s, buf->len, false);
-            strbuf_free(buf);
-        }
-        term->paste_pos += n;
-
-        if (term->paste_pos < term->paste_len) {
-            queue_toplevel_callback(term_paste_callback, term);
-            return;
-        }
-    }
-    term_bracketed_paste_stop(term);
-    sfree(term->paste_buffer);
-    term->paste_buffer = NULL;
-    term->paste_len = 0;
+    Terminal *term = vterm;
+    term->paste_callback_queued = false;
+    if (term->paste_head) term_paste_step(term);
+    term_paste_schedule(term);
 }
 
 /*
@@ -12631,13 +12682,18 @@ void term_do_paste(Terminal *term, const wchar_t *data, size_t len)
         return;
     term_seen_key_event(term);
 
-    if (term->paste_buffer)
-        sfree(term->paste_buffer);
-    term->paste_pos = term->paste_len = 0;
-    term->paste_buffer = snewn(len + 12, wchar_t);
-
-    if (term->bracketed_paste && !term->no_bracketed_paste)
-        term_bracketed_paste_start(term);
+    /* snmalloc checks the multiplication and addition before allocating.
+     * An individual large paste is valid; cap only the extra waiting copies.
+     * At capacity, deliver older input in order to make room. */
+    while (term->paste_head &&
+           (len > (PASTE_BACKLOG_LIMIT - sizeof(struct TermPaste)) / sizeof(wchar_t) ||
+            sizeof(struct TermPaste) + len * sizeof(wchar_t) >
+            PASTE_BACKLOG_LIMIT - term->paste_waiting_bytes))
+        term_paste_step(term);
+    struct TermPaste *paste = snmalloc(len, sizeof(wchar_t), sizeof(*paste));
+    *paste = (struct TermPaste){ .allocation = sizeof(*paste) + len * sizeof(wchar_t),
+        .bracketed = term->bracketed_paste && !term->no_bracketed_paste };
+    wchar_t *text = snew_plus_get_aux(paste);
 
     p = data;
     while (p < data + len) {
@@ -12683,26 +12739,19 @@ void term_do_paste(Terminal *term, const wchar_t *data, size_t len)
             }
         }
 
-        term->paste_buffer[term->paste_len++] = wc;
+        text[paste->len++] = wc;
     }
 
-    /* Assume a small paste will be OK in one go. */
-    if (term->paste_len < 256) {
-        if (term->ldisc) {
-            strbuf *buf = term_input_data_from_unicode(
-                term, term->paste_buffer, term->paste_len, true);
-            assert(buf->len <= INT_MAX); /* because paste_len was also small */
-            term_keyinput_internal(term, buf->s, buf->len, false);
-            strbuf_free(buf);
-        }
-        if (term->paste_buffer)
-            sfree(term->paste_buffer);
-        term_bracketed_paste_stop(term);
-        term->paste_buffer = NULL;
-        term->paste_pos = term->paste_len = 0;
+    if (term->paste_tail) {
+        term->paste_tail->next = paste;
+        term->paste_tail = paste;
+        term->paste_waiting_bytes += paste->allocation;
+    } else {
+        term->paste_head = term->paste_tail = paste;
+        term_paste_begin(term, paste);
+        if (paste->len < 256) term_paste_step(term);
     }
-
-    queue_toplevel_callback(term_paste_callback, term);
+    term_paste_schedule(term);
 }
 
 /* Coordinates sent to applications describe the viewport, before bidi,
@@ -13870,12 +13919,11 @@ void term_keyinput(Terminal *term, int codepage, const void *str, int len)
 
 void term_nopaste(Terminal *term)
 {
-    if (term->paste_len == 0)
-        return;
-    sfree(term->paste_buffer);
+    if (!term->paste_head) return;
     term_bracketed_paste_stop(term);
-    term->paste_buffer = NULL;
-    term->paste_len = 0;
+    term_paste_clear(term);
+    /* A scheduled callback remains valid, including if a new paste arrives
+     * before it runs. Terminal destruction removes callbacks for this seat. */
 }
 
 static void deselect(Terminal *term)

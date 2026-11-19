@@ -750,6 +750,83 @@ static void test_bracketed_paste(Mock *mk)
     IEQUAL(mk->to_backend->len, 0);
 }
 
+static void drain_paste(Mock *mk)
+{
+    unsigned left = 2000;
+    while (mk->term->paste_head && left && run_toplevel_callbacks()) left--;
+    IEQUAL(mk->term->paste_head != NULL, 0);
+}
+
+static void test_consecutive_pastes(Mock *mk)
+{
+    wchar_t first[320];
+    for (size_t i = 0; i < lenof(first); i++)
+        first[i] = i == 4 || i == 160 ? L'\r' : (L'a' + i % 26);
+    mk->ucsdata->line_codepage = CP_UTF8;
+    for (int bracketed = 0; bracketed < 2; bracketed++) {
+        for (int partial = 0; partial < 2; partial++) {
+            reset(mk);
+            test_context(mk, "overlapping pastes: bracketed=%d partial=%d", bracketed, partial);
+            term_data_fragmented(mk->term, bracketed ? "\033[?2004h" : "\033[?2004l");
+            const char *begin = bracketed ? "\033[200~" : "";
+            const char *end = bracketed ? "\033[201~" : "";
+            term_do_paste(mk->term, first, lenof(first));
+            if (partial) {
+                for (unsigned i = 0; i < 40 && mk->to_backend->len == strlen(begin); i++)
+                    run_toplevel_callbacks();
+                IEQUAL(mk->to_backend->len, strlen(begin) + 5);
+            }
+            term_do_paste(mk->term, L"\x4e2d", 1);
+            term_do_paste(mk->term, first, lenof(first));
+            drain_paste(mk);
+            strbuf *want = strbuf_new();
+            for (int i = 0; i < 3; i++) {
+                put_dataz(want, begin);
+                if (i == 1) put_dataz(want, "\xe4\xb8\xad");
+                else for (size_t j = 0; j < lenof(first); j++) put_byte(want, first[j]);
+                put_dataz(want, end);
+            }
+            IEQUAL(mk->to_backend->len, want->len);
+            SEQUAL(mk->to_backend->s, want->s);
+            strbuf_free(want);
+        }
+    }
+
+    reset(mk);
+    test_context(mk, "typing cancels both the active and waiting pastes");
+    term_data_fragmented(mk->term, "\033[?2004h");
+    term_do_paste(mk->term, first, lenof(first));
+    term_do_paste(mk->term, L"discard", 7);
+    term_keyinput(mk->term, -1, "!", 1);
+    term_do_paste(mk->term, first, lenof(first));
+    term_do_paste(mk->term, L"fresh", 5);
+    drain_paste(mk);
+    strbuf *want = strbuf_new();
+    put_dataz(want, "\033[200~\033[201~!\033[200~");
+    for (size_t j = 0; j < lenof(first); j++) put_byte(want, first[j]);
+    put_dataz(want, "\033[201~\033[200~fresh\033[201~");
+    SEQUAL(mk->to_backend->s, want->s);
+    strbuf_free(want);
+
+    reset(mk);
+    test_context(mk, "paste burst beyond the waiting-memory budget");
+    term_data_fragmented(mk->term, "\033[?2004l");
+    size_t n = 65536;
+    wchar_t *large = snewn(n, wchar_t);
+    for (size_t j = 0; j < n; j++) large[j] = L'x';
+    for (unsigned i = 0; i < 12; i++) {
+        large[0] = L'A' + i;
+        term_do_paste(mk->term, large, n);
+    }
+    sfree(large);
+    drain_paste(mk);
+    IEQUAL(mk->to_backend->len, n * 12);
+    for (unsigned i = 0; i < 12 && mk->to_backend->len >= (i+1)*n; i++) {
+        IEQUAL(mk->to_backend->s[i*n], 'A'+i);
+        IEQUAL(mk->to_backend->s[(i+1)*n-1], 'x');
+    }
+}
+
 int main(void)
 {
     Mock *mk = mock_new();
@@ -763,6 +840,7 @@ int main(void)
     test_shift_selection(mk);
     test_colour_and_alternate_screen(mk);
     test_bracketed_paste(mk);
+    test_consecutive_pastes(mk);
 
     bool failed = mk->any_test_failed;
     mock_free(mk);

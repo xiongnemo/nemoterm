@@ -432,8 +432,8 @@ static void test_iso2022_paste(Mock *mk)
         term_data_fragmented(mk->term,cases[i].setup);
         term_do_paste(mk->term,text,length);
         unsigned callbacks=0;
-        while (mk->term->paste_len && callbacks++<10) run_toplevel_callbacks();
-        IEQUAL(mk->term->paste_len,0);
+        while (mk->term->paste_head && callbacks++<10) run_toplevel_callbacks();
+        IEQUAL(mk->term->paste_head != NULL,0);
         IEQUAL(mk->to_backend->len,cases[i].length);
         size_t common=min(mk->to_backend->len,cases[i].length);
         for (size_t n=0;n<common;n++) if (mk->to_backend->s[n]!=cases[i].reply[n]) {

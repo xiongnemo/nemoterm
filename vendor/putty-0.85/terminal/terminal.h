@@ -435,8 +435,9 @@ struct terminal_tag {
     /* Mask of attributes to pay attention to when painting. */
     int attr_mask;
 
-    wchar_t *paste_buffer;
-    size_t paste_len, paste_pos;
+    struct TermPaste *paste_head, *paste_tail;
+    size_t paste_waiting_bytes; /* allocation of queue nodes behind the head */
+    bool paste_callback_queued;
 
     Backend *backend;
 
