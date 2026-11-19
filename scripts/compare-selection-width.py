@@ -14,7 +14,56 @@ CASES = {'alternate-wider': (4, 'BCD'), 'alternate-narrower-block': (-6, 'BCD\r\
          'alternate-lost-column': (-6, None)}
 
 
-def inspect(path):
+def reflow_cases(evidence, obs):
+    """Read glyph locations and highlight from original frames, not the fixture verdict."""
+    cw, ch = obs['cell_pixels']
+    word = '|ABCDEFGH|'
+    cases = {'stream': (3, 8, True), 'reverse-press': (3, 8, True),
+             'rectangle': (5, 8, True), 'split-rectangle': (3, 8, False)}
+    records = {}
+    for row in obs['reflow_selection']:
+        name = row['case']; first, end, survives = cases[name]
+        assert name not in records
+        report = records[name] = {'frames': {}}
+        checks = {}
+        for f in row['frames']:
+            stage = f['stage']; cols = 74 if stage == 'narrow' else 80
+            im = Image.open(BytesIO(evidence(f'reflow-{name}-{stage}.png'))).convert('L')
+            assert cols == f['cols'] and im.size == (2 + cols*cw, 2 + 24*ch)
+            def glyph(x, y):
+                t = im.crop((1+x*cw, 1+y*ch, 1+(x+1)*cw, 1+(y+1)*ch))
+                lo, hi = t.getextrema(); assert lo != hi
+                bg = max(t.getcolors(), key=lambda item: item[0])[1]
+                # Use foreground contrast relative to this tile's own background
+                # so reversing a selected glyph's colours doesn't change its label.
+                return bg, tuple(abs(px-bg) > (hi-lo)*.22 for px in t.tobytes())
+            reference = [glyph(x, 2) for x in range(len(word))]
+            highlights = []
+            for i, letter in enumerate(word):
+                bg, mask = glyph((69+i)%cols, 6+(69+i)//cols)
+                distances = [sum(a!=b for a,b in zip(mask,ref)) for _,ref in reference]
+                closest = {c for c,n in zip(word,distances) if n==min(distances)}
+                assert closest == {letter}, (name,stage,i,closest)
+                if bg != reference[i][0]: highlights.append(i)
+            want = list(range(first,end)) if stage=='selected' or (stage!='initial' and survives) else []
+            assert want == f['expected'] and highlights == f['highlight']
+            checks[stage] = highlights == want
+            report['frames'][stage] = highlights
+        stages = ['initial'] + ([] if name=='reverse-press' else ['selected']) + ['narrow','wide']
+        assert list(report['frames']) == stages
+        text = word[first:end] if survives else None
+        wire = b'' if survives else b'\x1b[<2;77;7M\x1b[<2;77;7m'
+        checks['gesture'] = row['gesture_wire']==(b'\x1b[?47;2$y\x1b[?1002;1$y\x1b[?1006;1$y'+ACK*2).hex()
+        checks['copy'] = row.get('copied')==text and (not survives or row['copy_wire']==(ACK*2).hex())
+        checks['right'] = row['right_copy']==text and row['right_wire']==(ACK+wire+ACK).hex()
+        if 'narrow_copy' in row: checks['copy_while_wrapped'] = row['narrow_copy']==dict(text=text,wire=(ACK*2).hex())
+        report.update(copied=row.get('copied'), narrow_copy=row.get('narrow_copy'), checks=checks, passed=all(checks.values()))
+        assert report['passed'] == row['passed']
+    assert records.keys()==cases.keys()
+    return records
+
+
+def inspect(path, reflow=False):
     with ZipFile(path) as z:
         def read(name):
             return json.loads(z.read(name).decode('utf-8-sig'))
@@ -35,6 +84,9 @@ def inspect(path):
             assert obs['executable_sha256'] == sha and obs['active_renderer'] == number and obs['tab_host']
             assert obs['requested_font'] == 'SarasaTermSC Nerd Light' and obs['split_system_input']['focus']['completed']
             assert not case['cleanup']['terminated_remaining'] and not case['cleanup']['remaining_processes']
+            if reflow:
+                result['renderers'][renderer] = reflow_cases(evidence, obs)
+                continue
             cw, ch = obs['cell_pixels']
             records = result['renderers'][renderer] = {}
             for r in obs['width_selection']:
@@ -67,9 +119,10 @@ def inspect(path):
 if __name__ == '__main__':
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('before', type=Path);p.add_argument('after', type=Path, nargs='?')
-    args=p.parse_args();before, old=inspect(args.before);result={'before':before}
+    p.add_argument('--reflow', action='store_true', help='Inspect main-screen split/merge frames')
+    args=p.parse_args();before, old=inspect(args.before,args.reflow);result={'before':before}
     if args.after:
-        after, new=inspect(args.after)
+        after, new=inspect(args.after,args.reflow)
         assert old.keys()==new.keys() and {k for k in old if old[k]!=new[k]}=={'dist/nemoterm.exe'}
         assert before['sha256']!=after['sha256'];result['after']=after
     print(json.dumps(result, indent=2))

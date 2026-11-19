@@ -1,6 +1,6 @@
 # Nemoterm requirements and evidence ledger
 
-The [horizontal resize comparison](../research/selection-width.md) tests the same physical Shift gestures on `c621b171` and `844ad5c3`: fixed-grid width checks improve from 2/6 to 6/6 across GDI and DirectX. The candidate also passed all ten fullscreen agent selection cases. Width changes that reflow main-screen text remain separate.
+The [horizontal resize comparison](../research/selection-width.md) tests the same physical Shift gestures on `c621b171` and `844ad5c3`: fixed-grid width checks improve from 2/6 to 6/6 across GDI and DirectX. The candidate also passed all ten fullscreen agent selection cases. The subsequent [main-screen reflow comparison](../research/selection-reflow.md) improves from 2/8 to 8/8 on `dc8b6913`, including stream selections spanning a soft wrap and surviving rectangular selections. A separate replay of that same image copied the text at the narrow width.
 
 The [distributed `844ad5c3` preview](../research/acceptance-844ad5c3.md) scored 80/81, with a missed early Codex window-key group. Exact-product frontend private working-set peaks were 18,915,328 bytes (GDI) and 29,360,128 (DirectX) over six full-grid workloads each. Ordinary 24-turn Codex sessions reached 5,484,544 and 9,764,864 bytes. Main-screen reflow is not solved by that image.
 

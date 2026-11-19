@@ -2,6 +2,7 @@
 
 本目录只留当前工作的记录。测试所读取的固定输入另存于 [testdata/upstream](../testdata/upstream)；旧版截图、运行日志和原始失败均可从[清理前的提交](https://github.com/xiongnemo/nemoterm/tree/fca0e61388f99dd460811c231950d5d7c19a775e/research)查阅。
 
+- [主屏变窄后如何保持 Shift 选区：两种渲染器从 2/8 到 8/8，附真实窗口截图](selection-reflow.md)。
 - [改变窗口宽度后，Shift 选区与右键复制：修复前后截图](selection-width.md)。
 - [WSL 配置在新标签和重启后的行为，以及不运行 Nemoterm 的退出对照](wsl-profile.md)。
 - [当前试用版 `844ad5c3`：下载、交互、内存及应用回放](acceptance-844ad5c3.md)。
