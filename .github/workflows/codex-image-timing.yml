@@ -2,6 +2,7 @@ name: Codex image paste before and after client startup
 on:
   workflow_call:
     inputs:
+      image_files: {type: boolean, default: false}
       product_run: {required: true, type: string}
       product_commit: {required: true, type: string}
 permissions:
@@ -16,8 +17,7 @@ jobs:
       matrix:
         input: [system, api]
         phase: [immediate, idle]
-        include:
-          - {input: system, phase: caption}
+        include: ${{ fromJSON(inputs.image_files && '[]' || '[{"input":"system","phase":"caption"}]') }}
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with: {fetch-depth: 0}
@@ -40,25 +40,28 @@ jobs:
       - name: Submit generated clipboard pixels with both shortcuts
         env:
           INPUT_MODE: ${{ matrix.input }}
+          CLIPBOARD_KIND: ${{ inputs.image_files && 'file' || 'bitmap' }}
           STARTUP_PHASE: ${{ matrix.phase }}
         run: |
           $clients=@(Get-ChildItem tools/codex-fixture/node_modules -Recurse -Filter codex.exe)
           if ($clients.Count -ne 1) {throw 'Expected one pinned native Codex executable'}
           $opts=@('tests/agent_clipboard_smoke.py','--client','codex','--client-exe',$clients[0].FullName)
           if ($env:INPUT_MODE -eq 'system') {$opts+='--system-input'}
-          if ($env:STARTUP_PHASE -eq 'idle') {$opts+='--after-client-idle'} elseif ($env:STARTUP_PHASE -eq 'caption') {$opts+='--after-window-caption'} else {$opts+='--observe-first-miss'}
+          if ($env:CLIPBOARD_KIND -eq 'file') {$opts+='--image-file'}
+          if ($env:STARTUP_PHASE -eq 'idle') {$opts+='--after-client-idle'} elseif ($env:STARTUP_PHASE -eq 'caption') {$opts+='--after-window-caption'} elseif ($env:CLIPBOARD_KIND -eq 'bitmap') {$opts+='--observe-first-miss'}
           python @opts
           exit $LASTEXITCODE
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
-          name: codex-image-${{ matrix.input }}-${{ matrix.phase }}-${{ github.run_id }}-${{ github.run_attempt }}
+          name: codex-${{ inputs.image_files && 'file' || 'image' }}-${{ matrix.input }}-${{ matrix.phase }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
             research/agent-clipboard-codex.json
             research/agent-codex-ctrl*
             build/agent-image-*/*/*.json
             build/agent-image-*/*/at-paste.vt
             build/agent-image-*/*/after-caption-gesture.vt
+            build/agent-image-*/*/clipboard 图片 sample.png
             build/agent-image-*/*/caption-after-key.png
             build/agent-image-*/*/client-output.log
             build/agent-image-*/*/first-miss.png

@@ -184,6 +184,10 @@ def put_bitmap(hwnd):
     pixels = b''.join(bytes((180, 40, 230) if (x//4+y//4)%2 else (30, 210, 70))
                       for y in range(height) for x in range(width))
     data = struct.pack('<IiiHHIIiiII', 40, width, height, 1, 24, 0, len(pixels), 0, 0, 0, 0)+pixels
+    put_clipboard_block(hwnd, 8, data)  # CF_DIB
+
+
+def put_clipboard_block(hwnd, fmt, data):
     handle = k.GlobalAlloc(2, len(data))
     assert handle
     ptr = k.GlobalLock(handle)
@@ -194,13 +198,33 @@ def put_bitmap(hwnd):
         wait_for(lambda: u.OpenClipboard(hwnd))
         try:
             assert u.EmptyClipboard()
-            assert u.SetClipboardData(8, handle)  # CF_DIB
+            assert u.SetClipboardData(fmt, handle)
             handle = None
         finally:
             u.CloseClipboard()
     finally:
         if handle:
             k.GlobalFree(handle)
+
+
+def put_image_file(hwnd, folder):
+    # The clipboard contains a single Explorer-style file list, with no PNG,
+    # DIB, or text fallback. The receiver verifies decoded pixels separately.
+    from PIL import Image
+    from drop_window_smoke import drop_data
+    path = (folder/'clipboard 图片 sample.png').resolve()
+    rgb = bytes(channel for y in range(16) for x in range(32)
+                for channel in ((70,210,30) if (x//4+y//4)%2 else (230,40,180)))
+    Image.frombytes('RGB', (32,16), rgb).save(path)
+    put_clipboard_block(hwnd, 15, drop_data([str(path)]))  # CF_HDROP
+    wait_for(lambda: u.OpenClipboard(hwnd))
+    try:
+        formats = [fmt for fmt in (2, 8, 13, 15, 17) if u.IsClipboardFormatAvailable(fmt)]
+        assert formats == [15], formats
+    finally:
+        u.CloseClipboard()
+    return dict(path=str(path), sha256=hashlib.sha256(path.read_bytes()).hexdigest(),
+                offered_formats=formats, rgb_sha256=hashlib.sha256(rgb).hexdigest())
 
 
 def isolated_home(folder):
@@ -370,6 +394,9 @@ def main():
                         action = control.get('action')
                         if action == 'bitmap':
                             put_bitmap(hwnd)
+                            report['clipboard_action'] = serial
+                        elif action == 'image-file':
+                            report['file_clipboard'] = put_image_file(hwnd, folder)
                             report['clipboard_action'] = serial
                         elif action == 'restore':
                             if saved:

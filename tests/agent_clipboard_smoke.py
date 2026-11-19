@@ -46,14 +46,16 @@ def main():
     parser.add_argument('--after-client-idle',action='store_true',help='Also require Codex to report idle and redraw the marker after startup queries')
     parser.add_argument('--observe-first-miss', action='store_true', help='Keep the failed startup gesture and separately observe one subsequent user action in that same session')
     parser.add_argument('--after-window-caption',action='store_true',help='Physically paste when the real window displays the fixture project name, without waiting for a VT status or redraw')
+    parser.add_argument('--image-file', action='store_true', help='Paste a real copied PNG file (CF_HDROP only) instead of a clipboard bitmap')
     parser.add_argument('--binding',choices=('ctrl-v','ctrl-shift-v'))
     args=parser.parse_args()
     folder=Path(tempfile.mkdtemp(prefix='agent-image-',dir=ROOT/'build'))
     result=dict(client=args.client,cases=[],live_model=False,tool_responses=False,font=args.font)
+    if args.image_file:assert args.client=='codex' and not args.after_window_caption and not args.observe_first_miss
     if args.after_window_caption:assert args.client=='codex' and args.system_input and not args.after_client_idle and not args.observe_first_miss
     if args.after_client_idle:assert args.client=='codex'
     if args.observe_first_miss:assert args.client=='codex' and not args.after_client_idle
-    result.update(system_input=args.system_input,after_client_idle=args.after_client_idle,after_window_caption=args.after_window_caption,failures=[])
+    result.update(clipboard_format='CF_HDROP' if args.image_file else 'CF_DIB',system_input=args.system_input,after_client_idle=args.after_client_idle,after_window_caption=args.after_window_caption,failures=[])
     for name,mods in [('ctrl-v',2),('ctrl-shift-v',3)]:
         if args.binding and args.binding!=name:continue
         case=folder/name;report=case/'observed.json';control=case/'control.json'
@@ -78,6 +80,10 @@ def main():
                     if desk:
                         keys={0:(),2:(0x11,),3:(0x11,0x10)}[mods];desk.chord(*keys,vk)
                     else:api.request(endpoint,'key',seat,struct.pack('<II',vk,mods))
+                if args.image_file:
+                    write_snapshot(control,dict(id=1,action='image-file'))
+                    file_state=wait_for(lambda:read_snapshot(report).get('file_clipboard'))
+                    write_snapshot(case/'file-clipboard.json',file_state)
                 ready='Ask Codex' if args.client=='codex' else 'Ask anything'
                 wait_for(lambda:ready in api.request(endpoint,'text',seat),timeout=60)
                 marker='NEMOTERM_'+args.client.upper()+'_IMAGE_'+name.upper().replace('-','_')
@@ -92,8 +98,9 @@ def main():
                     buf=trace.read_bytes();idle=buf.find(b'\x1b]7501;state=idle:app=codex');mark=marker.encode()
                     return idle>=0 and b'\x1b]10;?' in buf[:idle] and b'\x1b]11;?' in buf[:idle] and mark in buf[idle:]
                 if args.after_client_idle:wait_for(idle_redraw,timeout=60)
-                write_snapshot(control,dict(id=1,action='bitmap'))
-                wait_for(lambda:read_snapshot(report).get('clipboard_action')==1)
+                if not args.image_file:
+                    write_snapshot(control,dict(id=1,action='bitmap'))
+                    wait_for(lambda:read_snapshot(report).get('clipboard_action')==1)
                 # The caption phase gates only on the foreground window a user sees.
                 # Do not read the VT trace, capture pixels or write files between the
                 # first matching caption sample and the actual physical key chord.
@@ -169,7 +176,7 @@ def main():
                 observed['attachment_seconds']=attachment_seconds
                 if args.after_window_caption:observed['caption']=caption_record
                 write_snapshot(ROOT/f'research/agent-{args.client}-{name}.json',observed)
-                if args.after_window_caption or followup is not None:
+                if args.image_file or args.after_window_caption or followup is not None:
                     relevant=[r for r in observed['requests'] if marker in r['text'] and r['images']]
                     assert len(relevant)==1 and len(relevant[0]['images'])==1 and relevant[0]['images'][0]['generated_pixels_match'],relevant
                 if followup is not None:
@@ -179,9 +186,15 @@ def main():
             except Exception:
                 result['failures'].append(dict(binding=name,error=traceback.format_exc()))
                 try:
-                    write_snapshot(control,dict(id=90,action='clipboard-probe'))
-                    probe=wait_for(lambda:read_snapshot(report).get('clipboard_probe'),timeout=35)
-                    print('Clipboard reader control:', json.dumps(probe), flush=True)
+                    if args.image_file:
+                        draft=api.request(endpoint,'text',seat)
+                        write_snapshot(case/'file-paste-failure.json',dict(
+                            path_basename_visible='clipboard 图片 sample.png' in draft,
+                            attachment_visible='[Image' in draft,requests=read_snapshot(report)['requests']))
+                    else:
+                        write_snapshot(control,dict(id=90,action='clipboard-probe'))
+                        probe=wait_for(lambda:read_snapshot(report).get('clipboard_probe'),timeout=35)
+                        print('Clipboard reader control:', json.dumps(probe), flush=True)
                 except Exception as exc:
                     print('Clipboard reader control failed:', repr(exc), flush=True)
                 try:
