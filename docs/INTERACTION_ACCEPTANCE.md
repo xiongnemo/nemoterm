@@ -203,4 +203,4 @@ Use `suite=profile-sequence` on the exact EXE to replay the aggregate profile wo
 
 `protocol-reference.yml` 的 `family=regis-first-expose` 为每个输入终点启动独立上游 XTerm，只在最后做一次完整重绘，先核对原始序列、回复与首帧再比较重绘。见[七个历史差异的逐帧核验](../research/regis-first-expose.md)。
 
-`selection` 另覆盖滚动分栏穿过双向文字的场景：先在原图与滚动后截图中用字格底色定位同一字，再检查系统剪贴板和应用实际收到的字节。分开记录窗口消息和 Windows 实按 Shift、鼠标、Ctrl+Shift+C。[分栏选区前后对比](../research/selection-split-scroll.md)。
+`selection` 另覆盖滚动分栏穿过双向文字的场景：先在原图与滚动后截图中用字格底色定位同一字，再检查系统剪贴板和应用实际收到的字节。分开记录窗口消息和 Windows 实按 Shift、鼠标、Ctrl+Shift+C。[分栏选区前后对比](../research/selection-split-scroll.md)。如果按下的字被整个滚出或被栏边截断，要同时检查松手后无高亮、右键归应用、后续新选区仍可复制。[原始失败与检验步骤](../research/selection-discarded-scroll.md)。
