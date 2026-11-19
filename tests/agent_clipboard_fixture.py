@@ -135,6 +135,12 @@ class Handler(BaseHTTPRequestHandler):
             self.server.requests.append(record)
             if getattr(self.server,'capture_draft',False):
                 record['draft_parts']=[v for v in latest_user_parts if re.fullmatch(r'[A-Z0-9_]{1,96}',v)]
+            if getattr(self.server,'capture_gui_draft',False):
+                # Only the two synthetic prompts can match. Keep the literal
+                # image placeholder so the saved record identifies the actual turn.
+                record['gui_drafts']=[p for p in latest_user_parts if
+                    re.fullmatch(r'\s*(?:3721|8932)(?:\s*\[Image #1\])?\s*',p)]
+                record['gui_marker_excerpts']=[p[:160] for p in latest_user_parts if p.lstrip().startswith(('3721','8932'))]
             plan = getattr(self.server, 'turn_plan', None)
             if plan is None:
                 assert len(self.server.requests) <= 12

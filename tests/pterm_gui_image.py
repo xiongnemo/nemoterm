@@ -26,7 +26,7 @@ def observe(folder, kind, exe, client, phase, binding, rec):
     if kind=='pterm':env.pop('NEMOTERM_CONPTY',None)
     # The in-console observer records the currently rendered client cells identically on both hosts.
     env['NEMOTERM_PAIR_READ_CELLS']='1'
-    server=Provider();server.selection=False;server.capture_draft=True
+    server=Provider();server.selection=False;server.capture_gui_draft=True
     thread=threading.Thread(target=server.serve_forever,daemon=True);thread.start()
     profile='image-'+uuid.uuid4().hex
     key_path=('Software\\SimonTatham\\PuTTY' if kind=='pterm' else 'Software\\Nemo\\Nemoterm')+'\\Sessions\\'+profile
@@ -57,8 +57,10 @@ def observe(folder, kind, exe, client, phase, binding, rec):
                     return check
                 def inputs(digits):
                     for digit in digits:desk.chord(ord(digit))
+                def marked(r,marker):
+                    return any(v.strip().removesuffix('[Image #1]').rstrip()==marker for v in r.get('gui_drafts',[]))
                 def receipt(marker):
-                    return next((r for r in server.requests if marker in r.get('draft_parts',[])),None)
+                    return next((r for r in server.requests if marked(r,marker)),None)
                 wait_for(visible('Ask Codex'),timeout=80)
                 if phase=='after-turn':
                     inputs('3721');wait_for(visible('3721'));desk.chord(13)
@@ -71,7 +73,7 @@ def observe(folder, kind, exe, client, phase, binding, rec):
                     rec['attachment_screen']=text();rec['visible']=False
                 capture(hwnd,str(folder/'before-submit.png'))
                 desk.chord(13);wait_for(lambda:receipt('8932'),timeout=30)
-                target=[r for r in server.requests if '8932' in r.get('draft_parts',[])];assert len(target)==1
+                target=[r for r in server.requests if marked(r,'8932')];assert len(target)==1
                 imgs=target[0]['images'];rec['images']=imgs
                 assert len(imgs)<=1 and all(im['generated_pixels_match'] for im in imgs) and target[0]['path']=='/v1/responses'
                 rec['reply']=wait_for(visible('NEMOTERM_IMAGE_ACCEPTED' if imgs else 'NEMOTERM_TEXT_ACCEPTED'),timeout=30)
