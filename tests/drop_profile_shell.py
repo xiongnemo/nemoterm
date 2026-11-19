@@ -35,7 +35,9 @@ def exercise(renderer):
                     seat = inst['sessions'][0]; hwnd = seat['hwnd']; ep = inst['endpoint']; sid = seat['id']
                     u.GetPropW.argtypes,u.GetPropW.restype=[w.HWND,w.LPCWSTR],w.HANDLE
                     record['renderer']=int(u.GetPropW(hwnd,'NemotermRenderer') or 0);assert record['renderer']==renderer
-                    def screen(): return api.request(ep,'text',sid)
+                    def screen():
+                        record['last_screen']=api.request(ep,'text',sid)
+                        return record['last_screen']
                     def read_line(marker):
                         def check():
                             text=screen()
@@ -48,10 +50,10 @@ def exercise(renderer):
                         return read_line(marker)
                     barrier()
                     if shell=='cmd':
-                        send('echo %COMSPEC%\r'); snapshot=barrier()
+                        send('prompt $G\r');send('echo %COMSPEC%\r'); snapshot=barrier()
                         assert any(line.strip().lower().endswith('\\cmd.exe') and 'echo ' not in line.lower() for line in snapshot.splitlines()),snapshot
                     else:
-                        send('$PSVersionTable.PSEdition\r');read_line('Desktop')
+                        send("function prompt { 'P> ' }\r");send('$PSVersionTable.PSEdition\r');read_line('Desktop')
                     for stage in (('before-save','after-save') if shell=='powershell' else ('next-launch',)):
                         if stage=='after-save':
                             driver=subprocess.run(['powershell.exe','-NoProfile','-NonInteractive','-ExecutionPolicy','Bypass','-File',str(root/'tests/owned_profile_settings.ps1'),'-Action','shell-cmd','-TargetProcess',str(proc.pid),'-TargetWindow',str(hwnd)],capture_output=True,timeout=65)
@@ -61,14 +63,18 @@ def exercise(renderer):
                             assert record['persisted_shell']=='cmd'
                         # The file contents never appear in a command or in the dropped path.
                         token='FILE_'+uuid.uuid4().hex
-                        path=folder/(stage+" ' $nemoDropPath.txt")
+                        tail=uuid.uuid4().hex[:8]+'.txt'
+                        path=folder/("a ' $nemoDropPath."+tail)
                         path.write_text(token+'\n',encoding='ascii')
                         cmd='Get-Content -LiteralPath ' if shell=='powershell' else 'type '
+                        record['drops'][stage]=dict(file=path.name,marker=token,opened=False)
                         send(cmd)
                         handle=block(drop_data([str(path)]))
                         try:
                             assert u.PostMessageW(hwnd,0x233,handle,0)
-                            wait_for(lambda:stage in screen() and 'nemoDropPath.txt' in screen().split(stage)[-1],timeout=12)
+                            # PSReadLine may wrap the echoed path across actual screen rows.
+                            # A unique suffix only gates Enter; the file contents below are the proof.
+                            wait_for(lambda:tail in ''.join(line.rstrip() for line in screen().splitlines()),timeout=12)
                             send('\r'); snapshot=barrier()
                         finally:k.GlobalFree(handle)
                         record['drops'][stage]=dict(file=path.name,marker=token,screen=snapshot,opened=any(line.strip()==token for line in snapshot.splitlines()))
