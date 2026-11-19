@@ -7,8 +7,10 @@ def verify(hwnd,begin,point,capture,tile,copy,barrier,evidence):
     for direction,seq in ((1,'T'),(-1,'S')):
         for block in (False,True):
             base='anchor-'+('down' if direction==1 else 'up')+('-block' if block else '-stream')
-            y=8; target=y+direction; expected='A中e\u0301'
-            begin(base+'-source','\x1bc\x1b[?25l\x1b[5;17r\x1b[8;1Habove|\x1b[9;1H#A中e\u0301Z|\x1b[10;1Hbelow|\x1b[?1002;1006h')
+            # Each case starts with a single press. Alternate rows so two
+            # independent gestures cannot form a Windows double/triple click.
+            y=12 if block else 8; target=y+direction; expected='A中e\u0301'
+            begin(base+'-source',f'\x1bc\x1b[?25l\x1b[5;17r\x1b[{y};1Habove|\x1b[{y+1};1H#A中e\u0301Z|\x1b[{y+2};1Hbelow|\x1b[?1002;1006h')
             def source():
                 p=capture(return_pixels=True);t=tile(p,1,y)
                 return p if len(set(t[n:n+3] for n in range(0,len(t),3)))>1 and tile(p,1,target)!=t else None
