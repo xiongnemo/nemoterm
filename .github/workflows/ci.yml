@@ -116,6 +116,14 @@ jobs:
       run: ${{ github.run_id }}
       commit: ${{ github.sha }}
       suite: vim
+  wsl-tmux-vim:
+    if: ${{ inputs.scope == 'full' }}
+    needs: source-host
+    uses: ./.github/workflows/wsl-tui.yml
+    with:
+      run: ${{ github.run_id }}
+      commit: ${{ github.sha }}
+      suite: tmux-vim
   shell-lifetime:
     if: ${{ inputs.scope != 'dpi' }}
     needs: source-host
