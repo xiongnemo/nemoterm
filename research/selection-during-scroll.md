@@ -12,4 +12,5 @@
 [修复后首轮原始回执](selection-pressed-after-6f8d382.zip)也保留：向下 8/8；向上在三个窗口等不到终端应答。首轮把连续的独立点击发往同一屏幕位置，可能被解释成三击而开始行选择。回放将相邻用例的点击分到不同的行；没有重发、延长时限或改动 EXE。最初直接从新源码回放旧镜像的[请求](https://github.com/xiongnemo/nemoterm/actions/runs/44468817087)被源码校验拒绝，没有启动受测程序；旧版使用[对应源码回放](https://github.com/xiongnemo/nemoterm/actions/runs/44469287310)。
 
 `6f8d382` 镜像 SHA-256 为 `55d56d8ab68191fa724e73210b4d55c0cca5eed0ceedb97a0026a2fa49a3129d`。[同机 pterm 对照](pterm-selection-memory-6f8d382.zip)包含独立记录的 10 次 Codex 冷启动，仅适用于该镜像。上述单项通过不等于完整 CI 已通过。
+
 相同单击脚本的[旧产品对照](selection-pressed-control-2ca68df.zip)再次得到向下 0/8、向上 8/8；新构建 `810a26f` 的[选区原始记录](selection-pressed-810a26f.zip)为向下 8/8、向上 8/8，组内全部 6 项通过。`810a26f` 实际 EXE 为 4,871,168 字节，SHA-256 `24deed2cdaa8a3743793c014048ce057333c7f9bc77c4b59de545e5b7bbd27d3`，制品 `14503279012`。该结果来自此构建本身。

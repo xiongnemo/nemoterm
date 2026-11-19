@@ -4,6 +4,10 @@
 
 ## 开发快照
 
+[下载 Windows x64 单文件测试版 `2ca68df`](https://github.com/xiongnemo/nemoterm/actions/runs/44464971332/artifacts/14501593009)。解压后只需 `nemoterm.exe`，压缩包中的 `SOURCE-HOST.json` 用于核验来源。EXE 的 SHA-256 为 `f2cb4fbae5a52ba3be8e4abb979a363e2b279591269b43838ee1da40957f7ca0`。
+
+这个版本修复了连续粘贴多行文本时第一段被截断的问题。GDI、DirectX 的系统剪贴板回放均逐字通过，包含中文、emoji 和括号粘贴标记。整套交互 **78/80**；160×48 压力测试的前端私有工作集峰值为 GDI **19.268 MB**、DirectX **28.848 MB**。[修复前后原始记录](../research/consecutive-paste.md) · [本版交互与内存](../research/paste-preview-2ca68df.md) · [完整 CI](https://github.com/xiongnemo/nemoterm/actions/runs/44464971332)。
+
 [测试版 `7ec651d`](https://github.com/xiongnemo/nemoterm/actions/runs/44457337912/artifacts/14497589034) 修复了默认配置下 Claude Code 2.1.322.0 的希伯来文被排两次、拖选复制到相邻字符的问题。直接启动和经 PowerShell 启动均已用实际窗口和系统剪贴板验证；三种客户端的选区回放 **10/10**。160×48 压力测试前端私有工作集峰值为 GDI **19.964 MB**、DirectX **29.467 MB**。整套交互 **76/78**；Codex 启动时立即贴图的两项未通过，待编辑器报告就绪后通过。[截图、原始数据与已知限制](../research/claude-writer-order.md)。
 
 [上一版 `6ee2996`](https://github.com/xiongnemo/nemoterm/actions/runs/44411510449/artifacts/14477886358) 修复了应用能画 ReGIS 图、却查询不到这项能力的问题。程序现在可在绘图前读到 800×480 的默认画布。GDI 与 DirectX 都验证了根据返回尺寸绘图、重绘后仍可见；同一文件通过选区与关闭确认回放。12 项 160×48 压力测试中，前端私有工作集最高 GDI **18.84 MB**、DirectX **28.86 MB**。整套交互为 **76/78**，剩余两项是默认 Claude 的混排字序。[前后截图、文件校验与未通过的画面对照](../research/regis-discovery.md)。

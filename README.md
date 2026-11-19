@@ -33,9 +33,9 @@ Kitty 图片支持直接 RGB/RGBA/PNG、压缩传输、裁剪、透明度、查�
 
 ## 下载
 
-[下载 Windows x64 单文件测试版 `2ca68df`](https://github.com/xiongnemo/nemoterm/actions/runs/44464971332/artifacts/14501593009)。解压后只需 `nemoterm.exe`，压缩包中的 `SOURCE-HOST.json` 用于核验来源。EXE 的 SHA-256 为 `f2cb4fbae5a52ba3be8e4abb979a363e2b279591269b43838ee1da40957f7ca0`。
+[下载 Windows x64 单文件测试版 `810a26f`](https://github.com/xiongnemo/nemoterm/actions/runs/44468952910/artifacts/14503279012)。解压后只需 `nemoterm.exe`；EXE 的 SHA-256 为 `24deed2cdaa8a3743793c014048ce057333c7f9bc77c4b59de545e5b7bbd27d3`。
 
-这个版本修复了连续粘贴多行文本时第一段被截断的问题。GDI、DirectX 的系统剪贴板回放均逐字通过，包含中文、emoji 和括号粘贴标记。整套交互 **78/80**；160×48 压力测试的前端私有工作集峰值为 GDI **19.268 MB**、DirectX **28.848 MB**。[修复前后原始记录](research/consecutive-paste.md) · [本版交互与内存](research/paste-preview-2ca68df.md) · [完整 CI](https://github.com/xiongnemo/nemoterm/actions/runs/44464971332) · [历史测试版](docs/PREVIEW_HISTORY.md)。
+按住 Shift 后若应用先滚屏再拖动，现在能选中原先按住的字，不会多复制相邻的一行。普通和矩形选择在两种字体、GDI 和 DirectX 上的 16 项均通过。连续两次粘贴长文本也通过。整套交互 **78/80**；160×48 六种压力负载的前端私有工作集峰值为 GDI **18.907 MB**、DirectX **29.630 MB**。[选区前后对照](research/selection-during-scroll.md) · [本版交互、内存与未通过项](research/interaction-preview-810a26f.md) · [完整 CI](https://github.com/xiongnemo/nemoterm/actions/runs/44468952910) · [历史测试版](docs/PREVIEW_HISTORY.md)。
 
 在 Codex 0.167.0 中，请等编辑器就绪后再贴图，看到输入框中出现图片附件再发送。启动草稿可能接受文字却忽略贴图，窗口标题也不能可靠地判断是否就绪。[实际提交与截图](research/codex-file-draft-order.md)。
 
@@ -173,7 +173,7 @@ GPU 模式使用 Windows 系统 DLL 与显卡驱动，不新增分发文件；�
 
 这里的 MB 按十进制字节计，20 MB 为 20,000,000 字节，30 MB 为 30,000,000 字节；私有工作集与私有提交量分别记录。
 
-在同一台 GitHub Windows runner 上，用 Sarasa Light、160×48 和同一个 Codex 客户端运行本版。收到回复后，单标签 GDI 前端的稳定私有工作集为 **5.08–5.11 MB**，DirectX 为 **9.67–9.71 MB**；同机 pterm 0.85 对照为 **3.75–3.77 MB**。每种配置分别按正序、反序冷启动。这些数值只统计前端进程；满屏图文的峰值另行验收。[完整采样与测试条件](research/paste-preview-2ca68df.md) · [历史内存记录](docs/PREVIEW_HISTORY.md#内存)。
+在同一台 GitHub Windows runner 上，用 Sarasa Light、160×48 和同一个 Codex 客户端运行本版。收到回复后，单标签 GDI 前端的稳定私有工作集为 **5.09–5.12 MB**，DirectX 为 **9.69–9.71 MB**；同机 pterm 0.85 对照为 **3.74–3.78 MB**。每种配置分别按正序、反序冷启动。这些数值只统计前端进程；满屏图文的峰值另行验收。[完整采样与测试条件](research/interaction-preview-810a26f.md) · [历史内存记录](docs/PREVIEW_HISTORY.md#内存)。
 切回 GDI 后，驱动保留的内存可能需要关闭窗口才能释放。
 
 “单 EXE”指一个分发文件：程序仍会启动同一个 EXE 的隐藏控制台宿主进程，并运行所选 shell。
