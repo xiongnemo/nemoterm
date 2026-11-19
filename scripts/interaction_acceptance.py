@@ -89,6 +89,8 @@ def catalog():
     add('mouse-colours', 'mouse', 'pointer_window_smoke.py',
         ['--colour-reference', 'tests/pointer-colour-resets-reference.zip', '--font', FONT],
         'owned foreground; actual OS cursor inks, XTerm replies and hidden tabs')
+    add('tab-clipboard-ownership', 'tabs', 'tab_clipboard_ownership.py',
+        effects='two live profiles; hosted keyboard and mouse; clipboard, selection pixels and both child input streams')
     for renderer, side in [('gdi', 'top'), ('gdi', 'bottom'), ('directx', 'left'), ('opengl', 'right')]:
         add('tabs-'+side, 'tabs', 'tabs_window_smoke.py',
             ['--renderer', renderer, '--side', side, '--font', FONT, '--cols', '160', '--rows', '48', '--session-seconds', '900'])

@@ -38,6 +38,8 @@ gh workflow run font-zoom-replay.yml --ref <branch> -f suite=interaction -f sour
 
 `suite=wsl-vim` 在两个 TERM 条目和实际 GDI、DirectX 下启动 Vim。普通鼠标点击须改变 Vim 自己报告的光标，Shift 拖选须复制完整中文字且不移动 Vim 光标；窗口两次改尺寸后 Vim 与前端应报告同一网格；最后用快捷键粘贴，验证保存文件的 UTF-8 字节和退出后的画面。
 
+`tabs` 分组的 `tab-clipboard-ownership` 在同一原生窗口打开两个 profile：GDI 标签使用默认右键仅复制，DirectX 标签显式设置右键复制并粘贴。两个子进程都打开应用鼠标报告和带边界的粘贴。用系统按键切换标签后，分别检查双方收到的完整字节、选区像素和系统剪贴板，区分当前输入与后台误收。
+
 `suite=wsl-tmux-vim` 仅在 GitHub 托管 Windows runner 上运行，并记录 `wsl --list --verbose` 确认 Ubuntu-24.04 使用 WSL1。相同四组输入通过 tmux 到达 Vim；检查外层 `xterm` / `xterm-256color`、内层 `tmux-256color`、两次实际缩放，以及 Shift 拖选和矩形选择后 tmux 没进入复制模式。每次检查通过该次回放独占的 tmux socket 读取状态，不占用 Vim 的键盘输入。这项测试不使用开发电脑的 WSL，也不证明 WSL2 的行为。
 
 `suite=profile-env` 可让 `--profile 名称` 和 Windows 跳转列表所用的 `@名称` 分别在父环境未设、设置了不同 `TERM`、已有全部 WSL 转发规则时启动子进程，读取其真实 `TERM`、`COLORTERM`、`TERM_PROGRAM`。
