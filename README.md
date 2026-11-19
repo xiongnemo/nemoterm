@@ -125,12 +125,12 @@ Nemoterm 使用系统中已有的 shell；单文件产物不包含 PowerShell 7�
 | 本地回滚 | `Shift+PageUp` / `Shift+PageDown` |
 | 当前标签字号放大 / 缩小 | `Ctrl++` / `Ctrl+-`，或 `Ctrl+滚轮`；应用接管鼠标时滚轮需加 `Shift` |
 
-Shift 拖选按屏幕上实际高亮的字符复制。若 Claude Code 中希伯来文的顺序颠倒，可为它单独建一个 profile，勾选 **终端 → 功能 → 禁用双向文字显示** 并保存。测试中的 Claude Code 已自行重排文字，Codex 和 OpenCode 则使用默认配置。[三个客户端并排截图](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/shift-bidi-clients-gdi.png)。
+在 Codex、OpenCode 或 Claude Code 里，按住 `Shift` 用左键拖过要复制的文字；松开鼠标和 `Shift` 后，按 `Ctrl+Shift+C` 或右键即可复制高亮内容。实测的 Windows 原生 Claude Code 2.1.322 会自行排列希伯来文，默认 profile 已能保留它画出的字序，从 PowerShell 启动也一样。其他版本如果出现字序颠倒，可建单独的 profile，在 **终端 → 功能** 中禁用双向文字显示。[混排字符的实际截图和版本范围](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/claude-writer-order.md)。
 
 Codex 刚启动时，输入提示可能比能接收图片的编辑框先出现。如果首次粘贴后没有附件，等正常编辑框就绪，确认草稿里仍没有图片，再在同一草稿按一次 `Ctrl+Shift+V` 即可。[原始回放](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/interaction-a9c8150.md)验证了第二次操作只提交一张图，不需要重启或先发送文字。
 
-右键已选中的文本默认只复制；可在 Window / Selection 改为复制并粘贴，
-或使用 `--right-click copy-paste` 启动；`--right-click copy` 恢复仅复制。
+默认右键只复制，输入框保持原样。要让一次右键把选区直接贴进当前输入框，在当前 profile 的 **窗口 → 选择 → 右键点击选中文字时** 选 **复制并粘贴**，然后保存。命令行也可用 `--right-click copy-paste` 或 `--right-click copy` 选择这两种行为。
+
 在 **窗口 → 外观 → 字体访问** 中，可以分别允许应用查询字体名称或更改字体。两项默认均关闭。应用通过 OSC 50 换字体时只影响当前标签；本地字号快捷键和 Profile 的默认字体仍可独立设置。
 
 Window / Bindings 可修改快捷键和矩形选择修饰键；Window / Tabs 配置标签位置与预览。
