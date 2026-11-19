@@ -15,3 +15,10 @@
 | Nemoterm DirectX 单标签 | 10.027–10.031 | 47.231–47.251 | 11.608–11.641 |
 
 8 次 Nemoterm 快照都记录了前端模块和作业进程，受检的 WebView、Chromium 或 Electron 名称均未命中。GDI 模式的前端也映射了 `d3d11.dll` 和 `dxgi.dll`，模式标记仍为 GDI；不能仅凭 DLL 存在认定用了 GPU 渲染。DirectX 的两次单标签快照另有 `d3d10warp.dll`，这些托管测量不能直接预测另一台电脑的显卡驱动占用。源代码和压缩滚动历史等机制见 [pterm 研究记录](pterm-findings.md)。
+
+## 客户端和交互
+
+- [默认网格的 Codex、OpenCode、Claude](agent-grid-discard-e02f0d0.zip) 10/10；[30 项客户端检查](agent-cases-discard-e02f0d0.zip) 28/30。失败的是 Codex 在启动时通过窗口接口或真实键盘立即贴图，编辑器就绪后这两种输入都通过。
+- [连续粘贴](paste-discard-e02f0d0.zip)中，接口和 Ctrl+Shift+V 均 4/4。[Unicode 投递](unicode-discard-e02f0d0.zip)本轮 5/5，包括独立对照。
+- [WSL Vim](wsl-vim-discard-e02f0d0.zip)在两种 TERM 和 GDI、DirectX 的四种组合均完成普通应用鼠标、Shift 本地拖选、两次缩放、矩形选择和实际粘贴保存等六项检查。
+- 原生测试覆盖了与[被丢弃的字](selection-discarded-scroll.md)相反的情形：屏幕上第一行滚入仍然存在的那一个历史槽后可以复制 `KEEP`。第二次滚动覆盖该槽才丢弃起点。中间提交 `209ad34` 的测试把视口移到了当前屏幕（实测 `disptop=0`），因此错误地取了 8 个字符；[原始失败日志](https://github.com/xiongnemo/nemoterm/actions/runs/44476801522/artifacts/14507645616)保留。本次定位到历史顶端并要求 `disptop=-1` 后，GitHub Windows 原生测试通过。
