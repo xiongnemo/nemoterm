@@ -216,6 +216,8 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-selection-') as temporary:
         verify_pressed_scroll(hwnd,begin_phase,point,captured,tile,copy_shortcut,no_forwarded_input,evidence)
         from selection_split_scroll import verify as verify_split_scroll
         split_messages_ok=verify_split_scroll(hwnd,begin_phase,point,captured,tile,copy_shortcut,no_forwarded_input,evidence)
+        from selection_discarded_scroll import verify as verify_discarded_scroll
+        discard_ok=verify_discarded_scroll(hwnd,begin_phase,point,captured,tile,copy_shortcut,no_forwarded_input,evidence)
         split_system_ok=True
         if args.tabs:
             # Remove the synchronous-message fixture's queued-mouse filter;
@@ -235,6 +237,7 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-selection-') as temporary:
                 split_system_ok=verify_split_scroll(hwnd,begin_phase,point,captured,tile,system_copy,no_forwarded_input,evidence,desktop,await_new_input)
             finally:desktop.restore()
         assert split_messages_ok and split_system_ok, (evidence['split_scroll_press'],evidence.get('split_scroll_system'))
+        assert discard_ok,evidence['discarded_scroll_press']
         evidence['completed']=True
         print('Rapid independent selections and 16 Ctrl rectangles, exact Unicode, shortcut/right-click copy and pixels passed')
     finally:
