@@ -45,6 +45,8 @@ Codex 0.167.0 的启动草稿只收文字。即使已经能打字，也请等正
 
 另有[修复窗口变高或变矮后选区丢失的候选 `6072ebc9`](research/acceptance-6072ebc9.md)，可从该页下载同一份远程构建。候选的选区 8/8 通过、GDI / DirectX 压力内存达标；完整交互为 80/81，Codex 启动早期的一次贴图未通过。
 
+[应用进度候选 `6fbfa79e`](research/taskbar-progress.md) 可在标签和 Windows 任务栏显示长任务进度。实际标签栏像素共 32/32 项通过；在两标签启用进度的 160×48 图文压力场景中，前端私有工作集峰值为 GDI 19.21 MB、DirectX 28.77 MB。此专项结果不替代完整交互验收。
+
 查找后续开发构建：
 
 1. 登录 GitHub，打开 [Test and build](https://github.com/xiongnemo/nemoterm/actions/workflows/ci.yml)。
