@@ -5543,6 +5543,13 @@ static void scroll(Terminal *term, int topline, int botline,
             clear_line(term, line);
             addpos234(term->screen, line, topline);
 
+            /* Output still runs between button-down and the first drag. If
+             * the pressed line survives a downward scroll, track its glyph,
+             * just as in the upward-scroll path. Once dragging, output waits. */
+            if (term->selstate == ABOUT_TO && term->selanchor.y >= topline &&
+                term->selanchor.y < botline)
+                term->selanchor.y++;
+
             if (term->selstart.y >= topline && term->selstart.y <= botline) {
                 term->selstart.y++;
                 if (term->selstart.y > botline) {

@@ -690,6 +690,28 @@ static void test_shift_selection(Mock *mk)
     }
 }
 
+static void test_pressed_scroll(Mock *mk)
+{
+    const int clipboard = CLIP_LOCAL + 1;
+    for (int direction = -1; direction <= 1; direction += 2) {
+        for (int outside = 0; outside < 2; outside++) {
+            reset(mk);
+            test_context(mk, "pressed row during scroll: direction %d, outside %d", direction, outside);
+            term_data_fragmented(mk->term, "\033[5;17r\033[?1002;1006h");
+            term_data_fragmented(mk->term, outside ? "\033[2;1H" : "\033[9;1H");
+            term_data_fragmented(mk->term, "#A\xe4\xb8\xad" "e\xcc\x81Z|");
+            int y = outside ? 1 : 8, moved = outside ? y : y + direction*2;
+            term_mouse(mk->term, MBT_LEFT, MBT_SELECT, MA_CLICK, 1, y, true, false, false);
+            term_data_fragmented(mk->term, direction > 0 ? "\033[2T" : "\033[2S");
+            IEQUAL(get_termchar(mk->term, 1, moved).chr, 'A');
+            term_mouse(mk->term, MBT_LEFT, MBT_SELECT, MA_RELEASE, 4, moved, false, false, false);
+            term_request_copy(mk->term, &clipboard, 1);
+            check_clipboard(mk, L"A\x4e2d" L"e\x0301");
+            IEQUAL(mk->to_backend->len, 0);
+        }
+    }
+}
+
 static void test_colour_and_alternate_screen(Mock *mk)
 {
     reset(mk);
@@ -838,6 +860,7 @@ int main(void)
     test_nonwrap(mk);
     test_wintitle(mk);
     test_shift_selection(mk);
+    test_pressed_scroll(mk);
     test_colour_and_alternate_screen(mk);
     test_bracketed_paste(mk);
     test_consecutive_pastes(mk);
