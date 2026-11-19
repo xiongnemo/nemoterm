@@ -190,7 +190,7 @@ Nemoterm EXE 的 SHA-256 为 `c7f4f4be019a2fb0262f984d15e7f6177eb47da043558dd819
 | Nemoterm 默认单标签，GDI | 5.86 | 37.19 | 7.25 |
 | Nemoterm 单标签，DirectX | 10.09 | 47.41 | 11.74 |
 
-终端和客户端均正常结束。会话结束时的模块／进程快照没有匹配到受检的 WebView 组件；这仅限该采样点。[原始日志、窗口截图和制品清单](agent-session-97f8b05b.zip)。[真实 Vim、tmux、颜色、Sixel 及默认网格回执](xterm-clients-97f8b05b.zip)也验证的是同一份 EXE，SHA-256 `c66b366f2c67e216c219d6674e0e368181bdcfbdd884dd6f6c11b61a1bed84b5`。
+终端和客户端均正常结束。会话结束时的模块／进程快照没有匹配到受检的 WebView 组件；这仅限该采样点。[原始日志、窗口截图和制品清单](https://github.com/xiongnemo/nemoterm/blob/cd7d4675ec01a63301f9c6c7d5953fb10b21299b/research/agent-session-97f8b05b.zip)。[真实 Vim、tmux、颜色、Sixel 及默认网格回执](https://github.com/xiongnemo/nemoterm/blob/cd7d4675ec01a63301f9c6c7d5953fb10b21299b/research/xterm-clients-97f8b05b.zip)也验证的是同一份 EXE，SHA-256 `c66b366f2c67e216c219d6674e0e368181bdcfbdd884dd6f6c11b61a1bed84b5`。
 
 ### 多行粘贴版 `476a2c76` 的同机对照
 

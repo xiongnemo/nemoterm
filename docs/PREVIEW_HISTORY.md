@@ -2,6 +2,16 @@
 
 下文保留当时的记录。每条数字都对应所列提交；当前测试版请从 [README 下载](../README.md#下载)。
 
+## `97f8b05b` 单文件测试版
+
+[下载 Windows x64 单文件测试版 `97f8b05b`](https://github.com/xiongnemo/nemoterm/actions/runs/44557184431/artifacts/14546167071)。解压后只需 `nemoterm.exe`（4,874,752 字节）。SHA-256：`c66b366f2c67e216c219d6674e0e368181bdcfbdd884dd6f6c11b61a1bed84b5`。
+
+当应用要求新输出时留在历史、键入时回到底部，终端现在会分别遵循这两个设置。历史已满时，Ctrl 框选的高亮也会保留原来的列宽，不会在最老一行离开后误选左侧文字。[修复前后的实际画面](../research/scrollback-modes.md#滚动历史已满时的矩形高亮)。
+
+[这份 EXE 的远程交互报告](https://github.com/xiongnemo/nemoterm/blob/cd7d4675ec01a63301f9c6c7d5953fb10b21299b/research/preview-97f8b05b.zip)为 **81/81**，覆盖 13 组。使用 SarasaTermSC Nerd Light 的 160×48 六种压力场景中，前端**私有工作集**峰值为 GDI **19.42 MB**、DirectX **28.57 MB**；总工作集峰值分别为 56.30 MB 和 71.83 MB。同一台 runner 上连续输入 24 轮 Codex 追问，私有工作集采样峰值为原版 pterm **3.82 MB**、Nemoterm GDI **5.86 MB**、DirectX **10.09 MB**。[同机逐项测量](../research/pterm-findings.md#矩形高亮修复版-97f8b05b-的同机对照)。
+
+[真实应用回放](https://github.com/xiongnemo/nemoterm/blob/cd7d4675ec01a63301f9c6c7d5953fb10b21299b/research/xterm-clients-97f8b05b.zip)覆盖 `TERM=xterm` 和 `xterm-256color` 的 Vim、tmux 中的 Vim、颜色，以及 Sixel 图像。交互通过不代表与原版 XTerm 412 所有细节一致：[宽字逐格对照](../research/column-edge-integrity.md)和 [ReGIS 历史画面](../research/regis-presented-pairs.md)仍有差异。[完整 CI 记录](https://github.com/xiongnemo/nemoterm/actions/runs/44557184431) · [历史测试版](PREVIEW_HISTORY.md)。
+
 ## 开发快照
 
 `b3274ed` 修复了右键“复制并粘贴”后快速按 Enter 时漏掉粘贴文字的问题。[当时的单文件](https://github.com/xiongnemo/nemoterm/actions/runs/44542003485/artifacts/14538024692)有 4,874,240 字节，SHA-256 `c7f4f4be019a2fb0262f984d15e7f6177eb47da043558dd81971cf953af5979a`。[交互原件](https://github.com/xiongnemo/nemoterm/blob/b5c51524819bd4990f9a7d643a5f4d1e0c18252a/research/preview-b3274ed.zip)为 **79/81**，仅 Codex 首次显示输入文字就立即贴图的两项未过；GDI、DirectX 的六种压力场景均通过，私有工作集峰值分别为 18.813、29.585 MB。[实际应用回放](https://github.com/xiongnemo/nemoterm/blob/b5c51524819bd4990f9a7d643a5f4d1e0c18252a/research/xterm-clients-b3274ed.zip)和 [24 轮 Codex 会话](https://github.com/xiongnemo/nemoterm/blob/b5c51524819bd4990f9a7d643a5f4d1e0c18252a/research/agent-session-b3274ed.zip)也对应这一份 EXE。
