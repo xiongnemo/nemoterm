@@ -16,10 +16,16 @@ g.BitBlt.argtypes=[w.HDC,c.c_int,c.c_int,c.c_int,c.c_int,w.HDC,c.c_int,c.c_int,w
 
 
 class PresentedWindowCapture:
-    def __init__(self,pid,hwnd):
+    def __init__(self,pid,hwnd,directx=False):
         self.pid=pid;self.hwnd=hwnd;self.closed=False
         self.record=dict(method='GetDC(owned HWND) + BitBlt',pid=pid,hwnd=hwnd,
             desktop_dc=False,wm_print=False,activation=False,captures=0)
+        self.surface=hwnd
+        if directx:
+            u.FindWindowExW.argtypes=[w.HWND,w.HWND,w.LPCWSTR,w.LPCWSTR];u.FindWindowExW.restype=w.HWND
+            self.surface=u.FindWindowExW(hwnd,None,'NemotermDirect3D11',None)
+            assert self.surface and not u.FindWindowExW(hwnd,self.surface,'NemotermDirect3D11',None)
+            self.record.update(method='GetDC(owned Direct3D11 child) + BitBlt',surface=self.surface)
         self._owner()
         assert u.IsWindowVisible(hwnd) and not u.IsIconic(hwnd)
         self.was_topmost=bool(u.GetWindowLongW(hwnd,-20)&8)
@@ -28,17 +34,22 @@ class PresentedWindowCapture:
 
     def _owner(self):
         owner=w.DWORD()
-        assert u.GetWindowThreadProcessId(self.hwnd,c.byref(owner)) and owner.value==self.pid
+        for hwnd in (self.hwnd,self.surface):
+            assert u.GetWindowThreadProcessId(hwnd,c.byref(owner)) and owner.value==self.pid
+        if self.surface != self.hwnd: assert u.IsChild(self.hwnd,self.surface) and u.IsWindowVisible(self.surface)
 
     def capture(self):
         assert not self.closed
         self._owner()
         rect=w.RECT();assert u.GetClientRect(self.hwnd,c.byref(rect))
         width,height=rect.right,rect.bottom;size=width*height*4
+        if self.surface != self.hwnd:
+            sr=w.RECT();assert u.GetClientRect(self.surface,c.byref(sr)) and (sr.right,sr.bottom)==(width,height)
+            a,b=w.POINT(),w.POINT();assert u.ClientToScreen(self.hwnd,c.byref(a)) and u.ClientToScreen(self.surface,c.byref(b)) and (a.x,a.y)==(b.x,b.y)
         assert width>0 and height>0 and size<=8*1024*1024
         header=struct.pack('<IiiHHIIiiII',40,width,-height,1,32,0,size,0,0,0,0)
         info=c.create_string_buffer(header);bits=c.c_void_p()
-        src=u.GetDC(self.hwnd);assert src
+        src=u.GetDC(self.surface);assert src
         dst=bitmap=old=None
         try:
             dst=g.CreateCompatibleDC(src);assert dst
@@ -54,7 +65,7 @@ class PresentedWindowCapture:
             if old and old!=c.c_void_p(-1).value:g.SelectObject(dst,old)
             if bitmap:g.DeleteObject(bitmap)
             if dst:g.DeleteDC(dst)
-            u.ReleaseDC(self.hwnd,src)
+            u.ReleaseDC(self.surface,src)
 
     def close(self):
         if self.closed:return self.record

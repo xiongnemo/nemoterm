@@ -1,4 +1,4 @@
-"""Replay one immutable, whole-write XTerm prefix on one fresh presented GDI window."""
+"""Replay one immutable XTerm prefix on a fresh visible GDI or DirectX window."""
 import hashlib
 import io
 import json
@@ -21,7 +21,7 @@ sha = lambda b: hashlib.sha256(b).hexdigest()
 def resize_grid(ev):
     # The history used X11's 6x13 fixed cells. Resize only this standalone
     # HWND with the product's normal "change font size on resize" setting.
-    s = ev['session']; hwnd = s['hwnd']; assert s['window'] == hwnd and ev['actual_renderer'] == 0
+    s = ev['session']; hwnd = s['hwnd']; assert s['window'] == hwnd and ev['actual_renderer'] == {'gdi':0,'directx':2}[ev['requested_renderer']]
     outer, client = w.RECT(), w.RECT()
     assert u.GetWindowRect(hwnd, c.byref(outer)) and u.GetClientRect(hwnd, c.byref(client))
     width, height = COLS*6 + 2*BORDER, ROWS*13 + 2*BORDER
@@ -42,6 +42,9 @@ def mismatches(a,b):
 
 
 def run(tag):
+    write_mode=os.environ.get('NEMOTERM_REGIS_WRITE_MODE')
+    tx=write_mode or 'whole'
+    assert tx in ('whole','bytewise')
     bank=tag.startswith('bank-start-')
     archive_hash=BANK_ARCHIVE if bank else ARCHIVE
     filename='regis-bank-start-xterm.zip' if bank else 'regis-first-expose-captures.zip'
@@ -50,7 +53,7 @@ def run(tag):
     with ZipFile(io.BytesIO(source)) as ref:
         facts=json.loads(ref.read('reference/observations.json'))
         scene,last=(tag,0) if bank else facts['targets'][tag]
-        upstream=facts['cases'][tag]['whole']
+        upstream=facts['cases'][tag][tx]
         if bank:
             from shared_bank_start_cases import bank_starts
             wire,=bank_starts()[tag.removeprefix('bank-start-')]
@@ -60,7 +63,7 @@ def run(tag):
         assert not facts['control_failures'] and not facts['transport_mismatches']
         assert len(upstream['steps']) == last+1 and all('repaint' not in s for s in upstream['steps'][:-1])
         final=upstream['steps'][-1]; assert final['repaint_barrier_hex']=='1b5b306e'
-        prefix='reference/observations/'+tag+'-whole/'
+        prefix='reference/observations/'+tag+'-'+tx+'/'
         def upstream_image(record):
             image=Image.open(io.BytesIO(ref.read(prefix+record['file']))).convert('RGB')
             assert sha(image.tobytes())==record['rgb_sha256']
@@ -112,14 +115,29 @@ def run(tag):
                 passed=bool(occupied and occupied[2]<=7*6 and occupied[3]<=13 and 'CONTROL' in cells and
                             before.tobytes()==after.tobytes())
                 if not passed: capture_failures.append('text control')
-            write_snapshot(capture_dir/'paired.json',dict(tag=tag,scene=scene,step=last,archive_sha256=archive_hash,
-                transport='whole',font=os.environ['NEMOTERM_TEST_FONT'],cells=ev['cell_pixels'],
+            pair=dict(tag=tag,scene=scene,step=last,archive_sha256=archive_hash,
+                transport=tx,capture=ev['capture'],renderer=ev['requested_renderer'],actual_renderer=ev['actual_renderer'],font=os.environ['NEMOTERM_TEST_FONT'],cells=ev['cell_pixels'],
                 product_sha256=ev['executable_sha256'],reference_exe_sha256=facts['executable_sha256'],
                 frames=comparisons,before_vs_after=mismatches(before,after),
-                historical_pixel_failures=historical_failures,capture_failures=capture_failures))
-        assert '--presented-gdi' in sys.argv
+                historical_pixel_failures=historical_failures,capture_failures=capture_failures)
+            write_snapshot(capture_dir/'paired.json',pair)
+            if write_mode:
+                # An all-black/stale GPU capture can agree with a blank reference.
+                # Exercise two distinct non-black states after the historical prefix.
+                pair['colour_control']=False
+                try:
+                    for label,left,right in [('rg','red','green'),('gr','green','red')]:
+                        rgb={'red':'255;0;0','green':'0;255;0'}
+                        wire=(CSI+'?25l'+CSI+'2J'+CSI+'H'+CSI+'48;2;'+rgb[left]+'m '+
+                              CSI+'48;2;'+rgb[right]+'m '+CSI+'0m')
+                        regions=[dict(x=BORDER+i*6,y=BORDER,width=6,height=13,colour=colour)
+                                 for i,colour in enumerate((left,right))]
+                        phase('surface-'+label,wire,regions,expected_reply=b'')
+                    pair['colour_control']=True
+                finally:write_snapshot(capture_dir/'paired.json',pair)
+        assert ('--presented-gdi' in sys.argv) != ('--presented-directx' in sys.argv)
         main(exercise,suite_name='regis-window-pair-'+tag, before_exercise=ev.update,prepare_window=resize_grid,
-             font=os.environ['NEMOTERM_TEST_FONT'],profile_values=dict(NemoTabs=0,LockSize=2))
+             font=os.environ['NEMOTERM_TEST_FONT'],child_write_mode=write_mode,profile_values=dict(NemoTabs=0,LockSize=2))
     # A mismatch must not prevent subsequent frame capture or natural cleanup.
     if historical_failures or capture_failures: sys.exit(f'{tag}: historical pixels {historical_failures}, capture {capture_failures}')
 

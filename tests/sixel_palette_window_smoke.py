@@ -43,14 +43,16 @@ def reset(private=True):
 
 
 def main(background_exercise=None, *, suite_name=None, font='Consolas', before_exercise=None,
-         profile_values=None, prepare_window=None):
+         profile_values=None, prepare_window=None, child_write_mode=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--renderer', choices=('gdi', 'opengl', 'directx'), default='gdi')
     parser.add_argument('--presented-gdi', action='store_true', help='read the owned visible client DC; requires an interactive desktop')
+    parser.add_argument('--presented-directx', action='store_true', help='read the actual DirectX child surface DC')
     args = parser.parse_args()
+    if args.presented_directx and args.renderer != 'directx':parser.error('--presented-directx requires --renderer directx')
     if args.presented_gdi and args.renderer != 'gdi':parser.error('--presented-gdi requires --renderer gdi')
     suite = suite_name or ('sixel-background' if background_exercise else 'sixel-palette')
-    if args.presented_gdi:suite+='-presented'
+    if args.presented_gdi or args.presented_directx:suite+='-presented'
     colour_names = tuple(COLOURS) if background_exercise else ('red', 'green', 'blue')
     requested = {'gdi': 0, 'opengl': 1, 'directx': 2}[args.renderer]
     exe = Path(os.environ.get('NEMOTERM_TEST_EXE', root/'dist/nemoterm.exe')).resolve()
@@ -99,11 +101,11 @@ def main(background_exercise=None, *, suite_name=None, font='Consolas', before_e
                 actual = session['renderer']
                 evidence.update(endpoint=endpoint, session=session, actual_renderer=actual)
                 assert actual in (0, requested), (requested, actual)
-                if args.presented_gdi:
-                    assert actual==0
+                if args.presented_gdi or args.presented_directx:
+                    assert actual==requested
                     from presented_window_capture import PresentedWindowCapture
-                    presented=PresentedWindowCapture(process.pid,session['hwnd'])
-                    evidence['capture']='owned visible GDI client DC; no image API or WM_PRINTCLIENT'
+                    presented=PresentedWindowCapture(process.pid,session['hwnd'],directx=args.presented_directx)
+                    evidence['capture']=presented.record['method']
                 def capture_image():
                     return presented.capture() if presented else api.request(endpoint, 'image', seat)
                 if requested == 1 and os.environ.get('NEMOTERM_REQUIRE_OPENGL') == '1':
@@ -140,9 +142,15 @@ def main(background_exercise=None, *, suite_name=None, font='Consolas', before_e
                     evidence['checks'].append(record)
                     wait_snapshot(current, lambda v: (v.get('columns'),v.get('rows')) == grid)
                     write_snapshot(control, dict(phase=name, sequence=sequence,
-                        preserve_mouse=True, input_barrier=serial))
+                        preserve_mouse=True, input_barrier=serial, output_write=child_write_mode))
                     value = wait_snapshot(current, lambda v: v.get('phase') == name and
                                           v.get('input_barrier') == serial)
+                    if child_write_mode:
+                        wire=(sequence+CSI+'5n').encode('ascii')
+                        receipt=value['output_write'];record['output_write']=receipt
+                        assert receipt==dict(style=child_write_mode,api='WriteFile(console stdout)',
+                            calls=len(wire) if child_write_mode=='bytewise' else 1,bytes=len(wire),
+                            max_chunk=1 if child_write_mode=='bytewise' else len(wire),sha256=hashlib.sha256(wire).hexdigest()), receipt
                     record['reply_hex'] = value['hex']
                     assert bytes.fromhex(value['hex']).endswith((CSI+'0n').encode()), value
                     if expected_reply is not None:

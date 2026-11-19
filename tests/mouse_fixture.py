@@ -1,6 +1,7 @@
 """ConPTY child for native mouse integration tests; records actual VT input."""
 import ctypes as c
 import codecs
+import hashlib
 from ctypes import wintypes as w
 import os
 from pathlib import Path
@@ -22,6 +23,7 @@ k.GetStdHandle.restype = w.HANDLE
 k.GetConsoleMode.argtypes = [w.HANDLE, c.POINTER(w.DWORD)]
 k.SetConsoleMode.argtypes = [w.HANDLE, w.DWORD]
 k.ReadFile.argtypes = [w.HANDLE, c.c_void_p, w.DWORD, c.POINTER(w.DWORD), c.c_void_p]
+k.WriteFile.argtypes = [w.HANDLE, c.c_void_p, w.DWORD, c.POINTER(w.DWORD), c.c_void_p]
 k.ReadConsoleW.argtypes = [w.HANDLE, c.c_void_p, w.DWORD, c.POINTER(w.DWORD), c.c_void_p]
 
 class Coord(c.Structure):
@@ -69,6 +71,7 @@ threading.Thread(target=reader, daemon=True).start()
 sys.stdout.reconfigure(encoding='utf-8',
     newline='' if exact_output else None)
 phase = None
+output_write = None
 applied_blob = None
 request = {}
 responded = set()
@@ -90,7 +93,23 @@ try:
             barrier_sent = barrier_ack = None
             if not request.get('preserve_mouse'):
                 print('\x1b[?9;1000;1001;1002;1003;1004;1005;1006;1015;1016l', end='')
-            print(load_sequence(control, request), end='', flush=True)
+            sequence = load_sequence(control, request)
+            output_write = None
+            if style := request.get('output_write'):
+                assert exact_output and request.get('preserve_mouse') and style in ('whole','bytewise')
+                barrier_sent = request['input_barrier']
+                barrier_start = 0
+                wire = (sequence+'\x1b[5n').encode('ascii')
+                chunk = 1 if style=='bytewise' else len(wire)
+                calls = 0
+                for offset in range(0,len(wire),chunk):
+                    part=wire[offset:offset+chunk]; written=w.DWORD()
+                    if not k.WriteFile(stdout,part,len(part),c.byref(written),None):raise c.WinError()
+                    assert written.value==len(part); calls+=1
+                output_write=dict(style=style,api='WriteFile(console stdout)',calls=calls,
+                    bytes=len(wire),max_chunk=chunk,sha256=hashlib.sha256(wire).hexdigest())
+            else:
+                print(sequence, end='', flush=True)
             applied_blob = request.get('sequence_blob')
         # A cooperating application can answer a mouse report without
         # changing phases, clearing input, or resetting the tracking mode.
@@ -112,6 +131,7 @@ try:
         snapshot = {'phase': phase, 'hex': data.hex(), 'columns': size.columns,
                     'rows': size.lines, 'input_mode': 0x280, 'input_cp': k.GetConsoleCP(),
                     'input_api': 'ReadConsoleW' if wide_input else 'ReadFile'}
+        if output_write: snapshot['output_write']=output_write
         if request.get('report_responses'):
             snapshot['flushed_responses'] = sorted(responded)
         if applied_blob is not None:

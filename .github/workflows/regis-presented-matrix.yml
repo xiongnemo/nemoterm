@@ -1,0 +1,52 @@
+name: Presented ReGIS windows on two renderers and two write sizes
+on:
+  workflow_call:
+    inputs:
+      product_run: {type: string, required: true}
+      product_commit: {type: string, required: true}
+permissions:
+  contents: read
+  actions: read
+jobs:
+  compare:
+    runs-on: windows-2025
+    timeout-minutes: 14
+    strategy:
+      fail-fast: false
+      matrix:
+        renderer: [gdi, directx]
+        transport: [whole, bytewise]
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with: {fetch-depth: 0}
+      - name: Fetch exact executable and record font and runner identity
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PRODUCT_RUN: ${{ inputs.product_run }}
+          PRODUCT_COMMIT: ${{ inputs.product_commit }}
+        run: |
+          scripts/fetch-ci-product.ps1 -Run $env:PRODUCT_RUN -Commit $env:PRODUCT_COMMIT -Destination build/frame-pair-product
+          "NEMOTERM_TEST_EXE=$((Resolve-Path build/frame-pair-product/nemoterm.exe).Path)" | Out-File $env:GITHUB_ENV -Append -Encoding utf8
+          scripts/prepare-remote-interaction.ps1
+      - run: python -m pip install Pillow==13.0.0
+      - name: Compare all ten endpoints in fresh processes, including two-colour controls
+        env:
+          RENDERER: ${{ matrix.renderer }}
+          NEMOTERM_REGIS_WRITE_MODE: ${{ matrix.transport }}
+        run: |
+          $PSNativeCommandUseErrorActionPreference = $false
+          $bad = @()
+          foreach ($t in @('control-line-erase-end-1','control-text-end-1','control-line-erase-end-2','scroll-up-end-2','scroll-down-end-1','scroll-down-end-2','newline-scroll-end-2','regis-palette-False-end-1','erase-line-end-1','erase-line-end-2')) {
+            python tests/regis_paired_window.py $t --renderer $env:RENDERER "--presented-$env:RENDERER"
+            if ($LASTEXITCODE -ne 0) { $bad += $t }
+          }
+          if ($bad.Count) { throw "Failed endpoints: $($bad -join ', ')" }
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: regis-presented-${{ matrix.renderer }}-${{ matrix.transport }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            research/regis-window-pair-*
+            build/frame-pair-product/SOURCE-HOST.json
+            build/interaction-dependencies/environment.json
+          if-no-files-found: error
