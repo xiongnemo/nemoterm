@@ -2,9 +2,9 @@
 
 本目录只留当前工作的记录。测试所读取的固定输入另存于 [testdata/upstream](../testdata/upstream)；旧版截图、运行日志和原始失败均可从[清理前的提交](https://github.com/xiongnemo/nemoterm/tree/fca0e61388f99dd460811c231950d5d7c19a775e/research)查阅。
 
-- [最新试用版 `3947dee3` 的内存、真实客户端、WSL1 和已知差异](acceptance-3947dee3.md)；[主屏/备用屏下 Shift 选区的前后截图](selection-screen.md)。
+- [最新试用版 `fc769def` 的内存、真实客户端、跨会话粘贴和已知差异](acceptance-fc769def.md)；[主屏/备用屏下 Shift 选区的前后截图](selection-screen.md)。
 
-- 当前单文件是 `cf091974`：[交互报告及六类压力场景的原始样本](preview-cf091974.zip)为 **81/81**，GDI 和 DirectX 私有工作集峰值分别为 **19,701,760 / 29,061,120 字节**。另有[真实客户端内存对照](agent-session-cf091974.zip)、[滚动中矩形复制](selection-region-after-cf091974.zip)和 [Vim、tmux、颜色与 Sixel](xterm-clients-cf091974.zip)的同一 EXE 记录。
+- 历史单文件 `cf091974`：[交互报告及六类压力场景的原始样本](preview-cf091974.zip)为 **81/81**，GDI 和 DirectX 私有工作集峰值分别为 **19,701,760 / 29,061,120 字节**。另有[真实客户端内存对照](agent-session-cf091974.zip)、[滚动中矩形复制](selection-region-after-cf091974.zip)和 [Vim、tmux、颜色与 Sixel](xterm-clients-cf091974.zip)的同一 EXE 记录。
 - 历史 `42232a2d` 测试版，[交互报告](https://github.com/xiongnemo/nemoterm/blob/ba1cc8fec99470377b668bd3a3a8cc6275b203a8/research/preview-42232a2d.zip)为 **79/81**。两项未过的都是 Codex 刚显示输入文字时粘贴位图；正式输入框就绪后两种快捷键均通过。六种压力场景的前端私有工作集峰值为 GDI 19,656,704 字节、DirectX 29,196,288 字节。[真实应用回放](https://github.com/xiongnemo/nemoterm/blob/ba1cc8fec99470377b668bd3a3a8cc6275b203a8/research/xterm-clients-42232a2d.zip)包括 Vim 和 tmux 内 Vim 各 4/4、颜色与 Sixel 各 2/2，以及默认网格 10/10。
 - [已归档的 `6a2dc83` 与 `23d8118` 原始记录](../docs/PREVIEW_HISTORY.md#6a2dc83-后续回放)。
 - [右键粘贴后立即按回车：`9d1da87` 原始失败](selection-enter-before-9d1da87.zip)。[托管 Windows 回放](https://github.com/xiongnemo/nemoterm/actions/runs/44541755199)中，Shift 拖选 `RUN` 后右键“复制并粘贴”，紧接着 Enter。剪贴板正确，子程序却只收到回车；两侧状态回复可见，没有粘贴内容或括号标记。其余五个选择用例通过。 [修复版 `b3274ed` 的同一窗口回放](selection-enter-after-b3274ed.zip)在两次状态回复之间依次收到完整的括号粘贴 `RUN` 和单个 CR，剪贴板仍是 `RUN`，选择组 6/6。[该 EXE 与原版 pterm 的十次前端内存对照](selection-enter-pterm-b3274ed.zip)另行记录普通 Codex 工作负载。

@@ -2,6 +2,10 @@
 
 下文保留当时的记录。每条数字都对应所列提交；当前测试版请从 [README 下载](../README.md#下载)。
 
+## `3947dee3` 单文件测试版
+
+[下载 Windows x64 单文件试用版 `3947dee3`](https://github.com/xiongnemo/nemoterm/actions/runs/44607488923/artifacts/14571391046)。解压后运行 `nemoterm.exe`。[GDI、DirectX 实际窗口回放](../research/selection-screen.md)由 6/14 提高到 14/14，另有 8/8 次在鼠标仍拖动时切屏的检查通过。六种满屏压力下的私有工作集峰值为 **19.10 / 29.12 MB**。完整交互 79/81：两个 Codex 启动早期贴图用例未过；就绪后的两种快捷键均通过。 [完整记录与校验值](../research/acceptance-3947dee3.md)。
+
 ## `9b5e1111` 单文件测试版
 
 [下载 Windows x64 单文件测试版 `9b5e1111`](https://github.com/xiongnemo/nemoterm/actions/runs/44579376254/artifacts/14559040156)。解压后只需 `nemoterm.exe`（4,877,312 字节）。SHA-256：`f4227182174d148a2e9bdb24fc260d2aba8ce8eff357a2d687071de05af4f18c`。

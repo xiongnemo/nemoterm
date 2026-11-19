@@ -33,7 +33,7 @@ Kitty 图片支持直接 RGB/RGBA/PNG、压缩传输、裁剪、透明度、查�
 
 ## 下载
 
-[下载最新 Windows x64 单文件试用版 `3947dee3`](https://github.com/xiongnemo/nemoterm/actions/runs/44607488923/artifacts/14571391046)。解压后运行 `nemoterm.exe`。[GDI、DirectX 实际窗口回放](research/selection-screen.md)由 6/14 提高到 14/14，另有 8/8 次在鼠标仍拖动时切屏的检查通过。六种满屏压力下的私有工作集峰值为 **19.10 / 29.12 MB**。完整交互 79/81：两个 Codex 启动早期贴图用例未过；就绪后的两种快捷键均通过。 [完整记录与校验值](research/acceptance-3947dee3.md)。
+[下载 Windows x64 单文件试用版 `fc769def`](https://github.com/xiongnemo/nemoterm/actions/runs/44619850611/artifacts/14576329075)。解压后运行 `nemoterm.exe`。修复了粘贴后立刻按回车时输入顺序颠倒的问题；关窗口或重启 shell 时，迟到的剪贴板文字不会送进新会话。160×48 六种满屏压力下，前端私有工作集峰值为 **GDI 19.21 MB / DirectX 28.82 MB**。完整交互 **80/81**：Codex 启动早期的一次实按 Ctrl+V 没有附图，就绪后两种快捷键均通过。[测试范围、已知差异与 SHA-256](research/acceptance-fc769def.md)。
 
 [上一份 81/81 的 Windows x64 测试版 `cf091974`](https://github.com/xiongnemo/nemoterm/actions/runs/44588222859/artifacts/14562762043)。解压后只需 `nemoterm.exe`（4,862,464 字节）。SHA-256：`9df8365b9e32444f24d279c114750090122f8550c1aa53dffa2972c448aa4788`。
 

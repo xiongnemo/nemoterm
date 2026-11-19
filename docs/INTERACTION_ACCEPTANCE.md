@@ -52,6 +52,8 @@ gh workflow run font-zoom-replay.yml --ref <branch> -f suite=interaction -f sour
 
 `shell-lifetime` 在同一个准确 EXE 上交替执行 12 次普通 Git Bash 复制/关闭和 12 次带进程观察的复制/关闭，随后执行 2 次正常连接对照和 4 次受控的延迟客户端检查。完整 CI 也会自动调用此工作流。每次保留独立结果；原先的 3 秒回收门槛不变。失败后额外观察 12 秒并采集遗留进程的命令行、线程和转储，只用于诊断，不能把失败改成通过。已发现的关闭残留及修复验证见 [Git Bash 关闭调查](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/git-bash-close-race.md) 和 [关闭后连接检查](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/closed-console-connections.md)。
 
+`suite=paste-lines` 还使用真实 Windows 剪贴板延迟交付来验证会话隔离：先确认后台读取已经开始，关闭窗口（GDI、DirectX）或在同一 HWND 内重启 shell（GDI，四次），再放行旧文字。两个存活的子进程都不得收到旧文字；重新发起粘贴时只能由目标收到一次。保留各自的实际输入字节和自然退出状态。`tabs-close-replay.yml` 的 `sessions-mingw`、`restart-mingw` 可以复核原先失败的便携 EXE；不要用便携结果替单文件签收。[同一单文件与便携原失败记录](../research/acceptance-fc769def.md)。
+
 `single-exe.yml` 保留独立手动入口，正常 push/PR 由完整 CI 调用，避免重复构建。上游协议对照与内存/句柄诊断继续使用仓库中已有的专用远程工作流，不需要本机补跑。
 
 仅补齐已测便携包的许可文本，使用同一回放入口的 `-f suite=portable-notices`，并提供原 `source_run` 和 `source_commit`。它在托管 Ubuntu Runner 上验证原构建成功、生产源码未变、二进制哈希一致，再添加 Ncurses/X11 许可和打包记录；所有原文件必须逐字节不变。它不重建或执行产品，也不会把原回归中的失败改成通过。当前产物和首次回放失败均见 [完整回归记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/terminfo-product-regression.md)。
