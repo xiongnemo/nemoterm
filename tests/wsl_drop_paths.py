@@ -1,4 +1,5 @@
 """Explorer WSL shares: exercise an actual terminal window and real Linux objects."""
+from contextlib import contextmanager
 import hashlib
 import json
 import os
@@ -50,6 +51,30 @@ def linux_peer(folder):
     finally:os.write(1,b'\x1b[?2004l');termios.tcsetattr(0,termios.TCSANOW,saved)
 
 
+@contextmanager
+def hosted_distribution(distro, record):
+    # Keep Ubuntu running outside the product job so its init/relay processes
+    # are owned by the fixture. Keep the product's normal job-exit deadline.
+    import shutil, subprocess, uuid
+    assert os.environ.get('GITHUB_ACTIONS')=='true' and os.environ.get('RUNNER_ENVIRONMENT')=='github-hosted' and distro=='Ubuntu-24.04'
+    token=uuid.uuid4().hex.encode()+b'\n'
+    proc=subprocess.Popen([shutil.which('wsl.exe'),'--distribution',distro,'--exec','/bin/cat'],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,creationflags=subprocess.CREATE_NO_WINDOW)
+    try:
+        import concurrent.futures
+        with concurrent.futures.ThreadPoolExecutor(1) as pool:
+            pending=pool.submit(proc.stdout.readline)
+            proc.stdin.write(token);proc.stdin.flush()
+            try:assert pending.result(timeout=20)==token
+            except BaseException:proc.kill();raise
+        record['ready']=True
+        yield
+    finally:
+        try:
+            rest,err=proc.communicate(timeout=12);record.update(exit=proc.returncode,stdout=rest.hex(),stderr=err.hex());assert proc.returncode==0 and not rest
+        except subprocess.TimeoutExpired:
+            proc.kill();proc.communicate();record['forced']=True;raise
+
+
 def windows_driver():
     import shutil, struct, subprocess, traceback
     from clipboard_test_utils import SavedClipboard
@@ -67,7 +92,7 @@ def windows_driver():
     for renderer,selector in [(1,['--distribution',distro]),(3,[])]:
         folder=root/'research'/f'wsl-drop-{renderer}';folder.mkdir();r=dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),font=font,cases={});clip=None
         try:
-            with saved_profile({'NemoRenderer':renderer-1,'NemoShell':'cmd','WarnOnClose':0,'CloseOnExit':1}) as flags,OwnedJob() as job:
+            with hosted_distribution(distro,r.setdefault('distribution_fixture',{})),saved_profile({'NemoRenderer':renderer-1,'NemoShell':'cmd','WarnOnClose':0,'CloseOnExit':1}) as flags,OwnedJob() as job:
                 args=[str(exe),*flags,'--no-tabs','--automation','--font',font,'-e',shutil.which('wsl.exe'),*selector,'--exec','/usr/bin/python3',mounted(Path(__file__).resolve()),'--peer',mounted(folder),'--distribution','not-the-running-distro']
                 proc=job.spawn(args,creationflags=subprocess.CREATE_NO_WINDOW);inst=wait_for(lambda:next(iter(api.discover(proc.pid)),None),timeout=25);seat=inst['sessions'][0];hwnd=seat['hwnd'];sid=seat['id'];ep=inst['endpoint']
                 u.GetPropW.argtypes,u.GetPropW.restype=[w.HWND,w.LPCWSTR],w.HANDLE;r['renderer']=int(u.GetPropW(hwnd,'NemotermRenderer') or 0);assert r['renderer']==renderer

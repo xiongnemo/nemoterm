@@ -95,8 +95,11 @@ jobs:
           }
           if (-not $started) { throw 'WPR did not start; clipboard evidence retained independently' }
           exit $fixture
-      - name: Drop Explorer files into the active Linux distribution
+      - name: Open the dropped file before and after saving a different default shell
         if: inputs.suite == 'drop'
+        run: python build/wsl-check/tests/drop_profile_shell.py
+      - name: Drop Explorer files into the active Linux distribution
+        if: ${{ !cancelled() && inputs.suite == 'drop' && steps.prepare.outcome == 'success' }}
         run: python build/wsl-check/tests/wsl_drop_paths.py
       - name: Compare a real WSL image against the libsixel decoder on GDI and DirectX
         if: inputs.suite == 'sixel'

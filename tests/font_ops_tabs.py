@@ -46,7 +46,7 @@ def main():
             assert set_or_query(one,'reactivated',None,alt)==other_size
             d['actual_renderer']=int(u.GetPropW(first['hwnd'],'NemotermRenderer') or 0);assert d['actual_renderer']==(1 if ren=='gdi' else 3)
             for action in ('save','revoke'):
-                driver=job.spawn(['powershell.exe','-NoProfile','-File',str(root/'tests/font_ops_settings.ps1'),
+                driver=job.spawn(['powershell.exe','-NoProfile','-File',str(root/'tests/owned_profile_settings.ps1'),
                     '-TargetProcess',str(p.pid),'-TargetWindow',str(first['hwnd']),'-Action',action],creationflags=subprocess.CREATE_NO_WINDOW,
                     stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
                 driver_output=driver.communicate(timeout=65)[0].decode('utf-8',errors='replace')
