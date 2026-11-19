@@ -33,11 +33,13 @@ Kitty 图片支持直接 RGB/RGBA/PNG、压缩传输、裁剪、透明度、查�
 
 ## 下载
 
-[下载 Windows x64 单文件测试版 `9d1da87`](https://github.com/xiongnemo/nemoterm/actions/runs/44535907093/artifacts/14536467740)。解压后只需 `nemoterm.exe`；文件大小为 4,858,368 字节，SHA-256 为 `1f08676cd15839bb0b2eccddaae22c7416beeccd661effb0c244e098ebac76e9`。
+[下载 Windows x64 单文件测试版 `b3274ed`](https://github.com/xiongnemo/nemoterm/actions/runs/44542003485/artifacts/14538024692)。解压后只需 `nemoterm.exe`（4,874,240 字节）；SHA-256 为 `c7f4f4be019a2fb0262f984d15e7f6177eb47da043558dd81971cf953af5979a`。
 
-启用右键“复制并粘贴”时，快速对两段不同的选区分别点右键，终端会按点击顺序粘贴两段内容。以前可能把第二段粘贴两次。[修复前后子程序收到的输入](research/README.md)。
+开启右键“复制并粘贴”后，右键粘贴短选区并马上按回车，现在会先粘贴再提交。原来在同一批窗口消息中处理这两步时，子程序可能只收到回车。[旧版回执](research/selection-enter-before-9d1da87.zip) · [修复版回执](research/selection-enter-after-b3274ed.zip)。
 
-同一 EXE 的[远程交互报告](research/preview-9d1da87.zip)覆盖 13 组，通过 **79/81**；仅 Codex 启动时立即贴图的两项未过。160×48 的六种压力场景中，前端私有工作集峰值为 GDI **18.985 MB**、DirectX **29.049 MB**。两种渲染器均未超过各自上限。[完整 CI](https://github.com/xiongnemo/nemoterm/actions/runs/44535907093)另有[严格 XTerm 412 宽字](research/column-edge-integrity.md)和 [ReGIS 历史画面](research/regis-presented-pairs.md)差异，以及独立 WinPTY Unicode 对照超时。[历史测试版](docs/PREVIEW_HISTORY.md)。
+[这份 EXE 的远程交互报告](research/preview-b3274ed.zip)覆盖 13 组，通过 **79/81**。未通过的两项都是在 Codex 启动草稿中立即贴图。160×48 的六种压力场景分别在 GDI 和 DirectX 全部通过；前端私有工作集峰值为 **18.813 MB** 和 **29.585 MB**。同字体的普通 Codex 会话及与 pterm 的区别见[同机内存对照](research/pterm-findings.md)。
+
+[真实 xterm 应用回放](research/xterm-clients-b3274ed.zip)覆盖 Vim、tmux 内的 Vim、颜色和 Sixel。与原版 XTerm 412 的[宽字逐格对照](research/column-edge-integrity.md)和 [ReGIS 历史画面](research/regis-presented-pairs.md)仍有差异。[完整 CI](https://github.com/xiongnemo/nemoterm/actions/runs/44542003485) · [历史测试版](docs/PREVIEW_HISTORY.md)。
 
 Codex 0.167.0 的启动草稿只收文字。即使已经能打字，也请等正常编辑器接手后再贴图，看到图片附件再发送。绕过 Nemoterm 的系统 ConPTY 和 WinPTY 对照也复现过这个现象；窗口标题不能用来判断是否就绪。[实际提交与截图](research/codex-file-draft-order.md) · [按键后 Windows 何时索取位图](research/codex-bitmap-requests.md)。
 

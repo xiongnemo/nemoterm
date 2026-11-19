@@ -4,6 +4,12 @@
 
 ## 开发快照
 
+[下载 Windows x64 单文件测试版 `9d1da87`](https://github.com/xiongnemo/nemoterm/actions/runs/44535907093/artifacts/14536467740)。解压后只需 `nemoterm.exe`；文件大小为 4,858,368 字节，SHA-256 为 `1f08676cd15839bb0b2eccddaae22c7416beeccd661effb0c244e098ebac76e9`。
+
+启用右键“复制并粘贴”时，快速对两段不同的选区分别点右键，终端会按点击顺序粘贴两段内容。以前可能把第二段粘贴两次。[修复前后子程序收到的输入](../research/README.md)。
+
+同一 EXE 的[远程交互报告](https://github.com/xiongnemo/nemoterm/blob/ebbd444665d223d09e88895f93a7496b2d46e0cc/research/preview-9d1da87.zip)覆盖 13 组，通过 **79/81**；仅 Codex 启动时立即贴图的两项未过。160×48 的六种压力场景中，前端私有工作集峰值为 GDI **18.985 MB**、DirectX **29.049 MB**。两种渲染器均未超过各自上限。[完整 CI](https://github.com/xiongnemo/nemoterm/actions/runs/44535907093)另有[严格 XTerm 412 宽字](../research/column-edge-integrity.md)和 [ReGIS 历史画面](../research/regis-presented-pairs.md)差异，以及独立 WinPTY Unicode 对照超时。
+
 [下载 Windows x64 单文件测试版 `6a2dc83`](https://github.com/xiongnemo/nemoterm/actions/runs/44523229386/artifacts/14528333115)。解压后只需 `nemoterm.exe`；EXE 的 SHA-256 为 `39c3b368061f104858dff466dd5a2416887c76dfc94481be68f9d7b79841d450`。
 
 按住 Shift 和鼠标左键拖选时切换标签，再松开鼠标，目标标签已有的选区现在会保留，可以立即复制。真实键鼠的标签组从 8/9 改善到 9/9；GDI 与 DirectX 之间两个切换方向均已验证。160×48 压力测试各 6/6，前端私有工作集峰值分别为 19.579 MB 和 29.061 MB。[对照截图和原始记录](https://github.com/xiongnemo/nemoterm/blob/ebbd444665d223d09e88895f93a7496b2d46e0cc/research/tab-drag-release.md)。
