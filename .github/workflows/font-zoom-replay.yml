@@ -6,7 +6,7 @@ on:
       suite:
         description: Checks or notice-only packaging against the exact artifact
         type: choice
-        options: [font-bell, dpi, interaction, single, ui-regression, shell-lifetime, tcap, portable-notices, regis-window, regis-frame-pair, regis-presented-matrix, regis-bank-start, column-cells, pointer-colour, colour-input, unicode-boundary, picture-keys, image-timing, image-mixed, image-mixed-opencode, image-reads, image-files, image-reference, draft-reference, draft-product, paste-order, pterm-memory, profile-dump, profile-env, wsl-tui, wsl-sixel, wsl-vim, wsl-colour, rendering-settings, close-cancel, profile-sequence, font-ops, fullscreen]
+        options: [font-bell, dpi, interaction, single, ui-regression, shell-lifetime, tcap, portable-notices, regis-window, regis-frame-pair, regis-presented-matrix, regis-bank-start, column-cells, pointer-colour, colour-input, unicode-boundary, picture-keys, image-timing, image-mixed, image-mixed-opencode, image-reads, image-files, image-reference, draft-reference, draft-product, paste-order, pterm-memory, profile-dump, profile-env, wsl-tui, wsl-sixel, wsl-vim, wsl-tmux-vim, wsl-colour, rendering-settings, close-cancel, profile-sequence, font-ops, fullscreen]
         default: font-bell
       source_commit:
         description: Full source commit of the source-console-host artifact
@@ -33,12 +33,12 @@ jobs:
       source_commit: ${{ inputs.source_commit }}
       source_run: ${{ inputs.source_run }}
   wsl-tui:
-    if: ${{ inputs.suite == 'wsl-tui' || inputs.suite == 'wsl-sixel' || inputs.suite == 'wsl-vim' || inputs.suite == 'wsl-colour' }}
+    if: ${{ inputs.suite == 'wsl-tui' || inputs.suite == 'wsl-sixel' || inputs.suite == 'wsl-vim' || inputs.suite == 'wsl-tmux-vim' || inputs.suite == 'wsl-colour' }}
     uses: ./.github/workflows/wsl-tui.yml
     with:
       run: ${{ inputs.source_run }}
       commit: ${{ inputs.source_commit }}
-      suite: ${{ inputs.suite == 'wsl-sixel' && 'sixel' || inputs.suite == 'wsl-vim' && 'vim' || inputs.suite == 'wsl-colour' && 'colour' || 'pager' }}
+      suite: ${{ inputs.suite == 'wsl-sixel' && 'sixel' || inputs.suite == 'wsl-tmux-vim' && 'tmux-vim' || inputs.suite == 'wsl-vim' && 'vim' || inputs.suite == 'wsl-colour' && 'colour' || 'pager' }}
   font-ops:
     if: ${{ inputs.suite == 'font-ops' }}
     uses: ./.github/workflows/font-ops.yml

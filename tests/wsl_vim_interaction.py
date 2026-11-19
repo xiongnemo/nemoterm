@@ -50,8 +50,16 @@ export LC_ALL=C.UTF-8
 await() { for ((i=0;i<1200;i++)); do [[ ! -f stop ]] || return 22; [[ ! -f "$1" ]] || return 0; sleep .1; done; return 23; }
 printf '\033[2J\033[HVIM_PRIOR_SCREEN\n'
 await start
-vim -Nu fixture.vim -i NONE -n -- buffer.txt
-printf '%s' "$?" > vim-exit
+if [[ "$2" = tmux ]]; then
+    scratch=$(mktemp -d); sock="$scratch/tmux.sock"
+    trap 'tmux -S "$sock" kill-server 2>/dev/null || :; rmdir "$scratch" 2>/dev/null || :' EXIT
+    { tmux -V; sha256sum "$(command -v tmux)"; infocmp tmux-256color; } > tmux-id.txt
+    printf '%s' "$sock" > tmux-socket
+    tmux -S "$sock" -f "$PWD/tmux.conf" new-session -s fixture -c "$PWD" 'vim -Nu fixture.vim -i NONE -n -- buffer.txt; printf %s "$?" > vim-exit'
+else
+    vim -Nu fixture.vim -i NONE -n -- buffer.txt
+    printf '%s' "$?" > vim-exit
+fi
 printf '\033[12;1HVIM_RETURNED'
 await finish
 '''
@@ -70,18 +78,26 @@ def set_clipboard(hwnd,text):
         if handle:k.GlobalFree(handle)
     assert clipboard_text(hwnd)==text
 
-def trial(renderer,branch):
-    folder=root/'research'/f'wsl-vim-{renderer}-{branch}';folder.mkdir(parents=True)
+TMUX_CONF="""set -g status off
+set -g mouse on
+set -g default-terminal tmux-256color
+"""
+
+def trial(renderer,branch,mux):
+    suite='wsl-tmux-vim' if mux else 'wsl-vim'
+    folder=root/'research'/f'{suite}-{renderer}-{branch}';folder.mkdir(parents=True)
     exe=Path(os.environ['NEMOTERM_TEST_EXE']);font=os.environ['NEMOTERM_TEST_FONT'];term='xterm' if branch=='plain' else 'xterm-256color'
     profile='vim-test-'+uuid.uuid4().hex;reg='Software\\Nemo\\Nemoterm\\Sessions\\'+profile
     report=dict(completed=False,renderer=renderer,term=term,font=font,sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),checks=[],states=[])
     posix='/mnt/'+folder.drive[0].lower()+folder.as_posix()[2:]
     (folder/'buffer.txt').write_bytes(('\n'.join(BUFFER)+'\n').encode());(folder/'fixture.vim').write_bytes(VIMRC.encode());(folder/'driver').write_bytes(DRIVER.encode())
+    if mux:(folder/'tmux.conf').write_bytes(TMUX_CONF.encode())
+    wsl=[shutil.which('wsl.exe'),'--distribution',os.environ['NEMOTERM_TEST_WSL_DISTRO'],'--exec']
     proc=desk=clip=None; serial=0
     try:
         with winreg.CreateKey(winreg.HKEY_CURRENT_USER,reg) as key:
             for name,value in dict(NemoRenderer=renderer,WarnOnClose=0,CloseOnExit=1,WindowBorder=1,ScrollBar=0,FontHeight=12).items():winreg.SetValueEx(key,name,0,winreg.REG_DWORD,value)
-        proc=subprocess.Popen([str(exe),'--no-tabs','-load',profile,'--automation','--cols','60','--rows','20','--font',font,'-e',shutil.which('wsl.exe'),'--distribution',os.environ['NEMOTERM_TEST_WSL_DISTRO'],'--exec','bash',posix+'/driver',branch],env=dict(os.environ,NEMOTERM_CONPTY='bundled'),creationflags=subprocess.CREATE_NO_WINDOW)
+        proc=subprocess.Popen([str(exe),'--no-tabs','-load',profile,'--automation','--cols','60','--rows','20','--font',font,'-e',*wsl,'bash',posix+'/driver',branch,'tmux' if mux else 'direct'],env=dict(os.environ,NEMOTERM_CONPTY='bundled'),creationflags=subprocess.CREATE_NO_WINDOW)
         inst=wait_for(lambda:next(iter(api.discover(proc.pid)),None),timeout=30);s,=inst['sessions'];endpoint=inst['endpoint'];seat=s['id'];hwnd=s['hwnd'];report['session']=s
         def call(op,payload=b''):return api.request(endpoint,op,seat,payload)
         def photo(name):
@@ -95,10 +111,22 @@ def trial(renderer,branch):
             serial+=1;(folder/f'request-{serial}').touch(exist_ok=False)
             p=folder/f'state-{serial}.json';wait_for(p.exists,timeout=5);d=json.loads(p.read_text(encoding='utf-8'));assert d['request_id']==serial,d
             report['states'].append(dict(stage=label,**d));return d
+        def mux_state(label,grid):
+            if not mux:return
+            # Ask through a separate control connection: querying must not type into Vim
+            # or switch it out of raw input mode. The socket belongs to this trial.
+            sock=(folder/'tmux-socket').read_text()
+            captured=subprocess.run([*wsl,'tmux','-S',sock,'list-clients','-F','#{client_termname}|#{client_width}|#{client_height}',
+                ';','list-panes','-a','-F','#{pane_width}|#{pane_height}|#{pane_in_mode}',
+                ';','show-options','-gv','mouse'],capture_output=True,timeout=10)
+            lines=captured.stdout.decode('utf-8').splitlines()
+            report.setdefault('tmux_states',[]).append(dict(stage=label,lines=lines,exit=captured.returncode,stderr=captured.stderr.decode('utf-8',errors='replace')))
+            assert captured.returncode==0 and lines==[f'{term}|{grid[0]}|{grid[1]}',f'{grid[0]}|{grid[1]}|0','on'],report['tmux_states'][-1]
         assert s['renderer']==renderer and (s['cols'],s['rows'])==GRID,s
         cw,rw=divmod(s['client_width']-2,60);ch,rh=divmod(s['client_height']-2,20);assert not (rw or rh) and min(cw,ch)>0
         def xy(col,row):return (1+col*cw+cw//2,1+row*ch+ch//2)
-        visible('VIM_PRIOR_SCREEN');(folder/'start').touch();visible(BUFFER[1]);before=state('initial');assert before['lines']==BUFFER and before['term']==term and before['mouse']=='a' and before['ttymouse']=='sgr' and before['grid']==list(GRID),before
+        visible('VIM_PRIOR_SCREEN');(folder/'start').touch();visible(BUFFER[1]);before=state('initial');assert before['lines']==BUFFER and before['term']==('tmux-256color' if mux else term) and before['mouse']=='a' and before['ttymouse']=='sgr' and before['grid']==list(GRID),before
+        mux_state('initial',GRID)
         rows=screen().splitlines();assert rows[1].startswith(BUFFER[1]) and rows[2].startswith(BUFFER[2]);assert 'VIM_PRIOR_SCREEN' not in screen()
         desk=DesktopInput(proc.pid,s['window'],hwnd,report.setdefault('desktop',{}));clip=SavedClipboard(hwnd);set_clipboard(hwnd,'NEMO_VIM_UNCOPIED')
         desk.point(*xy(4,2));desk.event(None,True);desk.event(None,False)
@@ -114,11 +142,13 @@ def trial(renderer,branch):
             return max(ratios[0],ratios[-1])<.1 and min(ratios[1:-1])>.5
         desk.drag(x0,x1,y0,highlighted);photo('selection');desk.chord(0x11,0x10,ord('C'))
         wait_for(lambda:clipboard_text(hwnd)=='中文');after=state('shift-copy');assert after['cursor']==[3,5] and after['mode']=='n' and after['lines']==BUFFER,after
+        mux_state('shift-copy',GRID)
         report['checks'].append('Shift drag selected four rendered cells; exact Unicode copied; Vim cursor and buffer unchanged')
         for cols,rows in [(72,24),(52,16)]:
             current,=api.request(endpoint)['sessions'];rect=w.RECT();assert u.GetWindowRect(s['window'],c.byref(rect));assert u.SetWindowPos(s['window'],None,0,0,rect.right-rect.left+(cols-current['cols'])*cw,rect.bottom-rect.top+(rows-current['rows'])*ch,0x16)
             name=f'{cols}x{rows}';p=folder/'resizes';wait_for(lambda:p.exists() and name in p.read_text().splitlines(),timeout=12)
             seen=state(name);front,=api.request(endpoint)['sessions'];assert seen['grid']==[cols,rows] and (front['cols'],front['rows'])==(cols,rows) and seen['cursor']==[3,5] and seen['lines']==BUFFER
+            mux_state(name,(cols,rows))
             photo('resize-'+name);report['checks'].append('VimResized and frontend agree: '+name)
         call('input','A');events=folder/'insert-events';wait_for(lambda:events.exists() and events.read_text().splitlines()[-1:]==['enter'])
         desk.chord(0x11,0x10,ord('V'));visible(BUFFER[2]+'中文');desk.chord(0x1b);wait_for(lambda:events.read_text().splitlines()[-1:]==['leave'])
@@ -141,6 +171,7 @@ def trial(renderer,branch):
         wait_for(rectangle);photo('rectangle');desk.event(None,False);wait_for(lambda:desk.state().capture!=hwnd)
         desk.chord(0x11,0x10,ord('C'));wait_for(lambda:clipboard_text(hwnd)=='中文\r\nCU')
         post_box=state('rectangle-copied');report['rectangle_copied']=clipboard_text(hwnd)
+        mux_state('rectangle-copied',post_box['grid'])
         assert post_box['cursor']==pre_box['cursor'] and post_box['lines']==pre_box['lines'] and post_box['mode']=='n'
         report['checks'].append('four Chinese cells and two ASCII cells copied as a rectangle; dropping modifiers did not hand the drag to Vim')
         call('input',':wq');desk.chord(0x0d);visible('VIM_RETURNED');visible('VIM_PRIOR_SCREEN');assert BUFFER[0] not in screen();photo('restored')
@@ -167,10 +198,20 @@ def trial(renderer,branch):
             (folder/'result.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8')
 
 if __name__=='__main__':
-    assert os.environ.get('GITHUB_ACTIONS')=='true' and os.environ.get('RUNNER_ENVIRONMENT')=='github-hosted'
+    if os.environ.get('GITHUB_ACTIONS')!='true' or os.environ.get('RUNNER_ENVIRONMENT')!='github-hosted':
+        raise SystemExit('Requires a GitHub-hosted Windows runner')
+    import argparse
+    parser=argparse.ArgumentParser();parser.add_argument('--tmux',action='store_true');args=parser.parse_args()
+    if args.tmux:
+        registered=subprocess.check_output([shutil.which('wsl.exe'),'--list','--verbose'])
+        distro=os.environ['NEMOTERM_TEST_WSL_DISTRO']
+        listing=registered.decode('utf-16le' if b'\x00' in registered else 'utf-8-sig').lstrip('\ufeff')
+        (root/'research'/'tmux-runner-wsl.txt').write_text(listing,encoding='utf-8')
+        found=[line.split() for line in listing.replace('*',' ').splitlines() if line.split() and line.split()[0]==distro]
+        if len(found)!=1 or found[0][-1]!='1':raise RuntimeError(f'Expected {distro} on hosted WSL1: {listing}')
     errors=[]
     for r in (0,2):
         for b in ('default','plain'):
-            try:trial(r,b)
+            try:trial(r,b,args.tmux)
             except Exception:traceback.print_exc();errors.append((r,b))
     if errors:raise SystemExit(f'Vim interactions failed: {errors}')
