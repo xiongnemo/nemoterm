@@ -172,6 +172,41 @@ static void test_height_selection(Mock *mk)
     check_clipboard(mk, L"safe");
 }
 
+static void test_fixed_width_selection(Mock *mk)
+{
+    Terminal *t = mk->term;
+    int clipboard = CLIP_LOCAL + 1;
+    for (unsigned alt = 0; alt < 2; alt++) {
+        reset(mk);
+        test_context(mk, "fixed grid width preserves copied graphemes, bank=%u", alt);
+        conf_set_bool(t->conf, CONF_nemo_reflow, alt != 0);
+        mk->ucsdata->line_codepage = CP_UTF8;
+        term_size(t, 5, 12, 100);
+        if (alt) term_data_fragmented(t, "\033[?1049h");
+        term_data_fragmented(t, "\033[?1002;1006h\033[2;2H");
+        term_data_fragmented(t, unicode_text);
+        select_unicode(mk, 1, 1);
+        for (int cols = 7; cols <= 15; cols += 8) {
+            mk->clipboard_writes = 0;
+            term_size(t, 5, cols, 100);
+            IEQUAL(t->selstate, SELECTED);
+            IEQUAL(mk->clipboard_writes, 0);
+            term_request_copy(t, &clipboard, 1);
+            check_clipboard(mk, L"A\x4e2d" L"e\x0301Z");
+        }
+        /* Only the first half of the pressed CJK glyph now fits. Its release
+         * over a different glyph belongs neither to the app nor a new drag. */
+        strbuf_clear(mk->to_backend);
+        term_mouse(t, MBT_LEFT, MBT_SELECT, MA_CLICK, 2, 1, true, true, false);
+        IEQUAL(t->selstate, ABOUT_TO);
+        term_size(t, 5, 3, 100);
+        IEQUAL(t->selstate, NO_SELECTION); IEQUAL(t->discarded_select_press, true);
+        term_mouse(t, MBT_LEFT, MBT_SELECT, MA_RELEASE, 0, 1, false, false, false);
+        IEQUAL(t->discarded_select_press, false); IEQUAL(mk->to_backend->len, 0);
+    }
+    conf_set_bool(t->conf, CONF_nemo_reflow, true);
+}
+
 int main(void)
 {
     Mock *mk = mock_new();
@@ -181,6 +216,7 @@ int main(void)
     test_height_history_resize(mk);
     test_alternate_screen_resize(mk);
     test_height_selection(mk);
+    test_fixed_width_selection(mk);
     bool failed = mk->any_test_failed;
     mock_free(mk);
     puts(failed ? "Resize suite FAILED" : "Resize suite passed");

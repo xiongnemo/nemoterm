@@ -205,6 +205,7 @@ static void swap_screen(Terminal *, int, AltClearPolicy, bool);
 static void update_sbar(Terminal *);
 static void deselect(Terminal *);
 static termchar *term_bidi_line(Terminal *, termline *, int);
+static int selection_bidi_slot(Terminal *, int);
 static void term_print_finish(Terminal *);
 static uint32_t nemo_checksum_legacy(unsigned long ch);
 static bool nemo_charset_base_utf8(Terminal *term);
@@ -4961,6 +4962,43 @@ static void nemo_reflow(Terminal *term, int rows, int cols, int savelines)
     sfree(rowmap);
 }
 
+/* Check both the old and new grid. The alternate screen is not reflowed;
+ * the main screen is also a fixed grid when reflow is disabled. Keep a
+ * selection only when its complete glyphs still occupy those columns. */
+static void check_selection_width(Terminal *term, int common_cols, bool fixed)
+{
+    if (term->selstate == NO_SELECTION) return;
+    bool press = term->selstate == ABOUT_TO;
+    pos from = press ? term->selanchor : term->selstart;
+    pos to = press ? from : term->selend;
+    if (press) to.x++;
+    if (!fixed || from.y < 0 || to.y >= term->rows || from.y > to.y ||
+        from.x < 0 || to.x <= from.x || to.x > common_cols ||
+        (from.y != to.y && term->seltype != RECTANGULAR)) goto lost;
+    for (int y = from.y; y <= to.y; y++) {
+        termline *line = scrlineptr(y);
+        if (line->trusted || (line->lattr & LATTR_MODE) != LATTR_NORM) goto lost;
+        int slot = selection_bidi_slot(term, y);
+        termchar *visual = term_bidi_line(term, line, slot);
+        int left = from.x, right = to.x;
+        termchar *cells = visual ? visual : line->chars;
+        if (left && cells[left].chr == UCSWIDE) left--;
+        if (right < term->cols && cells[right].chr == UCSWIDE) right++;
+        if (right > common_cols) goto lost; /* cropped second half */
+        if (visual) {
+            /* Never silently copy new logical cells when a bidi paragraph
+             * reorders on resize. Identity spans can be checked in place. */
+            for (int x = left; x < right; x++)
+                if (term->post_bidi_cache[slot].backward[x] != x ||
+                    term->post_bidi_cache[slot].forward[x] != x) goto lost;
+        }
+    }
+    return;
+  lost:
+    if (term->selstate != SELECTED) term->discarded_select_press = true;
+    deselect(term);
+}
+
 /* At unchanged width, surviving lines keep their character and display
  * columns. The main grid moves as a unit when temporary history is pushed
  * or pulled. The alternate grid stays at the top left; its virtual history
@@ -5041,11 +5079,10 @@ void term_size(Terminal *term, int newrows, int newcols, int newsavelines)
 
     int old_alt_prefix = save_alt_which && term->erase_to_scrollback ?
         term->alt_sblines : 0;
-    if (newcols != term->cols) {
-        if (term->selstate == ABOUT_TO || term->selstate == DRAGGING)
-            term->discarded_select_press = true;
-        deselect(term);
-    }
+    bool width_changed = newcols != term->cols;
+    int common_cols = min(newcols, term->cols);
+    if (width_changed)
+        check_selection_width(term, common_cols, save_alt_which || !reflow);
     int resize_view = term->disptop;
     swap_screen(term, 0, ALT_KEEP, false);
     if (!save_alt_which && reflow) term->disptop = resize_view;
@@ -5236,6 +5273,10 @@ void term_size(Terminal *term, int newrows, int newcols, int newsavelines)
     resize_view = term->disptop;
     swap_screen(term, save_alt_which, ALT_KEEP, false);
     resize_selection_rows(term, rows_to_history, old_alt_prefix);
+    if (width_changed && term->selstate != NO_SELECTION) {
+        check_selection_width(term, common_cols, true);
+        if (term->selstate == SELECTED) term->selection_copy_needs_refresh = true;
+    }
     if (!save_alt_which && reflow) term->disptop = resize_view;
 
     term->win_scrollbar_update_pending = true;
