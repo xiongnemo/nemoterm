@@ -96,7 +96,12 @@ def exercise_turns(out, desk, provider, stage, samples, rec, renderer_probe):
             return provider.chat_receipts[turn] if len(provider.chat_receipts) > turn else None
         receipt = wait_for(received, timeout=35)
         assert receipt['turn_prompts'] == [prompt] and receipt['reply_sha256'] == hashlib.sha256(reply.encode()).hexdigest()
-        frame = wait_for(lambda: visible(f'ACKTURN{turn:02d}DONE'), timeout=30)
+        def presented():
+            assert not provider.errors, provider.errors
+            if receipt.get('sent_sha256') != receipt['reply_sha256']:
+                return None
+            return visible(f'ACKTURN{turn:02d}DONE')
+        frame = wait_for(presented, timeout=30)
         assert f'row {turn:02d}.16' in frame, frame
         write_snapshot(out/(label+'.json'), dict(prompt=prompt, reply_sha256=receipt['reply_sha256'], visible=frame))
         time.sleep(5)  # include the quiet interval between normal user turns

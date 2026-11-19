@@ -154,9 +154,14 @@ class Handler(BaseHTTPRequestHandler):
                         # The pinned client also submits zero-tool background
                         # requests containing a transcript. They cannot supply
                         # an ACK, satisfy a turn, or advance the prompt index.
-                        assert not record['advertised_tools'] and text and 'NEMOTERM_MEMORY_PAIR' in text, record
-                        record['auxiliary'] = True
-                        record['latest_user_excerpt'] = [p[:160] for p in latest_user_parts[:3]]
+                        record['latest_user_excerpt'] = [p[:240] for p in latest_user_parts[:3]]
+                        assert not record['advertised_tools'], record
+                        # Titles may quote just the latest numeric prompt, not
+                        # the original prompt. Preserve any other auxiliary
+                        # request separately without using it as a chat turn.
+                        record['auxiliary'] = ('title' if any(p.startswith('Generate a concise, single-line task title')
+                                                        for p in latest_user_parts) else 'unclassified')
+                        record['output_format'] = request.get('text', {}).get('format', {}).get('type')
                         self.server.auxiliary_count += 1
                         assert self.server.auxiliary_count <= 2*len(plan)
                         reply = 'Fixture conversation'
@@ -217,6 +222,8 @@ class Handler(BaseHTTPRequestHandler):
                     value = dict(type=kind, sequence_number=seq, **fields)
                     self.wfile.write(('event: '+kind+'\ndata: '+json.dumps(value)+'\n\n').encode())
             self.wfile.flush()
+            if plan is not None:
+                record['sent_sha256'] = hashlib.sha256(answer.encode()).hexdigest()
             if hasattr(self.server,'response_clock'):
                 self.server.response_clock.append(dict(stage='response-flushed',ns=time.monotonic_ns()))
         except Exception as exc:
