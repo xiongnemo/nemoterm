@@ -191,3 +191,15 @@ Nemoterm EXE 的 SHA-256 为 `c7f4f4be019a2fb0262f984d15e7f6177eb47da043558dd819
 | Nemoterm 单标签，DirectX | 10.09 | 47.41 | 11.74 |
 
 终端和客户端均正常结束。会话结束时的模块／进程快照没有匹配到受检的 WebView 组件；这仅限该采样点。[原始日志、窗口截图和制品清单](agent-session-97f8b05b.zip)。[真实 Vim、tmux、颜色、Sixel 及默认网格回执](xterm-clients-97f8b05b.zip)也验证的是同一份 EXE，SHA-256 `c66b366f2c67e216c219d6674e0e368181bdcfbdd884dd6f6c11b61a1bed84b5`。
+
+### 多行粘贴版 `476a2c76` 的同机对照
+
+[托管 Windows 原始制品](agent-session-476a2c76.zip)来自[独立工作流 44565305744](https://github.com/xiongnemo/nemoterm/actions/runs/44565305744)。每种配置新开一个 160×48 的 SarasaTermSC Nerd Light 窗口，在同一台 runner 上启动同一版 Codex，得到首轮回复后再逐条发出 24 条追问。下表取每个前端从启动到最后一轮的全部采样峰值，单位为十进制 MB，三列的峰值未必在同一时刻。
+
+| 前端 | 私有工作集 | 总工作集 | 私有提交 |
+| --- | ---: | ---: | ---: |
+| pterm 0.85 | 3.77 | 22.68 | 4.47 |
+| Nemoterm GDI | 5.45 | 34.44 | 6.75 |
+| Nemoterm DirectX | 9.74 | 44.77 | 11.32 |
+
+每组有 1,227–1,280 份采样。pterm 的 SHA-256 与本机指定文件相同；Nemoterm 的 SHA-256 为 `5b9ede235d557ccafbe6545dd369867b0c2f135ead7ee9205a1c794c9835ca14`。三个窗口会话结束时均未观察到 WebView 运行库或子进程。这些数字不包含 Codex 和控制台宿主的内存，也不能替代六种图文压力工作负载。见[该 EXE 的静态导入证据](paste-lines-476a2c76.zip)。
