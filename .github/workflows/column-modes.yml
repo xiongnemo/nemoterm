@@ -1,0 +1,42 @@
+name: Native 80 and 132 column changes
+on:
+  workflow_call:
+    inputs:
+      source_commit: {required: true, type: string}
+      source_run: {required: true, type: string}
+permissions:
+  contents: read
+  actions: read
+jobs:
+  compare:
+    strategy:
+      fail-fast: false
+      matrix: {renderer: [gdi, directx]}
+    runs-on: windows-2025
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with: {fetch-depth: 0}
+      - id: prepare
+        name: Fetch the source-built frontend and select the pinned Sarasa face
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PRODUCT_RUN: ${{ inputs.source_run }}
+          PRODUCT_COMMIT: ${{ inputs.source_commit }}
+        run: |
+          scripts/fetch-ci-product.ps1 -Run $env:PRODUCT_RUN -Commit $env:PRODUCT_COMMIT -Destination build/column-product
+          "NEMOTERM_TEST_EXE=$((Resolve-Path build/column-product/nemoterm.exe).Path)" | Out-File $env:GITHUB_ENV -Append -Encoding utf8
+          scripts/prepare-remote-interaction.ps1
+      - name: Compare upstream replies, Windows window dimensions and GDI text pixels
+        env:
+          RENDERER: ${{ matrix.renderer }}
+        run: python tests/column_modes_window.py
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: column-modes-${{ matrix.renderer }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            research/column-mode-*
+            build/column-product/SOURCE-HOST.json
+            build/interaction-dependencies/environment.json
+          if-no-files-found: error
