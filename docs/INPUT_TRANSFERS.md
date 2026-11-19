@@ -40,13 +40,14 @@ delivered quoting. GDI and DirectX are supported test variants. This test does
 not simulate a physical Explorer mouse drag or validate a WSL distribution's
 custom mount layout.
 
-`tests/agent_clipboard_smoke.py` tests Ctrl+V and Ctrl+Shift+V with actual clients:
-
-```powershell
-python -m pip install Pillow==13.0.0
-python tests/agent_clipboard_smoke.py --client codex --client-exe C:\path\codex.exe --terminal C:\path\nemoterm.exe
-python tests/agent_clipboard_smoke.py --client opencode --client-exe C:\path\opencode.exe --terminal C:\path\nemoterm.exe
-```
+The real-client tests run on GitHub-hosted Windows only. An exact-image replay
+uses `font-zoom-replay.yml` with `suite=image-timing` for a copied bitmap,
+`suite=image-files` for a copied PNG file, or `suite=interaction` and
+`groups=["agents"]` for the Codex/OpenCode checks. Supply the branch, full
+product commit and Actions run containing the single executable as described
+in [the replay instructions](INTERACTION_ACCEPTANCE.md). The two clipboard
+formats and the first visible prompt versus the settled editor are scored
+separately. See [the file, bitmap and draft-order results](../research/codex-file-draft-order.md).
 
 The client fixture uses a fresh home, private Git workspace and loopback model
 provider returning fixed text only. Codex shell, patch, multi-agent and web-search

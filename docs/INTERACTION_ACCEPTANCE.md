@@ -194,3 +194,5 @@ Use `suite=profile-sequence` on the exact EXE to replay the aggregate profile wo
 选区必须在应用只移动光标时保持可复制；应用实际改写选中字形时才取消。`suite=interaction` 的 `selection` 组在 Sarasa 和默认字体、GDI 和 DirectX 四个窗口中检查高亮、右键归属和原始应用输入。见[光标更新和选择记录](../research/selection-cursor-traffic.md)。
 
 `suite=colour-input` 还重放 `22ed829` 记录中 Codex 输入乱序现场在颜色查询前实际发出的 VT。原生 `ReadConsoleInputW` 接收器与真实客户端分开：同一 EXE 分别在 GDI、DirectX 下向它粘贴完整标记；无查询的对照以及查询前、并发启动和查询回复后三种顺序都保留原始按键记录。完整状态回复将输入定界；只移除明确的回复后，用户字节须与基准逐字相同。
+
+`suite=draft-product` 与 `suite=draft-reference` 分别在受测 EXE（GDI、DirectX）和独立系统 ConPTY、WinPTY 上运行固定版本的真实 Codex。每种窗口、每个时点各开三个新会话，区分首次可见输入框与一个完整回复后。独立宿主一次写入整段原生按键记录；产品使用发现接口粘贴和实按 Ctrl+Shift+V。输入按原样只提交一次，不因字符串出错而重试，保存屏幕、原始输出和本地服务的回执。[原始证据与输入边界](../research/codex-file-draft-order.md)。
