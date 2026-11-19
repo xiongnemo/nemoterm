@@ -64,8 +64,11 @@ jobs:
           New-Item -ItemType Directory -Force build/wsl-check/tools,build/wsl-check/research,build/wsl-check/build | Out-Null
           Copy-Item tests build/wsl-check/tests -Recurse
           Copy-Item tools/nemoterm_debug.py build/wsl-check/tools/
-      - name: Isolate the hosted WSL kernel line discipline with a fresh private PTY
+      - name: Check byte-preserving WSL pipes with a real Linux PTY
         if: inputs.suite == 'paste-quote'
+        run: python tests/wsl_pipe_pty.py
+      - name: Isolate the hosted WSL kernel line discipline with a fresh private PTY
+        if: ${{ !cancelled() && inputs.suite == 'paste-quote' && steps.prepare.outcome == 'success' }}
         shell: pwsh
         run: |
           wsl.exe --distribution Ubuntu-24.04 --cd $env:GITHUB_WORKSPACE --exec /usr/bin/env NEMO_HOSTED_PTY_FIXTURE=1 /usr/bin/python3 tests/quoted_devpts_reference.py testdata/upstream/xterm412-paste-quote.zip build/wsl-check/research/wsl-devpts.json
