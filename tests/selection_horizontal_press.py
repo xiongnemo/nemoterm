@@ -30,6 +30,14 @@ CASES = (
     ('paint-widen', '中', 9, 0, 10, None, 13, None),
     ('paint-combine', '\u0301', 11, 0, 10, None, 13, None),
     ('bidi-repaint', 'XY', 10, 0, 11, 9, 10, 'אX'),
+    # Repaint an identical base to establish a live cluster. The following
+    # scalar changes the held text or consumes its neighbour after widening.
+    ('cluster-append', '\x1b[?2027hK\u0301', 10, 0, 10, None, 13, None),
+    ('cluster-widen', '\x1b[?2027h❤\ufe0f', 10, 0, 11, None, 13, None),
+    ('cluster-wrap', '\x1b[?2027h❤\ufe0f', 21, -1, 4, None, 8, None),
+    ('cluster-wrap-neighbour', '\x1b[?2027h❤\ufe0f', 21, -1, 6, 6, 8, 'GHI'),
+    ('cluster-insert', '\x1b[?2027h\x1b[4h❤\ufe0f\x1b[4l', 10, 0, 10, 12, 14, 'KLM'),
+    ('paint-back', 'Z\bK', 10, 0, 10, None, 12, None),
 )
 ACK = b'\x1b[0n'
 
