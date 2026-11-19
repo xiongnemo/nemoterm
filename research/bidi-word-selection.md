@@ -47,3 +47,5 @@ GDI 和 DirectX 的前端私有工作集分别在 20 MB 与 30 MB 上限内；�
 用户截图涉及的 Sixel、ReGIS 两个复选框在同一 EXE 的 [DPI 制品](https://github.com/xiongnemo/nemoterm/actions/runs/44515756392/artifacts/14524984661)有专门的页面检查。[从原制品提取的截图与控件测量](settings-wrap-dpi-0d8f731.zip)包括英文、简体中文和 100%、125%、150%、175%、200% 的实际系统缩放。两种语言在独立窗口与标签窗口各做冷启动与打开窗口后的缩放切换，每种语言 12/12。五档缩放下，标签窗口中两个复选框的文字都能放入控件，也没有进入底部按钮区域；英文在 100% 时为两项各预留 29 像素高度。测试机只有一台显示器，未验证跨不同 DPI 的显示器拖动窗口。
 
 [后续源码制品](https://github.com/xiongnemo/nemoterm/actions/runs/44521164017/artifacts/14528500843)已实测附带 runner 镜像版本、Windows SDK 版本，以及 `cl.exe`、`link.exe`、`MSBuild.exe` 的文件版本与 SHA-256。上述构建身份压缩包保留该清单。它仅补充构建可追溯性，不替换 `dist` 中通过专项测试的 EXE。
+
+[对交付 EXE 的整套交互回放原始回执](bidi-words-exact-interaction-0d8f731.zip)（[运行 44519691446](https://github.com/xiongnemo/nemoterm/actions/runs/44519691446)）现已结束，13 个分组共 **78/80**。默认网格真实客户端 10/10；选区 6/6；GDI、DirectX 压力分别 6/6。两个失败分别是用窗口接口、用系统键鼠在 Codex 启动时立即贴图。按下快捷键后的三次附件等待超时中，独立剪贴板读取均仍读到了位图；另一次 Ctrl+V（窗口接口）成功。两个分组没有因这个单项成功被计作通过。正式编辑器和 OpenCode 的分别计分用例均通过。这次 80 项回放取自双标签夹具加入之前；后来的 9/9 标签专项不混入 78/80。
