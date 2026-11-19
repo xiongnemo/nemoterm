@@ -85,12 +85,19 @@ jobs:
       - name: Install pinned isolated client fixtures
         if: ${{ matrix.group == 'agents' || matrix.group == 'agents-grid' }}
         run: |
-          npm ci --prefix tools/codex-fixture --ignore-scripts --no-audit --no-fund
-          if ($LASTEXITCODE) { exit $LASTEXITCODE }
-          npm ci --prefix tools/claude-fixture --ignore-scripts --no-audit --no-fund
-          if ($LASTEXITCODE) { exit $LASTEXITCODE }
-          npm ci --prefix tools/opencode-fixture --ignore-scripts --no-audit --no-fund
-          exit $LASTEXITCODE
+          foreach ($client in @('codex','opencode','claude')) {
+            $source = "tools/$client-fixture"
+            $install = Join-Path $env:RUNNER_TEMP "interaction-clients/$client"
+            New-Item -ItemType Directory -Path $install -ErrorAction Stop | Out-Null
+            foreach ($file in @('package.json','package-lock.json')) {
+              Copy-Item -LiteralPath (Join-Path $source $file) -Destination $install -ErrorAction Stop
+            }
+            npm ci --prefix $install --ignore-scripts --no-audit --no-fund
+            if ($LASTEXITCODE) { exit $LASTEXITCODE }
+            foreach ($file in @('package.json','package-lock.json')) {
+              if ((Get-FileHash -LiteralPath (Join-Path $source $file)).Hash -ne (Get-FileHash -LiteralPath (Join-Path $install $file)).Hash) { throw "Changed $client manifest: $file" }
+            }
+          }
       - name: Freeze product, fixtures and client identities
         shell: pwsh
         env:
@@ -99,8 +106,9 @@ jobs:
           $exe=(Resolve-Path build/interaction-product/nemoterm.exe).Path
           $arguments=@('scripts/interaction_acceptance.py','prepare','--stage','build/interaction','--exe',$exe,'--sha256',(Get-FileHash $exe).Hash.ToLowerInvariant())
           if ($env:TEST_GROUP -in @('agents','agents-grid')) {
+            $arguments+='--require-clean-fixture'
             foreach ($client in @('codex','opencode','claude')) {
-              $images=@(Get-ChildItem "tools/$client-fixture/node_modules" -Recurse -Filter "$client.exe")
+              $images=@(Get-ChildItem (Join-Path $env:RUNNER_TEMP "interaction-clients/$client/node_modules") -Recurse -Filter "$client.exe")
               if ($images.Count -ne 1) { throw "Expected one pinned $client executable" }
               $arguments+=@("--$client",$images[0].FullName)
             }

@@ -220,14 +220,18 @@ def prepare(args):
         path = getattr(args, name, None)
         if path:
             path = path.resolve(strict=True)
-            clients[name] = dict(path=str(path), sha256=digest(path))
+            clients[name] = dict(path=str(path), sha256=digest(path), manifests={
+                item:digest(ROOT/'tools'/(name+'-fixture')/item) for item in ('package.json','package-lock.json')})
+    changes = subprocess.check_output(['git','status','--porcelain'], cwd=ROOT, text=True).splitlines()
     identity = dict(executable_sha256=digest(exe), executable_bytes=exe.stat().st_size,
         executable_source=str(exe), font=FONT, clients=clients,
         fixture_commit=subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip(),
-        fixture_dirty=bool(subprocess.check_output(['git', 'status', '--porcelain'], cwd=ROOT, text=True).strip()),
+        fixture_dirty=bool(changes), fixture_changes=changes,
         snapshot_hashes=files(snapshot), runner_sha256=digest(stage/'runner.py'),
         helper_hashes={name: digest(stage/name) for name in ('interaction_manual.py', 'interaction_acceptance.py')})
     save(stage/'identity.json', identity)
+    if args.require_clean_fixture and changes:
+        raise RuntimeError('Fixture checkout changed before inputs were frozen: '+repr(changes))
     save(stage/'plan.json', catalog())
     save(stage/'results.json', [])
     save(stage/'manual-results.json', dict(status='not_run', executable_sha256=digest(exe),
@@ -364,6 +368,7 @@ def main(argv=None):
     p.add_argument('--stage', type=Path, required=True)
     p.add_argument('--exe', type=Path, required=True)
     p.add_argument('--sha256', required=True)
+    p.add_argument('--require-clean-fixture', action='store_true')
     p.add_argument('--codex', type=Path)
     p.add_argument('--opencode', type=Path)
     p.add_argument('--claude', type=Path)
