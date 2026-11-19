@@ -66,10 +66,15 @@ def selection_cursor_case(path,row,identity):
 def agent_grid_case(path,row,identity):
     client,renderer=row['id'].removeprefix('agent-grid-').rsplit('-',1)
     client_order=client.endswith('-visual-order');client=client.removesuffix('-visual-order')
+    nested=client.endswith('-shell');client=client.removesuffix('-shell')
     actual={'gdi':1,'directx':3}[renderer]
     keys=[k for k in row['evidence'] if k.startswith('research/') and k.endswith('-observed.json')]
     require(len(keys)==1,'missing or ambiguous agent observation')
     obs=record_reader(path,row)(keys[0]);sess=obs['session'];child=obs['child'];trace=obs['frontend_trace']
+    if nested:
+        pair=child['shell_processes']
+        require(obs.get('writer_order_hints')=={'NEMO_SHELL_BEFORE:דהו':False,'AגְבאZ':True,'NEMO_SHELL_AFTER:דהו':False},'wrong owner for a marked span')
+        require(pair['parent_image'].lower()=='pwsh' and pair['child_image'].lower()=='claude' and pair['parent']!=pair['child'],'missing native shell/client process pair')
     require(obs['client']==client and obs['completed'] and obs['global_input'] and obs['font']==identity['font']
             and child['terminal_sha256']==identity['executable_sha256'] and child['client_sha256']==identity['clients'][client]['sha256']
             and child['cleanup']['terminated_remaining'] is False and (sess['cols'],sess['rows'])==(160,48)

@@ -12,6 +12,7 @@ import io
 import json
 import os
 import re
+import shutil
 from pathlib import Path
 import struct
 import subprocess
@@ -287,6 +288,7 @@ def main():
     parser.add_argument('--confirm-close',action='store_true')
     parser.add_argument('--default-grid',action='store_true',help='Use the default profile dimensions without CLI overrides')
     parser.add_argument('--stable-unicode',action='store_true')
+    parser.add_argument('--shell-parent',action='store_true')
     parser.add_argument('--client-visual-order',action='store_true')
     parser.add_argument('--right-copy-and-paste',action='store_true')
     parser.add_argument('--font',default=os.environ.get('NEMOTERM_TEST_FONT','SarasaTermSC Nerd Light'))
@@ -339,6 +341,12 @@ def main():
                    OPENCODE_EXPERIMENTAL_DISABLE_FILEWATCHER='1', OPENCODE_PERMISSION='{"*":"deny"}',
                    OPENCODE_PURE='1')
         command = [args.client_exe, str(work)]
+    if args.shell_parent:
+        assert args.client == 'claude'
+        shell = shutil.which('pwsh.exe')
+        if not shell: raise RuntimeError('PowerShell 7 is required for the nested console writer')
+        (folder/'shell-argv.json').write_text(json.dumps(command),encoding='utf-8')
+        command = [shell, '-NoProfile', '-NonInteractive', '-File', str(Path(__file__).with_name('start_agent_from_pwsh.ps1').resolve()), str(folder)]
     report = dict(client=args.client, client_sha256=hashlib.sha256(Path(args.client_exe).read_bytes()).hexdigest(),
                   terminal_sha256=hashlib.sha256(Path(args.terminal).read_bytes()).hexdigest(),
                   backend=base, generated_bitmap=[32, 16], requests=server.requests, errors=server.errors)
@@ -394,6 +402,7 @@ def main():
             finally:
                 if saved:
                     saved.restore(); saved = None
+                if args.shell_parent: report['shell_processes'] = read_snapshot(folder/'shell-processes.json')
                 report['cleanup'] = job.finish()
                 write_snapshot(folder/'observed.json', report)
     finally:

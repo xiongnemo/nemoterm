@@ -45,13 +45,13 @@ class AcceptanceTests(unittest.TestCase):
 
     def test_catalog_has_unique_real_fixtures(self):
         cases = runner.catalog()
-        self.assertEqual(len(cases), 78)
-        self.assertEqual(len({c['id'] for c in cases}), 78)
+        self.assertEqual(len(cases), 80)
+        self.assertEqual(len({c['id'] for c in cases}), 80)
         for case in cases:self.assertTrue((ROOT/'tests'/case['script']).is_file())
 
     def test_agent_grid_and_startup_controls_are_independent_cases(self):
         cases=runner.catalog();full=runner.selected(cases,['agents-grid'])
-        self.assertEqual({c['id'] for c in full},{'agent-grid-'+client+'-'+r for client in ('claude','claude-visual-order','codex','opencode') for r in ('gdi','directx')})
+        self.assertEqual({c['id'] for c in full},{'agent-grid-'+client+'-'+r for client in ('claude','claude-visual-order','claude-shell','codex','opencode') for r in ('gdi','directx')})
         self.assertEqual({c['id'] for c in full if '--client-visual-order' in c['args']},
                          {'agent-grid-claude-visual-order-'+r for r in ('gdi','directx')})
         for c in full:self.assertTrue({'--system-input','--default-grid'}.issubset(c['args']))

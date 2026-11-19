@@ -59,6 +59,7 @@ def main():
     parser.add_argument('--font',required=True)
     parser.add_argument('--renderer',choices=('gdi','directx'),required=True)
     parser.add_argument('--stable-unicode',action='store_true')
+    parser.add_argument('--shell-parent',action='store_true')
     parser.add_argument('--client-visual-order',action='store_true',help='Explicit profile: preserve a client that emits preordered text')
     parser.add_argument('--default-grid',action='store_true',help='Require actual 160x48 and sample the untouched frontend throughout interaction')
     parser.add_argument('--system-input',action='store_true')
@@ -80,6 +81,7 @@ def main():
             (['--default-grid','--confirm-close'] if args.default_grid else [])+
             (['--stable-unicode'] if args.stable_unicode else [])+
             (['--client-visual-order'] if args.client_visual_order else [])+
+            (['--shell-parent'] if args.shell_parent else [])+
             (['--right-copy-and-paste'] if args.right_click=='copy-paste' else []),stdout=log,stderr=subprocess.STDOUT,
             creationflags=subprocess.CREATE_NO_WINDOW)
         def child():
@@ -369,6 +371,17 @@ def main():
                 time.sleep(.2)
             assert proc.wait(timeout=20)==0
             observed=read_snapshot(report);assert not observed['errors'] and not observed['cleanup']['terminated_remaining'],observed
+            if args.shell_parent:
+                pair=observed['shell_processes']
+                assert pair['parent_image'].lower()=='pwsh' and pair['child_image'].lower()=='claude' and pair['child']!=pair['parent'],pair
+                wire=(case/'client-output.log').read_bytes()
+                begin=b'\x1b]777;nemoterm:visual=1\x07';end=b'\x1b]777;nemoterm:visual=0\x07'
+                hints={}
+                for marker in ('NEMO_SHELL_BEFORE:דהו','AגְבאZ','NEMO_SHELL_AFTER:דהו'):
+                    pos=wire.index(marker.encode())
+                    hints[marker]=wire.rfind(begin,0,pos)>wire.rfind(end,0,pos)
+                assert list(hints.values())==[False,True,False],hints
+                evidence['writer_order_hints']=hints
             evidence['interaction_completed']=True
             # Keep producer-to-pixel appearance as its own strict check, after
             # actually exercising copy, modal recovery, paste and submission.
