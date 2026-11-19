@@ -37,7 +37,7 @@ Kitty 图片支持直接 RGB/RGBA/PNG、压缩传输、裁剪、透明度、查�
 
 开启右键“复制并粘贴”后，右键粘贴短选区并马上按回车，现在会先粘贴再提交。原来在同一批窗口消息中处理这两步时，子程序可能只收到回车。[旧版回执](research/selection-enter-before-9d1da87.zip) · [修复版回执](research/selection-enter-after-b3274ed.zip)。
 
-[这份 EXE 的远程交互报告](research/preview-b3274ed.zip)覆盖 13 组，通过 **79/81**。未通过的两项都是在 Codex 启动草稿中立即贴图。160×48 的六种压力场景分别在 GDI 和 DirectX 全部通过；前端私有工作集峰值为 **18.813 MB** 和 **29.585 MB**。同字体的普通 Codex 会话及与 pterm 的区别见[同机内存对照](research/pterm-findings.md)。
+[这份 EXE 的远程交互报告](research/preview-b3274ed.zip)覆盖 13 组，通过 **79/81**。未通过的两项都是在 Codex 启动草稿中立即贴图。160×48 的六种压力场景分别在 GDI 和 DirectX 全部通过；前端私有工作集峰值为 **18.813 MB** 和 **29.585 MB**。同一份 EXE 连续完成 24 轮 Codex 追问时，前端私有工作集采样峰值为 GDI **5.73 MB**、DirectX **10.08 MB**；作为对照，原版 pterm 为 **3.80 MB**。三种内存指标和测量范围见[同机内存对照](research/pterm-findings.md)。
 
 [真实 xterm 应用回放](research/xterm-clients-b3274ed.zip)覆盖 Vim、tmux 内的 Vim、颜色和 Sixel。与原版 XTerm 412 的[宽字逐格对照](research/column-edge-integrity.md)和 [ReGIS 历史画面](research/regis-presented-pairs.md)仍有差异。[完整 CI](https://github.com/xiongnemo/nemoterm/actions/runs/44542003485) · [历史测试版](docs/PREVIEW_HISTORY.md)。
 

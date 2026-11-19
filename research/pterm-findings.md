@@ -165,3 +165,17 @@ The [ten-run original archive](https://github.com/xiongnemo/nemoterm/blob/fca0e6
 Nemoterm EXE 的 SHA-256 为 `c7f4f4be019a2fb0262f984d15e7f6177eb47da043558dd81971cf953af5979a`。各组也保留了模块、进程和驻留页清单；在这十次回复后的快照中没有观察到已登记的 WebView 运行库。不能用这 3 秒的中位数推断长时间运行峰值。
 
 [交付文件的 REA 静态导入表](rea-b3274ed-imports.json.gz)覆盖 82 个标准及延迟 DLL 描述符、671 个普通和 11 个延迟函数导入。对比上一份 `9d1da87`，没有新增 DLL 或导入函数；少了 `IsProcessorFeaturePresent` 的一个普通导入，不能仅凭导入变化归因到某段代码。静态表没列出 WebView，普通会话的模块和进程快照提供了独立的运行时观察。
+
+## 同一 EXE 连续 24 轮追问
+
+[托管 Windows 回放 44547892210](https://github.com/xiongnemo/nemoterm/actions/runs/44547892210)在同一台 runner 上依次启动原版 pterm、单标签 GDI 和单标签 DirectX。仍使用上表的 EXE、真实 Codex 0.167.0、160×48 和 `SarasaTermSC Nerd Light`。每个窗口收到首个回复后，实际按键输入 24 条不同的追问。每条回复含 16 行中英文及唯一的结束标记；每轮核对收到的提问、已发回复的摘要、控制台画面中的末行和标记，再留 5 秒观察内存。另有每个窗口 25 条自动生成标题的请求，单独计数。三个前端各收到且依次显示全部 24 条追问的回复，均正常退出。
+
+| 窗口前端 | 采样时长（秒） | 私有工作集峰值 (MB) | 总工作集峰值 (MB) | 私有提交峰值 (MB) |
+| --- | ---: | ---: | ---: | ---: |
+| pterm 0.85 | 132.81 | 3.80 | 22.76 | 4.49 |
+| Nemoterm，GDI | 132.66 | 5.73 | 37.10 | 7.11 |
+| Nemoterm，DirectX | 132.03 | 10.08 | 47.42 | 11.69 |
+
+表中是从窗口启动到最后一轮结束的**采样峰值**，单位为十进制 MB，约每 100 毫秒一次，不含客户端或控制台宿主。它覆盖反复输入与中文滚屏；对重图形负载仍采用[六项压力场景的独立测量](preview-b3274ed.zip)，不能用这里较低的数字替代。
+
+[完整原始制品及清单](agent-session-b3274ed.zip)包含三份最终窗口截图、每轮原生控制台记录和全部内存采样。GitHub 原始 ZIP 的 SHA-256 为 `7e9dc6129f5a289b6482d70aea02aca2ce2f87e93c3471508b2b556f383b2df7`，测试源码 `0d58809d`，产品仍为 `b3274ed`。对同一画面并行读取：逐格读取在三个窗口都读到校准文字 `CELL中Z` 和 24 帧回复；旧读法要求每行返回的 UTF-16 单元数等于列数，在这 72 帧全部没有返回有效画面。此前先后遇到[把额外请求当作对话](https://github.com/xiongnemo/nemoterm/blob/0d58809d6fc4919b69f1a25c0fc20aba3fbfbad8/research/agent-session-first-44545003499.zip)、[标题引用了后续提示词](https://github.com/xiongnemo/nemoterm/blob/0d58809d6fc4919b69f1a25c0fc20aba3fbfbad8/research/agent-session-second-44545823667.zip)和[回复已发送但未读到画面](https://github.com/xiongnemo/nemoterm/blob/0d58809d6fc4919b69f1a25c0fc20aba3fbfbad8/research/agent-session-diagnostic-44546763189.zip)；这些原始失败均保留。
