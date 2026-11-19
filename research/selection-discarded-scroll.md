@@ -6,4 +6,6 @@
 
 以分栏顶行为例：按住 `G` 时向上滚一行，该位置换成 `H`。[滚动后](discard-pane-top-scrolled-30304bc.png) · [松手和右键后](discard-pane-top-released-30304bc.png)。旧版仍高亮四格并复制 `HHHH`，子程序未收到应属于它的右键。在右边界按住汉字首格的一例，旧版甚至多选了跨两行的 37 格。[原始回执](discard-scroll-before-30304bc.zip)记录每种配置的选区变化、系统剪贴板、原始子进程字节和后续成功复制的 `SAFE`。截图来自同次远程完整制品，文件摘要与回执内的 `evidence` 一致。
 
+首轮脚本在每次改变测试阶段时会默认关闭应用的鼠标报告。上面的截图和剪贴板确实复现了误选，但首轮缺少鼠标字节不能证明应用在松键时仍启用了跟踪。修正后的脚本让应用保持原来的模式，在滚动和右键时分别以 DECRQM 查询 1002、1006，要求两项均回复已启用，然后单独记录手势的原始输入。未修正的旧版和候选回放都保留；修正版独立核验[旧 EXE](https://github.com/xiongnemo/nemoterm/actions/runs/44479577455)和[候选 EXE](https://github.com/xiongnemo/nemoterm/actions/runs/44479519855)。
+
 这个场景与[分栏里仍然存在的字](selection-split-scroll.md)分开计数。

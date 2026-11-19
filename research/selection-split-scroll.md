@@ -15,6 +15,8 @@
 
 [同一 EXE 的右键和粘贴回放](selection-split-clipboard-30304bc.zip)（[远程工作流](https://github.com/xiongnemo/nemoterm/actions/runs/44474041114)）使用系统鼠标右键及 Ctrl+Shift+V。GDI 和 DirectX 各重放上述两种选区，共 4/4。默认右键把完整选区复制到系统剪贴板，子程序只收到了用例前后的状态应答；显式粘贴后，两次应答之间才出现 `d7 91 d7 92 d6 b0` 或 `4c d7 90`，恰好是所选文字的 UTF-8 字节。
 
+这些早期窗口回放在起始阶段启用了应用鼠标跟踪，但子程序默认在下一阶段将其关闭。上表的高亮和复制结果不受影响；没有鼠标字节不能单独证明拖至松键时的跟踪模式。后续[保持跟踪并逐项查询模式的回放](selection-discarded-scroll.md)保留了两个阶段的应用应答。
+
 修复在分栏滚动之前把按住的显示列对应到原文字符，在滚动之后再映射到新的显示列；只在鼠标按下与第一次拖动之间做这项工作。内核用例还检查了两行滚动、从中文宽字的右半格按下、没有中间移动消息就松键。这里验证的是滚动后仍然存在的字符。
 
 旧 EXE 的 SHA-256 为 `24deed2cdaa8a3743793c014048ce057333c7f9bc77c4b59de545e5b7bbd27d3`。修复版 `30304bc5786a9aac68177084f44c9084ec6c2494` 的[原始单文件制品](https://github.com/xiongnemo/nemoterm/actions/runs/44472521397/artifacts/14505341500)为 4,871,680 字节，SHA-256 `712ed73e131f6498a354aac6eae77e31dd95a703f952a14189504486384b449a`。[旧版首次回放](https://github.com/xiongnemo/nemoterm/actions/runs/44472197530) · [旧版系统输入回放](https://github.com/xiongnemo/nemoterm/actions/runs/44473337878) · [修复版系统输入回放](https://github.com/xiongnemo/nemoterm/actions/runs/44473212114)。
