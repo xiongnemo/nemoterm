@@ -1,6 +1,8 @@
-# 候选单文件交互记录 `e02f0d0`
+# 单文件交互记录 `e02f0d0`
 
 [GitHub 托管构建](https://github.com/xiongnemo/nemoterm/actions/runs/44477059678/artifacts/14507241831)的 `nemoterm.exe` 为 4,855,808 字节，SHA-256 `be28e4e503383070855dac42d679c5427e224a68c3fb13195f7d2b820d0f2120`。源码 `e02f0d05638778ea3ea0881de5225c3dfa085523`。[完整回归](https://github.com/xiongnemo/nemoterm/actions/runs/44477059678)与[真实鼠标回放](https://github.com/xiongnemo/nemoterm/actions/runs/44477769731)分别保留。
+
+[保持鼠标跟踪的独立回放](https://github.com/xiongnemo/nemoterm/actions/runs/44479519855)的六个交互用例全部通过。字被分栏截断或被滚走时的窗口用例 32/32、真实鼠标 4/4；保留字原有的 32+4 项也通过。[同图对照和原始记录](selection-discarded-scroll.md)。最初的整套回归使用了在切换阶段会关闭鼠标跟踪的测试脚本，其选区分组不能充当这一场景的验收。[修正后对同一 EXE 的全组重放](https://github.com/xiongnemo/nemoterm/actions/runs/44480195510)单独计分。本版仍有 [ReGIS 参考画面](regis-first-expose.md)的既有差异。
 
 ## pterm 与本版的 Win32 渲染和内存
 

@@ -4,6 +4,10 @@
 
 ## 开发快照
 
+[下载 Windows x64 单文件测试版 `30304bc`](https://github.com/xiongnemo/nemoterm/actions/runs/44472521397/artifacts/14505341500)。解压后只需 `nemoterm.exe`；EXE 的 SHA-256 为 `712ed73e131f6498a354aac6eae77e31dd95a703f952a14189504486384b449a`。
+
+当应用只滚动部分列、而你已按下 Shift 和鼠标左键时，现在拖选能从原先按住的字开始，即使这段混排文字在屏幕上换了行或列。普通和矩形选择在两种字体、GDI 和 DirectX 上的 32 项都通过；实际键鼠也验证了右键只复制、Ctrl+Shift+V 才粘贴。整套交互 **78/80**；六种 160×48 压力负载的前端私有工作集峰值：GDI **19.186 MB**、DirectX **29.565 MB**。[选区前后截图](../research/selection-split-scroll.md) · [本版交互、内存与未通过项](../research/interaction-preview-30304bc.md) · [完整 CI](https://github.com/xiongnemo/nemoterm/actions/runs/44472521397)。
+
 [下载 Windows x64 单文件测试版 `810a26f`](https://github.com/xiongnemo/nemoterm/actions/runs/44468952910/artifacts/14503279012)。解压后只需 `nemoterm.exe`；EXE 的 SHA-256 为 `24deed2cdaa8a3743793c014048ce057333c7f9bc77c4b59de545e5b7bbd27d3`。
 
 按住 Shift 后若应用先整行滚屏再拖动，现在能选中原先按住的字，不会多复制相邻的一行。部分列单独滚动时，此测试版仍可能多选邻字或邻行。普通和矩形选择在两种字体、GDI 和 DirectX 上的 16 项均通过。连续两次粘贴长文本也通过。整套交互 **78/80**；160×48 六种压力负载的前端私有工作集峰值为 GDI **18.907 MB**、DirectX **29.630 MB**。[选区前后对照](../research/selection-during-scroll.md) · [本版交互、内存与未通过项](../research/interaction-preview-810a26f.md) · [完整 CI](https://github.com/xiongnemo/nemoterm/actions/runs/44468952910)。

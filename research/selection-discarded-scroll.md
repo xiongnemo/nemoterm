@@ -8,4 +8,19 @@
 
 首轮脚本在每次改变测试阶段时会默认关闭应用的鼠标报告。上面的截图和剪贴板确实复现了误选，但首轮缺少鼠标字节不能证明应用在松键时仍启用了跟踪。修正后的脚本让应用保持原来的模式，在滚动和右键时分别以 DECRQM 查询 1002、1006，要求两项均回复已启用，然后单独记录手势的原始输入。未修正的旧版和候选回放都保留；修正版独立核验[旧 EXE](https://github.com/xiongnemo/nemoterm/actions/runs/44479577455)和[候选 EXE](https://github.com/xiongnemo/nemoterm/actions/runs/44479519855)。
 
+## 保持应用鼠标跟踪的旧、新版对照
+
+![同一位置，上图旧版多选了四个 H；下图新版取消了选择](discard-scroll-comparison.png)
+
+图中同一区域放大两倍。旧、新版滚动后的源图完全相同。松手后只有旧版多出 32×20 像素的高亮范围（4 个 8×20 字格）。[旧版滚屏](mouse-on-pane-top-scrolled-30304bc.png) · [旧版释放](mouse-on-pane-top-released-30304bc.png) · [新版滚屏](mouse-on-pane-top-scrolled-e02f0d0.png) · [新版释放](mouse-on-pane-top-released-e02f0d0.png)。两份回执各记录了 112 次模式检查，两项鼠标模式每次都回复已启用。
+
+| 检查（GDI、DirectX） | [旧版 `30304bc`](discard-scroll-tracking-30304bc.zip) | [新版 `e02f0d0`](discard-scroll-tracking-e02f0d0.zip) |
+|---|---:|---:|
+| 字留在分栏内或旁边：普通/矩形选择、两种字体 | 32/32 | 32/32 |
+| 保留字的系统键鼠、复制和实际粘贴 | 4/4 | 4/4 |
+| 字被丢弃：不选替补文字、右键归应用、下一次选择 `SAFE` 成功 | 0/32 | 32/32 |
+| 丢字时用 Windows SendInput 按下、释放修饰键、拖动、松键 | 0/4 | 4/4 |
+
+本版丢弃操作后没有高亮、没有覆盖系统剪贴板，右键的 SGR 按下和释放各一次到达子程序；原左键手势没有漏给应用。
+
 这个场景与[分栏里仍然存在的字](selection-split-scroll.md)分开计数。
