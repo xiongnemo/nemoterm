@@ -43,7 +43,7 @@ def reset(private=True):
 
 
 def main(background_exercise=None, *, suite_name=None, font='Consolas', before_exercise=None,
-         profile_values=None):
+         profile_values=None, prepare_window=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--renderer', choices=('gdi', 'opengl', 'directx'), default='gdi')
     parser.add_argument('--presented-gdi', action='store_true', help='read the owned visible client DC; requires an interactive desktop')
@@ -117,6 +117,8 @@ def main(background_exercise=None, *, suite_name=None, font='Consolas', before_e
                     return value
 
                 wait_snapshot(current, lambda v: v.get('columns') == COLS and v.get('rows') == ROWS)
+                if prepare_window:
+                    prepare_window(evidence)
                 width, height, _ = bitmap(capture_image())
                 cw, ch = (width-2*BORDER)//COLS, (height-2*BORDER)//ROWS
                 assert cw > 0 and ch >= 6 and width == COLS*cw+2*BORDER and height == ROWS*ch+2*BORDER
