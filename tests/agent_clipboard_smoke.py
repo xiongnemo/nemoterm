@@ -13,6 +13,7 @@ import time
 from fixture_io import read_snapshot,write_snapshot
 from native_test_utils import c, u, w, wait_for
 from owned_job import OwnedJob
+from agent_ready_redraw import read_idle_redraw
 
 ROOT=Path(__file__).resolve().parent.parent
 sys.path.insert(0,str(ROOT/'tools'))
@@ -95,8 +96,9 @@ def main():
                 trace=case/'client-output.log'
                 def idle_redraw():
                     if not trace.is_file():return False
-                    buf=trace.read_bytes();idle=buf.find(b'\x1b]7501;state=idle:app=codex');mark=marker.encode()
-                    return idle>=0 and b'\x1b]10;?' in buf[:idle] and b'\x1b]11;?' in buf[:idle] and mark in buf[idle:]
+                    proof=read_idle_redraw(trace.read_bytes(),marker,lambda:api.request(endpoint,'text',seat))
+                    if proof:write_snapshot(case/'idle-redraw.json',proof)
+                    return proof
                 if args.after_client_idle:wait_for(idle_redraw,timeout=60)
                 if not args.image_file:
                     write_snapshot(control,dict(id=1,action='bitmap'))

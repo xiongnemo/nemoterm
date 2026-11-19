@@ -21,6 +21,8 @@ jobs:
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with: {fetch-depth: 0}
+      - name: Check the readiness witness against recorded cells and VT bytes
+        run: python tests/agent_ready_redraw_test.py
       - name: Fetch the exact single executable
         env:
           GH_TOKEN: ${{ github.token }}
