@@ -232,3 +232,5 @@ The `selection` group holds Shift and the left button while the application eras
 中途切换标签的场景另见[跨标签松开 Shift 拖选](https://github.com/xiongnemo/nemoterm/blob/ebbd444665d223d09e88895f93a7496b2d46e0cc/research/tab-drag-release.md)。`tab-clipboard-ownership` 用两个新窗口分别交换 GDI 与 DirectX 作为目标，检查目标原选区、来源未完成选区、窗口捕获以及双方的输入字节。这里的两个窗口分开运行，每次只有一对标签。
 
 `selection` 组的 `bindings` 用例还验证右键粘贴后紧接回车的顺序。子程序开启鼠标上报和括号粘贴，显示 `!RUN!`。在“右键复制并粘贴”配置下，对 `RUN` 做 Shift 左键拖选，然后把右键按下、松开和 Enter 的按下、松开发给同一个终端窗口，中间不给顶层回调运行机会。检查系统剪贴板恰为 `RUN`，并在两次终端状态回复之间检查子程序依次收到 `ESC [ 200 ~`、`RUN`、`ESC [ 201 ~` 和一个 CR；最后一项不能跑到选区之前。`right-click-then-return.json` 同时保存 EXE 身份、预期和实收字节。这是可重复的消息顺序，不是对用户手速的测量。
+
+同一 `selection` 回放还在应用开启鼠标跟踪时按住行尾的 `V` 或 `界` 的后半格，让应用左移该行后反向拖选。分别比对移动前后的整段字形、腾出的空格、分栏边界外的 `W`、松手后的高亮、Ctrl+Shift+C 和右键取得的 `中V` 或 `中界`，并核对手势没有漏送给子进程。原有 XTerm 412 逐格比对仍独立报告。
