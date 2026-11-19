@@ -2,6 +2,10 @@
 
 Fresh shared Sixel/ReGIS colours, including private, RIS and DECSTR controls: the [pinned XTerm and presented GDI comparison](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/shared-bank-start.md) improves from 2/7 to 7/7 on the `6bed777` candidate. This covers first-use colour registers, not the remaining historical ReGIS presentation differences.
 
+## Windows preview `b3274ed`
+
+For `TERM=xterm` and `TERM=xterm-256color`, the [hosted application captures](../research/xterm-clients-b3274ed.zip) cover real Vim, Vim under tmux, and the separate colour and Sixel checks on this executable. The [wide-glyph margin report](../research/column-edge-integrity.md) pairs actual GDI/DirectX selection and clipboard observations with the three cells that still differ from XTerm 412. [ReGIS presentation differences](../research/regis-presented-pairs.md) are tracked separately. The [current preview and interaction results](../README.md#下载) identify the downloadable file; older checkpoints below apply only to the builds named.
+
 ## Current verification policy (2026-11-17)
 
 All automated builds and tests run on GitHub-hosted runners. The
