@@ -4,6 +4,10 @@
 
 ## 开发快照
 
+[下载 Windows x64 单文件测试版 `810a26f`](https://github.com/xiongnemo/nemoterm/actions/runs/44468952910/artifacts/14503279012)。解压后只需 `nemoterm.exe`；EXE 的 SHA-256 为 `24deed2cdaa8a3743793c014048ce057333c7f9bc77c4b59de545e5b7bbd27d3`。
+
+按住 Shift 后若应用先整行滚屏再拖动，现在能选中原先按住的字，不会多复制相邻的一行。部分列单独滚动时，此测试版仍可能多选邻字或邻行。普通和矩形选择在两种字体、GDI 和 DirectX 上的 16 项均通过。连续两次粘贴长文本也通过。整套交互 **78/80**；160×48 六种压力负载的前端私有工作集峰值为 GDI **18.907 MB**、DirectX **29.630 MB**。[选区前后对照](../research/selection-during-scroll.md) · [本版交互、内存与未通过项](../research/interaction-preview-810a26f.md) · [完整 CI](https://github.com/xiongnemo/nemoterm/actions/runs/44468952910)。
+
 [下载 Windows x64 单文件测试版 `2ca68df`](https://github.com/xiongnemo/nemoterm/actions/runs/44464971332/artifacts/14501593009)。解压后只需 `nemoterm.exe`，压缩包中的 `SOURCE-HOST.json` 用于核验来源。EXE 的 SHA-256 为 `f2cb4fbae5a52ba3be8e4abb979a363e2b279591269b43838ee1da40957f7ca0`。
 
 这个版本修复了连续粘贴多行文本时第一段被截断的问题。GDI、DirectX 的系统剪贴板回放均逐字通过，包含中文、emoji 和括号粘贴标记。整套交互 **78/80**；160×48 压力测试的前端私有工作集峰值为 GDI **19.268 MB**、DirectX **28.848 MB**。[修复前后原始记录](../research/consecutive-paste.md) · [本版交互与内存](../research/paste-preview-2ca68df.md) · [完整 CI](https://github.com/xiongnemo/nemoterm/actions/runs/44464971332)。

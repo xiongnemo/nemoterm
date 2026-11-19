@@ -33,9 +33,9 @@ Kitty 图片支持直接 RGB/RGBA/PNG、压缩传输、裁剪、透明度、查�
 
 ## 下载
 
-[下载 Windows x64 单文件测试版 `810a26f`](https://github.com/xiongnemo/nemoterm/actions/runs/44468952910/artifacts/14503279012)。解压后只需 `nemoterm.exe`；EXE 的 SHA-256 为 `24deed2cdaa8a3743793c014048ce057333c7f9bc77c4b59de545e5b7bbd27d3`。
+[下载 Windows x64 单文件测试版 `30304bc`](https://github.com/xiongnemo/nemoterm/actions/runs/44472521397/artifacts/14505341500)。解压后只需 `nemoterm.exe`；EXE 的 SHA-256 为 `712ed73e131f6498a354aac6eae77e31dd95a703f952a14189504486384b449a`。
 
-按住 Shift 后若应用先整行滚屏再拖动，现在能选中原先按住的字，不会多复制相邻的一行。部分列单独滚动时，此测试版仍可能多选邻字或邻行。普通和矩形选择在两种字体、GDI 和 DirectX 上的 16 项均通过。连续两次粘贴长文本也通过。整套交互 **78/80**；160×48 六种压力负载的前端私有工作集峰值为 GDI **18.907 MB**、DirectX **29.630 MB**。[选区前后对照](research/selection-during-scroll.md) · [本版交互、内存与未通过项](research/interaction-preview-810a26f.md) · [完整 CI](https://github.com/xiongnemo/nemoterm/actions/runs/44468952910) · [历史测试版](docs/PREVIEW_HISTORY.md)。
+当应用只滚动部分列、而你已按下 Shift 和鼠标左键时，现在拖选能从原先按住的字开始，即使这段混排文字在屏幕上换了行或列。普通和矩形选择在两种字体、GDI 和 DirectX 上的 32 项都通过；实际键鼠也验证了右键只复制、Ctrl+Shift+V 才粘贴。整套交互 **78/80**；六种 160×48 压力负载的前端私有工作集峰值：GDI **19.186 MB**、DirectX **29.565 MB**。[选区前后截图](research/selection-split-scroll.md) · [本版交互、内存与未通过项](research/interaction-preview-30304bc.md) · [完整 CI](https://github.com/xiongnemo/nemoterm/actions/runs/44472521397) · [历史测试版](docs/PREVIEW_HISTORY.md)。
 
 在 Codex 0.167.0 中，请等编辑器就绪后再贴图，看到输入框中出现图片附件再发送。启动草稿可能接受文字却忽略贴图，窗口标题也不能可靠地判断是否就绪。[实际提交与截图](research/codex-file-draft-order.md)。
 
@@ -173,7 +173,7 @@ GPU 模式使用 Windows 系统 DLL 与显卡驱动，不新增分发文件；�
 
 这里的 MB 按十进制字节计，20 MB 为 20,000,000 字节，30 MB 为 30,000,000 字节；私有工作集与私有提交量分别记录。
 
-在同一台 GitHub Windows runner 上，用 Sarasa Light、160×48 和同一个 Codex 客户端运行本版。收到回复后，单标签 GDI 前端的稳定私有工作集为 **5.09–5.12 MB**，DirectX 为 **9.69–9.71 MB**；同机 pterm 0.85 对照为 **3.74–3.78 MB**。每种配置分别按正序、反序冷启动。这些数值只统计前端进程；满屏图文的峰值另行验收。[完整采样与测试条件](research/interaction-preview-810a26f.md) · [历史内存记录](docs/PREVIEW_HISTORY.md#内存)。
+在同一台 GitHub Windows runner 上，用 Sarasa Light、160×48 和同一个 Codex 客户端运行本版。收到回复后，单标签 GDI 前端的稳定私有工作集为 **5.112–5.157 MB**，DirectX 为 **9.679–9.683 MB**；同机 pterm 0.85 对照为 **3.744–3.797 MB**。每种配置分别按正序、反序冷启动。这些数值只统计前端进程；满屏图文的峰值另行验收。[完整采样与测试条件](research/interaction-preview-30304bc.md) · [历史内存记录](docs/PREVIEW_HISTORY.md#内存)。
 切回 GDI 后，驱动保留的内存可能需要关闭窗口才能释放。
 
 “单 EXE”指一个分发文件：程序仍会启动同一个 EXE 的隐藏控制台宿主进程，并运行所选 shell。
