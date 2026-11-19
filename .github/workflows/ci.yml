@@ -166,6 +166,13 @@ jobs:
       quote_only: true
       product_run: ${{ github.run_id }}
       product_commit: ${{ github.sha }}
+  taskbar-progress:
+    if: ${{ inputs.scope != 'dpi' }}
+    needs: source-host
+    uses: ./.github/workflows/taskbar-progress.yml
+    with:
+      product_run: ${{ github.run_id }}
+      product_commit: ${{ github.sha }}
   scrollback-modes:
     if: ${{ inputs.scope != 'dpi' }}
     needs: source-host

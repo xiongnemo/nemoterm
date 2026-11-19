@@ -6,7 +6,7 @@ on:
       suite:
         description: Checks or notice-only packaging against the exact artifact
         type: choice
-        options: [font-bell, dpi, interaction, single, ui-regression, shell-lifetime, tcap, portable-notices, regis-window, regis-frame-pair, regis-presented-matrix, regis-bank-start, column-cells, pointer-colour, colour-input, unicode-boundary, picture-keys, image-timing, image-mixed, image-mixed-opencode, image-reads, image-files, image-reference, draft-reference, draft-product, paste-order, pterm-images, pterm-memory, agent-session-memory, profile-dump, profile-env, wsl-tui, wsl-sixel, wsl-vim, wsl-tmux-vim, wsl-colour, wsl-paste-quote, wsl-byte-path, wsl-drop, rendering-settings, close-cancel, profile-sequence, font-ops, scrollback-modes, paste-lines, paste-quote, paste-quote-exit, fullscreen]
+        options: [font-bell, dpi, interaction, single, ui-regression, shell-lifetime, tcap, portable-notices, regis-window, regis-frame-pair, regis-presented-matrix, regis-bank-start, column-cells, pointer-colour, colour-input, unicode-boundary, picture-keys, image-timing, image-mixed, image-mixed-opencode, image-reads, image-files, image-reference, draft-reference, draft-product, paste-order, pterm-images, pterm-memory, agent-session-memory, profile-dump, profile-env, wsl-tui, wsl-sixel, wsl-vim, wsl-tmux-vim, wsl-colour, wsl-paste-quote, wsl-byte-path, wsl-drop, rendering-settings, close-cancel, profile-sequence, font-ops, scrollback-modes, paste-lines, paste-quote, paste-quote-exit, taskbar-progress, fullscreen]
         default: font-bell
       source_commit:
         description: Full source commit of the source-console-host artifact
@@ -45,6 +45,12 @@ jobs:
     with:
       quote_only: ${{ inputs.suite != 'paste-lines' }}
       diagnose_exit: ${{ inputs.suite == 'paste-quote-exit' }}
+      product_run: ${{ inputs.source_run }}
+      product_commit: ${{ inputs.source_commit }}
+  taskbar-progress:
+    if: inputs.suite == 'taskbar-progress'
+    uses: ./.github/workflows/taskbar-progress.yml
+    with:
       product_run: ${{ inputs.source_run }}
       product_commit: ${{ inputs.source_commit }}
   scrollback-modes:
