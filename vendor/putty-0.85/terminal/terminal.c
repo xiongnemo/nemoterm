@@ -6892,6 +6892,22 @@ static uint32_t *paste_mode_stack(Terminal *term, unsigned mode)
     }
 }
 
+/* A DEC screen request can name the buffer already on display. Keep a
+ * local selection in that case, unless the request actually erases it.
+ * Internal buffer swaps during resize do not switch the displayed buffer. */
+static void dec_screen_request(Terminal *term, bool alternate,
+                               AltClearPolicy clear, bool keep_cur_pos)
+{
+    int which = alternate && !term->no_alt_screen;
+    if (which != term->alt_which || (which && clear == ALT_CLEAR_ON_ENTRY)) {
+        if (term->selstate == ABOUT_TO || term->selstate == DRAGGING)
+            discard_selection_press(term);
+        else
+            deselect(term);
+    }
+    swap_screen(term, which, clear, keep_cur_pos);
+}
+
 /*
  * Toggle terminal mode `mode' to state `state'. (`query' indicates
  * whether the mode is a DEC private one or a normal one.)
@@ -6990,8 +7006,7 @@ static void toggle_mode(Terminal *term, int mode, int query, bool state)
             break;
           case 47:                     /* alternate screen */
             compatibility(OTHER);
-            deselect(term);
-            swap_screen(term, term->no_alt_screen ? 0 : state, ALT_KEEP, false);
+            dec_screen_request(term, state, ALT_KEEP, false);
             if (term->scroll_on_disp)
                 term->disptop = 0;
             break;
@@ -7035,9 +7050,8 @@ static void toggle_mode(Terminal *term, int mode, int query, bool state)
             break;
           case 1047:                   /* alternate screen */
             compatibility(OTHER);
-            deselect(term);
-            swap_screen(term, term->no_alt_screen ? 0 : state,
-                        term->no_alt_screen ? ALT_KEEP : ALT_CLEAR_ON_EXIT, true);
+            dec_screen_request(term, state, term->no_alt_screen ?
+                               ALT_KEEP : ALT_CLEAR_ON_EXIT, true);
             if (term->scroll_on_disp)
                 term->disptop = 0;
             break;
@@ -7051,8 +7065,7 @@ static void toggle_mode(Terminal *term, int mode, int query, bool state)
                 save_cursor(term, state);
             if (!state) seen_disp_event(term);
             compatibility(OTHER);
-            deselect(term);
-            swap_screen(term, term->no_alt_screen ? 0 : state, ALT_CLEAR_ON_ENTRY, false);
+            dec_screen_request(term, state, ALT_CLEAR_ON_ENTRY, false);
             if (!state && !term->no_alt_screen)
                 save_cursor(term, state);
             if (term->scroll_on_disp)
