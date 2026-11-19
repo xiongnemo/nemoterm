@@ -1,10 +1,22 @@
 # WSL PTY relay (Linux x86-64)
 
-This component provides a controlling terminal to a guest program even when
-`wsl.exe` has redirected standard handles. The hosted GUI replay sets `NEMOTERM_WSL_PTY_RELAY` to the absolute guest
-path of the separately verified binary. The Windows frontend only applies
-that override to an explicit system `wsl.exe --exec` command. Normal profiles
-still use ConPTY. The relay needs no interpreter or shared C library at runtime.
+The Windows single executable includes this relay and the musl notices. The
+opt-in `NEMOTERM_WSL_PTY_RELAY=builtin` applies to a system `wsl.exe --exec`
+session (including the WSL Bash profile). Other profiles and ordinary launches
+continue using ConPTY. The relay needs no interpreter or shared C library.
+For bundled launch, the distro's `/bin/sh` uses `wslpath` to convert one
+Windows pathname before the relay takes over; program arguments stay separate.
+
+The frontend creates one temporary `nemoterm-wsl-{GUID}.elf` in the user's
+temporary directory, verifies its bytes against the PE resource, and keeps a
+read handle that denies changes until session end. Normal session teardown
+removes that file; force-killing the frontend can leave it behind. No guest
+package installation is required. The remote GUI test checks the actual
+parent executable's SHA-256, its path, and removal after a normal exit.
+
+`bundled/manifest.json` identifies the Linux source, checked-in ELF and
+original compiler artifact. GitHub Actions builds this source with static musl
+and requires a byte-identical ELF before exercising it and the candidate PE.
 
 `relay COLS ROWS PROGRAM [ARG ...]` launches the supplied argv on a new PTY.
 Stdout is the slave's exact terminal stream (including the child's stderr).

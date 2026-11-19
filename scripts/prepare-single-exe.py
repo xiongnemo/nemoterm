@@ -4,6 +4,8 @@ Build outputs stay under build/. Changes below deliberately fail if their
 upstream anchors change; upgrading the submodule requires reviewing them.
 """
 import io
+import hashlib
+import json
 from pathlib import Path
 import re
 import shutil
@@ -434,17 +436,28 @@ def main():
     deps = ";".join(escape(str(libs / (n + ".lib"))) for n in names)
     src = escape(str(ROOT / "vendor/putty-0.85/windows"))
     generated = escape(str(libs / "CMakeFiles"))
+    # This artifact is reproducible on the pinned Linux toolchain. Reject a
+    # mismatched source or guest image even on a Windows-only build.
+    bundle = ROOT / 'native/wsl_pty/bundled'
+    manifest = json.loads((bundle / 'manifest.json').read_text())
+    elf = (bundle / 'relay-x86_64.elf').read_bytes()
+    source = (bundle.parent / 'relay.c').read_text(encoding='utf-8').encode()
+    notice = (bundle / 'musl-copyright.txt').read_text(encoding='utf-8').encode()
+    for data, key in [(elf, 'relay_sha256'), (source, 'source_sha256'), (notice, 'musl_notice_sha256')]:
+        if hashlib.sha256(data).hexdigest() != manifest[key]:
+            raise ValueError('Bundled WSL relay identity mismatch: '+key)
+    (DEST / 'src/host/exe/nemo-wsl-relay.elf').write_bytes(elf)
     notices = "\n\n".join(p.read_text(encoding="utf-8-sig") for p in (
         ROOT / "LICENSE", ROOT / "vendor/putty-0.85/LICENCE",
         UPSTREAM / "LICENSE", UPSTREAM / "NOTICE.md",
         ROOT / "vendor/nerd-fonts/LICENSE", ROOT / "vendor/nerd-fonts/NOTICE.txt",
         ROOT / "tools/unicode/18.0.0/LICENSE.txt",
         ROOT / "tools/x11/xorg-server-21.1.16/LICENSE.txt",
-        ROOT / "vendor/terminfo/COPYING.ncurses",
+        ROOT / "vendor/terminfo/COPYING.ncurses", bundle / "musl-copyright.txt",
         ROOT / "vendor/putty-0.85/terminal/puff/puff.h"))
     (DEST / "src/host/exe/nemo-licenses.txt").write_text(notices, encoding="utf-8")
     (DEST / "src/host/exe/nemo-licenses.rc").write_text(
-        '40000 RCDATA "nemo-licenses.txt"\n', encoding="ascii")
+        '40000 RCDATA "nemo-licenses.txt"\n40003 RCDATA "nemo-wsl-relay.elf"\n', encoding="ascii")
     # One RC invocation allocates the individual ICON image IDs consistently;
     # separate .res files both start those implicit IDs at 1 and collide.
     host_rc = DEST / "src/host/exe/Host.EXE.rc"

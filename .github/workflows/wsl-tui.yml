@@ -87,9 +87,9 @@ jobs:
           $relay = (Resolve-Path build/wsl-relay/relay).Path
           $digest = (Get-FileHash $relay).Hash.ToLowerInvariant()
           if ((Get-Content build/wsl-relay/SHA256SUMS) -cne "$digest  relay") { throw 'Relay digest mismatch' }
-          $guest = wsl.exe -d Ubuntu-24.04 --exec /usr/bin/wslpath -a -u $relay
-          if ($LASTEXITCODE -ne 0 -or $guest -notmatch '^/[A-Za-z0-9/._-]+$') { throw 'Guest relay path unavailable' }
-          $env:NEMOTERM_WSL_PTY_RELAY = $guest.Trim()
+          # Only the digest is used by the receiver. The product must start
+          # the copy embedded in its own PE, not this Actions artifact.
+          $env:NEMOTERM_WSL_PTY_RELAY = 'builtin'
           $env:NEMOTERM_TEST_RELAY_SHA256 = $digest
           Copy-Item testdata/upstream/xterm412-paste-quote.zip build/wsl-check/
           python build/wsl-check/tests/wsl_paste_quote.py

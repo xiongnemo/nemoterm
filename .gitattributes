@@ -20,3 +20,6 @@ CMakeLists.txt text eol=lf
 /tests/fixtures/codex-colour-probe/*.vt -text
 /tests/fixtures/codex-image-keys/*.vt -text
 /scripts/install-hosted-ubuntu-packages.sh text eol=lf
+
+/native/wsl_pty/bundled/*.elf binary
+/native/wsl_pty/bundled/musl-copyright.txt -text

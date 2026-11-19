@@ -191,7 +191,7 @@ if(HAVE_CONPTY)
     window.c
     pterm.c
     help.c
-    conpty.c
+    conpty.c nemo_wsl_image.c
     ${CMAKE_SOURCE_DIR}/stubs/no-gss.c
     ${CMAKE_SOURCE_DIR}/stubs/no-ca-config.c
     ${CMAKE_SOURCE_DIR}/stubs/no-console.c

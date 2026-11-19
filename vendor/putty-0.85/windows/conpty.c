@@ -8,6 +8,7 @@
 
 #include "putty.h"
 #include "nemo_shell.h"
+#include "nemo_wsl_image.h"
 #include "nemo_drop.h"
 
 #include <windows.h>
@@ -22,6 +23,7 @@ struct ConPTY {
     bool exited;
     bool wait_for_clients;
     bool byte_relay, relay_eof;
+    NemoWslImage relay_image;
     DWORD exitstatus;
     Seat *seat;
     LogContext *logctx;
@@ -209,6 +211,8 @@ static void conpty_terminate(ConPTY *conpty, bool close_session)
         CloseHandle(conpty->hprocess);
         conpty->hprocess = INVALID_HANDLE_VALUE;
     }
+    DWORD err = nemo_wsl_image_close(&conpty->relay_image);
+    if (err) logeventf(conpty->logctx, "Could not remove the WSL session file: %s", win_strerror(err));
 }
 
 static void conpty_process_wait_callback(void *vctx)
@@ -336,13 +340,14 @@ static void conpty_sentdata(struct handle *h, size_t new_backlog, int err,
 /* Opt-in GUI replay of a known guest binary. Only intercept the actual
  * system wsl.exe with an explicit --exec program. Preserve every argument
  * of the original guest command, including Windows quoting. */
-static wchar_t *wsl_relay_command(wchar_t *cmd, COORD size)
+static wchar_t *wsl_relay_command(wchar_t *cmd, COORD size, NemoWslImage *image, char **error)
 {
     wchar_t helper[1024], sysdir[MAX_PATH], dims[32];
     DWORD n = GetEnvironmentVariableW(L"NEMOTERM_WSL_PTY_RELAY", helper, lenof(helper));
-    if (!n || n >= lenof(helper) || helper[0] != L'/' || size.X < 1 || size.Y < 1)
+    if (!n || n >= lenof(helper) || size.X < 1 || size.Y < 1)
         return NULL;
-    if (wcsspn(helper, L"/abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789._-") != n)
+    bool bundled = !wcscmp(helper, L"builtin");
+    if (!bundled && (helper[0] != L'/' || wcsspn(helper, L"/abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789._-") != n))
         return NULL;
     UINT units = GetSystemDirectoryW(sysdir, lenof(sysdir));
     if (!units || units >= lenof(sysdir)) return NULL;
@@ -358,7 +363,20 @@ static wchar_t *wsl_relay_command(wchar_t *cmd, COORD size)
                 wchar_t *prefix = snewn(prefix_len + 1, wchar_t);
                 memcpy(prefix, cmd, prefix_len * sizeof(*prefix)); prefix[prefix_len] = 0;
                 swprintf(dims, lenof(dims), L" %d %d ", size.X, size.Y);
-                out = dupwcscat(prefix, helper, dims, tail);
+                if (bundled) {
+                    DWORD e = nemo_wsl_image_open(image);
+                    if (e) *error = dupprintf("Cannot prepare the bundled WSL PTY: %s", win_strerror(e));
+                    else {
+                        /* Convert within this distro so its automount rules apply.
+                         * Paths and user argv are positional data, never shell code. */
+                        wchar_t *script = nemo_shell_quote_arg(L"p=$(wslpath -a -u \"$1\") || exit 125; shift; exec \"$p\" \"$@\"");
+                        wchar_t *file = nemo_shell_quote_arg(image->path);
+                        out = dupwcscat(prefix, L"/bin/sh -c ", script, L" nemoterm ", file, dims, tail);
+                        sfree(script); sfree(file);
+                    }
+                } else {
+                    out = dupwcscat(prefix, helper, dims, tail);
+                }
                 sfree(prefix);
                 break;
             }
@@ -390,6 +408,7 @@ static char *conpty_init(const BackendVtable *vt, Seat *seat,
     bool pcon_needs_cleanup = false;
     bool attributes_initialized = false;
     wchar_t *directory = NULL;
+    NemoWslImage relay_image = {0};
 
     STARTUPINFOEXW si;
     memset(&si, 0, sizeof(si));
@@ -437,7 +456,8 @@ static char *conpty_init(const BackendVtable *vt, Seat *seat,
     }
     nemo_drop_record_launch(seat,conf,command,launch_shell);
     COORD size = { (SHORT)conf_get_int(conf, CONF_width), (SHORT)conf_get_int(conf, CONF_height) };
-    wchar_t *relay_cmd = wsl_relay_command(command, size);
+    wchar_t *relay_cmd = wsl_relay_command(command, size, &relay_image, &err);
+    if (err) goto out;
     bool byte_relay = relay_cmd != NULL;
     if (byte_relay) { sfree(command); command = relay_cmd; }
     if (!byte_relay && !init_conpty_api()) {
@@ -532,6 +552,8 @@ static char *conpty_init(const BackendVtable *vt, Seat *seat,
 
     conpty = snew(ConPTY);
     memset(conpty, 0, sizeof(ConPTY));
+    conpty->relay_image = relay_image;
+    memset(&relay_image, 0, sizeof(relay_image));
     conpty->byte_relay = byte_relay;
     conpty->pseudoconsole = pcon;
     pcon_needs_cleanup = false;
@@ -584,6 +606,7 @@ static char *conpty_init(const BackendVtable *vt, Seat *seat,
     sfree(command);
     sfree(environment);
     sfree(directory);
+    nemo_wsl_image_close(&relay_image);
     return err;
 }
 

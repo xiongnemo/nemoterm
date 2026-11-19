@@ -15,6 +15,7 @@ typedef struct NemoShellList {
 } NemoShellList;
 extern const char *const nemo_shell_ids[NEMO_SHELL_COUNT];
 extern const char *const nemo_shell_names[NEMO_SHELL_COUNT];
+wchar_t *nemo_shell_quote_arg(const wchar_t *text);
 void nemo_shell_detect_at(NemoShellList *, const NemoShellLocations *);
 wchar_t *nemo_shell_default_wsl_distribution(void);
 void nemo_shell_detect(NemoShellList *);
