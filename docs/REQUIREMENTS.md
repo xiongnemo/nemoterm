@@ -1,5 +1,7 @@
 # Nemoterm requirements and evidence ledger
 
+The [horizontal resize comparison](../research/selection-width.md) tests the same physical Shift gestures on `c621b171` and `844ad5c3`: fixed-grid width checks improve from 2/6 to 6/6 across GDI and DirectX. The candidate also passed all ten fullscreen agent selection cases. Width changes that reflow main-screen text remain separate.
+
 The [distributed `fc769def` preview](../research/acceptance-fc769def.md) scored 80/81, with one early physical Codex image gesture missing. The same file passed all ready-composer gestures, 10/10 fullscreen agent selection cases and six stress workloads on each renderer (private working set peaks: GDI 19,206,144 bytes; DirectX 28,819,456). Real delayed clipboard data was discarded after window close and in four same-window shell restarts; the new shell received its own paste once. The historical XTerm and WSL1 line-boundary differences remain open.
 
 The [earlier `3947dee3` preview](../research/acceptance-3947dee3.md) scored 79/81 on the full interaction suite. The two unsuccessful cases are image-paste gestures during Codex startup; ready-state image paste passed, and [original pterm exhibited the same startup timing](../research/codex-bitmap-requests.md). Both GDI and DirectX passed the full-grid private working set limits on this exact executable. A [separate WSL1 candidate](../research/wsl-relay-window.md) isolates the Windows text transport from Linux canonical line splitting. These observations are tied to different executables.
