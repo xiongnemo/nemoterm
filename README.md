@@ -33,7 +33,7 @@ Kitty 图片支持直接 RGB/RGBA/PNG、压缩传输、裁剪、透明度、查�
 
 ## 下载
 
-[下载 Windows x64 单文件试用版 `fc769def`](https://github.com/xiongnemo/nemoterm/actions/runs/44619850611/artifacts/14576329075)。解压后运行 `nemoterm.exe`。修复了粘贴后立刻按回车时输入顺序颠倒的问题；关窗口或重启 shell 时，迟到的剪贴板文字不会送进新会话。160×48 六种满屏压力下，前端私有工作集峰值为 **GDI 19.21 MB / DirectX 28.82 MB**。完整交互 **80/81**：Codex 启动早期的一次实按 Ctrl+V 没有附图，就绪后两种快捷键均通过。[测试范围、已知差异与 SHA-256](research/acceptance-fc769def.md)。
+[下载 Windows x64 单文件试用版 `844ad5c3`](https://github.com/xiongnemo/nemoterm/actions/runs/44629889832/artifacts/14581148646)。解压后运行 `nemoterm.exe`。固定网格在窗口加宽或缩窄时会保留仍然完整的 Shift 选区；设置里也可以按配置方案选择 x64 WSL 的 Linux PTY。六种满屏压力下，前端私有工作集峰值为 **GDI 18.92 MB / DirectX 29.36 MB**。完整交互 **80/81**；唯一未过的是 Codex 启动时的一组贴图，就绪后四种组合均通过。[完整结果与 SHA-256](research/acceptance-844ad5c3.md)。[上一试用版 `fc769def`](research/acceptance-fc769def.md)修复了粘贴后立即按回车的顺序。
 
 [上一份 81/81 的 Windows x64 测试版 `cf091974`](https://github.com/xiongnemo/nemoterm/actions/runs/44588222859/artifacts/14562762043)。解压后只需 `nemoterm.exe`（4,862,464 字节）。SHA-256：`9df8365b9e32444f24d279c114750090122f8550c1aa53dffa2972c448aa4788`。
 
@@ -126,7 +126,7 @@ $env:NEMOTERM_WSL_PTY_RELAY = 'builtin'
 
 这仍是单 EXE 分发，不用在发行版里安装软件；正常关闭会话会删除临时 ELF。删除该环境变量后，新窗口恢复默认 ConPTY。适用于 x86-64 Linux 发行版。WSL1 原始输入可以保持中文和 emoji 的全部引用前缀；按行读取内嵌换行的差异见[窗口实测](research/wsl-relay-window.md)。
 
-开发分支的单文件版也可以在 **Profile → Shell → Use Linux PTY for x64 WSL sessions**（「配置方案 → Shell → x64 WSL 会话使用 Linux PTY」）中按配置方案开启。点「保存并应用」后，下次新建该配置的 WSL 会话生效；当前 shell 保持原样。取消后新会话恢复 ConPTY，PowerShell、Git Bash 等 Windows shell 不受影响。如果曾设置上面的环境变量，请先移除它再按配置方案选择。`fc769def` 下载版仍使用上面的环境变量。[新标签、重新打开配置和退出对照的实测记录](research/wsl-profile.md)。
+从 `844ad5c3` 试用版起，也可以在 **Profile → Shell → Use Linux PTY for x64 WSL sessions**（「配置方案 → Shell → x64 WSL 会话使用 Linux PTY」）中按配置方案开启。点「保存并应用」后，下次新建该配置的 WSL 会话生效；当前 shell 保持原样。取消后新会话恢复 ConPTY，PowerShell、Git Bash 等 Windows shell 不受影响。如果曾设置上面的环境变量，请先移除它再按配置方案选择。`fc769def` 下载版仍使用上面的环境变量。[新标签、重新打开配置和退出对照的实测记录](research/wsl-profile.md)。
 
 更多说明见 [Shell 检测](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/shell-selection.md) 与 [工作目录集成](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/working-directory.md)。
 
