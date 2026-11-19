@@ -74,7 +74,7 @@ def agent_grid_case(path,row,identity):
     if nested:
         pair=child['shell_processes']
         require(obs.get('writer_order_hints')=={'NEMO_SHELL_BEFORE:דהו':False,'AגְבאZ':True,'NEMO_SHELL_AFTER:דהו':False},'wrong owner for a marked span')
-        require(pair['parent_image'].lower()=='pwsh' and pair['child_image'].lower()=='claude' and pair['parent']!=pair['child'],'missing native shell/client process pair')
+        require(pair['output_code_page']==65001 and pair['parent_image'].lower()=='pwsh' and pair['child_image'].lower()=='claude' and pair['parent']!=pair['child'],'missing native shell/client process pair')
     require(obs['client']==client and obs['completed'] and obs['global_input'] and obs['font']==identity['font']
             and child['terminal_sha256']==identity['executable_sha256'] and child['client_sha256']==identity['clients'][client]['sha256']
             and child['cleanup']['terminated_remaining'] is False and (sess['cols'],sess['rows'])==(160,48)

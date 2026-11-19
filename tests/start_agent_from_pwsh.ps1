@@ -7,10 +7,13 @@ $info = [Diagnostics.ProcessStartInfo]::new()
 $info.UseShellExecute = $false
 $info.FileName = $arguments[0]
 foreach ($item in $arguments[1..($arguments.Count-1)]) { $info.ArgumentList.Add([string]$item) }
+# Console.WriteLine encodes through the attached console's output code page.
+# The hosted runner's OEM default cannot represent the Hebrew witness.
+[Console]::OutputEncoding = [Text.UTF8Encoding]::new($false)
 [Console]::WriteLine('NEMO_SHELL_BEFORE:דהו')
 $client = [Diagnostics.Process]::Start($info)
 try {
-    $pair = @{ parent = $PID; parent_image = (Get-Process -Id $PID).ProcessName; child = $client.Id; child_image = $client.ProcessName }
+    $pair = @{ output_code_page = [Console]::OutputEncoding.CodePage; parent = $PID; parent_image = (Get-Process -Id $PID).ProcessName; child = $client.Id; child_image = $client.ProcessName }
     $pair | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $FixtureRoot 'shell-processes.json')
     $client.WaitForExit()
     [Console]::WriteLine('NEMO_SHELL_AFTER:דהו')

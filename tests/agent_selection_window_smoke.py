@@ -373,12 +373,13 @@ def main():
             observed=read_snapshot(report);assert not observed['errors'] and not observed['cleanup']['terminated_remaining'],observed
             if args.shell_parent:
                 pair=observed['shell_processes']
-                assert pair['parent_image'].lower()=='pwsh' and pair['child_image'].lower()=='claude' and pair['child']!=pair['parent'],pair
+                assert pair['output_code_page']==65001 and pair['parent_image'].lower()=='pwsh' and pair['child_image'].lower()=='claude' and pair['child']!=pair['parent'],pair
                 wire=(case/'client-output.log').read_bytes()
                 begin=b'\x1b]777;nemoterm:visual=1\x07';end=b'\x1b]777;nemoterm:visual=0\x07'
                 hints={}
                 for marker in ('NEMO_SHELL_BEFORE:דהו','AגְבאZ','NEMO_SHELL_AFTER:דהו'):
-                    pos=wire.index(marker.encode())
+                    pos=wire.find(marker.encode())
+                    assert pos>=0, f'No UTF-8 writer witness in the captured VT stream: {marker!r}'
                     hints[marker]=wire.rfind(begin,0,pos)>wire.rfind(end,0,pos)
                 assert list(hints.values())==[False,True,False],hints
                 evidence['writer_order_hints']=hints
