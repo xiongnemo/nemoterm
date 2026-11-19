@@ -98,4 +98,6 @@ def verify(host, hwnd, begin, point, capture, tile, barrier, desktop, evidence):
             resize(0,0)
     from selection_main_reflow import verify as verify_reflow
     reflow_ok=verify_reflow(hwnd,begin,capture,resize,aim,barrier,desktop,evidence)
-    return all(r['passed'] for r in records+widths) and reflow_ok
+    from selection_unicode_reflow import verify as verify_unicode
+    unicode_ok = verify_unicode(hwnd,begin,capture,resize,aim,barrier,desktop,evidence)
+    return all(r['passed'] for r in records+widths) and reflow_ok and unicode_ok
