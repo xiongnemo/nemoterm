@@ -7,3 +7,5 @@
 在 [GitHub Windows 对旧 EXE 的回放](https://github.com/xiongnemo/nemoterm/actions/runs/44552352165)中，GDI 和 DirectX 各有 72/72 段回复与 XTerm 不同；32 项实际滚动中，各有 16 项不符合应用要求。测试在历史顶部让子程序输出一个可见字符，或让 Windows 输入一个数字，直接读取原生滚动条位置。旧版只在 profile 恰好与应用要求相同时表现一致。[两份未修改的原始制品](scrollback-modes-before-b3274ed.zip)。
 
 首个实现 `d0f1b12b` 在两种渲染器均通过 72 段应答及 32 项窗口行为，但是已有的固定存储检查发现模式表从 112 字节涨到了 120 字节。`a29abfa6` 改用 30 个有符号 16 位槽，共 60 字节，足以保存鼠标模式 -1 以及最大编码 1016；原有空间上限和精确新大小均检查。[首版窗口回执、失败日志及修正后完整 sanitizer 日志](scrollback-modes-storage.zip)。这些字节是每个终端的模式表，并非进程工作集测量。
+
+修正版 `a29abfa6` 在[同一份 EXE 的 GitHub Windows 回放](https://github.com/xiongnemo/nemoterm/actions/runs/44553596113)中，GDI、DirectX 各通过 **72/72 段应答、32/32 项窗口滚动**。应用已接管鼠标时，两种渲染器也都成功在 Shift 拖选期间接收新输出：历史位置保持在第 0 行，复制得到 `HISTORY 03 中`；真正键入 `7` 后才回到底部第 49 行。子进程只收到状态回复和一个 `7`。这两组共十个终端进程组均自行退出。[两份原始制品和 EXE 摘要](scrollback-modes-after-a29abfa.zip)。
