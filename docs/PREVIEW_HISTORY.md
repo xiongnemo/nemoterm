@@ -4,6 +4,8 @@
 
 ## 开发快照
 
+`b3274ed` 修复了右键“复制并粘贴”后快速按 Enter 时漏掉粘贴文字的问题。[当时的单文件](https://github.com/xiongnemo/nemoterm/actions/runs/44542003485/artifacts/14538024692)有 4,874,240 字节，SHA-256 `c7f4f4be019a2fb0262f984d15e7f6177eb47da043558dd81971cf953af5979a`。[交互原件](https://github.com/xiongnemo/nemoterm/blob/b5c51524819bd4990f9a7d643a5f4d1e0c18252a/research/preview-b3274ed.zip)为 **79/81**，仅 Codex 首次显示输入文字就立即贴图的两项未过；GDI、DirectX 的六种压力场景均通过，私有工作集峰值分别为 18.813、29.585 MB。[实际应用回放](https://github.com/xiongnemo/nemoterm/blob/b5c51524819bd4990f9a7d643a5f4d1e0c18252a/research/xterm-clients-b3274ed.zip)和 [24 轮 Codex 会话](https://github.com/xiongnemo/nemoterm/blob/b5c51524819bd4990f9a7d643a5f4d1e0c18252a/research/agent-session-b3274ed.zip)也对应这一份 EXE。
+
 [下载 Windows x64 单文件测试版 `9d1da87`](https://github.com/xiongnemo/nemoterm/actions/runs/44535907093/artifacts/14536467740)。解压后只需 `nemoterm.exe`；文件大小为 4,858,368 字节，SHA-256 为 `1f08676cd15839bb0b2eccddaae22c7416beeccd661effb0c244e098ebac76e9`。
 
 启用右键“复制并粘贴”时，快速对两段不同的选区分别点右键，终端会按点击顺序粘贴两段内容。以前可能把第二段粘贴两次。[修复前后子程序收到的输入](../research/README.md)。

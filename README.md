@@ -33,13 +33,13 @@ Kitty 图片支持直接 RGB/RGBA/PNG、压缩传输、裁剪、透明度、查�
 
 ## 下载
 
-[下载 Windows x64 单文件测试版 `b3274ed`](https://github.com/xiongnemo/nemoterm/actions/runs/44542003485/artifacts/14538024692)。解压后只需 `nemoterm.exe`（4,874,240 字节）；SHA-256 为 `c7f4f4be019a2fb0262f984d15e7f6177eb47da043558dd81971cf953af5979a`。
+[下载 Windows x64 单文件测试版 `97f8b05b`](https://github.com/xiongnemo/nemoterm/actions/runs/44557184431/artifacts/14546167071)。解压后只需 `nemoterm.exe`（4,874,752 字节）。SHA-256：`c66b366f2c67e216c219d6674e0e368181bdcfbdd884dd6f6c11b61a1bed84b5`。
 
-开启右键“复制并粘贴”后，右键粘贴短选区并马上按回车，现在会先粘贴再提交。原来在同一批窗口消息中处理这两步时，子程序可能只收到回车。[旧版回执](research/selection-enter-before-9d1da87.zip) · [修复版回执](research/selection-enter-after-b3274ed.zip)。
+当应用要求新输出时留在历史、键入时回到底部，终端现在会分别遵循这两个设置。历史已满时，Ctrl 框选的高亮也会保留原来的列宽，不会在最老一行离开后误选左侧文字。[修复前后的实际画面](research/scrollback-modes.md#滚动历史已满时的矩形高亮)。
 
-[这份 EXE 的远程交互报告](research/preview-b3274ed.zip)覆盖 13 组，通过 **79/81**。未通过的两项都是在 Codex 启动草稿中立即贴图。160×48 的六种压力场景分别在 GDI 和 DirectX 全部通过；前端私有工作集峰值为 **18.813 MB** 和 **29.585 MB**。同一份 EXE 连续完成 24 轮 Codex 追问时，前端私有工作集采样峰值为 GDI **5.73 MB**、DirectX **10.08 MB**；作为对照，原版 pterm 为 **3.80 MB**。三种内存指标和测量范围见[同机内存对照](research/pterm-findings.md)。
+[这份 EXE 的远程交互报告](research/preview-97f8b05b.zip)为 **81/81**，覆盖 13 组。使用 SarasaTermSC Nerd Light 的 160×48 六种压力场景中，前端**私有工作集**峰值为 GDI **19.42 MB**、DirectX **28.57 MB**；总工作集峰值分别为 56.30 MB 和 71.83 MB。同一台 runner 上连续输入 24 轮 Codex 追问，私有工作集采样峰值为原版 pterm **3.82 MB**、Nemoterm GDI **5.86 MB**、DirectX **10.09 MB**。[同机逐项测量](research/pterm-findings.md#矩形高亮修复版-97f8b05b-的同机对照)。
 
-[真实 xterm 应用回放](research/xterm-clients-b3274ed.zip)覆盖 Vim、tmux 内的 Vim、颜色和 Sixel。与原版 XTerm 412 的[宽字逐格对照](research/column-edge-integrity.md)和 [ReGIS 历史画面](research/regis-presented-pairs.md)仍有差异。[完整 CI](https://github.com/xiongnemo/nemoterm/actions/runs/44542003485) · [历史测试版](docs/PREVIEW_HISTORY.md)。
+[真实应用回放](research/xterm-clients-97f8b05b.zip)覆盖 `TERM=xterm` 和 `xterm-256color` 的 Vim、tmux 中的 Vim、颜色，以及 Sixel 图像。交互通过不代表与原版 XTerm 412 所有细节一致：[宽字逐格对照](research/column-edge-integrity.md)和 [ReGIS 历史画面](research/regis-presented-pairs.md)仍有差异。[完整 CI 记录](https://github.com/xiongnemo/nemoterm/actions/runs/44557184431) · [历史测试版](docs/PREVIEW_HISTORY.md)。
 
 Codex 0.167.0 的启动草稿只收文字。即使已经能打字，也请等正常编辑器接手后再贴图，看到图片附件再发送。绕过 Nemoterm 的系统 ConPTY 和 WinPTY 对照也复现过这个现象；窗口标题不能用来判断是否就绪。[实际提交与截图](research/codex-file-draft-order.md) · [按键后 Windows 何时索取位图](research/codex-bitmap-requests.md)。
 

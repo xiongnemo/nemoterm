@@ -176,9 +176,9 @@ Nemoterm EXE 的 SHA-256 为 `c7f4f4be019a2fb0262f984d15e7f6177eb47da043558dd819
 | Nemoterm，GDI | 132.66 | 5.73 | 37.10 | 7.11 |
 | Nemoterm，DirectX | 132.03 | 10.08 | 47.42 | 11.69 |
 
-表中是从窗口启动到最后一轮结束的**采样峰值**，单位为十进制 MB，约每 100 毫秒一次，不含客户端或控制台宿主。它覆盖反复输入与中文滚屏；对重图形负载仍采用[六项压力场景的独立测量](preview-b3274ed.zip)，不能用这里较低的数字替代。
+表中是从窗口启动到最后一轮结束的**采样峰值**，单位为十进制 MB，约每 100 毫秒一次，不含客户端或控制台宿主。它覆盖反复输入与中文滚屏；对重图形负载仍采用[六项压力场景的独立测量](https://github.com/xiongnemo/nemoterm/blob/b5c51524819bd4990f9a7d643a5f4d1e0c18252a/research/preview-b3274ed.zip)，不能用这里较低的数字替代。
 
-[完整原始制品及清单](agent-session-b3274ed.zip)包含三份最终窗口截图、每轮原生控制台记录和全部内存采样。GitHub 原始 ZIP 的 SHA-256 为 `7e9dc6129f5a289b6482d70aea02aca2ce2f87e93c3471508b2b556f383b2df7`，测试源码 `0d58809d`，产品仍为 `b3274ed`。对同一画面并行读取：逐格读取在三个窗口都读到校准文字 `CELL中Z` 和 24 帧回复；旧读法要求每行返回的 UTF-16 单元数等于列数，在这 72 帧全部没有返回有效画面。此前先后遇到[把额外请求当作对话](https://github.com/xiongnemo/nemoterm/blob/0d58809d6fc4919b69f1a25c0fc20aba3fbfbad8/research/agent-session-first-44545003499.zip)、[标题引用了后续提示词](https://github.com/xiongnemo/nemoterm/blob/0d58809d6fc4919b69f1a25c0fc20aba3fbfbad8/research/agent-session-second-44545823667.zip)和[回复已发送但未读到画面](https://github.com/xiongnemo/nemoterm/blob/0d58809d6fc4919b69f1a25c0fc20aba3fbfbad8/research/agent-session-diagnostic-44546763189.zip)；这些原始失败均保留。
+[完整原始制品及清单](https://github.com/xiongnemo/nemoterm/blob/b5c51524819bd4990f9a7d643a5f4d1e0c18252a/research/agent-session-b3274ed.zip)包含三份最终窗口截图、每轮原生控制台记录和全部内存采样。GitHub 原始 ZIP 的 SHA-256 为 `7e9dc6129f5a289b6482d70aea02aca2ce2f87e93c3471508b2b556f383b2df7`，测试源码 `0d58809d`，产品仍为 `b3274ed`。对同一画面并行读取：逐格读取在三个窗口都读到校准文字 `CELL中Z` 和 24 帧回复；旧读法要求每行返回的 UTF-16 单元数等于列数，在这 72 帧全部没有返回有效画面。此前先后遇到[把额外请求当作对话](https://github.com/xiongnemo/nemoterm/blob/0d58809d6fc4919b69f1a25c0fc20aba3fbfbad8/research/agent-session-first-44545003499.zip)、[标题引用了后续提示词](https://github.com/xiongnemo/nemoterm/blob/0d58809d6fc4919b69f1a25c0fc20aba3fbfbad8/research/agent-session-second-44545823667.zip)和[回复已发送但未读到画面](https://github.com/xiongnemo/nemoterm/blob/0d58809d6fc4919b69f1a25c0fc20aba3fbfbad8/research/agent-session-diagnostic-44546763189.zip)；这些原始失败均保留。
 
 ### 矩形高亮修复版 `97f8b05b` 的同机对照
 
