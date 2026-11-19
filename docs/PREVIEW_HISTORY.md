@@ -2,6 +2,16 @@
 
 下文保留当时的记录。每条数字都对应所列提交；当前测试版请从 [README 下载](../README.md#下载)。
 
+## `42232a2d` 单文件测试版
+
+[下载 Windows x64 单文件测试版 `42232a2d`](https://github.com/xiongnemo/nemoterm/actions/runs/44571268715/artifacts/14554514038)。解压后只需 `nemoterm.exe`（4,859,904 字节）。SHA-256：`f6e2acd5d51db02e3ff0095e65da72c13e38d4f1ea1f12c7c55ba3eb8efb874d`。
+
+应用滚动部分窗口时，矩形选区会跟随仍在屏幕上的字符。假如原来复制了三行，滚动后只剩两行高亮，剪贴板仍保留原先的三行；再次按 Ctrl+Shift+C 或右键，只会复制眼前这两行。启用右键“复制并粘贴”时也只粘贴这两行。[46 项键鼠实测与修复前后截图](https://github.com/xiongnemo/nemoterm/blob/ba1cc8fec99470377b668bd3a3a8cc6275b203a8/research/scrollback-modes.md#矩形跨过-tui-的滚动区域)。
+
+[这份 EXE 的交互验收](https://github.com/xiongnemo/nemoterm/blob/ba1cc8fec99470377b668bd3a3a8cc6275b203a8/research/preview-42232a2d.zip)为 **79/81**。两项未过的都是 Codex 刚显示输入文字时粘贴位图；正式输入框就绪后两种快捷键均通过。[实际应用回放](https://github.com/xiongnemo/nemoterm/blob/ba1cc8fec99470377b668bd3a3a8cc6275b203a8/research/xterm-clients-42232a2d.zip)覆盖 Vim、tmux 中的 Vim、颜色和 Sixel。与原版 XTerm 412 的[宽字边界](https://github.com/xiongnemo/nemoterm/blob/ba1cc8fec99470377b668bd3a3a8cc6275b203a8/research/column-edge-integrity.md)和 [ReGIS 历史画面](https://github.com/xiongnemo/nemoterm/blob/ba1cc8fec99470377b668bd3a3a8cc6275b203a8/research/regis-presented-pairs.md)仍有差异；逐字节粘贴模式 `?2005` 尚不支持。
+
+160×48、SarasaTermSC Nerd Light 的六种压力场景中，前端私有工作集峰值为 **GDI 19.66 MB / DirectX 29.20 MB**，总工作集分别为 54.44 / 74.21 MB。同机 24 轮 Codex 追问中，原版 pterm / Nemoterm GDI / DirectX 的私有工作集峰值为 **3.78 / 5.49 / 9.66 MB**。[逐项测量](https://github.com/xiongnemo/nemoterm/blob/ba1cc8fec99470377b668bd3a3a8cc6275b203a8/research/pterm-findings.md#局部滚屏选区版-42232a2d-的同机对照) · [完整 CI 记录](https://github.com/xiongnemo/nemoterm/actions/runs/44571268715) · [历史测试版](PREVIEW_HISTORY.md)。
+
 ## `476a2c76` 单文件测试版
 
 [下载 Windows x64 单文件测试版 `476a2c76`](https://github.com/xiongnemo/nemoterm/actions/runs/44564122496/artifacts/14551696506)。解压后只需 `nemoterm.exe`（4,874,752 字节）。SHA-256：`5b9ede235d557ccafbe6545dd369867b0c2f135ead7ee9205a1c794c9835ca14`。
