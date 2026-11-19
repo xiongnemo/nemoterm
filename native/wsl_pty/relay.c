@@ -91,12 +91,16 @@ static enum end pump(int master)
         const bool input = !eof && !ready(&f);
         const short io = (out_at == out_end && !eof ? POLLIN : 0) |
                          (!eof && ready(&f) ? POLLOUT : 0);
-        struct pollfd fd[] = {{input ? STDIN_FILENO : -1,POLLIN,0},
+        /* A zero event mask still watches peer closure. Removing these fds
+         * while a slave blocks our writes can strand its owner on tab close. */
+        struct pollfd fd[] = {{eof ? -1 : STDIN_FILENO,input ? POLLIN : 0,0},
                              {io ? master : -1,io,0},
-                             {out_at != out_end ? STDOUT_FILENO : -1,POLLOUT,0}};
+                             {STDOUT_FILENO,out_at != out_end ? POLLOUT : 0,0}};
         if (poll(fd,3,-1) < 0) { if (errno == EINTR) continue; return FAILED; }
         if ((fd[0].revents|fd[1].revents|fd[2].revents) & POLLNVAL) { errno=EBADF; return FAILED; }
-        if (fd[2].revents) {
+        if ((fd[2].revents & (POLLHUP|POLLERR)) ||
+            (!input && (fd[0].revents & (POLLHUP|POLLERR)))) return OWNER_CLOSED;
+        if (fd[2].revents & POLLOUT) {
             ssize_t n=write(STDOUT_FILENO,output+out_at,out_end-out_at);
             if (n>0) out_at+=(size_t)n;
             else if (n<0 && errno==EPIPE) return OWNER_CLOSED;
@@ -114,7 +118,7 @@ static enum end pump(int master)
             else if (n<0 && errno==EIO) clear_frame(&f); /* drain the last slave output */
             else if (!n || !transient()) return FAILED;
         }
-        if (fd[0].revents && !eof) {
+        if (input && fd[0].revents && !eof) {
             int r=read_frame(&f);
             if (r<=0) return r==0 ? OWNER_CLOSED : FAILED;
         }
@@ -124,7 +128,19 @@ static enum end pump(int master)
 static int wait_child(pid_t child, bool cancel)
 {
     int status=0; pid_t r;
-    if (cancel) {
+    /* Apps may close their tty before they exit. Preserve their eventual
+     * status as long as the owner is connected; still honor a later close.
+     * Probe only in this post-EOF interval, never in the normal pump. */
+    while (!cancel) {
+        r=waitpid(child,&status,WNOHANG);
+        if (r==child) goto done;
+        if (r<0) { if (errno==EINTR) continue; return BAD; }
+        struct pollfd owner[]={{STDIN_FILENO,0,0},{STDOUT_FILENO,0,0}};
+        int n=poll(owner,2,100);
+        if (n<0 && errno==EINTR) continue;
+        if (n!=0) cancel=true;
+    }
+    {
         /* Only our direct, unreaped child. Closing the master already gives
          * the terminal's foreground session its normal hangup semantics. */
         kill(child,SIGHUP);
