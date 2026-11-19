@@ -80,3 +80,5 @@ the drop and real Codex image checks without compiling a new executable. Supply
 the source run, exact artifact name and expected image SHA-256. The workflow
 verifies the downloaded bytes and retains their original run identity; it does
 not turn a failed build into a successful full-suite distribution.
+
+For multiline text, Windows CRLF and standalone LF represent a logical line break. By default, Nemoterm sends CR for each break. An application can request literal LF with `CSI ? 2006 h` and restore the default with `CSI ? 2006 l`. This is independent of bracketed paste (`?2004`): enabling brackets alone does not change line endings. A standalone CR and the physical Enter key keep their usual meaning. See the [clipboard replay](INTERACTION_ACCEPTANCE.md#多行剪贴板换行与括号粘贴) for the verification scope.

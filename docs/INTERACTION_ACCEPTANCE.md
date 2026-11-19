@@ -240,3 +240,9 @@ The `selection` group holds Shift and the left button while the application eras
 `suite=scrollback-modes` 在同一份 Windows EXE 上分别启动 GDI 和 DirectX，每种渲染器单独覆盖四种 `ScrollOnDisp` / `ScrollOnKey` 启动组合。先逐字节比较固定 XTerm 412 的 72 段模式应答，再滚到历史顶部，交替让应用写出一个字符或从 runner 的 Windows 桌面输入一个数字。用原生滚动条位置判断窗口是否回到底部，并核对子程序收到的数字。附加交互在子程序接管鼠标时按住 Shift 和左键，等待新行写入，再选择和复制历史中的 `HISTORY 03 中`，随后键入 `7`。记录独立区分复制留在历史、新输出留在历史和实际键入后跟随到底部。独立参考可用 `protocol-reference.yml` 的 `family=scrollback-modes` 重取。
 
 同一回放还检查历史已满时的矩形选区：让应用接管鼠标，在最老三行用 Ctrl+Shift+左键框选五列，取一次剪贴板，再连续追加四行。每一步比对 GDI / DirectX 自身窗口的像素、独立标记的行号、滚动条位置和原有剪贴板，确认只删除已经滚出历史的高亮行。见[原始画面和逐行对照](../research/scrollback-modes.md#滚动历史已满时的矩形高亮)。
+
+### 多行剪贴板换行与括号粘贴
+
+固定 XTerm 412 参考：`protocol-reference.yml`，`family=paste-lines`。托管 X11 的 `UTF8_STRING` 剪贴板经 XTerm 自己的 `insert-selection(CLIPBOARD)` 送入原始 PTY。17 个连续阶段的输入、两份模式回复和实际粘贴内容保存在[原始制品](../testdata/upstream/xterm412-paste-lines.zip)。
+
+单 EXE 回放：`font-zoom-replay.yml` 的 `suite=paste-lines`，指定 `source_run` 与完整的 `source_commit`。`ci.yml scope=full` 也运行同一个检查。GDI 与 DirectX 分别对 CRLF、独立 LF 的 `CF_UNICODETEXT` 实按 Ctrl+Shift+V。子进程通过 `ReadConsoleW` 读取，记录重新编码为 UTF-8 的完整输入；用独立按下的 Enter 和 `7` 验证粘贴的边界。收集全部阶段后分别比较模式和输入。此测试覆盖文本粘贴，不使用图片剪贴板或 Codex。
