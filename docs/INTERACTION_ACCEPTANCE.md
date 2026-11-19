@@ -260,3 +260,5 @@ The `selection` group holds Shift and the left button while the application eras
 Windows 用 `font-zoom-replay.yml` 的 `suite=paste-quote` 对指定 EXE 重放默认 tty 的记录。实按 Ctrl+Shift+V 后再单独按 Enter 和 `7`；一份记录保留终端实际写入输入管道的字节，另一份记录保留 `ReadConsoleW` 子进程读到的文字。逐字节加前缀后的中文不构成合法 UTF-8，不能从宽字符返回值还原原始字节。严格的管道对照涵盖全部样例；宽字符对照对可表示的样例同样严格，其他样例保留两种观察，不计作 Unicode 等价。此专项含只读管道观察器，不用于内存验收。
 
 [第一次同图 Windows 记录](../research/paste-quote-before-42232a2d.zip)中，旧实现对 `?2005` 的查询全部回答“不识别”。另有 ConPTY 在滚屏重置时发出的带编号的内部光标查询，其回复会和粘贴同走一条管道。比较器保留未经处理的字节，并单独记录读取方向实际出现的查询与写入方向同编号的回复；只有一对一且未送到子程序的回复才从应用粘贴对照中扣除。未配对的输入不会被忽略。
+
+[同一 EXE、同样按键的第二次回放](../research/paste-quote-pipe-42232a2d.zip)在四组中分别配对了七次查询。每组 19 个阶段的模式查询都不同（`?2005` 未识别）；在 8 个未启用引用的阶段粘贴字节完全一致，另 11 个缺少 literal-next。原始管道对照仍各只有 5/19 相同，未经改写；`ReadConsoleW` 对照各为 8/19。此处是旧产品的失败基线。

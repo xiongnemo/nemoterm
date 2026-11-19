@@ -2,6 +2,16 @@
 
 下文保留当时的记录。每条数字都对应所列提交；当前测试版请从 [README 下载](../README.md#下载)。
 
+## `476a2c76` 单文件测试版
+
+[下载 Windows x64 单文件测试版 `476a2c76`](https://github.com/xiongnemo/nemoterm/actions/runs/44564122496/artifacts/14551696506)。解压后只需 `nemoterm.exe`（4,874,752 字节）。SHA-256：`5b9ede235d557ccafbe6545dd369867b0c2f135ead7ee9205a1c794c9835ca14`。
+
+粘贴多行文本时，应用现在可以分别要求保留 LF 换行（`?2006`）和标记粘贴的起止（`?2004`）。Windows 使用 CRLF 或 LF 的剪贴板都能正确处理；之后单独按 Enter 仍只收到一个回车。[真实 XTerm 与 GDI、DirectX 的 68 项对照](../research/paste-lines-476a2c76.zip)。
+
+[这份 EXE 的交互验收](https://github.com/xiongnemo/nemoterm/blob/cd6f5c5e8ebdb0e6bc0c4f4272550630a926f1cf/research/preview-476a2c76.zip)为 **79/81**。两项未过的都是 Codex 刚显示输入文字时粘贴位图；编辑器就绪后两种快捷键均通过。[启动时与就绪后的按键和位图读取记录](../research/codex-bitmap-requests.md)。[实际应用回放](https://github.com/xiongnemo/nemoterm/blob/cd6f5c5e8ebdb0e6bc0c4f4272550630a926f1cf/research/xterm-clients-476a2c76.zip)覆盖 Vim、tmux 中的 Vim、颜色和 Sixel；[严格 XTerm 宽字对照](../research/column-edge-integrity.md)和 [ReGIS 历史画面](../research/regis-presented-pairs.md)仍有差异。
+
+160×48、SarasaTermSC Nerd Light 的六种压力场景中，前端私有工作集峰值为 **GDI 19.44 MB / DirectX 28.74 MB**，总工作集分别为 56.25 / 72.03 MB。单独在同一台 runner 上进行 24 轮 Codex 追问，原版 pterm / Nemoterm GDI / DirectX 私有工作集峰值为 **3.77 / 5.45 / 9.74 MB**。[逐项测量](../research/pterm-findings.md#多行粘贴版-476a2c76-的同机对照) · [完整 CI 记录](https://github.com/xiongnemo/nemoterm/actions/runs/44564122496) · [历史测试版](PREVIEW_HISTORY.md)。
+
 ## `97f8b05b` 单文件测试版
 
 [下载 Windows x64 单文件测试版 `97f8b05b`](https://github.com/xiongnemo/nemoterm/actions/runs/44557184431/artifacts/14546167071)。解压后只需 `nemoterm.exe`（4,874,752 字节）。SHA-256：`c66b366f2c67e216c219d6674e0e368181bdcfbdd884dd6f6c11b61a1bed84b5`。

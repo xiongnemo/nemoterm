@@ -33,13 +33,13 @@ Kitty 图片支持直接 RGB/RGBA/PNG、压缩传输、裁剪、透明度、查�
 
 ## 下载
 
-[下载 Windows x64 单文件测试版 `476a2c76`](https://github.com/xiongnemo/nemoterm/actions/runs/44564122496/artifacts/14551696506)。解压后只需 `nemoterm.exe`（4,874,752 字节）。SHA-256：`5b9ede235d557ccafbe6545dd369867b0c2f135ead7ee9205a1c794c9835ca14`。
+[下载 Windows x64 单文件测试版 `42232a2d`](https://github.com/xiongnemo/nemoterm/actions/runs/44571268715/artifacts/14554514038)。解压后只需 `nemoterm.exe`（4,859,904 字节）。SHA-256：`f6e2acd5d51db02e3ff0095e65da72c13e38d4f1ea1f12c7c55ba3eb8efb874d`。
 
-粘贴多行文本时，应用现在可以分别要求保留 LF 换行（`?2006`）和标记粘贴的起止（`?2004`）。Windows 使用 CRLF 或 LF 的剪贴板都能正确处理；之后单独按 Enter 仍只收到一个回车。[真实 XTerm 与 GDI、DirectX 的 68 项对照](research/paste-lines-476a2c76.zip)。
+应用滚动部分窗口时，矩形选区会跟随仍在屏幕上的字符。假如原来复制了三行，滚动后只剩两行高亮，剪贴板仍保留原先的三行；再次按 Ctrl+Shift+C 或右键，只会复制眼前这两行。启用右键“复制并粘贴”时也只粘贴这两行。[46 项键鼠实测与修复前后截图](research/scrollback-modes.md#矩形跨过-tui-的滚动区域)。
 
-[这份 EXE 的交互验收](research/preview-476a2c76.zip)为 **79/81**。两项未过的都是 Codex 刚显示输入文字时粘贴位图；编辑器就绪后两种快捷键均通过。[同一 EXE 的按键和位图读取记录](research/codex-bitmap-requests.md)。[实际应用回放](research/xterm-clients-476a2c76.zip)覆盖 Vim、tmux 中的 Vim、颜色和 Sixel；[严格 XTerm 宽字对照](research/column-edge-integrity.md)和 [ReGIS 历史画面](research/regis-presented-pairs.md)仍有差异。
+[这份 EXE 的交互验收](research/preview-42232a2d.zip)为 **79/81**。两项未过的都是 Codex 刚显示输入文字时粘贴位图；正式输入框就绪后两种快捷键均通过。[实际应用回放](research/xterm-clients-42232a2d.zip)覆盖 Vim、tmux 中的 Vim、颜色和 Sixel。与原版 XTerm 412 的[宽字边界](research/column-edge-integrity.md)和 [ReGIS 历史画面](research/regis-presented-pairs.md)仍有差异；逐字节粘贴模式 `?2005` 尚不支持。
 
-160×48、SarasaTermSC Nerd Light 的六种压力场景中，前端私有工作集峰值为 **GDI 19.44 MB / DirectX 28.74 MB**，总工作集分别为 56.25 / 72.03 MB。单独在同一台 runner 上进行 24 轮 Codex 追问，原版 pterm / Nemoterm GDI / DirectX 私有工作集峰值为 **3.77 / 5.45 / 9.74 MB**。[逐项测量](research/pterm-findings.md#多行粘贴版-476a2c76-的同机对照) · [完整 CI 记录](https://github.com/xiongnemo/nemoterm/actions/runs/44564122496) · [历史测试版](docs/PREVIEW_HISTORY.md)。
+160×48、SarasaTermSC Nerd Light 的六种压力场景中，前端私有工作集峰值为 **GDI 19.66 MB / DirectX 29.20 MB**，总工作集分别为 54.44 / 74.21 MB。同机 24 轮 Codex 追问中，原版 pterm / Nemoterm GDI / DirectX 的私有工作集峰值为 **3.78 / 5.49 / 9.66 MB**。[逐项测量](research/pterm-findings.md#局部滚屏选区版-42232a2d-的同机对照) · [完整 CI 记录](https://github.com/xiongnemo/nemoterm/actions/runs/44571268715) · [历史测试版](docs/PREVIEW_HISTORY.md)。
 
 Codex 0.167.0 的启动草稿只收文字。即使已经能打字，也请等正常编辑器接手后再贴图，看到图片附件再发送。绕过 Nemoterm 的系统 ConPTY 和 WinPTY 对照也复现过这个现象；窗口标题不能用来判断是否就绪。[实际提交与截图](research/codex-file-draft-order.md) · [按键后 Windows 何时索取位图](research/codex-bitmap-requests.md)。
 

@@ -2,9 +2,9 @@
 
 Fresh shared Sixel/ReGIS colours, including private, RIS and DECSTR controls: the [pinned XTerm and presented GDI comparison](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/shared-bank-start.md) improves from 2/7 to 7/7 on the `6bed777` candidate. This covers first-use colour registers, not the remaining historical ReGIS presentation differences.
 
-## Windows preview `97f8b05b`
+## Windows preview `42232a2d`
 
-For `TERM=xterm` and `TERM=xterm-256color`, the [hosted application captures](../research/xterm-clients-476a2c76.zip) cover real Vim, Vim under tmux, and the separate colour and Sixel checks on this executable. The [scrollback and selection captures](../research/scrollback-modes.md) verify independent output/key scrolling and preservation of the visible rectangular highlight as history fills. The earlier [wide-glyph margin report](../research/column-edge-integrity.md) pairs actual GDI/DirectX selection and clipboard observations with the three cells that still differ from XTerm 412. [ReGIS presentation differences](../research/regis-presented-pairs.md) are tracked separately. The [current preview and interaction results](../README.md#下载) identify the downloadable file; older checkpoints below apply only to the builds named.
+For `TERM=xterm` and `TERM=xterm-256color`, the [hosted application captures](../research/xterm-clients-42232a2d.zip) cover real Vim, Vim under tmux, and the separate colour and Sixel checks on this executable. The [scrollback and selection captures](../research/scrollback-modes.md) verify independent output/key scrolling and preservation of the visible rectangular highlight as history fills, plus 46 checks of highlight geometry, clipboard contents and child input when a TUI scrolls part of its screen. The earlier [wide-glyph margin report](../research/column-edge-integrity.md) pairs actual GDI/DirectX selection and clipboard observations with the three cells that still differ from XTerm 412. [ReGIS presentation differences](../research/regis-presented-pairs.md) are tracked separately. The [current preview and interaction results](../README.md#下载) identify the downloadable file; older checkpoints below apply only to the builds named.
 
 ## Current verification policy (2026-11-17)
 

@@ -194,7 +194,7 @@ Nemoterm EXE 的 SHA-256 为 `c7f4f4be019a2fb0262f984d15e7f6177eb47da043558dd819
 
 ### 多行粘贴版 `476a2c76` 的同机对照
 
-[托管 Windows 原始制品](agent-session-476a2c76.zip)来自[独立工作流 44565305744](https://github.com/xiongnemo/nemoterm/actions/runs/44565305744)。每种配置新开一个 160×48 的 SarasaTermSC Nerd Light 窗口，在同一台 runner 上启动同一版 Codex，得到首轮回复后再逐条发出 24 条追问。下表取每个前端从启动到最后一轮的全部采样峰值，单位为十进制 MB，三列的峰值未必在同一时刻。
+[托管 Windows 原始制品](https://github.com/xiongnemo/nemoterm/blob/cd6f5c5e8ebdb0e6bc0c4f4272550630a926f1cf/research/agent-session-476a2c76.zip)来自[独立工作流 44565305744](https://github.com/xiongnemo/nemoterm/actions/runs/44565305744)。每种配置新开一个 160×48 的 SarasaTermSC Nerd Light 窗口，在同一台 runner 上启动同一版 Codex，得到首轮回复后再逐条发出 24 条追问。下表取每个前端从启动到最后一轮的全部采样峰值，单位为十进制 MB，三列的峰值未必在同一时刻。
 
 | 前端 | 私有工作集 | 总工作集 | 私有提交 |
 | --- | ---: | ---: | ---: |
