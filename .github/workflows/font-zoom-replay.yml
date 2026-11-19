@@ -6,7 +6,7 @@ on:
       suite:
         description: Checks or notice-only packaging against the exact artifact
         type: choice
-        options: [font-bell, dpi, interaction, single, ui-regression, shell-lifetime, tcap, portable-notices, regis-window, pointer-colour, colour-input, unicode-boundary, picture-keys, image-timing, image-files, image-reference, draft-reference, pterm-memory, profile-dump, profile-env, wsl-tui, wsl-sixel, wsl-vim, wsl-colour, rendering-settings, close-cancel, profile-sequence, font-ops, fullscreen]
+        options: [font-bell, dpi, interaction, single, ui-regression, shell-lifetime, tcap, portable-notices, regis-window, pointer-colour, colour-input, unicode-boundary, picture-keys, image-timing, image-files, image-reference, draft-reference, draft-product, pterm-memory, profile-dump, profile-env, wsl-tui, wsl-sixel, wsl-vim, wsl-colour, rendering-settings, close-cancel, profile-sequence, font-ops, fullscreen]
         default: font-bell
       source_commit:
         description: Full source commit of the source-console-host artifact
@@ -73,6 +73,12 @@ jobs:
   regis-window:
     if: ${{ inputs.suite == 'regis-window' }}
     uses: ./.github/workflows/regis-window.yml
+    with:
+      product_run: ${{ inputs.source_run }}
+      product_commit: ${{ inputs.source_commit }}
+  draft-product:
+    if: ${{ inputs.suite == 'draft-product' }}
+    uses: ./.github/workflows/codex-draft-product.yml
     with:
       product_run: ${{ inputs.source_run }}
       product_commit: ${{ inputs.source_commit }}

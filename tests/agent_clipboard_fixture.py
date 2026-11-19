@@ -310,6 +310,7 @@ def main():
     parser.add_argument('--terminal', required=True)
     parser.add_argument('--directory', required=True)
     parser.add_argument('--automation', action='store_true')
+    parser.add_argument('--draft-order',action='store_true')
     parser.add_argument('--selection-renderer', choices=('gdi','directx'))
     parser.add_argument('--confirm-close',action='store_true')
     parser.add_argument('--default-grid',action='store_true',help='Use the default profile dimensions without CLI overrides')
@@ -341,7 +342,8 @@ def main():
         winreg.SetValueEx(key, 'CloseOnExit', 0, winreg.REG_DWORD, 1)
     server = Provider()
     server.bidi_witness=args.default_grid
-    server.selection=bool(args.selection_renderer)
+    server.capture_draft=args.draft_order
+    server.selection=bool(args.selection_renderer) and not args.draft_order
     server.selection_text=SELECTION_STABLE if args.stable_unicode else SELECTION_TEXT
     thread = threading.Thread(target=server.serve_forever, daemon=True); thread.start()
     base = f'http://127.0.0.1:{server.server_port}/v1'
@@ -396,6 +398,9 @@ def main():
                         action = control.get('action')
                         if action == 'bitmap':
                             put_bitmap(hwnd)
+                            report['clipboard_action'] = serial
+                        elif action == 'draft-text' and args.draft_order:
+                            put_clipboard_block(hwnd,13,('NEMOTERM_CODEX_IMAGE_CTRL_SHIFT_V'+chr(0)).encode('utf-16-le'))
                             report['clipboard_action'] = serial
                         elif action == 'image-file':
                             report['file_clipboard'] = put_image_file(hwnd, folder)
