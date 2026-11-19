@@ -43,6 +43,10 @@ def cases():
         assert name not in out
         out[name] = [wire.hex() for wire in steps]
 
+    from shared_bank_start_cases import bank_starts
+    for tag,wires in bank_starts().items():
+        add('bank-start-'+tag, *(wire.encode('ascii') for wire in wires))
+
     add('control-text', C+b'6n', b'CONTROL'+C+b'6n', C+b'2J'+C+b'H'+C+b'6n')
     add('control-capability', C+b'c'+C+b'?3;1;0S')
     add('control-position', regis('P[10,20]R(P)', 1), regis('P[+5,-3]R(P)'))
