@@ -1,6 +1,6 @@
 """Compare word selection with glyph positions actually painted by the frontend."""
 from collections import Counter
-from native_test_utils import u, wait_for, time
+from native_test_utils import u, wait_for
 
 
 def verify(hwnd, begin, point, capture, tile, copy, barrier, evidence, desktop=None):
@@ -17,6 +17,7 @@ def verify(hwnd, begin, point, capture, tile, copy, barrier, evidence, desktop=N
         ('punctuation',2,1,2,False,True,'!',[2]),
         ('double-width',3,2,2,False,True,'A'+tokens[3],[0,1,2,3]),
         ('soft-wrap',0,1,2,True,True,'QA'+tokens[3],[0,1]),
+        ('soft-wrap-dots',0,1,2,True,True,'.'*79+'QA'+tokens[3],[0,1]),
         ('line',3,1,3,False,True,''.join(tokens)+'\r\n',list(range(80))),
         ('ordinary-word',0,1,2,False,False,'A'+tokens[1],[0,3]),
     ]
@@ -24,7 +25,8 @@ def verify(hwnd, begin, point, capture, tile, copy, barrier, evidence, desktop=N
     for i,(name,x,scale,count,wrapped,shift,expected,columns) in enumerate(cases):
         if desktop and name not in ('visual-left','visual-right','punctuation'):continue
         y=(7,15)[i%2];phase=('system-' if desktop else 'message-')+'bidi-word-'+name
-        start=(f'\x1b[{y};1H'+'.'*79+'Q' if wrapped else f'\x1b[{y+1};1H')
+        filler='.' if name=='soft-wrap-dots' else '!'
+        start=(f'\x1b[{y};1H'+filler*79+'Q' if wrapped else f'\x1b[{y+1};1H')
         begin(phase, '\x1bc\x1b[?25l\x1b[?7h'+start+('\x1b#6' if scale==2 else '')+draw(tokens)+
               f'\x1b[{y+3};1H'+draw('     ')+('\x1b[?1002;1006h' if shift else ''))
         row=dict(case=name, expected=expected, expected_highlight=columns, passed=False);rows.append(row)
@@ -48,7 +50,7 @@ def verify(hwnd, begin, point, capture, tile, copy, barrier, evidence, desktop=N
         # Settle even on old builds that highlight noncontiguous columns.
         wait_for(lambda:bool(changed(capture(return_pixels=True))))
         after=capture(phase+'-copied.png',return_pixels=True)
-        row['highlight']=changed(after);row['previous_row_tail']=[col for col in (78,79) if tile(before,col,y-1)!=tile(after,col,y-1)]
+        row['highlight']=changed(after);row['previous_row_highlight']=[col for col in range(80) if tile(before,col,y-1)!=tile(after,col,y-1)]
         row['copied']=copy()
-        row['passed']=(row['copied']==expected and row['highlight']==columns and row['previous_row_tail']==([79] if wrapped else []) and row['wire']=='1b5b306e'*2)
+        row['passed']=(row['copied']==expected and row['highlight']==columns and row['previous_row_highlight']==(list(range(80)) if name=='soft-wrap-dots' else [79] if wrapped else []) and row['wire']=='1b5b306e'*2)
     return all(r['passed'] for r in rows)
