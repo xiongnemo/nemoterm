@@ -9,16 +9,16 @@ Paste binding too, ahead of any accompanying text fallback.
 
 Each running tab remembers the shell it started with, including recognized
 explicit/custom commands. Changing the default shell in Profile Settings affects
-new sessions; file drops into an existing session keep its original quoting. PowerShell single quotes are doubled; ash/bash use POSIX single-quote
-escaping. Git Bash and BusyBox receive forward-slash Windows paths. WSL drive
+new sessions; file drops into an existing session keep its original quoting.
+PowerShell single quotes are doubled; ash/bash use POSIX single-quote escaping. Git Bash and BusyBox receive forward-slash Windows paths. WSL drive
 paths use the default `/mnt/<drive>/...` mapping. When `wsl.exe` launches a
 known distribution, dropping or pasting an Explorer path such as
 `\\wsl.localhost\Ubuntu\home\me` yields `'/home/me'` in that distribution.
 The `\\wsl$` alias and extended UNC spelling also work. If a WSL share belongs
 to a different distribution, or the running distribution cannot be identified,
 the whole drop is rejected instead of pasting paths to unrelated files.
-Cmd receives quoted Windows
-arguments. Embedded controls, invalid UTF-16 and malformed or oversized DROPFILES
+Cmd receives quoted Windows arguments. Embedded controls, invalid UTF-16
+and malformed or oversized DROPFILES
 blocks are rejected as a whole. There are limits of 1024 paths, 32,767 UTF-16 units
 per path, a 1 MiB source block and 65,536 UTF-8 bytes of resulting text.
 
@@ -48,7 +48,8 @@ text and malformed data in owned real terminal/ConPTY sessions. It also lets
 installed pwsh, Windows PowerShell, BusyBox ash and Git Bash parse the actual
 delivered quoting. GDI and DirectX are supported test variants. This test does
 not simulate a physical Explorer mouse drag or validate a WSL distribution's
-custom mount layout.
+custom mount layout. [The WSL share and shell profile replay](../research/drop-shell-paths.md)
+also checks the actual file contents across Save and Apply and a new session.
 
 The real-client tests run on GitHub-hosted Windows only. An exact-image replay
 uses `font-zoom-replay.yml` with `suite=image-timing` for a copied bitmap,

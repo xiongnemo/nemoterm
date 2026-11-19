@@ -15,3 +15,5 @@
 - 当前 `dist/nemoterm.exe` 对应 `9b5e1111`：[Windows 粘贴阶段的 114 项原始回执](paste-quote-native-9b5e1111.zip)均通过；[真实 WSL1 子程序的首轮回执](paste-quote-wsl-9b5e1111.zip)仍有逐字节引用、行边界和退出差异。详见[两端具体收到什么](../docs/INTERACTION_ACCEPTANCE.md#逐字节粘贴xterm-私有模式-2005)。[同机内存首轮](agent-session-9b5e1111-initial.zip)中，pterm 完成了 24 轮。GDI 的最后一轮先绘出回复结尾，随后才显示完整代码块；保存的最后一帧确有全部 16 行。这次未测完 DirectX，不能据此宣称候选版通过内存验收。
 - 测试版 `9b5e1111` 的[交互报告及内存原始记录](interaction-9b5e1111.zip)：79/81，只有两次 Codex 启动草稿贴图未过。160×48、SarasaTermSC Nerd Light、每种渲染器六项压力的前端私有工作集峰值为 **GDI 19,333,120 / DirectX 28,909,568 字节**，总工作集各为 56,213,504 / 72,110,080 字节。[独立的 Linux 和 WSL1 对照](paste-quote-hosts-9b5e1111.zip)保留 PTY 原始读取及 Windows 宿主读事件。
 - [当前测试版与原版 pterm 的同机 24 轮比较](agent-session-9b5e1111.zip)：基于同一份回复、实际 160×48 窗口、真实后端和私有工作集样本。聚合时同时要求最后一行、回复结尾和完整代码块出现在同一次屏幕读取中。
+
+- [拖入 WSL 的资源管理器路径，以及修改默认 shell 后继续拖文件](drop-shell-paths.md)：旧版 6/18，候选 `cf091974` 18/18；两种渲染器的原始回放、Bash、PowerShell 和 cmd 的文件内容均有记录。
