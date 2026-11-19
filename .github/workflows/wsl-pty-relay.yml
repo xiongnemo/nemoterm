@@ -63,6 +63,16 @@ jobs:
           if ((Get-FileHash build/wsl-relay/relay).Hash -ne $expected) { throw 'Relay digest changed in transfer' }
       - name: Verify actual PTY bytes, size changes, backpressure and process cleanup
         run: python tests/wsl_pty_relay.py ${{ matrix.host }}
+      - name: Close the PTY while input is blocked or after the slave is closed
+        if: runner.os == 'Linux'
+        env: {NEMO_HOSTED_PTY_FIXTURE: '1'}
+        run: python3 tests/wsl_relay_closure.py linux
+      - name: Repeat closure on the hosted WSL1 kernel
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          wsl.exe -d Ubuntu-24.04 --cd $env:GITHUB_WORKSPACE --exec /usr/bin/env NEMO_HOSTED_PTY_FIXTURE=1 /usr/bin/python3 tests/wsl_relay_closure.py wsl1
+          exit $LASTEXITCODE
       - if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
