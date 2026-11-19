@@ -5,10 +5,13 @@ activation. It does not read the desktop DC, move the pointer, or send keys.
 https://learn.microsoft.com/windows/win32/gdi/capturing-an-image
 """
 import struct
+import time
 from native_test_utils import c,w,u,g
 
 u.GetWindowThreadProcessId.argtypes=[w.HWND,c.POINTER(w.DWORD)]
 u.GetClientRect.argtypes=[w.HWND,c.POINTER(w.RECT)]
+u.ClientToScreen.argtypes=[w.HWND,c.POINTER(w.POINT)]
+u.IsChild.argtypes=[w.HWND,w.HWND]
 u.GetWindowLongW.argtypes,u.GetWindowLongW.restype=[w.HWND,c.c_int],w.LONG
 u.SetWindowPos.argtypes=[w.HWND,w.HWND,c.c_int,c.c_int,c.c_int,c.c_int,w.UINT]
 u.IsWindowVisible.argtypes=u.IsIconic.argtypes=[w.HWND]
@@ -37,6 +40,28 @@ class PresentedWindowCapture:
         for hwnd in (self.hwnd,self.surface):
             assert u.GetWindowThreadProcessId(hwnd,c.byref(owner)) and owner.value==self.pid
         if self.surface != self.hwnd: assert u.IsChild(self.hwnd,self.surface) and u.IsWindowVisible(self.surface)
+
+    def wait_for_initial_geometry(self,timeout=5):
+        # The parent handles WM_SIZE before the renderer sizes the child for
+        # its next frame. Wait before the first protocol write only. Later
+        # samples still reject any change in geometry immediately.
+        if self.surface == self.hwnd:return
+        assert not self.closed and self.record['captures']==0
+        start=time.monotonic(); history=[]
+        self.record['initial_geometry']=history
+        while True:
+            self._owner()
+            pair=[]
+            for hwnd in (self.hwnd,self.surface):
+                r,p=w.RECT(),w.POINT()
+                assert u.GetClientRect(hwnd,c.byref(r)) and u.ClientToScreen(hwnd,c.byref(p))
+                pair.append([p.x,p.y,r.right,r.bottom])
+            elapsed=time.monotonic()-start
+            if not history or history[-1]['rects']!=pair:
+                history.append(dict(ms=round(elapsed*1000),rects=pair))
+            if pair[0]==pair[1] and min(pair[0][2:])>0:return
+            if elapsed>=timeout:raise TimeoutError(f'DirectX surface did not match the terminal client: {history}')
+            time.sleep(.02)
 
     def capture(self):
         assert not self.closed

@@ -121,6 +121,7 @@ def main(background_exercise=None, *, suite_name=None, font='Consolas', before_e
                 wait_snapshot(current, lambda v: v.get('columns') == COLS and v.get('rows') == ROWS)
                 if prepare_window:
                     prepare_window(evidence)
+                if presented: presented.wait_for_initial_geometry()
                 width, height, _ = bitmap(capture_image())
                 cw, ch = (width-2*BORDER)//COLS, (height-2*BORDER)//ROWS
                 assert cw > 0 and ch >= 6 and width == COLS*cw+2*BORDER and height == ROWS*ch+2*BORDER
