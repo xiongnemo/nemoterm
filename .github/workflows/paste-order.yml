@@ -1,0 +1,35 @@
+name: Consecutive paste delivery
+on:
+  workflow_call:
+    inputs:
+      product_run: {required: true, type: string}
+      product_commit: {required: true, type: string}
+permissions:
+  contents: read
+  actions: read
+jobs:
+  records:
+    runs-on: windows-2025
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with: {fetch-depth: 0}
+      - name: Fetch exact product
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PRODUCT_RUN: ${{ inputs.product_run }}
+          PRODUCT_COMMIT: ${{ inputs.product_commit }}
+        run: |
+          scripts/fetch-ci-product.ps1 -Run $env:PRODUCT_RUN -Commit $env:PRODUCT_COMMIT -Destination build/paste-product
+          "NEMOTERM_TEST_EXE=$((Resolve-Path build/paste-product/nemoterm.exe).Path)" | Out-File $env:GITHUB_ENV -Append -Encoding utf8
+      - run: scripts/prepare-remote-interaction.ps1
+      - run: python tests/paste_order_window.py
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: consecutive-paste-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            build/focused-evidence/paste-order
+            build/paste-product/SOURCE-HOST.json
+            build/interaction-dependencies/environment.json
+          if-no-files-found: error
