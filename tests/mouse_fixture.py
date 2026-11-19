@@ -77,12 +77,16 @@ request = {}
 responded = set()
 barrier_sent = barrier_ack = None
 barrier_start = 0
+stop_record = None
 deadline = time.monotonic() + lifetime
 print('\x1b]2;Nemoterm mouse integration test\x07', end='', flush=True)
 try:
     while time.monotonic() < deadline:
         request = read_snapshot(control) or request
         if request.get('stop'):
+            if request.get('observe_exit'):
+                stop_record = dict(pid=os.getpid(), phase='stop-seen', seen_ns=time.perf_counter_ns())
+                write_snapshot(report.parent/'stop.json', stop_record)
             break
         if request.get('phase') != phase:
             phase = request.get('phase')
@@ -150,7 +154,11 @@ except Exception:
     write_snapshot(report, {'error': traceback.format_exc(), 'phase': phase})
     raise
 finally:
-    k.SetConsoleMode(stdin, old.value)
-    k.SetConsoleCP(old_input_cp)
-    if exact_output:
-        k.SetConsoleMode(stdout, old_output.value)
+    input_restored = bool(k.SetConsoleMode(stdin, old.value))
+    cp_restored = bool(k.SetConsoleCP(old_input_cp))
+    output_restored = not exact_output or bool(k.SetConsoleMode(stdout, old_output.value))
+    if stop_record is not None:
+        restored = dict(input_mode=input_restored, input_cp=cp_restored, output_mode=output_restored)
+        stop_record.update(phase='console-restored' if all(restored.values()) else 'restore-failed',
+                           restored=restored, restored_ns=time.perf_counter_ns())
+        write_snapshot(report.parent/'stop.json', stop_record)

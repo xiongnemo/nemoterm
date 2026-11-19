@@ -25,7 +25,7 @@ def saved_profile(values):
 
 
 def run(name, cases, scene=None, extra_cases=(), exercise=None, barrier=None, report_cursor=False,
-        profile=None, font=None, source_reference='XTerm(412)', automation=False):
+        profile=None, font=None, source_reference='XTerm(412)', automation=False, observe_exit=False):
     exe = Path(os.environ.get('NEMOTERM_TEST_EXE', root/'dist/nemoterm.exe')).resolve()
     barrier_sequence, marker = barrier or ('\x1bP$qprotocol-marker\x1b\\', b'\x1bP0$r\x1b\\')
     evidence = dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),
@@ -86,8 +86,29 @@ def run(name, cases, scene=None, extra_cases=(), exercise=None, barrier=None, re
                 phase('visible-scene', scene, '')
                 time.sleep(.2)
                 capture(hwnd, name+'-window.png')
-            write_snapshot(control, dict(stop=True))
-            process.wait(timeout=10)
+            if observe_exit:
+                exit_record = evidence['exit_observation'] = dict(
+                    frontend_pid=process.pid, wait_limit_seconds=10,
+                    instrumented=wire_trace is not None, before_stop=job.accounting(),
+                    stop_request_ns=time.perf_counter_ns())
+            write_snapshot(control, dict(stop=True, observe_exit=observe_exit))
+            try:
+                process.wait(timeout=10)
+            except subprocess.TimeoutExpired:
+                if observe_exit:
+                    # Record the already missed deadline before inspecting it;
+                    # a late exit must never convert this attempt into a pass.
+                    exit_record.update(deadline_missed=True, observed_ns=time.perf_counter_ns(),
+                                       child_at_deadline=read_snapshot(folder/'stop.json'))
+                    from owned_failure_state import record_owned_failure
+                    record_owned_failure(process, job, exit_record, 'protocol-window-exit')
+                raise
+            if observe_exit:
+                exit_record.update(deadline_missed=False, observed_ns=time.perf_counter_ns(),
+                                   returncode=process.returncode, child=read_snapshot(folder/'stop.json'))
+                child = exit_record['child']
+                assert child.get('phase') == 'console-restored' and child['pid'] != process.pid, exit_record
+                assert exit_record['stop_request_ns'] <= child['seen_ns'] <= child['restored_ns'] <= exit_record['observed_ns'], exit_record
             assert process.returncode == 0, process.returncode
             if wire_trace:
                 evidence['wire_observer'] = wire_trace.close()
@@ -111,4 +132,6 @@ def run(name, cases, scene=None, extra_cases=(), exercise=None, barrier=None, re
                     evidence['wire_observer'] = wire_trace.close()
             finally:
                 evidence.setdefault('cleanup',job.finish(grace=0))
+                if observe_exit and 'exit_observation' in evidence:
+                    evidence['exit_observation']['final_child'] = read_snapshot(folder/'stop.json')
                 (root/'research'/f'{name}-observed.json').write_text(json.dumps(evidence, indent=2))

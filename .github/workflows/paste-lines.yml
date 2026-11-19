@@ -37,9 +37,14 @@ jobs:
         if: inputs.quote_only
         run: python -m pip install frida==17.24.3
       - name: Compare the quoted Unicode clipboard and a separate physical Return with XTerm
+        id: quote
         if: inputs.quote_only
         env: {RENDERER: "${{ matrix.renderer }}", NEMOTERM_PROTOCOL_WIRE_TRACE: "1"}
         run: python tests/paste_lines_window.py --quote
+      - name: Check the same custom quote and window exit without a pipe observer
+        if: ${{ !cancelled() && inputs.quote_only && steps.quote.outcome != 'skipped' }}
+        env: {RENDERER: "${{ matrix.renderer }}"}
+        run: python tests/paste_lines_window.py --quote --exit-control
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
