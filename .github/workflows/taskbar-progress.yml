@@ -44,10 +44,20 @@ jobs:
           RENDERER: ${{ matrix.renderer }}
           NEMOTERM_REQUIRE_DIRECTX: '1'
         run: |
+          $vswhere="${env:ProgramFiles(x86)}/Microsoft Visual Studio/Installer/vswhere.exe"
+          $vs=& $vswhere -latest -products '*' -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+          Import-Module "$vs/Common7/Tools/Microsoft.VisualStudio.DevShell.dll"
+          Enter-VsDevShell -VsInstallPath $vs -SkipAutomaticLocation -DevCmdArguments '-arch=x64 -host_arch=x64'
+          cl /nologo /W4 /WX /EHsc /std:c++17 tests/dpi_display_probe.cpp /Febuild/interaction-dependencies/dpi-display.exe /Fobuild/interaction-dependencies/dpi-display.obj user32.lib
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          ./scripts/prepare-full-grid-display.ps1
           python -m pip install frida==17.24.3 Pillow==13.0.0
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           $side=if ($env:RENDERER -eq 'directx') {'left'} else {'top'}
           python tests/tabs_window_smoke.py --renderer $env:RENDERER --side $side --cols 160 --rows 48 --require-grid --font $env:NEMOTERM_TEST_FONT --workload-memory --kitty-images --kitty-unicode --application-progress --session-seconds 900
+      - name: Restore the original runner display
+        if: always()
+        run: scripts/prepare-full-grid-display.ps1 -Restore
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
@@ -58,4 +68,5 @@ jobs:
             research/taskbar-progress-*.png
             build/progress-product/SOURCE-HOST.json
             build/interaction-dependencies/environment.json
+            build/interaction-dependencies/full-grid-display.json
           if-no-files-found: error
