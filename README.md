@@ -43,6 +43,8 @@ Kitty 图片支持直接 RGB/RGBA/PNG、压缩传输、裁剪、透明度、查�
 
 Codex 0.167.0 的启动草稿只收文字。即使已经能打字，也请等正常编辑器接手后再贴图，看到图片附件再发送。[原版 pterm 的真实窗口对照](research/codex-bitmap-requests.md#原版-pterm-和-nemoterm-的真实窗口)也复现了这个现象：同样按 Ctrl+V，刚见到文字时只提交了文字，稍后则收到完整图片。窗口标题不能判断是否就绪。[实际提交与截图](research/codex-file-draft-order.md) · [按键后 Windows 何时索取位图](research/codex-bitmap-requests.md)。
 
+另有[修复窗口变高或变矮后选区丢失的候选 `6072ebc9`](research/acceptance-6072ebc9.md)，可从该页下载同一份远程构建。候选的选区 8/8 通过、GDI / DirectX 压力内存达标；完整交互为 80/81，Codex 启动早期的一次贴图未通过。
+
 查找后续开发构建：
 
 1. 登录 GitHub，打开 [Test and build](https://github.com/xiongnemo/nemoterm/actions/workflows/ci.yml)。
