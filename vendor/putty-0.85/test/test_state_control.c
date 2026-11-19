@@ -71,7 +71,7 @@ static void test_alignment(Mock *mk)
     IEQUAL(ch.chr & ~CSET_MASK, 'H');
     IEQUAL(mk->term->lrmm, true); IEQUAL(mk->term->wrap, false);
     IEQUAL(mk->term->insert, true); IEQUAL(mk->term->app_cursor_keys, true);
-    IEQUAL(mk->term->bracketed_paste, true); IEQUAL(mk->term->tabs[3], true);
+    IEQUAL(mk->term->paste_brackets_mode & 1, true); IEQUAL(mk->term->tabs[3], true);
     IEQUAL(mk->term->tabs[0], false);
 
     reset(mk);
@@ -481,7 +481,7 @@ static void test_soft_state(Mock *mk)
     IEQUAL(t->srm_echo,true);IEQUAL(t->cr_lf_return,true);
     IEQUAL(t->xterm_mouse,3);IEQUAL(t->mouse_encoding,1016);
     IEQUAL(t->mouse_focus_reporting,true);IEQUAL(t->mouse_alternate_scroll,true);
-    IEQUAL(t->bracketed_paste,true);
+    IEQUAL(t->paste_brackets_mode & 1,true);
     state_reply(mk,"\033P$qm\033\\\033P$qr\033\\\033[6n\0338\033[6n",
         "\033P1$r0m\033\\\033P1$r1;24r\033\\\033[7;9R\033[1;1R");
 
@@ -677,7 +677,7 @@ static void test_saved_extensions_and_recovery(Mock *mk)
         "\033[?1003$p\033[?66$p\033[?2004$p\033[?9001$p",
         "\033[?1003;4$y\033[?66;4$y\033[?2004;4$y\033[?9001;4$y");
     IEQUAL(t->xterm_mouse,0);IEQUAL(t->app_keypad_keys,false);
-    IEQUAL(t->bracketed_paste,false);IEQUAL(t->win32_input,false);
+    IEQUAL(t->paste_brackets_mode & 1,false);IEQUAL(t->win32_input,false);
     conf_set_bool(mk->conf,CONF_no_mouse_rep,false);
     conf_set_bool(mk->conf,CONF_no_applic_k,false);
     conf_set_bool(mk->conf,CONF_no_bracketed_paste,false);
@@ -688,8 +688,9 @@ static void test_saved_extensions_and_recovery(Mock *mk)
     state_reply(mk,"\033[?1h\033[!\032p\033[?1$p\033[!1:2p\033[?1$p"
         "\033[123!p\033[?1$p","\033[?1;1$y\033[?1;1$y\033[?1;2$y");
     for (int i=0;i<20000;i++) term_data_fragmented(t,"\033[?4294967295;99999s\033[?4294967295;99999r");
-    IEQUAL(sizeof(t->saved_dec_modes), 60); /* 30 fixed signed slots */
-    IEQUAL(sizeof(t->saved_dec_modes) <= 28*sizeof(int), true); /* original storage budget */
+    IEQUAL(sizeof(t->saved_dec_modes), 58); /* 29 fixed signed slots */
+    IEQUAL(sizeof(t->saved_dec_modes) + sizeof(t->paste_brackets_mode) +
+           sizeof(t->paste_literal_nl_mode) <= 28*sizeof(int), true); /* original storage budget */
     state_reply(mk,"\033[?1r\033[?1$p","\033[?1;1$y");
 }
 

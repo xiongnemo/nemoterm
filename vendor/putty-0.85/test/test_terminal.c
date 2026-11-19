@@ -838,6 +838,36 @@ static void test_bracketed_paste(Mock *mk)
     IEQUAL(mk->to_backend->len, 0);
 }
 
+/* Preserve CR on its own, convert one native clipboard line ending exactly
+ * once, and preserve empty lines independently of paste framing. */
+static void test_paste_newlines(Mock *mk)
+{
+    const wchar_t native_nl[] = SEL_NL;
+    Terminal *t = mk->term;
+    reset(mk);
+    for (unsigned i = 0; i < 4; i++) {
+        bool literal = i & 1, bracket = i & 2;
+        term_data_fragmented(t, literal ? "\033[?2006h" : "\033[?2006l");
+        term_data_fragmented(t, bracket ? "\033[?2004h" : "\033[?2004l");
+        strbuf_clear(mk->to_backend);
+        term_do_paste(t, L"A\rB\n\nC", 6);
+        term_do_paste(t, native_nl, lenof(native_nl));
+        strbuf *want = strbuf_new();
+        const char *begin = bracket ? "\033[200~" : "", *end = bracket ? "\033[201~" : "";
+        put_fmt(want, "%sA\rB%sC%s%s%c%s", begin, literal ? "\n\n" : "\r\r", end,
+                begin, literal ? '\n' : '\r', end);
+        SEQUAL(mk->to_backend->s, want->s); strbuf_free(want);
+    }
+    /* Nested restore consumes a saved value even after changing mode. */
+    term_data_fragmented(t, "\033c\033[?2004h\033[?2004;2006s\033[?2004l\033[?2006h"
+                            "\033[?2004;2006s\033[?2004;2006l\033[!p\033[?2004;2006r");
+    IEQUAL(t->paste_brackets_mode & 1, 0); IEQUAL(t->paste_literal_nl_mode & 1, 1);
+    term_data_fragmented(t, "\033[?2004;2006r");
+    IEQUAL(t->paste_brackets_mode & 1, 1); IEQUAL(t->paste_literal_nl_mode & 1, 0);
+    term_data_fragmented(t, "\033[?2004;2006h\033[?2004;2006s\033c\033[?2004;2006r");
+    IEQUAL(t->paste_brackets_mode, 0); IEQUAL(t->paste_literal_nl_mode, 0);
+}
+
 static void drain_paste(Mock *mk)
 {
     unsigned left = 2000;
@@ -994,6 +1024,7 @@ int main(void)
     test_scroll_press_history(mk);
     test_colour_and_alternate_screen(mk);
     test_bracketed_paste(mk);
+    test_paste_newlines(mk);
     test_consecutive_pastes(mk);
     test_local_paste_snapshot(mk);
 

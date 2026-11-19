@@ -345,7 +345,10 @@ struct terminal_tag {
     int highlight_first, highlight_last, highlight_unit;
     pos highlight_anchor, highlight_start, highlight_end, highlight_mouse;
 
-    bool bracketed_paste, bracketed_paste_active;
+    /* XTerm readline modes use bit 0 for current state; each private
+     * save pushes it into the remaining bits. RIS clears both histories. */
+    uint32_t paste_brackets_mode, paste_literal_nl_mode;
+    bool bracketed_paste_active;
     bool no_bracketed_paste;           /* disabled in configuration */
 
     int cset_attr[4];
@@ -370,7 +373,7 @@ struct terminal_tag {
      * groups and alternate-screen aliases share entries. */
     /* Saved values are booleans, mouse tracking (-1..5), or a mouse
      * encoding (0, 1005, 1006, 1015, 1016). */
-    int16_t saved_dec_modes[30];
+    int16_t saved_dec_modes[29];
     uint32_t esc_arg_present;
     int alt_sblines; /* # of lines on alternate screen that should be used for scrollback. */
 

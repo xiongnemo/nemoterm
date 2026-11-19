@@ -3618,7 +3618,7 @@ static void power_on(Terminal *term, bool clear, bool keep_encoding)
     win_set_raw_mouse_mode(term->win, false);
     term->win_pointer_shape_pending = true;
     term->win_pointer_shape_raw = false;
-    term->bracketed_paste = false;
+    term->paste_brackets_mode = term->paste_literal_nl_mode = 0;
     term->srm_echo = false;
     {
         int i;
@@ -6978,9 +6978,13 @@ static void toggle_mode(Terminal *term, int mode, int query, bool state)
             if (term->win->vt->grapheme_clusters)
                 term_set_grapheme_clustering(term, state);
             break;
-          case 2004:                   /* xterm bracketed paste */
-            term->bracketed_paste = state ? true : false;
+          case 2004:                   /* bracket clipboard input */
+          case 2006: {                 /* preserve literal newlines */
+            uint32_t *flags = mode == 2004 ? &term->paste_brackets_mode :
+                                             &term->paste_literal_nl_mode;
+            *flags = (*flags & ~1u) | (state ? 1u : 0u);
             break;
+          }
           case 9001:                   /* Win32 KEY_EVENT_RECORD transport */
             if (term->win32_input != state) term->win32_input_epoch++;
             term->win32_input = state;
@@ -7066,7 +7070,8 @@ static unsigned term_mode_status(Terminal *term, unsigned mode, bool dec)
           case 1011: state = term->scroll_on_key; break;
           case 2004:
             if (term->no_bracketed_paste) return 4;
-            state = term->bracketed_paste; break;
+            state = term->paste_brackets_mode & 1; break;
+          case 2006: state = term->paste_literal_nl_mode & 1; break;
           case 9001:
             if (!conf_get_bool(term->conf, CONF_nemo_win32_input)) return 4;
             state = term->win32_input; break;
@@ -7084,6 +7089,13 @@ static unsigned term_mode_status(Terminal *term, unsigned mode, bool dec)
 
 static void nemo_saved_dec_mode(Terminal *term, unsigned mode, bool save)
 {
+    if (mode == 2004 || mode == 2006) {
+        if (mode == 2004 && term->no_bracketed_paste) return;
+        uint32_t *flags = mode == 2004 ? &term->paste_brackets_mode :
+                                         &term->paste_literal_nl_mode;
+        *flags = save ? (*flags << 1) | (*flags & 1) : *flags >> 1;
+        return;
+    }
     /* 1048 operates on DECSC/DECRC's cursor slot, not a Boolean mode. */
     if (mode == 1048) {
         if (!term->no_alt_screen) save_cursor(term, save);
@@ -7096,7 +7108,7 @@ static void nemo_saved_dec_mode(Terminal *term, unsigned mode, bool save)
     }
     static const unsigned modes[] = {
         1, 3, 5, 6, 7, 8, 9, 12, 25, 47, 66, 69, 80,
-        1000, 1004, 1005, 1007, 1070, 2004, 2026, 2027, 8452, 9001, 45, 1045, 42,
+        1000, 1004, 1005, 1007, 1070, 2026, 2027, 8452, 9001, 45, 1045, 42,
         1042, 1043, 1010, 1011
     };
     assert(lenof(modes) == lenof(term->saved_dec_modes));
@@ -12889,8 +12901,12 @@ static void term_paste_step(Terminal *term)
     term_paste_begin(term, p);
     size_t n = min(p->len - p->pos, PASTE_CHUNK);
     if (p->len >= PASTE_SHORT_LIMIT) {
-        const wchar_t *cr = wmemchr(text + p->pos, L'\r', n);
-        if (cr) n = cr + 1 - (text + p->pos);
+        for (size_t i = 0; i < n; i++) {
+            if (text[p->pos+i] == L'\r' || text[p->pos+i] == L'\n') {
+                n = i + 1;
+                break;
+            }
+        }
 #ifdef PLATFORM_IS_UTF16
         if (n && p->pos + n < p->len &&
             IS_SURROGATE_PAIR(text[p->pos+n-1], text[p->pos+n]))
@@ -12970,7 +12986,7 @@ static void term_enqueue_paste(Terminal *term, const wchar_t *data, size_t len,
 
     struct TermPaste *paste = snmalloc(len, sizeof(wchar_t), sizeof(*paste));
     *paste = (struct TermPaste){ .allocation = sizeof(*paste) + len * sizeof(wchar_t),
-        .bracketed = term->bracketed_paste && !term->no_bracketed_paste };
+        .bracketed = (term->paste_brackets_mode & 1) && !term->no_bracketed_paste };
     wchar_t *text = snew_plus_get_aux(paste);
 
     p = data;
@@ -12979,14 +12995,12 @@ static void term_enqueue_paste(Terminal *term, const wchar_t *data, size_t len,
 
         if (wc == sel_nl[0] &&
             wstartswith(p-1, data+len-(p-1), sel_nl, sel_nl_sz)) {
-            /*
-             * This is the (platform-dependent) sequence that the host
-             * OS uses to represent newlines in clipboard data.
-             * Normalise it to a press of CR.
-             */
+            /* Treat the native clipboard line ending as one logical LF. */
             p += sel_nl_sz - 1;
-            wc = '\015';
+            wc = L'\n';
         }
+        if (wc == L'\n' && !(term->paste_literal_nl_mode & 1))
+            wc = L'\r';
 
         if ((wc & ~(wint_t)0x9F) == 0) {
             /*
@@ -13007,7 +13021,7 @@ static void term_enqueue_paste(Terminal *term, const wchar_t *data, size_t len,
                     continue;
             }
 
-            if (wc == '\033' && term->bracketed_paste &&
+            if (wc == '\033' && (term->paste_brackets_mode & 1) &&
                 wstartswith(p-1, data+len-(p-1), L"\033[201~", 6)) {
                 /*
                  * Also, in bracketed-paste mode, reject the ESC
