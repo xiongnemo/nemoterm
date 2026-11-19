@@ -740,6 +740,44 @@ static void test_split_scroll_press(Mock *mk)
     }
 }
 
+/* History is still a valid source until it is actually evicted. A discarded
+ * press must keep ownership even if Shift is lifted before the mouse. */
+static void test_scroll_press_history(Mock *mk)
+{
+    Terminal *t = mk->term;
+    const int clipboard = CLIP_LOCAL + 1;
+    for (int evict = 0; evict < 2; evict++) {
+        reset(mk);
+        test_context(mk, "pressed glyph in one-line scrollback, evict=%d", evict);
+        term_size(t, 24, 80, 1);
+        term_data_fragmented(t, "KEEP\033[24;1H\033[?1003;1006h");
+        term_mouse(t, MBT_LEFT, MBT_SELECT, MA_CLICK, 0, 0, true, false, false);
+        term_data_fragmented(t, "\n");
+        IEQUAL(t->selstate, ABOUT_TO);
+        IEQUAL(t->selanchor.y, -1);
+        if (evict) {
+            term_data_fragmented(t, "\n");
+            IEQUAL(t->selstate, NO_SELECTION);
+            term_mouse(t, MBT_NOTHING, MBT_NOTHING, MA_MOVE, 4, 0, false, false, false);
+            term_mouse(t, MBT_LEFT, MBT_SELECT, MA_DRAG, 4, 0, false, false, false);
+            term_mouse(t, MBT_LEFT, MBT_SELECT, MA_RELEASE, 4, 0, false, false, false);
+            IEQUAL(t->selstate, NO_SELECTION);
+            IEQUAL(mk->clipboard_writes, 0);
+            IEQUAL(mk->to_backend->len, 0);
+            term_mouse(t, MBT_LEFT, MBT_SELECT, MA_CLICK, 4, 0, false, false, false);
+            term_mouse(t, MBT_LEFT, MBT_SELECT, MA_RELEASE, 4, 0, false, false, false);
+            SEQUAL(mk->to_backend->s, "\033[<0;5;1M\033[<0;5;1m");
+        } else {
+            term_scroll(t, -1, 0);
+            IEQUAL(t->disptop, -1);
+            term_mouse(t, MBT_LEFT, MBT_SELECT, MA_RELEASE, 3, 0, false, false, false);
+            term_request_copy(t, &clipboard, 1);
+            check_clipboard(mk, L"KEEP");
+            IEQUAL(mk->to_backend->len, 0);
+        }
+    }
+}
+
 static void test_colour_and_alternate_screen(Mock *mk)
 {
     reset(mk);
@@ -890,6 +928,7 @@ int main(void)
     test_shift_selection(mk);
     test_pressed_scroll(mk);
     test_split_scroll_press(mk);
+    test_scroll_press_history(mk);
     test_colour_and_alternate_screen(mk);
     test_bracketed_paste(mk);
     test_consecutive_pastes(mk);

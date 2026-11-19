@@ -5458,6 +5458,15 @@ static void nemo_tabulate(Terminal *term, unsigned count, bool forward)
     seen_disp_event(term);
 }
 
+/* Losing the pressed glyph cancels selection, but its button still belongs
+ * to us until release. Never start a selection on the replacement text or
+ * send an application an orphaned drag/release after Shift is lifted. */
+static void discard_selection_press(Terminal *term)
+{
+    deselect(term);
+    term->discarded_select_press = true;
+}
+
 /* The partial-width scroll copies logical cells, not rendered columns. Map a
  * pending press through both rows: a bidi glyph can cross the edge of the
  * pane visually even when its logical cell stays on the same row. */
@@ -5487,8 +5496,18 @@ static bool pressed_scroll_source(Terminal *term, int top, int bottom,
             dest->x = x;
         }
     }
+    /* check_boundary will erase both halves if the pane cuts a wide glyph,
+     * even when the pressed half is just outside the scrolling columns. */
+    int first = dest->x, last = dest->x;
+    if (first > 0 && row->chars[first].chr == UCSWIDE) first--;
+    else if (last+1 < term->cols && row->chars[last+1].chr == UCSWIDE) last++;
     if (dest->x >= left && dest->x < right) dest->y -= lines;
-    return dest->y >= top && dest->y <= bottom;
+    if ((first < left && last >= left) || (first < right && last >= right) ||
+        dest->y < top || dest->y > bottom || row->trusted != term->trusted) {
+        discard_selection_press(term);
+        return false;
+    }
+    return true;
 }
 
 static void pressed_scroll_finish(Terminal *term, pos dest, int half)
@@ -5601,8 +5620,10 @@ static void scroll(Terminal *term, int topline, int botline,
             /* Output still runs between button-down and the first drag. If
              * the pressed line survives a downward scroll, track its glyph,
              * just as in the upward-scroll path. Once dragging, output waits. */
-            if (term->selstate == ABOUT_TO && term->selanchor.y >= topline &&
-                term->selanchor.y < botline)
+            if (term->selstate == ABOUT_TO && term->selanchor.y == botline)
+                discard_selection_press(term);
+            else if (term->selstate == ABOUT_TO && term->selanchor.y >= topline &&
+                     term->selanchor.y < botline)
                 term->selanchor.y++;
 
             if (term->selstart.y >= topline && term->selstart.y <= botline) {
@@ -5688,6 +5709,10 @@ static void scroll(Terminal *term, int topline, int botline,
              * selected as we speak).
              */
             seltop = sb ? -term->savelines : topline;
+            /* A top row can still be selected in real scrollback. Lose the
+             * press only when that history slot or the region's top is lost. */
+            if (term->selstate == ABOUT_TO && term->selanchor.y == seltop)
+                discard_selection_press(term);
 
             if (term->selstate != NO_SELECTION) {
                 if (term->selstart.y >= seltop &&
@@ -13188,6 +13213,15 @@ void term_mouse_pixels(Terminal *term, Mouse_Button braw, Mouse_Button bcooked,
     termline *ldata;
     SelectionType default_seltype;
     if (term->rows <= 0 || term->cols <= 0) return;
+    if (term->discarded_select_press) {
+        if (a == MA_MOVE) return;
+        if (bcooked == MBT_SELECT) {
+            if (a == MA_DRAG) return;
+            term->discarded_select_press = false;
+            if (a == MA_RELEASE) return;
+            /* A fresh down can also follow a release lost by the frontend. */
+        }
+    }
     if (term->synchronized_update && (shift || !term->xterm_mouse) &&
         (a == MA_CLICK || a == MA_DRAG || a == MA_2CLK || a == MA_3CLK)) {
         term_end_synchronized_update(term);
@@ -13417,6 +13451,7 @@ void term_cancel_selection_drag(Terminal *term)
      * this function from the front end in such situations to restore
      * sensibleness.
      */
+    term->discarded_select_press = false;
     if (term->selstate == DRAGGING || term->selstate == ABOUT_TO)
         term->selstate = NO_SELECTION;
     term_out(term, false);

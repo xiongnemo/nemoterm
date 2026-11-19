@@ -424,6 +424,7 @@ struct terminal_tag {
     enum {
         NO_SELECTION, ABOUT_TO, DRAGGING, SELECTED
     } selstate;
+    bool discarded_select_press; /* consume the rest of a lost local gesture */
     SelectionType seltype;
     enum {
         SM_CHAR, SM_WORD, SM_LINE
