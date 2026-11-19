@@ -11,12 +11,55 @@ import traceback
 import uuid
 import winreg
 from hosted_gesture_input import DesktopInput
-from native_test_utils import root, wait_for
+from native_test_utils import c, k, root, wait_for
+from console_process_utils import ProcessEntry, creation_time
 from owned_job import OwnedJob
 from protocol_oracle_window import saved_profile
 
 sys.path.insert(0,str(root/'tools'))
 import nemoterm_debug as api
+
+
+def members(job):
+    # Accept names from Toolhelp only for handles proven to belong to this job.
+    inaccessible=[];handles=job.member_handles(inaccessible);rows={}
+    try:
+        for h in handles:
+            rows[k.GetProcessId(h)]={'created':creation_time(h)}
+        snap=k.CreateToolhelp32Snapshot(2,0)
+        if snap==c.c_void_p(-1).value:raise c.WinError()
+        try:
+            entry=ProcessEntry();entry.size=c.sizeof(entry);ok=k.Process32FirstW(snap,c.byref(entry))
+            while ok:
+                if entry.pid in rows:rows[entry.pid].update(name=entry.name,parent=entry.parent,threads=entry.threads)
+                ok=k.Process32NextW(snap,c.byref(entry))
+        finally:k.CloseHandle(snap)
+    finally:
+        for h in handles:k.CloseHandle(h)
+    return dict(rows=rows,inaccessible=inaccessible)
+
+
+def finish(job,rec):
+    rec['members_at_exit']=members(job)
+    rec['cleanup']=job.finish(grace=4,observe_after_deadline=12)
+    # Natural exit after four seconds is still a failure of the original deadline.
+    return not rec['cleanup']['grace_exceeded'] and not rec['cleanup']['terminated_remaining']
+
+
+def standalone_controls(result):
+    # No Nemoterm, no settings dialog. The direct login shell reads its own
+    # usual startup files; the second control omits shell startup entirely.
+    wsl=[str(Path(os.environ['SystemRoot'])/'System32/wsl.exe'),'--distribution',os.environ['NEMOTERM_TEST_WSL_DISTRO'],'--exec']
+    for label,command in [('login',['/bin/bash','--login','-i','-c','printf NEMO_LOGIN_EXIT']),('no-shell',['/bin/true'])]:
+        rec={'kind':label};result.setdefault('standalone_wsl',[]).append(rec)
+        with OwnedJob() as job:
+            p=job.spawn(wsl+command,stdin=subprocess.DEVNULL,stdout=subprocess.PIPE,stderr=subprocess.PIPE,creationflags=subprocess.CREATE_NO_WINDOW)
+            # The job may still own guest children with inherited pipes. Wait on the
+            # launcher itself before measuring descendants; output is tiny and bounded.
+            try:rec['exit_code']=p.wait(timeout=30)
+            finally:rec['within_deadline']=finish(job,rec)
+            out,err=p.communicate(timeout=5);rec['stdout']=out.decode(errors='replace')[:1000];rec['stderr']=err.decode(errors='replace')[:1000]
+            assert rec['exit_code']==0 and (label!='login' or b'NEMO_LOGIN_EXIT' in out),rec
 
 
 def exercise():
@@ -47,7 +90,7 @@ def exercise():
                         def prompt():
                             lines=api.request(inst['endpoint'],'text',seat['id']).splitlines()
                             return next((line.rstrip() for line in reversed(lines) if re.fullmatch(pattern,line)),None)
-                        rec['initial_prompt']=wait_for(prompt,timeout=30)
+                        rec['initial_prompt']=wait_for(prompt,timeout=30);rec['members_at_prompt']=members(job)
                         def send(text):api.request(inst['endpoint'],'input',seat['id'],text+'\r')
                         def identify(step, is_relay=active):
                             tag=uuid.uuid4().hex;path=folder/(tag+'.txt')
@@ -92,8 +135,11 @@ def exercise():
                                     wait_for(lambda:not list(temp.glob('nemoterm-wsl-*.elf')))
                                     assert identify('after_tab_close')==before
                         send('exit');rec['exit_code']=proc.wait(timeout=20);assert rec['exit_code']==0
-                    finally:rec['cleanup']=job.finish(grace=4)
-                rec['residual_files']=[f.name for f in temp.glob('nemoterm-wsl-*.elf')];assert not rec['cleanup']['terminated_remaining'] and not rec['residual_files']
+                    finally:rec['within_deadline']=finish(job,rec)
+                rec['residual_files']=[f.name for f in temp.glob('nemoterm-wsl-*.elf')]
+        standalone_controls(result)
+        failed=[r['stage'] for r in result['launches'] if not r['within_deadline'] or r['residual_files']]
+        assert not failed, ('Late descendants or files at exit',failed)
         result['completed']=True
     except Exception:result['error']=traceback.format_exc();raise
     finally:(folder/'result.json').write_text(json.dumps(result,indent=2),encoding='utf-8')
