@@ -202,3 +202,5 @@ Use `suite=profile-sequence` on the exact EXE to replay the aggregate profile wo
 `selection` 分组还检查 Shift 按下与第一次拖动之间的滚屏。先确认原行七个字格的像素移到了目标行，再松开并核对终端实际高亮、系统剪贴板、子进程原始输入。普通和矩形选区、向上和向下、GDI 和 DirectX、Sarasa 字体和空 profile 都单独记录。[实际窗口、剪贴板与精确镜像回放](../research/selection-during-scroll.md)。
 
 `protocol-reference.yml` 的 `family=regis-first-expose` 为每个输入终点启动独立上游 XTerm，只在最后做一次完整重绘，先核对原始序列、回复与首帧再比较重绘。见[七个历史差异的逐帧核验](../research/regis-first-expose.md)。
+
+`selection` 另覆盖滚动分栏穿过双向文字的场景：先在原图与滚动后截图中用字格底色定位同一字，再检查系统剪贴板和应用实际收到的字节。分开记录窗口消息和 Windows 实按 Shift、鼠标、Ctrl+Shift+C。[分栏选区前后对比](../research/selection-split-scroll.md)。
