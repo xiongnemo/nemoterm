@@ -26,3 +26,16 @@
 可用 `scripts/compare-bidi-word-records.py` 从两份下载的原始记录复核这 38 项，并用 `--image` 重建上图。上图取自系统鼠标回放的实际窗口，没有重新排版终端中的字。
 
 [原始完整 CI](https://github.com/xiongnemo/nemoterm/actions/runs/44515756392)在独立单文件测试中保留的 `selection.log` 显示，`soft-wrap` 已选择正确的两个可视字格 `[0,1]`，但实际还包含上一行的句点，与首次夹具的短字符串预期不同。[修正夹具的独立单文件回放](https://github.com/xiongnemo/nemoterm/actions/runs/44517870299)复用同一源码构建的 EXE。两个运行单独记录；专项结果不能覆盖完整 CI 的初始失败。
+
+实际客户端的另一组[30 项原始回执](https://github.com/xiongnemo/nemoterm/actions/runs/44515756392/artifacts/14525094466)为 29/30。24 项选区／快捷键／右键交互通过；OpenCode 两条贴图、Codex 正式编辑器的两条贴图也通过。Codex 启动时立即贴图的窗口接口仍失败，本轮系统键鼠路径通过。一次系统键鼠成功不代表启动草稿总能处理粘贴。[原始客户端记录](https://github.com/xiongnemo/nemoterm/actions/runs/44515756392/artifacts/14526645057)。
+
+本版 [XTerm 边界对照](https://github.com/xiongnemo/nemoterm/actions/runs/44515756392/artifacts/14524883711)的两个观测 JSON 与上一版逐字段一致，只有 EXE 哈希变化：独立 1,872 格完整性检查通过，严格 XTerm 对照保留 3/728 格差异。原始大构建的 Windows 和单文件两条路径都因同一份旧 `soft-wrap` 预期提前退出；除独立选区和单文件回放外，[修正夹具后的完整回归](https://github.com/xiongnemo/nemoterm/actions/runs/44518463241)另行运行。不同源码运行的 EXE 要单独核对哈希。
+
+[同一 EXE 的 12 项 160×48 压力测试原始档案](bidi-words-memory-0d8f731.zip)包含每组的 GitHub 制品编号、摘要、各阶段原始样本及子进程记录。下表只取前端进程；每列分别在六种压力任务中取最大值。
+
+| 渲染器 | 通过 | 私有工作集峰值 | 总工作集峰值 | 私有提交峰值 |
+| --- | ---: | ---: | ---: | ---: |
+| GDI | 6/6 | 19,214,336 字节 | 53,956,608 字节 | 22,351,872 字节 |
+| DirectX | 6/6 | 29,327,360 字节 | 74,698,752 字节 | 32,849,920 字节 |
+
+GDI 和 DirectX 的前端私有工作集分别在 20 MB 与 30 MB 上限内；图像与 Unicode 压力下总工作集可超过约 50 MB。下载到 `dist/nemoterm.exe` 的测试版与上述记录的 EXE 哈希相同。

@@ -4,6 +4,12 @@
 
 ## 开发快照
 
+[下载 Windows x64 单文件测试版 `2c63154`](https://github.com/xiongnemo/nemoterm/actions/runs/44510289348/artifacts/14523910915)。解压后只需 `nemoterm.exe`；EXE 的 SHA-256 为 `22e5cc72fee4c1f157468b29c5af8b2eaccbcbda1c90637467e74fb1309e739f`。
+
+按住 Shift 和鼠标左键选字时，如果应用在拖动前擦掉了按住的字，松手会取消这次选择，不改剪贴板。如果只擦了邻字，或按住的字符受保护，则仍能正常复制。52 项擦除手势在 GDI 和 DirectX 上全部通过；同一 EXE 的 10 项默认网格真实客户端选区回放也已通过。[高亮截图、原始记录及内存样本](../research/selection-erase.md)。
+
+这份 EXE 的[原始完整交互回执](../research/selection-erase-aggregate-2c63154.zip)为 78/80；两项均为 Codex 启动即贴图。GDI 和 DirectX 的压力私有工作集峰值分别是 19.562 MB 和 28.705 MB。
+
 [下载 Windows x64 单文件测试版 `2c0152c`](https://github.com/xiongnemo/nemoterm/actions/runs/44503310589/artifacts/14519395078)。解压后只需 `nemoterm.exe`；EXE 的 SHA-256 为 `79e504be64bfc37c2fdfaa79ae179b9a5e9da4ca08ebae29cc8782e3a28ec663`。
 
 按住 Shift 和鼠标左键时，如果应用把 `K` 改成了 `Z`，松手不会误复制 `ZLM`；原字没变或只因双向排版而移动时，仍可继续选中它。宽字、组合附标、emoji 变宽和换行均已回放：112 项窗口消息检查和 10 项系统键鼠检查通过。[修复前后的高亮截图和剪贴板记录](../research/selection-repaint.md)。

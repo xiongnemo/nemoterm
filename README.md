@@ -33,11 +33,11 @@ Kitty 图片支持直接 RGB/RGBA/PNG、压缩传输、裁剪、透明度、查�
 
 ## 下载
 
-[下载 Windows x64 单文件测试版 `2c63154`](https://github.com/xiongnemo/nemoterm/actions/runs/44510289348/artifacts/14523910915)。解压后只需 `nemoterm.exe`；EXE 的 SHA-256 为 `22e5cc72fee4c1f157468b29c5af8b2eaccbcbda1c90637467e74fb1309e739f`。
+[下载 Windows x64 单文件测试版 `0d8f731`](https://github.com/xiongnemo/nemoterm/actions/runs/44515756392/artifacts/14525912387)。解压后只需 `nemoterm.exe`；EXE 的 SHA-256 为 `8e8fdd89176d0204d72c05fd62b8bb62754eba052fab2c8e399bc8bc8fa7af12`。
 
-按住 Shift 和鼠标左键选字时，如果应用在拖动前擦掉了按住的字，松手会取消这次选择，不改剪贴板。如果只擦了邻字，或按住的字符受保护，则仍能正常复制。52 项擦除手势在 GDI 和 DirectX 上全部通过；同一 EXE 的 10 项默认网格真实客户端选区回放也已通过。[高亮截图、原始记录及内存样本](research/selection-erase.md)。
+按住 Shift 双击混排英文和从右向左书写的文字时，会选中屏幕上相邻的词，不再隔着标点选中远处的字。38 项高亮与剪贴板检查在旧版通过 14 项、新版全部通过。普通双击沿用 profile 里的选词规则。另在 tmux 内的 Vim 验证了 Shift 拖选和矩形复制，Codex、OpenCode、Claude Code 的 10 项默认网格交互也已通过。[对照截图、交互记录与内存](research/bidi-word-selection.md)。
 
-这是供手动测试的开发版。严格 XTerm 宽字和 ReGIS 历史画面对照仍有差异；专项通过不代表全部协议或完整 CI 通过。[这份 EXE 的完整 CI](https://github.com/xiongnemo/nemoterm/actions/runs/44510289348) · [历史测试版和压力测试](docs/PREVIEW_HISTORY.md)。
+这是开发测试版。Codex 启动阶段立即贴图、严格 XTerm 宽字和 ReGIS 历史画面对照仍有差异。[本 EXE 的原始完整 CI](https://github.com/xiongnemo/nemoterm/actions/runs/44515756392) · [修正测试夹具后的选区回放](https://github.com/xiongnemo/nemoterm/actions/runs/44516666888) · [历史测试版和压力测试](docs/PREVIEW_HISTORY.md)。
 
 在 Codex 0.167.0 中，请等编辑器就绪后再贴图，看到输入框中出现图片附件再发送。启动草稿可能接受文字却忽略贴图，窗口标题也不能可靠地判断是否就绪。[实际提交与截图](research/codex-file-draft-order.md) · [按键后 Windows 何时索取位图](research/codex-bitmap-requests.md)。
 
