@@ -40,15 +40,16 @@ def profile_command(hwnd,name):
     return cmd
 
 
-def run(tmp,job,out,report,keys):
+def run(tmp,job,out,report,keys,renderers):
     exe=Path(os.environ['NEMOTERM_TEST_EXE']);font=os.environ['NEMOTERM_TEST_FONT'];report.update(sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),font=font,observations=[])
+    report['renderers']=list(renderers)
     profiles=[];sessions=[];pids=[];dirs=[];expected=[ACK,ACK];serial=0;desk=saved=None
     for i in range(2):
         folder=tmp/str(i);folder.mkdir();dirs.append(folder)
         name='clipboard-tab-'+uuid.uuid4().hex;profiles.append(name);key='Software\\Nemo\\Nemoterm\\Sessions\\'+name
         with winreg.CreateKey(winreg.HKEY_CURRENT_USER,key) as reg:
             keys.append(key)
-            for k,v in dict(NemoTabs=1,NemoRenderer=2*i,FontHeight=12,WarnOnClose=0,CloseOnExit=1,ScrollBar=0,WindowBorder=1,TermWidth=60,TermHeight=20).items():winreg.SetValueEx(reg,k,0,winreg.REG_DWORD,v)
+            for k,v in dict(NemoTabs=1,NemoRenderer=renderers[i],FontHeight=12,WarnOnClose=0,CloseOnExit=1,ScrollBar=0,WindowBorder=1,TermWidth=60,TermHeight=20).items():winreg.SetValueEx(reg,k,0,winreg.REG_DWORD,v)
             if i:winreg.SetValueEx(reg,'RightClickCopyAndPaste',0,winreg.REG_DWORD,1)
             for k,v in dict(Protocol='conpty',Font=font,RemoteCommand=subprocess.list2cmdline([sys.executable,str(root/'tests/session_fixture.py'),str(folder)])).items():winreg.SetValueEx(reg,k,0,winreg.REG_SZ,v)
     proc=job.spawn([str(exe),'--automation','-load',profiles[0]],env=dict(os.environ,NEMOTERM_CONPTY='bundled',NEMOTERM_TEST_INPUT_CP='65001'),creationflags=subprocess.CREATE_NO_WINDOW)
@@ -61,7 +62,7 @@ def run(tmp,job,out,report,keys):
         return im
     def switch(i):
         desk.chord(0x11,0x09);hwnd=sessions[i]['hwnd'];wait_for(lambda:active()['hwnd']==hwnd and desk.state().focus==hwnd)
-        desk.hwnd=hwnd;desk.target();assert active()['renderer']==2*i
+        desk.hwnd=hwnd;desk.target();assert active()['renderer']==renderers[i]
     def scene(i):return f'\x1b[?1049h\x1b[?25l\x1b[2J\x1b[3;1H|{WORDS[i]}|\x1b[?1002;1006;2004h\x1b[5n'
     def barrier(label,delta=(b'',b'')):
         nonlocal serial
@@ -125,7 +126,7 @@ def run(tmp,job,out,report,keys):
             if i:
                 u.SendMessageW(sessions[0]['hwnd'],0x111,profile_command(host,profiles[i]),0)
             launch=wait_for(lambda:next(iter(dirs[i].glob('*.launch.json')),None));pids.append(wait_snapshot(lambda:read_snapshot(launch),lambda v:'pid' in v)['pid'])
-            s=wait_for(lambda:(v if (v:=active()) and v['id'] not in [t['id'] for t in sessions] else None));sessions.append(s);host=sessions[0]['window'];assert s['window']==host and s['renderer']==2*i
+            s=wait_for(lambda:(v if (v:=active()) and v['id'] not in [t['id'] for t in sessions] else None));sessions.append(s);host=sessions[0]['window'];assert s['window']==host and s['renderer']==renderers[i]
             write_snapshot(file(i,'control'),dict(phase=1,sequence=scene(i)));wait_snapshot(lambda:read_snapshot(file(i,'report')),lambda v:v.get('hex')==ACK.hex());wait_for(lambda:WORDS[i] in text(i))
         report.update(host=host,children=pids,sessions=sessions);desk=DesktopInput(proc.pid,host,sessions[1]['hwnd'],report.setdefault('desktop',{}));saved=SavedClipboard(sessions[0]['hwnd'])
         switch(0);select(0);right(0);barrier('default right copies only')
@@ -148,11 +149,16 @@ def run(tmp,job,out,report,keys):
 
 if __name__=='__main__':
     if os.environ.get('GITHUB_ACTIONS')!='true' or os.environ.get('RUNNER_ENVIRONMENT')!='github-hosted':raise SystemExit('Requires a GitHub-hosted Windows desktop')
-    out=root/'research'/'tab-clipboard';out.mkdir(exist_ok=True);report={'completed':False};keys=[]
-    try:
-        with tempfile.TemporaryDirectory() as tmp,OwnedJob() as job:run(Path(tmp),job,out,report,keys)
-    except BaseException:
-        report['error']=traceback.format_exc();raise
-    finally:
-        (out/'result.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8')
-        for key in keys:winreg.DeleteKey(winreg.HKEY_CURRENT_USER,key)
+    output=root/'research'/'tab-clipboard';failures=[]
+    # Separate fresh processes so either direction can report its original
+    # screenshots and byte streams even when the other direction failed.
+    for out,renderers in [(output,(0,2)),(output/'gdi-destination',(2,0))]:
+        out.mkdir(exist_ok=True);report={'completed':False};keys=[]
+        try:
+            with tempfile.TemporaryDirectory() as tmp,OwnedJob() as job:run(Path(tmp),job,out,report,keys,renderers)
+        except Exception:
+            report['error']=traceback.format_exc();failures.append((renderers,report['error']))
+        finally:
+            (out/'result.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8')
+            for key in keys:winreg.DeleteKey(winreg.HKEY_CURRENT_USER,key)
+    if failures:raise RuntimeError(failures)

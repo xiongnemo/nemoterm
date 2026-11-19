@@ -224,3 +224,5 @@ Use `suite=profile-sequence` on the exact EXE to replay the aggregate profile wo
 `suite=regis-presented-matrix` 对同一份 EXE 分别用 GDI、DirectX 回放 10 个终点，每种渲染器各跑整段写入和逐字节写入。采集目标是测试自己的终端客户区；DirectX 取实际子窗口，记录最初的尺寸同步。用红绿格交换验证画面会更新。写入次数、字节哈希、终端应答、重绘前后图像、原版像素差异及采集失败分别保留。[远程结果与制品](../research/regis-presented-matrix.md)。
 
 The `selection` group holds Shift and the left button while the application erases text using ECH, EL, ED, DECSEL, DECERA and DECSERA. Clipboard changes, highlighted cells and subsequent right-button delivery are checked independently, including the protected, already-blank and wide-character cases. [Exact images and regression evidence](../research/selection-erase.md).
+
+中途切换标签的场景另见[跨标签松开 Shift 拖选](../research/tab-drag-release.md)。`tab-clipboard-ownership` 用两个新窗口分别交换 GDI 与 DirectX 作为目标，检查目标原选区、来源未完成选区、窗口捕获以及双方的输入字节。这里的两个窗口分开运行，每次只有一对标签。
