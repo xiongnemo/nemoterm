@@ -214,6 +214,8 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-selection-') as temporary:
         verify_cursor_updates(hwnd,begin_phase,point,captured,tile,no_forwarded_input,evidence)
         from selection_pressed_scroll import verify as verify_pressed_scroll
         verify_pressed_scroll(hwnd,begin_phase,point,captured,tile,copy_shortcut,no_forwarded_input,evidence)
+        from selection_split_scroll import verify as verify_split_scroll
+        verify_split_scroll(hwnd,begin_phase,point,captured,tile,copy_shortcut,no_forwarded_input,evidence)
         evidence['completed']=True
         print('Rapid independent selections and 16 Ctrl rectangles, exact Unicode, shortcut/right-click copy and pixels passed')
     finally:
