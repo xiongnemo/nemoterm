@@ -110,6 +110,17 @@ static wchar_t *registry(HKEY hive, const wchar_t *path, const wchar_t *name)
     RegCloseKey(key);
     return p;
 }
+wchar_t *nemo_shell_default_wsl_distribution(void)
+{
+    const wchar_t *lxss = L"Software\\Microsoft\\Windows\\CurrentVersion\\Lxss";
+    wchar_t *id = registry(HKEY_CURRENT_USER, lxss, L"DefaultDistribution"), *distro = NULL;
+    if (id) {
+        wchar_t *key = dupwcscat(lxss, L"\\", id);
+        distro = registry(HKEY_CURRENT_USER, key, L"DistributionName");
+        sfree(key); sfree(id);
+    }
+    return distro;
+}
 void nemo_shell_detect(NemoShellList *list)
 {
     wchar_t system[MAX_PATH + 1];
@@ -121,13 +132,7 @@ void nemo_shell_detect(NemoShellList *list)
         *data = environment(L"ProgramData");
     wchar_t *git = registry(HKEY_CURRENT_USER, L"SOFTWARE\\GitForWindows", L"InstallPath");
     if (!git) git = registry(HKEY_LOCAL_MACHINE, L"SOFTWARE\\GitForWindows", L"InstallPath");
-    const wchar_t *lxss = L"Software\\Microsoft\\Windows\\CurrentVersion\\Lxss";
-    wchar_t *id = registry(HKEY_CURRENT_USER, lxss, L"DefaultDistribution"), *distro = NULL;
-    if (id) {
-        wchar_t *key = dupwcscat(lxss, L"\\", id);
-        distro = registry(HKEY_CURRENT_USER, key, L"DistributionName");
-        sfree(key); sfree(id);
-    }
+    wchar_t *distro = nemo_shell_default_wsl_distribution();
     NemoShellLocations loc = {system,path,scoop,profile,pf,pfx86,local,data,git,distro};
     nemo_shell_detect_at(list, &loc);
     sfree(path); sfree(scoop); sfree(profile); sfree(pf); sfree(pfx86);

@@ -7,10 +7,17 @@ parts of the host targets the active session. Existing mouse reporting remains
 independent. Explorer's copied-file format (`CF_HDROP`) is accepted by the regular
 Paste binding too, ahead of any accompanying text fallback.
 
-Quoting uses the configured startup shell, or a recognized explicit/custom shell
-command. PowerShell single quotes are doubled; ash/bash use POSIX single-quote
+Each running tab remembers the shell it started with, including recognized
+explicit/custom commands. Changing the default shell in Profile Settings affects
+new sessions; file drops into an existing session keep its original quoting. PowerShell single quotes are doubled; ash/bash use POSIX single-quote
 escaping. Git Bash and BusyBox receive forward-slash Windows paths. WSL drive
-paths use the default `/mnt/<drive>/...` mapping. Cmd receives quoted Windows
+paths use the default `/mnt/<drive>/...` mapping. When `wsl.exe` launches a
+known distribution, dropping or pasting an Explorer path such as
+`\\wsl.localhost\Ubuntu\home\me` yields `'/home/me'` in that distribution.
+The `\\wsl$` alias and extended UNC spelling also work. If a WSL share belongs
+to a different distribution, or the running distribution cannot be identified,
+the whole drop is rejected instead of pasting paths to unrelated files.
+Cmd receives quoted Windows
 arguments. Embedded controls, invalid UTF-16 and malformed or oversized DROPFILES
 blocks are rejected as a whole. There are limits of 1024 paths, 32,767 UTF-16 units
 per path, a 1 MiB source block and 65,536 UTF-8 bytes of resulting text.

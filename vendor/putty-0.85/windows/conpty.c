@@ -8,6 +8,7 @@
 
 #include "putty.h"
 #include "nemo_shell.h"
+#include "nemo_drop.h"
 
 #include <windows.h>
 #include <consoleapi.h>
@@ -409,6 +410,7 @@ static char *conpty_init(const BackendVtable *vt, Seat *seat,
     memset(&pi, 0, sizeof(pi));
 
     wchar_t *command, *environment = NULL;
+    int launch_shell=-1;
     bool dir_utf8, shell_directory=false;
     const char *dir_conf=conf_get_str_ambi(conf,CONF_nemo_starting_directory,&dir_utf8);
     directory=*dir_conf ? dup_mb_to_wc(dir_utf8?CP_UTF8:CP_ACP,dir_conf) : NULL;
@@ -432,6 +434,7 @@ static char *conpty_init(const BackendVtable *vt, Seat *seat,
                     for (size_t i = 0; i < lenof(preferred); i++)
                         if (shells.paths[preferred[i]]) { index = preferred[i]; break; }
                 }
+                launch_shell = index;
                 command = nemo_shell_command_at(&shells, index, directory);
                 shell_directory = index == NEMO_WSL_BASH ||
                     (index == NEMO_GIT_BASH && directory && directory[0] == L'/');
@@ -447,6 +450,7 @@ static char *conpty_init(const BackendVtable *vt, Seat *seat,
             }
         }
     }
+    nemo_drop_record_launch(seat,conf,command,launch_shell);
     bool created_ok = CreateProcessW(NULL, command, NULL, NULL,
                                      false, EXTENDED_STARTUPINFO_PRESENT | CREATE_UNICODE_ENVIRONMENT,
                                      environment, shell_directory ? NULL : directory, &si.StartupInfo, &pi);

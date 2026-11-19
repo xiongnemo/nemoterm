@@ -276,3 +276,7 @@ Windows 用 `font-zoom-replay.yml` 的 `suite=paste-quote` 对指定 EXE 重放�
 **哪一层改变了字节？** [同一测试脚本在原生 Linux 和 WSL1 的私有 PTY 及实际窗口中的记录](../research/paste-quote-hosts-9b5e1111.zip)把原版 XTerm 字节直接写进新建的 PTY，不经过 Windows 窗口。原生 Ubuntu runner 的八种对照均通过；WSL1 的同样八种只有四种通过。两种前缀的原始读取都能保留每个字节；但在 WSL1 中，即使直接写入正确的引用序列，内嵌 LF 仍会提前结束一次按行读取。Windows 端则是另一层：绑定到四个内置宿主的 ETW 记录共观察到 402 次 `API_GetConsoleInput`，`Unicode=1`，没有观察到 `API_ReadConsole`；这些是宿主记录的请求，不是字节读取。新诊断单独检查重定向的 `wsl.exe` 管道与 Linux 私有 PTY 能否双向保留任意八位数据；它不改变产品启动方式。启用跟踪的窗口回放保留了一次超时，其余三次自然退出，不能替第一次的强制清理改分。
 
 重定向管道的[托管 WSL1 实验](../research/wsl-byte-transport-9b5e1111.zip)已完成：不启动 Nemoterm，Windows 通过 `wsl.exe` 的匿名管道向真实 `/dev/pts` 送入四组 XTerm 原始粘贴数据，以及一次从 `00` 到 `ff` 的全部 256 个字节。五次都从 slave 读到原字节，反向写回到 Windows 也完整，查询尺寸均为 160×48。仅重放此探针可选 `font-zoom-replay.yml` 的 `suite=wsl-byte-path`。它证明生字节有可行路径；产品中的默认 WSL 后端仍使用控制台。WSL1 自身的规范行编辑差异也不因更换传输而消失。
+
+### 从资源管理器拖入 WSL，以及更改默认 shell 后再拖放
+
+用 `font-zoom-replay.yml` 的 `suite=wsl-drop`、`source_run`、完整 `source_commit` 回放同一 EXE；`ci.yml scope=full` 运行相同的检查。GitHub 托管的 Windows runner 在 Ubuntu 中生成文件和目录，把 Windows 文件列表拖放或粘贴到真实窗口。检查原始 PTY 输入、Bash 能否用收到的路径读到两份原始内容，以及混入另一发行版时是否整批拒绝。显式指定发行版与默认发行版各有覆盖。另开实际 Windows PowerShell，在 Profile Settings 中保存 cmd 为默认 shell；当前 PowerShell 和随后打开的 cmd 必须用同一 profile 分别读到对应文件的随机内容。两组都保留 GDI 和 DirectX 结果。原始失败：[资源管理器路径的旧版对照](../research/wsl-share-drop-before-9b5e1111.zip)。

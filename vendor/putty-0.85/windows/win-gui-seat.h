@@ -4,6 +4,8 @@
  * resources like the window handle.
  */
 
+#include "nemo_drop.h"
+
 typedef struct WinGuiSeat WinGuiSeat;
 
 struct PopupMenu {
@@ -107,6 +109,7 @@ struct WinGuiSeat {
     HMENU savedsess_menu;
 
     Conf *conf;
+    NemoDropTarget drop_target;
     LogContext *logctx;
     Terminal *term;
     struct NemoSnapshot *sync_snapshot;

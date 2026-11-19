@@ -200,7 +200,7 @@ static void process_clipdata(WinGuiSeat *wgs, HGLOBAL clipdata, bool unicode);
 static void nemo_paste_drop(WinGuiSeat *wgs, HDROP drop)
 {
     if (!wgs || wgs->closing || !wgs->term || !wgs->ldisc || !wgs->backend) return;
-    size_t length=0;wchar_t *paths=nemo_drop_paths(drop,wgs->conf,&length);
+    size_t length=0;wchar_t *paths=nemo_drop_paths(drop,wgs->conf,&wgs->drop_target,&length);
     if (paths) {term_do_paste(wgs->term,paths,length);sfree(paths);}
     else MessageBeep(MB_ICONWARNING);
 }
@@ -423,6 +423,16 @@ static const SeatVtable win_seat_vt = {
     .interactive = nullseat_interactive_yes,
     .get_cursor_position = win_seat_get_cursor_position,
 };
+
+/* Capture the exact shell and distro being launched, once for this seat.
+ * Saving settings edits the next launch; it cannot replace a running shell. */
+void nemo_drop_record_launch(Seat *seat,Conf *conf,const wchar_t *command,int shell)
+{
+    if (seat->vt==&win_seat_vt) {
+        WinGuiSeat *wgs=container_of(seat,WinGuiSeat,seat);
+        nemo_drop_target_init(&wgs->drop_target,conf,command,shell);
+    }
+}
 
 static bool start_backend(WinGuiSeat *wgs)
 {
@@ -1217,6 +1227,7 @@ static void wgs_cleanup(void *vctx)
     if (wgs->pal) DeleteObject(wgs->pal);
     sfree(wgs->window_name);
     sfree(wgs->icon_name);
+    sfree(wgs->drop_target.distro);
     conf_free(wgs->conf);
     /* Freeing dependent objects may cancel or schedule more callbacks. */
     delete_callbacks_for_context(wgs);
