@@ -12,6 +12,7 @@ on:
           - guarded-area
           - column-press
           - scrollback-modes
+          - paste-lines
           - attribute-colour
           - selection-colour
           - pointer-colour
@@ -208,6 +209,11 @@ jobs:
       - name: Compare identity argument and cursor semantics
         if: ${{ (success() || failure()) && (inputs.family == '' || inputs.family == 'identity' || inputs.family == 'all') }}
         run: python3 tests/xterm_identity_oracle.py --xterm /tmp/nemoterm-xterm-reference/xterm --output build/protocol-reference/identity-xterm.json
+      - name: Observe actual X clipboard paste bytes under bracket and literal newline modes
+        if: ${{ (success() || failure()) && (inputs.family == 'paste-lines' || inputs.family == 'all') }}
+        run: |
+          sudo apt-get install -y xclip xdotool xauth
+          xvfb-run -a python3 tests/xterm_paste_lines.py --xterm /tmp/nemoterm-xterm-reference/xterm --output build/protocol-reference/paste-lines/result.json
       - name: Capture output and key scrollback mode replies for every startup policy
         if: ${{ (success() || failure()) && (inputs.family == 'scrollback-modes' || inputs.family == 'all') }}
         run: python3 tests/scrollback_mode_cases.py --xterm /tmp/nemoterm-xterm-reference/xterm --directory build/protocol-reference/scrollback-modes
