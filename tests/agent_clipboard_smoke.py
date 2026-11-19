@@ -57,7 +57,7 @@ def main():
     if args.witness_bitmap:
         assert os.environ.get('RUNNER_ENVIRONMENT')=='github-hosted' and args.client=='codex' and not args.image_file and not args.after_window_caption
         result['delayed_bitmap_diagnostic']=True
-    if args.mixed_bitmap:assert args.after_client_idle and not args.image_file and not args.witness_bitmap
+    if args.mixed_bitmap:assert (args.after_client_idle or args.client=='opencode') and not args.image_file and not args.witness_bitmap
     if args.image_file:assert args.client=='codex' and not args.after_window_caption and not args.observe_first_miss
     if args.after_window_caption:assert args.client=='codex' and args.system_input and not args.after_client_idle and not args.observe_first_miss
     if args.after_client_idle:assert args.client=='codex'

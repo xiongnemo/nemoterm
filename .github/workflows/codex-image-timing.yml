@@ -1,8 +1,9 @@
-name: Codex image paste before and after client startup
+name: Real client image paste
 on:
   workflow_call:
     inputs:
       bitmap_witness: {type: boolean, default: false}
+      mixed_opencode: {type: boolean, default: false}
       mixed_bitmap: {type: boolean, default: false}
       image_files: {type: boolean, default: false}
       product_run: {required: true, type: string}
@@ -14,11 +15,13 @@ jobs:
   records:
     runs-on: windows-2025
     timeout-minutes: 12
+    env:
+      IMAGE_CLIENT: ${{ inputs.mixed_opencode && 'opencode' || 'codex' }}
     strategy:
       fail-fast: false
       matrix:
         input: [system, api]
-        phase: ${{ fromJSON(inputs.mixed_bitmap && '["idle"]' || '["immediate","idle"]') }}
+        phase: ${{ fromJSON(inputs.mixed_opencode && '["composer"]' || inputs.mixed_bitmap && '["idle"]' || '["immediate","idle"]') }}
         include: ${{ fromJSON((inputs.image_files || inputs.bitmap_witness || inputs.mixed_bitmap) && '[]' || '[{"input":"system","phase":"caption"}]') }}
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
@@ -39,7 +42,7 @@ jobs:
         run: |
           python -m pip install Pillow==13.0.0
           if ($LASTEXITCODE) {exit $LASTEXITCODE}
-          npm ci --prefix tools/codex-fixture --ignore-scripts --no-audit --no-fund
+          npm ci --prefix "tools/$env:IMAGE_CLIENT-fixture" --ignore-scripts --no-audit --no-fund
           if ($LASTEXITCODE) {exit $LASTEXITCODE}
       - name: Check availability-only and actual Windows bitmap reads
         if: inputs.bitmap_witness
@@ -52,28 +55,28 @@ jobs:
           WITNESS: ${{ inputs.bitmap_witness && 'yes' || 'no' }}
           STARTUP_PHASE: ${{ matrix.phase }}
         run: |
-          $clients=@(Get-ChildItem tools/codex-fixture/node_modules -Recurse -Filter codex.exe)
-          if ($clients.Count -ne 1) {throw 'Expected one pinned native Codex executable'}
-          $opts=@('tests/agent_clipboard_smoke.py','--client','codex','--client-exe',$clients[0].FullName)
+          $clients=@(Get-ChildItem "tools/$env:IMAGE_CLIENT-fixture/node_modules" -Recurse -Filter "$env:IMAGE_CLIENT.exe")
+          if ($clients.Count -ne 1) {throw "Expected one pinned native $env:IMAGE_CLIENT executable"}
+          $opts=@('tests/agent_clipboard_smoke.py','--client',$env:IMAGE_CLIENT,'--client-exe',$clients[0].FullName)
           if ($env:MIXED -eq 'yes') {$opts+='--mixed-bitmap'}
           if ($env:WITNESS -eq 'yes') {$opts+='--witness-bitmap'}
           if ($env:INPUT_MODE -eq 'system') {$opts+='--system-input'}
           if ($env:CLIPBOARD_KIND -eq 'file') {$opts+='--image-file'}
-          if ($env:STARTUP_PHASE -eq 'idle') {$opts+='--after-client-idle'} elseif ($env:STARTUP_PHASE -eq 'caption') {$opts+='--after-window-caption'} elseif ($env:CLIPBOARD_KIND -eq 'bitmap') {$opts+='--observe-first-miss'}
+          if ($env:STARTUP_PHASE -eq 'idle') {$opts+='--after-client-idle'} elseif ($env:STARTUP_PHASE -eq 'caption') {$opts+='--after-window-caption'} elseif ($env:STARTUP_PHASE -eq 'immediate' -and $env:CLIPBOARD_KIND -eq 'bitmap') {$opts+='--observe-first-miss'}
           python @opts
           exit $LASTEXITCODE
       - name: Read exact child input for ten mixed-format clipboard cases
-        if: ${{ !cancelled() && inputs.mixed_bitmap && matrix.input == 'api' }}
+        if: ${{ !cancelled() && inputs.mixed_bitmap && !inputs.mixed_opencode && matrix.input == 'api' }}
         run: python tests/image_paste_protocol.py --mixed-formats
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
-          name: codex-${{ inputs.mixed_bitmap && 'mixed' || inputs.image_files && 'file' || inputs.bitmap_witness && 'reads' || 'image' }}-${{ matrix.input }}-${{ matrix.phase }}-${{ github.run_id }}-${{ github.run_attempt }}
+          name: ${{ env.IMAGE_CLIENT }}-${{ inputs.mixed_bitmap && 'mixed' || inputs.image_files && 'file' || inputs.bitmap_witness && 'reads' || 'image' }}-${{ matrix.input }}-${{ matrix.phase }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
             build/image-key-records/mixed-formats.json
             build/dib-witness-control.json
-            research/agent-clipboard-codex.json
-            research/agent-codex-ctrl*
+            research/agent-clipboard-${{ env.IMAGE_CLIENT }}.json
+            research/agent-${{ env.IMAGE_CLIENT }}-ctrl*
             build/agent-image-*/*/*.json
             build/agent-image-*/*/at-paste.vt
             build/agent-image-*/*/after-caption-gesture.vt
