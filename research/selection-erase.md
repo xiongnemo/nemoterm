@@ -46,3 +46,5 @@
 按十进制 MB，GDI 私有工作集比 20 MB 上限低 0.438 MB，DirectX 比 30 MB 上限低 1.295 MB。稳定的 Codex 窗口和压力负载测的是不同阶段，不能用稳定窗口的数值代替压力峰值。
 
 [tmux 3.4 内的实际 Vim 回放](wsl-tmux-vim-2c63154.zip)使用同一份 EXE、SarasaTermSC Nerd Light 和 GitHub 托管 Ubuntu-24.04 / WSL1。[原始运行](https://github.com/xiongnemo/nemoterm/actions/runs/44514077147)的制品 `14525735119` SHA-256 为 `d0b0bf23f314daed817935b389241f50b2226e8b29c7b0633d0e5bd77e3ca85e`。GDI、DirectX 各用外层 `xterm` 和 `xterm-256color` 启动；四组内层 Vim 均报告 `tmux-256color`。普通点击到达 Vim 的第 3 行第 5 列；按 Shift 拖选时截图中四个被高亮的格子对应剪贴板中的「中文」，矩形复制结果为 `中文\r\nCU`，没有移动 Vim 光标，也没有让 tmux 进入复制模式。窗口从 60×20 放大到 72×24，再缩小到 52×16 时，前端、tmux 客户端和窗格、Vim 报告的尺寸都一致。粘贴后的文件字节和退出后恢复的屏幕也全部通过。该运行不涵盖 WSL2。
+
+[同一 EXE 的完整交互报告和 13 个原始分组回执](selection-erase-aggregate-2c63154.zip)核对了 80 项，78 项通过。未通过的两项是 `agents/agent-image-codex` 与 `agents/agent-image-system-codex`，均为 Codex 启动草稿的第一次贴图。同一报告内，编辑器就绪后的窗口和系统键鼠贴图均通过。上述 tmux 专项是之后在同一 EXE 上独立运行的，不计入 80 项。
