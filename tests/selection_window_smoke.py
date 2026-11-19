@@ -31,7 +31,7 @@ evidence['requested_font']=args.font
 with tempfile.TemporaryDirectory(prefix='nemoterm-selection-') as temporary:
     report,control=(Path(temporary)/name for name in ('report','control'))
     process=subprocess.Popen([str(exe)]+(['--tabs','--tab-side',args.tab_side] if args.tabs else ['--no-tabs'])+(['--font',args.font] if args.font else [])+['-load',profile,'--cols','80','--rows','24','-e',sys.executable,
-        str(root/'tests/mouse_fixture.py'),str(report),str(control)],
+        str(root/'tests/mouse_fixture.py'),str(report),str(control),'150'],
         env=dict(os.environ,NEMOTERM_CONPTY='bundled',NEMOTERM_TEST_UTF8_INPUT='1'),creationflags=subprocess.CREATE_NO_WINDOW)
     saved=None; session=None; script=None; gpu=None
     try:
@@ -227,6 +227,8 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-selection-') as temporary:
         split_messages_ok=verify_split_scroll(hwnd,tracked_phase,point,captured,tile,copy_shortcut,no_forwarded_input,evidence)
         from selection_discarded_scroll import verify as verify_discarded_scroll
         discard_ok=verify_discarded_scroll(hwnd,tracked_phase,point,captured,tile,copy_shortcut,no_forwarded_input,evidence)
+        from selection_horizontal_press import verify as verify_horizontal_press
+        horizontal_ok=verify_horizontal_press(hwnd,tracked_phase,point,captured,tile,copy_shortcut,no_forwarded_input,evidence)
         split_system_ok=True
         if args.tabs:
             # Remove the synchronous-message fixture's queued-mouse filter;
@@ -245,9 +247,11 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-selection-') as temporary:
                                   len(bytes.fromhex(v.get('hex','')))>len(b'\x1b[0n'))
                 split_system_ok=verify_split_scroll(hwnd,tracked_phase,point,captured,tile,system_copy,no_forwarded_input,evidence,desktop,await_new_input)
                 discard_ok=verify_discarded_scroll(hwnd,tracked_phase,point,captured,tile,system_copy,no_forwarded_input,evidence,desktop,await_new_input) and discard_ok
+                horizontal_ok=verify_horizontal_press(hwnd,tracked_phase,point,captured,tile,system_copy,no_forwarded_input,evidence,desktop,await_new_input) and horizontal_ok
             finally:desktop.restore()
         assert split_messages_ok and split_system_ok, (evidence['split_scroll_press'],evidence.get('split_scroll_system'))
         assert discard_ok,evidence['discarded_scroll_press']
+        assert horizontal_ok,[(r['case'],r.get('right_copy'),r.get('highlight')) for k in ('horizontal_press','horizontal_press_system') for r in evidence.get(k,[]) if not r['passed']]
         evidence['completed']=True
         print('Rapid independent selections and 16 Ctrl rectangles, exact Unicode, shortcut/right-click copy and pixels passed')
     finally:
