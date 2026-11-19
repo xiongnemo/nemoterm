@@ -230,6 +230,9 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-selection-') as temporary:
         from selection_horizontal_press import verify as verify_horizontal_press
         horizontal_ok=verify_horizontal_press(hwnd,tracked_phase,point,captured,tile,copy_shortcut,no_forwarded_input,evidence)
         split_system_ok=True
+
+        from selection_bidi_words import verify as verify_words
+        words_ok=verify_words(hwnd,begin_phase,point,captured,tile,copy_shortcut,no_forwarded_input,evidence)
         if args.tabs:
             # Remove the synchronous-message fixture's queued-mouse filter;
             # the final gestures are Windows SendInput, including copy.
@@ -248,10 +251,12 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-selection-') as temporary:
                 split_system_ok=verify_split_scroll(hwnd,tracked_phase,point,captured,tile,system_copy,no_forwarded_input,evidence,desktop,await_new_input)
                 discard_ok=verify_discarded_scroll(hwnd,tracked_phase,point,captured,tile,system_copy,no_forwarded_input,evidence,desktop,await_new_input) and discard_ok
                 horizontal_ok=verify_horizontal_press(hwnd,tracked_phase,point,captured,tile,system_copy,no_forwarded_input,evidence,desktop,await_new_input) and horizontal_ok
+                words_ok=verify_words(hwnd,begin_phase,point,captured,tile,system_copy,no_forwarded_input,evidence,desktop) and words_ok
             finally:desktop.restore()
         assert split_messages_ok and split_system_ok, (evidence['split_scroll_press'],evidence.get('split_scroll_system'))
         assert discard_ok,evidence['discarded_scroll_press']
         assert horizontal_ok,[(r['case'],r.get('right_copy'),r.get('highlight')) for k in ('horizontal_press','horizontal_press_system') for r in evidence.get(k,[]) if not r['passed']]
+        assert words_ok,[(r['case'],r.get('copied'),r.get('highlight')) for group in ('bidi_word_messages','bidi_word_system') for r in evidence.get(group,[]) if not r['passed']]
         evidence['completed']=True
         print('Rapid independent selections and 16 Ctrl rectangles, exact Unicode, shortcut/right-click copy and pixels passed')
     finally:
