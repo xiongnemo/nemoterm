@@ -14,7 +14,7 @@ gh workflow run ci.yml --ref <branch> -f scope=full
 
 手动调度的验收按 run ID 隔离；同分支之后推送文档或测试脚本不会取消它。普通 push 仍只保留同一工作分支上较新的运行。
 
-`Test and build` 汇总 Linux ASan/UBSan、C/C++ 单元测试、MSVC 渲染诊断、MinGW 原生协议和像素测试、单 EXE 完整套件、profile 持久化、DPI/双语界面，以及下表的 78 项检查（66 项交互、12 项完整 Sarasa 网格负载）。单 EXE、DPI 和交互任务共用这次 source-host 构建的准确 EXE，并校验来源提交、大小及 SHA-256。
+`Test and build` 汇总 Linux ASan/UBSan、C/C++ 单元测试、MSVC 渲染诊断、MinGW 原生协议和像素测试、单 EXE 完整套件、profile 持久化、DPI/双语界面，以及下表的 80 项检查（68 项交互、12 项完整 Sarasa 网格负载）。单 EXE、DPI 和交互任务共用这次 source-host 构建的准确 EXE，并校验来源提交、大小及 SHA-256。
 
 只回放测试脚本，不重复编译：
 
@@ -93,7 +93,7 @@ ReGIS 生产代码变化后的定向重建使用 `protocol-reference.yml -f fami
 | input | 2 | byte/ReadConsoleW、中文/emoji、IMM、模拟 DPI 与组合窗位置 |
 | selection | 6 | 默认/自定义 bindings，GDI/DX 分别在默认 profile 字体和 Sarasa 上检查矩形与 Shift 选择，右键仅复制与复制后粘贴；跨行复制粘贴区分自动折行、右边缘宽字和硬换行 |
 | clipboard | 2 | GDI/DX 文件/目录拖放，路径引用、应用接管与文本/图片优先级 |
-| agents-grid | 8 | 三种真实客户端分别在 GDI、DirectX 用默认尺寸启动，不传行列覆盖。断言实际 160×48，用系统输入完成选择和回贴，记录发现窗口至提交阶段约每 100 ms 的前端内存。Claude Code 还在显式关闭终端双向重排的配置中重复，默认配置仍独立计分。 |
+| agents-grid | 10 | 三种真实客户端分别在 GDI、DirectX 用默认尺寸启动，不传行列覆盖。断言实际 160×48，用系统输入完成选择和回贴，记录发现窗口至提交阶段约每 100 ms 的前端内存。Claude Code 还在显式关闭终端双向重排的配置中重复，默认配置仍独立计分。两项嵌套场景从 pwsh 启动 Claude，并核对启动前后 shell 原文与客户端的字序标记。[原始回放](../research/claude-writer-order.md)。 |
 | agents | 30 | 真实 Codex、OpenCode 分别用窗口接口及 Windows 系统按键粘贴图片；Codex 首次画出输入和报告就绪后分别检查，两项独立计分；在实际 GDI / DirectX 标签页用系统鼠标和键盘 Shift 拖选、Ctrl+Shift+C/V 与两种右键策略，核对高亮、剪贴板、接收端实际文本及退出。OpenCode 必须主动请求接管鼠标；Codex 记录当时实际请求。Claude Code 的组合重音分别核对剪贴板原文、原生子程序输入字节和两种独立 PTY 的 Messages 回执。另以不会被规范化的组合字符验证快捷键及两种右键模式端到端逐字一致。用例入表不代表已经通过。 |
 | rendering | 3 | 实际 GDI 客户区捕获、三种渲染器、字号缩放/恢复 |
 | mouse | 2 | 鼠标协议字节、按键、滚轮和坐标；另对照 XTerm 的 31 组指针颜色回复、Windows 实际光标像素、恢复系统指针和隐藏标签隔离 |

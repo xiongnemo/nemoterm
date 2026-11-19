@@ -34,3 +34,5 @@
 宿主在 VT 解析器确认的可打印文字段两端发送 Nemoterm 私有 OSC 777 字序提示。这样即使一次系统写入停在 Sixel、OSC 标题或 CSI 内部，也不把提示插进这些协议的数据中。每个印出的字符在已有单元格元数据中保存一位；该位不参与绘图样式或矩形校验和。后来写入的普通字符、同一行的相邻逻辑段和历史字符仍按各自的来源处理。它不是通用的终端能力协商，也不要求下游应用发出这条提示。
 
 [完整远程构建](https://github.com/xiongnemo/nemoterm/actions/runs/44457337912)已生成单文件，制品 `14497589034` 内 `nemoterm.exe` 为 4,871,168 字节，SHA-256 `c149c2bc3a3a2e0d2594ae2a239520af15a47bbb5c4d49c4daae3dc998bf64ba`。[Linux ASan/UBSan 原始记录](writer-order-core-7ec651d.zip)来自同一源码，不是 Windows 交互验收。新增的[同一文件的真实窗口回放](https://github.com/xiongnemo/nemoterm/actions/runs/44457941279)同时保留原来直接启动的用例；另用 PowerShell 启动真实客户端，要求父子进程证据、shell 前后输出无字序标记、Claude 见证字符串有标记、按提供方顺序绘图、拖选复制及提交均正确。触发回放本身不是通过证明。
+
+[默认配置及 PowerShell 嵌套回放结果](claude-writer-order.md)：使用显式 UTF-8 的 shell 见证字符串后，同一份文件的十个用例全部通过，含 GDI 和 DirectX。原始八项通过、两项因见证字符串编码失败的记录另行保留。

@@ -13,11 +13,13 @@ Nemoterm 是 **PuTTY 0.85 Windows pterm 的下游 fork**，沿用其终端核心
 本页描述所在分支的代码；下载产物按下面的提交和验证记录区分。已实现功能与测试边界见 [协议支持表](docs/PROTOCOLS.md)
 和 [需求与验证记录](docs/REQUIREMENTS.md)。
 
-[当前单文件测试版 `6ee2996`](https://github.com/xiongnemo/nemoterm/actions/runs/44411510449/artifacts/14477886358) 修复了应用能画 ReGIS 图、却查询不到这项能力的问题。程序现在可在绘图前读到 800×480 的默认画布。GDI 与 DirectX 都验证了根据返回尺寸绘图、重绘后仍可见；同一文件通过选区与关闭确认回放。12 项 160×48 压力测试中，前端私有工作集最高 GDI **18.84 MB**、DirectX **28.86 MB**。整套交互为 **76/78**，剩余两项是默认 Claude 的混排字序。[前后截图、文件校验与未通过的画面对照](research/regis-discovery.md)。
+[当前单文件测试版 `7ec651d`](https://github.com/xiongnemo/nemoterm/actions/runs/44457337912/artifacts/14497589034) 修复了默认配置下 Claude Code 2.1.322.0 的希伯来文被排两次、拖选复制到相邻字符的问题。直接启动和经 PowerShell 启动均已用实际窗口和系统剪贴板验证；三种客户端的选区回放 **10/10**。160×48 压力测试前端私有工作集峰值为 GDI **19.964 MB**、DirectX **29.467 MB**。整套交互 **76/78**；Codex 启动时立即贴图的两项未通过，待编辑器报告就绪后通过。[截图、原始数据与已知限制](research/claude-writer-order.md)。
+
+[上一版 `6ee2996`](https://github.com/xiongnemo/nemoterm/actions/runs/44411510449/artifacts/14477886358) 修复了应用能画 ReGIS 图、却查询不到这项能力的问题。程序现在可在绘图前读到 800×480 的默认画布。GDI 与 DirectX 都验证了根据返回尺寸绘图、重绘后仍可见；同一文件通过选区与关闭确认回放。12 项 160×48 压力测试中，前端私有工作集最高 GDI **18.84 MB**、DirectX **28.86 MB**。整套交互为 **76/78**，剩余两项是默认 Claude 的混排字序。[前后截图、文件校验与未通过的画面对照](research/regis-discovery.md)。
 
 [单文件测试版 `b7f4bfa`](https://github.com/xiongnemo/nemoterm/actions/runs/44404296808/artifacts/14474875134) 修复了应用只移动光标就导致 Shift 选区消失、右键被应用接管的问题。现在应用可以继续更新旁边的文字，仍能右键复制原来高亮的内容；真正改写所选字形时才取消旧选区。同一版本六种 160×48 压力负载的最高前端私有工作集为 GDI **19.10 MB**、DirectX **29.13 MB**。[修复前后截图与 32 项窗口检查](research/selection-cursor-traffic.md) · [同机运行 Codex 的前端内存对照](research/pterm-findings.md) · [上一版的全屏与关闭确认检查](research/xtwinops-fullscreen.md) · [混排选区与客户端已知问题](research/interaction-3da2fc3.md)。
 
-用这个版本测试 Codex 贴图时，可以等窗口标题从 `Nemoterm` 变成项目名，再按一次 `Ctrl+Shift+V`。在默认标题配置的 Codex 0.167.0 上，两种贴图快捷键都收到了完整图片；刚出现输入框时仍可能漏掉第一次。[标题栏截图与远程回放](research/image-paste-key-protocol.md#using-the-native-window-caption-as-a-visible-cue-on-the-manual-preview)。
+在 Codex 0.167.0 里贴图，请等编辑器就绪，按一次 `Ctrl+Shift+V`，看到输入框中出现图片附件再发送。窗口标题变成项目名并不能保证第一次贴图会成功：本版复查时两种实按快捷键只有一种成功，编辑器报告就绪后两种均成功。[三个时点的远程回放](research/claude-writer-order.md#codex-贴图时机)。
 
 [较早的单文件测试版 `f564927`](https://github.com/xiongnemo/nemoterm/actions/runs/44374468391/artifacts/14460047904)：修复“窗口 → 外观 → 字体访问”的快捷键与“取消”冲突。在 GDI 和 DirectX 上均已验证：应用改变当前标签的字体不会修改 profile；撤销权限后立即恢复原字体。[同一 EXE 的交互验收](research/interaction-f564927.md)为 72/74，两个未通过项均为 Codex 启动阶段立即贴图；编辑器就绪后通过。160×48 压力测试私有工作集峰值为 GDI **18.89 MB**、DirectX **28.75 MB**。
 
