@@ -122,6 +122,8 @@ class Handler(BaseHTTPRequestHandler):
                 self.server.requests[-1]['draft_parts']=[v for v in latest_user_parts if re.fullmatch(r'[A-Z0-9_]{1,96}',v)]
             assert len(self.server.requests) <= 12
             self.send_response(200)
+            if hasattr(self.server,'response_clock'):
+                self.server.response_clock.append(dict(stage='request',ns=time.monotonic_ns()))
             self.send_header('Content-Type', 'text/event-stream')
             self.send_header('Connection', 'close')
             self.end_headers()
@@ -172,6 +174,8 @@ class Handler(BaseHTTPRequestHandler):
                     value = dict(type=kind, sequence_number=seq, **fields)
                     self.wfile.write(('event: '+kind+'\ndata: '+json.dumps(value)+'\n\n').encode())
             self.wfile.flush()
+            if hasattr(self.server,'response_clock'):
+                self.server.response_clock.append(dict(stage='response-flushed',ns=time.monotonic_ns()))
         except Exception as exc:
             self.server.errors.append(repr(exc))
             try:

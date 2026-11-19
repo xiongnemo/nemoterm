@@ -60,7 +60,7 @@ def product(exe, renderer, folder, rec):
         for n,v in [('NemoRenderer',renderer),('WarnOnClose',0),('CloseOnExit',1)]:winreg.SetValueEx(h,n,0,winreg.REG_DWORD,v)
     try:
         with OwnedJob() as job:
-            proc=job.spawn([str(exe),'-load',profile,'--automation','--font','SarasaTermSC Nerd Font Light','-e',sys.executable,str(Path(__file__).resolve()),'--child',str(folder)],env=dict(os.environ,NEMOTERM_CONPTY='bundled'),creationflags=subprocess.CREATE_NO_WINDOW)
+            proc=job.spawn([str(exe),'-load',profile,'--automation','--font',os.environ['NEMOTERM_TEST_FONT'],'-e',sys.executable,str(Path(__file__).resolve()),'--child',str(folder)],env=dict(os.environ,NEMOTERM_CONPTY='bundled'),creationflags=subprocess.CREATE_NO_WINDOW)
             inst=wait_for(lambda:next(iter(api.discover(proc.pid)),None),timeout=25);sess,=inst['sessions'];endpoint=inst['endpoint'];seat=sess['id']
             assert sess['renderer']==renderer and sess['window']!=sess['hwnd']; rec['session']=sess
             wait_for(lambda:'UNICODE_PASTE_READY' in api.request(endpoint,'text',seat))
@@ -76,21 +76,60 @@ def product(exe, renderer, folder, rec):
             assert proc.wait(timeout=12)==0;rec['cleanup']=job.finish();assert not rec['cleanup']['terminated_remaining']
     finally:winreg.DeleteKey(winreg.HKEY_CURRENT_USER,key)
 
-def upstream_pty(folder,backend,cmd):
-    # The independent upstream bridge owns the console. This subprocess is
-    # inside the runner's private job, with only the disposable client env.
+def upstream_pty(folder,backend,cmd,serial=False):
+    # The reference uses the pinned upstream host and never spawns Nemoterm.
+    # Keep the stock bridge as a separate required case. The paired WinPTY
+    # control uses the same native backend, but never blocks a reader across
+    # a pending write. Compare delivery, presentation and exit independently.
     import codecs
+    import json
+    import queue
     from importlib.metadata import version
-    from winpty import PtyProcess
-    proc=PtyProcess.spawn(cmd,cwd=os.getcwd(),env=dict(os.environ),dimensions=(30,100),backend=backend)
-    write_snapshot(folder/'reference-backend.json',dict(pywinpty=version('pywinpty'),backend=backend,pid=proc.pid))
-    def send():
+    from winpty import PTY, PtyProcess
+    if serial:
+        pty=PTY(100,30,backend=int(backend))
+        env='\0'.join(k+'='+v for k,v in os.environ.items())+'\0'
+        pty.spawn(cmd[0],cwd=os.getcwd(),env=env,cmdline=' '+subprocess.list2cmdline(cmd[1:]))
+        proc=pty
+    else:
+        proc=PtyProcess.spawn(cmd,cwd=os.getcwd(),env=dict(os.environ),dimensions=(30,100),backend=backend)
+    write_snapshot(folder/'reference-backend.json',dict(pywinpty=version('pywinpty'),backend=backend,pid=proc.pid,
+                   driver='serial-native' if serial else 'stock-PtyProcess'))
+    # Independent files survive a forced cleanup. Timing before and after a
+    # native write distinguishes the bridge accepting the pipe from delivery.
+    incoming=queue.SimpleQueue()
+    def receipt(stream,stage,**values):
+        stream.write((json.dumps(dict(stage=stage,ns=time.monotonic_ns(),**values))+'\n').encode())
+    def perform(value,log):
+        receipt(log,'write-enter',data_hex=value.encode().hex())
+        count=proc.write(value)
+        receipt(log,'write-return',reported=count)
+    def feed():
         decoder=codecs.getincrementaldecoder('utf-8')()
-        with (folder/'reference-stdin.vt').open('wb') as record:
+        with (folder/'reference-stdin.vt').open('wb',buffering=0) as wire,(folder/'bridge-input.jsonl').open('wb',buffering=0) as log:
             while data:=os.read(0,16384):
-                record.write(data);record.flush();value=decoder.decode(data)
-                if value:proc.write(value)
-    threading.Thread(target=send,daemon=True).start()
+                wire.write(data);receipt(log,'pipe-read',bytes=len(data));value=decoder.decode(data)
+                if value:
+                    if serial: incoming.put(value)
+                    else: perform(value,log)
+    threading.Thread(target=feed,daemon=True).start()
+    if serial:
+        with (folder/'bridge-native.jsonl').open('wb',buffering=0) as log:
+            while True:
+                try: value=incoming.get_nowait()
+                except queue.Empty: value=None
+                if value:perform(value,log)
+                try:block=pty.read(blocking=False)
+                except Exception:
+                    if pty.isalive():raise
+                    break
+                if block:
+                    sys.stdout.buffer.write(block.encode('utf8'));sys.stdout.buffer.flush()
+                elif not pty.isalive():break
+                else:time.sleep(.003)
+        rc=pty.get_exitstatus()
+        if rc is None:raise RuntimeError('Missing native exit status')
+        return rc
     try:
         while True:
             value=proc.read(32768)
@@ -98,9 +137,9 @@ def upstream_pty(folder,backend,cmd):
     except EOFError:pass
     return proc.wait()
 
-def reference(backend,client,folder,rec):
+def reference(backend,client,folder,rec,serial=False):
     folder.mkdir();home,work,env=isolated_home(folder);env.pop('NEMOTERM_CONPTY',None);env['NEMOTERM_HOSTED_REFERENCE']='1'
-    server=Provider();server.selection=True
+    server=Provider();server.selection=True;server.response_clock=[]
     thread=threading.Thread(target=server.serve_forever,daemon=True);thread.start()
     try:
         cmd=claude_command(str(client),folder,home,work,env,'http://127.0.0.1:%d/v1'%server.server_port)
@@ -109,10 +148,10 @@ def reference(backend,client,folder,rec):
             # view of the client's own backing cells for the final display ack.
             cmd=[sys.executable,str(ROOT/'tests/console_frame_observer.py'),str(folder),*cmd]
         with OwnedJob() as job,(folder/'helper-stderr.txt').open('wb') as err:
-            target=[sys.executable,str(Path(__file__).resolve()),'--upstream-pty',str(folder),backend,*cmd]
+            target=[sys.executable,str(Path(__file__).resolve()),'--upstream-pty',str(folder),backend,'serial' if serial else 'stock',*cmd]
             proc=job.spawn(target,stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=err,cwd=work,env=env,bufsize=0,creationflags=subprocess.CREATE_NO_WINDOW)
             raw=bytearray();token=b'NEMOTERM_TEXT_ACCEPTED';started=time.monotonic_ns()
-            events=rec['timeline']=[]
+            events=rec['timeline']=[];rec['clock_origin_ns']=started
             def mark(action,**extra):
                 events.append(dict(action=action,ms=round((time.monotonic_ns()-started)/1e6,1),**extra))
             mark('bridge-started')
@@ -124,7 +163,8 @@ def reference(backend,client,folder,rec):
                         if first and (pos:=raw.find(token,max(0,previous-len(token)+1)))>=0:
                             mark('first-reply-in-output',byte_offset=pos);first=False
             pump=threading.Thread(target=drain,daemon=True);pump.start()
-            def wrote(payload):proc.stdin.write(payload);proc.stdin.flush()
+            def wrote(payload):
+                mark('pipe-write',data_hex=payload.hex());proc.stdin.write(payload);proc.stdin.flush()
             def seen(pred):
                 if proc.poll() is not None:raise RuntimeError('system reference exited: '+str(proc.returncode))
                 return pred()
@@ -180,7 +220,7 @@ def reference(backend,client,folder,rec):
                 if proc.poll() is None:mark('second-ctrl-c');wrote(b'\x03')
                 assert proc.wait(timeout=18)==0
             finally:
-                rec['provider_errors']=list(server.errors);rec['requests']=list(server.requests)
+                rec['provider_errors']=list(server.errors);rec['requests']=list(server.requests);rec['provider_clock']=server.response_clock
                 proc.stdin.close();rec['cleanup']=job.finish();pump.join(5);mark('cleanup')
                 active=read_snapshot(folder/'peer-active-first-reply.json')
                 if active:rec['active_buffer_first_reply_ms']=round((active['monotonic_ns']-started)/1e6,1)
@@ -192,14 +232,14 @@ def main():
     # The child inherits only the isolated client environment (no runner tokens).
     if sys.argv[1:2]==['--upstream-pty']:
         if os.environ.get('NEMOTERM_HOSTED_REFERENCE')!='1':raise RuntimeError('Reference must be spawned on the hosted runner')
-        return upstream_pty(Path(sys.argv[2]),sys.argv[3],sys.argv[4:])
+        return upstream_pty(Path(sys.argv[2]),sys.argv[3],sys.argv[5:],sys.argv[4]=='serial')
     if os.environ.get('GITHUB_ACTIONS')!='true' or os.environ.get('RUNNER_ENVIRONMENT')!='github-hosted':raise RuntimeError('GitHub hosted runner required')
     if sys.argv[1:2]==['--child']:return child(Path(sys.argv[2]))
     parser=argparse.ArgumentParser();parser.add_argument('--claude',type=Path,required=True);args=parser.parse_args()
     exe=Path(os.environ['NEMOTERM_TEST_EXE']).resolve(strict=True);client=args.claude.resolve(strict=True)
     out=ROOT/'build/unicode-boundary';out.mkdir(parents=True,exist_ok=False)
     report=dict(executable_sha256=digest(exe),client_sha256=digest(client),fixture_commit=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),cases={});failed=False
-    for name,run in [('gdi',lambda d,r:product(exe,0,d,r)),('directx',lambda d,r:product(exe,2,d,r)),('system-claude',lambda d,r:reference('0',client,d,r)),('winpty-claude',lambda d,r:reference('1',client,d,r))]:
+    for name,run in [('gdi',lambda d,r:product(exe,0,d,r)),('directx',lambda d,r:product(exe,2,d,r)),('system-claude',lambda d,r:reference('0',client,d,r)),('winpty-claude',lambda d,r:reference('1',client,d,r)),('winpty-serial-claude',lambda d,r:reference('1',client,d,r,serial=True))]:
         rec=report['cases'][name]=dict(passed=False)
         try:run(out/name,rec);rec['passed']=True
         except Exception:rec['error']=traceback.format_exc();failed=True

@@ -45,6 +45,7 @@ jobs:
             build/unicode-boundary/summary.json
             build/unicode-boundary/*/native.json
             build/unicode-boundary/*/reference-backend.json
+            build/unicode-boundary/*/bridge-*.jsonl
             build/unicode-boundary/*/reference-stdin.vt
             build/unicode-boundary/*/helper-stderr.txt
             build/unicode-boundary/*/peer-screen.json
