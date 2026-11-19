@@ -96,4 +96,6 @@ def verify(host, hwnd, begin, point, capture, tile, barrier, desktop, evidence):
         finally:
             for key in reversed(desktop.held[:]): desktop.event(key,False)
             resize(0,0)
-    return all(r['passed'] for r in records+widths)
+    from selection_main_reflow import verify as verify_reflow
+    reflow_ok=verify_reflow(hwnd,begin,capture,resize,aim,barrier,desktop,evidence)
+    return all(r['passed'] for r in records+widths) and reflow_ok

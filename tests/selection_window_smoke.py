@@ -265,7 +265,7 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-selection-') as temporary:
         assert discard_ok,evidence['discarded_scroll_press']
         assert horizontal_ok,[(r['case'],r.get('right_copy'),r.get('highlight')) for k in ('horizontal_press','horizontal_press_system') for r in evidence.get(k,[]) if not r['passed']]
         assert words_ok,[(r['case'],r.get('copied'),r.get('highlight')) for group in ('bidi_word_messages','bidi_word_system') for r in evidence.get(group,[]) if not r['passed']]
-        if args.tabs:assert height_ok,[(r['case'],r['highlight'],r.get('copied'),r.get('right_wire')) for r in evidence['height_selection']+evidence['width_selection'] if not r['passed']]
+        if args.tabs:assert height_ok,[r for k in ('height_selection','width_selection','reflow_selection') for r in evidence[k] if not r['passed']]
         if args.tabs:assert screen_ok,evidence['screen_selection']
         if args.tabs:assert screen_drag_ok,evidence['screen_active_drag']
         evidence['completed']=True
