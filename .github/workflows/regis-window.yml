@@ -128,6 +128,18 @@ jobs:
             if ($LASTEXITCODE) { $failed += $profileKind }
           }
           if ($failed.Count) { throw "ReGIS reverse-scroll failures: $($failed -join ', ')" }
+      - name: Compare fresh shared, private and reset graphics registers with pinned XTerm
+        if: ${{ !cancelled() && matrix.mode == 'presented-gdi' && steps.image.outcome == 'success' && steps.font.outcome == 'success' }}
+        shell: pwsh
+        run: |
+          python -m pip install Pillow==13.0.0
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          $failed = @()
+          foreach ($case in 'fresh-shared','fresh-private','after-ris','after-decstr','regis-first','private-first','defined-shared') {
+            python tests/regis_paired_window.py "bank-start-$case" --renderer gdi --presented-gdi
+            if ($LASTEXITCODE) { $failed += $case }
+          }
+          if ($failed.Count) { throw "Shared graphics register failures: $($failed -join ', ')" }
       - name: Retain all observations including failures
         if: always()
         shell: pwsh
