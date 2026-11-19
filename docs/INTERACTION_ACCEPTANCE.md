@@ -238,3 +238,5 @@ The `selection` group holds Shift and the left button while the application eras
 `suite=unicode-boundary` 的 WinPTY 对照保留两种读屏结果：原始行读取和完整 `CHAR_INFO` 矩形读取；另行记录原始终端输出。普通视图的截止时间不变，之后重绘或切换 transcript 不能补算通过。[同一 EXE 的 5 项回放](https://github.com/xiongnemo/nemoterm/actions/runs/44550320946)及[原始制品](../research/winpty-wide-claude-b3274ed.zip)：GDI 和 DirectX 的原生接收端逐字节收到相同的括号粘贴（含中文、分解重音及两个 Nerd Font 字符）。独立系统 ConPTY、WinPTY 和串行 WinPTY 中的真实 Claude 都提交了 NFC 文本。普通 WinPTY 此次在截止前通过逐格画面确认回复：当时没有可用的旧行快照，原始输出也未出现完整回复标记。串行 WinPTY 则先从终端输出确认。两者的活动缓冲区都记录了回复，旧读法均未记录到标记。这里的可见格只用于确认 ASCII 回复标记；输入字序另以原始字节和请求为准。
 
 `suite=scrollback-modes` 在同一份 Windows EXE 上分别启动 GDI 和 DirectX，每种渲染器单独覆盖四种 `ScrollOnDisp` / `ScrollOnKey` 启动组合。先逐字节比较固定 XTerm 412 的 72 段模式应答，再滚到历史顶部，交替让应用写出一个字符或从 runner 的 Windows 桌面输入一个数字。用原生滚动条位置判断窗口是否回到底部，并核对子程序收到的数字。附加交互在子程序接管鼠标时按住 Shift 和左键，等待新行写入，再选择和复制历史中的 `HISTORY 03 中`，随后键入 `7`。记录独立区分复制留在历史、新输出留在历史和实际键入后跟随到底部。独立参考可用 `protocol-reference.yml` 的 `family=scrollback-modes` 重取。
+
+同一回放还检查历史已满时的矩形选区：让应用接管鼠标，在最老三行用 Ctrl+Shift+左键框选五列，取一次剪贴板，再连续追加四行。每一步比对 GDI / DirectX 自身窗口的像素、独立标记的行号、滚动条位置和原有剪贴板，确认只删除已经滚出历史的高亮行。见[原始画面和逐行对照](../research/scrollback-modes.md#滚动历史已满时的矩形高亮)。
