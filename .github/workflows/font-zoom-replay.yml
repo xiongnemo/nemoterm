@@ -6,7 +6,7 @@ on:
       suite:
         description: Checks or notice-only packaging against the exact artifact
         type: choice
-        options: [font-bell, dpi, interaction, single, ui-regression, shell-lifetime, tcap, portable-notices, regis-window, regis-frame-pair, regis-bank-start, pointer-colour, colour-input, unicode-boundary, picture-keys, image-timing, image-mixed, image-mixed-opencode, image-reads, image-files, image-reference, draft-reference, draft-product, paste-order, pterm-memory, profile-dump, profile-env, wsl-tui, wsl-sixel, wsl-vim, wsl-colour, rendering-settings, close-cancel, profile-sequence, font-ops, fullscreen]
+        options: [font-bell, dpi, interaction, single, ui-regression, shell-lifetime, tcap, portable-notices, regis-window, regis-frame-pair, regis-bank-start, column-cells, pointer-colour, colour-input, unicode-boundary, picture-keys, image-timing, image-mixed, image-mixed-opencode, image-reads, image-files, image-reference, draft-reference, draft-product, paste-order, pterm-memory, profile-dump, profile-env, wsl-tui, wsl-sixel, wsl-vim, wsl-colour, rendering-settings, close-cancel, profile-sequence, font-ops, fullscreen]
         default: font-bell
       source_commit:
         description: Full source commit of the source-console-host artifact
@@ -26,6 +26,33 @@ permissions:
   actions: read
 
 jobs:
+  column-cells:
+    if: inputs.suite == 'column-cells'
+    runs-on: windows-2025
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with: {fetch-depth: 0}
+      - name: Fetch the source-built frontend and select the pinned Sarasa face
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PRODUCT_RUN: ${{ inputs.source_run }}
+          PRODUCT_COMMIT: ${{ inputs.source_commit }}
+        run: |
+          scripts/fetch-ci-product.ps1 -Run $env:PRODUCT_RUN -Commit $env:PRODUCT_COMMIT -Destination build/column-product
+          "NEMOTERM_TEST_EXE=$((Resolve-Path build/column-product/nemoterm.exe).Path)" | Out-File $env:GITHUB_ENV -Append -Encoding utf8
+          scripts/prepare-remote-interaction.ps1
+      - name: Compare all 728 reported cells with the original XTerm replies
+        run: python tests/column_press_cells.py --product
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: column-cells-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            research/column-press-observed.json
+            build/column-product/SOURCE-HOST.json
+            build/interaction-dependencies/environment.json
+          if-no-files-found: error
   wsl-tui:
     if: ${{ inputs.suite == 'wsl-tui' || inputs.suite == 'wsl-sixel' || inputs.suite == 'wsl-vim' || inputs.suite == 'wsl-colour' }}
     uses: ./.github/workflows/wsl-tui.yml
