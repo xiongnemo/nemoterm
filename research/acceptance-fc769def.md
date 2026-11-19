@@ -31,3 +31,5 @@
 **仍未通过的协议对照。** 原版 XTerm 的[ReGIS 滚屏、擦除和调色时机](regis-presented-pairs.md)、[宽字跨列边界的三处单元格](column-edge-integrity.md)仍有差异。使用内嵌 WSL PTY 时，原始 UTF-8 粘贴 **12/12** 组字节与参考匹配，WSL1 的规范行读取仍把预期的两次读取分成五次；[同文件真实 Vim/tmux 和粘贴记录](paste-key-order.md)。默认 WSL 路径仍使用 ConPTY。这是开发试用版，完整回归没有全绿。
 
 [本页原始证据包](acceptance-fc769def.zip)包括 GitHub 原始 ZIP、每份制品的 ID/摘要、核对结果和原 MinGW 失败；外层 ZIP SHA-256 `ccc74e459b062af5d93a1d2b4c5dc88fe743156f4bac3a70b8b955b4a4c3d25e`。
+
+[该旧 EXE 的隔离回放](https://github.com/xiongnemo/nemoterm/actions/runs/44623817413)最终只列出 `codex-image-paste` 为失败项。其记录使用 Consolas、窗口按键、未等待输入框就绪，Ctrl+V 和 Ctrl+Shift+V 均超时。[原始制品](https://github.com/xiongnemo/nemoterm/actions/runs/44623817413/artifacts/14582578722)。不能把这个结果归到后来版本。

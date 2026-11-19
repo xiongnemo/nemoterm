@@ -1,5 +1,7 @@
 # Nemoterm requirements and evidence ledger
 
+The [`dc8b6913` candidate](../research/acceptance-dc8b6913.md) tested 79/81 on the original interaction aggregate: both first-marker Codex paste groups missed, and the four ready-composer bindings passed. Six full-grid workloads per renderer peaked at 19,087,360 private working-set bytes on GDI and 29,151,232 on DirectX; the paired 24-turn conversations peaked at 5,681,152 and 9,986,048. The original agent checkout flags and snapshot hash comparisons are retained.
+
 The [horizontal resize comparison](../research/selection-width.md) tests the same physical Shift gestures on `c621b171` and `844ad5c3`: fixed-grid width checks improve from 2/6 to 6/6 across GDI and DirectX. The candidate also passed all ten fullscreen agent selection cases. The subsequent [main-screen reflow comparison](../research/selection-reflow.md) improves from 2/8 to 8/8 on `dc8b6913`, including stream selections spanning a soft wrap and surviving rectangular selections. A separate replay of that same image copied the text at the narrow width.
 
 The [distributed `844ad5c3` preview](../research/acceptance-844ad5c3.md) scored 80/81, with a missed early Codex window-key group. Exact-product frontend private working-set peaks were 18,915,328 bytes (GDI) and 29,360,128 (DirectX) over six full-grid workloads each. Ordinary 24-turn Codex sessions reached 5,484,544 and 9,764,864 bytes. Main-screen reflow is not solved by that image.
