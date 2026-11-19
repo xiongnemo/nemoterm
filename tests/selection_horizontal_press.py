@@ -23,6 +23,13 @@ CASES = (
     ('deleted', '\x1b[2P', 5, 0, 6, None, 8, None),
     ('cut-wide-head', '\x1b[2P', 7, 0, 6, None, 9, None),
     ('cut-wide-tail', "\x1b[2'~", 7, 1, 7, None, 10, None),
+    ('paint-replaced', 'Z', 10, 0, 10, None, 12, None),
+    ('paint-neighbour', '!', 11, 0, 10, 10, 12, 'K!M'),
+    ('paint-identical', 'K', 10, 0, 10, 10, 12, 'KLM'),
+    ('paint-wide-trailer', '!', 7, 0, 6, None, 9, None),
+    ('paint-widen', '中', 9, 0, 10, None, 13, None),
+    ('paint-combine', '\u0301', 11, 0, 10, None, 13, None),
+    ('bidi-repaint', 'XY', 10, 0, 11, 9, 10, 'אX'),
 )
 ACK = b'\x1b[0n'
 
@@ -31,12 +38,12 @@ def verify(hwnd, begin, point, capture, tile, copy, barrier, evidence, desktop=N
     rows = evidence['horizontal_press_system' if desktop else 'horizontal_press'] = []
     def aim(cell): desktop.point(cell & 0xffff, cell >> 16)
     for i, (name, edit, col, dy, press, dest, end, want) in enumerate(CASES):
-        if desktop and name not in ('ich','dch','deleted'): continue
+        if desktop and name not in ('ich','dch','deleted','paint-replaced','paint-identical'): continue
         block = bool(i % 2)
         y = 8 if i % 2 == 0 else 13  # distinguish consecutive independent Win32 clicks
         phase = ('physical-' if desktop else 'message-')+'column-'+name
-        line = ('ABCDEF中q\u0301JKLMNOPQRSTUVWXYZ' if 'wide' in name else
-                'ABCDEFGHLאבג\u05b0RSTUVWXYZ' if name=='bidi-stays' else ABC)
+        line = ('ABCDEF中q\u0301JKLMNOPQRSTUVWXYZ' if name in ('wide-tail','cut-wide-head','cut-wide-tail','paint-wide-trailer') else
+                'ABCDEFGHLאבג\u05b0RSTUVWXYZ' if name in ('bidi-stays','bidi-repaint') else ABC)
         row = dict(case=name, block=block, pressed=[press,y], released=[end,y],
                    destination=dest, expected=want, passed=False);rows.append(row)
         begin(phase+'-draw', f'\x1bc\x1b[?25l\x1b[{y+1};1H'+line+
