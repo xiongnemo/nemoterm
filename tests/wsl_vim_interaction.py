@@ -83,8 +83,11 @@ def trial(renderer,branch,mux):
     posix='/mnt/'+folder.drive[0].lower()+folder.as_posix()[2:]
     (folder/'buffer.txt').write_bytes(('\n'.join(BUFFER)+'\n').encode());(folder/'fixture.vim').write_bytes(VIMRC.encode());(folder/'driver').write_bytes(DRIVER.encode())
     if mux:(folder/'tmux.conf').write_bytes(TMUX_CONF.encode())
-    bundled=os.environ.get('NEMOTERM_WSL_PTY_RELAY')=='builtin'
+    bundled=os.environ.get('NEMOTERM_TEST_WSL_PROFILE_PTY')=='1'
+    assert 'NEMOTERM_WSL_PTY_RELAY' not in os.environ
+    report['transport_selection']='saved-profile' if bundled else 'default'
     child_env=dict(os.environ,NEMOTERM_CONPTY='bundled')
+    child_env.pop('NEMOTERM_TEST_WSL_PROFILE_PTY',None)
     if bundled:
         session_temp=folder/'session files';session_temp.mkdir()
         child_env.update(TEMP=str(session_temp),TMP=str(session_temp))
@@ -92,6 +95,7 @@ def trial(renderer,branch,mux):
     proc=desk=clip=None; serial=0
     try:
         with winreg.CreateKey(winreg.HKEY_CURRENT_USER,reg) as key:
+            if bundled: winreg.SetValueEx(key,'NemoWslLinuxPty',0,winreg.REG_DWORD,1)
             for name,value in dict(NemoRenderer=renderer,WarnOnClose=0,CloseOnExit=1,WindowBorder=1,ScrollBar=0,FontHeight=12).items():winreg.SetValueEx(key,name,0,winreg.REG_DWORD,value)
         proc=subprocess.Popen([str(exe),'--no-tabs','-load',profile,'--automation','--cols','60','--rows','20','--font',font,'-e',*wsl,'bash',posix+'/driver',branch,'tmux' if mux else 'direct',*(['builtin'] if bundled else [])],env=child_env,creationflags=subprocess.CREATE_NO_WINDOW)
         inst=wait_for(lambda:next(iter(api.discover(proc.pid)),None),timeout=30);s,=inst['sessions'];endpoint=inst['endpoint'];seat=s['id'];hwnd=s['hwnd'];report['session']=s

@@ -95,6 +95,7 @@
     "shell.custom": "Custom shell",
     "shell.command": "Command (select Custom above):",
     "shell.directory": "Starting directory (blank inherits launcher):",
+    "shell.wsl_pty": "Use Linux PTY for x64 WSL sessions",
     "shell.inherit_directory": "Use reported directory for new or duplicated tabs",
     "shell.save_hint": "Save this profile to keep the shell and directory for new tabs and launches. -e overrides one launch.",
     "logging.title": "Options controlling terminal logging",

@@ -90,7 +90,7 @@ jobs:
           if ((Get-Content build/wsl-relay/SHA256SUMS) -cne "$digest  relay") { throw 'Relay digest mismatch' }
           # Only the digest is used by the receiver. The product must start
           # the copy embedded in its own PE, not this Actions artifact.
-          $env:NEMOTERM_WSL_PTY_RELAY = 'builtin'
+          $env:NEMOTERM_TEST_WSL_PROFILE_PTY = '1'
           $env:NEMOTERM_TEST_RELAY_SHA256 = $digest
           Copy-Item testdata/upstream/xterm412-paste-quote.zip build/wsl-check/
           python build/wsl-check/tests/wsl_paste_quote.py
@@ -129,13 +129,16 @@ jobs:
         shell: pwsh
         run: |
           $pinned = Get-Content native/wsl_pty/bundled/manifest.json -Raw | ConvertFrom-Json
-          "NEMOTERM_WSL_PTY_RELAY=builtin" >> $env:GITHUB_ENV
+          "NEMOTERM_TEST_WSL_PROFILE_PTY=1" >> $env:GITHUB_ENV
           "NEMOTERM_TEST_RELAY_SHA256=$($pinned.relay_sha256)" >> $env:GITHUB_ENV
+      - name: Save the WSL transport in the settings dialog and reopen normal WSL Bash sessions
+        if: inputs.bundled
+        run: python build/wsl-check/tests/wsl_transport_profile.py
       - name: Exercise ordinary mouse, forced selection, paste and window resize in WSL Vim
-        if: inputs.suite == 'vim' || inputs.bundled
+        if: ${{ !cancelled() && steps.prepare.outcome == 'success' && (inputs.suite == 'vim' || inputs.bundled) }}
         run: python build/wsl-check/tests/wsl_vim_interaction.py
       - name: Exercise nested mouse ownership and resize with tmux and Vim
-        if: inputs.suite == 'tmux-vim'
+        if: ${{ !cancelled() && steps.prepare.outcome == 'success' && inputs.suite == 'tmux-vim' }}
         run: python build/wsl-check/tests/wsl_vim_interaction.py --tmux
       - name: Compare Ubuntu terminfo colour sequences to native pixels and screen restoration
         if: inputs.suite == 'colour'

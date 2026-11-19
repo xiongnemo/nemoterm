@@ -35,8 +35,12 @@ def exercise(renderer,lnext,reference):
     peer=Path(__file__).resolve().with_name('wsl_paste_peer.py');exe=Path(os.environ['NEMOTERM_TEST_EXE']).resolve();font=os.environ['NEMOTERM_TEST_FONT'];distro=os.environ['NEMOTERM_TEST_WSL_DISTRO']
     r=dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),peer_sha256=hashlib.sha256(peer.read_bytes()).hexdigest(),font=font,cases={},completed=False)
     profile={'NemoRenderer':renderer-1,'WarnOnClose':0,'CloseOnExit':1}
-    bundled = os.environ.get('NEMOTERM_WSL_PTY_RELAY')=='builtin'
+    bundled = os.environ.get('NEMOTERM_TEST_WSL_PROFILE_PTY')=='1'
+    assert 'NEMOTERM_WSL_PTY_RELAY' not in os.environ
+    if bundled: profile['NemoWslLinuxPty']=1
+    r['transport_selection']='saved-profile' if bundled else 'default'
     child_env = dict(os.environ, NEMOTERM_CONPTY='bundled')
+    child_env.pop('NEMOTERM_TEST_WSL_PROFILE_PTY',None)
     if bundled:
         session_temp=folder/'session files'
         session_temp.mkdir()

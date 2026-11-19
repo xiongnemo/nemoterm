@@ -337,16 +337,18 @@ static void conpty_sentdata(struct handle *h, size_t new_backlog, int err,
     }
 }
 
-/* Opt-in GUI replay of a known guest binary. Only intercept the actual
+/* A saved WSL transport preference or an explicit override. Only intercept the actual
  * system wsl.exe with an explicit --exec program. Preserve every argument
  * of the original guest command, including Windows quoting. */
-static wchar_t *wsl_relay_command(wchar_t *cmd, COORD size, NemoWslImage *image, char **error)
+static wchar_t *wsl_relay_command(wchar_t *cmd, COORD size, bool profile_pty,
+                                  NemoWslImage *image, char **error)
 {
     wchar_t helper[1024], sysdir[MAX_PATH], dims[32];
     DWORD n = GetEnvironmentVariableW(L"NEMOTERM_WSL_PTY_RELAY", helper, lenof(helper));
-    if (!n || n >= lenof(helper) || size.X < 1 || size.Y < 1)
+    if (n >= lenof(helper) || size.X < 1 || size.Y < 1 ||
+        (!n && (!profile_pty || !nemo_wsl_image_resource())))
         return NULL;
-    bool bundled = !wcscmp(helper, L"builtin");
+    bool bundled = !n || !wcscmp(helper, L"builtin");
     if (!bundled && (helper[0] != L'/' || wcsspn(helper, L"/abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789._-") != n))
         return NULL;
     UINT units = GetSystemDirectoryW(sysdir, lenof(sysdir));
@@ -456,7 +458,8 @@ static char *conpty_init(const BackendVtable *vt, Seat *seat,
     }
     nemo_drop_record_launch(seat,conf,command,launch_shell);
     COORD size = { (SHORT)conf_get_int(conf, CONF_width), (SHORT)conf_get_int(conf, CONF_height) };
-    wchar_t *relay_cmd = wsl_relay_command(command, size, &relay_image, &err);
+    wchar_t *relay_cmd = wsl_relay_command(command, size, conf_get_bool(conf, CONF_nemo_wsl_linux_pty),
+                                            &relay_image, &err);
     if (err) goto out;
     bool byte_relay = relay_cmd != NULL;
     if (byte_relay) { sfree(command); command = relay_cmd; }

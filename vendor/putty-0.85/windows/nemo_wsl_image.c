@@ -36,7 +36,7 @@ DWORD nemo_wsl_image_close(NemoWslImage *image)
 DWORD nemo_wsl_image_open(NemoWslImage *image)
 {
     HMODULE module = GetModuleHandleW(NULL);
-    HRSRC res = FindResourceW(module, MAKEINTRESOURCEW(40003), MAKEINTRESOURCEW(10));
+    HRSRC res = nemo_wsl_image_resource();
     if (!res) return GetLastError();
     DWORD size = SizeofResource(module, res);
     if (!size) return ERROR_BAD_FORMAT;

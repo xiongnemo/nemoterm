@@ -1,5 +1,5 @@
 param([Parameter(Mandatory)][int]$TargetProcess, [Parameter(Mandatory)][long]$TargetWindow,
-      [Parameter(Mandatory)][ValidateSet('save','revoke','shell-cmd')][string]$Action)
+      [Parameter(Mandatory)][ValidateSet('save','revoke','shell-cmd','wsl-pty-on','wsl-pty-off')][string]$Action)
 $ErrorActionPreference='Stop'
 if ($env:RUNNER_ENVIRONMENT -ne 'github-hosted' -or $env:GITHUB_ACTIONS -ne 'true') {throw 'Hosted Windows fixture only'}
 Add-Type -AssemblyName UIAutomationClient
@@ -41,20 +41,30 @@ $dialog=Wait-ForValue {
         $found=$entry.FindFirst([System.Windows.Automation.TreeScope]::Subtree,$class);if ($found) {return $found}
     }
 }
-if ($Action -eq 'shell-cmd') {
+if ($Action -eq 'shell-cmd' -or $Action -like 'wsl-pty-*') {
     $stage='selecting startup shell'
     $profile=Wait-ForValue {Find-Named $dialog 'Profile'}
     $expand=$profile.GetCurrentPattern([System.Windows.Automation.ExpandCollapsePattern]::Pattern)
     if ($expand.Current.ExpandCollapseState -eq 'Collapsed') {$expand.Expand()}
     $node=Wait-ForValue {Find-Named $profile 'Shell'}
     $node.GetCurrentPattern([System.Windows.Automation.SelectionItemPattern]::Pattern).Select()
-    $kind=New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::ControlTypeProperty,[System.Windows.Automation.ControlType]::ComboBox)
-    $combo=Wait-ForValue {$dialog.FindFirst([System.Windows.Automation.TreeScope]::Descendants,$kind)}
-    $h=[IntPtr]$combo.Current.NativeWindowHandle
-    if ([OwnedSettingsWindow]::SendMessageW($h,0x147,[IntPtr]::Zero,[IntPtr]::Zero).ToInt32() -ne 2) {throw 'Initial shell is not Windows PowerShell'}
-    if ([OwnedSettingsWindow]::SendMessageW($h,0x14e,[IntPtr]6,[IntPtr]::Zero).ToInt32() -ne 6) {throw 'Could not select Command Prompt'}
-    $id=[OwnedSettingsWindow]::GetDlgCtrlID($h)
-    [OwnedSettingsWindow]::SendMessageW([OwnedSettingsWindow]::GetParent($h),0x111,[IntPtr]($id -bor 0x10000),$h) | Out-Null
+    if ($Action -like 'wsl-pty-*') {
+        $stage='changing WSL transport'
+        $option=Wait-ForValue {Find-Named $dialog 'Use Linux PTY for x64 WSL sessions'}
+        if ($option.Current.IsOffscreen -or !$dialog.Current.BoundingRectangle.Contains($option.Current.BoundingRectangle)) {throw 'WSL PTY control is clipped'}
+        $toggle=$option.GetCurrentPattern([System.Windows.Automation.TogglePattern]::Pattern)
+        $expected=if ($Action -eq 'wsl-pty-on') {'On'} else {'Off'}
+        if ($toggle.Current.ToggleState.ToString() -eq $expected) {throw 'Unexpected initial WSL transport'}
+        $toggle.Toggle(); Wait-ForValue {$toggle.Current.ToggleState.ToString() -eq $expected} | Out-Null
+    } else {
+        $kind=New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::ControlTypeProperty,[System.Windows.Automation.ControlType]::ComboBox)
+        $combo=Wait-ForValue {$dialog.FindFirst([System.Windows.Automation.TreeScope]::Descendants,$kind)}
+        $h=[IntPtr]$combo.Current.NativeWindowHandle
+        if ([OwnedSettingsWindow]::SendMessageW($h,0x147,[IntPtr]::Zero,[IntPtr]::Zero).ToInt32() -ne 2) {throw 'Initial shell is not Windows PowerShell'}
+        if ([OwnedSettingsWindow]::SendMessageW($h,0x14e,[IntPtr]6,[IntPtr]::Zero).ToInt32() -ne 6) {throw 'Could not select Command Prompt'}
+        $id=[OwnedSettingsWindow]::GetDlgCtrlID($h)
+        [OwnedSettingsWindow]::SendMessageW([OwnedSettingsWindow]::GetParent($h),0x111,[IntPtr]($id -bor 0x10000),$h) | Out-Null
+    }
 } else {
     foreach ($label in 'Window','Appearance') {
         $stage="expanding $label"; Write-Host $stage

@@ -1557,3 +1557,8 @@ CONF_OPTION(nemo_regis_scroll_with_text,
     VALUE_TYPE(BOOL), DEFAULT_BOOL(false),
     SAVE_KEYWORD("ReGISScrollWithText"), LOAD_CUSTOM,
 )
+
+/* Append new persistent keys to preserve the numbering of existing Conf keys. */
+CONF_OPTION(nemo_wsl_linux_pty,
+    VALUE_TYPE(BOOL), DEFAULT_BOOL(false), SAVE_KEYWORD("NemoWslLinuxPty"),
+)

@@ -119,7 +119,7 @@ struct Page {const wchar_t *id;std::vector<const wchar_t *> path,labels;};
 static const Page pages[]={
     {L"language",{L"Window",L"Interface language"},{L"Language",L"Applies to all profiles after restarting Nemoterm.",L"This changes the interface language, not the terminal encoding or shell output."}},
     {L"profile",{L"Profile"},{L"New profile name",L"Add",L"Edit",L"Delete"}},
-    {L"shell",{L"Profile",L"Shell"},{L"Choose shell on startup",L"Command (select Custom above):",L"Starting directory (blank inherits launcher):"}},
+    {L"shell",{L"Profile",L"Shell"},{L"Choose shell on startup",L"Use Linux PTY for x64 WSL sessions",L"Command (select Custom above):",L"Starting directory (blank inherits launcher):"}},
     {L"keyboard",{L"Terminal",L"Keyboard"},{L"The Function keys and keypad",L"Xterm legacy (X11R5)",L"VT220 (UDK)",L"Initial state of cursor keys:",L"Initial state of numeric keypad:"}},
     {L"terminfo",{L"Terminal",L"Keyboard",L"Terminfo"},{L"Terminal entry name",L"Used by the Terminfo keyboard mode. Unknown names use xterm-256color.",L"Allow applications to select a keyboard database",L"Allow applications to query terminal capabilities",L"Application selections apply to this terminal only. Saving settings keeps the startup name above."}},
     {L"extended",{L"Terminal",L"Keyboard",L"Extended"},{L"AltGr acts as Compose key",L"Control-Alt is different from AltGr",L"Applications can change these settings. Kitty keyboard enhancements take priority while enabled."}},

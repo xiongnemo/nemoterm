@@ -10,6 +10,7 @@
 #include "dialog.h"
 #include "storage.h"
 #include "nemo_shell.h"
+#include "nemo_wsl_image.h"
 #include "nemo_ui.h"
 
 static void ui_language_handler(dlgcontrol *ctrl, dlgparam *dlg, void *data, int event)
@@ -125,6 +126,9 @@ void win_setup_config_box(struct controlbox *b, HWND *hwndp, bool has_help,
         ctrl_droplist(s, nemo_ui_text("shell.label"), NO_SHORTCUT, 100, HELPCTX(no_help), shell_handler, P(list));
         ctrl_checkbox(s, nemo_ui_text("shell.choose_on_startup"), NO_SHORTCUT, HELPCTX(no_help),
                       conf_checkbox_handler, I(CONF_nemo_choose_shell));
+        if (nemo_wsl_image_resource())
+            ctrl_checkbox(s, nemo_ui_text("shell.wsl_pty"), NO_SHORTCUT, HELPCTX(no_help),
+                          conf_checkbox_handler, I(CONF_nemo_wsl_linux_pty));
         ctrl_settitle(b, "Profile/Shell", nemo_ui_text("shell.startup_command"));
         s = ctrl_getset(b, "Profile/Shell", "command", nemo_ui_text("shell.custom"));
         ctrl_editbox(s, nemo_ui_text("shell.command"), 'm', 100, HELPCTX(no_help),

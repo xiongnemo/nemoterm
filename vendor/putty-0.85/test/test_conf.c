@@ -831,6 +831,7 @@ void test_simple(void)
     test_str_ambi_simple(CONF_nemo_starting_directory, "NemoStartingDirectory", "", false);
     test_bool_simple(CONF_nemo_inherit_directory, "NemoInheritDirectory", true);
     test_str_ambi_simple(CONF_nemo_shell_command, "NemoShellCommand", "", false);
+    test_bool_simple(CONF_nemo_wsl_linux_pty, "NemoWslLinuxPty", false);
     test_bool_simple(CONF_nemo_choose_shell, "NemoChooseShell", false);
     test_bool_simple(CONF_nemo_reflow, "NemoReflow", true);
     test_bool_simple(CONF_nemo_grapheme_widths, "NemoGraphemeWidths", false);

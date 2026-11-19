@@ -95,6 +95,7 @@
     "shell.custom": "自定义 Shell",
     "shell.command": "命令（需在上方选择“自定义命令”）：",
     "shell.directory": "启动目录（留空则沿用启动时的目录）：",
+    "shell.wsl_pty": "x64 WSL 会话使用 Linux PTY",
     "shell.inherit_directory": "新建或复制标签页时使用 Shell 报告的目录",
     "shell.save_hint": "保存配置方案后，新标签页和下次启动会使用此 Shell 与目录。-e 只覆盖本次启动。",
     "logging.title": "终端日志设置",
