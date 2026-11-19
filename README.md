@@ -33,7 +33,9 @@ Kitty 图片支持直接 RGB/RGBA/PNG、压缩传输、裁剪、透明度、查�
 
 ## 下载
 
-[下载 Windows x64 单文件测试版 `cf091974`](https://github.com/xiongnemo/nemoterm/actions/runs/44588222859/artifacts/14562762043)。解压后只需 `nemoterm.exe`（4,862,464 字节）。SHA-256：`9df8365b9e32444f24d279c114750090122f8550c1aa53dffa2972c448aa4788`。
+[下载最新 Windows x64 单文件试用版 `3947dee3`](https://github.com/xiongnemo/nemoterm/actions/runs/44607488923/artifacts/14571391046)。解压后运行 `nemoterm.exe`。[GDI、DirectX 实际窗口回放](research/selection-screen.md)由 6/14 提高到 14/14，另有 8/8 次在鼠标仍拖动时切屏的检查通过。六种满屏压力下的私有工作集峰值为 **19.10 / 29.12 MB**。完整交互 79/81：两个 Codex 启动早期贴图用例未过；就绪后的两种快捷键均通过。 [完整记录与校验值](research/acceptance-3947dee3.md)。
+
+[上一份 81/81 的 Windows x64 测试版 `cf091974`](https://github.com/xiongnemo/nemoterm/actions/runs/44588222859/artifacts/14562762043)。解压后只需 `nemoterm.exe`（4,862,464 字节）。SHA-256：`9df8365b9e32444f24d279c114750090122f8550c1aa53dffa2972c448aa4788`。
 
 从资源管理器拖入同一 WSL 发行版的文件或文件夹，现在会贴入可用的 Linux 路径。修改 profile 的默认 shell 后，现有标签仍沿用原 shell 的引号规则，新会话使用新设置。GDI、DirectX 上的 [18 项拖放回放](research/drop-shell-paths.md)均通过。
 

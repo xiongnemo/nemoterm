@@ -27,3 +27,5 @@ $esc = [char]27
 两个 runner 都使用实际 160×48 和 SarasaTermSC Nerd Light，正常退出并恢复显示配置。[启用进度后的内存回放](https://github.com/xiongnemo/nemoterm/actions/runs/44604933875) · [原始成功及首次尺寸准备失败的制品、精确字节数、导入变化](taskbar-memory-6fbfa79e.zip)。首次运行在 123×32／99×33 即停止，没有从它推断内存。
 
 [同一远程构建制品](https://github.com/xiongnemo/nemoterm/actions/runs/44603212443/artifacts/14568968088)：单文件 4,881,920 字节；SHA-256 `e3b6346d3f370d57d7004a0a5a0c77397537885a80755c781979557ce3be32f9`。REA 读取该文件的标准及延迟导入表（674 + 11 项）。逐项比对上一候选，未增加 DLL 名称；静态导入不能证明运行时加载集合。
+
+同一 EXE 的[完整交互汇总](https://github.com/xiongnemo/nemoterm/actions/runs/44603212443/artifacts/14568744607)为 **79/81**。未通过的是 Codex 启动早期的窗口按键和实际键盘贴图；两种就绪后贴图、OpenCode 的两种贴图和全部选区测试均通过。六种 160×48 满屏工作负载中，前端私有工作集最高为 GDI **19,062,784**、DirectX **29,356,032** 字节；总工作集最高分别为 55,934,976 和 74,694,656 字节。这组使用常规进度状态，上表另测两个任务同时报告进度。
