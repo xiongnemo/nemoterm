@@ -41,7 +41,7 @@ def render():
 def wndproc(hwnd,message,wp,lp):
     if message==0x305 and wp==13:  # WM_RENDERFORMAT, caller already holds clipboard
         write_snapshot(report,{'state':'rendering','hwnd':int(hwnd)})
-        deadline=time.monotonic()+5
+        deadline=time.monotonic()+(15 if sys.argv[3:]==['--long-hold'] else 5)
         while not read_snapshot(control).get('release') and time.monotonic()<deadline:
             time.sleep(.01)
         render()
