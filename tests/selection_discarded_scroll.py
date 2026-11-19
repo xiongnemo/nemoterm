@@ -1,5 +1,5 @@
 """A press on a glyph that scrolls away must not select its replacement."""
-from native_test_utils import u, wait_for
+from native_test_utils import c, w, u, wait_for
 from clipboard_test_utils import clipboard_text
 
 
@@ -58,7 +58,13 @@ def verify(hwnd, begin, point, capture, tile, copy, barrier, evidence, desktop=N
             finally:desktop.event('right',False)
             wait_for(lambda:desktop.state().capture!=hwnd)
             if seq==u.GetClipboardSequenceNumber():await_input()
-        else:u.SendMessageW(hwnd,0x204,2,end);u.SendMessageW(hwnd,0x205,0,end)
+        else:
+            # A modal menu on an unexpected route must leave a bounded failure,
+            # not stall the runner in a cross-process synchronous mouse-down.
+            result=c.c_size_t();u.SendMessageTimeoutW.argtypes=[w.HWND,w.UINT,w.WPARAM,w.LPARAM,w.UINT,w.UINT,c.POINTER(c.c_size_t)]
+            if not u.SendMessageTimeoutW(hwnd,0x204,2,end,2,1500,c.byref(result)):
+                u.PostMessageW(hwnd,0x1f,0,0);raise AssertionError('right button did not return: '+phase)
+            u.SendMessageW(hwnd,0x205,0,end)
         row['right_wire']=barrier(None);row['clipboard_changed']=seq!=u.GetClipboardSequenceNumber()
         row['copied']=clipboard_text(hwnd) if row['clipboard_changed'] else None
         after=capture('discard-'+phase+'-released.png',return_pixels=True)

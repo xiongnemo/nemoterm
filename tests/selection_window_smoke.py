@@ -56,11 +56,20 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-selection-') as temporary:
         def captured(name=None,return_pixels=False):
             return gpu.capture(name,return_pixels) if gpu else capture(hwnd,name,return_pixels)
         phase_request=None
-        def begin_phase(name,sequence):
+        def begin_phase(name,sequence,*,preserve_mouse=False):
             global phase_request
-            phase_request=dict(phase=name,sequence=sequence+'\x1b[5n')
+            phase_request=dict(phase=name,sequence=sequence+'\x1b[5n',preserve_mouse=preserve_mouse)
             write_snapshot(control,phase_request)
-            wait_snapshot(lambda:read_snapshot(report),lambda v:v.get('phase')==name and bytes.fromhex(v.get('hex','')).endswith(b'\x1b[0n'))
+            return wait_snapshot(lambda:read_snapshot(report),lambda v:v.get('phase')==name and bytes.fromhex(v.get('hex','')).endswith(b'\x1b[0n'))
+        def tracked_phase(name,sequence):
+            if name.endswith(('-scroll','-right')):
+                # Prove BOTH application mouse modes are still set immediately
+                # before moving or right-clicking. Store the untouched responses.
+                probe=begin_phase(name+'-modes',sequence+'\x1b[?1002$p\x1b[?1006$p',preserve_mouse=True)
+                evidence.setdefault('tracked_selection_phases',{})[name]=probe['hex']
+                assert bytes.fromhex(probe['hex'])==b'\x1b[?1002;1$y\x1b[?1006;1$y\x1b[0n',(name,probe)
+                sequence=''  # next acknowledgement opens the gesture's raw-input interval
+            return begin_phase(name,sequence,preserve_mouse=True)
         def no_forwarded_input(expected_mouse=b''):
             # The fixture may briefly deny a mailbox read during atomic
             # replacement. Retain one complete acknowledged snapshot, and
@@ -215,9 +224,9 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-selection-') as temporary:
         from selection_pressed_scroll import verify as verify_pressed_scroll
         verify_pressed_scroll(hwnd,begin_phase,point,captured,tile,copy_shortcut,no_forwarded_input,evidence)
         from selection_split_scroll import verify as verify_split_scroll
-        split_messages_ok=verify_split_scroll(hwnd,begin_phase,point,captured,tile,copy_shortcut,no_forwarded_input,evidence)
+        split_messages_ok=verify_split_scroll(hwnd,tracked_phase,point,captured,tile,copy_shortcut,no_forwarded_input,evidence)
         from selection_discarded_scroll import verify as verify_discarded_scroll
-        discard_ok=verify_discarded_scroll(hwnd,begin_phase,point,captured,tile,copy_shortcut,no_forwarded_input,evidence)
+        discard_ok=verify_discarded_scroll(hwnd,tracked_phase,point,captured,tile,copy_shortcut,no_forwarded_input,evidence)
         split_system_ok=True
         if args.tabs:
             # Remove the synchronous-message fixture's queued-mouse filter;
@@ -234,8 +243,8 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-selection-') as temporary:
                     name=phase_request['phase']
                     wait_snapshot(lambda:read_snapshot(report),lambda v:v.get('phase')==name and
                                   len(bytes.fromhex(v.get('hex','')))>len(b'\x1b[0n'))
-                split_system_ok=verify_split_scroll(hwnd,begin_phase,point,captured,tile,system_copy,no_forwarded_input,evidence,desktop,await_new_input)
-                discard_ok=verify_discarded_scroll(hwnd,begin_phase,point,captured,tile,system_copy,no_forwarded_input,evidence,desktop,await_new_input) and discard_ok
+                split_system_ok=verify_split_scroll(hwnd,tracked_phase,point,captured,tile,system_copy,no_forwarded_input,evidence,desktop,await_new_input)
+                discard_ok=verify_discarded_scroll(hwnd,tracked_phase,point,captured,tile,system_copy,no_forwarded_input,evidence,desktop,await_new_input) and discard_ok
             finally:desktop.restore()
         assert split_messages_ok and split_system_ok, (evidence['split_scroll_press'],evidence.get('split_scroll_system'))
         assert discard_ok,evidence['discarded_scroll_press']
