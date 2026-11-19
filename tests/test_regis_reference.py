@@ -45,22 +45,22 @@ def main():
             'next':('sixel-next-dcs-xterm','3ee59b3b25bc95feaa4abcf31d5c2eb19a1772277e3c80468cb6154b61e3b9fb'),
             'number':('sixel-number-resume-xterm','ca196cfa9d99d993ce708ccc50dfccbdbb2ddf857cf0c5eba4e494e231459175'),
         }[args.colour_stream]
-        original=Path(f'research/{archive}.zip').read_bytes()
+        original=Path(f'testdata/upstream/{archive}.zip').read_bytes()
         assert hashlib.sha256(original).hexdigest()==digest
     elif args.private_registers or args.colour_stream=='private':
         assert args.terminal and args.views
-        original=Path('research/private-sixel-terminator-xterm.zip').read_bytes()
+        original=Path('testdata/upstream/private-sixel-terminator-xterm.zip').read_bytes()
         assert hashlib.sha256(original).hexdigest()=='43325228851c7292d71a3dc846f64e8cacaef99ef98b394a5ecc5016cee91b4c'
     elif args.register_readback:
         assert args.terminal and args.views and not args.shared_palette
-        original=Path('research/shared-register-readback-xterm.zip').read_bytes()
+        original=Path('testdata/upstream/shared-register-readback-xterm.zip').read_bytes()
         assert hashlib.sha256(original).hexdigest()=='193fc60e26d512680bf3bd357bcaf0da2a1b0c85323b7d92ae834f12e7840255'
     elif args.shared_palette:
         assert args.terminal and args.views
-        original=Path('research/regis-repaint-reference.zip').read_bytes()
+        original=Path('testdata/upstream/regis-repaint-reference.zip').read_bytes()
         assert hashlib.sha256(original).hexdigest()=='ca9165f9d14cb8ef67840a3c46063fde3d4f9dc104ac58086bc9b125c79fac4f'
     else:
-        with zipfile.ZipFile('research/regis-reference-evidence.zip') as outer:
+        with zipfile.ZipFile('testdata/upstream/regis-reference-evidence.zip') as outer:
             original=outer.read('44093439244/14331564743.zip')
         assert hashlib.sha256(original).hexdigest()=='f1cb288263b12e35be6ffc29b4edde6f71ee65054adabb1c105198ccdaf25b00'
     evidence=dict(scope=__doc__,executable_sha256=hashlib.sha256(args.exe.read_bytes()).hexdigest(),

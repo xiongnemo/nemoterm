@@ -32,7 +32,7 @@ QUERY = re.compile(rb'\x1b(?:\[(?:\?1004h|\??6n|0?c)|\](?:10|11);\?(?:\x07|\x1b\
 
 
 def fixed_events():
-    src = (ROOT/'research/codex-native-image-keys.zip').read_bytes()
+    src = (ROOT/'testdata/upstream/codex-native-image-keys.zip').read_bytes()
     assert hashlib.sha256(src).hexdigest() == KEYS
     with zipfile.ZipFile(io.BytesIO(src)) as archive:
         trials = json.loads(archive.read('image-key-records/summary.json'))['cases']

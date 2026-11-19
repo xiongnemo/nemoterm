@@ -157,7 +157,7 @@ capability when available, retaining its three-second/all-colour requirement.
 PNG encoding occurs after observation, and frame timestamps measure image
 receipt rather than subsequent encoding and disk writes.
 
-See the [validation checkpoint](../research/automation-input.md) for exact image
+See the [validation checkpoint](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/automation-input.md) for exact image
 hashes, screenshots, failed fixture attempts and completed CI baselines.
 
 Windows implementation references: [named pipe access security](https://learn.microsoft.com/en-us/windows/win32/ipc/named-pipe-security-and-access-rights),

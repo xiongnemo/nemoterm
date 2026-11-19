@@ -20,10 +20,10 @@ class AcceptanceTests(unittest.TestCase):
         self.addCleanup(self.temp.cleanup)
         self.base = Path(self.temp.name)
         self.source = self.base/'source'
-        for name in ('tests', 'tools', 'scripts', 'research'):
+        for name in ('tests', 'tools', 'scripts', 'research', 'testdata/upstream'):
             (self.source/name).mkdir(parents=True)
-        (self.source/'research/claude-independent-unicode.zip').write_bytes(b'non-executable reference')
-        (self.source/'research/pointer-colour-resets-reference.zip').write_bytes(b'non-executable snapshot fixture')
+        (self.source/'testdata/upstream/claude-independent-unicode.zip').write_bytes(b'non-executable reference')
+        (self.source/'testdata/upstream/pointer-colour-resets-reference.zip').write_bytes(b'non-executable snapshot fixture')
         (self.source/'tests/fixture.py').write_text('raise RuntimeError("must never run")')
         (self.source/'tools/nemoterm_debug.py').write_text('# snapshot')
         (self.source/'scripts/interaction_manual.py').write_text('# manual snapshot')

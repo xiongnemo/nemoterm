@@ -7,7 +7,7 @@ import tarfile
 
 root = Path(__file__).resolve().parents[1]
 digest = 'c5a87d9f9ee75d637293e3a6767d86102be622271720e8ee4b704e5727c9b6b4'
-with tarfile.open(root/'research/bell-modes-reference.tar.gz') as archive:
+with tarfile.open(root/'testdata/upstream/bell-modes-reference.tar.gz') as archive:
     raw = archive.extractfile('reference/bell-modes-xterm.json').read()
 assert hashlib.sha256(raw).hexdigest() == digest
 data = json.loads(raw)

@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 
 root=Path(__file__).resolve().parents[1]
-source=json.loads((root/'research/palette-stack-evidence/xterm.json').read_text(encoding='utf-8'))
+source=json.loads((root/'testdata/upstream/palette-stack-evidence/xterm.json').read_text(encoding='utf-8'))
 cases=[(name,c['sequence'],c['reply']) for name,c in source['cases'].items()]
 
 def literal(text):

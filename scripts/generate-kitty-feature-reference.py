@@ -12,7 +12,7 @@ import json
 from pathlib import Path
 
 root = Path(__file__).resolve().parents[1]
-raw = gzip.decompress((root / 'research/kitty-feature-query-evidence/6ba7345-reference--observations.json.gz').read_bytes())
+raw = gzip.decompress((root / 'testdata/upstream/kitty-feature-query-evidence/6ba7345-reference--observations.json.gz').read_bytes())
 digest = 'd3e775257cfcf70308d88030f2b0bbee5f81a860b15eae4d9911a4ea2dc227ac'
 assert hashlib.sha256(raw).hexdigest() == digest
 capture = json.loads(raw)

@@ -7,7 +7,7 @@ import tarfile
 
 root = Path(__file__).resolve().parents[1]
 digest = 'feda36b2971fbc29059b4c80ddf989c228e8c4b5c18ffe07fb064b05bbd78a44'
-with tarfile.open(root / 'research/kitty-unicode-evidence/upstream-reference.tar.gz') as tar:
+with tarfile.open(root / 'testdata/upstream/kitty-unicode-evidence/upstream-reference.tar.gz') as tar:
     raw = tar.extractfile('reference/observations.json').read()
 assert hashlib.sha256(raw).hexdigest() == digest
 points = json.loads(raw)['diacritic_codepoints']

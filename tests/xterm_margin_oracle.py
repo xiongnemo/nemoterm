@@ -5,9 +5,9 @@ from xterm_state_oracle import run_cases
 root=Path(__file__).resolve().parents[1]
 parser=argparse.ArgumentParser()
 parser.add_argument('--xterm',default='/tmp/nemoterm-xterm-reference/xterm')
-parser.add_argument('--output',default=str(root/'research/margins-xterm.json'))
+parser.add_argument('--output',default=str(root/'testdata/upstream/margins-xterm.json'))
 args=parser.parse_args()
-source=json.loads((root/'research/margins-xterm.json').read_text())
+source=json.loads((root/'testdata/upstream/margins-xterm.json').read_text())
 run_cases(args.xterm,args.output,{k:v['sequence'] for k,v in source['cases'].items()},
           ['-ti','vt420','-xrm','*decGraphicsID: 340','-xrm','*allowWindowOps: true'])
 path=Path(args.output);data=json.loads(path.read_text())

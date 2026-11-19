@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 
 root = Path(__file__).resolve().parents[1]
-raw = (root/'research/protocol-reference-evidence/20261114-reset-palette-xterm.json').read_bytes()
+raw = (root/'testdata/upstream/protocol-reference-evidence/20261114-reset-palette-xterm.json').read_bytes()
 source = json.loads(raw)
 assert source['version'] == 'XTerm(412)'
 assert source['executable_sha256'] == '9f440380b493c91dbd1fcb8a6277df1ca121390b23fe526baa24c15525f4df64'

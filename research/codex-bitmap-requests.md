@@ -9,10 +9,10 @@
 | 窗口接口，等待就绪 | 2/2 | 2/2 | 0/2 |
 | 实际键盘，等待就绪 | 2/2 | 2/2 | 0/2 |
 
-[高精度时钟回放](https://github.com/xiongnemo/nemoterm/actions/runs/44482367652)的[原始制品及逐例记录](codex-bitmap-reads-44482367652.zip)保留全部四个作业。首次成功的五例中，从开始发键到所有者收到 `WM_RENDERFORMAT` 为 4.561–12.775 毫秒；重试的三例为第二次开始发键后 2.998–7.711 毫秒。八例都自然退出并恢复了测试剪贴板。两个立即粘贴作业保留失败，因为第一次的手势不能用第二次的结果补分。
+[高精度时钟回放](https://github.com/xiongnemo/nemoterm/actions/runs/44482367652)的[原始制品及逐例记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/codex-bitmap-reads-44482367652.zip)保留全部四个作业。首次成功的五例中，从开始发键到所有者收到 `WM_RENDERFORMAT` 为 4.561–12.775 毫秒；重试的三例为第二次开始发键后 2.998–7.711 毫秒。八例都自然退出并恢复了测试剪贴板。两个立即粘贴作业保留失败，因为第一次的手势不能用第二次的结果补分。
 
 **怎样观测。** 普通剪贴板验收使用立即提供的 `CF_DIB`；这项独立实验只改变同一图片的供给方式：隐藏窗口声明有 `CF_DIB`，收到 Windows 的 [`WM_RENDERFORMAT`](https://learn.microsoft.com/windows/win32/dataxchg/wm-renderformat) 时才提供像素。每个作业均先验证：在不取数据时连续查询格式可用性，不会触发该消息；实际读取两次，都得到正确的原始字节，只触发一次消息。操作系统缓存了已提供的像素，故**不能把消息数当作读取次数**。八例都没有返回打开剪贴板的窗口句柄，因此单靠这个消息不能认定取图的进程。另行核对了真实客户端回显、原始输出、按键时间和收到的图片像素。普通剪贴板测试的分数保持独立。
 
-**首轮计时错误。** [原始失败运行](https://github.com/xiongnemo/nemoterm/actions/runs/44482033870)和[四个原始制品](codex-bitmap-reads-44482033870.zip)均保留：该 runner 的首次时钟采样会把进入回调与提供完毕记录在同一刻，测试却要求严格大于。[修正](https://github.com/xiongnemo/nemoterm/commit/6eca999)改用性能计数器，同时允许同次回调内的两条记录具有相等时间；仍要求成功提供数据、时间不倒退、剪贴板在发键之前发布、窗口显示附件且服务端收到正确图片。两轮使用的 EXE SHA-256 都是 `be28e4e503383070855dac42d679c5427e224a68c3fb13195f7d2b820d0f2120`，实际客户端是 `edfdd48f8b458af0906e507b4cb05217b326c3d6e515e9f024e05e3b8d650f70`。每个证据包附 GitHub 原始制品 ID 和 SHA-256。
+**首轮计时错误。** [原始失败运行](https://github.com/xiongnemo/nemoterm/actions/runs/44482033870)和[四个原始制品](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/codex-bitmap-reads-44482033870.zip)均保留：该 runner 的首次时钟采样会把进入回调与提供完毕记录在同一刻，测试却要求严格大于。[修正](https://github.com/xiongnemo/nemoterm/commit/6eca999)改用性能计数器，同时允许同次回调内的两条记录具有相等时间；仍要求成功提供数据、时间不倒退、剪贴板在发键之前发布、窗口显示附件且服务端收到正确图片。两轮使用的 EXE SHA-256 都是 `be28e4e503383070855dac42d679c5427e224a68c3fb13195f7d2b820d0f2120`，实际客户端是 `edfdd48f8b458af0906e507b4cb05217b326c3d6e515e9f024e05e3b8d650f70`。每个证据包附 GitHub 原始制品 ID 和 SHA-256。
 
 这些观测与[固定版本客户端在启动草稿中禁用图片的源码和历史记录](codex-file-draft-order.md)吻合。对使用者而言，第一次没看到附件时，可以在编辑器就绪后再次粘贴，看到附件再发送。终端不自动重发手势，以免已就绪的客户端收到两次粘贴。

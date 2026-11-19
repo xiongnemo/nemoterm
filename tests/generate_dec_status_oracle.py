@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 
 root=Path(__file__).resolve().parents[1]
-source=json.loads((root/'research/dec-status-xterm.json').read_text(encoding='utf-8'))
+source=json.loads((root/'testdata/upstream/dec-status-xterm.json').read_text(encoding='utf-8'))
 # An explicitly empty checksum id is consistently zero
 # here, not xterm's unsigned representation of its missing-parameter sentinel.
 separate={'arguments-63;;9'}

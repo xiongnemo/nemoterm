@@ -8,7 +8,7 @@ from agent_ready_redraw import IDLE, read_idle_redraw
 
 def main():
     root = Path(__file__).resolve().parents[1]
-    with ZipFile(root/'research/codex-file-clipboard-d457d34.zip') as pack:
+    with ZipFile(root/'testdata/upstream/codex-file-clipboard-d457d34.zip') as pack:
         data = pack.read('14499253304.zip')
     assert hashlib.sha256(data).hexdigest() == '382643290f21a8b4e90bb10bce285ca67c1e17202e471ffd9398a0b4a2a5e1b1'
     with ZipFile(io.BytesIO(data)) as z:

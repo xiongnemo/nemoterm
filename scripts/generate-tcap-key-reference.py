@@ -11,7 +11,7 @@ root = Path(__file__).resolve().parents[1]
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--check', action='store_true')
 args = parser.parse_args()
-archive = root/'research/terminfo-database-evidence.zip'
+archive = root/'testdata/upstream/terminfo-database-evidence.zip'
 if hashlib.sha256(archive.read_bytes()).hexdigest() != '7e3270eadc8063fc85624e67dd3fae0ee26a654e8d82e37374c63199300d0df0':
     raise ValueError('Unexpected startup archive')
 with zipfile.ZipFile(archive) as bundle:

@@ -21,7 +21,7 @@ u.SetWindowPos.argtypes = [w.HWND,w.HWND,c.c_int,c.c_int,c.c_int,c.c_int,w.UINT]
 u.GetWindowLongPtrW.argtypes,u.GetWindowLongPtrW.restype = [w.HWND,c.c_int],c.c_ssize_t
 exe = Path(os.environ.get('NEMOTERM_TEST_EXE',root/'dist/nemoterm.exe')).resolve()
 marker = b'\x1b[0n'
-with tarfile.open(root/'research/bell-modes-reference.tar.gz') as archive:
+with tarfile.open(root/'testdata/upstream/bell-modes-reference.tar.gz') as archive:
     raw = archive.extractfile('reference/bell-modes-xterm.json').read()
 assert hashlib.sha256(raw).hexdigest() == 'c5a87d9f9ee75d637293e3a6767d86102be622271720e8ee4b704e5727c9b6b4'
 reference = json.loads(raw)

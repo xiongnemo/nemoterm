@@ -5,7 +5,7 @@ from pathlib import Path
 from checksum_direct_cases import CASES as direct
 
 root = Path(__file__).resolve().parents[1]
-source = json.loads((root/'research/checksum-xterm.json').read_text(encoding='utf-8'))
+source = json.loads((root/'testdata/upstream/checksum-xterm.json').read_text(encoding='utf-8'))
 separate = {'args-;1;1;1;1;4': 'Empty numeric identifier is zero, consistently with other Nemoterm queries.'}
 for mode in range(32):
     separate[f'mode-{mode}-combining'] = 'Retained decomposed scalars; xterm composes some base/mark sequences.'

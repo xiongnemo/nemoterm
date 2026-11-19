@@ -7,7 +7,7 @@ import tarfile
 
 root=Path(__file__).resolve().parents[1]
 digest='c6a03613d5f5df5313ee7f07610bb4ac2b0615428a9ab5efd61f9fd06e59656a'
-with tarfile.open(root/'research/kitty-unicode-evidence/font-geometry-reference.tar.gz') as tar:
+with tarfile.open(root/'testdata/upstream/kitty-unicode-evidence/font-geometry-reference.tar.gz') as tar:
     raw=tar.extractfile('reference/observations.json').read()
 assert hashlib.sha256(raw).hexdigest()==digest
 data=json.loads(raw)

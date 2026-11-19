@@ -238,7 +238,7 @@ jobs:
         if: ${{ inputs.suite == 'pointer-colour' }}
         shell: pwsh
         run: |
-          python tests/pointer_window_smoke.py --colour-reference research/pointer-colour-resets-reference.zip 2>&1 | Tee-Object build/focused-evidence/pointer-colour.log
+          python tests/pointer_window_smoke.py --colour-reference testdata/upstream/pointer-colour-resets-reference.zip 2>&1 | Tee-Object build/focused-evidence/pointer-colour.log
           exit $LASTEXITCODE
       - name: Replay terminfo keyboard bytes and independent capability permissions
         if: ${{ inputs.suite == 'tcap' }}

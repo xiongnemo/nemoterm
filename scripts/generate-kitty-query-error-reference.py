@@ -7,7 +7,7 @@ literal here; the data-error control compares the error envelope, not its prose.
 import argparse,base64,gzip,hashlib,json
 from pathlib import Path
 root=Path(__file__).resolve().parents[1]
-raw=gzip.decompress((root/'research/kitty-query-errors-evidence/808974e-reference--observations.json.gz').read_bytes())
+raw=gzip.decompress((root/'testdata/upstream/kitty-query-errors-evidence/808974e-reference--observations.json.gz').read_bytes())
 digest='2236da05d2fe7392f16d3f2486e2586ed1241ea08cf08270b62bba27a4f8fc62'
 assert hashlib.sha256(raw).hexdigest()==digest
 data=json.loads(raw)

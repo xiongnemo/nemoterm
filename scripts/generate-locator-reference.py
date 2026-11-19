@@ -7,7 +7,7 @@ import tarfile
 
 root = Path(__file__).resolve().parents[1]
 digest = 'fa3f3f13dd56847c093c8b638f8e658a8227bf29964485c63a07029bcb2fa96e'
-with tarfile.open(root/'research/dec-locator-binding-reference.tar.gz') as archive:
+with tarfile.open(root/'testdata/upstream/dec-locator-binding-reference.tar.gz') as archive:
     raw = archive.extractfile('bbddb98/reference/dec-locator-xterm.json').read()
 assert hashlib.sha256(raw).hexdigest() == digest
 data = json.loads(raw)

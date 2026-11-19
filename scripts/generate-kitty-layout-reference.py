@@ -3,7 +3,7 @@ import argparse,base64,gzip,hashlib,json
 from pathlib import Path
 
 root=Path(__file__).resolve().parents[1]
-source=root/'research/kitty-reference-evidence/d638691-observations.json.gz'
+source=root/'testdata/upstream/kitty-reference-evidence/d638691-observations.json.gz'
 digest='b00df940a8d246bfdc958ea46d67d8321d031d129b02db28cc2fe3b298a176a0'
 raw=gzip.decompress(source.read_bytes());assert hashlib.sha256(raw).hexdigest()==digest
 data=json.loads(raw)

@@ -2,7 +2,7 @@
 import json,re
 from pathlib import Path
 root=Path(__file__).resolve().parent.parent
-source=json.loads((root/'research/rectangle-xterm.json').read_text(encoding='utf-8'))
+source=json.loads((root/'testdata/upstream/rectangle-xterm.json').read_text(encoding='utf-8'))
 flags={1:'ATTR_BOLD',2:'ATTR_DIM',3:'ATTR_ITALIC',4:'ATTR_UNDER',5:'ATTR_BLINK',7:'ATTR_REVERSE',8:'ATTR_CONCEAL',9:'ATTR_STRIKE'}
 q='\x1b[6n\x1bP$q*x\x1b\\\x1b[?6l\x1b[31#y'
 def literal(s):

@@ -58,7 +58,7 @@ REA session 报告 Ghidra 未配置，故没有伪装成已完成反编译或调
 
 ## 同一台 Runner 上的真实 Codex 对照
 
-[运行 44296258971 的原始记录](pterm-pair-aa84ac2.zip)使用了与本机散列完全一致的官方 pterm 0.85，以及 Nemoterm `ba91594` 的 GDI 单文件构建。三个前端配置轮流在同一个 Windows Runner 上运行固定的 Codex 0.167.0：160×48 字符、1122×818 像素的终端绘图区、10 磅 `SarasaTermSC Nerd Light`，相同的提示词和本地回复。先按表中顺序运行，再倒序各运行一次。六次均核对了真实请求、终端上的回复以及正常退出。
+[运行 44296258971 的原始记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/pterm-pair-aa84ac2.zip)使用了与本机散列完全一致的官方 pterm 0.85，以及 Nemoterm `ba91594` 的 GDI 单文件构建。三个前端配置轮流在同一个 Windows Runner 上运行固定的 Codex 0.167.0：160×48 字符、1122×818 像素的终端绘图区、10 磅 `SarasaTermSC Nerd Light`，相同的提示词和本地回复。先按表中顺序运行，再倒序各运行一次。六次均核对了真实请求、终端上的回复以及正常退出。
 
 | 前端 | 启动 Codex 前：私有工作集 (MB) | 回复稳定后：私有工作集 (MB) | 回复稳定后：总工作集 (MB) |
 | --- | ---: | ---: | ---: |
@@ -66,9 +66,9 @@ REA session 报告 Ghidra 未配置，故没有伪装成已完成反编译或调
 | Nemoterm，默认单标签 | 4.70–4.72 | 5.39–5.40 | 35.70–36.57 |
 | Nemoterm，独立窗口 | 4.57–4.62 | 5.43–5.47 | 35.38–35.41 |
 
-每个范围的两端是两次运行各自的中位数，单位为十进制 MB。以约 100 ms 的间隔采样；启动客户端前观察 2 秒，收到回复后观察 3 秒，仅统计终端前端。在这个短会话中，默认标签版的稳定私有工作集比官方 pterm 高约 1.6 MB。这里没有模拟长时间滚屏、复制或图形重绘；这些操作的[实际采样峰值和验收门槛](memory-budget.md)另计。
+每个范围的两端是两次运行各自的中位数，单位为十进制 MB。以约 100 ms 的间隔采样；启动客户端前观察 2 秒，收到回复后观察 3 秒，仅统计终端前端。在这个短会话中，默认标签版的稳定私有工作集比官方 pterm 高约 1.6 MB。这里没有模拟长时间滚屏、复制或图形重绘；这些操作的[实际采样峰值和验收门槛](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/memory-budget.md)另计。
 
-![相同提示词和回复在三个前端的窗口截图裁剪](pterm-codex-pair.png)
+![相同提示词和回复在三个前端的窗口截图裁剪](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/pterm-codex-pair.png)
 
 原始归档含各次采样、截图、窗口与进程身份；制品 `14422924994`，归档 SHA-256 `a216af52a38ce1ada5e9f039ca9a12eeb180c4d3064af847a5e35b439098b8b9`。可通过[远程交互验收入口](../docs/INTERACTION_ACCEPTANCE.md#pterm-memory)复现。
 
@@ -95,7 +95,7 @@ REA session 报告 Ghidra 未配置，故没有伪装成已完成反编译或调
 
 ## 同一份 38de2ad EXE 的 GDI 与 DirectX
 
-[十次同机实测的原始截图、进程和采样](pterm-codex-pair-38de2ad.zip)，[运行 44351722529](https://github.com/xiongnemo/nemoterm/actions/runs/44351722529)，制品 `14448627465`，ZIP SHA-256 `2421ad318b09ba307c9be76537d7ba6041bd026bd12ca4d1aa3af73aa2c30f72`。同一工作区和固定的 Codex 0.167.0、160×48、SarasaTermSC Nerd Light；五组正序和反序各跑一次。下表是收到同一回复后三秒观察中，两次各自中位数的范围，十进制 MB，只计前端，不计 Codex/伪控制台。
+[十次同机实测的原始截图、进程和采样](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/pterm-codex-pair-38de2ad.zip)，[运行 44351722529](https://github.com/xiongnemo/nemoterm/actions/runs/44351722529)，制品 `14448627465`，ZIP SHA-256 `2421ad318b09ba307c9be76537d7ba6041bd026bd12ca4d1aa3af73aa2c30f72`。同一工作区和固定的 Codex 0.167.0、160×48、SarasaTermSC Nerd Light；五组正序和反序各跑一次。下表是收到同一回复后三秒观察中，两次各自中位数的范围，十进制 MB，只计前端，不计 Codex/伪控制台。
 
 | 前端 | 私有工作集 | 总工作集 | 私有提交 |
 |---|---:|---:|---:|
@@ -105,13 +105,13 @@ REA session 报告 Ghidra 未配置，故没有伪装成已完成反编译或调
 | Nemoterm DirectX，单标签 | 9.68 | 44.63 | 11.27 |
 | Nemoterm DirectX，独立窗口 | 9.68–9.70 | 44.24–44.25 | 11.18–11.22 |
 
-八个 Nemoterm 实例在测量前后均通过 HWND 属性确认实际渲染器；十个实例均自然退出，作业未残留子进程，真实回复阶段的模块/进程快照未匹配已列 WebView 引擎。前端 SHA-256 `7e096d2aa87d5a86d5e5edfed26ac6b9d6d26b2e40502ae32edd26c478e5eec7` 的 [REA 导入表](rea-38de2ad-imports.json.gz) 有 81 个常规 DLL 描述符、669 个常规导入及来自 ICU 的 11 个延迟导入；和 `a9c8150` 的全部 DLL、函数名和序号相同。进程快照和 PE 导入表各自只能证明已观察范围。普通回复的稳定中位数不代替满屏压力测试的峰值。
+八个 Nemoterm 实例在测量前后均通过 HWND 属性确认实际渲染器；十个实例均自然退出，作业未残留子进程，真实回复阶段的模块/进程快照未匹配已列 WebView 引擎。前端 SHA-256 `7e096d2aa87d5a86d5e5edfed26ac6b9d6d26b2e40502ae32edd26c478e5eec7` 的 [REA 导入表](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/rea-38de2ad-imports.json.gz) 有 81 个常规 DLL 描述符、669 个常规导入及来自 ICU 的 11 个延迟导入；和 `a9c8150` 的全部 DLL、函数名和序号相同。进程快照和 PE 导入表各自只能证明已观察范围。普通回复的稳定中位数不代替满屏压力测试的峰值。
 
-[同一 38de2ad 单文件的 74 项交互回放](interaction-full-38de2ad.zip)（[44350839896](https://github.com/xiongnemo/nemoterm/actions/runs/44350839896)）全部通过。在其中各六种满屏压力负载中，[GDI 的前端私有工作集](interaction-memory-gdi-38de2ad.zip)最大为 18,915,328 字节，[DirectX](interaction-memory-directx-38de2ad.zip) 为 29,007,872 字节，均在 Unicode + Kitty 图片负载观察到；对应前端总工作集分别为 53,641,216 和 72,175,616 字节。该记录只适用于这一 EXE，不替后续的设置和输入修复验收。
+[同一 38de2ad 单文件的 74 项交互回放](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/interaction-full-38de2ad.zip)（[44350839896](https://github.com/xiongnemo/nemoterm/actions/runs/44350839896)）全部通过。在其中各六种满屏压力负载中，[GDI 的前端私有工作集](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/interaction-memory-gdi-38de2ad.zip)最大为 18,915,328 字节，[DirectX](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/interaction-memory-directx-38de2ad.zip) 为 29,007,872 字节，均在 Unicode + Kitty 图片负载观察到；对应前端总工作集分别为 53,641,216 和 72,175,616 字节。该记录只适用于这一 EXE，不替后续的设置和输入修复验收。
 
 ## Exact focus-fix image (`fd19411`)
 
-[Ten ordered and reversed runs, original records and screenshots](pterm-codex-pair-fd19411.zip) from [44358568277](https://github.com/xiongnemo/nemoterm/actions/runs/44358568277); artifact `14452494158`, SHA-256 `3441de761e466f42cc096f5adce23f25da5774998075718b9bd0d9995babdc4a`. This experiment used the pterm 0.85 image matching the installed Scoop file and the [same single Nemoterm EXE as the focus-fix replay](close-confirmation-and-rendering.md), pinned Codex and SarasaTermSC Nerd Light at 160×48. All ten got the expected reply and exited with no residual child process. The first three columns give the range of two per-run medians after the reply; the last is the largest sample across both full traces. Values are decimal MB and count the frontend only.
+[Ten ordered and reversed runs, original records and screenshots](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/pterm-codex-pair-fd19411.zip) from [44358568277](https://github.com/xiongnemo/nemoterm/actions/runs/44358568277); artifact `14452494158`, SHA-256 `3441de761e466f42cc096f5adce23f25da5774998075718b9bd0d9995babdc4a`. This experiment used the pterm 0.85 image matching the installed Scoop file and the [same single Nemoterm EXE as the focus-fix replay](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/close-confirmation-and-rendering.md), pinned Codex and SarasaTermSC Nerd Light at 160×48. All ten got the expected reply and exited with no residual child process. The first three columns give the range of two per-run medians after the reply; the last is the largest sample across both full traces. Values are decimal MB and count the frontend only.
 
 | Frontend | Post-reply private WS | Post-reply total WS | Post-reply private commit | Peak private WS in the full trace |
 |---|---:|---:|---:|---:|
@@ -121,15 +121,15 @@ REA session 报告 Ghidra 未配置，故没有伪装成已完成反编译或调
 | nemoterm-directx-tab | 9.65–9.67 | 44.57–44.59 | 11.26–11.28 | 9.67 |
 | nemoterm-directx-standalone | 9.68–9.71 | 44.20–44.24 | 11.21–11.23 | 9.72 |
 
-The [current REA import record](rea-fd19411-imports.json.gz) covers all 81 standard DLL descriptors (670 functions) and one delay-loaded DLL (11 ICU functions). Against `38de2ad` the only added import by DLL/name/ordinal is `IsProcessorFeaturePresent` from `api-ms-win-core-processthreads-l1-1-1.dll`; none disappeared. The captured frontend module and job process lists had no match for the fixture's WebView names. These observations describe the inspected builds and workloads.
+The [current REA import record](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/rea-fd19411-imports.json.gz) covers all 81 standard DLL descriptors (670 functions) and one delay-loaded DLL (11 ICU functions). Against `38de2ad` the only added import by DLL/name/ordinal is `IsProcessorFeaturePresent` from `api-ms-win-core-processthreads-l1-1-1.dll`; none disappeared. The captured frontend module and job process lists had no match for the fixture's WebView names. These observations describe the inspected builds and workloads.
 
-On the same image, the [GDI](interaction-memory-gdi-fd19411.zip) and [DirectX](interaction-memory-directx-fd19411.zip) stress receipts contain six 160×48 workloads each. All twelve passed. The maximum sampled frontend private WS was **19,070,976 bytes (GDI)** and **29,372,416 bytes (DirectX)**, both for Unicode + Kitty. The total WS peaks for those workloads were 53,886,976 and 74,584,064 bytes; total WS is separate from the private WS limits. The original archives are artifacts `14452404271` (SHA-256 `8ec88440b379525a0736f07e10b26ff909dbf67322b0d3318e213c17646813fc`) and `14452518495` (`2852427697e68fe20b3f2720611f8eb9fba4a47ff464721a26df7afbdf12d773`).
+On the same image, the [GDI](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/interaction-memory-gdi-fd19411.zip) and [DirectX](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/interaction-memory-directx-fd19411.zip) stress receipts contain six 160×48 workloads each. All twelve passed. The maximum sampled frontend private WS was **19,070,976 bytes (GDI)** and **29,372,416 bytes (DirectX)**, both for Unicode + Kitty. The total WS peaks for those workloads were 53,886,976 and 74,584,064 bytes; total WS is separate from the private WS limits. The original archives are artifacts `14452404271` (SHA-256 `8ec88440b379525a0736f07e10b26ff909dbf67322b0d3318e213c17646813fc`) and `14452518495` (`2852427697e68fe20b3f2720611f8eb9fba4a47ff464721a26df7afbdf12d773`).
 
-The [unaltered interaction rollup](interaction-rollup-fd19411.zip) from [44355490628](https://github.com/xiongnemo/nemoterm/actions/runs/44355490628) verified **72/74** on the exact same file. The two red cases were `agent-image-codex` and `agent-image-system-codex`: the visible image attachment marker timed out on Ctrl+V in the first case and Ctrl+Shift+V in the second. The OpenCode image-paste cases and the six existing default-grid text selection cases passed. This rollup does not certify all product checks.
+The [unaltered interaction rollup](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/interaction-rollup-fd19411.zip) from [44355490628](https://github.com/xiongnemo/nemoterm/actions/runs/44355490628) verified **72/74** on the exact same file. The two red cases were `agent-image-codex` and `agent-image-system-codex`: the visible image attachment marker timed out on Ctrl+V in the first case and Ctrl+Shift+V in the second. The OpenCode image-paste cases and the six existing default-grid text selection cases passed. This rollup does not certify all product checks.
 
 ## f564927 普通 Codex 会话实际驻留了什么
 
-[十个原始记录、工作集页组成和截图](pterm-codex-residency-f564927.zip)来自[同机正序和倒序各一次的回放](https://github.com/xiongnemo/nemoterm/actions/runs/44376987056)，制品 `14461658892`，ZIP SHA-256 `e923432c68d6f8181db907ee7cc8182928805d5298bf02990b93d6f9a8bb16fc`。官方 pterm 与本机 Scoop 0.85 文件散列相同；Nemoterm 是[这份单 EXE](interaction-f564927.md)。每次启动同一份真实 Codex 和 Sarasa 字体，等待相同回复出现在 160×48 控制台。十次均自然退出；前端模块及作业内进程未匹配测试列出的 WebView 引擎名称。
+[十个原始记录、工作集页组成和截图](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/pterm-codex-residency-f564927.zip)来自[同机正序和倒序各一次的回放](https://github.com/xiongnemo/nemoterm/actions/runs/44376987056)，制品 `14461658892`，ZIP SHA-256 `e923432c68d6f8181db907ee7cc8182928805d5298bf02990b93d6f9a8bb16fc`。官方 pterm 与本机 Scoop 0.85 文件散列相同；Nemoterm 是[这份单 EXE](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/interaction-f564927.md)。每次启动同一份真实 Codex 和 Sarasa 字体，等待相同回复出现在 160×48 控制台。十次均自然退出；前端模块及作业内进程未匹配测试列出的 WebView 引擎名称。
 
 | 前端 | 稳定私有工作集（每次中位数范围） | 稳定总工作集 | 其中由前端 EXE 映射的私有页 | 其中 MEM_PRIVATE 类型的私有页 |
 | --- | ---: | ---: | ---: | ---: |
@@ -143,11 +143,11 @@ MB 为十进制。最后两列来自正常取样结束、截取窗口像素之�
 
 ## Same-host control for `3da2fc3`
 
-The [ten-run original archive](pterm-codex-pair-3da2fc3.zip) and [per-frontend table](interaction-3da2fc3.md) pair the shipped Scoop pterm 0.85 hash with this exact single-file build. At 160×48 with Sarasa Light and the same real Codex reply, the median private working sets after the reply were 3.76–3.78 MB for pterm, 5.06–5.08 MB for a tabbed GDI Nemoterm, and 9.68–9.72 MB for its DirectX tabbed configuration. Those values are decimal MB, distinct from the total resident pages and the heavier image/scrollback workloads. The [REA PE import observation](rea-3da2fc3-imports.json.gz) and the reply-time module/process snapshots are separate static and runtime evidence about the absence of a browser dependency in this configuration.
+The [ten-run original archive](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/pterm-codex-pair-3da2fc3.zip) and [per-frontend table](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/interaction-3da2fc3.md) pair the shipped Scoop pterm 0.85 hash with this exact single-file build. At 160×48 with Sarasa Light and the same real Codex reply, the median private working sets after the reply were 3.76–3.78 MB for pterm, 5.06–5.08 MB for a tabbed GDI Nemoterm, and 9.68–9.72 MB for its DirectX tabbed configuration. Those values are decimal MB, distinct from the total resident pages and the heavier image/scrollback workloads. The [REA PE import observation](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/rea-3da2fc3-imports.json.gz) and the reply-time module/process snapshots are separate static and runtime evidence about the absence of a browser dependency in this configuration.
 
-`b7f4bfa` 的[同机十次对照](pterm-codex-pair-b7f4bfa.zip)来自 `44405220813`，制品 `14473254184`，SHA-256 `386d9847da16ab880c5ee95818c1eaf66c1a0bc931211be6a9c9f42f6d500b47`。正序、逆序各一次，真实 Codex 收到相同的回环回复，10 个前端都自然退出。回复后私有工作集中位数：原版 pterm **3.75–3.78 MB**，单标签 GDI **5.05–5.08 MB**，单标签 DirectX **9.71–9.76 MB**（十进制 MB）。不计子进程；不是图像和历史缓冲压力峰值。运行时列出的前端模块与所观察进程未命中所查的浏览器引擎名称。[本文件的 REA 静态导入证据](rea-b7f4bfa-imports.json.gz)与 `3da2fc3` 逐项比较 DLL 名、函数名和序号均相同：81 个常规 DLL 描述符、669 项常规函数、1 个 ICU 延迟加载描述符及 11 项延迟导入。
+`b7f4bfa` 的[同机十次对照](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/pterm-codex-pair-b7f4bfa.zip)来自 `44405220813`，制品 `14473254184`，SHA-256 `386d9847da16ab880c5ee95818c1eaf66c1a0bc931211be6a9c9f42f6d500b47`。正序、逆序各一次，真实 Codex 收到相同的回环回复，10 个前端都自然退出。回复后私有工作集中位数：原版 pterm **3.75–3.78 MB**，单标签 GDI **5.05–5.08 MB**，单标签 DirectX **9.71–9.76 MB**（十进制 MB）。不计子进程；不是图像和历史缓冲压力峰值。运行时列出的前端模块与所观察进程未命中所查的浏览器引擎名称。[本文件的 REA 静态导入证据](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/rea-b7f4bfa-imports.json.gz)与 `3da2fc3` 逐项比较 DLL 名、函数名和序号均相同：81 个常规 DLL 描述符、669 项常规函数、1 个 ICU 延迟加载描述符及 11 项延迟导入。
 
 两次 pterm 的文件哈希均与开发机 Scoop 的 `0.85/pterm.exe` 相同（`8580a3df4afe7696758c1cef43d0e88e3db5fd41c35c60166241aee72dd3ba3b`）。以回复后驻留页快照解释这些数字：pterm 总工作集 **21.83–22.59 MB**，其中 **18.08–18.81 MB** 的页面可共享，私有分配对应的驻留页只有 **2.79–2.81 MB**，主 EXE 映像自身的私有驻留页为 20,480 字节。相同回复下，Nemoterm 单标签 GDI 的私有分配驻留页为 **3.30–3.33 MB**，DirectX 为 **7.77–7.82 MB**。这是按 Windows 工作集页属性分类的观察；“可共享”不保证当时已有第二个进程使用该页，“私有分配”也不能仅凭这些数据细分到某个堆、字体或图形驱动。
 
 
-`6ee2996` 单文件的[十次同机 Codex 对照](pterm-paired-6ee2996.zip)仍使用本机 Scoop pterm 的相同哈希。在两次 pterm 回环回复后的页面清单中，总工作集 21.84–22.61 MB、私有工作集 3.78–3.79 MB；**18.06–18.81 MB 可共享**。pterm 自身 EXE 的私有驻留映像页均为 20,480 B，私有分配的驻留页为 2.82–2.83 MB。相同工况下，Nemoterm 默认 GDI 单标签为 5.04–5.10 MB、DirectX 单标签为 9.68–9.71 MB（均为前端私有工作集）。[对应新文件的 REA 导入证据](rea-6ee2996-imports.json.gz)没有新增 DLL、函数名或序号。完整产品 SHA 与测量边界见[本版记录](regis-discovery.md)。
+`6ee2996` 单文件的[十次同机 Codex 对照](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/pterm-paired-6ee2996.zip)仍使用本机 Scoop pterm 的相同哈希。在两次 pterm 回环回复后的页面清单中，总工作集 21.84–22.61 MB、私有工作集 3.78–3.79 MB；**18.06–18.81 MB 可共享**。pterm 自身 EXE 的私有驻留映像页均为 20,480 B，私有分配的驻留页为 2.82–2.83 MB。相同工况下，Nemoterm 默认 GDI 单标签为 5.04–5.10 MB、DirectX 单标签为 9.68–9.71 MB（均为前端私有工作集）。[对应新文件的 REA 导入证据](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/rea-6ee2996-imports.json.gz)没有新增 DLL、函数名或序号。完整产品 SHA 与测量边界见[本版记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/regis-discovery.md)。

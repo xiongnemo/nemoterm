@@ -5,7 +5,7 @@ from pathlib import Path
 from reverse_wrap_direct_cases import CASES as DIRECT
 
 root = Path(__file__).resolve().parents[1]
-source = json.loads((root/'research/reverse-wrap-xterm.json').read_text(encoding='utf-8'))
+source = json.loads((root/'testdata/upstream/reverse-wrap-xterm.json').read_text(encoding='utf-8'))
 EXCLUDED = {f'{mode}-margin-{case}' for mode in ('extended','both')
             for case in ('1-1-bs','1-1-cub7','1-1-cub25','2-5-cub7','2-5-cub25')}
 

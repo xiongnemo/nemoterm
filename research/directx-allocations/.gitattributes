@@ -1,3 +1,0 @@
-# Preserve exact captured bytes, including original whitespace and patch context.
-# These are immutable audit records; the manifest verifies their SHA-256 hashes.
-* -text -whitespace

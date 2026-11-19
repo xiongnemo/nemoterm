@@ -25,7 +25,7 @@ STATUS = b'\x1b[0n'
 
 
 def source():
-    with ZipFile(ROOT/'research/codex-file-clipboard-22ed829.zip') as outer:
+    with ZipFile(ROOT/'testdata/upstream/codex-file-clipboard-22ed829.zip') as outer:
         meta, = [r for r in json.loads(outer.read('sources.json')) if 'system-idle' in r['name']]
         data = outer.read(str(meta['id'])+'.zip')
     assert hashlib.sha256(data).hexdigest() == 'ca2c8c7f1875ec1dcd3554c64cd04197cb33a800f0863bd7e3285e2fd60418ac'

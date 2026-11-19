@@ -7,7 +7,7 @@ from pathlib import Path
 import tarfile
 
 root=Path(__file__).resolve().parents[1]
-archive=root/'research/kitty-relative-evidence/upstream-reference.tar.gz'
+archive=root/'testdata/upstream/kitty-relative-evidence/upstream-reference.tar.gz'
 digest='0382ddf7f09f8c6c7d47f4a751447dabb31ac472c1714a4ce6b4d1bfd4e83d98'
 with tarfile.open(archive,'r:gz') as tar:
     raw=tar.extractfile('reference/observations.json').read()

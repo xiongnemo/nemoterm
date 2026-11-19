@@ -48,7 +48,7 @@ def run(tag):
     bank=tag.startswith('bank-start-')
     archive_hash=BANK_ARCHIVE if bank else ARCHIVE
     filename='regis-bank-start-xterm.zip' if bank else 'regis-first-expose-captures.zip'
-    source=(ROOT/'research'/filename).read_bytes(); assert sha(source)==archive_hash
+    source=(ROOT/'testdata/upstream'/filename).read_bytes(); assert sha(source)==archive_hash
     ev={}; comparisons={}; historical_failures=[]; capture_failures=[]
     with ZipFile(io.BytesIO(source)) as ref:
         facts=json.loads(ref.read('reference/observations.json'))

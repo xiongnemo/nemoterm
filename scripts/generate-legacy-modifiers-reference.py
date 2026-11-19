@@ -4,7 +4,7 @@ import argparse,hashlib,json,tarfile
 root=Path(__file__).resolve().parents[1]
 parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--check',action='store_true')
 args=parser.parse_args()
-archive=root/'research/legacy-modifiers-reference.tar.gz'
+archive=root/'testdata/upstream/legacy-modifiers-reference.tar.gz'
 assert hashlib.sha256(archive.read_bytes()).hexdigest()=='6af81cb1535135c42c75e48a91369dd3bccf2660e18bfb1c654c93c0074f85d3'
 with tarfile.open(archive) as bundle:
     data=json.load(bundle.extractfile('xterm.json'));identity=json.load(bundle.extractfile('IDENTITY.json'))

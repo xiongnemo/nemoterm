@@ -7,7 +7,7 @@ import tarfile
 
 root = Path(__file__).resolve().parents[1]
 digest = 'd69f11e6a36383d0cd8e08c4555bc6decb67f063c751992cd640f77acc9c0fa1'
-with tarfile.open(root/'research/control-cancellation-reference.tar.gz') as archive:
+with tarfile.open(root/'testdata/upstream/control-cancellation-reference.tar.gz') as archive:
     raw = archive.extractfile('reference/control-cancellation-xterm.json').read()
 assert hashlib.sha256(raw).hexdigest() == digest
 data = json.loads(raw)

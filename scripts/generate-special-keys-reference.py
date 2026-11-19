@@ -6,7 +6,7 @@ root = Path(__file__).resolve().parents[1]
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--check', action='store_true')
 args = parser.parse_args()
-archive = root/'research/special-key-modifiers-reference.tar.gz'
+archive = root/'testdata/upstream/special-key-modifiers-reference.tar.gz'
 assert hashlib.sha256(archive.read_bytes()).hexdigest() == '89c9d0b4d2d88852ec937ce9d2efc89b6acd8f7b4b1e0d3ad6ee430e75944be6'
 with tarfile.open(archive) as bundle:
     data = json.load(bundle.extractfile('capture-04/xterm.json'))

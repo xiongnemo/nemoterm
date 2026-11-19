@@ -2,7 +2,7 @@
 import json
 from pathlib import Path
 root=Path(__file__).resolve().parents[1]
-source=json.loads((root/'research/margins-xterm.json').read_text(encoding='utf-8'))
+source=json.loads((root/'testdata/upstream/margins-xterm.json').read_text(encoding='utf-8'))
 flags={1:'ATTR_BOLD',2:'ATTR_DIM',3:'ATTR_ITALIC',4:'ATTR_UNDER',5:'ATTR_BLINK',7:'ATTR_REVERSE',8:'ATTR_CONCEAL',9:'ATTR_STRIKE'}
 def literal(s):
     return '"'+''.join('\\%03o'%b if b<32 or b>=127 else '\\'+chr(b) if chr(b) in '\\"' else chr(b) for b in s.encode())+'"'

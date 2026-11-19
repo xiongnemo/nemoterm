@@ -48,25 +48,25 @@ on:
       - vendor/putty-0.85/terminal/nemo_feature_policy_terminal.inc
       - tests/feature_policy_reference.h
       - scripts/generate-feature-policy-reference.py
-      - research/feature-policy-reference.tar.gz
+      - testdata/upstream/feature-policy-reference.tar.gz
       - vendor/putty-0.85/test/test_bell_modes.c
       - tests/bell_modes_reference.h
       - scripts/generate-bell-reference.py
-      - research/bell-modes-reference.tar.gz
+      - testdata/upstream/bell-modes-reference.tar.gz
       - vendor/putty-0.85/conf.h
       - vendor/putty-0.85/windows/config.c
       - vendor/putty-0.85/test/test_udk_terminal.c
       - vendor/putty-0.85/terminal/nemo_udk_terminal.inc
       - tests/udk_reference.h
       - scripts/generate-udk-reference.py
-      - research/dec-udk-reference.tar.gz
+      - testdata/upstream/dec-udk-reference.tar.gz
       - vendor/putty-0.85/test/test_locator_terminal.c
       - vendor/putty-0.85/terminal/nemo_locator_terminal.inc
       - vendor/putty-0.85/putty.h
       - vendor/putty-0.85/windows/window.c
       - tests/locator_reference.h
       - scripts/generate-locator-reference.py
-      - research/dec-locator-binding-reference.tar.gz
+      - testdata/upstream/dec-locator-binding-reference.tar.gz
       - .github/workflows/ansi-conformance.yml
       - scripts/generate-ansi-reference.py
       - scripts/generate-legacy-parameter-reference.py
@@ -75,8 +75,8 @@ on:
       - vendor/putty-0.85/test/test_queries.c
       - vendor/putty-0.85/utils/ctrlparse.c
       - vendor/putty-0.85/unix/unicode.c
-      - research/legacy-reply-reference.tar.gz
-      - research/osc-colour-sequence-reference.tar.gz
+      - testdata/upstream/legacy-reply-reference.tar.gz
+      - testdata/upstream/osc-colour-sequence-reference.tar.gz
       - scripts/generate-osc-colour-sequence-reference.py
       - tests/osc_colour_sequence_reference.h
       - tests/osc_colour_sequence_reference.json
@@ -84,15 +84,15 @@ on:
       - vendor/putty-0.85/test/test_mok.c
       - vendor/putty-0.85/test/test_mok_win.c
       - vendor/putty-0.85/windows/nemo_key_input.c
-      - research/special-key-modifiers-reference.tar.gz
+      - testdata/upstream/special-key-modifiers-reference.tar.gz
       - scripts/generate-special-keys-reference.py
       - tests/special_keys_reference.h
       - tests/special_keys_reference.json
-      - research/extended-key-resources-reference.tar.gz
+      - testdata/upstream/extended-key-resources-reference.tar.gz
       - scripts/generate-extended-keys-reference.py
       - tests/extended_keys_reference.h
       - tests/extended_keys_reference.json
-      - research/legacy-modifiers-reference.tar.gz
+      - testdata/upstream/legacy-modifiers-reference.tar.gz
       - scripts/generate-legacy-modifiers-reference.py
       - tests/legacy_modifiers_reference.h
       - tests/legacy_modifiers_reference.json
@@ -103,7 +103,7 @@ on:
       - vendor/putty-0.85/test/test_cancellation_terminal.c
       - tests/control_cancellation_reference.h
       - scripts/generate-cancellation-reference.py
-      - research/control-cancellation-reference.tar.gz
+      - testdata/upstream/control-cancellation-reference.tar.gz
       - vendor/putty-0.85/test/test_ansi_terminal.c
       - vendor/putty-0.85/terminal/terminal.c
       - vendor/putty-0.85/terminal/terminal.h

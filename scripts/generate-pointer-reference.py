@@ -13,7 +13,7 @@ import tarfile
 
 root=Path(__file__).resolve().parents[1]
 digest='4060b1bc1cde1302da9874c804e4d83d66d95a0bfb47b5a1dbf8401a2081d81e'
-with tarfile.open(root/'research/pointer-shape-evidence/kitty-reference-ed5beca.tar.gz') as tar:
+with tarfile.open(root/'testdata/upstream/pointer-shape-evidence/kitty-reference-ed5beca.tar.gz') as tar:
     raw=tar.extractfile('reference/observations.json').read()
 assert hashlib.sha256(raw).hexdigest()==digest
 data=json.loads(raw)

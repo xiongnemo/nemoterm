@@ -10,7 +10,7 @@ root = Path(__file__).resolve().parents[1]
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--check', action='store_true')
 args = parser.parse_args()
-archive = root/'research/tcap-query-reference.zip'
+archive = root/'testdata/upstream/tcap-query-reference.zip'
 if hashlib.sha256(archive.read_bytes()).hexdigest() != '6ebcafe5f675b49e24803369be4c51b5da9ac4914861e5ba45946e9188bb9e3d':
     raise ValueError('Unexpected reference archive')
 with zipfile.ZipFile(archive) as source:

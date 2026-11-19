@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 
 root = Path(__file__).resolve().parents[1]
-source = json.loads((root/'research/double-size-xterm.json').read_text(encoding='utf-8'))
+source = json.loads((root/'testdata/upstream/double-size-xterm.json').read_text(encoding='utf-8'))
 
 
 def literal(text):

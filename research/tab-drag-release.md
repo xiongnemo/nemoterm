@@ -21,3 +21,5 @@ A 与 B 在同一个原生终端窗口中运行，各自打开应用鼠标报告
 同一候选上的 [Sixel 回放](https://github.com/xiongnemo/nemoterm/actions/runs/44525493045)（两种渲染器）、[tmux/Vim 回放](https://github.com/xiongnemo/nemoterm/actions/runs/44525492410)（GDI、DirectX 各 `TERM=xterm`、`xterm-256color` 两种）以及 [terminfo 颜色回放](https://github.com/xiongnemo/nemoterm/actions/runs/44525560769)（两种渲染器）均通过。[原始失败摘录与日志摘要、新回放原件和包清单](tab-drag-wsl-6a2dc83.zip)包含 BusyBox 重建记录。[修正准备流程后的 81 项交互总回放](https://github.com/xiongnemo/nemoterm/actions/runs/44525718005)与首次完整 CI 分开记录。
 
 本次发布到 `dist` 的测试版与上述候选字节相同，4,858,368 字节。[同一 EXE 的两组压力记录](tab-drag-memory-6a2dc83.zip)包含 160×48 的六种负载，每组 6/6。GDI 前端私有工作集峰值为 19,578,880 字节，总工作集峰值 56,381,440 字节；DirectX 分别为 29,061,120 和 74,297,344 字节。各列单独取峰值。
+
+[完整交互回执](interaction-report-44525718005.zip)（托管运行 `44525718005`，制品 `14532402254`，ZIP SHA-256 `55b1b953dd96b226793eda40cffdc7fa2f4e65e77595e3f5c02cf16617534cc8`）：同一份 EXE 在 13 个分组中通过 **81/81**，包括真实客户端 30/30、默认网格 10/10、标签 9/9。此轮前端私有工作集峰值 GDI 19,304,448 字节、DirectX 29,270,016 字节。一次启动贴图通过不消除前面观察到的应用就绪时序，也不代表严格 XTerm 对照全部通过。

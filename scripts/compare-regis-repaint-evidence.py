@@ -32,7 +32,7 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('component',type=Path);parser.add_argument('archive_sha256');parser.add_argument('output',type=Path)
     args=parser.parse_args();data=args.component.read_bytes();assert digest(data)==args.archive_sha256
-    root=Path(__file__).resolve().parents[1]/'research'
+    root=Path(__file__).resolve().parents[1]/'testdata/upstream'
     with ZipFile(root/'regis-reference-evidence.zip') as wrapper:
         first=wrapper.read('44093439244/14331564743.zip')
     second=(root/'regis-repaint-reference.zip').read_bytes()

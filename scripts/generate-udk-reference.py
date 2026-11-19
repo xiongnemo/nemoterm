@@ -7,7 +7,7 @@ import tarfile
 
 root = Path(__file__).resolve().parents[1]
 digest = 'b6917d91165d635fc7d202be432028faa27104fc62e947ddc4d48c046c2dada3'
-with tarfile.open(root/'research/dec-udk-reference.tar.gz') as archive:
+with tarfile.open(root/'testdata/upstream/dec-udk-reference.tar.gz') as archive:
     raw = archive.extractfile('9b798e2/reference/dec-udk-xterm.json').read()
 assert hashlib.sha256(raw).hexdigest() == digest
 data = json.loads(raw)

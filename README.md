@@ -37,7 +37,7 @@ Kitty 图片支持直接 RGB/RGBA/PNG、压缩传输、裁剪、透明度、查�
 
 按住 Shift 和鼠标左键拖选时切换标签，再松开鼠标，目标标签已有的选区现在会保留，可以立即复制。真实键鼠的标签组从 8/9 改善到 9/9；GDI 与 DirectX 之间两个切换方向均已验证。160×48 压力测试各 6/6，前端私有工作集峰值分别为 19.579 MB 和 29.061 MB。[对照截图和原始记录](research/tab-drag-release.md)。
 
-这是开发测试版。[严格 XTerm 412 宽字对照](research/column-edge-integrity.md)和 [ReGIS 历史画面对照](research/regis-presented-pairs.md)仍有差异。Codex 正常编辑器可贴图；启动草稿的时序限制见下文。[这一版的完整 CI](https://github.com/xiongnemo/nemoterm/actions/runs/44523229386) · [同一 EXE 的 81 项交互回放](https://github.com/xiongnemo/nemoterm/actions/runs/44525718005) · [历史测试版](docs/PREVIEW_HISTORY.md)。
+这是开发测试版。[严格 XTerm 412 宽字对照](research/column-edge-integrity.md)和 [ReGIS 历史画面对照](research/regis-presented-pairs.md)仍有差异。Codex 正常编辑器可贴图；启动草稿的时序限制见下文。[这一版的完整 CI](https://github.com/xiongnemo/nemoterm/actions/runs/44523229386) · [同一 EXE 的交互回放：81/81](https://github.com/xiongnemo/nemoterm/actions/runs/44525718005) · [历史测试版](docs/PREVIEW_HISTORY.md)。
 
 在 Codex 0.167.0 中，请等编辑器就绪后再贴图，看到输入框中出现图片附件再发送。启动草稿可能接受文字却忽略贴图，窗口标题也不能可靠地判断是否就绪。[实际提交与截图](research/codex-file-draft-order.md) · [按键后 Windows 何时索取位图](research/codex-bitmap-requests.md)。
 
@@ -103,12 +103,12 @@ Nemoterm 使用系统中已有的 shell；单文件产物不包含 PowerShell 7�
 - 检测到 WSL 发行版不代表其中一定安装了 Bash；显式指定的 shell 不存在时会报错。
 - `--directory "路径"` 指定启动目录，留空时继承启动器目录；Git Bash / WSL Bash 也接受各自的 POSIX 路径。
 - `-e` 后的内容作为自定义启动命令，优先于保存的 shell。**Nemoterm 参数应写在 `-e` 之前。**
-- 明确的命令行设置优先于保存配置，包括 `--tabs`、字体及尺寸；见[参数验证](research/command-line-profile.md)。
-- 开发分支还修复了标签窗口在最小化期间接收尺寸请求后、恢复时内容区域偏小的问题，见[恢复尺寸验证](research/host-restore-size.md)。
+- 明确的命令行设置优先于保存配置，包括 `--tabs`、字体及尺寸；见[参数验证](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/command-line-profile.md)。
+- 开发分支还修复了标签窗口在最小化期间接收尺寸请求后、恢复时内容区域偏小的问题，见[恢复尺寸验证](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/host-restore-size.md)。
 - 在 **Profile / Shell** 中选择 shell，使用 **Save and Apply** 保存当前 profile；`--profile "名称"` 可加载命名 profile。
 - **Profile / Shell** 用于编辑自定义命令和启动目录；命令行也可用 `--shell custom --shell-command "命令"`。
 
-更多说明见 [Shell 检测](research/shell-selection.md) 与 [工作目录集成](research/working-directory.md)。
+更多说明见 [Shell 检测](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/shell-selection.md) 与 [工作目录集成](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/working-directory.md)。
 
 ### 常用操作
 
@@ -125,9 +125,9 @@ Nemoterm 使用系统中已有的 shell；单文件产物不包含 PowerShell 7�
 | 本地回滚 | `Shift+PageUp` / `Shift+PageDown` |
 | 当前标签字号放大 / 缩小 | `Ctrl++` / `Ctrl+-`，或 `Ctrl+滚轮`；应用接管鼠标时滚轮需加 `Shift` |
 
-Shift 拖选按屏幕上实际高亮的字符复制。若 Claude Code 中希伯来文的顺序颠倒，可为它单独建一个 profile，勾选 **终端 → 功能 → 禁用双向文字显示** 并保存。测试中的 Claude Code 已自行重排文字，Codex 和 OpenCode 则使用默认配置。[三个客户端并排截图](research/shift-bidi-clients-gdi.png)。
+Shift 拖选按屏幕上实际高亮的字符复制。若 Claude Code 中希伯来文的顺序颠倒，可为它单独建一个 profile，勾选 **终端 → 功能 → 禁用双向文字显示** 并保存。测试中的 Claude Code 已自行重排文字，Codex 和 OpenCode 则使用默认配置。[三个客户端并排截图](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/shift-bidi-clients-gdi.png)。
 
-Codex 刚启动时，输入提示可能比能接收图片的编辑框先出现。如果首次粘贴后没有附件，等正常编辑框就绪，确认草稿里仍没有图片，再在同一草稿按一次 `Ctrl+Shift+V` 即可。[原始回放](research/interaction-a9c8150.md)验证了第二次操作只提交一张图，不需要重启或先发送文字。
+Codex 刚启动时，输入提示可能比能接收图片的编辑框先出现。如果首次粘贴后没有附件，等正常编辑框就绪，确认草稿里仍没有图片，再在同一草稿按一次 `Ctrl+Shift+V` 即可。[原始回放](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/interaction-a9c8150.md)验证了第二次操作只提交一张图，不需要重启或先发送文字。
 
 右键已选中的文本默认只复制；可在 Window / Selection 改为复制并粘贴，
 或使用 `--right-click copy-paste` 启动；`--right-click copy` 恢复仅复制。
@@ -144,7 +144,7 @@ Window / Bindings / Font 可修改滚轮修饰键及放大、缩小、恢复快�
 Sarasa 字体在本机 GDI、OpenGL、DirectX 下的字号回归也已通过；
 此前 `69cd5a4` 本机测试的 Windows 提示音已获实际听感确认。物理滚轮和跨屏 DPI 仍需单独验证，
 此前的听感确认不算作新产物的一次听感测试。
-详见[字号与响铃记录](research/font-zoom-and-bell.md)。
+详见[字号与响铃记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/font-zoom-and-bell.md)。
 默认使用多标签，`Ctrl+Shift+T` 新建标签。`--no-tabs` 可启动独立窗口。`--tab-side` 接受 `top`、`bottom`、`left`、`right`；
 例如 `--tabs --tab-side left` 将标签栏放在左侧，悬停标签可预览对应终端。
 
@@ -158,7 +158,7 @@ Sarasa 字体在本机 GDI、OpenGL、DirectX 下的字号回归也已通过；
 不带参数启动使用 Default，也可用 `--profile "名称"` 指定；Profile 菜单可以用所选 profile 新建标签。字体、颜色、绑定等即时应用，Profile / Shell 的 shell 和目录设置在新标签或下次启动生效。临时 `-e` 命令不会保存到 profile。配置保存在 `HKCU\Software\Nemo\Nemoterm`，与 PuTTY / pterm 分开；已有配置和 `-load` 继续兼容，旧 Default Settings 显示为 Default。
 
 OSC 52 剪贴板读取默认关闭，读写权限可在 Terminal / Clipboard 分别设置。
-需要按 Terminfo 数据库发送功能键时，在 **Terminal / Keyboard** 选择 **Terminfo**；其子页可设置启动终端名称，以及独立的查询和切换权限（默认允许查询、禁止应用切换）。设置随当前 profile 保存；详见 [Terminfo 说明](research/terminfo-database.md)。
+需要按 Terminfo 数据库发送功能键时，在 **Terminal / Keyboard** 选择 **Terminfo**；其子页可设置启动终端名称，以及独立的查询和切换权限（默认允许查询、禁止应用切换）。设置随当前 profile 保存；详见 [Terminfo 说明](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/terminfo-database.md)。
 Shell Integration 的命令与输出导航需要 shell 输出 OSC 133 / 633 标记；程序不会自动修改 shell 配置。
 
 ## 渲染与内存
@@ -175,14 +175,14 @@ GPU 模式使用 Windows 系统 DLL 与显卡驱动，不新增分发文件；�
 
 这里的 MB 按十进制字节计，20 MB 为 20,000,000 字节，30 MB 为 30,000,000 字节；私有工作集与私有提交量分别记录。
 
-在同一台 GitHub Windows runner 上，用 Sarasa Light、160×48 和同一个 Codex 客户端运行 `2c0152c`。收到回复后，单标签 GDI 前端的私有工作集中位数为 **5.071–5.112 MB**，DirectX 为 **9.724–9.761 MB**；同机 pterm 0.85 为 **3.752–3.781 MB**。GDI 和 DirectX 的总工作集分别为 **33.18–34.09 MB**、**44.75–44.79 MB**。每种配置分别按正序、反序冷启动；这些数字只统计前端进程，满屏图文的峰值另行验收。[完整采样与峰值](research/selection-repaint.md) · [历史内存记录](docs/PREVIEW_HISTORY.md#内存)。
+在同一台 GitHub Windows runner 上，用 Sarasa Light、160×48 和同一个 Codex 客户端运行 `2c0152c`。收到回复后，单标签 GDI 前端的私有工作集中位数为 **5.071–5.112 MB**，DirectX 为 **9.724–9.761 MB**；同机 pterm 0.85 为 **3.752–3.781 MB**。GDI 和 DirectX 的总工作集分别为 **33.18–34.09 MB**、**44.75–44.79 MB**。每种配置分别按正序、反序冷启动；这些数字只统计前端进程，满屏图文的峰值另行验收。[完整采样与峰值](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/selection-repaint.md) · [历史内存记录](docs/PREVIEW_HISTORY.md#内存)。
 切回 GDI 后，驱动保留的内存可能需要关闭窗口才能释放。
 
 “单 EXE”指一个分发文件：程序仍会启动同一个 EXE 的隐藏控制台宿主进程，并运行所选 shell。
 ConPTY 提供伪控制台连接；OpenConsole 在宿主进程中处理 Windows 控制台 API，
 并与 Nemoterm 前端交换终端输入输出。窗口、标签和最终绘制由 Nemoterm 前端负责。
-程序继续依赖 Windows 的 ConDrv 驱动和系统 DLL。详见 [单文件架构](research/single-executable.md)、
-[OpenGL](research/rendering.md) 与 [DirectX](research/directx.md)。
+程序继续依赖 Windows 的 ConDrv 驱动和系统 DLL。详见 [单文件架构](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/single-executable.md)、
+[OpenGL](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/rendering.md) 与 [DirectX](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/directx.md)。
 
 ## 从源码构建
 
@@ -220,14 +220,14 @@ gh run download <run-id> --dir <new-evidence-directory>
 
 只修改测试脚本时可回放已构建产物，并拒绝生产代码不匹配的镜像。分组命令、固定依赖、进程清理规则和物理设备验证边界见 [远程测试操作单](docs/INTERACTION_ACCEPTANCE.md)。
 
-Git Bash 关闭残留已通过专用远程回放定位；候选 `8084338` 拒绝关闭后的新控制台连接，24 次 Git Bash 关闭及 6 次原生对照均自然回收。相同测试在旧版上仍复现 4/4 延迟连接卡死；完整 CI 为 21/22，唯一失败是 DirectX 内存门槛，见 [关闭修复记录](research/closed-console-connections.md)。[原始失败证据](research/git-bash-close-race.md) 保留。
+Git Bash 关闭残留已通过专用远程回放定位；候选 `8084338` 拒绝关闭后的新控制台连接，24 次 Git Bash 关闭及 6 次原生对照均自然回收。相同测试在旧版上仍复现 4/4 延迟连接卡死；完整 CI 为 21/22，唯一失败是 DirectX 内存门槛，见 [关闭修复记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/closed-console-connections.md)。[原始失败证据](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/git-bash-close-race.md) 保留。
 
-上游协议对照、句柄和分配诊断继续使用专用远程工作流。页面顶部徽章显示 `main`，开发分支的准确结论以对应 run 和 [本轮记录](research/remote-test-migration.md) 为准；编译成功不等于运行验收通过。
+上游协议对照、句柄和分配诊断继续使用专用远程工作流。页面顶部徽章显示 `main`，开发分支的准确结论以对应 run 和 [本轮记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/remote-test-migration.md) 为准；编译成功不等于运行验收通过。
 
 ## 开发状态
 
 文件和文件夹拖入窗口时会按 shell 转义后粘贴路径，也支持资源管理器复制文件后的粘贴。
-剪贴板只有图片时，Paste 绑定会按前台应用选用的键盘协议发送一次 Ctrl+V，由应用读取图片（[传统模式、kitty 和 xterm 的实测记录](research/image-paste-key-protocol.md)）；已用隔离的真实 Codex / OpenCode
+剪贴板只有图片时，Paste 绑定会按前台应用选用的键盘协议发送一次 Ctrl+V，由应用读取图片（[传统模式、kitty 和 xterm 的实测记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/image-paste-key-protocol.md)）；已用隔离的真实 Codex / OpenCode
 验证图片提交。行为、测试方法与边界见 [文件和图片输入](docs/INPUT_TRANSFERS.md)。
 
 本机调试可用 `nemoterm.exe --automation` 按需开启发现、标签页寻址、输入和画面接口。

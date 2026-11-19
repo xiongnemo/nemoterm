@@ -27,7 +27,7 @@ When the clipboard contains only an image, the terminal's Paste binding forwards
 Ctrl+V to the application after releasing the clipboard lock. The application
 then reads the native image clipboard. This works for the tested Windows Codex
 and OpenCode clients; image support still belongs to the receiving application.
-If both text and an image are offered, [nonempty text still wins](../research/clipboard-empty-text.md), including
+If both text and an image are offered, [nonempty text still wins](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/clipboard-empty-text.md), including
 whitespace. An empty text alternative no longer discards an available image.
 If the Unicode alternative is empty but the ANSI alternative has text, that text
 is pasted. An empty clipboard text without an image still sends nothing. This feature does not
@@ -73,7 +73,7 @@ Windows references: [WM_DROPFILES](https://learn.microsoft.com/en-us/windows/win
 and [DragQueryFileW](https://learn.microsoft.com/en-us/windows/win32/api/shellapi/nf-shellapi-dragqueryfilew).
 
 Exact executable identities, local/CI failures and follow-up results are retained
-in the [input validation checkpoint](../research/automation-input.md).
+in the [input validation checkpoint](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/automation-input.md).
 
 The manual **Input compatibility for an existing image** workflow can replay
 the drop and real Codex image checks without compiling a new executable. Supply

@@ -17,7 +17,7 @@ def targets():
 
 def verify_prefixes(result, base):
     old_digest = 'f1cb288263b12e35be6ffc29b4edde6f71ee65054adabb1c105198ccdaf25b00'
-    with ZipFile(Path(__file__).resolve().parents[1]/'research/regis-reference-evidence.zip') as outer:
+    with ZipFile(Path(__file__).resolve().parents[1]/'testdata/upstream/regis-reference-evidence.zip') as outer:
         data = outer.read('44093439244/14331564743.zip')
     assert hashlib.sha256(data).hexdigest() == old_digest
     result.update(original_archive_sha256=old_digest,

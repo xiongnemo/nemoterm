@@ -5,7 +5,7 @@ from pathlib import Path
 from sgr_stack_direct_cases import CASES as direct
 
 root = Path(__file__).resolve().parents[1]
-source = json.loads((root/'research/sgr-stack-xterm.json').read_text(encoding='utf-8'))
+source = json.loads((root/'testdata/upstream/sgr-stack-xterm.json').read_text(encoding='utf-8'))
 separate = {f'underline-{style}-{selector}':
     'Nemoterm supports modern underline substyles which this XTerm ignores.'
     for style in ('4:2','4:3') for selector in ('all','4','4;21')}

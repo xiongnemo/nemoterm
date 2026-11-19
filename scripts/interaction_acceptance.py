@@ -207,7 +207,7 @@ def prepare(args):
             target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(source, target)
     for reference in ('pointer-colour-resets-reference.zip','claude-independent-unicode.zip'):
-        shutil.copy2(ROOT/'research'/reference, snapshot/'tests')
+        shutil.copy2(ROOT/'testdata/upstream'/reference, snapshot/'tests')
     shutil.copy2(ROOT/'tools/nemoterm_debug.py', snapshot/'tools/nemoterm_debug.py')
     shutil.copy2(exe, snapshot/'dist/nemoterm.exe')
     shutil.copy2(__file__, stage/'runner.py')

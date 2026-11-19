@@ -14,7 +14,7 @@
 
 这次排除了「前一步强制重绘影响后一步」对这七个差异的解释。擦行原始画面中被擦掉的 101 个像素，在 XTerm 首次强制重绘后重新出现；Nemoterm 的擦行结果保留。其他五处在 XTerm 首次强制重绘时变成与组件相同的图。不能据此把组件当成 Windows 的首次呈现，也不能把原始 CI 标成成功。
 
-[原始截图及观测](regis-first-expose-captures.zip)按原样保留所选 XTerm 截图、应答日志和 MSVC 实际差异图；`source.json` 列出每个文件的 SHA-256、两个原始制品的 ID 和摘要。[逐帧结果](regis-first-expose-810a26f.json)列出受测组件标识及每个差异区域的边界。下列命令仅分析已有文件，不运行终端：
+[原始截图及观测](../testdata/upstream/regis-first-expose-captures.zip)按原样保留所选 XTerm 截图、应答日志和 MSVC 实际差异图；`source.json` 列出每个文件的 SHA-256、两个原始制品的 ID 和摘要。[逐帧结果](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/regis-first-expose-810a26f.json)列出受测组件标识及每个差异区域的边界。下列命令仅分析已有文件，不运行终端：
 
 ```text
 python scripts/compare-regis-first-expose.py <reference-14504102884.zip> 5d5f70d403d6703fb350f1f7559da2b2674f6d9df4c7a75d1e23f4057a3e6bb0 <component-14503581061.zip> 40c74cd4ca36d2ac9b8494de442cb3dee22f7d0af80afef8c8f539b038a2a2b5 report.json

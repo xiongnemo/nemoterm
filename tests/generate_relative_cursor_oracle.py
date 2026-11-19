@@ -6,12 +6,12 @@ import json
 from pathlib import Path
 
 root = Path(__file__).resolve().parents[1]
-manifest = json.loads((root/'research/cursor-movement-audit-validation.json').read_text(encoding='utf-8'))
+manifest = json.loads((root/'testdata/upstream/cursor-movement-audit-validation.json').read_text(encoding='utf-8'))
 cases = []
 for prefix in ('cursor-audit', 'cursor-boundary-audit'):
     name = f'research/cursor-movement-audit-evidence/{prefix}-xterm.json.gz'
     entry = next(item for item in manifest['files'] if item['path'] == name)
-    raw = gzip.decompress((root/name).read_bytes())
+    raw = gzip.decompress((root/'testdata/upstream'/name.removeprefix('research/')).read_bytes())
     assert hashlib.sha256(raw).hexdigest() == entry['raw_sha256']
     reference = json.loads(raw)
     assert reference['version'] == 'XTerm(412)'

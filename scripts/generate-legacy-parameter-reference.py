@@ -4,7 +4,7 @@ import argparse,hashlib,json,re,tarfile
 
 root=Path(__file__).resolve().parents[1]
 p=argparse.ArgumentParser(description=__doc__);p.add_argument('--check',action='store_true');args=p.parse_args()
-archive=root/'research/legacy-reply-reference.tar.gz'
+archive=root/'testdata/upstream/legacy-reply-reference.tar.gz'
 assert hashlib.sha256(archive.read_bytes()).hexdigest()=='0ef5129230b862cecebdb0e6b74f3c77e0a076588886fd901766e03594db6b80'
 with tarfile.open(archive) as tar:
     original=json.load(tar.extractfile('reference/xterm-vt100.json'))

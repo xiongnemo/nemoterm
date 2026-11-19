@@ -7,7 +7,7 @@ from zipfile import ZipFile
 from pathlib import Path
 
 root = Path(__file__).resolve().parents[1]
-source = json.loads((root/'research/graphics-query-xterm.json').read_text(encoding='utf-8'))
+source = json.loads((root/'testdata/upstream/graphics-query-xterm.json').read_text(encoding='utf-8'))
 # These values depend on implementation limits, resource defaults or geometry.
 # Missing Pi is also represented differently (xterm emits its -1 sentinel as
 # 65535; Nemoterm consistently treats an omitted numeric parameter as zero).
@@ -22,7 +22,7 @@ def literal(text):
 # The original XTerm lacked the optional ReGIS decoder. Preserve it as
 # the reference for other items; use identical Pi=3 requests sent to the
 # pinned ReGIS-enabled build at the product's actual default geometry.
-archive = (root/'research/regis-discovery-xterm.zip').read_bytes()
+archive = (root/'testdata/upstream/regis-discovery-xterm.zip').read_bytes()
 assert hashlib.sha256(archive).hexdigest() == '873bcd56b1dd5ab0fff77b39185632c6686459b9b94af369d276fd8646e3c839'
 with ZipFile(io.BytesIO(archive)) as z:
     enabled = json.loads(z.read('800x480.json'))['cases']

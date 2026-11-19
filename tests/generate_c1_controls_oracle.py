@@ -2,7 +2,7 @@
 import argparse,json
 from pathlib import Path
 root=Path(__file__).resolve().parents[1]
-source=json.loads((root/'research/c1-controls-xterm.json').read_text(encoding='utf-8'))
+source=json.loads((root/'testdata/upstream/c1-controls-xterm.json').read_text(encoding='utf-8'))
 separate={'reply-palette-bel','reply-palette-st','reply-title'}
 cases=[(name,c['sequence'],bytes.fromhex(c['reply_hex'])) for name,c in source['cases'].items() if name not in separate]
 def literal(data):

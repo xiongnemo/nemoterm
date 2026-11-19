@@ -223,7 +223,7 @@ def private_sequence(phase,block,legacy=False):
     import json
     from pathlib import Path
     import zipfile
-    archive=Path(__file__).resolve().parents[1]/'research'/'xterm-private-reset-chain.zip'
+    archive=Path(__file__).resolve().parents[1]/'testdata/upstream'/'xterm-private-reset-chain.zip'
     assert hashlib.sha256(archive.read_bytes()).hexdigest()=='5bebdfbee826558be3a9e53cd57795bb5d24796823c8f6a9dc6241eeb75e83ef'
     with zipfile.ZipFile(archive) as original:
         steps=json.loads(original.read('observations/private-reset-chain-whole/observed.json'))['steps']

@@ -9,7 +9,7 @@ from pathlib import Path
 import tarfile
 
 root=Path(__file__).resolve().parents[1]
-archive=root/'research/kitty-unicode-evidence/upstream-reference.tar.gz'
+archive=root/'testdata/upstream/kitty-unicode-evidence/upstream-reference.tar.gz'
 digest='feda36b2971fbc29059b4c80ddf989c228e8c4b5c18ffe07fb064b05bbd78a44'
 with tarfile.open(archive,'r:gz') as tar:
     raw=tar.extractfile('reference/observations.json').read()
@@ -71,7 +71,7 @@ lines += emit(data['cases'],'kitty_unicode_reference')
 # consequent placement translation/retention differ. No Nemoterm output is
 # used to construct these alternatives.
 xterm_sha='ea49c2d8830394edd8f156c3159a7cbfc66d9761d28a161640930d84ec1db3f2'
-with tarfile.open(root/'research/kitty-unicode-evidence/xterm-text-cd69cc7.tar.gz') as tar:
+with tarfile.open(root/'testdata/upstream/kitty-unicode-evidence/xterm-text-cd69cc7.tar.gz') as tar:
     member=next(m for m in tar.getmembers() if m.name.endswith('/unicode-text-boundaries-xterm.json'))
     raw=tar.extractfile(member).read()
 assert hashlib.sha256(raw).hexdigest()==xterm_sha

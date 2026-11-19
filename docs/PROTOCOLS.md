@@ -1,20 +1,20 @@
 # NemoTerm 协议范围与缺口清单
 
-已在同一份 Windows 单 EXE 上用 WSL 的真实 `img2sixel` 验证图片输出：GDI 和 DirectX 的显示、重绘、清除均通过逐像素比对。见[实测记录与原始图片](../research/interaction-a9c8150.md)。
+已在同一份 Windows 单 EXE 上用 WSL 的真实 `img2sixel` 验证图片输出：GDI 和 DirectX 的显示、重绘、清除均通过逐像素比对。见[实测记录与原始图片](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/interaction-a9c8150.md)。
 
-新配置方案在全屏文字向下滚动时默认让 ReGIS 图形留在当前坐标；向上滚动、窗口尺寸变化和局部滚动区各自沿用原有规则。要让图形随文字下移，可在 **窗口 → 渲染 → ReGIS** 打开此项。此选项出现前已保存的配置方案继续随文字滚动。[原版 XTerm 的逐步截图与已知差异](../research/regis-six-frames.md)。
+新配置方案在全屏文字向下滚动时默认让 ReGIS 图形留在当前坐标；向上滚动、窗口尺寸变化和局部滚动区各自沿用原有规则。要让图形随文字下移，可在 **窗口 → 渲染 → ReGIS** 打开此项。此选项出现前已保存的配置方案继续随文字滚动。[原版 XTerm 的逐步截图与已知差异](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/regis-six-frames.md)。
 
-新配置方案默认按 XTerm 方式在连续 Sixel 图像间延续末尾的 `#寄存器` 或完整颜色定义。在 **窗口 → 渲染 → Sixel** 关闭此项可让每幅图独立解析颜色。以前保存的显式开关不变；在此选项出现之前保存的配置方案继续使用独立解析。下一幅图开头的数字会替换上一幅图未提交的末项；在末项缺失时，首个绘图命令也可能被消耗。该模式只影响同一终端，配置方案切换此项会清除待处理的颜色命令。终端重置仍清空图像，但在此兼容模式下会保留未结束的颜色语法。[原始 XTerm 对照、Windows 像素与配置保存回放](../research/sixel-colour-stream.md)。
+新配置方案默认按 XTerm 方式在连续 Sixel 图像间延续末尾的 `#寄存器` 或完整颜色定义。在 **窗口 → 渲染 → Sixel** 关闭此项可让每幅图独立解析颜色。以前保存的显式开关不变；在此选项出现之前保存的配置方案继续使用独立解析。下一幅图开头的数字会替换上一幅图未提交的末项；在末项缺失时，首个绘图命令也可能被消耗。该模式只影响同一终端，配置方案切换此项会清除待处理的颜色命令。终端重置仍清空图像，但在此兼容模式下会保留未结束的颜色语法。[原始 XTerm 对照、Windows 像素与配置保存回放](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/sixel-colour-stream.md)。
 
-`7ec651d` 在默认 profile 对实测版本 Claude 的原生写入保留客户端已排好的字序。普通 shell 仍照常重排；直接启动和从 PowerShell 启动分别在 GDI、DirectX 核对屏幕像素、系统剪贴板和粘贴回执。见[截图、版本范围与验收](../research/claude-writer-order.md)。
+`7ec651d` 在默认 profile 对实测版本 Claude 的原生写入保留客户端已排好的字序。普通 shell 仍照常重排；直接启动和从 PowerShell 启动分别在 GDI、DirectX 核对屏幕像素、系统剪贴板和粘贴回执。见[截图、版本范围与验收](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/claude-writer-order.md)。
 
 最近补充核对：2026-11-19。这是持续更新的覆盖账本，目标仍是用户要求的现代终端完整能力；不是“基本 ANSI 已经够用”的验收结论。支持状态针对本工作区，而非原版 PuTTY 的宣传描述。后续实现必须更新相应行，并补充精确测试和端到端证据。
 
-所有自动测试现已迁移到 GitHub-hosted runner。早期[远程迁移记录](../research/remote-test-migration.md)包含当时的 26 项交互和 DPI 检查。`f628d89` 的同一份单文件已通过 [74 项交互和 170 项单文件检查](../research/right-button-release.md#complete-interaction-replay)，后续候选的结果按 EXE 单独记录。操作入口见[远程测试说明](INTERACTION_ACCEPTANCE.md)。下文带提交号的本机记录保留为历史证据；“待本机验收”不再要求占用开发电脑，也不表示任意物理设备或未实现协议已经通过。
+所有自动测试现已迁移到 GitHub-hosted runner。早期[远程迁移记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/remote-test-migration.md)包含当时的 26 项交互和 DPI 检查。`f628d89` 的同一份单文件已通过 [74 项交互和 170 项单文件检查](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/right-button-release.md#complete-interaction-replay)，后续候选的结果按 EXE 单独记录。操作入口见[远程测试说明](INTERACTION_ACCEPTANCE.md)。下文带提交号的本机记录保留为历史证据；“待本机验收”不再要求占用开发电脑，也不表示任意物理设备或未实现协议已经通过。
 
 ## 状态及证据口径
 
-XTSETTCAP 已接入可选 Terminfo 键盘：固定只读 ncurses 数据库、独立查询/选择权限及启动名称持久化。全部 622,172 项数据库查找、2,180 个独立查询和 1,378 步核心输入回放已有远程证据；45 个启动 TN 前缀按明确身份策略单独检查。候选 `589faec` 通过 1,293 条原生输入流、四种权限组合和 24 个双语真实 DPI 场景；随后修正标签排版的 `329019d` 仍在完整 CI 验收，不能套用旧 EXE 的内存或完整回归结果，见[数据库集成记录](../research/terminfo-database.md)。
+XTSETTCAP 已接入可选 Terminfo 键盘：固定只读 ncurses 数据库、独立查询/选择权限及启动名称持久化。全部 622,172 项数据库查找、2,180 个独立查询和 1,378 步核心输入回放已有远程证据；45 个启动 TN 前缀按明确身份策略单独检查。候选 `589faec` 通过 1,293 条原生输入流、四种权限组合和 24 个双语真实 DPI 场景；随后修正标签排版的 `329019d` 仍在完整 CI 验收，不能套用旧 EXE 的内存或完整回归结果，见[数据库集成记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/terminfo-database.md)。
 
 - **已证（有限范围）**：有实际通过的测试，范围只到该测试覆盖的参数和行为。
 - **源码已见**：已定位处理分支，但没有相应完整语义或真实应用验证。
@@ -22,36 +22,36 @@ XTSETTCAP 已接入可选 Terminfo 键盘：固定只读 ncurses 数据库、独
 - **待核实**：证据不足，不算完成。
 - **集成中**：有独立开发任务，合入和验收之前不算支持。
 
-历史单文件开发快照 `ea042bc` 通过 85 组基础与变体检查，包含真实 Codex 默认、内嵌及多标签用例；后续补丁须单独验收，详见[提交与产物记录](../research/attribute-reset-validation.json)。常规 CI 保留 MinGW 对照和 Linux ASan/UBSan；较早 MinGW 外置宿主记录曾出现保护区域回复顺序失败；主线 `420363b` 的[完整核心 CI](https://github.com/xiongnemo/nemoterm/actions/runs/43557149270)已通过该原生检查，历史失败记录仍保留。核心测试不代替原生像素、系统剪贴板和真实 ConPTY 验证；各项证据仅证明对应参数与场景。
+历史单文件开发快照 `ea042bc` 通过 85 组基础与变体检查，包含真实 Codex 默认、内嵌及多标签用例；后续补丁须单独验收，详见[提交与产物记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/attribute-reset-validation.json)。常规 CI 保留 MinGW 对照和 Linux ASan/UBSan；较早 MinGW 外置宿主记录曾出现保护区域回复顺序失败；主线 `420363b` 的[完整核心 CI](https://github.com/xiongnemo/nemoterm/actions/runs/43557149270)已通过该原生检查，历史失败记录仍保留。核心测试不代替原生像素、系统剪贴板和真实 ConPTY 验证；各项证据仅证明对应参数与场景。
 
 下表源码简称：**T**=`vendor/putty-0.85/terminal/terminal.c`，**H**=`terminal/terminal.h`，**W**=`windows/window.c`（后两者同一 vendor 根目录）。使用函数/分支名称定位，避免后续 Sixel 合入导致行号失效。序列中的 `CSI=ESC [`、`OSC=ESC ]`、`DCS=ESC P`、`APC=ESC _`，`ST=ESC \`；OSC 的 BEL 终止另测，不能把所有字符串协议一律当成 OSC。
 
-历史候选 `253855b` 的两条完整 CI 和 **163 组单文件检查**已通过，包含下述 ANSI/C0、UDK、响铃、能力报告，以及配置转义、查询和窗口恢复修复。当时的 49 组本机验收分为 41 组后台检查和八组桌面/剪贴板检查；该阶段的产物哈希、原始 CI 压缩包和未完成范围见[历史候选记录](../research/answerback-product-ci.md)。后续验收采用上方远程入口。
+历史候选 `253855b` 的两条完整 CI 和 **163 组单文件检查**已通过，包含下述 ANSI/C0、UDK、响铃、能力报告，以及配置转义、查询和窗口恢复修复。当时的 49 组本机验收分为 41 组后台检查和八组桌面/剪贴板检查；该阶段的产物哈希、原始 CI 压缩包和未完成范围见[历史候选记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/answerback-product-ci.md)。后续验收采用上方远程入口。
 
-先前 `12ee33b` 的完整 160×48 Sarasa 密集图片 GDI 负载通过，私有工作集峰值 19.23 MB；其 DX 同项负载达到 27.11 MB，超过保留的 25 MB 回归限额。本机输入法合成 DPI 检查尚未通过。详见[历史产物与失败记录](../research/gdi-image-cache.md)。这些测量不能直接用于新候选；有限回归通过也不代表下表的协议缺口已经补齐。
+先前 `12ee33b` 的完整 160×48 Sarasa 密集图片 GDI 负载通过，私有工作集峰值 19.23 MB；其 DX 同项负载达到 27.11 MB，超过保留的 25 MB 回归限额。本机输入法合成 DPI 检查尚未通过。详见[历史产物与失败记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/gdi-image-cache.md)。这些测量不能直接用于新候选；有限回归通过也不代表下表的协议缺口已经补齐。
 
 ## 核心字符、状态、绘制
 
 | 家族 / 具体范围 | 状态 | 工作区证据与尚需证明的内容 |
 | --- | --- | --- |
 | C0：BEL、BS、HT、LF/VT/FF、CR、SO/SI、CAN/SUB、ESC；C1 及 7/8-bit 控制形式 | 源码已见，完整一致性待核实 | T `term_out`、UTF-8 解码与控制字符分支。应逐项测中断、取消、错误恢复、截断、UTF-8/C1 歧义及每个字节切分；不能仅测正常字符串。 |
-| CAN/SUB 取消与错误字符 | 开发实现；独立核心对照及完整 CI 通过 | 254 条独立 XTerm 流在整块和逐字节回放中相符，覆盖 23 种解析前缀、UTF-8/字节模式、单次移位、截断字符及边缘换行。CAN 不打印；SUB 按编码与字符集打印错误字符，并释放未完成的字符串解析资源。与 ANSI 合计 413 条可经 ConPTY 传输的原始流在完整 CI 中通过；二进制核心范围不冒充原生传输范围。见[取消语义](../research/control-cancellation.md)。 |
-| ANSI 字符集一致性级别 `ESC SP L/M/N` | 开发实现；独立核心对照及完整 CI 通过 | 独立于 DEC 工作级别和 C1 回复格式，控制后续锁定移位；保留已选 GL/GR、待执行单次移位，并遵循各类 reset/save/备用屏规则。243 条 XTerm 流在三编译器整块及逐字节回放中相符；原生投影 177 条，另 66 条明确仅属二进制核心范围。见[ANSI 对照](../research/ansi-conformance.md)。 |
-| C0 BEL 响铃 | 已证（默认提示音与渲染表面闪烁） | 声音、关闭、视觉模式及 OSC 终止符区分、连响抑制和有界记录已有核心测试。本机 `69cd5a4` 的 MessageBeep 调用成功，用户已确认听到提示音；同一镜像在实际 GDI/GL/DX 的渲染表面捕获中验证了视觉闪烁与恢复。该听感不跨 EXE 哈希追认；物理桌面闪烁、自定义 WAV 和 PC speaker 仍未验收。见[响铃记录](../research/font-zoom-and-bell.md)。 |
-| 响铃关注模式 `?1042/1043` | 开发实现；独立对照及完整 CI 通过 | 支持通知/抬升设置、查询及私有模式保存恢复；后台标签不因合成焦点消息清除通知，宿主实际重新激活才确认通知。112 个参考用例 / 192 条流、38 项 GDI/DirectX 实际窗口状态通过；保留先前抬升与焦点故障。物理任务栏呈现仍待验收，见[响铃关注模式](../research/bell-modes.md)。 |
+| CAN/SUB 取消与错误字符 | 开发实现；独立核心对照及完整 CI 通过 | 254 条独立 XTerm 流在整块和逐字节回放中相符，覆盖 23 种解析前缀、UTF-8/字节模式、单次移位、截断字符及边缘换行。CAN 不打印；SUB 按编码与字符集打印错误字符，并释放未完成的字符串解析资源。与 ANSI 合计 413 条可经 ConPTY 传输的原始流在完整 CI 中通过；二进制核心范围不冒充原生传输范围。见[取消语义](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/control-cancellation.md)。 |
+| ANSI 字符集一致性级别 `ESC SP L/M/N` | 开发实现；独立核心对照及完整 CI 通过 | 独立于 DEC 工作级别和 C1 回复格式，控制后续锁定移位；保留已选 GL/GR、待执行单次移位，并遵循各类 reset/save/备用屏规则。243 条 XTerm 流在三编译器整块及逐字节回放中相符；原生投影 177 条，另 66 条明确仅属二进制核心范围。见[ANSI 对照](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/ansi-conformance.md)。 |
+| C0 BEL 响铃 | 已证（默认提示音与渲染表面闪烁） | 声音、关闭、视觉模式及 OSC 终止符区分、连响抑制和有界记录已有核心测试。本机 `69cd5a4` 的 MessageBeep 调用成功，用户已确认听到提示音；同一镜像在实际 GDI/GL/DX 的渲染表面捕获中验证了视觉闪烁与恢复。该听感不跨 EXE 哈希追认；物理桌面闪烁、自定义 WAV 和 PC speaker 仍未验收。见[响铃记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/font-zoom-and-bell.md)。 |
+| 响铃关注模式 `?1042/1043` | 开发实现；独立对照及完整 CI 通过 | 支持通知/抬升设置、查询及私有模式保存恢复；后台标签不因合成焦点消息清除通知，宿主实际重新激活才确认通知。112 个参考用例 / 192 条流、38 项 GDI/DirectX 实际窗口状态通过；保留先前抬升与焦点故障。物理任务栏呈现仍待验收，见[响铃关注模式](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/bell-modes.md)。 |
 | ESC：`D/E/M/H`、`7/8`、`=`、`>`、`c`、`#3/#4/#5/#6/#8`、字符集 G0/G1 等 | 源码已见 | T ESC 分派含索引、制表、保存恢复、键盘模式、RIS、行属性/字符集；仍需各参数、组合状态和 reset 测试。 |
 | CSI 光标和编辑：`A/B/C/D/E/F/G/H/f/d/a/e`、`@/P/L/M/X/J/K`、`S/T`、`I/Z/g`、`b` | 源码已见，局部已证 | T `SEEN_CSI`；已有 `test_wrap/test_nonwrap` 覆盖换行、退格与宽字符边界。移动/插删/擦除/重复/制表仍需系统测试，尤其空参数、0、超大参数和滚动边界。 |
 | 标准模式 4/12/20；DEC 模式 1/2/3/5/6/7/8/25 | 源码已见 | T `toggle_mode`。需验证插入、回显、换行、应用光标、VT52、80/132列、反色、origin、wrap、重复键及光标状态之间的交互。 |
 | 滚动区域 `CSI top;bottom r`、备用屏 `?47/1047/1048/1049 h/l` | 1049局部已证；其余源码已见 | `test_colour_and_alternate_screen` 证明1049恢复主屏文字、颜色和光标；`test_shift_selection` 在备用屏复制当前内容。滚动历史、resize、嵌套及47/1047差异未认证。 |
-| 左右边距 `?69 h/l`、`CSI left;right s` | 已证（有限范围） | 支持查询/保存/复位、origin、移动/换行/制表、IL/DL/ICH/DCH、SU/SD及矩形坐标；69关闭时保留ANSI光标保存。Sixel按列分割视图并共用位图，维持4MiB总预算。114项独立XTerm对照、宽字符/组合链/历史/选择及ASan/UBSan已测；真实ConPTY像素、Shift复制、字体和网格缩放见[边距记录](../research/horizontal-margins.md)。 |
-| 矩形复制/填充/属性：DECCRA `$v`、DECFRA `$x`、DECCARA `$r`、DECRARA `$t`、DECSACE `*x` | 已证（有限范围） | 共用有界坐标解析；一行临时存储处理重叠复制，保留组合字符/颜色/保护/链接；支持流式与矩形属性、Unicode填充、DECRQSS `*x`。独立XTerm单元/属性对照、ASan/UBSan、真实ConPTY像素/Shift复制/Sixel/缩放及3000次复制压力已测，见[矩形记录](../research/rectangle-editing.md)。页号按xterm处理为当前页；复制字符而不复制Sixel像素。DECSCA、DECSEL/DECSED、DECERA/DECSERA 见[擦除记录](../research/selective-erase.md)。 |
+| 左右边距 `?69 h/l`、`CSI left;right s` | 已证（有限范围） | 支持查询/保存/复位、origin、移动/换行/制表、IL/DL/ICH/DCH、SU/SD及矩形坐标；69关闭时保留ANSI光标保存。Sixel按列分割视图并共用位图，维持4MiB总预算。114项独立XTerm对照、宽字符/组合链/历史/选择及ASan/UBSan已测；真实ConPTY像素、Shift复制、字体和网格缩放见[边距记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/horizontal-margins.md)。 |
+| 矩形复制/填充/属性：DECCRA `$v`、DECFRA `$x`、DECCARA `$r`、DECRARA `$t`、DECSACE `*x` | 已证（有限范围） | 共用有界坐标解析；一行临时存储处理重叠复制，保留组合字符/颜色/保护/链接；支持流式与矩形属性、Unicode填充、DECRQSS `*x`。独立XTerm单元/属性对照、ASan/UBSan、真实ConPTY像素/Shift复制/Sixel/缩放及3000次复制压力已测，见[矩形记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/rectangle-editing.md)。页号按xterm处理为当前页；复制字符而不复制Sixel像素。DECSCA、DECSEL/DECSED、DECERA/DECSERA 见[擦除记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/selective-erase.md)。 |
 | SGR基础、16/256色、`;` 形式 RGB：`38;5;n`、`48;5;n`、`38;2;r;g;b`、`48;2;r;g;b` | 颜色局部已证；样式部分源码已见 | `test_colour_and_alternate_screen` 覆盖FG/BG真彩色、索引色和0重置；T SGR有bold/dim/underline/blink/reverse/strike。渲染效果和每种重置仍需验证。 |
 | SGR冒号子参数：`38:2::r:g:b`、`48:2::r:g:b`、`4:0..5`；下划线色58/59；italic 3/23、conceal 8/28 | 已证（有限范围） | `test_sgr`验证冒号/分号RGB与索引颜色、样式/颜色独立复位、21双下划线、压缩历史、备用屏、resize、普通文本复制和CAN/SUB恢复；`sgr_window_smoke.py`经真实ConPTY检查五种下划线像素、反色不改显式下划线色、动态调色板、隐藏装饰、斜体及同步快照。每格新增4字节装饰字段；每CSI上限32主参数、每参数8子参数，溢出整条拒绝。隐藏仅影响呈现；RTF的扩展样式导出尚未补齐。 |
-| 表意文字装饰 SGR 60–64、取消65 | 已证（有限范围；CI与本机） | 五种独立属性保存在现有64位装饰字段；取消65不影响普通下划线、框线、上划线和颜色。水平顶/底线与居中方形着重号属于本项目绘制策略，不表示竖排或XTerm像素兼容。44个新协议用例、三渲染器像素、保存恢复/历史/缩放和GDI/DX完整160×48负载通过；[完整CI与下载成品验收](../research/sgr-ideogram-ci.md)已通过，见[实现记录](../research/sgr-ideograms.md)。 |
+| 表意文字装饰 SGR 60–64、取消65 | 已证（有限范围；CI与本机） | 五种独立属性保存在现有64位装饰字段；取消65不影响普通下划线、框线、上划线和颜色。水平顶/底线与居中方形着重号属于本项目绘制策略，不表示竖排或XTerm像素兼容。44个新协议用例、三渲染器像素、保存恢复/历史/缩放和GDI/DX完整160×48负载通过；[完整CI与下载成品验收](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/sgr-ideogram-ci.md)已通过，见[实现记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/sgr-ideograms.md)。 |
 | 光标形状 `CSI Ps SP q`（DECSCUSR），DEC12闪烁 | 已证（有限范围） | 0/1闪烁方块、2常亮方块、3/4下划线、5/6竖线、7恢复配置；未知/溢出/子参数拒绝。查询反映当前形状与闪烁，25可见性独立；普通重配不覆盖应用样式，显式光标设置/RIS恢复配置。`test_queries`和真实窗口像素/闪烁/同步冻结测试通过。 |
-| 软复位 `CSI ! p`（DECSTR） | 已证（有限范围） | 重置SGR、origin/insert、边距、字符集、当前屏保存光标；按配置恢复wrap、应用光标/小键盘、光标样式和modifyOtherKeys。保留当前文字/历史/位置/待换行、另一屏保存光标、UTF-8、制表、鼠标/粘贴/kitty/9001、Sixel和2026冻结。核心与真实ConPTY像素、输入和屏切换测试通过；对照及差异见[状态记录](../research/state-control.md)。 |
+| 软复位 `CSI ! p`（DECSTR） | 已证（有限范围） | 重置SGR、origin/insert、边距、字符集、当前屏保存光标；按配置恢复wrap、应用光标/小键盘、光标样式和modifyOtherKeys。保留当前文字/历史/位置/待换行、另一屏保存光标、UTF-8、制表、鼠标/粘贴/kitty/9001、Sixel和2026冻结。核心与真实ConPTY像素、输入和屏切换测试通过；对照及差异见[状态记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/state-control.md)。 |
 | 私有模式保存/恢复 `CSI ? Pm s/r`（XTSAVE/XTRESTORE），DECNKM66，DECOM/DECSC | 已证（有限范围） | 为现有22类模式建立88字节全局缓存；鼠标跟踪、坐标编码和备用屏别名按组保存，1048使用光标槽，未知模式忽略、本地禁用优先；初始缓存0、重复保存覆盖、RIS/DECSTR保留。补齐DECOM设置/清除归位、相对CPR和DECSC origin恢复。原生测试验证恢复1016后缩放和Shift复制；其余未实现模式仍不支持保存；支持的 G0–G3 designation 和 GL/GR 保存恢复已另通过 44 组独立对照及原生画面检查，见下方字符集记录。 |
-| Unicode：UTF-8、宽字符、组合字符；emoji/ZWJ/variation selectors/区域旗帜、bidi、grapheme | 前三项局部已证；其余待核实 | 测试包含跨读取边界中文和组合音标、选择复制。Nerd 图标回退现已验证 BMP/补充平面、变体选择符、格宽、Shift复制和缩放，见[字体验证](../research/font-fallback.md)。RTL绘制缓冲泄漏已用旧/新二进制的5000次重绘对照验证修复。IMM 提交、补充平面字节输入和合成 DPI 已有[专项证据](../research/input-methods.md)。完整grapheme、emoji整形、通用字体fallback和物理IME候选操作仍需专项测试。 |
+| Unicode：UTF-8、宽字符、组合字符；emoji/ZWJ/variation selectors/区域旗帜、bidi、grapheme | 前三项局部已证；其余待核实 | 测试包含跨读取边界中文和组合音标、选择复制。Nerd 图标回退现已验证 BMP/补充平面、变体选择符、格宽、Shift复制和缩放，见[字体验证](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/font-fallback.md)。RTL绘制缓冲泄漏已用旧/新二进制的5000次重绘对照验证修复。IMM 提交、补充平面字节输入和合成 DPI 已有[专项证据](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/input-methods.md)。完整grapheme、emoji整形、通用字体fallback和物理IME候选操作仍需专项测试。 |
 
 ## 窗口与历史重排
 
@@ -59,7 +59,7 @@ XTSETTCAP 已接入可选 Terminfo 键盘：固定只读 ncurses 数据库、独
 `test_reflow` 和原生 ConPTY 测试覆盖宽字符、组合链、样式、OSC 8、Shift 跨行复制、
 备用屏恢复、历史淘汰及长段落。备用屏、Sixel 覆盖行、DEC 双宽/双高及可信提示行保持网格，
 图片像素不被拆分或重采样。可通过 Window 的重排选项恢复旧裁剪模式。
-具体边界、内存与证据见 [重排记录](../research/reflow.md)。真实设备、多屏 DPI、
+具体边界、内存与证据见 [重排记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/reflow.md)。真实设备、多屏 DPI、
 复杂 grapheme 与长时间 agent 会话仍待验收。
 
 ## 输入、鼠标、协商与同步
@@ -67,54 +67,54 @@ XTSETTCAP 已接入可选 Terminfo 键盘：固定只读 ncurses 数据库、独
 | 家族 / 具体范围 | 状态 | 工作区证据与缺口 |
 | --- | --- | --- |
 | 普通/应用光标键、数字键盘、F键、Alt/Ctrl/Shift修饰 | 源码已见 | T `format_arrow_key` 等与W键盘路径；真实Windows键盘布局、AltGr、IME和ConPTY传输尚需验证。 |
-| DECUDK `DCS Ps;Pl \| ... ST` 与 `CSI ?25n` | 开发实现；独立对照及完整 CI 通过 | 下载有界功能键定义；VT220 键盘配置下按 Shift 功能键调用，默认配置和 kitty 优先级保持各自行为。91 个独立 XTerm 用例 / 238 步有核心对照；原生 Windows 投影 89 用例 / 232 条准确输入回复，两项任意字节传输明确仅属核心范围。完整 CI 已通过，本机物理键盘另待验收。见[UDK 记录](../research/dec-udk.md)与[组合产物](../research/gdi-image-cache.md)。 |
-| xterm `modifyOtherKeys`：`CSI > 4;Ps m`，扩展键格式 | 已证（字符键与 Windows 映射） | 支持 0–3 级、`>4n` 禁用、`?4m` 查询、`>4;0/1f` 格式、`?4g`/`>4g` 查询及 DECRQSS。`>4;level:mask m` 按 X11 修饰位屏蔽字符查找；主/备用屏共用，RIS 回到配置初值，kitty 增强输入优先。当前开发版 12 字节协议状态，编码无堆分配；Windows 预览字符不消费死键，AltGr、俄语、Unicode 提交及本地快捷键有测试。20 组核心中的 `test_mok` 与真实 ConPTY 精确字节、两套初始配置、鼠标选择和缩放通过。独立 XTerm(412) 对照及 Shift-Tab、格式查询/DECRQSS 差异见 [研究记录](../research/modify-other-keys.md)。P0/1/2/3/6/7 见下方各行；物理键盘和真实 IME/agent 仍需验收。 |
+| DECUDK `DCS Ps;Pl \| ... ST` 与 `CSI ?25n` | 开发实现；独立对照及完整 CI 通过 | 下载有界功能键定义；VT220 键盘配置下按 Shift 功能键调用，默认配置和 kitty 优先级保持各自行为。91 个独立 XTerm 用例 / 238 步有核心对照；原生 Windows 投影 89 用例 / 232 条准确输入回复，两项任意字节传输明确仅属核心范围。完整 CI 已通过，本机物理键盘另待验收。见[UDK 记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/dec-udk.md)与[组合产物](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/gdi-image-cache.md)。 |
+| xterm `modifyOtherKeys`：`CSI > 4;Ps m`，扩展键格式 | 已证（字符键与 Windows 映射） | 支持 0–3 级、`>4n` 禁用、`?4m` 查询、`>4;0/1f` 格式、`?4g`/`>4g` 查询及 DECRQSS。`>4;level:mask m` 按 X11 修饰位屏蔽字符查找；主/备用屏共用，RIS 回到配置初值，kitty 增强输入优先。当前开发版 12 字节协议状态，编码无堆分配；Windows 预览字符不消费死键，AltGr、俄语、Unicode 提交及本地快捷键有测试。20 组核心中的 `test_mok` 与真实 ConPTY 精确字节、两套初始配置、鼠标选择和缩放通过。独立 XTerm(412) 对照及 Shift-Tab、格式查询/DECRQSS 差异见 [研究记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/modify-other-keys.md)。P0/1/2/3/6/7 见下方各行；物理键盘和真实 IME/agent 仍需验收。 |
 | CSI-u / kitty keyboard：查询 `CSI ? u`，设置 `CSI = flags;mode u`，push `CSI > flags u`，pop `CSI < n u` | 已证（有限范围） | `nemo_keyboard.c`实现flags 1/2/4/8/16，主/备用屏各32项栈、满栈淘汰最旧项、显式pop 0不操作、RIS清空、resize/光标保存不改模式。Win32接入按下/重复/释放、左右修饰键、锁状态、PC101基础键码、布局转换、死键/AltGr、UTF-16文本提交；本地快捷键优先。失焦补发已报告按键的释放并清状态。编码最多16个文本码点/256字节，无部分序列；栈66字节，按键跟踪按需分配约24KiB。`test_keyboard`及真实ConPTY精确字节、主备屏、冻结输出、Unicode提交、Ctrl+Shift+C/V和resize测试通过。Windows物理F键映射到F24，核心编码覆盖F35；Hyper/Meta无物理映射。真实IME候选/组合、Alt数字输入、更多布局和真实agent尚待验收；不以合成消息代替物理设备。参照 [kitty键盘规范](https://sw.kovidgoyal.net/kitty/keyboard-protocol/)；普通CSI u仍保留光标恢复。 |
-| xterm 光标/功能键资源 P1/2 | 已证（现代 xterm 配置，有限范围） | 支持 0–4 级、禁用、查询、两种扩展格式及 DECRQSS；394 条独立记录整段/逐字节通过，378 条原生 HWND/ConPTY 字节通过，16 个本地快捷键组合保留优先级并由核心覆盖。协商优先于可选 Win32 输入；重置、屏切换及已有键盘测试通过。重置与数值策略差异、采样修正及待验范围见[记录](../research/special-key-modifiers.md)。 |
-| xterm 数字键盘/修饰键/特殊键资源 P3/6/7 | 核心、本机原生及完整 CI 通过 | 支持协商、查询、禁用及两种 level 4 扩展格式；283 条独立记录整段/逐字节、243 条 Windows 映射和 235 条 HWND/ConPTY 输出通过。77ec984 的三编译器组件、四项普通作业及 166 组单文件 CI 检查通过。其余旧式输出、实体键映射、本地快捷键与重置策略差异单独保留，见[记录](../research/extended-key-resources.md)。 |
-| xterm 旧式键盘修饰掩码 P0 | 核心、原生与三编译器组件 CI 通过 | 支持分组掩码、查询、禁用、格式与生命周期，新增旧式 XTerm 配置；2,872 条原始输出在整段/逐字节回放中匹配。2,704 条原生输入与 112 项启动等价检查通过；23 条状态查询策略差异单独保留，完整产品 CI 仍在运行。验证范围见[记录](../research/legacy-modifiers.md)。 |
-| Windows Win32 input `?9001 h/l` | 可选路径已证（有限范围） | 默认关闭；Terminal/Keyboard/Extended可启用。48字节栈编码器，按需约24KiB按键表，UTF-16、左右修饰键、重复/释放、控制信号、真实控制台鼠标及resize记录有测试；kitty/modifyOtherKeys优先。当前ConPTY普通VT转换丢失F21–F24，且绕过传统自定义按键，不能视为完整键盘验收；见[记录](../research/win32-input.md)。 |
+| xterm 光标/功能键资源 P1/2 | 已证（现代 xterm 配置，有限范围） | 支持 0–4 级、禁用、查询、两种扩展格式及 DECRQSS；394 条独立记录整段/逐字节通过，378 条原生 HWND/ConPTY 字节通过，16 个本地快捷键组合保留优先级并由核心覆盖。协商优先于可选 Win32 输入；重置、屏切换及已有键盘测试通过。重置与数值策略差异、采样修正及待验范围见[记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/special-key-modifiers.md)。 |
+| xterm 数字键盘/修饰键/特殊键资源 P3/6/7 | 核心、本机原生及完整 CI 通过 | 支持协商、查询、禁用及两种 level 4 扩展格式；283 条独立记录整段/逐字节、243 条 Windows 映射和 235 条 HWND/ConPTY 输出通过。77ec984 的三编译器组件、四项普通作业及 166 组单文件 CI 检查通过。其余旧式输出、实体键映射、本地快捷键与重置策略差异单独保留，见[记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/extended-key-resources.md)。 |
+| xterm 旧式键盘修饰掩码 P0 | 核心、原生与三编译器组件 CI 通过 | 支持分组掩码、查询、禁用、格式与生命周期，新增旧式 XTerm 配置；2,872 条原始输出在整段/逐字节回放中匹配。2,704 条原生输入与 112 项启动等价检查通过；23 条状态查询策略差异单独保留，完整产品 CI 仍在运行。验证范围见[记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/legacy-modifiers.md)。 |
+| Windows Win32 input `?9001 h/l` | 可选路径已证（有限范围） | 默认关闭；Terminal/Keyboard/Extended可启用。48字节栈编码器，按需约24KiB按键表，UTF-16、左右修饰键、重复/释放、控制信号、真实控制台鼠标及resize记录有测试；kitty/modifyOtherKeys优先。当前ConPTY普通VT转换丢失F21–F24，且绕过传统自定义按键，不能视为完整键盘验收；见[记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/win32-input.md)。 |
 | 鼠标9/1000/1002/1003；传统编码、1005 UTF-8、1006 SGR字符格、1015 urxvt | 已证（有限范围） | `test_mouse` 精确字节覆盖三键、Alt/Ctrl、四向滚轮、坐标边界、最后SET编码/匹配RESET、tracking RESET、拖动去重、双宽行和历史独立坐标、Shift中途接管及取消。传统坐标最大223、UTF-8最大2015，越界不发；capture取消回最后合法点释放。 |
 | 1016 SGR像素、1007备用屏滚轮 | 已证（有限范围） | 核心测同格内像素移动/resize裁剪，1007仅备用屏且服从DECCKM。真实Win32→ConPTY→Python验证像素移动与窗口缩放；多屏DPI、触控板/物理设备尚需验收。 |
-| OSC22 鼠标指针形状 | 开发实现；核心、原生及完整 CI 通过 | 30 种 Kitty 形状、主/备用屏各 16 项有界栈、设置/查询/reset；555 阶段独立对照整块与逐字节回放，保留三项取消回复差异。含缩放热点修复的新源码通过 GCC/Clang/MSVC，单 EXE 通过 53 项实际 Windows 光标检查及 44 次 ConPTY 回包，包括 Shift/选择、链接、标签切换与隐藏标签隔离。后续两条完整 CI 与十二组内存负载通过；首轮外部 PowerShell 参数解析超时仍保留，未由通过结果解释。物理 DPI 及原 XTerm 未知名称语义另有边界。见[指针形状记录](../research/pointer-shapes.md)，已验收下载版未替换。 |
+| OSC22 鼠标指针形状 | 开发实现；核心、原生及完整 CI 通过 | 30 种 Kitty 形状、主/备用屏各 16 项有界栈、设置/查询/reset；555 阶段独立对照整块与逐字节回放，保留三项取消回复差异。含缩放热点修复的新源码通过 GCC/Clang/MSVC，单 EXE 通过 53 项实际 Windows 光标检查及 44 次 ConPTY 回包，包括 Shift/选择、链接、标签切换与隐藏标签隔离。后续两条完整 CI 与十二组内存负载通过；首轮外部 PowerShell 参数解析超时仍保留，未由通过结果解释。物理 DPI 及原 XTerm 未知名称语义另有边界。见[指针形状记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/pointer-shapes.md)，已验收下载版未替换。 |
 | 鼠标侧键 XBUTTON1/2（xterm 按钮8/9） | 已证（有限范围） | 核心测试覆盖128/129按钮码、修饰键、各编码、拖动、取消、Shift隔离和无本地绑定。真实Win32→ConPTY验证两个侧键及左键/侧键混合捕获；重复获取自身捕获不再误释放全部按键。物理设备尚待验收。 |
 | 鼠标1001 highlight tracking | 已证（有限范围） | 应用CSI五参数T握手、限制行范围（lastrow排除）、半开字符选区、正反向短/长回报、五种坐标编码、双击选词/三击选行、软换行与宽字符已测。使用独立视口高亮，不写剪贴板；Shift仍转入本地选择。等待握手最多1秒，期间输入/解析/绘制继续；取消、缩放、字体、焦点、屏幕/编码切换、配置与RIS均清理。核心精确字节与真实窗口像素/ConPTY测试通过；复杂bidi/历史边界、极端坐标与物理设备仍须更广验收。Ctrl+右键保留本地菜单。 |
 | 焦点1004：`CSI I` / `CSI O` | 已证（有限范围） | 核心验证开关、重复通知抑制、焦点丢失先释放拖动及RIS。Win32 handler注入测试证明通知经过ConPTY抵达子进程；并非物理焦点/所有窗口管理器行为认证。 |
 | bracketed paste 2004：`CSI 200~` / `CSI 201~` | 已证（有限范围） | `test_bracketed_paste` 验证UTF-8内容、开关和空粘贴；仍须测大段、多行、取消、内嵌结束符、系统剪贴板及真实ConPTY。 |
 | synchronized output 2026：`CSI ? 2026 h/l` 与 `CSI ? 2026 $ p` 查询 | 已证（有限范围） | 解析/输入/查询继续，冻结的是呈现。`test_sync`用可控时钟证明重复SET不续期、单RESET结束、旧timer隔离和1秒超时；`sync_window_smoke.py`证明文本/Sixel/颜色期间像素不变、结束/超时更新、输入继续与resize释放。冻结按32行压缩，模块总预算8MiB；资源不足拒绝本次冻结并记录事件，不保留部分快照。 |
-| DA/DA2/DA3/XTVERSION：`CSI c`、`CSI > c`、`CSI = c`、`CSI > q` | 已证（有限范围） | DA3 不再触发默认模式的 SCO 隐藏光标，显式 SCO 模式保留旧行为；普通参数中首参数零／省略才回复，额外参数忽略，冒号子参数按独立对照处理。XTVERSION 明确标识 Nemoterm(PuTTY 0.85)，DA2 保留旧兼容值。62 项独立 XTerm 对照、65 项本机整流回复／光标画面检查及后续完整 CI 已通过；终端身份值有意不冒充 XTerm。见[身份查询记录](../research/identity-queries.md)。 |
+| DA/DA2/DA3/XTVERSION：`CSI c`、`CSI > c`、`CSI = c`、`CSI > q` | 已证（有限范围） | DA3 不再触发默认模式的 SCO 隐藏光标，显式 SCO 模式保留旧行为；普通参数中首参数零／省略才回复，额外参数忽略，冒号子参数按独立对照处理。XTVERSION 明确标识 Nemoterm(PuTTY 0.85)，DA2 保留旧兼容值。62 项独立 XTerm 对照、65 项本机整流回复／光标画面检查及后续完整 CI 已通过；终端身份值有意不冒充 XTerm。见[身份查询记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/identity-queries.md)。 |
 | DSR/CPR：`CSI 5n/6n` | 源码已见，局部已证 | 状态／光标回复已有专项测试；完整 origin/边距组合与回包顺序仍须逐项证明。 |
 | DECRQM/DECRPM：`CSI [ ? ] Ps $ p` → `... $ y` | 已证（有限范围） | `test_modes`验证标准4/12/20/34、DEC基础模式、备用屏别名、鼠标各组、Sixel模式、2004及2026，未知0；配置禁用的相关模式返回4。与xterm一致只处理首Ps。身份查询见上一行；不能由有限模式报告称所有查询已支持。 |
-| 窗口操作 `CSI Ps ... t`、像素/字符尺寸 | 查询及字符/像素 resize 已证；其余修改操作仍有缺口 | 11、13/13;2、14/14;2、15、16、18、19 使用实时尺寸；负坐标按 XTerm 的 16 位参数编码。4/8 与 DECSLPP 已实现，区分省略与显式零，保留完成顺序，并在拒绝请求时同步 ConPTY 子进程尺寸。39 项独立 XTerm 对照中 36 项精确回复匹配，3 项明确保留完整字符/实时尺寸的差异。源44ac455单文件通过42组CI及本机100项GDI/硬件OpenGL resize检查，包括最小化期间输出、锁定窗口和字体缩放。分轴最大化/全屏与物理 DPI 仍待实现或核实。见[resize记录](../research/window-resize.md)及[几何查询记录](../research/window-geometry.md)。 |
+| 窗口操作 `CSI Ps ... t`、像素/字符尺寸 | 查询及字符/像素 resize 已证；其余修改操作仍有缺口 | 11、13/13;2、14/14;2、15、16、18、19 使用实时尺寸；负坐标按 XTerm 的 16 位参数编码。4/8 与 DECSLPP 已实现，区分省略与显式零，保留完成顺序，并在拒绝请求时同步 ConPTY 子进程尺寸。39 项独立 XTerm 对照中 36 项精确回复匹配，3 项明确保留完整字符/实时尺寸的差异。源44ac455单文件通过42组CI及本机100项GDI/硬件OpenGL resize检查，包括最小化期间输出、锁定窗口和字体缩放。分轴最大化/全屏与物理 DPI 仍待实现或核实。见[resize记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/window-resize.md)及[几何查询记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/window-geometry.md)。 |
 
 ## OSC、DCS、图像与shell语义
 
 | 家族 / 具体范围 | 状态 | 工作区证据与缺口 |
 | --- | --- | --- |
-| OSC0/1/2、DECterm21标题；XTSMTITLE/XTRMTITLE；标题 DECRQSS | 已证（有限范围；单文件 CI 与本机） | `test_titles`对照86组独立xterm结果，覆盖16种编码组合、设置/查询、复位、非法参数、1000字节线缆长度限制与取消；旧代码页和查询权限另测。3组非法Unicode输入明确替换为`?`，其余83组逐字节相符。源3a97358的40组原生CI与最终产物本机87项模式、23项标题栈检查通过。详见[标题模式记录](../research/title-modes.md)。 |
+| OSC0/1/2、DECterm21标题；XTSMTITLE/XTRMTITLE；标题 DECRQSS | 已证（有限范围；单文件 CI 与本机） | `test_titles`对照86组独立xterm结果，覆盖16种编码组合、设置/查询、复位、非法参数、1000字节线缆长度限制与取消；旧代码页和查询权限另测。3组非法Unicode输入明确替换为`?`，其余83组逐字节相符。源3a97358的40组原生CI与最终产物本机87项模式、23项标题栈检查通过。详见[标题模式记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/title-modes.md)。 |
 | CSI22/23 标题栈和指定槽位 | 已证（有界；单文件CI与本机） | `test_titles`对照22组独立xterm结果，测试编码、权限、空字段、取消与2万次压栈；`titles_window_smoke.py`核对ConPTY回复及真实窗口标题。10个惰性分配槽位，每字段最多4096字节；指定槽位共享存储；后续位置查询补丁已改为有界逻辑计数，仍只保留十槽。源5a8b27f的39组原生CI与本机23项标题检查通过。新标题模式下的恢复行为另有对照；其他窗口控制仍待实现，详见`research/window-controls.md`。 |
-| CSI #P/#Q/#R 调色板栈；#S 标题栈位置 | 已证（有限范围；本机三种渲染器） | 101组独立XTerm回复逐字节相符；十个惰性调色板快照，包含已实现的索引色及默认色。验证指定槽位、空参数与零、复位保留、同步更新、缩放后的缓存失效；标题位置报告修正此前十次封顶的逻辑计数。新CI仍须单独验收，详见[调色板栈记录](../research/palette-stacks.md)。 |
-| OSC5/6、105/106 属性颜色及模式 | 已证（开发快照有限范围） | 五种属性颜色、保存的默认值/模式/样式及现有文本重绘通过 `ea042bc` 单文件核心、画面和设置检查；RIS/DECSTR 回到配置默认值。39 组协议预期中 37 组与独立 XTerm 相符，溢出索引和选择性重置保留两项已记录差异；详见[属性颜色](../research/attribute-colours.md)。 |
-| OSC17/19 选区背景/前景色；117/119恢复 | 已证（开发快照有限范围） | 41 组独立 XTerm 应答匹配；设置、查询、恢复、调色板栈、保存的默认颜色及显示层覆盖通过 `ea042bc` 单文件检查。像素/同步/矩形选择和配置另有验收；不改写字符内容。见[选区颜色](../research/selection-colours.md)与[参考记录](../research/protocol-reference-validation.json)。 |
-| OSC4调色板设置/查询、多组；104选择性/全部重置 | 已证（有限范围） | 数值精度、多项设置/查询、BEL/ST、无效索引、取消和超长整条拒绝均有核心测试。`ea042bc` 的 256–260 别名映射到独立属性颜色，空104同时清除索引和属性覆盖。后续 RIS 索引色重置修复及 25 组扩展对照已通过 sanitizer 和 GDI/DirectX 原生画面检查，单文件整体已通过 88 组检查，见[颜色重置记录](../research/reset-palette.md)。 |
-| OSC10/11/12及110/111/112：默认前景/背景/光标色，设置/查询/恢复 | 已证（有限范围） | 设置/查询、顺序参数、各自恢复、与104互不误清及BEL/ST有核心/原生检查；`ea042bc` 通过固定Xorg表的782个名称测试。`rgbi` 当前拒绝。后续反色下的动态颜色映射与光标跟随修复使用独立 XTerm 数据，GDI/DirectX 画面检查已通过；本轮 OpenGL 请求回退到 GDI，见[颜色重置记录](../research/reset-palette.md)。 |
+| CSI #P/#Q/#R 调色板栈；#S 标题栈位置 | 已证（有限范围；本机三种渲染器） | 101组独立XTerm回复逐字节相符；十个惰性调色板快照，包含已实现的索引色及默认色。验证指定槽位、空参数与零、复位保留、同步更新、缩放后的缓存失效；标题位置报告修正此前十次封顶的逻辑计数。新CI仍须单独验收，详见[调色板栈记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/palette-stacks.md)。 |
+| OSC5/6、105/106 属性颜色及模式 | 已证（开发快照有限范围） | 五种属性颜色、保存的默认值/模式/样式及现有文本重绘通过 `ea042bc` 单文件核心、画面和设置检查；RIS/DECSTR 回到配置默认值。39 组协议预期中 37 组与独立 XTerm 相符，溢出索引和选择性重置保留两项已记录差异；详见[属性颜色](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/attribute-colours.md)。 |
+| OSC17/19 选区背景/前景色；117/119恢复 | 已证（开发快照有限范围） | 41 组独立 XTerm 应答匹配；设置、查询、恢复、调色板栈、保存的默认颜色及显示层覆盖通过 `ea042bc` 单文件检查。像素/同步/矩形选择和配置另有验收；不改写字符内容。见[选区颜色](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/selection-colours.md)与[参考记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/protocol-reference-validation.json)。 |
+| OSC4调色板设置/查询、多组；104选择性/全部重置 | 已证（有限范围） | 数值精度、多项设置/查询、BEL/ST、无效索引、取消和超长整条拒绝均有核心测试。`ea042bc` 的 256–260 别名映射到独立属性颜色，空104同时清除索引和属性覆盖。后续 RIS 索引色重置修复及 25 组扩展对照已通过 sanitizer 和 GDI/DirectX 原生画面检查，单文件整体已通过 88 组检查，见[颜色重置记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/reset-palette.md)。 |
+| OSC10/11/12及110/111/112：默认前景/背景/光标色，设置/查询/恢复 | 已证（有限范围） | 设置/查询、顺序参数、各自恢复、与104互不误清及BEL/ST有核心/原生检查；`ea042bc` 通过固定Xorg表的782个名称测试。`rgbi` 当前拒绝。后续反色下的动态颜色映射与光标跟随修复使用独立 XTerm 数据，GDI/DirectX 画面检查已通过；本轮 OpenGL 请求回退到 GDI，见[颜色重置记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/reset-palette.md)。 |
 | OSC8：`8;params;URI`，空URI关闭、`id=` | 已证（有限范围） | `test_hyperlink`验证逐字节BEL/ST、取消/非法/超长输入、同id+URI分组、SGR独立、保存恢复/1049/RIS、宽/组合字符、插删擦除、压缩历史、resize/字体变化、bidi、2026冻结/超时与已绘制画面的命中；Shift复制仅含标签。记录256KiB/1024条FIFO上限，URI2083字节、id250字节、OSC8载荷4096字节；超限旧编号失效且不复用。真实Win32/ConPTY测试验证完整地址悬停、分组下划线、Ctrl打开/菜单复制、默认与禁用设置、file主机匹配、应用鼠标/多键/Shift/缩放取消及冻结画面的目标。只接受ASCII/百分号编码URI；默认HTTP/HTTPS/FTP/mailto及本机Windows驱动器file，其他注册协议须显式启用。远程file只允许复制；不实现URI片段到文件行号跳转。ASan/UBSan及原生6000长链接+800Sixel压力测试覆盖有界资源。参照 [OSC8原始规范](https://gist.github.com/egmontkob/eb114294efbcd5adb1944c9f3cb5feda)。 |
 | OSC52：`52;Pc;Pd`，Base64设置、`?`查询 | 已证（有界文本与Windows映射） | 流式解码，每次UTF-8文本256KiB；读写独立配置，默认允许写、禁止读。c=系统剪贴板，s别名c，p=本地选区，q/0..7共享1MiB辅助缓存；空Pc为s0，按请求顺序查询首个可用目标。BEL/ST、碎片/取消/非法输入、精确上限、缓存淘汰、复位/撤权后的迟到回复、输出积压均有核心测试。原生测试覆盖四种权限、真实中文/emoji剪贴板、保留本地选择、同步输出、锁竞争和延迟渲染期间UI响应；不代表X11选择所有权语义或所有应用验收。详见REQUIREMENTS中的策略。 |
-| OSC7：`7;file://host/path`；OSC9;9；OSC633 P;Cwd | 已证（有限范围） | 有界 UTF-8 目录元数据、百分号/反斜杠转义、主机判断、复制 URI 与复制会话目录继承；支持 Windows、Git Bash 挂载路径和 WSL --cd。核心、真实子进程 OS cwd、中文路径、reset/resize、错误恢复和一万次更新已测；设置与单文件证据见[目录记录](../research/working-directory.md)。 |
-| OSC133 A/B/C/D；OSC633 A/B/C/D/E、P IsWindows / HasRichCommandDetection | 已证（有限范围） | 有界命令标记、可选退出码和转义命令文本；主屏历史定位、重排、导航和命令／输出选择。核心、ASan/UBSan、云端及本机单文件验证通过，含原生菜单与可配置快捷键；不自动注入 shell 配置。属性目前仅记录，nonce 不用于认证。具体状态见[标记记录](../research/shell-marks-design.md)。 |
+| OSC7：`7;file://host/path`；OSC9;9；OSC633 P;Cwd | 已证（有限范围） | 有界 UTF-8 目录元数据、百分号/反斜杠转义、主机判断、复制 URI 与复制会话目录继承；支持 Windows、Git Bash 挂载路径和 WSL --cd。核心、真实子进程 OS cwd、中文路径、reset/resize、错误恢复和一万次更新已测；设置与单文件证据见[目录记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/working-directory.md)。 |
+| OSC133 A/B/C/D；OSC633 A/B/C/D/E、P IsWindows / HasRichCommandDetection | 已证（有限范围） | 有界命令标记、可选退出码和转义命令文本；主屏历史定位、重排、导航和命令／输出选择。核心、ASan/UBSan、云端及本机单文件验证通过，含原生菜单与可配置快捷键；不自动注入 shell 配置。属性目前仅记录，nonce 不用于认证。具体状态见[标记记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/shell-marks-design.md)。 |
 | OSC633 其余扩展 | 缺失 | Completions 等未实现；已支持的子命令不代表整个命名空间完成。 |
-| OSC1337 CurrentDir / RemoteHost | 已证（有限范围） | 目录与主机分开更新；远端路径可复制但不用于本机启动。与 OSC7 共用有界存储；[目录记录](../research/working-directory.md)。 |
-| OSC1337 SetMark | 已证（有限范围） | 独立位置书签，参与导航；不虚构未知命令或输出范围。[标记记录](../research/shell-marks-design.md)。 |
-| OSC1337 Capabilities / ReportCellSize | 已证（远程 CI） | 按当前设置返回能力，按当前 DPI 返回逻辑字符尺寸和比例；歧义 `F` 标记暂不返回。`5b2e6f1` 两条完整流程通过，包含 13 个能力用例和 42 个 96 DPI 原生几何阶段；本机测试暂停，见[实现与验证范围](../research/iterm-capability-reports.md)。 |
+| OSC1337 CurrentDir / RemoteHost | 已证（有限范围） | 目录与主机分开更新；远端路径可复制但不用于本机启动。与 OSC7 共用有界存储；[目录记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/working-directory.md)。 |
+| OSC1337 SetMark | 已证（有限范围） | 独立位置书签，参与导航；不虚构未知命令或输出范围。[标记记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/shell-marks-design.md)。 |
+| OSC1337 Capabilities / ReportCellSize | 已证（远程 CI） | 按当前设置返回能力，按当前 DPI 返回逻辑字符尺寸和比例；歧义 `F` 标记暂不返回。`5b2e6f1` 两条完整流程通过，包含 13 个能力用例和 42 个 96 DPI 原生几何阶段；本机测试暂停，见[实现与验证范围](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/iterm-capability-reports.md)。 |
 | OSC1337 用户变量及其余非图像命令 | 缺失 | 命名空间按子命令登记；已支持的子命令不代表支持其余命令。 |
-| OSC1337图像：`File=...:base64`，MultipartFile/FilePart/FileEnd | 已证（有限范围） | 当前单 EXE 在三种实际渲染器各通过 32 个静态、36 个动画场景，GDI 客户区独立捕获及 PNG/GIF 大窗口负载也通过；见[成品验证](../research/kitty-windows-product.md)。支持 PNG/JPEG/BMP 静态图和 GIF 动画；文件下载和完整 iTerm 兼容仍缺失。此前内存失败继续保留在[整合记录](../research/graphics-charsets-integration.md)；能力查询范围见上行。[静态范围](../research/iterm-inline-display.md)、[动画范围](../research/gif-animation.md)。 |
-| DCS DECRQSS：`DCS $ q Pt ST`，如`m`、`r`、`SP q` | 已证（有限范围） | 支持现有SGR状态`m`、滚动边界`r`、光标`SP q`、列数`$|`、行数`*|`；成功1$r，未知/超长0$r且不回显请求。输入最多63字节；CAN/SUB/新ESC取消、ST结束和与Sixel共存已测。SGR回复可重放，包含RGB、索引色及下划线样式/颜色。另支持 DECSCA；DECSLRM左右边距`s`和DECSACE范围`*x`也已实现；DECSCL `"p` 在 VT220 及以上级别已通过 [C1 对照与产物验证](../research/c1-controls.md)；modifyOtherKeys 的 `>4m` / `>4f` 和标题模式 `>t` 查询也已有实现。其余未实现的状态不虚报。 |
-| DCS XTGETTCAP：`DCS + q hex-names ST`，如`Co/TN/RGB`及键能力 | 已证（有限范围） | 查询终端名、颜色能力及逻辑键编码，复用实际输入编码器。支持功能键1..63的termcap/terminfo名称、导航及扩展修饰键名称、数字小键盘与退格/反向Tab等；另有无参数样式序列`smul/rmul`、`sitm/ritm`、`smxx/rmxx`、`Smol/Rmol`及`us/ue/ZH/ZR`别名，见[查询回放记录](../research/rendition-capabilities.md)。`Smulx`／`Setulc` 返回由客户端展开的 terminfo 程序，已有独立 ncurses 展开、完整 CI 和下载成品的本机回放验证，见[参数化下划线记录](../research/underline-capabilities.md)；不是任意 terminfo 查询，`Su`／`Setulc1` 仍未知。多名称单回复，未知名称结束列表，已知不可用名称无值；最多2047字节输入，回复硬上限22 KiB。核心测试覆盖断片、异常/取消、配置和模式切换；真实窗口15类无修饰键在普通/应用光标模式均与查询一致。物理键布局、本地快捷键、数字键盘完整修饰语义和剩余名称仍待验。 |
-| Sixel：`DCS P1;P2;P3 q ... ST`、repeat/color/raster指令；DECSDM80等 | 解码、局部滚动、行列/字体resize保留及有限实屏已证，完整兼容未完成 | `test_sixel`、`test_sixel_terminal`和两组Sixel原生窗口测试覆盖跨滚动边界保留、横向裁剪/恢复、主屏临时历史、备用屏删除行、清历史不删可见部分及移动后擦除。图片保持原始像素尺寸，按扫描行记录字符单位的滚动位移；字体变化后孔洞不变，新擦除按当前格宽/格高精确换算。擦除位图按32行按需分配，位置/掩码/解码器同享4MiB预算。显式寄存器重定义、共享/私有归属、CAN后共享定义保留及软/硬重置已有核心、sanitizer和三渲染器各16场景的本机API像素证据，见[调色板记录](../research/sixel-palette.md)；[完整CI及下载成品复核](../research/sixel-palette-ci.md)已通过。整合分支进一步修正隐式寄存器3、背景寄存器0和声明区域填充，核心及本机三渲染器各22场景通过，[背景记录](../research/sixel-background.md)与[完整CI/下载成品记录](../research/sixel-background-ci.md)已保留，原下载成品的DX资源验收失败记录保留；采用有界资源回落检查后的[整合版本机验证](../research/sixel-enclosure-integration.md)已通过GDI/DX完整负载，[整合CI与下载成品复核](../research/sixel-enclosure-integration-ci.md)已通过；真实多屏DPI切换及更多像素擦除边界/查询仍未完成。 |
-| kitty graphics：`APC G control;payload ST` | 已证（有限子集）；相对放置及 Unicode 占位待本机验收 | 直接 RGB/RGBA/PNG、`o=z` 压缩、分块、图像及功能查询、放置/删除、裁剪缩放、三层叠放、滚动与主备屏生命周期已接入。已验收 `752f3be` 单 EXE 在实际 GDI/GL/DX 各通过 24 项图像、12 项几何、29 项压缩、176 个功能查询及 216 个查询错误阶段；错误查询头不会再清掉待完成上传。独立 GDI 客户区捕获和 GDI/DX 大窗口内存负载也通过。开发分支新增相对放置与 Unicode 占位，238 个相对状态和 728 个 Unicode 状态通过，后者保留八项经独立 XTerm 确认的文本策略差异；能力查询已报告 U/P/Q/H/V，三编译器检查通过。惰性索引修复密集图片查找瓶颈，`f01927a` 普通完整 CI 与相同产品源码的 `056fe87` 单文件 CI 均通过；后者完成 154 组检查、十二组内存负载及 25,048 个单元中心像素检查。`fd0c253` 先前的混合配置标签关闭超时仍未解释；本机大窗口验收仍待完成。详见[最新开发构建](../research/kitty-unicode-ci.md)、[开发记录](../research/kitty-unicode-placeholders.md)、[密集负载](../research/unicode-dense-memory.md)及[关闭故障](../research/unicode-single-profile-close.md)。文件/共享内存及 Kitty 动画仍未实现。已验收范围见[功能查询实现](../research/kitty-feature-implementation.md)、[查询错误修复](../research/kitty-query-errors.md)及[成品验证](../research/kitty-query-transaction-product.md)。 |
-| OSC60/61/62 能力与限制报告 | 开发实现；核心、原生及完整 CI 通过 | 从当前本地权限及已实现操作生成回复，不改变权限、不宣告尚未实现的 X 属性或字体切换。独立 XTerm 捕获 2,100 条流，1,780 条单查询用于原样对照；本地权限模型与 XTerm 主开关的差异另列。三配置共 72 项 ConPTY 用例在本机和完整 CI 通过。见[能力报告](../research/feature-policy.md)。 |
-| OSC4/5 组合颜色命令错误恢复 | 核心、本机原生和完整 CI 通过 | 无效颜色停止本条命令后续参数，保留先前成功设置和回复；下一条命令可正常处理。OSC10–19 保留不同的继续处理语义。64 条独立 XTerm 流在核心整块/逐字节及本机 ConPTY 中匹配，远程 GCC/Clang sanitizer 和 MSVC 通过；八条 Xlib 宽松 RGB 语法差异单独保留。31747b9 的四项普通 CI 作业及 164 组单 EXE 检查通过；本机整体验收仍独立，见[组合颜色记录](../research/osc-colour-sequences.md)。 |
-| ReGIS | 部分支持 | [DA1 声明 ReGIS、XTSMGRAPHICS 项目 3 可查询实际页面尺寸](../research/regis-discovery.md)；已验证绘图、重绘、主副屏、窗口高度和有界历史；[原始 131 帧对照](../research/regis-six-frames.md)还剩 5 帧不同：向上滚动 1 帧、向下 2 帧、换行滚动 1 帧、共享调色板 1 帧。 |
+| OSC1337图像：`File=...:base64`，MultipartFile/FilePart/FileEnd | 已证（有限范围） | 当前单 EXE 在三种实际渲染器各通过 32 个静态、36 个动画场景，GDI 客户区独立捕获及 PNG/GIF 大窗口负载也通过；见[成品验证](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/kitty-windows-product.md)。支持 PNG/JPEG/BMP 静态图和 GIF 动画；文件下载和完整 iTerm 兼容仍缺失。此前内存失败继续保留在[整合记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/graphics-charsets-integration.md)；能力查询范围见上行。[静态范围](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/iterm-inline-display.md)、[动画范围](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/gif-animation.md)。 |
+| DCS DECRQSS：`DCS $ q Pt ST`，如`m`、`r`、`SP q` | 已证（有限范围） | 支持现有SGR状态`m`、滚动边界`r`、光标`SP q`、列数`$|`、行数`*|`；成功1$r，未知/超长0$r且不回显请求。输入最多63字节；CAN/SUB/新ESC取消、ST结束和与Sixel共存已测。SGR回复可重放，包含RGB、索引色及下划线样式/颜色。另支持 DECSCA；DECSLRM左右边距`s`和DECSACE范围`*x`也已实现；DECSCL `"p` 在 VT220 及以上级别已通过 [C1 对照与产物验证](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/c1-controls.md)；modifyOtherKeys 的 `>4m` / `>4f` 和标题模式 `>t` 查询也已有实现。其余未实现的状态不虚报。 |
+| DCS XTGETTCAP：`DCS + q hex-names ST`，如`Co/TN/RGB`及键能力 | 已证（有限范围） | 查询终端名、颜色能力及逻辑键编码，复用实际输入编码器。支持功能键1..63的termcap/terminfo名称、导航及扩展修饰键名称、数字小键盘与退格/反向Tab等；另有无参数样式序列`smul/rmul`、`sitm/ritm`、`smxx/rmxx`、`Smol/Rmol`及`us/ue/ZH/ZR`别名，见[查询回放记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/rendition-capabilities.md)。`Smulx`／`Setulc` 返回由客户端展开的 terminfo 程序，已有独立 ncurses 展开、完整 CI 和下载成品的本机回放验证，见[参数化下划线记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/underline-capabilities.md)；不是任意 terminfo 查询，`Su`／`Setulc1` 仍未知。多名称单回复，未知名称结束列表，已知不可用名称无值；最多2047字节输入，回复硬上限22 KiB。核心测试覆盖断片、异常/取消、配置和模式切换；真实窗口15类无修饰键在普通/应用光标模式均与查询一致。物理键布局、本地快捷键、数字键盘完整修饰语义和剩余名称仍待验。 |
+| Sixel：`DCS P1;P2;P3 q ... ST`、repeat/color/raster指令；DECSDM80等 | 解码、局部滚动、行列/字体resize保留及有限实屏已证，完整兼容未完成 | `test_sixel`、`test_sixel_terminal`和两组Sixel原生窗口测试覆盖跨滚动边界保留、横向裁剪/恢复、主屏临时历史、备用屏删除行、清历史不删可见部分及移动后擦除。图片保持原始像素尺寸，按扫描行记录字符单位的滚动位移；字体变化后孔洞不变，新擦除按当前格宽/格高精确换算。擦除位图按32行按需分配，位置/掩码/解码器同享4MiB预算。显式寄存器重定义、共享/私有归属、CAN后共享定义保留及软/硬重置已有核心、sanitizer和三渲染器各16场景的本机API像素证据，见[调色板记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/sixel-palette.md)；[完整CI及下载成品复核](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/sixel-palette-ci.md)已通过。整合分支进一步修正隐式寄存器3、背景寄存器0和声明区域填充，核心及本机三渲染器各22场景通过，[背景记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/sixel-background.md)与[完整CI/下载成品记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/sixel-background-ci.md)已保留，原下载成品的DX资源验收失败记录保留；采用有界资源回落检查后的[整合版本机验证](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/sixel-enclosure-integration.md)已通过GDI/DX完整负载，[整合CI与下载成品复核](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/sixel-enclosure-integration-ci.md)已通过；真实多屏DPI切换及更多像素擦除边界/查询仍未完成。 |
+| kitty graphics：`APC G control;payload ST` | 已证（有限子集）；相对放置及 Unicode 占位待本机验收 | 直接 RGB/RGBA/PNG、`o=z` 压缩、分块、图像及功能查询、放置/删除、裁剪缩放、三层叠放、滚动与主备屏生命周期已接入。已验收 `752f3be` 单 EXE 在实际 GDI/GL/DX 各通过 24 项图像、12 项几何、29 项压缩、176 个功能查询及 216 个查询错误阶段；错误查询头不会再清掉待完成上传。独立 GDI 客户区捕获和 GDI/DX 大窗口内存负载也通过。开发分支新增相对放置与 Unicode 占位，238 个相对状态和 728 个 Unicode 状态通过，后者保留八项经独立 XTerm 确认的文本策略差异；能力查询已报告 U/P/Q/H/V，三编译器检查通过。惰性索引修复密集图片查找瓶颈，`f01927a` 普通完整 CI 与相同产品源码的 `056fe87` 单文件 CI 均通过；后者完成 154 组检查、十二组内存负载及 25,048 个单元中心像素检查。`fd0c253` 先前的混合配置标签关闭超时仍未解释；本机大窗口验收仍待完成。详见[最新开发构建](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/kitty-unicode-ci.md)、[开发记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/kitty-unicode-placeholders.md)、[密集负载](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/unicode-dense-memory.md)及[关闭故障](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/unicode-single-profile-close.md)。文件/共享内存及 Kitty 动画仍未实现。已验收范围见[功能查询实现](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/kitty-feature-implementation.md)、[查询错误修复](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/kitty-query-errors.md)及[成品验证](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/kitty-query-transaction-product.md)。 |
+| OSC60/61/62 能力与限制报告 | 开发实现；核心、原生及完整 CI 通过 | 从当前本地权限及已实现操作生成回复，不改变权限、不宣告尚未实现的 X 属性或字体切换。独立 XTerm 捕获 2,100 条流，1,780 条单查询用于原样对照；本地权限模型与 XTerm 主开关的差异另列。三配置共 72 项 ConPTY 用例在本机和完整 CI 通过。见[能力报告](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/feature-policy.md)。 |
+| OSC4/5 组合颜色命令错误恢复 | 核心、本机原生和完整 CI 通过 | 无效颜色停止本条命令后续参数，保留先前成功设置和回复；下一条命令可正常处理。OSC10–19 保留不同的继续处理语义。64 条独立 XTerm 流在核心整块/逐字节及本机 ConPTY 中匹配，远程 GCC/Clang sanitizer 和 MSVC 通过；八条 Xlib 宽松 RGB 语法差异单独保留。31747b9 的四项普通 CI 作业及 164 组单 EXE 检查通过；本机整体验收仍独立，见[组合颜色记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/osc-colour-sequences.md)。 |
+| ReGIS | 部分支持 | [DA1 声明 ReGIS、XTSMGRAPHICS 项目 3 可查询实际页面尺寸](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/regis-discovery.md)；已验证绘图、重绘、主副屏、窗口高度和有界历史；[原始 131 帧对照](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/regis-six-frames.md)还剩 5 帧不同：向上滚动 1 帧、向下 2 帧、换行滚动 1 帧、共享调色板 1 帧。 |
 | 其他DCS/APC/PM/SOS、Tektronix、DRCS等历史家族 | 待逐项清点，未完成 | 未列出的字符串处理仍须逐项核对；Sixel 和 UDK 合入不会自动实现其余家族。保留 xterm 总清单作为完整性审计入口。 |
 
 基础字符串缓冲原为 `OSC_STR_MAX=2048`。扩展不能粗暴地把所有OSC/DCS/APC都改成无限缓存；应分别确定流式处理、终止/取消语义、数量和内存上限，并验证被拒绝或截断后解析器能继续正确处理后续文本。设置上限不意味着可以无声地把功能缺失当作支持。
@@ -130,7 +130,7 @@ XTSETTCAP 已接入可选 Terminfo 键盘：固定只读 ncurses 数据库、独
 
 ## 下一轮实现和验收顺序
 
-1. **直接影响现代agent的缺口**：kitty键盘的真实应用/IME验收及SGR覆盖审计；表意文字60–65已有[开发分支本机验证](../research/sgr-ideograms.md)，[完整CI及成品验收](../research/sgr-ideogram-ci.md)已通过；上划线53/55已有[完整CI与本机像素证据](../research/overline.md)。框线51、圈线52与取消54已通过独立分支的核心、三渲染器像素和ConPTY查询测试，[记录](../research/sgr-enclosures.md)保留原DX资源检查失败，独立分支[完整CI](../research/sgr-enclosure-ci.md)已通过；[整合版本机验证](../research/sixel-enclosure-integration.md)进一步通过GDI/DX完整负载，[整合CI与下载成品验收](../research/sixel-enclosure-integration-ci.md)已通过。继续完成Sixel像素和资源生命周期，增加断片输入/错误恢复/准确回复测试，不宣告尚未实现的能力。
+1. **直接影响现代agent的缺口**：kitty键盘的真实应用/IME验收及SGR覆盖审计；表意文字60–65已有[开发分支本机验证](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/sgr-ideograms.md)，[完整CI及成品验收](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/sgr-ideogram-ci.md)已通过；上划线53/55已有[完整CI与本机像素证据](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/overline.md)。框线51、圈线52与取消54已通过独立分支的核心、三渲染器像素和ConPTY查询测试，[记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/sgr-enclosures.md)保留原DX资源检查失败，独立分支[完整CI](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/sgr-enclosure-ci.md)已通过；[整合版本机验证](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/sixel-enclosure-integration.md)进一步通过GDI/DX完整负载，[整合CI与下载成品验收](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/sixel-enclosure-integration-ci.md)已通过。继续完成Sixel像素和资源生命周期，增加断片输入/错误恢复/准确回复测试，不宣告尚未实现的能力。
 2. **交互和协商完整性**：剩余DECRQSS状态与XTGETTCAP名称、OSC52真实远程应用验收、1001边缘场景与物理设备验收、Windows输入模式、resize/DPI和大坐标、更多光标/边距/擦除行为；在真实Claude Code/Codex和shell里记录可复现输入及输出。
 3. **剩余现代及历史范围**：OSC133及剩余633/1337语义，kitty/iTerm图像扩展，完整xterm家族逐项拆解及测试。优先级表示先后次序，不是把后项从目标删除。
 
@@ -145,9 +145,9 @@ XTSETTCAP 已接入可选 Terminfo 键盘：固定只读 ncurses 数据库、独
 
 
 DECSCA、DECSEL/DECSED、DECERA/DECSERA 的既有实现有核心与原生验收记录，见
-[选择性擦除记录](../research/selective-erase.md)。开发分支新增 ISO SPA/EPA，
+[选择性擦除记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/selective-erase.md)。开发分支新增 ISO SPA/EPA，
 并区分普通擦除、DEC 选择性擦除及矩形擦除的保护规则；新增与受影响路径
-63 组用例已全部匹配独立 XTerm；`ea042bc` 单文件原生画面及 1,000 次状态切换通过。MinGW 外置宿主在 pending-wrap 回复顺序上仍失败，见[保护区域记录](../research/guarded-areas.md)。
+63 组用例已全部匹配独立 XTerm；`ea042bc` 单文件原生画面及 1,000 次状态切换通过。MinGW 外置宿主在 pending-wrap 回复顺序上仍失败，见[保护区域记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/guarded-areas.md)。
 左右边距和矩形填充/复制/属性操作的既有有限验收见对应表格行。
 
 
@@ -157,7 +157,7 @@ DECSCA、DECSEL/DECSED、DECERA/DECSERA 的既有实现有核心与原生验收�
 提交缓冲上限 64 KiB。新增 WM_UNICHAR 标量输入及能力探测；组合边界清理
 待配对的 WM_CHAR 代理项。字体和 DPI 变化同步更新 IMM 组合字体。
 源码构建的 OpenConsole 保留跨读取的 UTF-16 代理对，正确处理很小的 UTF-8
-目标缓冲；内部流读取不再清掉解码状态。详见[实现、基线与验收范围](../research/input-methods.md)。
+目标缓冲；内部流读取不再清掉解码状态。详见[实现、基线与验收范围](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/input-methods.md)。
 
 新增原生 CI 组覆盖 IMM 故障注入、Unicode/kitty 文本、合成 DPI 像素和
 1–1024 字节的控制台原始/行输入。物理 IME 候选操作、真实多屏切换及完整
@@ -171,14 +171,14 @@ DECSCA、DECSEL/DECSED、DECERA/DECSERA 的既有实现有核心与原生验收�
 364 项独立 xterm 对照及 8 项明确差异测试通过单文件 ConPTY 路径。
 Unicode 组合字符存储、旧式字符校验和英国字符集存在已记录差异，不能据此宣称完全一致。
 查询保持选区、光标、待换行状态和画面；真正覆盖所选字符仍取消选区。
-完整模式语义、来源和验证范围见[校验记录](../research/rectangle-checksums.md)。
+完整模式语义、来源和验证范围见[校验记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/rectangle-checksums.md)。
 
 扩展字符集分支进一步保留原始字符的 DEC 校验代码，不增加字符单元大小；
 172 组独立 XTerm 字符集输入中的 33,024 个旧式/Unicode 校验值已匹配。
 另有 12 组状态变更精确匹配，以及 4 组明确保留的插删、覆盖和 REP 差异；
 字节 NRC 输出、历史压缩/重排、三渲染器实际画面和 ConPTY 回复均已验证。
 GDI 完整内存负载已通过；DX 在临时标签资源回落检查处失败，尚未完成完整负载，
-本批 CI 也待完成。完整范围及失败记录见[扩展字符集校验记录](../research/iso2022-checksums.md)。
+本批 CI 也待完成。完整范围及失败记录见[扩展字符集校验记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/iso2022-checksums.md)。
 
 ### SGR 样式栈与矩形属性查询
 
@@ -193,7 +193,7 @@ GDI 完整内存负载已通过；DX 在临时标签资源回落检查处失败�
 明确扩展用例（下划线、上划线、框线/圈线及表意文字属性），另检查缩放、原点模式、
 像素、滚动历史和资源释放。新增框线/圈线的完整验收仍见上述记录。
 来源、六条有意保留差异的原始用例及验收边界见
-[样式栈记录](../research/sgr-stack.md)。
+[样式栈记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/sgr-stack.md)。
 
 ### 呈现状态报告与恢复
 
@@ -206,9 +206,9 @@ GDI 完整内存负载已通过；DX 在临时标签资源回落检查处失败�
 G2/G3 的基本字符集、单次／锁定 GL 选择有核心与像素验证。
 后续源码修复了光标保存／恢复遗漏未选中字符集组及 GR 选择的问题，
 并让恢复操作遵守当前本地字符集限制；新增 44 组用例及像素检查
-已通过独立 XTerm 应答与 `ea042bc` 单文件像素检查，详见[字符集保存记录](../research/cursor-charset-save.md)。
+已通过独立 XTerm 应答与 `ea042bc` 单文件像素检查，详见[字符集保存记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/cursor-charset-save.md)。
 完整 ISO 2022、其他国家字符集及完整终端状态序列化仍未完成，详见
-[呈现状态记录](../research/presentation-state.md)。
+[呈现状态记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/presentation-state.md)。
 
 ### 真实 Codex 界面与原生控制台事件
 
@@ -216,6 +216,6 @@ G2/G3 的基本字符集、单次／锁定 GL 选择有核心与像素验证。
 缩放、Shift 网格选择及 Ctrl+Shift+C/V 的本地响应回归；默认/内嵌两种模式
 均独立运行。宿主不再在 UTF-16 代理项之间插入携带字符的虚构释放事件。
 快速跨位置选择按独立点击处理，同位置双/三击及 1001 高亮握手另有验证。
-按 Shift 双击混排文字时按可见字格扩词，软换行连接相邻的同类字符，普通双击保留原有选词规则。GDI／DirectX 的[38 项修复前后回放](../research/bidi-word-selection.md)分别核对高亮位置、剪贴板和应用收到的字节。
+按 Shift 双击混排文字时按可见字格扩词，软换行连接相邻的同类字符，普通双击保留原有选词规则。GDI／DirectX 的[38 项修复前后回放](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/bidi-word-selection.md)分别核对高亮位置、剪贴板和应用收到的字节。
 这不代表在线模型、Claude Code、物理输入设备或长期会话已完成验收；
-具体证据和边界见[真实客户端记录](../research/real-agent.md)。
+具体证据和边界见[真实客户端记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/real-agent.md)。

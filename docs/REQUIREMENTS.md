@@ -1,12 +1,12 @@
 # Nemoterm requirements and evidence ledger
 
-The [3da2fc3 preview and original receipts](../research/interaction-3da2fc3.md) cover the actual mixed-direction glyphs selected by Shift, wide Chinese cells, Cancel focus recovery, both right-click policies and twelve 160×48 stress cases. Peak frontend private working set was 18,944,000 bytes on GDI and 28,643,328 bytes on DirectX. The aggregate and subsequent exact-file replays are scored separately, including the missed startup image gestures and the preordered Claude output.
+The [3da2fc3 preview and original receipts](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/interaction-3da2fc3.md) cover the actual mixed-direction glyphs selected by Shift, wide Chinese cells, Cancel focus recovery, both right-click policies and twelve 160×48 stress cases. Peak frontend private working set was 18,944,000 bytes on GDI and 28,643,328 bytes on DirectX. The aggregate and subsequent exact-file replays are scored separately, including the missed startup image gestures and the preordered Claude output.
 
-The [83ee8a5 preview](../research/interaction-83ee8a5.md) fixes rectangular copying across DEC-sized lines. The same executable passed all twelve 160×48 memory workloads (GDI 19,558,400 bytes; DirectX 29,102,080 bytes), all six real client copy/Cancel/paste cases, and the independent WSL drop replay. It still misses first-marker Codex image paste and five historical ReGIS comparison frames.
+The [83ee8a5 preview](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/interaction-83ee8a5.md) fixes rectangular copying across DEC-sized lines. The same executable passed all twelve 160×48 memory workloads (GDI 19,558,400 bytes; DirectX 29,102,080 bytes), all six real client copy/Cancel/paste cases, and the independent WSL drop replay. It still misses first-marker Codex image paste and five historical ReGIS comparison frames.
 
-On the `f564927` single-file preview, [72/74 interaction cases](../research/interaction-f564927.md) passed; two first-marker Codex image gestures failed and both ready-composer cases passed. All twelve exact-grid stress cases passed on the same image, peaking at 18.89 MB private working set on GDI and 28.75 MB on DirectX. See the [paired pterm/Codex breakdown](../research/pterm-findings.md#f564927-普通-codex-会话实际驻留了什么) for a normal agent session. These observations do not close unimplemented families in the [protocol inventory](PROTOCOL_COVERAGE.md).
+On the `f564927` single-file preview, [72/74 interaction cases](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/interaction-f564927.md) passed; two first-marker Codex image gestures failed and both ready-composer cases passed. All twelve exact-grid stress cases passed on the same image, peaking at 18.89 MB private working set on GDI and 28.75 MB on DirectX. See the [paired pterm/Codex breakdown](../research/pterm-findings.md#f564927-普通-codex-会话实际驻留了什么) for a normal agent session. These observations do not close unimplemented families in the [protocol inventory](PROTOCOL_COVERAGE.md).
 
-For the November 19 working preview, see the [two-renderer clipboard and actual-agent results](../research/wide-selection-boundaries.md), [alternate-screen text and graphics results](../research/alternate-1047.md), and [outstanding reference frames](../research/regis-six-frames.md). Acceptance uses frontend private working set: GDI strictly below 20,000,000 bytes, DirectX at most 30,000,000 bytes. Earlier limits and failures below describe their original runs.
+For the November 19 working preview, see the [two-renderer clipboard and actual-agent results](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/wide-selection-boundaries.md), [alternate-screen text and graphics results](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/alternate-1047.md), and [outstanding reference frames](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/regis-six-frames.md). Acceptance uses frontend private working set: GDI strictly below 20,000,000 bytes, DirectX at most 30,000,000 bytes. Earlier limits and failures below describe their original runs.
 
 ## Current test execution policy (2026-11-17 Sydney)
 
@@ -15,7 +15,7 @@ former desktop interaction catalog now runs remotely, including all six shells,
 real Codex/OpenCode image paste, clipboard/drop, selection, tabs, settings and
 bell checks. Test orchestration, pinned dependencies and exact-image replay are
 documented in the [remote test guide](INTERACTION_ACCEPTANCE.md); current run
-identities and results are in the [migration record](../research/remote-test-migration.md).
+identities and results are in the [migration record](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/remote-test-migration.md).
 
 [Full run 44019109177](https://github.com/xiongnemo/nemoterm/actions/runs/44019109177)
 passed all 19 jobs at `2312edd86e08c4454bde9f675af030ea3134d3e7`, including
@@ -28,7 +28,7 @@ workloads; their reports retain the actual fonts and screen-clamped grids.
 The interaction catalog now additionally requires twelve full 160x48 Sarasa
 memory workloads, rejecting a clamped grid. These are distinct from the earlier
 Consolas checks; exact product identity and results are tracked in the
-[full-grid record](../research/full-grid-memory-ci.md).
+[full-grid record](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/full-grid-memory-ci.md).
 
 Earlier candidate `5a5dd7b` passes 169 single-image groups, all 26 interaction cases,
 24 bilingual DPI cases, compiler/sanitizer tests and the complete MinGW suite.
@@ -47,7 +47,7 @@ request takes 0.739134 seconds under the unchanged deadline. Full-grid DirectX
 still fails the 25 MB bound. The original shell case also fails its cleanup
 gate; a diagnostic-only replay passes but does not prove that intermittent
 failure is fixed. Evidence and results are in the
-[paint-batching record](../research/kitty-placeholder-runs.md). The completed
+[paint-batching record](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/kitty-placeholder-runs.md). The completed
 aggregate is **19/21**: all 169 single-image groups, 24 real bilingual DPI cases,
 the complete MinGW suite and 25/26 functional interaction cases pass. Its failed
 jobs are full-grid DirectX memory and shell cleanup; the diagnostic shell replay
@@ -59,7 +59,7 @@ process-observed cases fail. Additional observation does not make these late
 exits pass. The controlled native child fixture also fails frontend teardown;
 the evidence does not yet establish a shared root cause. Exact run identities,
 controls and dumps are retained in the
-[Git Bash close investigation](../research/git-bash-close-race.md).
+[Git Bash close investigation](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/git-bash-close-race.md).
 
 Candidate `8084338` rejects a console connection after the host has entered
 its closing state, under the existing console lock. Its new mandatory hosted
@@ -71,12 +71,12 @@ one connected client after parent exit. Completed full CI is **21/22**: all
 full-grid GDI workloads pass; only full-grid DirectX memory fails. GDI's highest
 private working set is 18,690,048 bytes. The exact
 image and acceptance receipts are in the
-[closed-console record](../research/closed-console-connections.md).
+[closed-console record](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/closed-console-connections.md).
 Final product downloads and measurements are in the
-[full regression record](../research/closed-console-regression.md). The older
+[full regression record](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/closed-console-regression.md). The older
 reference collectors also have hosted entry points; their new observations
 and retained failures are tracked in the
-[reference migration record](../research/remote-reference-migration.md).
+[reference migration record](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/remote-reference-migration.md).
 
 The dated checkpoints below retain their original results and failures. Their
 requests to resume local desktop testing no longer describe the execution plan.
@@ -84,7 +84,7 @@ Hosted tests do not retroactively pass historical memory failures or certify
 physical devices, third-party IMEs or every unimplemented protocol family.
 
 Terminfo keyboard integration is tracked in the
-[database and setter record](../research/terminfo-database.md). The pinned
+[database and setter record](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/terminfo-database.md). The pinned
 production lookup passes all 622,172 upstream slots; three compiler jobs pass
 2,180 individual queries and 1,378 startup steps with an explicit TN identity
 boundary. Exact image `589faec` passes 1,293 native key streams, four permission
@@ -95,7 +95,7 @@ GDI peaks at 18,817,024 private-WS bytes and 53,497,856 total-WS bytes. DirectX'
 six workloads fail the unchanged 25 MB gate, with natural cleanup. The completed
 aggregate is **21/22**: all 170 single-image groups and the complete MinGW suite
 pass, each including 1,293 exact native Terminfo streams with zero mismatches.
-The [final product record](../research/terminfo-product-regression.md) identifies
+The [final product record](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/terminfo-product-regression.md) identifies
 downloads and the hosted notice-only portable repackage, which preserves all
 original files. Failed and cancelled runs remain retained; `dist` is unchanged.
 
@@ -114,15 +114,15 @@ superseded by this clarification. Continue feature compatibility and regression
 work. All current builds and tests remain on GitHub-hosted runners. The original
 25 MB results are retained; the new gate requires a separately identified replay.
 
-[Replay 44100194466](../research/directx-30mb.md) now passes all six full-grid
+[Replay 44100194466](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/directx-30mb.md) now passes all six full-grid
 DirectX workloads on the exact `329019d` image. Its private-WS peak is 29,421,568
 bytes (29.421568 MB / 28.058594 MiB); all post-memory checks complete with
 natural cleanup. The original 21/22 aggregate remains recorded under 25 MB.
 
-The later [`a0c35e6` image](../research/regis-native-window.md) passes all six
+The later [`a0c35e6` image](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/regis-native-window.md) passes all six
 160×48 workloads on each renderer: **28,790,784 bytes DirectX** and
 **19,218,432 bytes GDI**, both peaks in the Unicode Kitty case. These
-measurements identify that executable only. On the [subsequent `d817161` image](../research/interaction-d817161.md), the full-grid private-WS peaks are 19,578,880 bytes (GDI) and 28,839,936 bytes (DirectX). The real Codex/GDI streaming and resize scenario peaks at 6,893,568 bytes.
+measurements identify that executable only. On the [subsequent `d817161` image](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/interaction-d817161.md), the full-grid private-WS peaks are 19,578,880 bytes (GDI) and 28,839,936 bytes (DirectX). The real Codex/GDI streaming and resize scenario peaks at 6,893,568 bytes.
 
 ## Historical combined candidate (2026-11-16 Sydney)
 
@@ -130,7 +130,7 @@ Source `253855b481b2ccd6a13dae5490c42f19c8b9dd64` passes both complete
 workflows: all four ordinary CI jobs and **163 single-image groups**. Its
 4,544,512-byte executable has SHA256
 `f086fde1d97b33d231281a939dcf855150b2270726e672d99b68fca631e32107`.
-The [candidate record](../research/answerback-product-ci.md) retains original
+The [candidate record](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/answerback-product-ci.md) retains original
 GitHub artifact ZIPs, exact member hashes and complete workflow identities.
 Local acceptance uses that exact image and source-matched fixtures: 41
 background groups have run, with eight foreground/clipboard groups still
@@ -159,15 +159,15 @@ original full protocol/application scope remain open.
 The older `69496bb` ordinary workflow succeeded, but its single-image Unicode
 workload failed during tab cleanup. Instrumented exact-image replays show that
 the old synthetic client's 300-second lifetime leaves little headroom; only
-that workload's CI client lifetime is now 900 seconds. The [lifetime record](../research/session-lifetime.md)
+that workload's CI client lifetime is now 900 seconds. The [lifetime record](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/session-lifetime.md)
 keeps the original failure and both successful replays, without claiming they
-prove the original cause. A separate [portable callback exception](../research/tab-callback-portable.md)
+prove the original cause. A separate [portable callback exception](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/tab-callback-portable.md)
 also remains unexplained after finite successful exact-image replays. Neither
 observation is erased by the newer candidate's successful complete CI.
 
 ## Earlier local Sarasa checkpoints (2026-11-16 Sydney)
 
-The [feature-policy preflight](../research/feature-policy-sarasa.md) confirms
+The [feature-policy preflight](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/feature-policy-sarasa.md) confirms
 the installed Sarasa face, default 160x48 startup and work-area clamping with
 natural cleanup. A completed portable MinGW dense Unicode-image workload
 passes all 29,072 image-cell checks and tab lifecycle checks, but peaks at
@@ -178,7 +178,7 @@ also exceeds the limit at 20,623,360 bytes and times out after its pixel checks.
 The newer feature-policy product passes both complete CI workflows and all
 160 single-image groups. No accepted distribution has been replaced.
 
-The [display-cache follow-up](../research/gdi-image-cache.md) removes only the
+The [display-cache follow-up](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/gdi-image-cache.md) removes only the
 duplicate invisible positional marks from the last-painted-text cache. Its
 160x48 core regression saves 491,648 bytes per tab while preserving live text,
 ordinary accents and non-Kitty frontends. Six local core suites and three
@@ -208,7 +208,7 @@ fails the dense DirectX gate at **27,107,328 private WS / 62,705,664 total WS
 bytes**, despite all 29,072 pixels, ten lifecycle checks and natural cleanup
 passing. That failure is preserved; no additional DX optimization is started.
 There are 31 passing local groups at this checkpoint, with five clipboard
-groups not yet reached. A [CLI precedence regression](../research/command-line-profile.md)
+groups not yet reached. A [CLI precedence regression](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/command-line-profile.md)
 also proves that `--tabs` before `-load` was silently lost: earlier input and
 selection fixtures did not verify the actual host. The product fix passes five
 local native cases, and those fixtures now assert the true window class.
@@ -216,26 +216,26 @@ Actual foreground preparation remains unavailable under Windows' lock-screen
 layer; hosted IME acceptance is pending, and the user has been notified.
 The correctly hosted application-resize fixture then exposes a minimized
 restore-size defect: the outer frame and tab strip were omitted. The
-[bounded geometry fix](../research/host-restore-size.md) passes 348 existing
+[bounded geometry fix](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/host-restore-size.md) passes 348 existing
 resize stages across four tab positions and all three actual renderers, with
 natural cleanup. Combined full CI was still open at that checkpoint; the newer
 `253855b` result above supersedes its CI status, while local acceptance remains open.
 
-The later [parameter-query correction](../research/legacy-replies.md) follows
+The later [parameter-query correction](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/legacy-replies.md) follows
 136 retained VT100 request streams, with explicit baud/framing policy
 differences. Core GCC/Clang sanitizer and MSVC checks pass, as do 272 portable
 ConPTY comparisons. Full `5f5e80c` workflows then expose an unmet topmost
-precondition in the bell fixture; the [configured-window correction](../research/bell-modes.md#topmost-fixture-precondition)
+precondition in the bell fixture; the [configured-window correction](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/bell-modes.md#topmost-fixture-precondition)
 passes 74 states on the exact failed image with actual GDI and DirectX
 renderers and natural shutdown. The later `69496bb` outcomes are recorded above.
-A separate [answerback configuration fix](../research/answerback-config.md)
+A separate [answerback configuration fix](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/answerback-config.md)
 initializes an unsuccessful caret parse correctly and passes core regression
 plus 160 direct native comparisons. Neither checkpoint replaces the accepted
 single executable or removes remaining protocol and physical-input work.
 
 ## Bell attention modes (2026-11-16 Sydney)
 
-The [1042/1043 development checkpoint](../research/bell-modes.md) retains an
+The [1042/1043 development checkpoint](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/bell-modes.md) retains an
 independent XTerm capture of 112 fresh cases / 192 steps, including actual X11
 urgency, focus and stacking. Full component regressions pass GCC/Clang sanitizers
 and MSVC at `f93cb3d`. Startup defaults, private save/restore, overload-aware
@@ -268,7 +268,7 @@ local testing has resumed.
 
 ## DEC user-defined key reference (2026-11-16 Sydney)
 
-The [independent UDK reference](../research/dec-udk.md) passes 91 cases and
+The [independent UDK reference](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/dec-udk.md) passes 91 cases and
 238 steps against pinned XTerm in cloud CI. It retains original physical key
 events, binary replies, reset/cancellation behavior and a default-profile
 comparison. The first virtual-keyboard mapping failure is retained separately;
@@ -301,13 +301,13 @@ memory/rendering policy changes are made.
 `ESC SP L/M/N` now sets separate ANSI charset conformance state, with no new
 per-cell storage or distribution dependency. GCC/Clang sanitizers and MSVC at
 `d07f13d` each match all 243 independent XTerm streams both whole and bytewise.
-The [CAN/SUB checkpoint](../research/control-cancellation.md) additionally
+The [CAN/SUB checkpoint](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/control-cancellation.md) additionally
 matches 254 cancellation streams and passes 64 payload lifetime cycles per
 compiler. It implements SUB error-character display and removes the three
 previous ANSI SUB exceptions, while retaining their original observations.
 The same matrix exposed and verified a fix for leaked escape-sequence letters
 in VT52 mode. Existing query, state, keyboard and pointer regressions pass.
-See [implementation and original failures](../research/ansi-conformance.md).
+See [implementation and original failures](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/ansi-conformance.md).
 Product CI now includes a 413-stream native projection plus literal pixel
 comparisons; 84 binary-only cases remain explicitly core-only. Complete
 ordinary workflow now passes all four jobs at `7c40765`; local acceptance for
@@ -316,7 +316,7 @@ production-equivalent `73ed664` single EXE passes all 155 native validation
 groups, including all 413 reference streams and three exact GDI pixel pairs,
 plus twelve uninjected memory workloads. Its 4,532,224-byte image has SHA256
 `c5a359282e012a5cbd3b27b74543a5c74e9e5e43687cd1cd8d0d01e687890a71`.
-The [retained checkpoint](../research/control-cancellation.md#complete-single-image-checkpoint)
+The [retained checkpoint](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/control-cancellation.md#complete-single-image-checkpoint)
 keeps source identity, original failed ordinary tests and product evidence
 separate. The accepted local distribution is unchanged.
 The earlier ANSI-only `5bc9608` single EXE passes all 154 existing validation
@@ -334,7 +334,7 @@ reporting, unavailable queries and Shift taking over a reported gesture.
 The focused source-built single image at `33db228` also passes 27 real-input
 Windows/ConPTY phases and the existing mouse, highlight, state and DEC-status
 fixtures, including Shift selection pixels and live queries after resizing.
-The [implementation record](../research/dec-locator.md) retains that evidence
+The [implementation record](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/dec-locator.md) retains that evidence
 separately from complete product validation at `8e8321c`. The ordinary workflow
 now passes all four jobs, including 27 exact Locator input phases, 413 prior
 native streams and twelve uninjected memory workloads. Its dense remote GDI
@@ -358,7 +358,7 @@ Dense GDI private / total working-set peaks are 14,659,584 / 46,952,448 bytes;
 DirectX peaks are 18,010,112 / 55,058,432 bytes. These remote Consolas grids are
 109×34 and 88×35 respectively. The first external PowerShell parser timeout
 remains unexplained despite passing exact-image replays and the complete retry.
-See the [checkpoint and retained evidence](../research/pointer-shapes.md#complete-single-image-checkpoint).
+See the [checkpoint and retained evidence](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/pointer-shapes.md#complete-single-image-checkpoint).
 Local 160×48 Sarasa acceptance and the accepted distribution remain unchanged.
 
 ## Relative and Unicode image development (2026-11-15 Sydney)
@@ -368,7 +368,7 @@ cells without adding storage to every terminal character. All 238 relative
 states and 728 Unicode states pass; eight Unicode text-policy differences are
 explicitly checked against an independent XTerm reference. Capability queries
 now advertise implemented `U/P/Q/H/V` fields. The
-[implementation record](../research/kitty-unicode-placeholders.md) links the
+[implementation record](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/kitty-unicode-placeholders.md) links the
 original failures, source identities, independent references, core copies,
 native clipboard/pixel results and later corrections.
 
@@ -381,7 +381,7 @@ close with exit `0xC0000005` after seven functional checks, before reaching the
 new dense-memory fixture. Its separate single-image job reaches that fixture,
 then exceeds the 45-minute whole-job deadline while the controller waits in
 `MoveWindow`; no dense-memory result or final executable is retained. The
-[timeout record](../research/unicode-dense-memory.md) preserves the earlier ten
+[timeout record](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/unicode-dense-memory.md) preserves the earlier ten
 memory passes and 96 exact clipboard copies as partial evidence. The lazy-index
 optimization passes all three component compilers. Ordinary CI at `f01927a`
 now passes all four jobs and twelve uninjected memory groups, including dense
@@ -390,9 +390,9 @@ are 14,405,632 bytes for GDI and 18,411,520 for DirectX at the remote grids;
 DirectX total WS is 54,407,168 bytes, still above the approximate 50 MB target.
 The indexed single-image run at `fd0c253` later fails its mixed-profile 15-second
 close check before memory acceptance. Its exact unverified EXE is retained for
-[remote replay](../research/unicode-single-profile-close.md); no new distribution
+[remote replay](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/unicode-single-profile-close.md); no new distribution
 had passed both complete workflows at that point. The subsequent
-[single-image run at `056fe87`](../research/kitty-unicode-ci.md) passes all
+[single-image run at `056fe87`](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/kitty-unicode-ci.md) passes all
 154 groups with the same product source as the successful `f01927a` ordinary
 CI. All twelve memory groups and 25,048 post-memory cell-centre checks pass;
 dense peaks are GDI 14,442,496 / DirectX 17,571,840 private-WS bytes at the remote
@@ -412,7 +412,7 @@ currently paused at the user's request. The accepted artifact below is unchanged
 The sole distribution file is `nemoterm.exe` from `752f3be71f8a0dce6e24d46af7dcf3d6d87c70a2`,
 4,515,840 bytes, SHA256 `1655120a9a64bfd29b64f6ad0a5cc912484ba1d242ec560938591c03328e2cf1`. All four ordinary jobs,
 143 single-image CI groups and 39 local groups pass. The
-[exact-product record](../research/kitty-query-transaction-product.md) retains
+[exact-product record](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/kitty-query-transaction-product.md) retains
 1,575 API stages, 525 direct presented-GDI stages, 12 shutdown cases and ten
 uninjected 160x48 Sarasa two-tab memory workloads. The earlier `6e05bd1` image
 remains backed up; its pending-upload bug and failure evidence remain preserved.
@@ -431,18 +431,18 @@ DPI and sustained real-agent behavior remain required work.
 
 The sole local distribution file is the accepted `nemoterm.exe` from
 `6e05bd1a70515ede970323eb633563021d80ac3e`, 4,515,840 bytes, SHA256
-`dfae1cdea10e091d209aa56ce291b63e3ae5ada2f02035254c3c3398cda6c5ab`. The [exact-product record](../research/kitty-feature-product.md)
+`dfae1cdea10e091d209aa56ce291b63e3ae5ada2f02035254c3c3398cda6c5ab`. The [exact-product record](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/kitty-feature-product.md)
 links all four successful ordinary CI jobs, 140 single-image CI groups, 35 local
 groups, 927 API stages, 309 presented GDI stages and ten uninjected memory runs.
 The prior compression image remains backed up locally.
 
-A subsequent [query-error comparison](../research/kitty-query-errors.md) reproduces
+A subsequent [query-error comparison](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/kitty-query-errors.md) reproduces
 lost pending uploads in this accepted image. The development fix passes 216 new
 core states, 648 native API stages and 216 presented-GDI stages; its formal
 single-image replacement and full-grid memory acceptance are still pending.
 The first replacement single-image pipeline fails an earlier DirectX shutdown
 check. An unchanged exact-image local replay passes all 12 cases but does not
-explain the failure; see [the diagnostic record](../research/query-transaction-shutdown.md).
+explain the failure; see [the diagnostic record](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/query-transaction-shutdown.md).
 
 Actual 160x48 Sarasa two-tab Sixel/PNG/GIF/Kitty/compressed-Kitty workloads peak at
 16,838,656 private-WS bytes for GDI and 24,236,032 for DirectX,
@@ -451,7 +451,7 @@ passing the strict 20 MB / inclusive 25 MB gates. Total WS peaks are
 All owned jobs drain naturally. Feature queries report the bounded implemented
 subset without allocating image owners or disturbing pending uploads.
 
-An [optional external exception observer](../research/native-exception-observer.md)
+An [optional external exception observer](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/native-exception-observer.md)
 passes its four native controls on MinGW/MSVC and captures unhandled fault context
 and dumps. Three hosted exact-image replays pass while it is attached. It is not
 used in these product memory runs; the historical tab access violation and
@@ -463,7 +463,7 @@ physical-input, real-application and long-session scope remains open.
 The local distribution contains only the accepted `nemoterm.exe` from
 source `b3e03bb3a3a1f75e3403b7dd5a9e0d14065c46ac`: 4,515,328 bytes, SHA-256
 `65145ffb30d8a75199161f526b690794b66f6d593deab6f88cfd078ce5a795a0`.
-Its [exact-image checkpoint](../research/kitty-compression-product.md) records
+Its [exact-image checkpoint](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/kitty-compression-product.md) records
 full ordinary CI at identical product source `48a0263`, 137 single-image CI
 check groups, 399 local API pixel stages, 133 direct GDI-client stages, 12
 shutdown cases and ten local memory workloads. The runtime directory contains
@@ -481,12 +481,12 @@ A later main-source MSVC diagnostic run records an access violation at the first
 tab selection after test-probe detachment, in a distinct sidecar-host build.
 Six original local replays, two local boundary-observer runs and three focused
 runner replays pass, but the original cause remains unproven. See
-[the retained failure](../research/tab-probe-detach.md).
+[the retained failure](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/tab-probe-detach.md).
 That run's separate Windows job was also cancelled by its 30-minute whole-job
 deadline during the last compressed-image memory group. The outer budget is now
 40 minutes, with individual checks and memory thresholds unchanged. Its single
 image passed 137 CI groups but is not a replacement accepted local artifact.
-[Integration outcomes and raw evidence](../research/compression-main-integration.md).
+[Integration outcomes and raw evidence](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/compression-main-integration.md).
 
 The original full protocol, graphics, real-application, physical-input and
 long-session scope remains open. The following sections describe historical
@@ -497,7 +497,7 @@ checkpoints at their stated source versions, not newer accepted binaries.
 At this checkpoint, main source was `8a41ad7`; the accepted local single EXE remains source `8ff214f`,
 SHA-256 `c110843b1fd5a551d654df094fa716c1ea1c48383d90e642b964d7dfb3d15e26`,
 4,452,864 bytes. The intervening changes update observation fixtures and records,
-not product sources. See [the accepted artifact](../research/sgr-ideogram-ci.md).
+not product sources. See [the accepted artifact](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/sgr-ideogram-ci.md).
 
 The opt-in [automation interface](AUTOMATION.md) is implemented on main and in
 that accepted EXE: local discovery, stable session IDs, directed text/paste/key
@@ -536,13 +536,13 @@ Fresh actual 160x48 Sarasa workloads pass nine groups per mode. GDI peaks at
 16,568,320 private-working-set bytes and DX at 22,818,816. Total working set is
 respectively 43,401,216 and 58,470,400 bytes; DX remains above the approximate
 50 MB total target. Both jobs close all 56 inner / 58 outer processes naturally.
-See [the exact-image checkpoint](../research/sixel-palette-ci.md).
+See [the exact-image checkpoint](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/sixel-palette-ci.md).
 
 The predecessor `9c22311` downloaded image also passed 16 local startup/visibility
 groups and ten DX automation groups with zero screenshot channel differences;
-those exact bytes remain identified in [their checkpoint](../research/d3d11-ci.md).
+those exact bytes remain identified in [their checkpoint](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/d3d11-ci.md).
 Earlier failed CI runs remain failed. The separate
-[delay-load experiment](../research/delay-load.md) is not adopted and preserves
+[delay-load experiment](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/delay-load.md) is not adopted and preserves
 unresolved late-initialization and USER-object resource failures. Successful
 downloaded-image runs do not prove those intermittent observations resolved.
 
@@ -560,7 +560,7 @@ The exact downloaded EXE passes that query fixture locally. Its uninstrumented
 Sarasa 160x48 two-tab workload passes GDI at 15,626,240 private-working-set bytes
 but fails DirectX at 29,569,024 against 25,000,000; all nine functional groups
 and natural cleanup complete in both modes. No renderer optimization is claimed
-from differences between runs. See the [artifact and raw evidence](../research/rendition-capabilities.md).
+from differences between runs. See the [artifact and raw evidence](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/rendition-capabilities.md).
 The accepted local distribution and remaining full-goal requirements are unchanged.
 
 ## Initial graphics allocations (2026-11-14 Sydney)
@@ -571,7 +571,7 @@ cleanly, but remain instrumented diagnostics with explicit non-success exit 2.
 A separate minimal Direct3D 9Ex feasibility probe uses about 1.01 MB less private
 WS than its Direct2D arm in one observation; neither probe implements the full
 terminal renderer or proves the 25 MB target. No product change is retained.
-See [sources, raw samples and limitations](../research/graphics-initialization.md).
+See [sources, raw samples and limitations](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/graphics-initialization.md).
 
 ## Overline CI and downloaded-image checkpoint (2026-11-14 Sydney)
 
@@ -582,7 +582,7 @@ direct rendition-stack cases. Its uninstrumented actual 160x48 two-tab workload
 passes GDI at 16,445,440 private-working-set bytes and fails DirectX at
 30,433,280 against 25,000,000. All nine functional groups and natural cleanup
 complete in both modes. CI's smaller Consolas grids are recorded separately.
-The [artifact and evidence](../research/overline.md) do not establish full
+The [artifact and evidence](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/overline.md) do not establish full
 protocol coverage, physical input acceptance or a DirectX memory fix; the
 accepted local distribution is unchanged.
 
@@ -594,7 +594,7 @@ cannot count as memory acceptance. Local GDI/DirectX captures complete with
 natural cleanup; 27 native collector checks and five page-accounting tests pass.
 Two renderer experiments still exceed 25 MB (30.60 MB bounded readback,
 30.37 MB frame reuse) and are reverted. Product source and the accepted local
-distribution remain unchanged. See the [records and limits](../research/local-directx-heap.md).
+distribution remain unchanged. See the [records and limits](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/local-directx-heap.md).
 
 ## Automation and input-transfer checkpoint (2026-11-14 Sydney)
 
@@ -611,7 +611,7 @@ A separate local Sarasa
 160x48 two-tab workload passes GDI (15.44 MB private WS) but fails DirectX
 (29.70 MB before the conversion fixes, 30.55 MB in the follow-up, against 25 MB),
 so local DX memory acceptance remains open. The
-[checkpoint and retained evidence](../research/automation-input.md) distinguish
+[checkpoint and retained evidence](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/automation-input.md) distinguish
 these source/image identities and failures. No physical Explorer gesture,
 custom WSL mount, long-lived agent memory or full protocol acceptance is implied.
 
@@ -632,12 +632,12 @@ real Codex default/inline and tab variants, and uninjected two-tab workloads.
 Its frontend peaks are 11,206,656 private / 40,538,112 total bytes for GDI and
 21,819,392 private / 60,420,096 total bytes for DirectX. Both private-WS gates
 pass; DirectX total WS remains above the approximate target. The
-[exact artifact and retained results](../research/attribute-reset-validation.json)
+[exact artifact and retained results](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/attribute-reset-validation.json)
 also identify natural process cleanup. This is a development snapshot, not a
 replacement of the accepted local executable or proof of all-load memory bounds.
 
 The separate MinGW workflow still fails guarded-area cursor-reply ordering with
-the upstream sidecar host. The [following colour-reset patch](../research/reset-palette.md)
+the upstream sidecar host. The [following colour-reset patch](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/reset-palette.md)
 has passed core sanitizer, MSVC renderer jobs and all 25 new native colour
 replies plus 23 pixel checkpoints under actual GDI/DirectX. Requested OpenGL
 falls back to GDI. Its complete single-image run at `d2aa14a` now passes 88
@@ -653,7 +653,7 @@ checkpoints, superseded only within the verification scopes stated here.
 
 ## Public CI recovery (2026-11-13; local runtime testing still paused)
 
-[Recovery evidence](../research/ci-public-recovery.md) supersedes the earlier
+[Recovery evidence](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/ci-public-recovery.md) supersedes the earlier
 compile-only status for the recorded Linux core suites: the complete ASan/UBSan
 job at `ed78f2b` passes, including selection/attribute colours, cursor charsets
 and ISO guarded areas. Generated-data portability and colour-painting fixture
@@ -676,7 +676,7 @@ and Codex tests. Hardware memory gates and full-goal acceptance remain open.
 
 ## OpenGL context cleanup (2026-11-13; local runtime testing paused)
 
-[Context-failure cleanup](../research/opengl-context-lifetime.md) releases CPU
+[Context-failure cleanup](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/opengl-context-lifetime.md) releases CPU
 cache keys even when WGL cannot bind, avoids GL deletion/readback without a
 current context, and reports failed tab attachment. A mocked lifecycle target
 is prepared for MSVC/MinGW CI. Local compilation and single-image linking pass;
@@ -685,7 +685,7 @@ of the historical GDI tab-close crash, nor a new memory acceptance result.
 
 ## ISO guarded areas (2026-11-13; runtime testing paused)
 
-[SPA/EPA and protection-family handling](../research/guarded-areas.md) now
+[SPA/EPA and protection-family handling](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/guarded-areas.md) now
 cover ordinary/DEC erasure, queries, reset and presentation restoration in
 source, using the existing per-cell protection bit. Sixty-three authored wire
 cases and core/native fixtures are prepared. Windows/Linux compilation and
@@ -694,7 +694,7 @@ unverified. The accepted main executable is unchanged.
 
 ## Saved cursor character sets (2026-11-13; runtime testing paused)
 
-[Cursor charset restoration](../research/cursor-charset-save.md) now retains
+[Cursor charset restoration](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/cursor-charset-save.md) now retains
 all four supported designations and the GL/GR selectors in each screen's saved
 cache. Current local charset restrictions are respected on restore. Forty-four
 authored wire cases plus core/native checks are prepared; Windows/Linux builds
@@ -703,7 +703,7 @@ the accepted main executable remains unchanged.
 
 ## Saved attribute colours (2026-11-13; runtime testing paused)
 
-[The native attribute-colour settings page](../research/attribute-colour-settings.md)
+[The native attribute-colour settings page](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/attribute-colour-settings.md)
 adds independent saved colours/modes/style choices and live component-wise
 updates. Previous Conf IDs are unchanged. Configuration/mock/native fixtures
 are prepared; Windows/Linux compilation and single-EXE linking pass. UI,
@@ -711,7 +711,7 @@ runtime compatibility and memory acceptance are still pending.
 
 ## Attribute-colour development (2026-11-13; runtime testing paused)
 
-[OSC 5/6/105/106 and indexed aliases](../research/attribute-colours.md) now have
+[OSC 5/6/105/106 and indexed aliases](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/attribute-colours.md) now have
 source implementations for five special colours, enable/override modes, display
 overlays and palette retention. Authored wire/mock/native checks are prepared.
 Only compilation/linking and static checks have run; compatibility, renderer
@@ -719,7 +719,7 @@ pixels and the unchanged memory gates remain unverified for this candidate.
 
 ## X11 named colours (2026-11-13; runtime testing paused)
 
-[The pinned 782-name Xorg table](../research/x11-colours.md) replaces the shared
+[The pinned 782-name Xorg table](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/x11-colours.md) replaces the shared
 OSC parser's eight-name whitelist. It uses read-only data and no per-terminal
 allocation or new runtime library. Source-derived parser/protocol checks and an
 independent XTerm collector are prepared. Windows/Linux builds and single-EXE
@@ -727,7 +727,7 @@ linking pass; runtime behaviour and memory acceptance remain unverified.
 
 ## Saved selection colours (2026-11-13; runtime testing paused)
 
-[Selection colour preferences](../research/selection-settings.md) add a native
+[Selection colour preferences](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/selection-settings.md) add a native
 settings panel, independent foreground/background defaults, existing-session
 storage and live changes. Core/configuration, ordinary/tabbed settings and
 configured-default GDI checks are prepared. Windows and Linux test targets
@@ -736,7 +736,7 @@ The accepted main executable and all memory gates remain unchanged.
 
 ## Selection-colour development (2026-11-13; runtime testing paused)
 
-[OSC 17/19 and 117/119](../research/selection-colours.md) now have source
+[OSC 17/19 and 117/119](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/selection-colours.md) now have source
 implementations, authored protocol cases and mock/native rendering fixtures.
 MSVC frontend/core-test builds, single-image linking and a Linux sanitizer
 test build pass; the new executables and fixtures have not run. Independent
@@ -746,7 +746,7 @@ image, not to this newer unverified build.
 
 ## Palette/title-stack checkpoint (2026-11-13)
 
-[Palette stacks and title positions](../research/palette-stacks.md) add four
+[Palette stacks and title positions](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/palette-stacks.md) add four
 xterm controls and correct title overflow/indexed interleaving without growing
 the ten-slot storage. 101 exact XTerm cases pass in core and native GDI,
 DirectX and OpenGL; all three renderers also pass palette invalidation,
@@ -758,7 +758,7 @@ the DirectX memory failure, promote the main executable or close the full goal.
 
 ## Latest memory checkpoint (2026-11-13)
 
-The [two-tab workload record](../research/tab-workload-memory.md) adds continuous
+The [two-tab workload record](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/tab-workload-memory.md) adds continuous
 frontend/host/client sampling during history, links, dense text, images and
 resize. GDI passes that bounded workload at 14,778,368 private working-set bytes;
 actual DirectX fails at 29,532,160 bytes. Both complete the tab functional checks
@@ -822,16 +822,16 @@ Do not drop requirements merely because upstream lacks them.
 
 The first source-and-test audit is in [PROTOCOL_COVERAGE.md](PROTOCOL_COVERAGE.md).
 It distinguishes tested subsets, configuration gates, missing handlers and
-unverified behavior. [Tabulation](../research/tabulation.md) now has 108 exact
+unverified behavior. [Tabulation](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/tabulation.md) now has 108 exact
 independent xterm comparisons through both the core and native ConPTY path.
 The three double-size text-wrapping failures are fixed; see
-[double-size lines](../research/double-size-lines.md) for 45 further reference
+[double-size lines](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/double-size-lines.md) for 45 further reference
 comparisons, cell checks, grapheme boundaries and remaining scope.
 Sixel capability queries now report the actual register and dimension limits,
 with configurable 2–256 color registers and native resize/pixel verification;
-see [graphics queries](../research/graphics-query.md). This does not imply
+see [graphics queries](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/graphics-query.md). This does not imply
 ReGIS support or remove the shared image memory budget.
-[DEC status reports](../research/dec-status.md) add extended cursor/device
+[DEC status reports](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/dec-status.md) add extended cursor/device
 queries and fix a native ConPTY race that consumed an application's cursor
 reply. The source-built same-image host now tags its own synchronization
 requests separately; full clipboard/real-agent CI acceptance remains pending.
@@ -1449,7 +1449,7 @@ The Windows adapter previews character lookup without consuming a pending
 dead key, commits only handled events, and keeps local commands ahead of
 protocol encoding. Exact syntax, independently reproduced XTerm(412) bytes,
 Windows/XKB differences and remaining resource families are documented in
-[modify-other-keys.md](../research/modify-other-keys.md).
+[modify-other-keys.md](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/modify-other-keys.md).
 
 The nineteenth core suite covers parser recovery, queries, reset/reconfigure,
 bounded encoding, global screen state and kitty coexistence. Windows layout
@@ -1549,7 +1549,7 @@ console key identity; kitty and active modifyOtherKeys retain priority.
 The pinned ConPTY preserves native F24 but drops it when re-encoding ordinary
 VT input, and this path bypasses traditional custom key mappings. Keeping it
 optional preserves the existing direct-VT F21-F24 capability/input regression.
-See [win32-input.md](../research/win32-input.md) for upstream references and
+See [win32-input.md](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/win32-input.md) for upstream references and
 the measured limitation; this does not complete keyboard acceptance.
 
 The new native fixture reads real ReadConsoleInputW records, console control
@@ -1660,7 +1660,7 @@ All 28 core suites passed locally. ASan/UBSan with leak detection passed margin,
 image, rectangle, reflow and state-control suites. The native fixture verifies
 exact text/Sixel pixels, Shift-copy under application mouse/keyboard protocols,
 grid and font resizing, and 300 repeated image splits per resize policy. See
-[horizontal margins](../research/horizontal-margins.md) for reference anomalies,
+[horizontal margins](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/horizontal-margins.md) for reference anomalies,
 explicit differences, memory samples and reproducible tests. CI now includes
 11 terminal sanitizer suites and 26 single-executable checks.
 
@@ -1686,7 +1686,7 @@ shells. Uninstrumented frontend margin stress peaked at 10,006,528 private WS,
 remain separate. An earlier local full run's delayed clipboard fixture was
 preempted by an external read and is explicitly not claimed passed; final CI
 passed that group. Full details and the exact artifact-bound evidence are in
-[the input-method record](../research/input-methods.md).
+[the input-method record](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/input-methods.md).
 
 Physical IME candidate selection, genuine multi-monitor transitions, real agent
 workloads and complete modern/xterm protocol coverage remain unaccepted. This
@@ -1707,7 +1707,7 @@ single EXE is 4,314,112 bytes, SHA-256
 Seven local groups passed on that exact artifact, including all six shells.
 Local frontend stress peaks were 10,420,224 private WS / 40,390,656 total WS bytes;
 the host and Python fixture have separate idle samples. See the
-[working-directory record](../research/working-directory.md) for limits, failure
+[working-directory record](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/working-directory.md) for limits, failure
 history, screenshots, PE evidence and CI artifact links.
 
 Remaining OSC 133/633/1337 commands, image protocols, complete modern/xterm
@@ -1731,7 +1731,7 @@ Seven local groups passed against that exact file, including all six shells
 and Sarasa rendering in both Codex modes. Frontend private WS sampled peaks
 were 7,008,256 / 7,213,056 bytes; total WS peaks were 32,604,160 / 32,882,688.
 Headless host and client memory are recorded separately. Details, CI artifacts,
-failure history and captures are in [the real-client record](../research/real-agent.md).
+failure history and captures are in [the real-client record](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/real-agent.md).
 
 This finite client regression does not close live-service/long-term agent use,
 Claude Code, physical IME/DPI/device behavior, complete grapheme rendering or
@@ -1752,7 +1752,7 @@ on earlier artifacts. Final cloud checks use GDI fallback when hardware GL is
 unavailable; they do not certify this final artifact on the local NVIDIA driver.
 At that historical checkpoint, local testing was paused and `dist` retained the
 previously accepted `2862f67` artifact. The resumed shell-integration checkpoint
-below supersedes that pending local acceptance status. [Evidence and failure history](../research/rendering.md).
+below supersedes that pending local acceptance status. [Evidence and failure history](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/rendering.md).
 
 DirectX remains a measured feasibility prototype and integration design. Tabs
 with four-sided placement and hover previews remain designed, not implemented.
@@ -1774,7 +1774,7 @@ GDI real-Codex frontend private WS sampled peaks are 6.1-7.1 MB, with total WS
 explicit exception. Shell-mark stress peaks at 7.8 MB private WS. All figures
 exclude the separately recorded console host and client. Test focus isolation
 and working-set sampler fixes, exact hashes, artifacts and captures are in
-[the checkpoint record](../research/shell-marks-design.md).
+[the checkpoint record](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/shell-marks-design.md).
 
 These finite tests do not close extended/live-service agent use, Claude Code,
 physical IME/DPI/device behavior, complete grapheme rendering or the remaining
@@ -1801,7 +1801,7 @@ CI's default and inline real Codex GDI frontend peaks are 5.07 and 5.24 MB priva
 WS, 34.85 and 35.01 MB total WS; host and client are recorded separately. The
 local query peak is 4.68 MB private WS. The local real-Codex retry hit Windows
 clipboard access-denied and is not counted as passed. Exact provenance and
-observations are in [window-shutdown.md](../research/window-shutdown.md).
+observations are in [window-shutdown.md](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/window-shutdown.md).
 
 Title stacks were not part of that artifact; the following checkpoint supersedes
 that distribution. Title encoding modes, geometry gaps, DirectX frontend rendering,
@@ -1822,7 +1822,7 @@ SHA-256 `c5970125f2c171a86ff33a50d37357d03dfc3ecfe0bed7832b76bda642629995`.
 The previous artifact is retained in `build/dist-before-titles-5a8b27f/`.
 PE inspection found 605 regular and 11 delayed imports across 79 descriptors,
 with complete table coverage and no reported issues. See
-[the title-stack record](../research/window-controls.md) for artifacts, exact
+[the title-stack record](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/window-controls.md) for artifacts, exact
 responses, limits and the earlier development-host failure.
 
 Title encoding modes continue on `feature/title-modes`. Geometry gaps, DirectX
@@ -1853,7 +1853,7 @@ unchanged source passed on attempt three after an intervening mirror-download
 failure. Its cause remains unconfirmed, with the first capture retained. Local
 clipboard access remains denied, so local real-Codex copy/paste was not accepted
 again. Exact provenance and boundaries are in
-[the checkpoint record](../research/window-geometry.md).
+[the checkpoint record](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/window-geometry.md).
 
 At that checkpoint geometry mutations had 31 independent XTerm reference cases
 but were not yet implemented. The following resize checkpoint supersedes it. DirectX frontend
@@ -1880,7 +1880,7 @@ The prior image is backed up under `build/dist-before-window-resize-44ac455/`.
 Local GDI resize sampled peaks are 6.24 MB private WS / 25.70 MB total WS.
 Cloud real-Codex default/inline frontend private-WS peaks are 5.07 / 5.10 MB;
 host/client memory remains separate. Local clipboard acceptance is not renewed.
-The [resize checkpoint](../research/window-resize.md) links exact CI artifacts,
+The [resize checkpoint](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/window-resize.md) links exact CI artifacts,
 per-phase evidence, screenshots and measurement boundaries. DirectX frontend,
 four-sided tabs/previews, physical input/IME/DPI, full graphemes, axis window
 controls, live Claude Code and the remaining protocol ledger are still open.
@@ -1906,8 +1906,8 @@ That exact downloaded image now passes 31 local groups, including 399 API and
 160 x 48 memory workloads, and has replaced the local `dist/nemoterm.exe`.
 Private working-set peaks are GDI 16,822,272 B and DirectX 24,248,320 B;
 DX total working set still peaks above 50 MB. See the
-[accepted-product record](../research/kitty-compression-product.md) and
-[the implementation record](../research/kitty-compression.md) for raw evidence and
+[accepted-product record](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/kitty-compression-product.md) and
+[the implementation record](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/kitty-compression.md) for raw evidence and
 remaining scope. No original protocol, physical input or real-application requirement
 is removed by this checkpoint.
 
@@ -1921,4 +1921,4 @@ ConPTY replay passes 528 API pixel/reply stages across actual GDI/GL/DX plus 176
 presented GDI stages. A 1,000-query core loop retains constant graphics-owner
 memory. This sidecar-host development image is not a newly accepted single EXE;
 the accepted `b3e03bb` and full-goal scope remain unchanged.
-[Implementation and evidence](../research/kitty-feature-implementation.md).
+[Implementation and evidence](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/kitty-feature-implementation.md).

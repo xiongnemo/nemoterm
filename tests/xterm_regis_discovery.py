@@ -6,7 +6,7 @@ from pathlib import Path
 from zipfile import ZipFile
 from xterm_state_oracle import run_cases
 
-ARCHIVE=Path('research/regis-repaint-reference.zip')
+ARCHIVE=Path('testdata/upstream/regis-repaint-reference.zip')
 PIN='ca9165f9d14cb8ef67840a3c46063fde3d4f9dc104ac58086bc9b125c79fac4f'
 EXECUTABLE='0fc7b2f29c3777794701202c8d788a0e3392dcaba39662c14cac872a86829b84'
 CSI='\x1b['

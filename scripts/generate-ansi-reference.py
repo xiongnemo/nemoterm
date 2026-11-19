@@ -7,7 +7,7 @@ import tarfile
 
 root = Path(__file__).resolve().parents[1]
 digest = '098028b29c4cbfe4ea66a447e576ddd3750baa9acafe270697ab9194d4c23506'
-with tarfile.open(root / 'research/ansi-conformance-reference.tar.gz') as archive:
+with tarfile.open(root / 'testdata/upstream/ansi-conformance-reference.tar.gz') as archive:
     raw = archive.extractfile('3b49cd4/reference/ansi-conformance-xterm.json').read()
 assert hashlib.sha256(raw).hexdigest() == digest
 data = json.loads(raw)

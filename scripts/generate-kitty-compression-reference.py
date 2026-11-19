@@ -12,7 +12,7 @@ codec = root/'vendor/putty-0.85/terminal/puff'
 manifest = json.loads((codec/'SOURCE.json').read_text())
 for entry in manifest['files']:
     assert hashlib.sha256((codec/entry['file']).read_bytes()).hexdigest() == entry['modified_sha256'], entry['file']
-raw = gzip.decompress((root/'research/kitty-compression-evidence/257015d-reference--observations.json.gz').read_bytes())
+raw = gzip.decompress((root/'testdata/upstream/kitty-compression-evidence/257015d-reference--observations.json.gz').read_bytes())
 digest = '6e6cb02704aaa748749759a7b991c67d39908ec12ab89acb6bfa536438c86321'
 assert hashlib.sha256(raw).hexdigest() == digest
 data = json.loads(raw)

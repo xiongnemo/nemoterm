@@ -5,7 +5,7 @@ from pathlib import Path
 from presentation_state_direct_cases import CASES as direct
 
 root = Path(__file__).resolve().parents[1]
-source = json.loads((root/'research/presentation-state-xterm.json').read_text(encoding='utf-8'))
+source = json.loads((root/'testdata/upstream/presentation-state-xterm.json').read_text(encoding='utf-8'))
 separate = {f'charset-{bank}U': 'PuTTY SCO alternate charset is supported and reported as U.'
             for bank in ('(', ')', '*', '+')}
 separate['retained-modern'] = 'Equivalent DECRQSS SGR fields use the established Nemoterm ordering.'

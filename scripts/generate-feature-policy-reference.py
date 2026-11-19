@@ -14,7 +14,7 @@ import tarfile
 
 root = Path(__file__).resolve().parents[1]
 digest = '84990aadc68e758f926f703f279ceb52d039ed94f96d307465e46b6ac3b4e865'
-with tarfile.open(root/'research/feature-policy-reference.tar.gz') as archive:
+with tarfile.open(root/'testdata/upstream/feature-policy-reference.tar.gz') as archive:
     raw = archive.extractfile('reference/feature-policy-xterm.json').read()
 assert hashlib.sha256(raw).hexdigest() == digest
 data = json.loads(raw)

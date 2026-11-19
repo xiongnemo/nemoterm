@@ -4,7 +4,7 @@ import argparse,hashlib,json,tarfile
 root=Path(__file__).resolve().parents[1]
 parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--check',action='store_true')
 args=parser.parse_args()
-archive=root/'research/extended-key-resources-reference.tar.gz'
+archive=root/'testdata/upstream/extended-key-resources-reference.tar.gz'
 assert hashlib.sha256(archive.read_bytes()).hexdigest()=='a59ba35da8865c0fcd3698f2290afe8b63aadefa87ff77d05d676fa2bccf6b7e'
 with tarfile.open(archive) as bundle:
     data=json.load(bundle.extractfile('xterm.json'));identity=json.load(bundle.extractfile('IDENTITY.json'))

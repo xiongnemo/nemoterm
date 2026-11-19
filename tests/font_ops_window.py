@@ -19,7 +19,7 @@ def main():
     assert os.environ.get('GITHUB_ACTIONS')=='true' and os.environ.get('RUNNER_ENVIRONMENT')=='github-hosted'
     parser=argparse.ArgumentParser();parser.add_argument('--renderer',choices=['gdi','directx'],required=True);args=parser.parse_args()
     base=os.environ['NEMOTERM_TEST_FONT'];assert base=='SarasaTermSC Nerd Light' and base!=ALT
-    archive=root/'research/font-ops-xterm-412.zip';assert hashlib.sha256(archive.read_bytes()).hexdigest()==REFERENCE
+    archive=root/'testdata/upstream/font-ops-xterm-412.zip';assert hashlib.sha256(archive.read_bytes()).hexdigest()==REFERENCE
     with zipfile.ZipFile(archive) as z: upstream=json.loads(z.read('font-ops-xterm.json'))
     assert upstream['completed']; xft=upstream['profiles']['xft']['cases']
     sample=bytes.fromhex(xft['initial-query']['reply_hex']); other=bytes.fromhex(xft['after-set-query']['reply_hex'])

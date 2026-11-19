@@ -15,12 +15,12 @@ if (!$Destination) { $Destination = Join-Path $root 'build/single-exe-check' }
 $Destination = [IO.Path]::GetFullPath($Destination)
 if (Test-Path -LiteralPath $Destination) { throw 'Choose a fresh validation directory to preserve previous evidence.' }
 New-Item -ItemType Directory -Path $Destination | Out-Null
-New-Item -ItemType Directory -Path "$Destination/dist", "$Destination/research", "$Destination/build", "$Destination/logs" | Out-Null
+New-Item -ItemType Directory -Path "$Destination/dist", "$Destination/research", "$Destination/testdata/upstream", "$Destination/build", "$Destination/logs" | Out-Null
 Copy-Item -LiteralPath "$root/tests" -Destination "$Destination/tests" -Recurse
 # UDK native replay reads the retained upstream capture. Keep fixture data
 # outside dist so the isolated executable directory still contains one file.
-Copy-Item -LiteralPath "$root/research/dec-udk-reference.tar.gz" -Destination "$Destination/research/dec-udk-reference.tar.gz"
-Copy-Item -LiteralPath "$root/research/bell-modes-reference.tar.gz" -Destination "$Destination/research/bell-modes-reference.tar.gz"
+Copy-Item -LiteralPath "$root/testdata/upstream/dec-udk-reference.tar.gz" -Destination "$Destination/testdata/upstream/dec-udk-reference.tar.gz"
+Copy-Item -LiteralPath "$root/testdata/upstream/bell-modes-reference.tar.gz" -Destination "$Destination/testdata/upstream/bell-modes-reference.tar.gz"
 New-Item -ItemType Directory -Path "$Destination/tools" | Out-Null
 Copy-Item -LiteralPath "$root/tools/nemoterm_debug.py" -Destination "$Destination/tools/nemoterm_debug.py"
 Copy-Item -LiteralPath $Executable -Destination "$Destination/dist/nemoterm.exe"

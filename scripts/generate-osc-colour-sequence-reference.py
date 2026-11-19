@@ -6,7 +6,7 @@ root = Path(__file__).resolve().parents[1]
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--check', action='store_true')
 args = parser.parse_args()
-archive = root/'research/osc-colour-sequence-reference.tar.gz'
+archive = root/'testdata/upstream/osc-colour-sequence-reference.tar.gz'
 assert hashlib.sha256(archive.read_bytes()).hexdigest() == 'a4fe4d8a5f098af8047a1fba548827b545e3488cb518962a11d740af12de9908'
 with tarfile.open(archive) as bundle:
     data = json.load(bundle.extractfile('xterm.json'))
