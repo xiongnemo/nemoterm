@@ -38,6 +38,20 @@ CASES = (
     ('cluster-wrap-neighbour', '\x1b[?2027h❤\ufe0f', 21, -1, 6, 6, 8, 'GHI'),
     ('cluster-insert', '\x1b[?2027h\x1b[4h❤\ufe0f\x1b[4l', 10, 0, 10, 12, 14, 'KLM'),
     ('paint-back', 'Z\bK', 10, 0, 10, None, 12, None),
+    # A full-screen application can erase a cell before the user releases
+    # the mouse. A protected character or an untouched neighbour stays usable.
+    ('erase-ech', '\x1b[X', 10, 0, 10, None, 12, None),
+    ('erase-ech-neighbour', '\x1b[X', 11, 0, 10, 10, 12, 'K M'),
+    ('erase-el', '\x1b[K', 10, 0, 10, None, 8, None),
+    ('erase-ed', '\x1b[J', 10, 0, 10, None, 8, None),
+    ('erase-rect', '\x1b[{row};11;{row};12$z', 0, 0, 10, None, 12, None),
+    ('erase-selective', '\x1b[?1K', 10, 0, 10, None, 12, None),
+    ('erase-protected', '\x1b[?1K', 10, 0, 10, 10, 12, 'KLM'),
+    ('erase-selective-rect', '\x1b[{row};11;{row};12${', 0, 0, 10, None, 12, None),
+    ('erase-protected-rect', '\x1b[{row};11;{row};12${', 0, 0, 10, 10, 12, 'K M'),
+    ('erase-wide-trailer', '\x1b[X', 7, 0, 6, None, 9, None),
+    ('erase-blank', '\x1b[3X', 9, 0, 10, 10, 12, '  M'),
+    ('erase-other-row', '\x1b[2K', 10, -1, 10, 10, 12, 'KLM'),
 )
 ACK = b'\x1b[0n'
 
@@ -46,12 +60,16 @@ def verify(hwnd, begin, point, capture, tile, copy, barrier, evidence, desktop=N
     rows = evidence['horizontal_press_system' if desktop else 'horizontal_press'] = []
     def aim(cell): desktop.point(cell & 0xffff, cell >> 16)
     for i, (name, edit, col, dy, press, dest, end, want) in enumerate(CASES):
-        if desktop and name not in ('ich','dch','deleted','paint-replaced','paint-identical'): continue
+        if desktop and name not in ('ich','dch','deleted','paint-replaced','paint-identical','erase-ech','erase-protected'): continue
         block = bool(i % 2)
         y = 8 if i % 2 == 0 else 13  # distinguish consecutive independent Win32 clicks
         phase = ('physical-' if desktop else 'message-')+'column-'+name
-        line = ('ABCDEF中q\u0301JKLMNOPQRSTUVWXYZ' if name in ('wide-tail','cut-wide-head','cut-wide-tail','paint-wide-trailer') else
+        line = ('ABCDEF中q\u0301JKLMNOPQRSTUVWXYZ' if name in ('wide-tail','cut-wide-head','cut-wide-tail','paint-wide-trailer','erase-wide-trailer') else
                 'ABCDEFGHLאבג\u05b0RSTUVWXYZ' if name in ('bidi-stays','bidi-repaint') else ABC)
+        if name in ('erase-protected','erase-protected-rect'):
+            line=line.replace('K','\x1b[1"qK\x1b[0"q')
+        if name=='erase-blank': line=line.replace('K',' ')
+        edit=edit.replace('{row}',str(y+1))
         row = dict(case=name, block=block, pressed=[press,y], released=[end,y],
                    destination=dest, expected=want, passed=False);rows.append(row)
         begin(phase+'-draw', f'\x1bc\x1b[?25l\x1b[{y+1};1H'+line+
