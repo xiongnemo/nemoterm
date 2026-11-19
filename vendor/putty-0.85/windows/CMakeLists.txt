@@ -72,7 +72,7 @@ add_sources_from_current_dir(guiterminal
   nemo_font_cmap.c nemo_font_fallback.c
   nemo_regis_font.c
   nemo_cluster.cpp
-  nemo_link_ui.c nemo_clipboard.c nemo_key_input.c nemo_osc52_ui.c
+  nemo_link_ui.c nemo_clipboard.c nemo_paste_order.c nemo_key_input.c nemo_osc52_ui.c
   dialog.c controls.c config.c printing.c jump-list.c sizetip.c nemo_snapshot.c)
 target_link_libraries(guiterminal cabinet windowscodecs uuid)
 add_executable(test_cluster_renderer

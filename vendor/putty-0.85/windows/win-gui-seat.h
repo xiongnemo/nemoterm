@@ -64,6 +64,7 @@ struct WinGuiSeat {
     HWND term_hwnd;
     NemoTaskbarButton task_button; /* standalone window */
     UINT_PTR session_id; /* Never reused when a window handle is recycled. */
+    struct NemoPasteOrder *paste_order;
     bool closing;
     bool tabbed, tab_ready;
     HICON trust_icon;

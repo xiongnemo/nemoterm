@@ -8645,6 +8645,7 @@ static inline void term_bracketed_paste_stop(Terminal *term)
 static inline void term_keyinput_internal(
     Terminal *term, const void *buf, int len, bool interactive)
 {
+    if (interactive && term->defer_key && term->defer_key(term->win,buf,len)) return;
     if (interactive && term->paste_head)
         term_paste_finish_short_before_key(term);
     if (term->srm_echo) {

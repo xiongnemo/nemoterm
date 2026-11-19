@@ -446,6 +446,7 @@ struct terminal_tag {
     struct TermPaste *paste_head, *paste_tail;
     size_t paste_waiting_bytes; /* allocation of queue nodes behind the head */
     bool paste_callback_queued;
+    bool (*defer_key)(TermWin *, const void *, int); /* pending GUI clipboard read */
 
     Backend *backend;
 

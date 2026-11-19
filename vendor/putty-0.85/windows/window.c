@@ -29,6 +29,7 @@
 #include "nemo_shell.h"
 #include "nemo_key_input.h"
 #include "nemo_clipboard.h"
+#include "nemo_paste_order.h"
 #include "nemo_osc52_ui.h"
 #include "nemo_font_fallback.h"
 #include "nemo_cluster.h"
@@ -96,7 +97,7 @@ static UINT taskbar_button_created;
 
 typedef struct NemoPasteRequest {
     HWND hwnd;
-    UINT_PTR session_id;
+    UINT_PTR session_id, ticket;
     HGLOBAL data;
     bool unicode;
     bool application_paste;
@@ -445,6 +446,7 @@ static bool start_backend(WinGuiSeat *wgs)
     int i;
 
     /* A restart must not receive a delayed paste intended for the old shell. */
+    nemo_paste_order_reset(wgs,false);
     wgs->session_id = ++next_session_id;
     SetPropW(wgs->term_hwnd, L"NemotermSessionId", (HANDLE)wgs->session_id);
     nemo_cwd_clear(&wgs->term->working_directory);
@@ -510,6 +512,7 @@ static void close_session(void *vctx)
     char *newtitle;
     int i;
 
+    nemo_paste_order_reset(wgs,false);
     wgs->session_closed = true;
     newtitle = dupprintf("%s (inactive)", appname);
     win_set_icon_title(&wgs->termwin, newtitle, DEFAULT_CODEPAGE);
@@ -1194,6 +1197,7 @@ static void wgs_cleanup(void *vctx)
     WinGuiSeat *wgs = vctx;
     wgs->closing = true;
     nemo_bell_close(wgs);
+    nemo_paste_order_reset(wgs,false);
     nemo_host_remove(wgs);
     delete_callbacks_for_context(wgs);
     expire_timer_context(wgs);
@@ -4433,20 +4437,23 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
          * clipboard owner may outlive its target window; never route the
          * result to a new session that reuses that HWND. */
         if (!wgs->closing && wgs->backend && wgs->ldisc &&
-            wParam == wgs->session_id) {
+            wParam == wgs->session_id &&
+            nemo_paste_order_accept(wgs, ((const NemoPasteRequest *)lParam)->ticket)) {
             const NemoPasteRequest *request = (const NemoPasteRequest *)lParam;
             if (request->files) nemo_paste_drop(wgs,(HDROP)request->data);
             else if (request->application_paste) {
                 /* Image transfer belongs to the foreground application's
                  * native clipboard reader. Never encode pixels as VT text. */
                 nemo_keyboard_image_paste(wgs);
-            } else process_clipdata(wgs, request->data, request->unicode);
+            } else if (request->data) process_clipdata(wgs, request->data, request->unicode);
+            nemo_paste_order_finish(wgs);
         }
         return 0;
       case WM_NEMO_OSC52_READY:
         nemo_osc52_poll(wgs, wParam);
         return 0;
       case WM_TIMER:
+        if (wParam == NEMO_PASTE_ORDER_TIMER) { nemo_paste_order_timer(wgs); return 0; }
         if (wParam == NEMO_SELECTION_SCROLL_TIMER) {
             if (!wgs->selection_scroll_active) return 0;
             Terminal *term = wgs->term;
@@ -7177,10 +7184,11 @@ static DWORD WINAPI clipboard_read_threadfunc(void *param)
             SendMessage(request->hwnd, WM_GOT_CLIPDATA,
                         request->session_id, (LPARAM)request);
         CloseClipboard();
-        /* The application must be able to open the clipboard immediately. */
-        if (request->application_paste)
-            SendMessage(request->hwnd,WM_GOT_CLIPDATA,request->session_id,(LPARAM)request);
     }
+    /* Empty/unavailable clipboards must release keys too. For an image,
+     * notify only after CloseClipboard so the app can open it immediately. */
+    if (!request->data)
+        SendMessage(request->hwnd,WM_GOT_CLIPDATA,request->session_id,(LPARAM)request);
     sfree(request);
     return 0;
 }
@@ -7228,7 +7236,11 @@ static void wintw_clip_request_paste(TermWin *tw, int clipboard)
 {
     WinGuiSeat *wgs = container_of(tw, WinGuiSeat, termwin);
     assert(clipboard == CLIP_SYSTEM);
+    nemo_paste_order_request(wgs);
+}
 
+bool nemo_clipboard_start_worker(WinGuiSeat *wgs, UINT_PTR ticket)
+{
     /*
      * I always thought pasting was synchronous in Windows; the
      * clipboard access functions certainly _look_ synchronous,
@@ -7246,16 +7258,16 @@ static void wintw_clip_request_paste(TermWin *tw, int clipboard)
      * that tells us it's OK to paste.
      */
     DWORD in_threadid; /* required for Win9x */
-    if (wgs->closing) return;
     NemoPasteRequest *request = snew(NemoPasteRequest);
     *request = (NemoPasteRequest){ .hwnd = wgs->term_hwnd,
-                                 .session_id = wgs->session_id };
+                                 .session_id = wgs->session_id, .ticket = ticket };
     HANDLE hThread = CreateThread(NULL, 0, clipboard_read_threadfunc,
                                   request, 0, &in_threadid);
     if (hThread)
         CloseHandle(hThread);          /* we don't need the thread handle */
     else
         sfree(request);
+    return hThread != NULL;
 }
 
 /*
