@@ -5391,7 +5391,8 @@ static int selection_bidi_slot(Terminal *term, int y)
  */
 static void check_selection(Terminal *term, pos from, pos to)
 {
-    if (term->selstate == NO_SELECTION) return;
+    /* A single press has an anchor, but no highlighted range yet. */
+    if (term->selstate != SELECTED && term->selstate != DRAGGING) return;
     if (term->seltype != LEXICOGRAPHIC) {
         bool rect = term->seltype == RECTANGULAR;
         int first = max(from.y, term->selstart.y), last = min(to.y, term->selend.y);
@@ -5457,6 +5458,55 @@ static void nemo_tabulate(Terminal *term, unsigned count, bool forward)
     seen_disp_event(term);
 }
 
+/* The partial-width scroll copies logical cells, not rendered columns. Map a
+ * pending press through both rows: a bidi glyph can cross the edge of the
+ * pane visually even when its logical cell stays on the same row. */
+static bool pressed_scroll_source(Terminal *term, int top, int bottom,
+                                  int left, int right, int lines,
+                                  pos *dest, int *half)
+{
+    if (term->selstate != ABOUT_TO || term->selanchor.y < top ||
+        term->selanchor.y > bottom)
+        return false;
+    *dest = term->selanchor;
+    *half = 0;
+    termline *row = scrlineptr(dest->y);
+    check_line_size(term, row);
+    if (term->seltype == RECTANGULAR) {
+        int scale = selection_row_scale(row);
+        *half = dest->x % scale;
+        dest->x /= scale;
+    }
+    if (dest->x < 0 || dest->x >= term->cols) return false;
+    if (term->seltype != LEXICOGRAPHIC) {
+        int slot = selection_bidi_slot(term, dest->y);
+        if (term_bidi_line(term, row, slot)) {
+            int x = term->post_bidi_cache[slot].backward[dest->x];
+            if (term->post_bidi_cache[slot].forward[x] != dest->x)
+                return false; /* synthetic display cell */
+            dest->x = x;
+        }
+    }
+    if (dest->x >= left && dest->x < right) dest->y -= lines;
+    return dest->y >= top && dest->y <= bottom;
+}
+
+static void pressed_scroll_finish(Terminal *term, pos dest, int half)
+{
+    if (term->selstate != ABOUT_TO) return;
+    termline *row = scrlineptr(dest.y);
+    if (term->seltype != LEXICOGRAPHIC) {
+        int slot = selection_bidi_slot(term, dest.y);
+        if (term_bidi_line(term, row, slot))
+            dest.x = term->post_bidi_cache[slot].forward[dest.x];
+    }
+    if (term->seltype == RECTANGULAR) {
+        int scale = selection_row_scale(row);
+        dest.x = min(term->cols-1, dest.x*scale + min(half, scale-1));
+    }
+    term->selanchor = dest;
+}
+
 static void clear_line(Terminal *term, termline *line)
 {
     resizeline(term, line, term->cols);
@@ -5507,6 +5557,10 @@ static void scroll(Terminal *term, int topline, int botline,
         lines = max(-scrollwinsize, min(lines, scrollwinsize));
         if (!lines) return;
         int left = term->marg_l, right = term->marg_r+1;
+        pos anchor;
+        int half;
+        bool follow_press = pressed_scroll_source(term, topline, botline,
+            left, right, lines, &anchor, &half);
         /* Clean wide-glyph boundaries before any row becomes a source.
          * Only full-width rotation can move complete lines into history. */
         for (int y = topline; y <= botline; y++) {
@@ -5526,6 +5580,7 @@ static void scroll(Terminal *term, int topline, int botline,
             for (int x = left; x < right; x++)
                 copy_termchar(dst, x, src ? &src->chars[x] : &term->erase_char);
         }
+        if (follow_press) pressed_scroll_finish(term, anchor, half);
         if (!term->alt_which)
             nemo_shell_marks_rows(&term->shell_marks,
                 -count234(term->scrollback), term->rows-1, 0);

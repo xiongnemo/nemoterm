@@ -712,6 +712,34 @@ static void test_pressed_scroll(Mock *mk)
     }
 }
 
+/* Release can be the first motion event. The source press is on the
+ * trailing half of a wide glyph, inside or outside a two-row pane scroll. */
+static void test_split_scroll_press(Mock *mk)
+{
+    const int clipboard = CLIP_LOCAL + 1;
+    for (int dir = -1; dir <= 1; dir += 2) {
+        for (int inside = 0; inside < 2; inside++) {
+            for (int rect = 0; rect < 2; rect++) {
+                reset(mk);
+                test_context(mk, "pane scroll %d, inside %d, rect %d", dir, inside, rect);
+                term_data_fragmented(mk->term, inside ? "\033[9;13H" : "\033[9;3H");
+                term_data_fragmented(mk->term, "A\xe4\xb8\xad" "e\xcc\x81Z");
+                term_data_fragmented(mk->term, "\033[?69h\033[11;30s\033[5;17r\033[?1002;1006h");
+                int x = inside ? 12 : 2, y = 8, endrow = inside ? y+dir*2 : y;
+                term_mouse(mk->term, MBT_LEFT, MBT_SELECT, MA_CLICK, x+2, y, true, rect, false);
+                term_data_fragmented(mk->term, dir > 0 ? "\033[2T" : "\033[2S");
+                IEQUAL(get_termchar(mk->term, x+2, endrow).chr, UCSWIDE);
+                IEQUAL(mk->term->selanchor.x, x+2);
+                IEQUAL(mk->term->selanchor.y, endrow);
+                term_mouse(mk->term, MBT_LEFT, MBT_SELECT, MA_RELEASE, x+3, endrow, false, false, false);
+                term_request_copy(mk->term, &clipboard, 1);
+                check_clipboard(mk, L"\x4e2d" L"e\x0301");
+                IEQUAL(mk->to_backend->len, 0);
+            }
+        }
+    }
+}
+
 static void test_colour_and_alternate_screen(Mock *mk)
 {
     reset(mk);
@@ -861,6 +889,7 @@ int main(void)
     test_wintitle(mk);
     test_shift_selection(mk);
     test_pressed_scroll(mk);
+    test_split_scroll_press(mk);
     test_colour_and_alternate_screen(mk);
     test_bracketed_paste(mk);
     test_consecutive_pastes(mk);
