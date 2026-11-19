@@ -2,6 +2,7 @@ name: Same-host pterm and Nemoterm memory comparison
 on:
   workflow_call:
     inputs:
+      image_gestures: {type: boolean, default: false}
       multi_turn: {type: boolean, default: false}
       product_run: {required: true, type: string}
       product_commit: {required: true, type: string}
@@ -40,7 +41,15 @@ jobs:
           if ($LASTEXITCODE) {exit $LASTEXITCODE}
           npm ci --prefix tools/codex-fixture --ignore-scripts --no-audit --no-fund
           exit $LASTEXITCODE
+      - name: Press paste in stock pterm and Nemoterm with an actual Codex editor
+        if: inputs.image_gestures
+        run: |
+          $clients=@(Get-ChildItem tools/codex-fixture/node_modules -Recurse -Filter codex.exe)
+          if ($clients.Count -ne 1) {throw 'Expected one pinned Codex client'}
+          python tests/pterm_gui_image.py --pterm build/pair-product/pterm.exe --codex $clients[0].FullName
+          exit $LASTEXITCODE
       - name: Sample each fresh frontend before Codex starts and after its visible loopback reply
+        if: ${{ !inputs.image_gestures }}
         run: |
           $clients=@(Get-ChildItem tools/codex-fixture/node_modules -Recurse -Filter codex.exe)
           if ($clients.Count -ne 1) {throw 'Expected one pinned native Codex client'}
@@ -53,10 +62,12 @@ jobs:
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
-          name: ${{ inputs.multi_turn && 'agent-session-memory' || 'pterm-memory-pair' }}-${{ github.run_id }}-${{ github.run_attempt }}
+          name: ${{ inputs.image_gestures && 'paired-gui-images' || inputs.multi_turn && 'agent-session-memory' || 'pterm-memory-pair' }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
             build/pair-product/*.json
             build/interaction-dependencies/*.json
+            build/paired-gui-images/summary.json
+            build/paired-gui-images/*/before-submit.png
             build/paired-agent-memory/summary.json
             build/paired-agent-memory/*/*.json
             build/paired-agent-memory/*/frontend.png
