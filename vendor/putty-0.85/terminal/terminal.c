@@ -5473,12 +5473,11 @@ static void discard_selection_press(Terminal *term)
     term->discarded_select_press = true;
 }
 
-/* The partial-width scroll copies logical cells, not rendered columns. Map a
- * pending press through both rows: a bidi glyph can cross the edge of the
- * pane visually even when its logical cell stays on the same row. */
-static bool pressed_scroll_source(Terminal *term, int top, int bottom,
-                                  int left, int right, int lines,
-                                  pos *dest, int *half)
+/* A local press starts at a rendered position. Editing operations move logical
+ * cells; keep both halves of a wide glyph and the physical half of a scaled
+ * cell together when translating the anchor in either direction. */
+static bool pressed_cell_source(Terminal *term, int top, int bottom,
+                                pos *dest, int *half, int *first, int *last)
 {
     if (term->selstate != ABOUT_TO || term->selanchor.y < top ||
         term->selanchor.y > bottom)
@@ -5502,21 +5501,53 @@ static bool pressed_scroll_source(Terminal *term, int top, int bottom,
             dest->x = x;
         }
     }
-    /* check_boundary will erase both halves if the pane cuts a wide glyph,
-     * even when the pressed half is just outside the scrolling columns. */
-    int first = dest->x, last = dest->x;
-    if (first > 0 && row->chars[first].chr == UCSWIDE) first--;
-    else if (last+1 < term->cols && row->chars[last+1].chr == UCSWIDE) last++;
-    if (dest->x >= left && dest->x < right) dest->y -= lines;
-    if ((first < left && last >= left) || (first < right && last >= right) ||
-        dest->y < top || dest->y > bottom || row->trusted != term->trusted) {
+    *first = *last = dest->x;
+    if (*first > 0 && row->chars[*first].chr == UCSWIDE) (*first)--;
+    else if (*last+1 < term->cols && row->chars[*last+1].chr == UCSWIDE) (*last)++;
+    if (row->trusted != term->trusted) {
         discard_selection_press(term);
         return false;
     }
     return true;
 }
 
-static void pressed_scroll_finish(Terminal *term, pos dest, int half)
+static bool pressed_scroll_source(Terminal *term, int top, int bottom,
+                                  int left, int right, int lines,
+                                  pos *dest, int *half)
+{
+    int first, last;
+    if (!pressed_cell_source(term, top, bottom, dest, half, &first, &last))
+        return false;
+    if (dest->x >= left && dest->x < right) dest->y -= lines;
+    if ((first < left && last >= left) || (first < right && last >= right) ||
+        dest->y < top || dest->y > bottom) {
+        discard_selection_press(term);
+        return false;
+    }
+    return true;
+}
+
+/* [left,right) is edited in place. Outside it the logical column stays put,
+ * but reordering the rest of the bidi row can still move its visible glyph. */
+static bool pressed_columns_source(Terminal *term, int top, int bottom,
+                                   int left, int right, int shift, pos *dest, int *half)
+{
+    int first, last;
+    if (!pressed_cell_source(term, top, bottom, dest, half, &first, &last))
+        return false;
+    int cut = (shift > 0 ? right : left) - shift;
+    if ((first < left && last >= left) || (first < right && last >= right) ||
+        (first < cut && last >= cut) ||
+        (dest->x >= left && dest->x < right &&
+         (shift > 0 ? dest->x >= cut : dest->x < cut))) {
+        discard_selection_press(term);
+        return false;
+    }
+    if (dest->x >= left && dest->x < right) dest->x += shift;
+    return true;
+}
+
+static void restore_pressed_cell(Terminal *term, pos dest, int half)
 {
     if (term->selstate != ABOUT_TO) return;
     termline *row = scrlineptr(dest.y);
@@ -5524,6 +5555,10 @@ static void pressed_scroll_finish(Terminal *term, pos dest, int half)
         int slot = selection_bidi_slot(term, dest.y);
         if (term_bidi_line(term, row, slot))
             dest.x = term->post_bidi_cache[slot].forward[dest.x];
+    }
+    if (dest.x >= nemo_line_columns(term, row)) {
+        discard_selection_press(term); /* moved beyond a double-size row's displayed columns */
+        return;
     }
     if (term->seltype == RECTANGULAR) {
         int scale = selection_row_scale(row);
@@ -5605,7 +5640,7 @@ static void scroll(Terminal *term, int topline, int botline,
             for (int x = left; x < right; x++)
                 copy_termchar(dst, x, src ? &src->chars[x] : &term->erase_char);
         }
-        if (follow_press) pressed_scroll_finish(term, anchor, half);
+        if (follow_press) restore_pressed_cell(term, anchor, half);
         if (!term->alt_which)
             nemo_shell_marks_rows(&term->shell_marks,
                 -count234(term->scrollback), term->rows-1, 0);
@@ -6471,7 +6506,12 @@ static void insch(Terminal *term, int n)
     n = (n < 0 ? -n : n);
     if (n > end - term->curs.x)
         n = end - term->curs.x;
+    if (n <= 0) return;
     m = end - term->curs.x - n;
+    pos anchor;
+    int half;
+    bool follow_press = pressed_columns_source(term, term->curs.y, term->curs.y,
+        term->curs.x, end, dir*n, &anchor, &half);
 
     /*
      * We must de-highlight the selection if it overlaps any part of
@@ -6491,7 +6531,8 @@ static void insch(Terminal *term, int n)
     edit_start.x *= sel_scale;
     eol.y = term->curs.y;
     eol.x = min(term->cols, end * sel_scale);
-    if (poslt(edit_start, term->selend) && poslt(term->selstart, eol)) {
+    if ((term->selstate == SELECTED || term->selstate == DRAGGING) &&
+        poslt(edit_start, term->selend) && poslt(term->selstart, eol)) {
         pos okstart = edit_start;
         pos okend = eol;
         if (dir > 0) {
@@ -6520,8 +6561,7 @@ static void insch(Terminal *term, int n)
 
     check_boundary(term, term->curs.x, term->curs.y);
     check_boundary(term, end, term->curs.y);
-    if (dir < 0)
-        check_boundary(term, term->curs.x + n, term->curs.y);
+    check_boundary(term, dir < 0 ? term->curs.x+n : end-n, term->curs.y);
     ldata = scrlineptr(term->curs.y);
     check_trust_status(term, ldata);
     if (dir < 0) {
@@ -6541,6 +6581,7 @@ static void insch(Terminal *term, int n)
         while (n--)
             copy_termchar(ldata, term->curs.x + n, &blank);
     }
+    if (follow_press) restore_pressed_cell(term, anchor, half);
 }
 
 /* SL/SR and DEC column editing share one bounded rectangle operation.
@@ -6552,6 +6593,10 @@ static void nemo_scroll_columns(Terminal *term, unsigned count, bool to_left, in
     int right = term->marg_r+1;
     int n = min(count ? count : 1, (unsigned)(right-left));
     if (!n) return;
+    pos anchor;
+    int half;
+    bool follow_press = pressed_columns_source(term, term->marg_t, term->marg_b,
+        left, right, to_left ? -n : n, &anchor, &half);
     if (!term->alt_which) {
         nemo_shell_marks_shift(&term->shell_marks, left, right,
                               term->marg_t, term->marg_b, to_left ? -n : n);
@@ -6582,6 +6627,7 @@ static void nemo_scroll_columns(Terminal *term, unsigned count, bool to_left, in
                 copy_termchar(line, x, &blank);
         }
     }
+    if (follow_press) restore_pressed_cell(term, anchor, half);
     seen_disp_event(term);
 }
 
