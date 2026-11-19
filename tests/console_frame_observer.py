@@ -75,35 +75,48 @@ class ConsoleView:
             if self.compare_cells:
                 record.update(reader='ReadConsoleOutputW',legacy_available=legacy is not None,
                               legacy_ack_lines=[] if legacy is None else [s for s in legacy.splitlines() if 'ACKTURN' in s],
+                              legacy_reply_seen=None if legacy is None else 'NEMOTERM_TEXT_ACCEPTED' in legacy,
                               wide_probe_seen=legacy is not None and 'CELL中Z' in legacy)
             write_snapshot(self.folder/'peer-screen.json',record);self.previous=frame
 
 
 def observe(folder,command):
-    view=ConsoleView(folder)
+    # The hosted WinPTY Unicode control may contain wide glyphs on the
+    # same screen as its ASCII acknowledgement. Keep both observations.
+    view=ConsoleView(folder,compare_cells=True)
     # GetStdHandle identifies the inherited buffer. A client can activate
     # another buffer; opening CONOUT$ reads the one active at that instant.
     k.CreateFileW.argtypes=[w.LPCWSTR,w.DWORD,w.DWORD,c.c_void_p,w.DWORD,w.DWORD,w.HANDLE]
     k.CreateFileW.restype=w.HANDLE;k.CloseHandle.argtypes=[w.HANDLE]
     invalid=c.c_void_p(-1).value; token='NEMOTERM_TEXT_ACCEPTED';prev=None
-    record=dict(captures=0,unavailable=0,first_token_ns=None)
+    record=dict(reader='ReadConsoleOutputW',captures=0,unavailable=0,first_token_ns=None,
+                legacy_captures=0,legacy_unavailable=0,legacy_first_token_ns=None)
     child=subprocess.Popen(command)
     try:
         while child.poll() is None:
             view.capture();handle=k.CreateFileW('CONOUT$',0x80000000,3,None,3,0,None)
             if handle not in (None,invalid):
-                try:active=console_view(handle)
+                try:
+                    active=cell_view(handle)
+                    legacy=console_view(handle)
                 finally:k.CloseHandle(handle)
-            else:active=None
+            else:active=legacy=None
+            if legacy is None:record['legacy_unavailable']+=1
+            else:
+                record['legacy_captures']+=1
+                if record['legacy_first_token_ns'] is None and token in legacy:
+                    record['legacy_first_token_ns']=time.monotonic_ns()
             if active is None:record['unavailable']+=1
             else:
                 record['captures']+=1
                 if active!=prev:
                     stamp=time.monotonic_ns();prev=active
-                    write_snapshot(folder/'peer-active-screen.json',dict(text=active,monotonic_ns=stamp))
+                    sample=dict(text=active,reader=record['reader'],monotonic_ns=stamp,
+                                legacy_reply_seen=None if legacy is None else token in legacy)
+                    write_snapshot(folder/'peer-active-screen.json',sample)
                     if record['first_token_ns'] is None and token in active:
                         record['first_token_ns']=stamp
-                        write_snapshot(folder/'peer-active-first-reply.json',dict(text=active,monotonic_ns=stamp))
+                        write_snapshot(folder/'peer-active-first-reply.json',sample)
             time.sleep(.025)
     finally:write_snapshot(folder/'peer-active-stats.json',record)
     return child.returncode

@@ -194,10 +194,12 @@ def reference(backend,client,folder,rec,serial=False):
                 rec['form']='exact' if row['selection_received'] else 'NFC'
                 def accepted():
                     token='NEMOTERM_TEXT_ACCEPTED';data=bytes(raw)
-                    screen=read_snapshot(folder/'peer-screen.json').get('text','') if backend=='1' else ''
-                    if token.encode() not in data and token not in screen:return False
-                    rec['rendered_ack']=dict(output_bytes=token.encode() in data,console_cells=token in screen)
-                    if token in screen:write_snapshot(folder/'accepted-screen.json',dict(text=screen))
+                    frame=read_snapshot(folder/'peer-screen.json') if backend=='1' else {}
+                    in_output=token.encode() in data;in_cells=token in frame.get('text','')
+                    if not in_output and not in_cells:return False
+                    rec['rendered_ack']=dict(output_bytes=in_output,console_cells=in_cells,
+                                             reader=frame.get('reader'),legacy_reply_seen=frame.get('legacy_reply_seen'))
+                    if in_cells:write_snapshot(folder/'accepted-screen.json',frame)
                     return True
                 try:
                     wait_for(accepted,timeout=15)
