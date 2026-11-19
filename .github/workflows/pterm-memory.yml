@@ -2,8 +2,7 @@ name: Same-host pterm and Nemoterm memory comparison
 on:
   workflow_call:
     inputs:
-      image_gestures: {type: boolean, default: false}
-      multi_turn: {type: boolean, default: false}
+      suite: {type: string, required: true}
       product_run: {required: true, type: string}
       product_commit: {required: true, type: string}
 permissions: {contents: read, actions: read}
@@ -16,10 +15,12 @@ jobs:
         with: {fetch-depth: 0}
       - name: Identify both original executables
         env:
+          PAIR_SUITE: ${{ inputs.suite }}
           GH_TOKEN: ${{ github.token }}
           PRODUCT_RUN: ${{ inputs.product_run }}
           PRODUCT_COMMIT: ${{ inputs.product_commit }}
         run: |
+          if ($env:PAIR_SUITE -notin 'pterm-images','pterm-memory','agent-session-memory') {throw 'Unknown paired frontend scenario'}
           scripts/fetch-ci-product.ps1 -Run $env:PRODUCT_RUN -Commit $env:PRODUCT_COMMIT -Destination build/pair-product
           "NEMOTERM_TEST_EXE=$((Resolve-Path build/pair-product/nemoterm.exe).Path)" | Out-File $env:GITHUB_ENV -Append -Encoding utf8
           $uri='https://the.earth.li/~sgtatham/putty/0.85/w64/pterm.exe'
@@ -42,19 +43,21 @@ jobs:
           npm ci --prefix tools/codex-fixture --ignore-scripts --no-audit --no-fund
           exit $LASTEXITCODE
       - name: Press paste in stock pterm and Nemoterm with an actual Codex editor
-        if: inputs.image_gestures
+        if: inputs.suite == 'pterm-images'
         run: |
           $clients=@(Get-ChildItem tools/codex-fixture/node_modules -Recurse -Filter codex.exe)
           if ($clients.Count -ne 1) {throw 'Expected one pinned Codex client'}
           python tests/pterm_gui_image.py --pterm build/pair-product/pterm.exe --codex $clients[0].FullName
           exit $LASTEXITCODE
       - name: Sample each fresh frontend before Codex starts and after its visible loopback reply
-        if: ${{ !inputs.image_gestures }}
+        if: inputs.suite == 'pterm-memory' || inputs.suite == 'agent-session-memory'
+        env:
+          PAIR_SUITE: ${{ inputs.suite }}
         run: |
           $clients=@(Get-ChildItem tools/codex-fixture/node_modules -Recurse -Filter codex.exe)
           if ($clients.Count -ne 1) {throw 'Expected one pinned native Codex client'}
           $flags = @()
-          if ('${{ inputs.multi_turn }}' -eq 'true') { $flags += '--multi-turn' }
+          if ($env:PAIR_SUITE -eq 'agent-session-memory') { $flags += '--multi-turn' }
           python tests/paired_agent_memory.py --pterm build/pair-product/pterm.exe --codex $clients[0].FullName @flags
           exit $LASTEXITCODE
       - if: always()
@@ -62,7 +65,7 @@ jobs:
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
-          name: ${{ inputs.image_gestures && 'paired-gui-images' || inputs.multi_turn && 'agent-session-memory' || 'pterm-memory-pair' }}-${{ github.run_id }}-${{ github.run_attempt }}
+          name: ${{ inputs.suite == 'pterm-images' && 'paired-gui-images' || inputs.suite == 'agent-session-memory' && 'agent-session-memory' || 'pterm-memory-pair' }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
             build/pair-product/*.json
             build/interaction-dependencies/*.json

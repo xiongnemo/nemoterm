@@ -87,7 +87,7 @@ jobs:
     if: ${{ inputs.suite == 'pterm-images' || inputs.suite == 'pterm-memory' || inputs.suite == 'agent-session-memory' }}
     uses: ./.github/workflows/pterm-memory.yml
     with:
-      multi_turn: ${{ inputs.suite == 'agent-session-memory' }}
+      suite: ${{ inputs.suite }}
       product_run: ${{ inputs.source_run }}
       product_commit: ${{ inputs.source_commit }}
   regis-presented-matrix:
