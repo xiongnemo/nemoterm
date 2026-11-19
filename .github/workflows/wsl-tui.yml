@@ -49,6 +49,11 @@ jobs:
           New-Item -ItemType Directory -Force build/wsl-check/tools,build/wsl-check/research,build/wsl-check/build | Out-Null
           Copy-Item tests build/wsl-check/tests -Recurse
           Copy-Item tools/nemoterm_debug.py build/wsl-check/tools/
+      - name: Compare a Linux raw reader and canonical input with the XTerm clipboard
+        if: inputs.suite == 'paste-quote'
+        run: |
+          Copy-Item testdata/upstream/xterm412-paste-quote.zip build/wsl-check/
+          python build/wsl-check/tests/wsl_paste_quote.py
       - name: Compare a real WSL image against the libsixel decoder on GDI and DirectX
         if: inputs.suite == 'sixel'
         run: python build/wsl-check/tests/wsl_sixel_image.py
@@ -67,7 +72,7 @@ jobs:
       - if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
-          name: ${{ inputs.suite == 'sixel' && 'wsl-sixel' || inputs.suite == 'tmux-vim' && 'wsl-tmux-vim' || inputs.suite == 'vim' && 'wsl-vim' || inputs.suite == 'colour' && 'wsl-colour' || 'wsl-tui' }}-${{ github.run_id }}-${{ github.run_attempt }}
+          name: ${{ inputs.suite == 'paste-quote' && 'wsl-paste-quote' || inputs.suite == 'sixel' && 'wsl-sixel' || inputs.suite == 'tmux-vim' && 'wsl-tmux-vim' || inputs.suite == 'vim' && 'wsl-vim' || inputs.suite == 'colour' && 'wsl-colour' || 'wsl-tui' }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
             build/wsl-provision/*.log
             build/wsl-check/research/

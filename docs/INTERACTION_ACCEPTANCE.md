@@ -163,7 +163,7 @@ Codex 首次输入会同时触发颜色查询。托管 Windows 控制台用相�
 
 同一 EXE 可用 `font-zoom-replay.yml` 的 `suite=image-timing` 分别重放 Codex 首次显示输入与报告就绪后的两种贴图快捷键；`suite=picture-keys` 则用同一批启动输出核对原生 Windows 键盘记录。见[启动时序、实际图片与原始记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/agent-unicode-boundary.md#codex-image-paste-during-startup)。
 
-`agents` 的六个普通位图用例区分首次出现输入文字、等待 Codex 就绪、Windows 实按和窗口接口。每个用例都在独立会话验证 Ctrl+V 与 Ctrl+Shift+V。必须在带有本次输入标记的第一条聊天请求里恰好收到一张 32×16 图片，逐像素符合预期；后续请求不能再带图片。OpenCode 给会话生成标题时可能另外发送同一张图；单独计数，不能替聊天请求证明贴图成功。启动草稿的未通过项仍计入总数。
+`agents` 的六个普通位图用例区分首次出现输入文字、等待 Codex 就绪、Windows 实按和窗口接口。每个用例都在独立会话验证 Ctrl+V 与 Ctrl+Shift+V。必须在带有本次输入标记的第一条聊天请求里恰好收到一张 32×16 图片，逐像素符合预期；后续请求不能再带图片。OpenCode 给会话生成标题时可能另外发送同一张图；单独计数，不能替聊天请求证明贴图成功。启动草稿的未通过项仍计入总数。首次显示文字只标记发键时机，不能证明能接收图片的编辑器已经就绪；这里的失败本身不表明终端丢键。见[系统 ConPTY、WinPTY 与同稿重试的实测对照](../research/codex-bitmap-requests.md)。
 
 `suite=image-mixed` tests a real Codex editor after its idle redraw with a generated bitmap and an empty `CF_UNICODETEXT` alternative present together. Both shortcuts are delivered via API and physical keyboard; success requires one exact image in the submitted request. On the API runner, ten native child-input cases compare the same Paste action with DIB only, empty or nonempty Unicode/ANSI alternatives, reversed format order, whitespace and empty text alone. `suite=image-mixed-opencode` repeats the two real input paths in the pinned OpenCode client after its composer paints the typed marker; it does not use the Codex idle signal. The default and title-disabled OpenCode configurations retain the same one-image-in-one-request assertion; each request records whether it carries the pinned title instruction. The normal `picture-keys` suite also runs the child-input cases. This does not replace the startup-only or delayed bitmap checks.
 
@@ -266,3 +266,5 @@ Windows 用 `font-zoom-replay.yml` 的 `suite=paste-quote` 对指定 EXE 重放�
 后续候选还须单独验证 Windows 应用实际收到的中文与 emoji。对不能由 `ReadConsoleW` 表示的原始 PTY 序列，游标控制和括号边界不变，要求子进程在每个 Unicode 字符前读到一次 literal-next，并读到完整字符；发送管道仍须逐字节符合 XTerm。不能用“前端发送正确”掩盖子进程收到替换字符或丢字。两项各自记录，后者是 Windows 可用性要求，不是声称 XTerm 的 PTY 返回 UTF-16。
 
 `49f11579` 的[四组原始回放](../research/paste-quote-frontend-49f11579.zip)在应用粘贴管道上各为 19/19，真实 Windows 子进程却只有 8/19：`中` 被读成三个 `U+FFFD`，emoji 被读成四个。后续回放同时检查默认 `^V` 和 profile 指定的 `^]`，包括正式的模式查询、括号边界、CRLF/LF 和紧随粘贴的实按 Enter。在任一端比较失败都不算通过。
+
+`font-zoom-replay.yml` 的 `suite=wsl-paste-quote` 将同一 EXE 放在托管 Windows 的 Ubuntu 24.04 中对照：原始 TTY 逐字节比对 XTerm 412 的剪贴板记录；启用 Linux 行编辑后，分别检查含中文、表情、Tab 和内嵌换行的完整一行及下一行哨兵。两种 renderer 和两个实际 `VLNEXT` 值分开记录。该检查也属于 `ci.yml scope=full`。

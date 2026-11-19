@@ -7,6 +7,7 @@ case "$1" in
   tmux-vim) pkgs=(vim tmux ncurses-term) ;;
   vim) pkgs=(vim) ;;
   colour) pkgs=(ncurses-term) ;;
+  paste-quote) pkgs=(python3) ;;
   pager) pkgs=(less) ;;
   *) exit 64 ;;
 esac

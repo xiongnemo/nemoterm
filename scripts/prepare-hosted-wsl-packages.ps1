@@ -1,5 +1,5 @@
 [CmdletBinding()]
-param([Parameter(Mandatory)][ValidateSet('sixel','tmux-vim','vim','colour','pager')][string]$Suite)
+param([Parameter(Mandatory)][ValidateSet('sixel','tmux-vim','vim','colour','pager','paste-quote')][string]$Suite)
 $ErrorActionPreference = 'Stop'
 if ($env:GITHUB_ACTIONS -ne 'true' -or $env:RUNNER_ENVIRONMENT -ne 'github-hosted' -or $env:RUNNER_OS -ne 'Windows') {
     throw 'WSL fixtures require a GitHub-hosted Windows runner.'
