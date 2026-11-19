@@ -110,3 +110,15 @@ def clipboard_text(hwnd):
             k.GlobalUnlock(handle)
     finally:
         u.CloseClipboard()
+
+def set_clipboard(hwnd,text):
+    data=(text+'\0').encode('utf-16le');handle=k.GlobalAlloc(2,len(data));assert handle
+    try:
+        addr=k.GlobalLock(handle);assert addr;c.memmove(addr,data,len(data));k.GlobalUnlock(handle)
+        wait_for(lambda:u.OpenClipboard(hwnd))
+        try:
+            assert u.EmptyClipboard() and u.SetClipboardData(13,handle);handle=None
+        finally:u.CloseClipboard()
+    finally:
+        if handle:k.GlobalFree(handle)
+    assert clipboard_text(hwnd)==text

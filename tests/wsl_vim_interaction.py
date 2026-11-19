@@ -12,7 +12,7 @@ import uuid
 import winreg
 
 from PIL import Image, ImageChops
-from clipboard_test_utils import SavedClipboard, clipboard_text
+from clipboard_test_utils import SavedClipboard, clipboard_text, set_clipboard
 from hosted_gesture_input import DesktopInput
 from native_test_utils import c, w, k, u, root, wait_for
 sys.path.insert(0,str(root/'tools'))
@@ -65,18 +65,6 @@ await finish
 '''
 u.GetWindowRect.argtypes=[w.HWND,c.POINTER(w.RECT)]
 u.SetWindowPos.argtypes=[w.HWND,w.HWND,c.c_int,c.c_int,c.c_int,c.c_int,w.UINT]
-
-def set_clipboard(hwnd,text):
-    data=(text+'\0').encode('utf-16le');handle=k.GlobalAlloc(2,len(data));assert handle
-    try:
-        addr=k.GlobalLock(handle);assert addr;c.memmove(addr,data,len(data));k.GlobalUnlock(handle)
-        wait_for(lambda:u.OpenClipboard(hwnd))
-        try:
-            assert u.EmptyClipboard() and u.SetClipboardData(13,handle);handle=None
-        finally:u.CloseClipboard()
-    finally:
-        if handle:k.GlobalFree(handle)
-    assert clipboard_text(hwnd)==text
 
 TMUX_CONF="""set -g status off
 set -g mouse on
