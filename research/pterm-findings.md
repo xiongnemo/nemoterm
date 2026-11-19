@@ -218,7 +218,7 @@ Nemoterm EXE 的 SHA-256 为 `c7f4f4be019a2fb0262f984d15e7f6177eb47da043558dd819
 
 ## 逐字节粘贴版 `9b5e1111` 的同机对照
 
-[同一个 runner 的逐次采样和实际画面](agent-session-9b5e1111.zip)使用安装版 pterm 0.85 对应的同一 SHA-256、单标签 Nemoterm GDI 和单标签 DirectX，字体均为 SarasaTermSC Nerd Light，160×48。各完成 24 轮追问、自然退出。每轮在同一帧看到全部 16 行中文回复及其结尾；过程中未观察到 WebView 相关模块或进程。[同一 EXE 的 PE 导入表](paste-quote-native-9b5e1111.zip)提供独立的静态检查。以下是整个会话的**峰值**，单位为十进制 MB，仅统计终端前端：
+[同一个 runner 的逐次采样和实际画面](https://github.com/xiongnemo/nemoterm/blob/b34d1a21f80027faf082357a522132b98fb0fdf0/research/agent-session-9b5e1111.zip)使用安装版 pterm 0.85 对应的同一 SHA-256、单标签 Nemoterm GDI 和单标签 DirectX，字体均为 SarasaTermSC Nerd Light，160×48。各完成 24 轮追问、自然退出。每轮在同一帧看到全部 16 行中文回复及其结尾；过程中未观察到 WebView 相关模块或进程。[同一 EXE 的 PE 导入表](paste-quote-native-9b5e1111.zip)提供独立的静态检查。以下是整个会话的**峰值**，单位为十进制 MB，仅统计终端前端：
 
 | 前端 | 私有工作集 | 总工作集 | 私有提交 |
 | --- | ---: | ---: | ---: |
@@ -226,7 +226,7 @@ Nemoterm EXE 的 SHA-256 为 `c7f4f4be019a2fb0262f984d15e7f6177eb47da043558dd819
 | Nemoterm GDI | 5.49 | 34.52 | 6.77 |
 | Nemoterm DirectX | 9.74 | 44.83 | 11.30 |
 
-[六类图文压力场景](interaction-9b5e1111.zip)分别测得 GDI、DirectX 前端的私有工作集峰值 19.33、28.91 MB，总工作集峰值 56.21、72.11 MB；均未超过对应的**私有**工作集上限。
+[六类图文压力场景](https://github.com/xiongnemo/nemoterm/blob/b34d1a21f80027faf082357a522132b98fb0fdf0/research/interaction-9b5e1111.zip)分别测得 GDI、DirectX 前端的私有工作集峰值 19.33、28.91 MB，总工作集峰值 56.21、72.11 MB；均未超过对应的**私有**工作集上限。
 
 ## `cf091974`：资源管理器拖放修复后的同机对照
 

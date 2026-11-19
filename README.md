@@ -33,13 +33,13 @@ Kitty 图片支持直接 RGB/RGBA/PNG、压缩传输、裁剪、透明度、查�
 
 ## 下载
 
-[下载 Windows x64 单文件测试版 `9b5e1111`](https://github.com/xiongnemo/nemoterm/actions/runs/44579376254/artifacts/14559040156)。解压后只需 `nemoterm.exe`（4,877,312 字节）。SHA-256：`f4227182174d148a2e9bdb24fc260d2aba8ce8eff357a2d687071de05af4f18c`。
+[下载 Windows x64 单文件测试版 `cf091974`](https://github.com/xiongnemo/nemoterm/actions/runs/44588222859/artifacts/14562762043)。解压后只需 `nemoterm.exe`（4,862,464 字节）。SHA-256：`9df8365b9e32444f24d279c114750090122f8550c1aa53dffa2972c448aa4788`。
 
-Windows 程序启用 XTerm 的 `?2005` 粘贴模式后，中文和 emoji 不再变成替换字符。两种渲染器、默认和自定义引用字符的[114 个阶段](research/paste-quote-native-9b5e1111.zip)均通过。WSL1 中普通粘贴正常，启用 `?2005` 时原始字节和按行读取仍有[已知差异](docs/INTERACTION_ACCEPTANCE.md#逐字节粘贴xterm-私有模式-2005)。
+从资源管理器拖入同一 WSL 发行版的文件或文件夹，现在会贴入可用的 Linux 路径。修改 profile 的默认 shell 后，现有标签仍沿用原 shell 的引号规则，新会话使用新设置。GDI、DirectX 上的 [18 项拖放回放](research/drop-shell-paths.md)均通过。
 
-[交互验收](research/interaction-9b5e1111.zip)为 **79/81**。两项未过的是 Codex 首次显示文字时粘贴位图；正式输入框就绪后两种快捷键均通过。[局部滚屏时的矩形选区](research/selection-region-after-9b5e1111.zip)通过 46/46 项键鼠检查；[实际应用回放](research/xterm-clients-9b5e1111.zip)覆盖 Vim、tmux 中的 Vim、颜色和 Sixel。与原版 XTerm 412 的[宽字边界](research/column-edge-integrity.md)和 [ReGIS 重绘画面](research/regis-presented-pairs.md)仍有差异。
+同一份 EXE 通过 **[81/81 项交互验收](research/preview-cf091974.zip)**，覆盖真实客户端、鼠标、键盘、剪贴板、标签和设置。[局部滚屏时的矩形选择](research/selection-region-after-cf091974.zip)另通过 46/46 项；[真实应用回放](research/xterm-clients-cf091974.zip)覆盖 Vim、tmux 内 Vim、颜色与 Sixel。交互通过不代表整个协议回归通过：与原版 XTerm 412 的[宽字边界](research/column-edge-integrity.md)、[ReGIS 重绘](research/regis-presented-pairs.md)和 WSL1 的 [`?2005` 逐字节粘贴](docs/INTERACTION_ACCEPTANCE.md#逐字节粘贴xterm-私有模式-2005)仍有差异。
 
-160×48、SarasaTermSC Nerd Light 的六种压力场景，前端私有工作集峰值为 **GDI 19.33 MB / DirectX 28.91 MB**，总工作集为 56.21 / 72.11 MB。[同机 24 轮 Codex 追问](research/agent-session-9b5e1111.zip)中，原版 pterm / Nemoterm GDI / DirectX 的私有工作集峰值为 **3.76 / 5.49 / 9.74 MB**。[本次 CI](https://github.com/xiongnemo/nemoterm/actions/runs/44579376254) · [历史测试版](docs/PREVIEW_HISTORY.md)。
+160×48、SarasaTermSC Nerd Light 的六种压力场景，前端私有工作集峰值为 **GDI 19.70 MB / DirectX 29.06 MB**，总工作集为 56.59 / 74.28 MB。[同机 24 轮 Codex 对照](research/pterm-findings.md#cf091974资源管理器拖放修复后的同机对照)中，原版 pterm / Nemoterm GDI / DirectX 的前端私有峰值为 **3.79 / 5.49 / 9.70 MB**。[完整 CI](https://github.com/xiongnemo/nemoterm/actions/runs/44588222859) · [历史测试版](docs/PREVIEW_HISTORY.md)。
 
 Codex 0.167.0 的启动草稿只收文字。即使已经能打字，也请等正常编辑器接手后再贴图，看到图片附件再发送。绕过 Nemoterm 的系统 ConPTY 和 WinPTY 对照也复现过这个现象；窗口标题不能用来判断是否就绪。[实际提交与截图](research/codex-file-draft-order.md) · [按键后 Windows 何时索取位图](research/codex-bitmap-requests.md)。
 

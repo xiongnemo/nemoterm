@@ -2,6 +2,16 @@
 
 下文保留当时的记录。每条数字都对应所列提交；当前测试版请从 [README 下载](../README.md#下载)。
 
+## `9b5e1111` 单文件测试版
+
+[下载 Windows x64 单文件测试版 `9b5e1111`](https://github.com/xiongnemo/nemoterm/actions/runs/44579376254/artifacts/14559040156)。解压后只需 `nemoterm.exe`（4,877,312 字节）。SHA-256：`f4227182174d148a2e9bdb24fc260d2aba8ce8eff357a2d687071de05af4f18c`。
+
+Windows 程序启用 XTerm 的 `?2005` 粘贴模式后，中文和 emoji 不再变成替换字符。两种渲染器、默认和自定义引用字符的[114 个阶段](https://github.com/xiongnemo/nemoterm/blob/b34d1a21f80027faf082357a522132b98fb0fdf0/research/paste-quote-native-9b5e1111.zip)均通过。WSL1 中普通粘贴正常，启用 `?2005` 时原始字节和按行读取仍有[已知差异](https://github.com/xiongnemo/nemoterm/blob/b34d1a21f80027faf082357a522132b98fb0fdf0/docs/INTERACTION_ACCEPTANCE.md#逐字节粘贴xterm-私有模式-2005)。
+
+[交互验收](https://github.com/xiongnemo/nemoterm/blob/b34d1a21f80027faf082357a522132b98fb0fdf0/research/interaction-9b5e1111.zip)为 **79/81**。两项未过的是 Codex 首次显示文字时粘贴位图；正式输入框就绪后两种快捷键均通过。[局部滚屏时的矩形选区](https://github.com/xiongnemo/nemoterm/blob/b34d1a21f80027faf082357a522132b98fb0fdf0/research/selection-region-after-9b5e1111.zip)通过 46/46 项键鼠检查；[实际应用回放](https://github.com/xiongnemo/nemoterm/blob/b34d1a21f80027faf082357a522132b98fb0fdf0/research/xterm-clients-9b5e1111.zip)覆盖 Vim、tmux 中的 Vim、颜色和 Sixel。与原版 XTerm 412 的[宽字边界](https://github.com/xiongnemo/nemoterm/blob/b34d1a21f80027faf082357a522132b98fb0fdf0/research/column-edge-integrity.md)和 [ReGIS 重绘画面](https://github.com/xiongnemo/nemoterm/blob/b34d1a21f80027faf082357a522132b98fb0fdf0/research/regis-presented-pairs.md)仍有差异。
+
+160×48、SarasaTermSC Nerd Light 的六种压力场景，前端私有工作集峰值为 **GDI 19.33 MB / DirectX 28.91 MB**，总工作集为 56.21 / 72.11 MB。[同机 24 轮 Codex 追问](https://github.com/xiongnemo/nemoterm/blob/b34d1a21f80027faf082357a522132b98fb0fdf0/research/agent-session-9b5e1111.zip)中，原版 pterm / Nemoterm GDI / DirectX 的私有工作集峰值为 **3.76 / 5.49 / 9.74 MB**。[本次 CI](https://github.com/xiongnemo/nemoterm/actions/runs/44579376254) · [历史测试版](https://github.com/xiongnemo/nemoterm/blob/b34d1a21f80027faf082357a522132b98fb0fdf0/docs/PREVIEW_HISTORY.md)。
+
 ## `42232a2d` 单文件测试版
 
 [下载 Windows x64 单文件测试版 `42232a2d`](https://github.com/xiongnemo/nemoterm/actions/runs/44571268715/artifacts/14554514038)。解压后只需 `nemoterm.exe`（4,859,904 字节）。SHA-256：`f6e2acd5d51db02e3ff0095e65da72c13e38d4f1ea1f12c7c55ba3eb8efb874d`。
