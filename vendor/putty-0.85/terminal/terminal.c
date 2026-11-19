@@ -12681,13 +12681,43 @@ static int line_cols(Terminal *term, termline *ldata)
     return cols;
 }
 
+/* A forced word selection walks neighbouring painted cells, but wordness is
+ * defined on the original character (including its configurable ASCII class).
+ * Resolve the bidi map once per visited row, never once per scanned cell. */
+typedef struct SelectionWordRow {
+    termline *line;
+    const int *backward, *forward;
+    int columns;
+} SelectionWordRow;
+
+static SelectionWordRow selection_word_row(Terminal *term, termline *line, int y)
+{
+    SelectionWordRow row = { .line = line, .columns = line_cols(term, line) };
+    if (term->seltype == VISUAL_STREAM) {
+        int slot = selection_bidi_slot(term, y);
+        row.columns = min(row.columns, nemo_line_columns(term, line));
+        if (term_bidi_line(term, line, slot)) {
+            row.backward = term->post_bidi_cache[slot].backward;
+            row.forward = term->post_bidi_cache[slot].forward;
+        }
+    }
+    return row;
+}
+
+static int selection_word_class(Terminal *term, const SelectionWordRow *row, int x)
+{
+    int source = row->backward ? row->backward[x] : x;
+    if (row->forward && row->forward[source] != x)
+        return -1; /* synthetic display cell */
+    return wordtype(term, UCSGET(row->line->chars, source));
+}
+
 /*
  * Spread the selection outwards according to the selection mode.
  */
 static pos sel_spread_half(Terminal *term, pos p, int dir)
 {
     termline *ldata;
-    short wvalue;
     int topy = -sblines(term);
 
     ldata = lineptr(p.y);
@@ -12713,70 +12743,41 @@ static pos sel_spread_half(Terminal *term, pos p, int dir)
             p.x = whole_glyph_edge(chars, min(ldata->cols,term->cols), p.x + 1, +1) - 1;
         break;
       }
-      case SM_WORD:
-        /*
-         * In this mode, the units are maximal runs of characters
-         * whose `wordness' has the same value.
-         */
-        wvalue = wordtype(term, UCSGET(ldata->chars, p.x));
-        if (dir == +1) {
-            while (1) {
-                int maxcols = line_cols(term, ldata);
-                if (p.x < maxcols-1) {
-                    if (wordtype(term, UCSGET(ldata->chars, p.x+1)) == wvalue)
-                        p.x++;
-                    else
-                        break;
-                } else {
-                    if (p.y+1 < term->rows &&
-                        (ldata->lattr & LATTR_WRAPPED)) {
-                        termline *ldata2;
-                        ldata2 = lineptr(p.y+1);
-                        if (wordtype(term, UCSGET(ldata2->chars, 0))
-                            == wvalue) {
-                            p.x = 0;
-                            p.y++;
-                            unlineptr(ldata);
-                            ldata = ldata2;
-                        } else {
-                            unlineptr(ldata2);
-                            break;
-                        }
-                    } else
-                        break;
+      case SM_WORD: {
+        SelectionWordRow row = selection_word_row(term, ldata, p.y);
+        if (p.x < 0 || p.x >= row.columns) break;
+        int wvalue = selection_word_class(term, &row, p.x);
+        for (;;) {
+            int x = p.x + dir;
+            if (x >= 0 && x < row.columns) {
+                if (selection_word_class(term, &row, x) != wvalue) break;
+                p.x = x;
+            } else {
+                int y = p.y + dir;
+                if (y < topy || y >= term->rows ||
+                    (dir > 0 && !(ldata->lattr & LATTR_WRAPPED))) break;
+                termline *next = lineptr(y);
+                if (dir < 0 && !(next->lattr & LATTR_WRAPPED)) {
+                    unlineptr(next);
+                    break;
                 }
-            }
-        } else {
-            while (1) {
-                if (p.x > 0) {
-                    if (wordtype(term, UCSGET(ldata->chars, p.x-1)) == wvalue)
-                        p.x--;
-                    else
-                        break;
-                } else {
-                    termline *ldata2;
-                    int maxcols;
-                    if (p.y <= topy)
-                        break;
-                    ldata2 = lineptr(p.y-1);
-                    maxcols = line_cols(term, ldata2);
-                    if (ldata2->lattr & LATTR_WRAPPED) {
-                        if (wordtype(term, UCSGET(ldata2->chars, maxcols-1))
-                            == wvalue) {
-                            p.x = maxcols-1;
-                            p.y--;
-                            unlineptr(ldata);
-                            ldata = ldata2;
-                        } else {
-                            unlineptr(ldata2);
-                            break;
-                        }
-                    } else
-                        break;
+                /* Looking up a scrollback row can reuse the preceding map's
+                 * cache slot. Never read the old map after this call. */
+                SelectionWordRow other = selection_word_row(term, next, y);
+                x = dir > 0 ? 0 : other.columns - 1;
+                if (!other.columns || selection_word_class(term, &other, x) != wvalue) {
+                    unlineptr(next);
+                    break;
                 }
+                unlineptr(ldata);
+                ldata = next;
+                row = other;
+                p.x = x;
+                p.y = y;
             }
         }
         break;
+      }
       case SM_LINE:
         /*
          * In this mode, every line is a unit.
@@ -13393,8 +13394,9 @@ void term_mouse_pixels(Terminal *term, Mouse_Button braw, Mouse_Button bcooked,
      * Repeated Ctrl clicks must not turn the block into a word/line gesture. */
     bool block = nemo_rectangle_binding(conf_get_int(term->conf, CONF_nemo_rectangle_modifiers),
                                         shift, ctrl, alt);
+    bool visual_press = shift && (a == MA_CLICK || a == MA_2CLK || a == MA_3CLK);
     default_seltype = block || term->rect_select ?
-        RECTANGULAR : (shift && a == MA_CLICK ? VISUAL_STREAM : LEXICOGRAPHIC);
+        RECTANGULAR : (visual_press ? VISUAL_STREAM : LEXICOGRAPHIC);
     if (block && bcooked == MBT_SELECT && (a == MA_2CLK || a == MA_3CLK))
         a = MA_CLICK;
     if (term->selstate == NO_SELECTION ||
