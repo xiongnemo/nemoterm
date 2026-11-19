@@ -3,6 +3,7 @@ import argparse
 import hashlib
 import json
 import os
+import re
 import zipfile
 
 from clipboard_test_utils import SavedClipboard, set_clipboard
@@ -30,11 +31,38 @@ def record_quote_pipe(path, details, cases):
     assert len(valid)==1, [(key,buf.count(start)) for key,buf in streams.items()]
     key,buf=valid[0]; frames=buf[buf.index(start):].split(start)[1:]; assert len(frames)==len(rows)
     details['pipe_handle']=key
-    for (name,row),header,frame in zip(rows,headers,frames):
+    # A host resize/reset can request its private cursor position. Only separate
+    # the exact reply to an earlier, unique token captured on the opposite pipe.
+    # Keep the original stream comparison too; an unmatched escape stays in it.
+    queries={}; pairs=[]; application=bytearray()
+    read_handles={e['handle'] for e in events if e.get('api')=='ReadFile' and e.get('completed',0)>0}
+    assert len(read_handles)==1 and key not in read_handles
+    for e in events:
+        if not e.get('success') or e.get('overlapped') or not e.get('hex'): continue
+        chunk=bytes.fromhex(e['hex'])
+        if e['api']=='ReadFile':
+            for match in re.finditer(rb'\x1b\[\?9001;([1-9][0-9]{0,4})n',chunk):
+                token=match[1]; assert token not in queries and int(token)<=65535
+                queries[token]=e['event']
+        elif e['api']=='WriteFile' and e['handle']==key:
+            pos=0
+            for match in re.finditer(rb'\x1b\[\?9001;([1-9][0-9]{0,4});([1-9][0-9]*);([1-9][0-9]*)R',chunk):
+                before=queries.get(match[1]); response=match[0]
+                if before is None or before>=e['event']: continue
+                assert all(response not in bytes.fromhex(r['after_query_hex']) for _,r in rows)
+                queries[match[1]]=None; pairs.append(dict(query_event=before,reply_event=e['event'],reply_hex=response.hex()))
+                application.extend(chunk[pos:match.start()]); pos=match.end()
+            application.extend(chunk[pos:])
+    details['host_cursor_pairs']=pairs
+    appframes=bytes(application).split(start)[1:]; assert len(appframes)==len(frames)
+    for (name,row),header,frame,appframe in zip(rows,headers,frames,appframes):
         wire=start+frame; assert wire.startswith(header),(name,wire.hex(),header.hex())
         expected=bytes.fromhex(cases[name]['paste_hex'])+b'\r7'
         payload=wire[len(header):]; row['frontend_pipe_hex']=payload.hex()
         row['frontend_pipe_matches']=payload==expected
+        app_frame=start+appframe; assert app_frame.startswith(header)
+        row['paste_pipe_hex']=app_frame[len(header):].hex()
+        row['paste_pipe_matches']=app_frame[len(header):]==expected
         try: expected.decode('utf-8'); representable=True
         except UnicodeDecodeError: representable=False
         row['reference_representable_by_wide_receiver']=representable
@@ -80,7 +108,7 @@ def trial(kind, text, renderer, cases, digest, quote=False):
         if quote: record_quote_pipe(root/'research'/(label+'-wire.jsonl'), details, cases)
     finally:
         (root/'research'/(label+'-keyboard.json')).write_text(json.dumps(details, indent=2))
-    return all(r['mode_matches'] and (not quote or r['frontend_pipe_matches']) and
+    return all(r['mode_matches'] and (not quote or r['paste_pipe_matches']) and
                (r['paste_and_return_match'] or (quote and not r['reference_representable_by_wide_receiver']))
                for r in details['cases'].values())
 
