@@ -163,3 +163,5 @@ The [ten-run original archive](https://github.com/xiongnemo/nemoterm/blob/fca0e6
 | Nemoterm 单标签，DirectX | 9.95–10.04 | 47.17–47.25 | 11.56–11.78 |
 
 Nemoterm EXE 的 SHA-256 为 `c7f4f4be019a2fb0262f984d15e7f6177eb47da043558dd81971cf953af5979a`。各组也保留了模块、进程和驻留页清单；在这十次回复后的快照中没有观察到已登记的 WebView 运行库。不能用这 3 秒的中位数推断长时间运行峰值。
+
+[交付文件的 REA 静态导入表](rea-b3274ed-imports.json.gz)覆盖 82 个标准及延迟 DLL 描述符、671 个普通和 11 个延迟函数导入。对比上一份 `9d1da87`，没有新增 DLL 或导入函数；少了 `IsProcessorFeaturePresent` 的一个普通导入，不能仅凭导入变化归因到某段代码。静态表没列出 WebView，普通会话的模块和进程快照提供了独立的运行时观察。

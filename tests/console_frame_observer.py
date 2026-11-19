@@ -35,18 +35,48 @@ def console_view(handle):
     return '\n'.join(rows)
 
 
+class Cell(c.Structure):  # CHAR_INFO's UTF-16 union and console attributes
+    _fields_=[('unit',w.WORD),('attributes',w.WORD)]
+
+
+def cell_view(handle):
+    info=Info()
+    if not k.GetConsoleScreenBufferInfo(handle,c.byref(info)):return None
+    r=info.view; coords=(r.left,r.top,r.right,r.bottom)
+    width=r.right-r.left+1; height=r.bottom-r.top+1
+    if not (0<width<=200 and 0<height<=80):return None
+    cells=(Cell*(width*height))()
+    if not k.ReadConsoleOutputW(handle,cells,Coord(width,height),Coord(0,0),c.byref(r)):return None
+    if (r.left,r.top,r.right,r.bottom)!=coords:return None  # clipped read
+    rows=[]
+    for y in range(height):
+        row=cells[y*width:(y+1)*width]
+        rows.append(''.join(chr(v.unit) for v in row if not v.attributes & 0x0200).rstrip())
+    return '\n'.join(rows)
+
+
 class ConsoleView:
-    def __init__(self,folder):
+    def __init__(self,folder,compare_cells=False):
         if os.environ.get('NEMOTERM_HOSTED_REFERENCE')!='1':raise RuntimeError('Hosted reference child required')
         k.GetStdHandle.argtypes=[w.DWORD];k.GetStdHandle.restype=w.HANDLE
         k.GetConsoleScreenBufferInfo.argtypes=[w.HANDLE,c.POINTER(Info)]
         k.ReadConsoleOutputCharacterW.argtypes=[w.HANDLE,w.LPWSTR,w.DWORD,Coord,c.POINTER(w.DWORD)]
+        self.compare_cells=compare_cells
+        if compare_cells:
+            k.ReadConsoleOutputW.argtypes=[w.HANDLE,c.POINTER(Cell),Coord,Coord,c.POINTER(Rect)]
+            k.ReadConsoleOutputW.restype=w.BOOL
         self.folder=folder;self.handle=k.GetStdHandle(-11);self.previous=None
 
     def capture(self):
-        frame=console_view(self.handle)
+        legacy=console_view(self.handle)
+        frame=cell_view(self.handle) if self.compare_cells else legacy
         if frame is not None and frame!=self.previous:
-            write_snapshot(self.folder/'peer-screen.json',dict(text=frame));self.previous=frame
+            record=dict(text=frame)
+            if self.compare_cells:
+                record.update(reader='ReadConsoleOutputW',legacy_available=legacy is not None,
+                              legacy_ack_lines=[] if legacy is None else [s for s in legacy.splitlines() if 'ACKTURN' in s],
+                              wide_probe_seen=legacy is not None and 'CELL中Z' in legacy)
+            write_snapshot(self.folder/'peer-screen.json',record);self.previous=frame
 
 
 def observe(folder,command):

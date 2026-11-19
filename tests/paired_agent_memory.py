@@ -38,7 +38,13 @@ def digest(p):return hashlib.sha256(p.read_bytes()).hexdigest()
 def peer(folder, command):
     # This controller is a separate console child in all arms, never counted
     # as part of a frontend. It never reads user input or modifies its content.
-    view=ConsoleView(folder)
+    compare=os.environ.get('NEMOTERM_PAIR_READ_CELLS')=='1'
+    view=ConsoleView(folder,compare_cells=compare)
+    if compare:
+        print('CELL中Z',flush=True)
+        view.capture(); calibration=read_snapshot(folder/'peer-screen.json')
+        write_snapshot(folder/'cell-calibration.json',calibration)
+        assert 'CELL中Z' in calibration.get('text',''),calibration
     sys.stdout.write('NEMOTERM_MEMORY_BASELINE\r\n');sys.stdout.flush()
     write_snapshot(folder/'grid.json',dict(grid=list(os.get_terminal_size(1)),pid=os.getpid()))
     wait_for(lambda:read_snapshot(folder/'launch.json').get('start'),timeout=25)
@@ -100,10 +106,13 @@ def exercise_turns(out, desk, provider, stage, samples, rec, renderer_probe):
             assert not provider.errors, provider.errors
             if receipt.get('sent_sha256') != receipt['reply_sha256']:
                 return None
-            return visible(f'ACKTURN{turn:02d}DONE')
-        frame = wait_for(presented, timeout=30)
-        assert f'row {turn:02d}.16' in frame, frame
-        write_snapshot(out/(label+'.json'), dict(prompt=prompt, reply_sha256=receipt['reply_sha256'], visible=frame))
+            observed=read_snapshot(out/'peer-screen.json')
+            return observed if f'ACKTURN{turn:02d}DONE' in observed.get('text','') else None
+        observed = wait_for(presented, timeout=30)
+        frame = observed['text']
+        assert f'row {turn:02d}.16' in frame and '中文' in frame and observed['reader']=='ReadConsoleOutputW',frame
+        write_snapshot(out/(label+'.json'), dict(prompt=prompt, reply_sha256=receipt['reply_sha256'], visible=frame,
+                      reader=observed['reader'],legacy_available=observed['legacy_available'],legacy_ack_lines=observed['legacy_ack_lines']))
         time.sleep(5)  # include the quiet interval between normal user turns
         entry['memory'] = phase(samples, label)
         if renderer_probe is not None:
@@ -117,6 +126,7 @@ def trial(out,kind,exe,client,font,rec,multi_turn=False):
     if kind=='pterm':env.pop('NEMOTERM_CONPTY',None)
     provider=Provider();provider.selection=False;thread=threading.Thread(target=provider.serve_forever,daemon=True);thread.start()
     if multi_turn:
+        env['NEMOTERM_PAIR_READ_CELLS']='1'
         provider.turn_lock = threading.Lock()
         provider.chat_receipts = []
         provider.auxiliary_count = 0
