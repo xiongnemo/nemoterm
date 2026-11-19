@@ -1,6 +1,8 @@
 name: Independent Windows console image paste
 on:
   workflow_call:
+    inputs:
+      draft_order: {type: boolean, default: false}
 permissions: {contents: read}
 jobs:
   reference:
@@ -23,19 +25,25 @@ jobs:
           exit $LASTEXITCODE
       - name: Compare native clipboard records before and after the first reply
         env:
+          DRAFT_ORDER: ${{ inputs.draft_order && 'yes' || 'no' }}
           REFERENCE_HOST: ${{ matrix.host }}
           STARTUP_PHASE: ${{ matrix.phase }}
         run: |
           $clients=@(Get-ChildItem tools/codex-fixture/node_modules -Recurse -Filter codex.exe)
           if ($clients.Count -ne 1) {throw 'Expected one pinned Codex client'}
-          python tests/codex_image_reference.py --codex $clients[0].FullName --host $env:REFERENCE_HOST --phase $env:STARTUP_PHASE
+          $opts=@()
+          if ($env:DRAFT_ORDER -eq 'yes') {$opts+='--draft-order'}
+          python tests/codex_image_reference.py @opts --codex $clients[0].FullName --host $env:REFERENCE_HOST --phase $env:STARTUP_PHASE
           exit $LASTEXITCODE
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
-          name: codex-image-reference-${{ matrix.host }}-${{ matrix.phase }}-${{ github.run_id }}-${{ github.run_attempt }}
+          name: codex-${{ inputs.draft_order && 'draft' || 'image' }}-reference-${{ matrix.host }}-${{ matrix.phase }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
             build/codex-image-reference/*.json
             build/codex-image-reference/*.vt
             build/codex-image-reference/helper-stderr.txt
+            build/codex-image-reference/trial-*/*.json
+            build/codex-image-reference/trial-*/*.vt
+            build/codex-image-reference/trial-*/helper-stderr.txt
           if-no-files-found: error

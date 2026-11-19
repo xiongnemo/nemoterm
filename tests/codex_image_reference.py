@@ -24,6 +24,7 @@ from owned_job import OwnedJob
 ROOT = Path(__file__).resolve().parents[1]
 MARK = 'NEMOTERM_IMAGE_REFERENCE'
 WARM = 'NEMOTERM_REFERENCE_WARM'
+DRAFT = 'NEMOTERM_CODEX_IMAGE_CTRL_SHIFT_V'
 CLIENT = 'edfdd48f8b458af0906e507b4cb05217b326c3d6e515e9f024e05e3b8d650f70'
 KEYS = '3ef67fbb1e30ea3e577bbccd7c93b158db11518f59f5ebea7c40b6cb4f076085'
 CSI = re.compile(rb'\x1b\[[0-?]*[ -/]*[@-~]')
@@ -77,8 +78,8 @@ def console_peer(folder, cmd):
             scan=u.MapVirtualKeyW(vk,0)
             for down in (1,0):rows.append(dict(down=down,repeat=1,vk=vk,scan=scan,character=char,control=mods))
         if action=='image': rows=captured
-        elif action in ('marker','warm'):
-            for char in (MARK if action=='marker' else WARM):stroke(0xbd if char=='_' else ord(char),ord(char),16)
+        elif action in ('marker','warm','draft'):
+            for char in {'marker':MARK,'warm':WARM,'draft':DRAFT}[action]:stroke(0xbd if char=='_' else ord(char),ord(char),16)
         elif action=='enter':stroke(13,13,0)
         elif action=='quit':stroke(67,3,8)
         else:raise ValueError(action)
@@ -98,12 +99,30 @@ def window():
     return hwnd
 
 
+def collect_draft(folder, rec, server, raw, poll, send, until):
+    # Submit once even when startup altered the draft; never make the expected
+    # spelling a prerequisite for recording the draft or the provider request.
+    rec['expected']=DRAFT
+    before=bytes(raw);(folder/'before-input.vt').write_bytes(before)
+    rec['idle_visible_before']=b'\x1b]7501;state=idle:app=codex' in before
+    start=len(server.requests); seq=send('draft')
+    until('one native record write',lambda _:read_snapshot(folder/f'command-{seq:02}.json').get('written')==2*len(DRAFT),8)
+    end=time.monotonic()+2
+    while time.monotonic()<end:poll();time.sleep(.01)
+    frame=read_snapshot(folder/'peer-screen.json').get('text','')
+    write_snapshot(folder/'before-submit.json',dict(native_cells=frame))
+    (folder/'before-submit.vt').write_bytes(bytes(raw));rec['marker_on_screen']=DRAFT in frame
+    send('enter');until('provider saw a submitted draft',lambda _:any(r.get('draft_parts') for r in server.requests[start:]),30)
+    rec['submitted']=[r['draft_parts'] for r in server.requests[start:] if r.get('draft_parts')]
+
+
 def run(args, folder, rec):
     client=args.codex.resolve(strict=True);rec['client_sha256']=hashlib.sha256(client.read_bytes()).hexdigest();assert rec['client_sha256']==CLIENT
     rec['native_key_archive_sha256']=KEYS;fixed_events()
     home,work,env=isolated_home(folder);env.pop('NEMOTERM_CONPTY',None);env.update(NEMOTERM_HOSTED_REFERENCE='1',HOME=str(home),GIT_ALLOW_PROTOCOL='file',GIT_TERMINAL_PROMPT='0')
     server=Provider();server.selection=False;thread=threading.Thread(target=server.serve_forever,daemon=True);thread.start()
-    hwnd=window();clip=SavedClipboard(hwnd)
+    server.capture_draft=args.draft_order
+    hwnd=None if args.draft_order else window();clip=SavedClipboard(hwnd) if hwnd else None
     try:
         cmd=codex_command(str(client),home,work,env,f'http://127.0.0.1:{server.server_port}/v1')
         helper=ROOT/'tests/claude_unicode_boundary.py'
@@ -141,25 +160,29 @@ def run(args, folder, rec):
             try:
                 # Prepare the generated DIB before startup so that observing
                 # the first marker need not wait for clipboard IPC.
-                put_bitmap(hwnd);until('first Codex prompt',lambda p:on_screen(p,'Ask Codex'),90)
+                if not args.draft_order:put_bitmap(hwnd)
+                until('first Codex prompt',lambda p:on_screen(p,'Ask Codex'),90)
                 if args.phase=='after-turn':
                     send('warm');until('warm text painted',lambda p:on_screen(p,WARM),15);send('enter')
                     until('first provider reply rendered',lambda p:on_screen(p,'NEMOTERM_TEXT_ACCEPTED') and any(WARM in r['text'] for r in server.requests),30)
-                send('marker')
-                def marker_visible(data):
-                    pane=read_snapshot(folder/'peer-screen.json').get('text','')
-                    if MARK.encode() not in data and MARK not in pane:return False
-                    write_snapshot(folder/'at-marker.json',dict(terminal_output=MARK.encode() in data,native_console=MARK in pane,text=pane))
-                    return True
-                until('fixture marker painted',marker_visible,20)
-                before=bytes(raw);(folder/'at-paste.vt').write_bytes(before);rec['idle_visible_before']=b'\x1b]7501;state=idle:app=codex' in before
-                n=send('image');until('four native records written',lambda _:read_snapshot(folder/f'command-{n:02}.json').get('written')==4,8)
-                try:until('image marker painted',lambda p:on_screen(p,'[Image'),10);rec['attachment_visible']=True
-                except TimeoutError:rec['attachment_visible']=False
-                send('enter');until('provider received image-test marker',lambda _:any(MARK in r['text'] for r in server.requests),30)
-                rec['exact_images']=sum(im['generated_pixels_match'] for r in server.requests if MARK in r['text'] for im in r['images'])
-                if rec['exact_images']:
-                    until('unique image reply rendered',lambda p:on_screen(p,'NEMOTERM_IMAGE_ACCEPTED'),25)
+                if args.draft_order:
+                    collect_draft(folder,rec,server,raw,poll,send,until)
+                else:
+                    send('marker')
+                    def marker_visible(data):
+                        pane=read_snapshot(folder/'peer-screen.json').get('text','')
+                        if MARK.encode() not in data and MARK not in pane:return False
+                        write_snapshot(folder/'at-marker.json',dict(terminal_output=MARK.encode() in data,native_console=MARK in pane,text=pane))
+                        return True
+                    until('fixture marker painted',marker_visible,20)
+                    before=bytes(raw);(folder/'at-paste.vt').write_bytes(before);rec['idle_visible_before']=b'\x1b]7501;state=idle:app=codex' in before
+                    n=send('image');until('four native records written',lambda _:read_snapshot(folder/f'command-{n:02}.json').get('written')==4,8)
+                    try:until('image marker painted',lambda p:on_screen(p,'[Image'),10);rec['attachment_visible']=True
+                    except TimeoutError:rec['attachment_visible']=False
+                    send('enter');until('provider received image-test marker',lambda _:any(MARK in r['text'] for r in server.requests),30)
+                    rec['exact_images']=sum(im['generated_pixels_match'] for r in server.requests if MARK in r['text'] for im in r['images'])
+                    if rec['exact_images']:
+                        until('unique image reply rendered',lambda p:on_screen(p,'NEMOTERM_IMAGE_ACCEPTED'),25)
             finally:
                 rec['requests']=server.requests;rec['provider_errors']=server.errors
                 if proc.poll() is None:
@@ -170,20 +193,30 @@ def run(args, folder, rec):
                 else:rec['exit_code']=proc.returncode
                 proc.stdin.close();rec['cleanup']=job.finish();pump.join(5);rec['output_drained']=not pump.is_alive()
             assert not server.errors and rec['exit_code']==0 and rec['output_drained'] and not rec['cleanup']['terminated_remaining'],rec
-            assert rec['attachment_visible'] and rec['exact_images']==1,'No single exact image submission'
+            if args.draft_order:assert rec['submitted']==[[DRAFT]],rec['submitted']
+            else:assert rec['attachment_visible'] and rec['exact_images']==1,'No single exact image submission'
     finally:
-        clip.restore();u.DestroyWindow(hwnd);server.shutdown();server.server_close();thread.join(3)
+        if clip:clip.restore()
+        if hwnd:u.DestroyWindow(hwnd)
+        server.shutdown();server.server_close();thread.join(3)
 
 
 def main():
     if sys.argv[1:2]==['--peer']:return console_peer(Path(sys.argv[2]),sys.argv[3:])
     assert os.environ.get('GITHUB_ACTIONS')=='true' and os.environ.get('RUNNER_ENVIRONMENT')=='github-hosted'
-    parser=argparse.ArgumentParser();parser.add_argument('--host',choices=['conpty','winpty'],required=True);parser.add_argument('--phase',choices=['first','after-turn'],required=True);parser.add_argument('--codex',type=Path,required=True);args=parser.parse_args()
-    folder=ROOT/'build/codex-image-reference';folder.mkdir(parents=True,exist_ok=False)
-    rec=dict(host=args.host,phase=args.phase,fixture_commit=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),passed=False)
-    try:run(args,folder,rec);rec['passed']=True
-    except Exception:rec['error']=traceback.format_exc()
-    write_snapshot(folder/'summary.json',rec);print(json.dumps(rec,indent=2));return int(not rec['passed'])
+    parser=argparse.ArgumentParser();parser.add_argument('--host',choices=['conpty','winpty'],required=True);parser.add_argument('--phase',choices=['first','after-turn'],required=True);parser.add_argument('--codex',type=Path,required=True);parser.add_argument('--draft-order',action='store_true');args=parser.parse_args()
+    base=ROOT/'build/codex-image-reference';base.mkdir(parents=True,exist_ok=False)
+    sha=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(); reps=3 if args.draft_order else 1
+    trials=[]
+    for i in range(reps):
+        folder=base if reps==1 else base/f'trial-{i+1}'
+        if folder!=base:folder.mkdir()
+        rec=dict(host=args.host,phase=args.phase,fixture_commit=sha,passed=False)
+        try:run(args,folder,rec);rec['passed']=True
+        except Exception:rec['error']=traceback.format_exc()
+        write_snapshot(folder/'summary.json',rec);trials.append(rec)
+    if reps>1:write_snapshot(base/'summary.json',dict(trials=trials))
+    print(json.dumps(trials,indent=2));return int(not all(r['passed'] for r in trials))
 
 
 if __name__=='__main__':sys.exit(main())

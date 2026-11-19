@@ -118,6 +118,8 @@ class Handler(BaseHTTPRequestHandler):
                                               advertised_tools=len(request.get('tools', [])),
                                               tool_names=[t.get('name',t.get('function',{}).get('name',t.get('type')))
                                                           for t in request.get('tools', [])]))
+            if getattr(self.server,'capture_draft',False):
+                self.server.requests[-1]['draft_parts']=[v for v in latest_user_parts if re.fullmatch(r'[A-Z0-9_]{1,96}',v)]
             assert len(self.server.requests) <= 12
             self.send_response(200)
             self.send_header('Content-Type', 'text/event-stream')
