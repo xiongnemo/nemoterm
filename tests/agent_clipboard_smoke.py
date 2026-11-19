@@ -14,6 +14,7 @@ from fixture_io import read_snapshot,write_snapshot
 from native_test_utils import c, u, w, wait_for
 from owned_job import OwnedJob
 from agent_ready_redraw import read_idle_redraw
+from agent_image_receipt import chat_attachment
 
 ROOT=Path(__file__).resolve().parent.parent
 sys.path.insert(0,str(ROOT/'tools'))
@@ -201,6 +202,7 @@ def main():
                     if args.opencode_title=='disabled':
                         assert all(r['has_opencode_title_instruction'] is False for r in relevant),relevant
                     assert len(relevant)==1 and len(relevant[0]['images'])==1 and relevant[0]['images'][0]['generated_pixels_match'],relevant
+                observed['chat_attachment']=chat_attachment(observed['requests'],args.client,name)
                 if followup is not None:
                     followup.update(completed=True,observation=observed)
                 else: result['cases'].append(observed)

@@ -9,6 +9,7 @@ from interaction_acceptance import catalog
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'tests'))
 from memory_limits import private_ws_passes
+from agent_image_receipt import chat_attachment
 
 
 def require(condition, message):
@@ -128,6 +129,25 @@ def agent_right_case(path, row, identity, args):
                 separate_title_requests=len(titles))
 
 
+def agent_image_case(path, row, identity, args):
+    client = args[args.index('--client')+1]
+    obs = record_reader(path,row)(f'research/agent-clipboard-{client}.json')
+    ready, system = '--after-client-idle' in args, '--system-input' in args
+    require(obs['client']==client and obs['completed'] and not obs['failures']
+            and obs['after_client_idle'] is ready and obs['system_input'] is system
+            and obs['clipboard_format']=='CF_DIB' and obs['font']==identity['font'],
+            'wrong client, phase, gesture path, clipboard, or font')
+    cases = obs['cases']
+    require([c['binding'] for c in cases]==['ctrl-v','ctrl-shift-v'],'missing or duplicate paste binding')
+    checks = {}
+    for c in cases:
+        require(c['terminal_sha256']==identity['executable_sha256'] and c['client_sha256']==identity['clients'][client]['sha256']
+                and not c['errors'] and c['clipboard_restored'] and not c['cleanup']['terminated_remaining'],
+                'wrong client/product image or incomplete clipboard cleanup')
+        checks[c['binding']] = chat_attachment(c['requests'],client,c['binding'])
+    return dict(timing='after-client-idle' if ready else 'first-visible-marker', system_keys=system, bindings=checks)
+
+
 def agent_grid_case(path,row,identity):
     client,renderer=row['id'].removeprefix('agent-grid-').rsplit('-',1)
     client_order=client.endswith('-visual-order');client=client.removesuffix('-visual-order')
@@ -231,6 +251,8 @@ def main():
                             'did not pass and exit naturally')
                     if group.startswith('memory-'):
                         out['frontend_peak_bytes'] = memory_case(path,row,{'memory-gdi':1,'memory-directx':3}[group],exe)
+                    if group=='agents' and case.startswith('agent-image-'):
+                        out['image_paste'] = agent_image_case(path,row,identity,case_args[case])
                     if group=='agents' and '--right-click' in case_args[case]:
                         out['right_click'] = agent_right_case(path,row,identity,case_args[case])
                     if group=='agents-grid':out['frontend_peak_bytes']=agent_grid_case(path,row,identity)

@@ -63,6 +63,19 @@ class ReportTest(unittest.TestCase):
                 with self.assertRaises(ValueError):
                     report.verify_right_gesture(invalid, manual)
 
+    def test_image_in_title_or_retry_does_not_prove_a_chat_attachment(self):
+        client='opencode'; binding='ctrl-shift-v'
+        image=dict(generated_pixels_match=True, png_size=[32,16], mime='image/png', sha256='c'*64)
+        def request(title, *images):
+            return dict(path='/v1/chat/completions',text=['NEMOTERM_OPENCODE_IMAGE_CTRL_SHIFT_V'],
+                        has_opencode_title_instruction=title,images=list(images))
+        title=request(True,image); chat=request(False,image); empty=request(False)
+        for valid in ([title,chat],[chat,title],[title,chat,empty]):
+            self.assertEqual(report.chat_attachment(valid,client,binding)['title_images'],1)
+        for bad in ([title],[title,empty],[empty,title,chat],[chat,chat],[request(False,image,image)],
+                    [request(False,dict(image,generated_pixels_match=False))], [dict(chat,text=['OTHER'])]):
+            with self.subTest(bad=bad),self.assertRaises(ValueError):report.chat_attachment(bad,client,binding)
+
     def test_forced_cleanup_cannot_pass_even_with_exit_zero(self):
         p=self.group('bell','c'*64);rows=json.loads(p.read_text());rows[0]['cleanup']['terminated_remaining']=True
         p.write_text(json.dumps(rows));status,result=self.inspect();self.assertNotEqual(status,0)

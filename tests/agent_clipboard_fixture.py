@@ -391,7 +391,7 @@ def main():
                         dict(name='Nemoterm image fixture', attachment=True, limit=dict(context=32000, output=2048),
                              modalities=dict(input=['text', 'image'], output=['text']))})})
         if args.image_title == 'disabled':config['agent']={'title':{'disable':True}}
-        if args.image_title or server.selection:server.trace_title=True
+        server.trace_title=True  # The title model may receive the first turn, including its image.
         config_path = home/'opencode.json'
         config_path.write_text(json.dumps(config, indent=2), encoding='utf-8')
         env.update(OPENCODE_CONFIG=str(config_path), OPENCODE_DISABLE_PROJECT_CONFIG='1',
