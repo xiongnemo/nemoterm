@@ -179,3 +179,15 @@ Nemoterm EXE 的 SHA-256 为 `c7f4f4be019a2fb0262f984d15e7f6177eb47da043558dd819
 表中是从窗口启动到最后一轮结束的**采样峰值**，单位为十进制 MB，约每 100 毫秒一次，不含客户端或控制台宿主。它覆盖反复输入与中文滚屏；对重图形负载仍采用[六项压力场景的独立测量](preview-b3274ed.zip)，不能用这里较低的数字替代。
 
 [完整原始制品及清单](agent-session-b3274ed.zip)包含三份最终窗口截图、每轮原生控制台记录和全部内存采样。GitHub 原始 ZIP 的 SHA-256 为 `7e9dc6129f5a289b6482d70aea02aca2ce2f87e93c3471508b2b556f383b2df7`，测试源码 `0d58809d`，产品仍为 `b3274ed`。对同一画面并行读取：逐格读取在三个窗口都读到校准文字 `CELL中Z` 和 24 帧回复；旧读法要求每行返回的 UTF-16 单元数等于列数，在这 72 帧全部没有返回有效画面。此前先后遇到[把额外请求当作对话](https://github.com/xiongnemo/nemoterm/blob/0d58809d6fc4919b69f1a25c0fc20aba3fbfbad8/research/agent-session-first-44545003499.zip)、[标题引用了后续提示词](https://github.com/xiongnemo/nemoterm/blob/0d58809d6fc4919b69f1a25c0fc20aba3fbfbad8/research/agent-session-second-44545823667.zip)和[回复已发送但未读到画面](https://github.com/xiongnemo/nemoterm/blob/0d58809d6fc4919b69f1a25c0fc20aba3fbfbad8/research/agent-session-diagnostic-44546763189.zip)；这些原始失败均保留。
+
+### 矩形高亮修复版 `97f8b05b` 的同机对照
+
+[GitHub Windows 回放](https://github.com/xiongnemo/nemoterm/actions/runs/44558252074)在净启动的三个窗口中分别对同一个固定版本的 Codex 键入 24 条追问，并读取实际显示的回复。每项约 132 秒，记录前端进程（不含控制台宿主或客户端）的全程采样峰值。使用 SarasaTermSC Nerd Light，单位为十进制 MB。
+
+| 前端 | 私有工作集 | 总工作集 | 私有提交量 |
+| --- | ---: | ---: | ---: |
+| 原版 pterm 0.85 | 3.82 | 22.76 | 4.52 |
+| Nemoterm 默认单标签，GDI | 5.86 | 37.19 | 7.25 |
+| Nemoterm 单标签，DirectX | 10.09 | 47.41 | 11.74 |
+
+终端和客户端均正常结束。会话结束时的模块／进程快照没有匹配到受检的 WebView 组件；这仅限该采样点。[原始日志、窗口截图和制品清单](agent-session-97f8b05b.zip)。[真实 Vim、tmux、颜色、Sixel 及默认网格回执](xterm-clients-97f8b05b.zip)也验证的是同一份 EXE，SHA-256 `c66b366f2c67e216c219d6674e0e368181bdcfbdd884dd6f6c11b61a1bed84b5`。
