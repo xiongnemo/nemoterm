@@ -1,21 +1,30 @@
-param([Parameter(Mandatory)][string]$Commit,[Parameter(Mandatory)][string]$Run)
+param([Parameter(Mandatory)][string]$Commit,[Parameter(Mandatory)][string]$Run,
+      [ValidateSet('mingw','single')][string]$Product='mingw')
 $ErrorActionPreference='Stop'
 if ($env:GITHUB_ACTIONS -ne 'true' -or $env:RUNNER_ENVIRONMENT -ne 'github-hosted' -or $Commit -cnotmatch '^[0-9a-f]{40}$' -or $Run -notmatch '^[1-9][0-9]*$') {throw 'Expected a hosted runner and a source run identity'}
 $work=Join-Path $PWD 'build/profile-dump';$out=New-Item -ItemType Directory -Force "$work/report"; $null=New-Item -ItemType Directory -Force "$work/symbols"
 $src=gh run view $Run --json headSha,workflowName,jobs | ConvertFrom-Json
-if ($LASTEXITCODE -or $src.headSha -ne $Commit -or $src.workflowName -ne 'Test and build' -or @($src.jobs|Where-Object {$_.name -eq 'Windows x64 tests and portable build' -and $_.conclusion -eq 'failure'}).Count -ne 1) {throw 'Expected the failed MinGW job at the supplied revision'}
-gh run download $Run --name "test-results-windows-$Commit" --dir "$work/original"
+if ($LASTEXITCODE -or $src.headSha -ne $Commit -or $src.workflowName -ne 'Test and build') {throw 'Original test run and commit must match'}
+if ($Product -eq 'single') {
+    $job='single / single-exe'; $observed="single-exe-evidence-$Commit"; $binary="unverified-single-exe-x64-$Commit"
+    $originalResearch="$work/original/build/single-exe-check/research"; $receipt="$originalResearch/tabs-profiles-observed.json"
+} else {
+    $job='Windows x64 tests and portable build'; $observed="test-results-windows-$Commit"; $binary="unverified-mingw-runtime-$Commit"
+    $originalResearch="$work/original/research"; $receipt="$work/original/test-results/tabs-profiles-observed.json"
+}
+if (@($src.jobs|Where-Object {$_.name -ceq $job -and $_.conclusion -eq 'failure'}).Count -ne 1) {throw "Expected exactly one failed $job"}
+gh run download $Run --name $observed --dir "$work/original"
 if ($LASTEXITCODE) {throw 'Missing original failed observation'}
-gh run download $Run --name "unverified-mingw-runtime-$Commit" --dir "$work/runtime"
+gh run download $Run --name $binary --dir "$work/runtime"
 if ($LASTEXITCODE) {throw 'Missing exact failed runtime'}
-$r=Get-Content -Raw -LiteralPath "$work/original/test-results/tabs-profiles-observed.json" | ConvertFrom-Json
+$r=Get-Content -Raw -LiteralPath $receipt | ConvertFrom-Json
 if ($r.completed -ne $false -or $r.phase -ne 'close-host' -or !$r.close_request.posted -or $r.failure_dump.exit_code -ne 0) {throw 'No close timeout with a captured dump'}
-$dump=@(Get-ChildItem -LiteralPath "$work/original/research" -Directory -Filter 'profiles-failure-*' | ForEach-Object {Get-ChildItem -LiteralPath $_.FullName -File -Filter 'failure.dmp'} | Where-Object {(Get-FileHash -LiteralPath $_.FullName).Hash -eq $r.failure_dump.dump.sha256})
+$dump=@(Get-ChildItem -LiteralPath $originalResearch -Directory -Filter 'profiles-failure-*' | ForEach-Object {Get-ChildItem -LiteralPath $_.FullName -File -Filter 'failure.dmp'} | Where-Object {(Get-FileHash -LiteralPath $_.FullName).Hash -eq $r.failure_dump.dump.sha256})
 $exe=Get-Item -LiteralPath "$work/runtime/nemoterm.exe"; $imageHash=(Get-FileHash -LiteralPath $exe.FullName).Hash.ToLowerInvariant()
 if ($dump.Count -ne 1 -or $dump[0].Length -ne $r.failure_dump.dump.bytes -or $r.executable_sha256 -ne $imageHash -or $r.failure_dump.pid -ne $r.close_request.pid -or $r.process_before_cleanup.pid -ne $r.close_request.pid) {throw 'Dump and image must match the original failure receipt'}
 $tid=[uint32]$r.close_request.thread
 if (!$tid -or @($r.process_before_cleanup.threads.threads | Where-Object {$_.tid -eq $tid}).Count -ne 1) {throw 'No unique thread of the failing host window'}
-$identity=[ordered]@{source_commit=$Commit; source_run=$Run; analyzer_commit=$env:GITHUB_SHA; executable_sha256=$imageHash; executable_bytes=$exe.Length; dump_sha256=$r.failure_dump.dump.sha256; dump_bytes=$dump[0].Length; ui_tid=$tid; historical_pid=$r.close_request.pid; target_launched=$false; target_attached=$false}
+$identity=[ordered]@{source_commit=$Commit; source_run=$Run; source_job=$job; observation_artifact=$observed; binary_artifact=$binary; analyzer_commit=$env:GITHUB_SHA; executable_sha256=$imageHash; executable_bytes=$exe.Length; dump_sha256=$r.failure_dump.dump.sha256; dump_bytes=$dump[0].Length; ui_tid=$tid; historical_pid=$r.close_request.pid; target_launched=$false; target_attached=$false}
 $identity | ConvertTo-Json | Set-Content "$out/identity.json"
 $cdb="${env:ProgramFiles(x86)}/Windows Kits/10/Debuggers/x64/cdb.exe"
 if (!(Test-Path -LiteralPath $cdb)) {

@@ -6,7 +6,7 @@ on:
       suite:
         description: Checks or notice-only packaging against the exact artifact
         type: choice
-        options: [font-bell, dpi, interaction, single, ui-regression, shell-lifetime, tcap, portable-notices, regis-window, regis-frame-pair, regis-presented-matrix, regis-bank-start, column-modes, column-cells, pointer-colour, colour-input, unicode-boundary, picture-keys, image-timing, image-mixed, image-mixed-opencode, image-reads, image-files, image-reference, draft-reference, draft-product, paste-order, pterm-images, pterm-memory, agent-session-memory, profile-dump, profile-env, wsl-tui, wsl-sixel, wsl-vim, wsl-tmux-vim, wsl-colour, wsl-paste-quote, wsl-relay-paste, wsl-relay-vim, wsl-byte-path, wsl-drop, rendering-settings, close-cancel, profile-sequence, font-ops, scrollback-modes, paste-lines, paste-quote, paste-quote-exit, taskbar-progress, taskbar-memory, fullscreen]
+        options: [font-bell, dpi, interaction, single, ui-regression, shell-lifetime, tcap, portable-notices, regis-window, regis-frame-pair, regis-presented-matrix, regis-bank-start, column-modes, column-cells, pointer-colour, colour-input, unicode-boundary, picture-keys, image-timing, image-mixed, image-mixed-opencode, image-reads, image-files, image-reference, draft-reference, draft-product, paste-order, pterm-images, pterm-memory, agent-session-memory, profile-dump, profile-dump-single, profile-env, wsl-tui, wsl-sixel, wsl-vim, wsl-tmux-vim, wsl-colour, wsl-paste-quote, wsl-relay-paste, wsl-relay-vim, wsl-byte-path, wsl-drop, rendering-settings, close-cancel, profile-sequence, font-ops, scrollback-modes, paste-lines, paste-quote, paste-quote-exit, taskbar-progress, taskbar-memory, fullscreen]
         default: font-bell
       source_commit:
         description: Full source commit of the source-console-host artifact
@@ -97,10 +97,11 @@ jobs:
       product_run: ${{ inputs.source_run }}
       product_commit: ${{ inputs.source_commit }}
   profile-dump:
-    if: ${{ inputs.suite == 'profile-dump' }}
+    if: ${{ inputs.suite == 'profile-dump' || inputs.suite == 'profile-dump-single' }}
     runs-on: windows-2025
     timeout-minutes: 18
     env:
+      PRODUCT: ${{ inputs.suite == 'profile-dump-single' && 'single' || 'mingw' }}
       GH_TOKEN: ${{ github.token }}
       SOURCE_COMMIT: ${{ inputs.source_commit }}
       SOURCE_RUN: ${{ inputs.source_run }}
@@ -108,7 +109,7 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
       - name: Unwind the original mixed-profile timeout dump without starting the terminal
         shell: pwsh
-        run: ./scripts/read-profile-dump.ps1 -Commit $env:SOURCE_COMMIT -Run $env:SOURCE_RUN
+        run: ./scripts/read-profile-dump.ps1 -Commit $env:SOURCE_COMMIT -Run $env:SOURCE_RUN -Product $env:PRODUCT
       - if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
