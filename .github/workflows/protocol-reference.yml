@@ -28,6 +28,7 @@ on:
           - reset-palette
           - x11-colour
           - sidecar-wire
+          - wsl-pty-relay
           - kitty-graphics
           - kitty-compression
           - kitty-features
@@ -78,6 +79,9 @@ permissions:
   actions: read
 
 jobs:
+  wsl-pty-relay:
+    if: inputs.family == 'wsl-pty-relay'
+    uses: ./.github/workflows/wsl-pty-relay.yml
   regis-product-source:
     if: inputs.family == 'regis-product'
     name: Source-built console host for compiler comparison
@@ -174,7 +178,7 @@ jobs:
     with:
       skip_windows: ${{ inputs.family == 'pointer-components-linux' }}
   xterm-reference:
-    if: inputs.family != 'regis-discovery' && inputs.family != 'regis-product' && inputs.family != 'regis-core' && inputs.family != 'regis-bank-start' && inputs.family != 'regis' && inputs.family != 'regis-first-expose' && inputs.family != 'terminfo-database' && inputs.family != 'historical-xterm' && inputs.family != 'sidecar-wire' && inputs.family != 'kitty-graphics' && inputs.family != 'kitty-compression' && inputs.family != 'kitty-features' && inputs.family != 'kitty-query-errors' && inputs.family != 'kitty-relative' && inputs.family != 'kitty-unicode' && inputs.family != 'kitty-unicode-geometry' && inputs.family != 'kitty-pointer' && inputs.family != 'pointer-resources' && inputs.family != 'pointer-components' && inputs.family != 'pointer-components-linux' && inputs.family != 'pointer-window-replay'
+    if: inputs.family != 'regis-discovery' && inputs.family != 'regis-product' && inputs.family != 'regis-core' && inputs.family != 'regis-bank-start' && inputs.family != 'regis' && inputs.family != 'regis-first-expose' && inputs.family != 'terminfo-database' && inputs.family != 'historical-xterm' && inputs.family != 'sidecar-wire' && inputs.family != 'kitty-graphics' && inputs.family != 'kitty-compression' && inputs.family != 'kitty-features' && inputs.family != 'kitty-query-errors' && inputs.family != 'kitty-relative' && inputs.family != 'kitty-unicode' && inputs.family != 'kitty-unicode-geometry' && inputs.family != 'kitty-pointer' && inputs.family != 'pointer-resources' && inputs.family != 'pointer-components' && inputs.family != 'pointer-components-linux' && inputs.family != 'pointer-window-replay' && inputs.family != 'wsl-pty-relay'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:

@@ -1,0 +1,73 @@
+name: Native WSL PTY transport
+on:
+  workflow_call:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Build a standalone x86-64 Linux relay from this commit
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends musl-tools
+          mkdir -p build/wsl-relay
+          musl-gcc -std=c11 -Wall -Wextra -Werror -Os -static -s -Wl,--build-id=none -o build/wsl-relay/relay native/wsl_pty/relay.c -lutil
+          file build/wsl-relay/relay
+          if readelf -lW build/wsl-relay/relay | grep -q INTERP; then exit 1; fi
+          cd build/wsl-relay && sha256sum relay > SHA256SUMS
+          dpkg-query -W gcc musl-tools musl-dev > compiler-packages.txt
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: wsl-relay-build-${{ github.run_id }}-${{ github.run_attempt }}
+          path: build/wsl-relay/
+          if-no-files-found: error
+  exercise:
+    needs: build
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {runner: ubuntu-24.04, host: linux}
+          - {runner: windows-2025, host: wsl1}
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: wsl-relay-build-${{ github.run_id }}-${{ github.run_attempt }}
+          path: build/wsl-relay
+      - if: runner.os == 'Windows'
+        uses: Vampire/setup-wsl@4c48163d9f981914dd8caa0fc335fe19cca5bff4
+        with:
+          distribution: Ubuntu-24.04
+          wsl-version: 1
+          set-as-default: 'true'
+          update: 'false'
+          use-cache: 'false'
+      - if: runner.os == 'Windows'
+        shell: pwsh
+        run: ./scripts/prepare-hosted-wsl-packages.ps1 -Suite paste-quote
+      - if: runner.os == 'Linux'
+        run: |
+          cd build/wsl-relay && sha256sum -c SHA256SUMS && chmod 755 relay
+      - if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $expected = ((Get-Content build/wsl-relay/SHA256SUMS) -split '\s+')[0]
+          if ((Get-FileHash build/wsl-relay/relay).Hash -ne $expected) { throw 'Relay digest changed in transfer' }
+      - name: Verify actual PTY bytes, size changes, backpressure and process cleanup
+        run: python tests/wsl_pty_relay.py ${{ matrix.host }}
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: wsl-relay-${{ matrix.host }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            build/wsl-relay-records/
+            build/wsl-relay/SHA256SUMS
+            build/wsl-provision/*.log
+          if-no-files-found: error

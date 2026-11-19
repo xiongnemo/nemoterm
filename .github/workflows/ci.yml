@@ -26,6 +26,9 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  wsl-pty-relay:
+    if: ${{ inputs.scope != 'dpi' }}
+    uses: ./.github/workflows/wsl-pty-relay.yml
   regis-core:
     if: ${{ inputs.scope != 'dpi' }}
     uses: ./.github/workflows/regis-component.yml
