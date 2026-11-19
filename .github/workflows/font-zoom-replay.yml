@@ -6,7 +6,7 @@ on:
       suite:
         description: Checks or notice-only packaging against the exact artifact
         type: choice
-        options: [font-bell, dpi, interaction, single, ui-regression, shell-lifetime, tcap, portable-notices, regis-window, regis-frame-pair, regis-bank-start, pointer-colour, colour-input, unicode-boundary, picture-keys, image-timing, image-reads, image-files, image-reference, draft-reference, draft-product, paste-order, pterm-memory, profile-dump, profile-env, wsl-tui, wsl-sixel, wsl-vim, wsl-colour, rendering-settings, close-cancel, profile-sequence, font-ops, fullscreen]
+        options: [font-bell, dpi, interaction, single, ui-regression, shell-lifetime, tcap, portable-notices, regis-window, regis-frame-pair, regis-bank-start, pointer-colour, colour-input, unicode-boundary, picture-keys, image-timing, image-mixed, image-reads, image-files, image-reference, draft-reference, draft-product, paste-order, pterm-memory, profile-dump, profile-env, wsl-tui, wsl-sixel, wsl-vim, wsl-colour, rendering-settings, close-cancel, profile-sequence, font-ops, fullscreen]
         default: font-bell
       source_commit:
         description: Full source commit of the source-console-host artifact
@@ -101,9 +101,10 @@ jobs:
     with:
       draft_order: ${{ inputs.suite == 'draft-reference' }}
   image-timing:
-    if: ${{ inputs.suite == 'image-timing' || inputs.suite == 'image-files' || inputs.suite == 'image-reads' }}
+    if: ${{ inputs.suite == 'image-timing' || inputs.suite == 'image-mixed' || inputs.suite == 'image-files' || inputs.suite == 'image-reads' }}
     uses: ./.github/workflows/codex-image-timing.yml
     with:
+      mixed_bitmap: ${{ inputs.suite == 'image-mixed' }}
       image_files: ${{ inputs.suite == 'image-files' }}
       bitmap_witness: ${{ inputs.suite == 'image-reads' }}
       product_run: ${{ inputs.source_run }}

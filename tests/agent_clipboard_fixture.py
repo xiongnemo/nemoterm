@@ -197,23 +197,28 @@ def put_bitmap(hwnd):
 
 
 def put_clipboard_block(hwnd, fmt, data):
-    handle = k.GlobalAlloc(2, len(data))
-    assert handle
-    ptr = k.GlobalLock(handle)
-    assert ptr
-    c.memmove(ptr, data, len(data))
-    k.GlobalUnlock(handle)
+    put_clipboard_blocks(hwnd, [(fmt, data)])
+
+
+def put_clipboard_blocks(hwnd, formats):
+    # Publish every advertised representation in the same clipboard transaction.
+    wait_for(lambda: u.OpenClipboard(hwnd))
     try:
-        wait_for(lambda: u.OpenClipboard(hwnd))
-        try:
-            assert u.EmptyClipboard()
-            assert u.SetClipboardData(fmt, handle)
-            handle = None
-        finally:
-            u.CloseClipboard()
+        assert u.EmptyClipboard()
+        for fmt, data in formats:
+            handle = k.GlobalAlloc(2, len(data))
+            assert handle
+            try:
+                ptr = k.GlobalLock(handle)
+                assert ptr
+                c.memmove(ptr, data, len(data))
+                k.GlobalUnlock(handle)
+                assert u.SetClipboardData(fmt, handle)
+                handle = None  # Windows owns it now.
+            finally:
+                if handle: k.GlobalFree(handle)
     finally:
-        if handle:
-            k.GlobalFree(handle)
+        u.CloseClipboard()
 
 
 def put_image_file(hwnd, folder):
@@ -412,6 +417,10 @@ def main():
                         if action == 'bitmap':
                             if witness: witness.publish()
                             else: put_bitmap(hwnd)
+                            report['clipboard_action'] = serial
+                        elif action == 'mixed-bitmap':
+                            put_clipboard_blocks(hwnd, [(13, bytes(2)), (8, bitmap_bytes())])
+                            report['mixed_formats'] = ['empty CF_UNICODETEXT', 'CF_DIB']
                             report['clipboard_action'] = serial
                         elif action == 'draft-text' and args.draft_order:
                             put_clipboard_block(hwnd,13,('NEMOTERM_CODEX_IMAGE_CTRL_SHIFT_V'+chr(0)).encode('utf-16-le'))

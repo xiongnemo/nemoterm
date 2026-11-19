@@ -48,6 +48,7 @@ def main():
     parser.add_argument('--observe-first-miss', action='store_true', help='Keep the failed startup gesture and separately observe one subsequent user action in that same session')
     parser.add_argument('--after-window-caption',action='store_true',help='Physically paste when the real window displays the fixture project name, without waiting for a VT status or redraw')
     parser.add_argument('--witness-bitmap',action='store_true',help='Observe first Windows request for the generated bitmap with a delayed-rendering owner')
+    parser.add_argument('--mixed-bitmap', action='store_true', help='Publish an empty Unicode text alternative alongside the generated DIB')
     parser.add_argument('--image-file', action='store_true', help='Paste a real copied PNG file (CF_HDROP only) instead of a clipboard bitmap')
     parser.add_argument('--binding',choices=('ctrl-v','ctrl-shift-v'))
     args=parser.parse_args()
@@ -56,11 +57,12 @@ def main():
     if args.witness_bitmap:
         assert os.environ.get('RUNNER_ENVIRONMENT')=='github-hosted' and args.client=='codex' and not args.image_file and not args.after_window_caption
         result['delayed_bitmap_diagnostic']=True
+    if args.mixed_bitmap:assert args.after_client_idle and not args.image_file and not args.witness_bitmap
     if args.image_file:assert args.client=='codex' and not args.after_window_caption and not args.observe_first_miss
     if args.after_window_caption:assert args.client=='codex' and args.system_input and not args.after_client_idle and not args.observe_first_miss
     if args.after_client_idle:assert args.client=='codex'
     if args.observe_first_miss:assert args.client=='codex' and not args.after_client_idle
-    result.update(clipboard_format='CF_HDROP' if args.image_file else 'CF_DIB',system_input=args.system_input,after_client_idle=args.after_client_idle,after_window_caption=args.after_window_caption,failures=[])
+    result.update(clipboard_format='CF_HDROP' if args.image_file else 'empty CF_UNICODETEXT + CF_DIB' if args.mixed_bitmap else 'CF_DIB',system_input=args.system_input,after_client_idle=args.after_client_idle,after_window_caption=args.after_window_caption,failures=[])
     for name,mods in [('ctrl-v',2),('ctrl-shift-v',3)]:
         if args.binding and args.binding!=name:continue
         case=folder/name;report=case/'observed.json';control=case/'control.json'
@@ -110,7 +112,7 @@ def main():
                     return proof
                 if args.after_client_idle:wait_for(idle_redraw,timeout=60)
                 if not args.image_file:
-                    write_snapshot(control,dict(id=1,action='bitmap'))
+                    write_snapshot(control,dict(id=1,action='mixed-bitmap' if args.mixed_bitmap else 'bitmap'))
                     wait_for(lambda:read_snapshot(report).get('clipboard_action')==1)
                 # The caption phase gates only on the foreground window a user sees.
                 # Do not read the VT trace, capture pixels or write files between the
@@ -191,7 +193,7 @@ def main():
                     witness=read_snapshot(case/'bitmap-requests.json')
                     hits=[e for e in witness['events'] if e['reason']=='WM_RENDERFORMAT' and e['supplied']]
                     assert not witness['errors'] and len(hits)==1 and witness['published_ns']<=gesture_clock[0]['start_ns']<=hits[0]['ns']<=hits[0]['supplied_ns'],(witness,gesture_clock)
-                if args.image_file or args.after_window_caption or args.witness_bitmap or followup is not None:
+                if args.image_file or args.mixed_bitmap or args.after_window_caption or args.witness_bitmap or followup is not None:
                     relevant=[r for r in observed['requests'] if marker in r['text'] and r['images']]
                     assert len(relevant)==1 and len(relevant[0]['images'])==1 and relevant[0]['images'][0]['generated_pixels_match'],relevant
                 if followup is not None:

@@ -3,6 +3,7 @@ on:
   workflow_call:
     inputs:
       bitmap_witness: {type: boolean, default: false}
+      mixed_bitmap: {type: boolean, default: false}
       image_files: {type: boolean, default: false}
       product_run: {required: true, type: string}
       product_commit: {required: true, type: string}
@@ -17,8 +18,8 @@ jobs:
       fail-fast: false
       matrix:
         input: [system, api]
-        phase: [immediate, idle]
-        include: ${{ fromJSON((inputs.image_files || inputs.bitmap_witness) && '[]' || '[{"input":"system","phase":"caption"}]') }}
+        phase: ${{ fromJSON(inputs.mixed_bitmap && '["idle"]' || '["immediate","idle"]') }}
+        include: ${{ fromJSON((inputs.image_files || inputs.bitmap_witness || inputs.mixed_bitmap) && '[]' || '[{"input":"system","phase":"caption"}]') }}
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with: {fetch-depth: 0}
@@ -47,23 +48,29 @@ jobs:
         env:
           INPUT_MODE: ${{ matrix.input }}
           CLIPBOARD_KIND: ${{ inputs.image_files && 'file' || 'bitmap' }}
+          MIXED: ${{ inputs.mixed_bitmap && 'yes' || 'no' }}
           WITNESS: ${{ inputs.bitmap_witness && 'yes' || 'no' }}
           STARTUP_PHASE: ${{ matrix.phase }}
         run: |
           $clients=@(Get-ChildItem tools/codex-fixture/node_modules -Recurse -Filter codex.exe)
           if ($clients.Count -ne 1) {throw 'Expected one pinned native Codex executable'}
           $opts=@('tests/agent_clipboard_smoke.py','--client','codex','--client-exe',$clients[0].FullName)
+          if ($env:MIXED -eq 'yes') {$opts+='--mixed-bitmap'}
           if ($env:WITNESS -eq 'yes') {$opts+='--witness-bitmap'}
           if ($env:INPUT_MODE -eq 'system') {$opts+='--system-input'}
           if ($env:CLIPBOARD_KIND -eq 'file') {$opts+='--image-file'}
           if ($env:STARTUP_PHASE -eq 'idle') {$opts+='--after-client-idle'} elseif ($env:STARTUP_PHASE -eq 'caption') {$opts+='--after-window-caption'} elseif ($env:CLIPBOARD_KIND -eq 'bitmap') {$opts+='--observe-first-miss'}
           python @opts
           exit $LASTEXITCODE
+      - name: Read exact child input for ten mixed-format clipboard cases
+        if: ${{ !cancelled() && inputs.mixed_bitmap && matrix.input == 'api' }}
+        run: python tests/image_paste_protocol.py --mixed-formats
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
-          name: codex-${{ inputs.image_files && 'file' || inputs.bitmap_witness && 'reads' || 'image' }}-${{ matrix.input }}-${{ matrix.phase }}-${{ github.run_id }}-${{ github.run_attempt }}
+          name: codex-${{ inputs.mixed_bitmap && 'mixed' || inputs.image_files && 'file' || inputs.bitmap_witness && 'reads' || 'image' }}-${{ matrix.input }}-${{ matrix.phase }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
+            build/image-key-records/mixed-formats.json
             build/dib-witness-control.json
             research/agent-clipboard-codex.json
             research/agent-codex-ctrl*
