@@ -41,7 +41,8 @@ jobs:
         with:
           name: taskbar-progress-${{ matrix.renderer }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
-            research/taskbar-progress-*
+            research/taskbar-progress-*.json
+            research/taskbar-progress-*.png
             build/progress-product/SOURCE-HOST.json
             build/interaction-dependencies/environment.json
           if-no-files-found: error
