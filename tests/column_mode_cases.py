@@ -9,7 +9,8 @@ PAINT = C+'2;3HA中Z'+C+'7;11H'
 PROBE = ''.join(C+f'?{m}$p' for m in (3,40,95))+C+'6n'+C+'18t'+C+'31#y'+''.join(C+f'{x};1;2;{x};2;{x}*y' for x in range(3,7))
 
 def stages(profile):
-    init = {'enabled':'','disabled':C+'?40l','level4':C+'64;1"p'}[profile]
+    init = {'enabled':'','disabled':C+'?40l','level4':C+'64;1"p',
+            'explicit-80':C+'?40h','explicit-off':C+'?40l','explicit-level4':C+'64;1"p'+C+'?40h'}[profile]
     actions = [('initial',init),('paint',PAINT),('set-132',C+'?3h'),('read-132',''),('back-80',C+'?3l'),
                ('enable-keep',C+'?40;95h'+PAINT),('keep-widen',C+'?3h'),('read-wide',''),
                ('keep-narrow',C+'?3l'),('read-narrow',''),('same-80',PAINT+C+'?3l'),
@@ -23,8 +24,8 @@ def stages(profile):
 def reference(exe,out):
     from xterm_state_oracle import run_cases
     out.mkdir(parents=True,exist_ok=False)
-    for k in ('enabled','disabled','level4'):
-        run_cases(exe,out/(k+'.json'),stages(k),['-ti','vt520','-132','-xrm','*allowWindowOps: true'],raw_replies=True)
+    for k in ('enabled','disabled','level4','explicit-80','explicit-off','explicit-level4'):
+        run_cases(exe,out/(k+'.json'),stages(k),['-ti','vt520','+132' if k.startswith('explicit-') else '-132','-xrm','*allowWindowOps: true'],raw_replies=True)
 
 
 if __name__=='__main__':
