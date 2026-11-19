@@ -34,6 +34,10 @@ jobs:
         env:
           RENDERER: ${{ matrix.renderer }}
         run: python tests/paste_lines_window.py
+      - name: Preserve physical paste and Return order while the clipboard owner waits
+        if: ${{ !cancelled() && !inputs.quote_only }}
+        env: {RENDERER: "${{ matrix.renderer }}"}
+        run: python tests/delayed_paste_order_window.py
       - name: Install the read-only frontend pipe observer for the quote replay
         if: inputs.quote_only
         run: python -m pip install frida==17.24.3
