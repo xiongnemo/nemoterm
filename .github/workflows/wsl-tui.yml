@@ -54,7 +54,7 @@ jobs:
       - name: Verify or install signed Ubuntu fixture packages over HTTPS
         shell: pwsh
         env:
-          WSL_FIXTURE_SUITE: ${{ (inputs.suite == 'byte-path' || inputs.suite == 'drop') && 'paste-quote' || inputs.suite }}
+          WSL_FIXTURE_SUITE: ${{ (inputs.suite == 'byte-path' || inputs.suite == 'drop' || inputs.suite == 'relay-paste') && 'paste-quote' || inputs.suite }}
         run: ./scripts/prepare-hosted-wsl-packages.ps1 -Suite $env:WSL_FIXTURE_SUITE
       - name: Prepare font and fixture
         if: inputs.suite != 'byte-path'
@@ -74,6 +74,25 @@ jobs:
         shell: pwsh
         run: |
           wsl.exe --distribution Ubuntu-24.04 --cd $env:GITHUB_WORKSPACE --exec /usr/bin/env NEMO_HOSTED_PTY_FIXTURE=1 /usr/bin/python3 tests/quoted_devpts_reference.py testdata/upstream/xterm412-paste-quote.zip build/wsl-check/research/wsl-devpts.json
+          exit $LASTEXITCODE
+      - if: inputs.suite == 'relay-paste'
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: wsl-relay-build-${{ github.run_id }}-${{ github.run_attempt }}
+          path: build/wsl-relay
+      - name: Paste into the guest PTY through a real Nemoterm window
+        if: inputs.suite == 'relay-paste'
+        shell: pwsh
+        run: |
+          $relay = (Resolve-Path build/wsl-relay/relay).Path
+          $digest = (Get-FileHash $relay).Hash.ToLowerInvariant()
+          if ((Get-Content build/wsl-relay/SHA256SUMS) -cne "$digest  relay") { throw 'Relay digest mismatch' }
+          $guest = wsl.exe -d Ubuntu-24.04 --exec /usr/bin/wslpath -a -u $relay
+          if ($LASTEXITCODE -ne 0 -or $guest -notmatch '^/[A-Za-z0-9/._-]+$') { throw 'Guest relay path unavailable' }
+          $env:NEMOTERM_WSL_PTY_RELAY = $guest.Trim()
+          $env:NEMOTERM_TEST_RELAY_SHA256 = $digest
+          Copy-Item testdata/upstream/xterm412-paste-quote.zip build/wsl-check/
+          python build/wsl-check/tests/wsl_paste_quote.py
           exit $LASTEXITCODE
       - name: Compare a Linux raw reader and canonical input with the XTerm clipboard
         if: ${{ !cancelled() && inputs.suite == 'paste-quote' && steps.prepare.outcome == 'success' }}
@@ -119,7 +138,7 @@ jobs:
       - if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
-          name: ${{ inputs.suite == 'drop' && 'wsl-drop' || inputs.suite == 'byte-path' && 'wsl-byte-path' || inputs.suite == 'paste-quote' && 'wsl-paste-quote' || inputs.suite == 'sixel' && 'wsl-sixel' || inputs.suite == 'tmux-vim' && 'wsl-tmux-vim' || inputs.suite == 'vim' && 'wsl-vim' || inputs.suite == 'colour' && 'wsl-colour' || 'wsl-tui' }}-${{ github.run_id }}-${{ github.run_attempt }}
+          name: ${{ inputs.suite == 'relay-paste' && 'wsl-relay-paste' || inputs.suite == 'drop' && 'wsl-drop' || inputs.suite == 'byte-path' && 'wsl-byte-path' || inputs.suite == 'paste-quote' && 'wsl-paste-quote' || inputs.suite == 'sixel' && 'wsl-sixel' || inputs.suite == 'tmux-vim' && 'wsl-tmux-vim' || inputs.suite == 'vim' && 'wsl-vim' || inputs.suite == 'colour' && 'wsl-colour' || 'wsl-tui' }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
             build/wsl-provision/*.log
             build/wsl-check/research/

@@ -125,6 +125,14 @@ jobs:
       run: ${{ github.run_id }}
       commit: ${{ github.sha }}
       suite: drop
+  wsl-relay-paste:
+    if: ${{ inputs.scope == 'full' }}
+    needs: [source-host, wsl-pty-relay]
+    uses: ./.github/workflows/wsl-tui.yml
+    with:
+      run: ${{ github.run_id }}
+      commit: ${{ github.sha }}
+      suite: relay-paste
   wsl-paste-quote:
     if: ${{ inputs.scope == 'full' }}
     needs: source-host

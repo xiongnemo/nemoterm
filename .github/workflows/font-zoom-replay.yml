@@ -6,7 +6,7 @@ on:
       suite:
         description: Checks or notice-only packaging against the exact artifact
         type: choice
-        options: [font-bell, dpi, interaction, single, ui-regression, shell-lifetime, tcap, portable-notices, regis-window, regis-frame-pair, regis-presented-matrix, regis-bank-start, column-cells, pointer-colour, colour-input, unicode-boundary, picture-keys, image-timing, image-mixed, image-mixed-opencode, image-reads, image-files, image-reference, draft-reference, draft-product, paste-order, pterm-images, pterm-memory, agent-session-memory, profile-dump, profile-env, wsl-tui, wsl-sixel, wsl-vim, wsl-tmux-vim, wsl-colour, wsl-paste-quote, wsl-byte-path, wsl-drop, rendering-settings, close-cancel, profile-sequence, font-ops, scrollback-modes, paste-lines, paste-quote, paste-quote-exit, taskbar-progress, taskbar-memory, fullscreen]
+        options: [font-bell, dpi, interaction, single, ui-regression, shell-lifetime, tcap, portable-notices, regis-window, regis-frame-pair, regis-presented-matrix, regis-bank-start, column-cells, pointer-colour, colour-input, unicode-boundary, picture-keys, image-timing, image-mixed, image-mixed-opencode, image-reads, image-files, image-reference, draft-reference, draft-product, paste-order, pterm-images, pterm-memory, agent-session-memory, profile-dump, profile-env, wsl-tui, wsl-sixel, wsl-vim, wsl-tmux-vim, wsl-colour, wsl-paste-quote, wsl-relay-paste, wsl-byte-path, wsl-drop, rendering-settings, close-cancel, profile-sequence, font-ops, scrollback-modes, paste-lines, paste-quote, paste-quote-exit, taskbar-progress, taskbar-memory, fullscreen]
         default: font-bell
       source_commit:
         description: Full source commit of the source-console-host artifact
@@ -32,6 +32,16 @@ jobs:
     with:
       source_commit: ${{ inputs.source_commit }}
       source_run: ${{ inputs.source_run }}
+  build-paste-relay:
+    if: inputs.suite == 'wsl-relay-paste'
+    uses: ./.github/workflows/wsl-pty-relay.yml
+  wsl-relay-paste:
+    needs: build-paste-relay
+    uses: ./.github/workflows/wsl-tui.yml
+    with:
+      run: ${{ inputs.source_run }}
+      commit: ${{ inputs.source_commit }}
+      suite: relay-paste
   wsl-tui:
     if: ${{ inputs.suite == 'wsl-tui' || inputs.suite == 'wsl-sixel' || inputs.suite == 'wsl-vim' || inputs.suite == 'wsl-tmux-vim' || inputs.suite == 'wsl-colour' || inputs.suite == 'wsl-paste-quote' || inputs.suite == 'wsl-byte-path' || inputs.suite == 'wsl-drop' }}
     uses: ./.github/workflows/wsl-tui.yml

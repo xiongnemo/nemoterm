@@ -1,8 +1,10 @@
 # WSL PTY relay (Linux x86-64)
 
 This component provides a controlling terminal to a guest program even when
-`wsl.exe` has redirected standard handles. The Windows frontend does not yet
-select this transport. It needs no interpreter or shared C library at runtime.
+`wsl.exe` has redirected standard handles. The hosted GUI replay sets `NEMOTERM_WSL_PTY_RELAY` to the absolute guest
+path of the separately verified binary. The Windows frontend only applies
+that override to an explicit system `wsl.exe --exec` command. Normal profiles
+still use ConPTY. The relay needs no interpreter or shared C library at runtime.
 
 `relay COLS ROWS PROGRAM [ARG ...]` launches the supplied argv on a new PTY.
 Stdout is the slave's exact terminal stream (including the child's stderr).

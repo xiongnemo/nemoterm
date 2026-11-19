@@ -3,7 +3,6 @@ import hashlib
 import json
 import os
 from pathlib import Path
-import shutil
 import subprocess
 import time
 import traceback
@@ -40,7 +39,7 @@ def exercise(renderer,lnext,reference):
     with saved_profile(profile) as flags,OwnedJob() as job:
         desk=clip=None
         try:
-            proc=job.spawn([str(exe),'--no-tabs',*flags,'--cols','80','--rows','24','--font',font,'-e',shutil.which('wsl.exe'),'--distribution',distro,'--exec','/usr/bin/python3',unix(peer),unix(folder),str(lnext)],env=dict(os.environ,NEMOTERM_CONPTY='bundled'),creationflags=subprocess.CREATE_NO_WINDOW)
+            proc=job.spawn([str(exe),'--no-tabs',*flags,'--cols','80','--rows','24','--font',font,'-e',str(Path(os.environ['SystemRoot'])/'System32'/'wsl.exe'),'--distribution',distro,'--exec','/usr/bin/python3',unix(peer),unix(folder),str(lnext),*(['--relay-parent'] if os.environ.get('NEMOTERM_TEST_RELAY_SHA256') else [])],env=dict(os.environ,NEMOTERM_CONPTY='bundled'),creationflags=subprocess.CREATE_NO_WINDOW)
             hwnd=wait_for(lambda:find_window(proc.pid),timeout=25);u.GetPropW.argtypes,u.GetPropW.restype=[w.HWND,w.LPCWSTR],w.HANDLE
             r['renderer']=int(u.GetPropW(hwnd,'NemotermRenderer') or 0);assert r['renderer']==renderer
             desk=DesktopInput(proc.pid,terminal_host(hwnd),hwnd,r.setdefault('keyboard',{}));clip=SavedClipboard(hwnd);set_clipboard(hwnd,TEXT)
@@ -67,6 +66,8 @@ def exercise(renderer,lnext,reference):
             clip.restore();clip=None;desk.restore();desk=None
             (folder/'release').touch()
             assert proc.wait(timeout=15)==0;peer_result=read_snapshot(folder/'linux.json');assert peer_result['completed'] and r['peer_sha256']==peer_result['fixture_sha256']
+            if os.environ.get('NEMOTERM_TEST_RELAY_SHA256'):
+                assert peer_result['tty'].startswith('/dev/pts/') and peer_result['parent_sha256']==os.environ['NEMOTERM_TEST_RELAY_SHA256'], peer_result
             r['job_after_exit']=job_images(job);r['cleanup']=job.finish(grace=2,observe_after_deadline=5)
             assert not r['cleanup']['grace_exceeded'] and not r['cleanup']['terminated_remaining'];r['completed']=True
         except BaseException:

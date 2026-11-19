@@ -297,3 +297,5 @@ For an exact-image Windows quoted-paste exit diagnostic, run `font-zoom-replay.y
 `suite=taskbar-memory` 在相同单文件 EXE 上保留两标签任务栏进度（正常 60%、暂停 25%），执行 160×48 的 Kitty Unicode、Sixel、历史和窗口大小压力场景。在采样前后分别核对真实 Shell 的状态。原有六种工作负载及 GDI 和 DirectX 的内存门限保持不变。
 
 [第一次启用进度的内存回放](https://github.com/xiongnemo/nemoterm/actions/runs/44604429748)因托管桌面过小，在采样之前退出：GDI 为 123×32，DirectX 为 99×33。没有从这次失败推断内存。后续回放与原满屏验收相同，先选择远程显示器报告支持的模式，保持 160×48 断言，最后恢复并记录原显示配置。
+
+`font-zoom-replay.yml` 的 `suite=wsl-relay-paste` 在托管 Linux 上编译独立的 x86-64 PTY 转接器，校验同一份制品在 Ubuntu、WSL1 上的字节与进程行为，再用指定的 Nemoterm EXE 在 WSL1 的真实窗口实按 Ctrl+Shift+V。Linux 接收器记录 PTY 名称与其直接父进程的二进制散列，区分实际走转接器与意外回到系统控制台。GDI、DirectX 均保留原始模式回复、逐字节输入和按行读取结果；原 `wsl-paste-quote` 使用默认 ConPTY 的测试独立保留。两者均纳入 `ci.yml scope=full`。

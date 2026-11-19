@@ -21,6 +21,12 @@ def note(path,value):
 def run(folder,lnext):
     original=termios.tcgetattr(0);out=dict(tty=os.ttyname(0),term=os.environ.get('TERM'),python=sys.version,
         os_release=Path('/etc/os-release').read_text(),fixture_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),cases={})
+    # Prove which executable owns our master. WSL's ordinary console input
+    # route must not be mistaken for a successful relay fallback.
+    if sys.argv[3:]==['--relay-parent']:
+        parent=Path('/proc')/str(os.getppid())/'exe'
+        out['parent_exe']=os.readlink(parent)
+        out['parent_sha256']=hashlib.sha256(parent.read_bytes()).hexdigest()
     def read_piece(end):
         timeout=end-time.monotonic()
         if timeout<=0 or not select.select([0],[],[],timeout)[0]:raise TimeoutError('WSL tty read deadline')

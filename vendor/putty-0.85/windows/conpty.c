@@ -21,6 +21,7 @@ struct ConPTY {
     HandleWait *subprocess;
     bool exited;
     bool wait_for_clients;
+    bool byte_relay, relay_eof;
     DWORD exitstatus;
     Seat *seat;
     LogContext *logctx;
@@ -198,7 +199,7 @@ static void conpty_terminate(ConPTY *conpty, bool close_session)
          * existing lifetime rules. No process-name or descendant PID search
          * is used, and detached children are not terminated as a job tree. */
         if (close_session &&
-            WaitForSingleObject(conpty->hprocess, 100) == WAIT_TIMEOUT &&
+            WaitForSingleObject(conpty->hprocess, conpty->byte_relay ? 1500 : 100) == WAIT_TIMEOUT &&
             !TerminateProcess(conpty->hprocess, 1)) {
             DWORD error = GetLastError();
             if (WaitForSingleObject(conpty->hprocess, 0) == WAIT_TIMEOUT)
@@ -216,7 +217,7 @@ static void conpty_process_wait_callback(void *vctx)
 
     if (!GetExitCodeProcess(conpty->hprocess, &conpty->exitstatus))
         return;
-    conpty->exited = !conpty->wait_for_clients;
+    conpty->exited = !conpty->byte_relay && !conpty->wait_for_clients;
 
     /*
      * We can stop waiting for the process now.
@@ -226,6 +227,13 @@ static void conpty_process_wait_callback(void *vctx)
         conpty->subprocess = NULL;
         CloseHandle(conpty->hprocess);
         conpty->hprocess = INVALID_HANDLE_VALUE;
+    }
+
+    if (conpty->byte_relay && conpty->relay_eof) {
+        conpty->exited = true;
+        conpty_terminate(conpty, false);
+        seat_notify_remote_exit(conpty->seat);
+        return;
     }
 
     /*
@@ -247,6 +255,11 @@ static size_t conpty_gotdata(
     if (err || len == 0) {
         char *error_msg;
 
+        if (!err && conpty->byte_relay) {
+            conpty->relay_eof = true;
+            if (conpty->subprocess) return 0; /* wait for the actual exit code */
+            conpty->exited = true;
+        }
         if (!err && conpty->wait_for_clients) {
             /* EOF means all console clients detached, including descendants of
              * an already-exited launcher (for example System32's WSL shim). */
@@ -320,6 +333,46 @@ static void conpty_sentdata(struct handle *h, size_t new_backlog, int err,
     }
 }
 
+/* Opt-in GUI replay of a known guest binary. Only intercept the actual
+ * system wsl.exe with an explicit --exec program. Preserve every argument
+ * of the original guest command, including Windows quoting. */
+static wchar_t *wsl_relay_command(wchar_t *cmd, COORD size)
+{
+    wchar_t helper[1024], sysdir[MAX_PATH], dims[32];
+    DWORD n = GetEnvironmentVariableW(L"NEMOTERM_WSL_PTY_RELAY", helper, lenof(helper));
+    if (!n || n >= lenof(helper) || helper[0] != L'/' || size.X < 1 || size.Y < 1)
+        return NULL;
+    if (wcsspn(helper, L"/abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789._-") != n)
+        return NULL;
+    UINT units = GetSystemDirectoryW(sysdir, lenof(sysdir));
+    if (!units || units >= lenof(sysdir)) return NULL;
+    wchar_t *system_wsl = dupwcscat(sysdir, L"\\wsl.exe"), *out = NULL;
+    wchar_t **args, **starts;
+    int argc;
+    split_into_argv_w(cmd, true, &argc, &args, &starts);
+    if (argc >= 3 && !_wcsicmp(args[0], system_wsl)) {
+        for (int i = 1; i + 1 < argc; i++) {
+            if (!wcscmp(args[i], L"--exec") || !wcscmp(args[i], L"-e")) {
+                wchar_t *tail = starts[i+1];
+                size_t prefix_len = tail - cmd;
+                wchar_t *prefix = snewn(prefix_len + 1, wchar_t);
+                memcpy(prefix, cmd, prefix_len * sizeof(*prefix)); prefix[prefix_len] = 0;
+                swprintf(dims, lenof(dims), L" %d %d ", size.X, size.Y);
+                out = dupwcscat(prefix, helper, dims, tail);
+                sfree(prefix);
+                break;
+            }
+            if (wcscmp(args[i], L"--distribution") && wcscmp(args[i], L"-d") &&
+                wcscmp(args[i], L"--user") && wcscmp(args[i], L"-u") &&
+                wcscmp(args[i], L"--cd")) break;
+            i++; /* option takes exactly one operand */
+        }
+    }
+    if (argc) sfree(args[0]);
+    sfree(starts); sfree(args); sfree(system_wsl);
+    return out;
+}
+
 static char *conpty_init(const BackendVtable *vt, Seat *seat,
                          Backend **backend_handle, LogContext *logctx,
                          Conf *conf, const char *host, int port,
@@ -333,7 +386,7 @@ static char *conpty_init(const BackendVtable *vt, Seat *seat,
     HANDLE out_r = INVALID_HANDLE_VALUE;
     HANDLE out_w = INVALID_HANDLE_VALUE;
 
-    HPCON pcon;
+    HPCON pcon = INVALID_HANDLE_VALUE;
     bool pcon_needs_cleanup = false;
     bool attributes_initialized = false;
     wchar_t *directory = NULL;
@@ -341,75 +394,7 @@ static char *conpty_init(const BackendVtable *vt, Seat *seat,
     STARTUPINFOEXW si;
     memset(&si, 0, sizeof(si));
 
-    if (!init_conpty_api()) {
-        const char *message = conpty_api_error ? conpty_api_error :
-            "Pseudo-console API is not available on this Windows system";
-        err = conpty_api_winerror ?
-            dupprintf("%s: %s", message, win_strerror(conpty_api_winerror)) :
-            dupstr(message);
-        goto out;
-    }
-    logevent(logctx, conpty_api_info);
-
-    if (!CreatePipe(&in_r, &in_w, NULL, 0)) {
-        err = dupprintf("CreatePipe: %s", win_strerror(GetLastError()));
-        goto out;
-    }
-    if (!CreatePipe(&out_r, &out_w, NULL, 0)) {
-        err = dupprintf("CreatePipe: %s", win_strerror(GetLastError()));
-        goto out;
-    }
-
-    COORD size;
-    size.X = conf_get_int(conf, CONF_width);
-    size.Y = conf_get_int(conf, CONF_height);
-
-    HRESULT result = p_CreatePseudoConsole(size, in_r, out_w, 0, &pcon);
-    if (FAILED(result)) {
-        if (HRESULT_FACILITY(result) == FACILITY_WIN32)
-            err = dupprintf("CreatePseudoConsole: %s",
-                            win_strerror(HRESULT_CODE(result)));
-        else
-            err = dupprintf("CreatePseudoConsole failed: HRESULT=0x%08x",
-                            (unsigned)result);
-        goto out;
-    }
-    pcon_needs_cleanup = true;
-
-    CloseHandle(in_r);
-    in_r = INVALID_HANDLE_VALUE;
-    CloseHandle(out_w);
-    out_w = INVALID_HANDLE_VALUE;
-
-    si.StartupInfo.cb = sizeof(si);
-    /* Null standard handles deliberately select the new console's handles.
-     * Otherwise GUI-parent redirections can leak into console clients such as
-     * WSL, which then read an unrelated pipe's EOF and exit immediately. */
-    si.StartupInfo.dwFlags = STARTF_USESTDHANDLES;
-
-    SIZE_T attrsize = 0;
-    InitializeProcThreadAttributeList(NULL, 1, 0, &attrsize);
-    si.lpAttributeList = smalloc(attrsize);
-    if (!InitializeProcThreadAttributeList(
-            si.lpAttributeList, 1, 0, &attrsize)) {
-        err = dupprintf("InitializeProcThreadAttributeList: %s",
-                        win_strerror(GetLastError()));
-        goto out;
-    }
-    attributes_initialized = true;
-    if (!UpdateProcThreadAttribute(
-            si.lpAttributeList,
-            0, PROC_THREAD_ATTRIBUTE_PSEUDOCONSOLE,
-            pcon, sizeof(pcon), NULL, NULL)) {
-        err = dupprintf("UpdateProcThreadAttribute: %s",
-                        win_strerror(GetLastError()));
-        goto out;
-    }
-
-    PROCESS_INFORMATION pi;
-    memset(&pi, 0, sizeof(pi));
-
-    wchar_t *command, *environment = NULL;
+    wchar_t *command = NULL, *environment = NULL;
     int launch_shell=-1;
     bool dir_utf8, shell_directory=false;
     const char *dir_conf=conf_get_str_ambi(conf,CONF_nemo_starting_directory,&dir_utf8);
@@ -451,12 +436,91 @@ static char *conpty_init(const BackendVtable *vt, Seat *seat,
         }
     }
     nemo_drop_record_launch(seat,conf,command,launch_shell);
+    COORD size = { (SHORT)conf_get_int(conf, CONF_width), (SHORT)conf_get_int(conf, CONF_height) };
+    wchar_t *relay_cmd = wsl_relay_command(command, size);
+    bool byte_relay = relay_cmd != NULL;
+    if (byte_relay) { sfree(command); command = relay_cmd; }
+    if (!byte_relay && !init_conpty_api()) {
+        const char *message = conpty_api_error ? conpty_api_error :
+            "Pseudo-console API is not available on this Windows system";
+        err = conpty_api_winerror ?
+            dupprintf("%s: %s", message, win_strerror(conpty_api_winerror)) :
+            dupstr(message);
+        goto out;
+    }
+    logevent(logctx, byte_relay ? "WSL guest PTY with redirected byte pipes" : conpty_api_info);
+
+    if (!CreatePipe(&in_r, &in_w, NULL, 0)) {
+        err = dupprintf("CreatePipe: %s", win_strerror(GetLastError()));
+        goto out;
+    }
+    if (!CreatePipe(&out_r, &out_w, NULL, 0)) {
+        err = dupprintf("CreatePipe: %s", win_strerror(GetLastError()));
+        goto out;
+    }
+
+    HANDLE inherited[] = {in_r, out_w};
+    if (byte_relay) {
+        if (!SetHandleInformation(in_r, HANDLE_FLAG_INHERIT, HANDLE_FLAG_INHERIT) ||
+            !SetHandleInformation(out_w, HANDLE_FLAG_INHERIT, HANDLE_FLAG_INHERIT)) {
+            err = dupprintf("WSL standard handles: %s", win_strerror(GetLastError()));
+            goto out;
+        }
+        si.StartupInfo.hStdInput = in_r;
+        si.StartupInfo.hStdOutput = si.StartupInfo.hStdError = out_w;
+    } else {
+        HRESULT result = p_CreatePseudoConsole(size, in_r, out_w, 0, &pcon);
+        if (FAILED(result)) {
+            if (HRESULT_FACILITY(result) == FACILITY_WIN32)
+                err = dupprintf("CreatePseudoConsole: %s",
+                                win_strerror(HRESULT_CODE(result)));
+            else
+                err = dupprintf("CreatePseudoConsole failed: HRESULT=0x%08x",
+                                (unsigned)result);
+            goto out;
+        }
+        pcon_needs_cleanup = true;
+
+        CloseHandle(in_r);
+        in_r = INVALID_HANDLE_VALUE;
+        CloseHandle(out_w);
+        out_w = INVALID_HANDLE_VALUE;
+    }
+
+    si.StartupInfo.cb = sizeof(si);
+    /* In ConPTY mode, null handles deliberately select the new console handles.
+     * Otherwise GUI-parent redirections can leak into console clients such as
+     * WSL, which then read an unrelated pipe's EOF and exit immediately. */
+    si.StartupInfo.dwFlags = STARTF_USESTDHANDLES;
+
+    SIZE_T attrsize = 0;
+    InitializeProcThreadAttributeList(NULL, 1, 0, &attrsize);
+    si.lpAttributeList = smalloc(attrsize);
+    if (!InitializeProcThreadAttributeList(
+            si.lpAttributeList, 1, 0, &attrsize)) {
+        err = dupprintf("InitializeProcThreadAttributeList: %s",
+                        win_strerror(GetLastError()));
+        goto out;
+    }
+    attributes_initialized = true;
+    if (!UpdateProcThreadAttribute(
+            si.lpAttributeList,
+            0, byte_relay ? PROC_THREAD_ATTRIBUTE_HANDLE_LIST : PROC_THREAD_ATTRIBUTE_PSEUDOCONSOLE,
+            byte_relay ? (void *)inherited : (void *)pcon,
+            byte_relay ? sizeof(inherited) : sizeof(pcon), NULL, NULL)) {
+        err = dupprintf("UpdateProcThreadAttribute: %s",
+                        win_strerror(GetLastError()));
+        goto out;
+    }
+
+    PROCESS_INFORMATION pi;
+    memset(&pi, 0, sizeof(pi));
+
     bool created_ok = CreateProcessW(NULL, command, NULL, NULL,
-                                     false, EXTENDED_STARTUPINFO_PRESENT | CREATE_UNICODE_ENVIRONMENT,
+                                     byte_relay, EXTENDED_STARTUPINFO_PRESENT | CREATE_UNICODE_ENVIRONMENT |
+                                     (byte_relay ? CREATE_NO_WINDOW : 0),
                                      environment, shell_directory ? NULL : directory, &si.StartupInfo, &pi);
     DWORD create_error = created_ok ? ERROR_SUCCESS : GetLastError();
-    sfree(command);
-    sfree(environment);
     if (!created_ok) {
         err = dupprintf("CreateProcess: %s",
                         win_strerror(create_error));
@@ -468,6 +532,7 @@ static char *conpty_init(const BackendVtable *vt, Seat *seat,
 
     conpty = snew(ConPTY);
     memset(conpty, 0, sizeof(ConPTY));
+    conpty->byte_relay = byte_relay;
     conpty->pseudoconsole = pcon;
     pcon_needs_cleanup = false;
     conpty->outpipe = in_w;
@@ -486,7 +551,7 @@ static char *conpty_init(const BackendVtable *vt, Seat *seat,
      * exits naturally after the last console client, without killing delegated
      * shells when their initial launcher exits. Old inbox APIs retain the
      * previous root-process lifetime behavior as a diagnostic fallback. */
-    conpty->wait_for_clients = p_ReleasePseudoConsole &&
+    conpty->wait_for_clients = !byte_relay && p_ReleasePseudoConsole &&
         SUCCEEDED(p_ReleasePseudoConsole(pcon));
     conpty->bufsize = 0;
     conpty->backend.vt = vt;
@@ -516,6 +581,8 @@ static char *conpty_init(const BackendVtable *vt, Seat *seat,
     if (attributes_initialized)
         DeleteProcThreadAttributeList(si.lpAttributeList);
     sfree(si.lpAttributeList);
+    sfree(command);
+    sfree(environment);
     sfree(directory);
     return err;
 }
@@ -540,7 +607,17 @@ static void conpty_send(Backend *be, const char *buf, size_t len)
     if (conpty->out == NULL)
         return;
 
-    conpty->bufsize = handle_write(conpty->out, buf, len);
+    if (conpty->byte_relay) {
+        while (len) {
+            size_t n = min(len, 16384);
+            unsigned char hdr[] = {1, (unsigned char)(n >> 8), (unsigned char)n};
+            handle_write(conpty->out, hdr, sizeof(hdr));
+            conpty->bufsize = handle_write(conpty->out, buf, n);
+            buf += n; len -= n;
+        }
+    } else {
+        conpty->bufsize = handle_write(conpty->out, buf, len);
+    }
 }
 
 static size_t conpty_sendbuffer(Backend *be)
@@ -552,6 +629,14 @@ static size_t conpty_sendbuffer(Backend *be)
 static void conpty_size(Backend *be, int width, int height)
 {
     ConPTY *conpty = container_of(be, ConPTY, backend);
+    if (conpty->byte_relay) {
+        if (conpty->out && width > 0 && width <= 32767 && height > 0 && height <= 32767) {
+            unsigned char frame[] = {2, 0, 4, (unsigned char)(width >> 8), (unsigned char)width,
+                                     (unsigned char)(height >> 8), (unsigned char)height};
+            conpty->bufsize = handle_write(conpty->out, frame, sizeof(frame));
+        }
+        return;
+    }
     COORD size;
     size.X = width;
     size.Y = height;
