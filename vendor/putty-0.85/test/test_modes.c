@@ -121,7 +121,7 @@ static void test_column_mode_contents(Mock *mk)
 
     term_data_fragmented(t, "\033[7;11H\033[?40l\033[?3h");
     IEQUAL(t->curs.x, 10); IEQUAL(t->curs.y, 6);
-    term_data_fragmented(t, "\033[?40;95s\033[?40h\033[?95l\033[?40;95r\033[!p"
+    term_data_fragmented(t, "\033[?40;95s\033[?3s\033[?40h\033[?95l\033[?40;95r\033[!p"
                             "\033[?3$p\033[?40$p\033[?95$p");
     MODE_RESPONSE("\033[?3;2$y\033[?40;2$y\033[?95;1$y");
     term_data_fragmented(t, "\033[?40h\033[?95l\033[7;11H\033[?3l");

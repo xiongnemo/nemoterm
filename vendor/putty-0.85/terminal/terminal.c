@@ -7390,14 +7390,28 @@ static void nemo_saved_dec_mode(Terminal *term, unsigned mode, bool save)
     static const unsigned modes[] = {
         1, 3, 5, 6, 7, 8, 9, 12, 25, 47, 66, 69, 80,
         1000, 1004, 1005, 1007, 1070, 2026, 2027, 8452, 9001, 45, 1045, 42,
-        1042, 1043, 1010, 1011, 40, 95
+        1042, 1043, 1010, 1011
     };
     assert(lenof(modes) == lenof(term->saved_dec_modes));
+    /* The three column switches have independent saved bits in the original
+     * DECCOLM slot. Keep mouse encoding/tracking full-width and leave the
+     * per-terminal saved-mode storage budget unchanged. */
+    int16_t colbit = mode == 3 ? 1 : mode == 40 ? 2 : mode == 95 ? 4 : 0;
+    unsigned slot_mode = colbit ? 3 : mode;
     size_t i;
-    for (i = 0; i < lenof(modes) && modes[i] != mode; i++);
+    for (i = 0; i < lenof(modes) && modes[i] != slot_mode; i++);
     if (i == lenof(modes)) return;
     unsigned status = term_mode_status(term, mode, true);
     if (!status || status >= 3) return; /* local policy always wins */
+    if (colbit) {
+        if (save) {
+            if (status == 1) term->saved_dec_modes[i] |= colbit;
+            else term->saved_dec_modes[i] &= ~colbit;
+        } else {
+            toggle_mode(term, mode, 1, (term->saved_dec_modes[i] & colbit) != 0);
+        }
+        return;
+    }
     if (save) {
         int value = mode == 9 || mode == 1000 ? term->xterm_mouse :
             mode == 1005 ? term->mouse_encoding : status == 1;
