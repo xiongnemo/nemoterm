@@ -60,7 +60,19 @@ def selection_cursor_case(path,row,identity):
         require(r['passed'] and r['expected_selected'] is keep and wire in allowed
                 and r['clipboard_updated'] is keep and r['copied']==('EFG' if keep else None),
                 'cursor update clipboard or mouse delivery mismatch: '+r['name'])
-    return len(rows)
+    # A discarded press must keep its remaining events local, then release
+    # the next click to the child. Verify coordinates and bytes independently.
+    discards=obs['discarded_scroll_press']
+    starts={'pane-top':(12,6),'pane-bottom':(13,13),'row-top':(12,6),'row-bottom':(13,13),
+            'left-lead':(7,9),'left-tail':(8,9),'right-lead':(21,9),'right-tail':(22,9)}
+    require(len(discards)==len(starts) and {r['case'] for r in discards}==set(starts),'incomplete discarded presses')
+    for r in discards:
+        x,y=starts[r['case']];ack=b'\x1b[0n';right=f'\x1b[<2;{x+4};{y+1}M\x1b[<2;{x+4};{y+1}m'.encode()
+        require(r['passed'] and r['press']==[x,y] and r['changed']==[] and r['clipboard_changed'] is False
+                and r['copied'] is None and bytes.fromhex(r['right_wire'])==ack+right+ack
+                and r['next_copy']=='SAFE' and bytes.fromhex(r['next_wire'])==bytes.fromhex(r['gesture_wire'])==2*ack,
+                'stale highlight, clipboard or mouse ownership after scroll: '+r['case'])
+    return len(rows),len(discards)
 
 
 def agent_grid_case(path,row,identity):
@@ -167,7 +179,7 @@ def main():
                         out['frontend_peak_bytes'] = memory_case(path,row,{'memory-gdi':1,'memory-directx':3}[group],exe)
                     if group=='agents-grid':out['frontend_peak_bytes']=agent_grid_case(path,row,identity)
                     if group=='selection' and case.startswith('selection-'):
-                        out['verified_cursor_updates']=selection_cursor_case(path,row,identity)
+                        out['verified_cursor_updates'],out['verified_discarded_presses']=selection_cursor_case(path,row,identity)
                     out['verified'] = True
                 except (OSError, ValueError, TypeError, KeyError) as failure:
                     errors.append(f'{group}/{case}: {failure}')

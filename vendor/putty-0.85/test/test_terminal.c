@@ -768,7 +768,7 @@ static void test_scroll_press_history(Mock *mk)
             term_mouse(t, MBT_LEFT, MBT_SELECT, MA_RELEASE, 4, 0, false, false, false);
             SEQUAL(mk->to_backend->s, "\033[<0;5;1M\033[<0;5;1m");
         } else {
-            term_scroll(t, -1, 0);
+            term_scroll(t, 1, 0); /* top of history */
             IEQUAL(t->disptop, -1);
             term_mouse(t, MBT_LEFT, MBT_SELECT, MA_RELEASE, 3, 0, false, false, false);
             term_request_copy(t, &clipboard, 1);
