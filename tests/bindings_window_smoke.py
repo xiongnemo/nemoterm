@@ -95,6 +95,25 @@ try:
             observed=wait_snapshot(snapshot,lambda v:v.get('input_barrier')=='after-right-click')
             assert bytes.fromhex(observed['hex'])==dsr+payload+dsr,observed
             evidence['checks'].append(dict(action='Saved right-click copies and pastes exactly once',text=selected,input_checkpoint=observed))
+            # Service two complete gestures on the same window thread before it
+            # runs another top-level callback. The second selection may replace
+            # the local clipboard, but cannot change the first requested paste.
+            request=phase('consecutive-right-clicks','\x1b[2J\x1b[9;1H!ONE!\x1b[13;1H!TWO!\x1b[?1002;1006;2004h')
+            messages=[]
+            for row in (8,12):
+                for message,keys,col in [(0x201,5,1),(0x200,5,3),(0x202,4,3),(0x204,2,1),(0x205,0,1)]:
+                    messages.append(dict(message=message,keys=keys,point=point(col,row)))
+            action(mouse=messages)
+            prefix,suffix=b'\x1b[200~',b'\x1b[201~'
+            wait_snapshot(snapshot,lambda v:bytes.fromhex(v.get('hex','')).count(suffix)>=2)
+            write_snapshot(control,dict(request,input_barrier='after-both-pastes'))
+            observed=wait_snapshot(snapshot,lambda v:v.get('input_barrier')=='after-both-pastes')
+            wanted=dsr+prefix+b'ONE'+suffix+prefix+b'TWO'+suffix+dsr
+            proof=dict(expected=wanted.hex(),actual=observed['hex'],clipboard=clipboard_text(hwnd),
+                       executable_sha256=evidence['executable_sha256'],requested_font=font)
+            write_snapshot(root/'research/consecutive-right-clicks.json',proof)
+            assert proof['actual']==proof['expected'] and proof['clipboard']=='TWO',proof
+            evidence['checks'].append(dict(action='Right-click paste retains both selections in order',**proof))
             phase('unbound-default','\x1b[?2004l')
             action(key=67,scan=46,modifiers=[16,17,160,162])
             action(key=86,scan=47,modifiers=[16,17,160,162])
