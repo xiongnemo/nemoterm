@@ -31,12 +31,18 @@ jobs:
         env:
           RENDERER: ${{ matrix.renderer }}
         run: python tests/scrollback_modes_window.py
+      - name: Hold Shift in history while a mouse-tracking client prints, copy, then type
+        if: ${{ !cancelled() && env.NEMOTERM_TEST_FONT != '' }}
+        env:
+          RENDERER: ${{ matrix.renderer }}
+        run: python tests/scrollback_modes_window.py --history-selection
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
           name: scrollback-modes-${{ matrix.renderer }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
             research/scrollback-modes-*.json
+            research/scrollback-held-history.json
             build/scrollback-modes-product/SOURCE-HOST.json
             build/interaction-dependencies/environment.json
           if-no-files-found: error

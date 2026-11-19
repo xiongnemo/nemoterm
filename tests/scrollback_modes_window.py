@@ -52,8 +52,49 @@ def viewport(hwnd, phase, current, renderer):
     return records
 
 
+def history_selection(renderer):
+    from clipboard_test_utils import SavedClipboard, clipboard_text
+    def held(hwnd,phase,current):
+        u.GetScrollInfo.argtypes=[w.HWND,c.c_int,c.POINTER(ScrollInfo)]
+        u.GetPropW.argtypes=[w.HWND,w.LPCWSTR];u.GetPropW.restype=w.HANDLE
+        assert int(u.GetPropW(hwnd,'NemotermRenderer') or 0)==renderer
+        u.GetClientRect.argtypes=[w.HWND,c.POINTER(w.RECT)]
+        rect=w.RECT();assert u.GetClientRect(hwnd,c.byref(rect))
+        cw,ch=(rect.right-2)//80,(rect.bottom-2)//24
+        pid=w.DWORD();u.GetWindowThreadProcessId(hwnd,c.byref(pid));record={'cell_pixels':[cw,ch],'renderer':renderer}
+        def pos():
+            info=ScrollInfo();info.size=c.sizeof(info);info.mask=7;assert u.GetScrollInfo(hwnd,1,c.byref(info))
+            return [info.pos,info.high-int(info.page)+1]
+        def point(x):return desk.point(1+x*cw+cw//2,1+3*ch+ch//2)
+        clip=SavedClipboard(hwnd);desk=None
+        try:
+            desk=DesktopInput(pid.value,terminal_host(hwnd),hwnd,record.setdefault('input',{}))
+            phase('draw',CSI+'?25l'+'\r\n'.join(f'HISTORY {i:02d} 中' for i in range(72))+CSI+'?1010l'+CSI+'?1011h'+CSI+'?1002;1006h','')
+            wait_for(lambda:pos()[1]==48);u.SendMessageW(hwnd,0x115,6,0);wait_for(lambda:pos()==[0,48]);record['before']=pos()
+            point(0);desk.event(0x10,True);desk.event(None,True);wait_for(lambda:desk.state().capture==hwnd)
+            phase('append-while-held','\r\nNEW LIVE OUTPUT','');wait_for(lambda:pos()[1]==49);record['after_output']=pos()
+            point(12);desk.event(None,False);wait_for(lambda:desk.state().capture!=hwnd);desk.event(0x10,False)
+            seq=u.GetClipboardSequenceNumber();desk.chord(0x11,0x10,ord('C'));wait_for(lambda:u.GetClipboardSequenceNumber()!=seq)
+            record['copy']=clipboard_text(hwnd);record['after_copy']=pos();record['before_type_wire']=current()['hex']
+            desk.chord(ord('7'));wait_for(lambda:bytes.fromhex(current()['hex']).endswith(b'7'));wait_for(lambda:pos()[0]==49)
+            record['after_typing']=pos();record['after_type_wire']=current()['hex']
+        finally:
+            try:
+                if desk:desk.restore()
+            finally:
+                clip.restore();(root/'research/scrollback-held-history.json').write_text(json.dumps(record,indent=2))
+        assert record['before']==[0,48] and record['after_output']==record['after_copy']==[0,49],record
+        assert record['copy']=='HISTORY 03 中' and record['before_type_wire']=='1b5b306e' and record['after_type_wire']=='1b5b306e37',record
+        return record
+    run('scrollback-modes-held',[],barrier=(CSI+'5n',b'\x1b[0n'),exercise=held,font=os.environ['NEMOTERM_TEST_FONT'],
+        profile=dict(ScrollOnDisp=1,ScrollOnKey=0,ScrollbackLines=200,ScrollBar=1,NemoRenderer=renderer-1,WarnOnClose=0))
+
+
 def main():
     assert os.environ.get('RUNNER_ENVIRONMENT')=='github-hosted'
+    import sys
+    if sys.argv[1:]==['--history-selection']:
+        history_selection({'gdi':1,'directx':3}[os.environ['RENDERER']]);return
     data=(root/'testdata/upstream/xterm412-scrollback-modes.zip').read_bytes()
     assert hashlib.sha256(data).hexdigest()=='c36021bb9f8a597e6fe8f7eb0fadea0f9a444c75a58d03682006d97130d53895'
     renderer={'gdi':1,'directx':3}[os.environ['RENDERER']];result={};product=Path(os.environ['NEMOTERM_TEST_EXE']);digest=hashlib.sha256(product.read_bytes()).hexdigest()
