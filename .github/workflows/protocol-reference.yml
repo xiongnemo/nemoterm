@@ -92,17 +92,7 @@ jobs:
           Import-Module "$vs/Common7/Tools/Microsoft.VisualStudio.DevShell.dll"
           Enter-VsDevShell -VsInstallPath $vs -SkipAutomaticLocation -DevCmdArguments '-arch=x64 -host_arch=x64'
           ./scripts/build-single-exe.ps1 -Destination build/source-console-host
-          $image = Get-Item -LiteralPath build/source-console-host/nemoterm.exe
-          [ordered]@{
-            SourceCommit = (git rev-parse HEAD).Trim()
-            MicrosoftTerminalCommit = (git -C vendor/microsoft-terminal rev-parse HEAD).Trim()
-            OverlaySHA256 = (Get-FileHash scripts/prepare-single-exe.py -Algorithm SHA256).Hash.ToLowerInvariant()
-            EntrySHA256 = (Get-FileHash native/single_exe/entry.cpp -Algorithm SHA256).Hash.ToLowerInvariant()
-            Executable = [ordered]@{
-              SHA256 = (Get-FileHash -LiteralPath $image.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
-              Bytes = $image.Length
-            }
-          } | ConvertTo-Json -Depth 4 | Set-Content build/source-console-host/SOURCE-HOST.json -Encoding utf8
+          ./scripts/write-source-host-manifest.ps1 -Directory build/source-console-host
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: source-console-host-x64-${{ github.sha }}
