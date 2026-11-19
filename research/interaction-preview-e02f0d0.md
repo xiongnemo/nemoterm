@@ -2,7 +2,7 @@
 
 [GitHub 托管构建](https://github.com/xiongnemo/nemoterm/actions/runs/44477059678/artifacts/14507241831)的 `nemoterm.exe` 为 4,855,808 字节，SHA-256 `be28e4e503383070855dac42d679c5427e224a68c3fb13195f7d2b820d0f2120`。源码 `e02f0d05638778ea3ea0881de5225c3dfa085523`。[完整回归](https://github.com/xiongnemo/nemoterm/actions/runs/44477059678)与[真实鼠标回放](https://github.com/xiongnemo/nemoterm/actions/runs/44477769731)分别保留。
 
-[保持鼠标跟踪的独立回放](https://github.com/xiongnemo/nemoterm/actions/runs/44479519855)的六个交互用例全部通过。字被分栏截断或被滚走时的窗口用例 32/32、真实鼠标 4/4；保留字原有的 32+4 项也通过。[同图对照和原始记录](selection-discarded-scroll.md)。最初的整套回归使用了在切换阶段会关闭鼠标跟踪的测试脚本，其选区分组不能充当这一场景的验收。[修正后对同一 EXE 的全组重放](https://github.com/xiongnemo/nemoterm/actions/runs/44480195510)单独计分。本版仍有 [ReGIS 参考画面](regis-first-expose.md)的既有差异。
+[保持鼠标跟踪的独立回放](https://github.com/xiongnemo/nemoterm/actions/runs/44479519855)的六个交互用例全部通过。字被分栏截断或被滚走时的窗口用例 32/32、真实鼠标 4/4；保留字原有的 32+4 项也通过。[同图对照和原始记录](selection-discarded-scroll.md)。最初的整套回归使用了在切换阶段会关闭鼠标跟踪的测试脚本，其选区分组不能充当这一场景的验收。[修正后对同一 EXE 的全组重放](https://github.com/xiongnemo/nemoterm/actions/runs/44480195510)最终 **79/80**；[原始汇总](interaction-all-discard-e02f0d0.zip)的 SHA-256 为 `60bab7fc1a783382388ec6f4b47c359773ae49ed53598f1f54755e7fed575308`。本版仍有 [ReGIS 参考画面](regis-first-expose.md)的既有差异。
 
 ## pterm 与本版的 Win32 渲染和内存
 
@@ -25,6 +25,8 @@
 - [WSL Vim](wsl-vim-discard-e02f0d0.zip)在两种 TERM 和 GDI、DirectX 的四种组合均完成普通应用鼠标、Shift 本地拖选、两次缩放、矩形选择和实际粘贴保存等六项检查。
 - 原生测试覆盖了与[被丢弃的字](selection-discarded-scroll.md)相反的情形：屏幕上第一行滚入仍然存在的那一个历史槽后可以复制 `KEEP`。第二次滚动覆盖该槽才丢弃起点。中间提交 `209ad34` 的测试把视口移到了当前屏幕（实测 `disptop=0`），因此错误地取了 8 个字符；[原始失败日志](https://github.com/xiongnemo/nemoterm/actions/runs/44476801522/artifacts/14507645616)保留。本次定位到历史顶端并要求 `disptop=-1` 后，GitHub Windows 原生测试通过。
 
+在随后的 79/80 全组回放中，客户端组为 29/30，其他十二组全部通过。唯一失败的用例是 `agent-image-system-codex`：Ctrl+V 和 Ctrl+Shift+V 都在原始输出出现 idle 标记之前发出，均未显示附件。相同 EXE 的窗口接口立即组这次两个快捷键都在 idle 标记**之后**发出并通过；因此这次接口通过不能当作启动草稿已经支持贴图，也不与上面的 28/30 矛盾。两个等待就绪的组均通过。[这一轮四组原始按键边界、客户端记录和失败截图](codex-bitmap-group-44480195510.zip)。
+
 ## 160×48 压力峰值
 
 [GDI 六项](memory-gdi-discard-e02f0d0.zip)与[DirectX 六项](memory-directx-discard-e02f0d0.zip)均通过。每列独立取全部采样的最大值，单位为字节。两个渲染器的私有工作集最高值都出现在密集 Unicode 和 Kitty 图像同屏。20 MB 和 30 MB 目标按前端私有工作集验收，不含 shell、控制台宿主和客户端。
@@ -33,3 +35,5 @@
 |---|---:|---:|---:|
 | GDI | 19,337,216 | 54,083,584 | 22,515,712 |
 | DirectX | 28,749,824 | 71,933,952 | 32,055,296 |
+
+79/80 全组重放再次通过两个渲染器的全部 12 项压力检查。本次 GDI 私有工作集最高 19,312,640 字节，DirectX 最高 29,372,416 字节；两次回放分别取最高，GDI 为 19.337 MB，DirectX 为 29.372 MB。
