@@ -25,3 +25,13 @@
 [新版严格 XTerm 宽字对照及字符完整性检查](column-edge-2c63154.zip)：与[上一版原始数据](column-edge-2c0152c.zip)相比，两个 JSON 的观测字段完全一致，只有 EXE 哈希不同。独立的 1,872 格完整性检查通过；严格比对依旧有 3/728 格差异。
 
 [新版完整 CI](https://github.com/xiongnemo/nemoterm/actions/runs/44510289348)使用 SHA-256 `22e5cc72fee4c1f157468b29c5af8b2eaccbcbda1c90637467e74fb1309e739f`、4,857,856 字节的 [Windows 单文件制品](https://github.com/xiongnemo/nemoterm/actions/runs/44510289348/artifacts/14523910915)。上述专项结果不代表整个工作流全绿。
+
+本版另有三份[原始交互记录](preview-interaction-2c63154.zip)，内含 GitHub 制品的原始 ZIP、编号和 SHA-256：
+
+| 操作 | 同一份 EXE 的验收结果 |
+| --- | --- |
+| 关闭确认 → Cancel → 直接打字 | 单标签关闭、整个标签窗口关闭、独立窗口关闭三种路径，子进程都收到 `A` 的按下和松开。 |
+| WSL 中运行 Vim | GDI 和 DirectX 各用默认 TERM 与 `xterm` 运行，四组鼠标、强制选择、粘贴和调整窗口大小的回放通过。 |
+| Codex、OpenCode、Claude Code 交互 | 30 项通过 28 项。Codex 启动即贴图的窗口输入和系统键鼠输入均失败；等待编辑器就绪后两种输入均通过。OpenCode 的两种贴图输入也均通过。 |
+
+[中英文设置的远程 DPI 记录](https://github.com/xiongnemo/nemoterm/actions/runs/44510289348/artifacts/14522788074)覆盖 100%、125%、150%、175%、200%。
