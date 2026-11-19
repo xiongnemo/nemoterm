@@ -207,6 +207,8 @@ Use `suite=profile-sequence` on the exact EXE to replay the aggregate profile wo
 `protocol-reference.yml` 的 `family=regis-first-expose` 为每个输入终点启动独立上游 XTerm，只在最后做一次完整重绘，先核对原始序列、回复与首帧再比较重绘。见[七个历史差异的逐帧核验](../research/regis-first-expose.md)。
 
 `suite=regis-frame-pair` 用同一份 EXE、Sarasa Light 和实际 GDI 窗口回放这些终点。每个终点一个新的 Windows 进程；使用固定 6×13 像素的字符格、原序列及状态应答，保留重绘前后 160×120 区域的实际像素、固定观察期内各次采样的哈希及差异数。这个回放只测整段写入；文字对照检查字形可见和重绘不变，保留两套字体的像素差异。历史像素不相等仍返回失败。
+`protocol-reference.yml` 的 `family=regis-bank-start` 独立收集初次共享、私有、RIS、DECSTR、ReGIS 先用、私有 ReGIS 先用及显式赋色七个场景，两种传输均保留。`suite=regis-bank-start` 在实际 GDI 窗口复用同一输入，以原版画面核对完整区域及四个色号的色块。
+
 
 
 `selection` 另覆盖滚动分栏穿过双向文字的场景：先在原图与滚动后截图中用字格底色定位同一字，再检查系统剪贴板和应用实际收到的字节。分开记录窗口消息和 Windows 实按 Shift、鼠标、Ctrl+Shift+C。[分栏选区前后对比](../research/selection-split-scroll.md)。如果按下的字被整个滚出或被栏边截断，要同时检查松手后无高亮、右键归应用、后续新选区仍可复制。[原始失败与检验步骤](../research/selection-discarded-scroll.md)。

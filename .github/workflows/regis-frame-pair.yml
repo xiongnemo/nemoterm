@@ -2,6 +2,7 @@ name: Compare presented Windows frames with XTerm before and after its first exp
 on:
   workflow_call:
     inputs:
+      bank_start: {type: boolean, default: false}
       product_run: {type: string, required: true}
       product_commit: {type: string, required: true}
 permissions:
@@ -14,17 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target:
-          - scroll-up-end-2
-          - scroll-down-end-1
-          - scroll-down-end-2
-          - newline-scroll-end-2
-          - regis-palette-False-end-1
-          - erase-line-end-1
-          - erase-line-end-2
-          - control-text-end-1
-          - control-line-erase-end-1
-          - control-line-erase-end-2
+        target: ${{ fromJSON(inputs.bank_start && '["bank-start-fresh-shared","bank-start-fresh-private","bank-start-after-ris","bank-start-after-decstr","bank-start-regis-first","bank-start-private-first","bank-start-defined-shared"]' || '["scroll-up-end-2","scroll-down-end-1","scroll-down-end-2","newline-scroll-end-2","regis-palette-False-end-1","erase-line-end-1","erase-line-end-2","control-text-end-1","control-line-erase-end-1","control-line-erase-end-2"]') }}
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with: {fetch-depth: 0}
