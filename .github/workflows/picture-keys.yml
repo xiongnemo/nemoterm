@@ -30,6 +30,9 @@ jobs:
       - name: Verify image paste with application-selected VT keyboard encoding
         if: ${{ !cancelled() && steps.prepare.outcome == 'success' }}
         run: python tests/image_paste_protocol.py
+      - name: Verify empty and nonempty text alternatives on a bitmap clipboard
+        if: ${{ !cancelled() && steps.prepare.outcome == 'success' }}
+        run: python tests/image_paste_protocol.py --mixed-formats
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
