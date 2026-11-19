@@ -52,6 +52,7 @@ jobs:
           name: column-cells-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
             research/column-press-observed.json
+            research/column-edge-observed.json
             build/column-product/SOURCE-HOST.json
             build/interaction-dependencies/environment.json
           if-no-files-found: error
