@@ -135,6 +135,13 @@ jobs:
     with:
       product_run: ${{ github.run_id }}
       product_commit: ${{ github.sha }}
+  scrollback-modes:
+    if: ${{ inputs.scope != 'dpi' }}
+    needs: source-host
+    uses: ./.github/workflows/scrollback-modes.yml
+    with:
+      product_run: ${{ github.run_id }}
+      product_commit: ${{ github.sha }}
   font-ops:
     if: ${{ inputs.scope != 'dpi' }}
     needs: source-host
