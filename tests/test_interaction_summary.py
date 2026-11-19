@@ -50,6 +50,19 @@ class ReportTest(unittest.TestCase):
         p=self.group('bell','c'*64);rows=json.loads(p.read_text());rows[1]=rows[0];p.write_text(json.dumps(rows))
         status,result=self.inspect();self.assertNotEqual(status,0);self.assertLess(result['verified'],result['expected'])
 
+    def test_manual_paste_cannot_certify_automatic_right_click_or_vice_versa(self):
+        drag=[[16,True],['left',True],['left',False],[16,False]]
+        click=[['right',True],['right',False]]
+        paste=[[17,True],[16,True],[86,True],[86,False],[16,False],[17,False]]
+        enter=[[13,True],[13,False]]
+        for manual,keys in ((True,paste),(False,[])):
+            report.verify_right_gesture(drag+click+keys+enter,manual)
+            with self.assertRaises(ValueError):
+                report.verify_right_gesture(drag+click+keys+enter, not manual)
+            for invalid in (drag[:-1]+click+drag[-1:]+keys+enter, drag+click+click+keys+enter):
+                with self.assertRaises(ValueError):
+                    report.verify_right_gesture(invalid, manual)
+
     def test_forced_cleanup_cannot_pass_even_with_exit_zero(self):
         p=self.group('bell','c'*64);rows=json.loads(p.read_text());rows[0]['cleanup']['terminated_remaining']=True
         p.write_text(json.dumps(rows));status,result=self.inspect();self.assertNotEqual(status,0)

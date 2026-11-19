@@ -261,7 +261,8 @@ def main():
                 desktop.chord('right')
                 wait_for(lambda:u.GetClipboardSequenceNumber()!=before)
                 evidence['right_click']=dict(mode=args.right_click,setting_written=args.right_click=='copy-paste',
-                                             modifiers_released=not desktop.held)
+                                             modifiers_released=not desktop.held,
+                                             clipboard_before=before,clipboard_after=u.GetClipboardSequenceNumber())
             else:press(67,3)
             copied=wait_for(lambda:clipboard_text(hwnd));evidence['copied']=copied
             assert copied==sample_text,(copied,sample_text)
@@ -269,9 +270,14 @@ def main():
             if args.right_click:
                 evidence['checks'].append('System right click replaced the image sentinel with exact Unicode after Shift was released')
                 if args.right_click=='default':
-                    assert SELECTION_PREFIX+sample_text not in text(),'default right click already pasted'
-                    press(86,3)
-                # Copy-and-paste must fill the composer without any paste key.
+                    view=text()
+                    assert SELECTION_PREFIX.rstrip() in view and SELECTION_PREFIX+sample_text not in view, 'default right click changed the composer'
+                    evidence['right_click']['composer_before_paste_key']='prefix-only'
+                    frame('right-before-paste');press(86,3)
+                else:
+                    wait_for(lambda:SELECTION_PREFIX+sample_text in text())
+                    evidence['right_click']['composer_before_paste_key']='with-selection'
+                    frame('right-before-submit')
             else:
                 evidence['checks'].append('Shift drag and default Copy replace the sentinel with exact Unicode')
                 if args.default_grid:
@@ -321,6 +327,7 @@ def main():
                     evidence['unavailable_http_snapshots']+=1
                     return None
                 return next((r for r in snapshot['requests'] if r.get('fixture_prompt_hashes')==[want_hash]
+                             and not r.get('has_opencode_title_instruction',False)
                              and (r['selection_nfc_present'] and not r['selection_received'] if ref else
                                   r['selection_received'] and r['selected_text_occurrences']==1)
                              and r['text'].count('NEMOTERM_SUBMIT')==1 and r['text'].count('NEMOTERM_SELECT')==1 and r['path']==

@@ -75,6 +75,59 @@ def selection_cursor_case(path,row,identity):
     return len(rows),len(discards)
 
 
+def verify_right_gesture(events, manual_paste):
+    # Scope the check to this gesture: clients can have their own startup dialogs
+    # and exit chords. Require every down and up through the actual submit key.
+    rights = [i for i, event in enumerate(events) if event == ['right', True]]
+    require(len(rights) == 1, 'expected one system right click')
+    i = rights[0]
+    select = [[16, True], ['left', True], ['left', False], [16, False]]
+    paste = [[17, True], [16, True], [86, True], [86, False], [16, False], [17, False]]
+    submit = [['right', True], ['right', False]] + (paste if manual_paste else []) + [[13, True], [13, False]]
+    require(i >= len(select) and events[i-len(select):i+len(submit)] == select+submit,
+            'wrong Shift-release, right-click, paste-key or submit sequence')
+
+
+def agent_right_case(path, row, identity, args):
+    option = lambda key: args[args.index(key)+1]
+    client, renderer, mode = map(option, ('--client', '--renderer', '--right-click'))
+    manual = mode == 'default'
+    # Fixed provider strings: q + combining acute is stable even in Claude's
+    # normalizing editor; the other clients must preserve decomposed e + acute.
+    accent = 'q' if '--stable-unicode' in args else 'e'
+    sample = 'NEMOTERM_SELECT 中文 '+accent+'\u0301 \uf120 \U000f0001 END'
+    digest = hashlib.sha256(('NEMOTERM_SUBMIT '+sample).encode()).hexdigest()
+    name = f'research/{client}-selection-{renderer}-system-right-{mode}-observed.json'
+    obs = record_reader(path,row)(name)
+    child, sess, right = obs['child'], obs['session'], obs['right_click']
+    require(obs['completed'] and obs['global_input'] and obs['client']==client and obs['font']==identity['font']
+            and sess['renderer']=={'gdi':0,'directx':2}[renderer] and child['terminal_sha256']==identity['executable_sha256']
+            and child['client_sha256']==identity['clients'][client]['sha256'] and child['clipboard_restored']
+            and not child['cleanup']['terminated_remaining'], 'wrong client, image, font, renderer or cleanup')
+    first, y, last = obs['selection']; paint = obs['highlight']
+    require(0<first<=last<sess['cols']-1 and 0<=y<sess['rows'] and last-first+1==paint['cells']==30
+            and sample in obs['source_line'] and paint['source']!=paint['selected'] and paint['min_selected_ratio']>=.5
+            and len(paint['guard_ratios'])==2 and min(paint['guard_ratios'])>=.9, 'wrong highlight or guard cells')
+    require(right['mode']==mode and right['setting_written'] is (not manual) and right['modifiers_released']
+            and right['clipboard_before']!=right['clipboard_after'] and obs['copied']==sample
+            and right['composer_before_paste_key']==('prefix-only' if manual else 'with-selection')
+            and obs['composer_form']=='exact', 'wrong clipboard or composer for right-click policy')
+    verify_right_gesture(obs['desktop']['events'], manual)
+    http = obs['http_receipt']; tracking = obs['mouse_requests_at_drag']['active']
+    tagged = [r for r in child['requests'] if r.get('fixture_prompt_hashes')]
+    # OpenCode can forward the first user turn to its title model separately.
+    # Keep those requests in the record; only the conversation is a submission.
+    titles = [r for r in tagged if client=='opencode' and r['has_opencode_title_instruction']]
+    submissions = [r for r in tagged if r not in titles]
+    require((client!='opencode' or tracking) and http['selection_received'] and http['selected_text_occurrences']==1
+            and not http['images'] and http['path']=={'codex':'/v1/responses','opencode':'/v1/chat/completions','claude':'/v1/messages'}[client]
+            and http['fixture_prompt_hashes']==[digest] and submissions==[http],
+            'wrong application mouse control or submitted user text')
+    return dict(client=client, renderer=renderer, policy=mode, explicit_paste_key=manual,
+                app_mouse_reporting=tracking, highlighted_cells=paint['cells'], submitted_text_sha256=digest,
+                separate_title_requests=len(titles))
+
+
 def agent_grid_case(path,row,identity):
     client,renderer=row['id'].removeprefix('agent-grid-').rsplit('-',1)
     client_order=client.endswith('-visual-order');client=client.removesuffix('-visual-order')
@@ -154,6 +207,7 @@ def main():
     for names,status in scopes:
         if names and status != 'success': errors.append(f'Group jobs {names}: {status}')
     all_cases = catalog()
+    case_args = {c['id']:c['args'] for c in all_cases}
     result['scope'] = 'all interaction groups' if set(groups) == {c['group'] for c in all_cases} else 'selected groups only'
     for group in groups:
         expected = [c['id'] for c in all_cases if c['group'] == group]
@@ -177,6 +231,8 @@ def main():
                             'did not pass and exit naturally')
                     if group.startswith('memory-'):
                         out['frontend_peak_bytes'] = memory_case(path,row,{'memory-gdi':1,'memory-directx':3}[group],exe)
+                    if group=='agents' and '--right-click' in case_args[case]:
+                        out['right_click'] = agent_right_case(path,row,identity,case_args[case])
                     if group=='agents-grid':out['frontend_peak_bytes']=agent_grid_case(path,row,identity)
                     if group=='selection' and case.startswith('selection-'):
                         out['verified_cursor_updates'],out['verified_discarded_presses']=selection_cursor_case(path,row,identity)
