@@ -7,7 +7,6 @@ import hashlib
 import json
 import os
 from pathlib import Path
-import select
 import signal
 import struct
 import subprocess
@@ -54,17 +53,24 @@ def exercise(mode, record, ready):
                 fd = proc.stdin.fileno()
                 os.set_blocking(fd, False)
                 packet = struct.pack('>BH', 1, 1024) + b'x' * 1024
-                count = 0
-                while time.monotonic() - start < 5:
+                count = blocked = 0
+                last_progress = time.monotonic()
+                while True:
+                    record.update(frames_sent=count, eagain=blocked)
+                    if time.monotonic() - start > 5 or count >= 4096:
+                        raise AssertionError('input never remained full within the time and byte budgets')
                     try:
                         assert os.write(fd, packet) == len(packet)
                         count += 1
+                        last_progress = time.monotonic()
                     except BlockingIOError:
-                        if not select.select([], [fd], [], .35)[1]:
+                        blocked += 1
+                        # Write readiness can mean space for fewer than this
+                        # atomic packet. Measure actual writes, not select().
+                        if time.monotonic() - last_progress >= .35:
+                            record.update(eagain=blocked, stalled_seconds=time.monotonic()-last_progress)
                             break
-                else:
-                    raise AssertionError('input never remained full')
-                record['frames_sent'] = count
+                        time.sleep(.01)
                 assert count > 0
             close_time = time.monotonic()
             if mode == 'reader-gone':
