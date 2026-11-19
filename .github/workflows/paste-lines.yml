@@ -2,6 +2,7 @@ name: Native multiline clipboard paste against XTerm
 on:
   workflow_call:
     inputs:
+      quote_only: {type: boolean, default: false}
       product_run: {required: true, type: string}
       product_commit: {required: true, type: string}
 permissions:
@@ -28,15 +29,25 @@ jobs:
       - name: Install and identify Sarasa Light
         run: scripts/prepare-remote-interaction.ps1
       - name: Paste native clipboard text and compare the child input with XTerm
+        if: ${{ !inputs.quote_only }}
         env:
           RENDERER: ${{ matrix.renderer }}
         run: python tests/paste_lines_window.py
+      - name: Install the read-only frontend pipe observer for the quote replay
+        if: inputs.quote_only
+        run: python -m pip install frida==17.24.3
+      - name: Compare the quoted Unicode clipboard and a separate physical Return with XTerm
+        if: inputs.quote_only
+        env: {RENDERER: "${{ matrix.renderer }}", NEMOTERM_PROTOCOL_WIRE_TRACE: "1"}
+        run: python tests/paste_lines_window.py --quote
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
-          name: paste-lines-${{ matrix.renderer }}-${{ github.run_id }}-${{ github.run_attempt }}
+          name: ${{ inputs.quote_only && 'paste-quote' || 'paste-lines' }}-${{ matrix.renderer }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
             research/paste-lines-*.json
+            research/paste-quote-*.json
+            research/paste-quote-*.jsonl
             build/paste-lines-product/SOURCE-HOST.json
             build/interaction-dependencies/environment.json
           if-no-files-found: error

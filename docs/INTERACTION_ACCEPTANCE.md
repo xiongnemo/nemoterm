@@ -252,3 +252,9 @@ The `selection` group holds Shift and the left button while the application eras
 `font-zoom-replay.yml` 的 `suite=scrollback-modes` 和完整 CI 都在同一 EXE 上运行 `tests/selection_scroll_region.py`。让应用接管鼠标，只滚动中间四行，在固定和移动的行上实按 Ctrl+Shift+左键框选。用选区外每行不同的色块确认输出已经画到窗口，用背景像素逐格读出高亮，再比较原文、系统剪贴板和子进程输入。覆盖正反方向、整段替换、选区丢失和出现空隙的情况。
 
 `--right-click` 分开启动默认“仅复制”、可选“复制并粘贴”和快捷键复制的窗口。检查裁剪后显式复制的文本与新高亮相符；若选区消失，未加修饰的右键应重新由应用接管，子进程能读到完整的 SGR 鼠标按下和松开。每次交互后以独立实按的字符标记结束，不用剪贴板已有的值单独证明操作成功。
+
+### 逐字节粘贴（XTerm 私有模式 2005）
+
+`protocol-reference.yml` 的 `family=paste-quote` 在固定的 XTerm 412 中直接读取 PTY 字节。默认 tty 的 literal-next 是 `16`（十六进制），另一轮将它改成 `1d`。每轮的 19 个阶段都包含中文、emoji、制表、两个连续换行和末尾界标；原件在 [testdata](../testdata/upstream/xterm412-paste-quote.zip)。例如 `中` 的 UTF-8 是 `e4 b8 ad`，打开 `?2005` 时默认 tty 收到 `16 e4 16 b8 16 ad`。包围粘贴的起止序列本身不加前缀。
+
+Windows 用 `font-zoom-replay.yml` 的 `suite=paste-quote` 对指定 EXE 重放默认 tty 的记录。实按 Ctrl+Shift+V 后再单独按 Enter 和 `7`；一份记录保留终端实际写入输入管道的字节，另一份记录保留 `ReadConsoleW` 子进程读到的文字。逐字节加前缀后的中文不构成合法 UTF-8，不能从宽字符返回值还原原始字节。严格的管道对照涵盖全部样例；宽字符对照对可表示的样例同样严格，其他样例保留两种观察，不计作 Unicode 等价。此专项含只读管道观察器，不用于内存验收。
