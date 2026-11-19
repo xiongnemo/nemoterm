@@ -19,3 +19,5 @@ A 与 B 在同一个原生终端窗口中运行，各自打开应用鼠标报告
 远程完整 CI 中，WSL 的 Sixel、tmux/Vim、terminfo 颜色以及 Linux 上构建 BusyBox 的作业都曾在安装依赖时失败：Ubuntu 镜像的 HTTP 连接超时或索引不完整，产品尚未进入测试。工作流现在先检查请求的软件包；确需安装时，使用 HTTPS 并要求 Ubuntu 签名索引验证成功，记录实际包版本。BusyBox 仍从原有固定源码和 Unicode 配置交叉编译。只使用 GitHub 托管 runner，不依赖开发机 WSL 或 `/tmp`。
 
 同一候选上的 [Sixel 回放](https://github.com/xiongnemo/nemoterm/actions/runs/44525493045)（两种渲染器）、[tmux/Vim 回放](https://github.com/xiongnemo/nemoterm/actions/runs/44525492410)（GDI、DirectX 各 `TERM=xterm`、`xterm-256color` 两种）以及 [terminfo 颜色回放](https://github.com/xiongnemo/nemoterm/actions/runs/44525560769)（两种渲染器）均通过。[原始失败摘录与日志摘要、新回放原件和包清单](tab-drag-wsl-6a2dc83.zip)包含 BusyBox 重建记录。[修正准备流程后的 81 项交互总回放](https://github.com/xiongnemo/nemoterm/actions/runs/44525718005)与首次完整 CI 分开记录。
+
+本次发布到 `dist` 的测试版与上述候选字节相同，4,858,368 字节。[同一 EXE 的两组压力记录](tab-drag-memory-6a2dc83.zip)包含 160×48 的六种负载，每组 6/6。GDI 前端私有工作集峰值为 19,578,880 字节，总工作集峰值 56,381,440 字节；DirectX 分别为 29,061,120 和 74,297,344 字节。各列单独取峰值。

@@ -4,6 +4,12 @@
 
 ## 开发快照
 
+[下载 Windows x64 单文件测试版 `0d8f731`](https://github.com/xiongnemo/nemoterm/actions/runs/44515756392/artifacts/14525912387)。解压后只需 `nemoterm.exe`；EXE 的 SHA-256 为 `8e8fdd89176d0204d72c05fd62b8bb62754eba052fab2c8e399bc8bc8fa7af12`。
+
+按住 Shift 双击混排英文和从右向左书写的文字时，会选中屏幕上相邻的词，不再隔着标点选中远处的字。38 项高亮与剪贴板检查在旧版通过 14 项、新版全部通过。普通双击沿用 profile 里的选词规则。另在 tmux 内的 Vim 验证了 Shift 拖选和矩形复制，Codex、OpenCode、Claude Code 的 10 项默认网格交互也已通过。[对照截图、交互记录与内存](../research/bidi-word-selection.md)。
+
+同一 EXE 的[交互回放](../research/bidi-words-exact-interaction-0d8f731.zip)为 78/80，两项未过的是 Codex 启动草稿立即贴图。
+
 [下载 Windows x64 单文件测试版 `2c63154`](https://github.com/xiongnemo/nemoterm/actions/runs/44510289348/artifacts/14523910915)。解压后只需 `nemoterm.exe`；EXE 的 SHA-256 为 `22e5cc72fee4c1f157468b29c5af8b2eaccbcbda1c90637467e74fb1309e739f`。
 
 按住 Shift 和鼠标左键选字时，如果应用在拖动前擦掉了按住的字，松手会取消这次选择，不改剪贴板。如果只擦了邻字，或按住的字符受保护，则仍能正常复制。52 项擦除手势在 GDI 和 DirectX 上全部通过；同一 EXE 的 10 项默认网格真实客户端选区回放也已通过。[高亮截图、原始记录及内存样本](../research/selection-erase.md)。
