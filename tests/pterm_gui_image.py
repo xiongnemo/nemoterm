@@ -22,7 +22,7 @@ from paired_agent_memory import ROOT, PTERM, CODEX, digest, gui
 def observe(folder, kind, exe, client, phase, binding, rec):
     folder.mkdir()
     home, work, env = isolated_home(folder)
-    env.update(HOME=str(home), GIT_ALLOW_PROTOCOL='file', GIT_TERMINAL_PROMPT='0')
+    env.update(HOME=str(home), GIT_ALLOW_PROTOCOL='file', GIT_TERMINAL_PROMPT='0', NEMOTERM_HOSTED_REFERENCE='1')
     if kind=='pterm':env.pop('NEMOTERM_CONPTY',None)
     # The in-console observer records the currently rendered client cells identically on both hosts.
     env['NEMOTERM_PAIR_READ_CELLS']='1'
