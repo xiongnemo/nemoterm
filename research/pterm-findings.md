@@ -227,3 +227,15 @@ Nemoterm EXE 的 SHA-256 为 `c7f4f4be019a2fb0262f984d15e7f6177eb47da043558dd819
 | Nemoterm DirectX | 9.74 | 44.83 | 11.30 |
 
 [六类图文压力场景](interaction-9b5e1111.zip)分别测得 GDI、DirectX 前端的私有工作集峰值 19.33、28.91 MB，总工作集峰值 56.21、72.11 MB；均未超过对应的**私有**工作集上限。
+
+## `cf091974`：资源管理器拖放修复后的同机对照
+
+[固定版本真实 Codex 的 24 轮回放](https://github.com/xiongnemo/nemoterm/actions/runs/44589529202)在一台托管 Windows runner 上分别启动原版 pterm 0.85、Nemoterm GDI 和 DirectX。字体为 SarasaTermSC Nerd Light，网格为 160×48；三个窗口都收到了首轮及其后 24 轮的全部 25 条聊天回执，并正常退出。[原始采样、模块清单与窗口截图](agent-session-cf091974.zip)记录的是终端前端，计量单位为十进制 MB。下表各列是独立的采样峰值，不代表一定在同一时刻达到。
+
+| 前端 | 私有工作集 | 总工作集 | 私有提交量 |
+| --- | ---: | ---: | ---: |
+| 原版 pterm 0.85 | 3.79 | 22.74 | 4.48 |
+| Nemoterm GDI | 5.49 | 34.54 | 6.89 |
+| Nemoterm DirectX | 9.70 | 44.75 | 11.20 |
+
+此工作负载中，GDI 前端私有峰值比原版高约 1.70 MB。三个进程的采样都没有发现浏览器组件；候选的 PE 常规及延迟导入表同样没有这些模块（见[同一二进制的 REA 导入证据](drop-shell-after-cf091974.zip)）。这些观测不能替代图片、滚动及密集字形的压力测试。

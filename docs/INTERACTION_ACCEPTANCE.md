@@ -280,3 +280,7 @@ Windows 用 `font-zoom-replay.yml` 的 `suite=paste-quote` 对指定 EXE 重放�
 ### 从资源管理器拖入 WSL，以及更改默认 shell 后再拖放
 
 用 `font-zoom-replay.yml` 的 `suite=wsl-drop`、`source_run`、完整 `source_commit` 回放同一 EXE；`ci.yml scope=full` 运行相同的检查。GitHub 托管的 Windows runner 在 Ubuntu 中生成文件和目录，把 Windows 文件列表拖放或粘贴到真实窗口。检查原始 PTY 输入、Bash 能否用收到的路径读到两份原始内容，以及混入另一发行版时是否整批拒绝。显式指定发行版与默认发行版各有覆盖。另开实际 Windows PowerShell，在 Profile Settings 中保存 cmd 为默认 shell；当前 PowerShell 和随后打开的 cmd 必须用同一 profile 分别读到对应文件的随机内容。两组都保留 GDI 和 DirectX 结果。原始失败：[资源管理器路径的旧版对照](../research/wsl-share-drop-before-9b5e1111.zip)。
+
+### 原版 pterm 的真实窗口与图片粘贴
+
+`font-zoom-replay.yml` 的 `suite=pterm-images` 在同一台托管 Windows runner 上比较官方 pterm 0.85 窗口和指定 `source_run`、`source_commit` 的 Nemoterm GDI 窗口。二者使用独立 profile、相同字体与网格、同一版真实 Codex 及本地测试服务。每个快捷键与时点都从新进程开始；实际按一次 Ctrl+V 或 Ctrl+Shift+V，分别记录窗口附件、服务端收到的图片数及其像素、剪贴板与进程退出。首次可见输入只定义收集时点。完成一轮的 Ctrl+V 是两端的阳性对照。此可选对照不改变产品交互报告的通过数。
