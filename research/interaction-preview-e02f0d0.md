@@ -20,7 +20,7 @@
 
 ## 客户端和交互
 
-- [默认网格的 Codex、OpenCode、Claude](agent-grid-discard-e02f0d0.zip) 10/10；[30 项客户端检查](agent-cases-discard-e02f0d0.zip) 28/30。失败的是 Codex 在启动时通过窗口接口或真实键盘立即贴图，编辑器就绪后这两种输入都通过。
+- [默认网格的 Codex、OpenCode、Claude](agent-grid-discard-e02f0d0.zip) 10/10；[30 项客户端检查](agent-cases-discard-e02f0d0.zip) 28/30。失败的是 Codex 在启动时通过窗口接口或真实键盘立即贴图，编辑器就绪后这两种输入都通过。[同一 EXE 的独立诊断](codex-bitmap-requests.md)记录了按键、Windows 索取位图和服务端收到正确像素的时点。
 - [连续粘贴](paste-discard-e02f0d0.zip)中，接口和 Ctrl+Shift+V 均 4/4。[Unicode 投递](unicode-discard-e02f0d0.zip)本轮 5/5，包括独立对照。
 - [WSL Vim](wsl-vim-discard-e02f0d0.zip)在两种 TERM 和 GDI、DirectX 的四种组合均完成普通应用鼠标、Shift 本地拖选、两次缩放、矩形选择和实际粘贴保存等六项检查。
 - 原生测试覆盖了与[被丢弃的字](selection-discarded-scroll.md)相反的情形：屏幕上第一行滚入仍然存在的那一个历史槽后可以复制 `KEEP`。第二次滚动覆盖该槽才丢弃起点。中间提交 `209ad34` 的测试把视口移到了当前屏幕（实测 `disptop=0`），因此错误地取了 8 个字符；[原始失败日志](https://github.com/xiongnemo/nemoterm/actions/runs/44476801522/artifacts/14507645616)保留。本次定位到历史顶端并要求 `disptop=-1` 后，GitHub Windows 原生测试通过。

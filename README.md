@@ -37,7 +37,7 @@ Kitty 图片支持直接 RGB/RGBA/PNG、压缩传输、裁剪、透明度、查�
 
 按住 Shift 和鼠标左键之后，如果原来的字被滚出缓冲区或被分栏边界截断，松手会取消选择，右键也不会复制顶上来的文字。原字还在屏幕或滚动历史里时仍然能选。保持应用鼠标跟踪的 32 项丢字用例和 4 项实际键鼠均通过。六种 160×48 压力负载的前端私有工作集峰值为 GDI **19.337 MB**、DirectX **28.750 MB**。[选区前后截图](research/selection-discarded-scroll.md) · [本版交互、内存与未通过项](research/interaction-preview-e02f0d0.md) · [完整 CI](https://github.com/xiongnemo/nemoterm/actions/runs/44477059678) · [历史测试版](docs/PREVIEW_HISTORY.md)。
 
-在 Codex 0.167.0 中，请等编辑器就绪后再贴图，看到输入框中出现图片附件再发送。启动草稿可能接受文字却忽略贴图，窗口标题也不能可靠地判断是否就绪。[实际提交与截图](research/codex-file-draft-order.md)。
+在 Codex 0.167.0 中，请等编辑器就绪后再贴图，看到输入框中出现图片附件再发送。启动草稿可能接受文字却忽略贴图，窗口标题也不能可靠地判断是否就绪。[实际提交与截图](research/codex-file-draft-order.md) · [按键后 Windows 何时索取位图](research/codex-bitmap-requests.md)。
 
 查找后续开发构建：
 
