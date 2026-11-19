@@ -73,15 +73,47 @@ def run(tmp,job,out,report,keys):
             row['children'].append(dict(pid=pids[i],wire=r['hex'],expected=expected[i].hex()));assert bytes.fromhex(r['hex'])==expected[i],row
     def coords(i):
         s=active();assert s['hwnd']==sessions[i]['hwnd'];cw,rem=divmod(s['client_width']-2,s['cols']);ch,rh=divmod(s['client_height']-2,s['rows']);assert not(rem or rh);return cw,ch
+    sources={}
+    def selection_ratios(i,base):
+        cw,ch=coords(i);diff=ImageChops.difference(base,shot(i)).convert('L');ratios=[]
+        for x in range(WIDTHS[i]+2):
+            box=(1+x*cw,1+2*ch,1+(x+1)*cw,1+3*ch);ratios.append(1-diff.crop(box).histogram()[0]/(cw*ch))
+        return ratios
     def select(i):
-        cw,ch=coords(i);base=shot(i,f'{i}-source')
+        cw,ch=coords(i);sources[i]=base=shot(i,f'{i}-source')
         def check():
-            diff=ImageChops.difference(base,shot(i)).convert('L');ratios=[]
-            for x in range(WIDTHS[i]+2):
-                box=(1+x*cw,1+2*ch,1+(x+1)*cw,1+3*ch);ratios.append(1-diff.crop(box).histogram()[0]/(cw*ch))
-            report[f'{i}-selection-ratios']=ratios
+            ratios=selection_ratios(i,base);report[f'{i}-selection-ratios']=ratios
             return ratios[0]<.1 and ratios[-1]<.1 and min(ratios[1:-1])>.5
         desk.drag(1+cw+cw//2,1+WIDTHS[i]*cw+cw//2,1+2*ch+ch//2,check);shot(i,f'{i}-selection')
+    def check_interrupted_drag():
+        # No button-down belongs to B. Shift is held across Ctrl+Tab and up.
+        # Record both sides of that up; a clipboard cache alone is not evidence
+        # that the previously visible selection survived.
+        record=report['interrupted_drag']={}
+        def marked(i,label,indices):
+            def matches():
+                ratios=selection_ratios(i,sources[i]);record[label]=ratios
+                return all(v>.5 if j in indices else v<.1 for j,v in enumerate(ratios))
+            try:wait_for(matches,timeout=4)
+            finally:shot(i,'interrupted-'+label)
+        switch(1);marked(1,'destination-before-switch',{1,2,3});switch(0)
+        cw,ch=coords(0);x0=1+cw//2;y=1+2*ch+ch//2
+        desk.point(x0,y);desk.event(0x10,True);desk.event(None,True)
+        try:
+            wait_for(lambda:desk.state().capture==desk.hwnd);desk.point(x0+cw,y)
+            marked(0,'origin-during-drag',{0,1});switch(1)
+            wait_for(lambda:not desk.state().capture);record['capture_released_on_switch']=True
+            # Keep the pointer over the target child and buttons unmodified.
+            cw,ch=coords(1);desk.point(1+cw+cw//2,1+2*ch+ch//2)
+            marked(1,'destination-before-up',{1,2,3})
+        finally:
+            desk.event(None,False);desk.event(0x10,False)
+        barrier('switch and release only in B: no app mouse input')
+        marked(1,'destination-after-up',{1,2,3})
+        seq=u.GetClipboardSequenceNumber();desk.chord(0x11,0x10,ord('C'))
+        wait_for(lambda:u.GetClipboardSequenceNumber()!=seq and clipboard_text(desk.hwnd)==WORDS[1]);record['copied_after_up']=WORDS[1]
+        switch(0);marked(0,'origin-after-cancel',set())
+        barrier('cancelled drag leaves both children responsive')
     def right(i):
         seq=u.GetClipboardSequenceNumber();desk.event('right',True);desk.event('right',False)
         wait_for(lambda:u.GetClipboardSequenceNumber()!=seq and clipboard_text(sessions[i]['hwnd'])==WORDS[i]);report.setdefault('right_clipboard',[]).append(WORDS[i])
@@ -103,7 +135,9 @@ def run(tmp,job,out,report,keys):
         # No new mouse selection: Win32 focus and Copy must return to A's prior selection.
         seq=u.GetClipboardSequenceNumber();desk.chord(0x11,0x10,ord('C'));wait_for(lambda:u.GetClipboardSequenceNumber()!=seq and clipboard_text(desk.hwnd)==WORDS[0]);barrier('return to A preserves its own completed selection')
         switch(1);seq=u.GetClipboardSequenceNumber();desk.chord(0x11,0x10,ord('C'));wait_for(lambda:u.GetClipboardSequenceNumber()!=seq and clipboard_text(desk.hwnd)==WORDS[1]);barrier('return to B preserves its own completed selection')
-        switch(0);seq=u.GetClipboardSequenceNumber();desk.chord(0x11,0x10,ord('C'));wait_for(lambda:u.GetClipboardSequenceNumber()!=seq and clipboard_text(desk.hwnd)==WORDS[0]);saved.restore();saved=None;desk.restore();desk=None
+        switch(0);seq=u.GetClipboardSequenceNumber();desk.chord(0x11,0x10,ord('C'));wait_for(lambda:u.GetClipboardSequenceNumber()!=seq and clipboard_text(desk.hwnd)==WORDS[0])
+        check_interrupted_drag()
+        saved.restore();saved=None;desk.restore();desk=None
         for i in (1,0):
             write_snapshot(file(i,'control'),{'stop':True});exit=wait_snapshot(lambda:read_snapshot(file(i,'exit')),lambda v:v.get('reason')=='control-stop');report.setdefault('exits',[]).append(exit)
         report['frontend_exit']=proc.wait(timeout=12);assert report['frontend_exit']==0;report['completed']=True
