@@ -5688,6 +5688,8 @@ static bool scroll_selected_block(Terminal *term, int top, int bottom, int delta
         if (anchor >= top && anchor <= bottom) anchor += delta;
         term->selstart.y = spans[0].lo;
         term->selend.y = spans[n-1].hi;
+        if ((int64_t)term->selend.y - term->selstart.y < (int64_t)last - first)
+            term->selection_copy_needs_refresh = true;
         term->selanchor.y = (int)max((int64_t)term->selstart.y,
                                      min((int64_t)term->selend.y, anchor));
     }
@@ -12567,6 +12569,7 @@ static void clipme(Terminal *term, pos top, pos bottom, SelectionType type, bool
             term->last_selected_attr = buf.attrbuf;
             term->last_selected_tc = buf.tcbuf;
             term->last_selected_len = buf.bufpos;
+            term->selection_copy_needs_refresh = false;
         } else {
             sfree(buf.textbuf);
             sfree(buf.attrbuf);
@@ -12638,6 +12641,15 @@ void term_request_copy(Terminal *term, const int *clipboards, int n_clipboards)
     for (i = 0; i < n_clipboards; i++) {
         assert(clipboards[i] != CLIP_LOCAL);
         if (clipboards[i] != CLIP_NULL) {
+            /* Do not change either clipboard as output scrolls. An explicit
+             * copy (including right-click copy-and-paste) takes the remaining
+             * highlighted rows; a following local paste uses that same text. */
+            if (term->selection_copy_needs_refresh && term->selstate == SELECTED &&
+                term->seltype == RECTANGULAR) {
+                int local = CLIP_LOCAL;
+                clipme(term, term->selstart, term->selend, term->seltype,
+                       false, &local, 1);
+            }
             win_clip_write(term->win, clipboards[i],
                            term->last_selected_text, term->last_selected_attr,
                            term->last_selected_tc, term->last_selected_len,
@@ -14272,6 +14284,7 @@ void term_nopaste(Terminal *term)
 static void deselect(Terminal *term)
 {
     term->selstate = NO_SELECTION;
+    term->selection_copy_needs_refresh = false;
     term->selstart.x = term->selstart.y = term->selend.x = term->selend.y = 0;
 }
 

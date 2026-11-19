@@ -429,6 +429,7 @@ struct terminal_tag {
     enum {
         NO_SELECTION, ABOUT_TO, DRAGGING, SELECTED
     } selstate;
+    bool selection_copy_needs_refresh; /* scroll removed rows since the last copy */
     bool discarded_select_press; /* consume the rest of a lost local gesture */
     SelectionType seltype;
     enum {

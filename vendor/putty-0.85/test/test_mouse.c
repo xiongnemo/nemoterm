@@ -629,13 +629,14 @@ static void test_selection_cursor_traffic(Mock *mk)
     }
 }
 
-static void test_ctrl_rectangle(Mock *mk)
-{
 #ifdef _WIN32
 #define BLOCK_NL L"\r\n"
 #else
 #define BLOCK_NL L"\n"
 #endif
+
+static void test_ctrl_rectangle(Mock *mk)
+{
     const int clipboard = CLIP_LOCAL + 1;
     const int modes[] = {0, 9, 1000, 1001, 1002, 1003};
     mk->ucsdata->line_codepage = CP_UTF8;
@@ -761,7 +762,6 @@ static void test_ctrl_rectangle(Mock *mk)
     send_mouse(mk, MBT_LEFT, MA_RELEASE, 2, 1, false, true, false);
     MOUSE_BYTES("\033[<16;2;1M\033[<48;3;2M\033[<16;3;2m");
     IEQUAL(mk->term->selstate, NO_SELECTION);
-#undef BLOCK_NL
     const int bindings[] = {0,1,2,3,4,5,6,7,8};
     for (size_t b=0;b<lenof(bindings);b++)
         for (unsigned pressed=0;pressed<8;pressed++) {
@@ -844,6 +844,26 @@ static void test_block_crossing_region(Mock *mk)
     }
 }
 
+static void test_copy_clipped_block(Mock *mk)
+{
+    mouse_setup(mk, "Explicit re-copy follows the surviving block; scrolling does not own the clipboard", "");
+    term_size(mk->term,5,12,0);
+    term_data_fragmented(mk->term,"aONEb\r\naTWOb\r\naSIXb\r\naENDb\033[2;4r\033[?1002;1006h");
+    send_mouse(mk,MBT_LEFT,MA_CLICK,1,0,true,true,false);
+    send_mouse(mk,MBT_LEFT,MA_RELEASE,3,2,false,false,false);
+    const int clip = CLIP_LOCAL + 1;
+    term_request_copy(mk->term,&clip,1);
+    check_clipboard(mk,L"ONE" BLOCK_NL L"TWO" BLOCK_NL L"SIX");
+    term_data_fragmented(mk->term,"\033[S");
+    check_clipboard(mk,L"ONE" BLOCK_NL L"TWO" BLOCK_NL L"SIX");
+    mk->clipboard_writes=0; term_request_copy(mk->term,&clip,1);
+    check_clipboard(mk,L"ONE" BLOCK_NL L"SIX");
+    term_request_paste(mk->term,CLIP_LOCAL);drain_paste(mk);
+    MOUSE_BYTES("ONE\rSIX");
+}
+
+#undef BLOCK_NL
+
 static void test_zoom_policy(Mock *mk)
 {
     test_context(mk, "zoom leaves application Ctrl wheels alone; Shift forces local zoom");
@@ -891,6 +911,7 @@ int main(void)
     test_ctrl_rectangle(mk);
     test_block_clipping(mk);
     test_block_crossing_region(mk);
+    test_copy_clipped_block(mk);
     test_selection_cursor_traffic(mk);
     test_zoom_policy(mk);
 

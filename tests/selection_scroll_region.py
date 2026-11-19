@@ -40,6 +40,7 @@ def exercise(hwnd, phase, current, action=None):
         camera=PresentedWindowCapture(pid.value,hwnd,directx=renderer==3); camera.wait_for_initial_geometry()
         for index,(name,anchor,end,shift) in enumerate(CASES):
             if action and name not in ('clip-top','clip-bottom','keep-inside','split-top'): continue
+            if action=='copy-key' and name=='split-top': continue
             rec=obs['cases'][name]=dict(anchor=anchor,end=end,shift=shift)
             # Labels are outside the drag. A unique green component per case
             # ensures that even an unchanged row cannot satisfy a stale frame.
@@ -82,7 +83,9 @@ def exercise(hwnd, phase, current, action=None):
                 # The earlier explicit copy remains untouched until the user
                 # asks to copy again. Then the painted selection is authoritative.
                 seq=u.GetClipboardSequenceNumber();point(11,7)
-                desk.event('right',True);desk.event('right',False);desk.chord(ord('8'))
+                if action=='copy-key':desk.chord(0x11,0x10,ord('C'))
+                else:desk.event('right',True);desk.event('right',False)
+                desk.chord(ord('8'))
                 snapshot=wait_for(lambda:(v if (v:=current())['hex'].endswith('38') else None))
                 right=rec['right_click']={}
                 visible='\r\n'.join(f'{ids[y]:02}中!' for y in keep)
@@ -102,7 +105,7 @@ def exercise(hwnd, phase, current, action=None):
 
 if __name__=='__main__':
     assert os.environ.get('RUNNER_ENVIRONMENT')=='github-hosted'
-    actions = [None] if not sys.argv[1:] else ['default','copy-paste']
+    actions = [None] if not sys.argv[1:] else ['default','copy-paste','copy-key']
     assert not sys.argv[1:] or sys.argv[1:]==['--right-click']
     os.environ.update(NEMOTERM_TEST_INPUT_CP='65001',NEMOTERM_TEST_WIDE_INPUT='1')
     mismatches=[]
@@ -112,7 +115,7 @@ if __name__=='__main__':
         if action=='copy-paste':profile['RightClickCopyAndPaste']=1
         run(tag+'-window',[],exercise=lambda hwnd,phase,current:exercise(hwnd,phase,current,action),barrier=(CSI+'5n',b'\x1b[0n'),
             source_reference='Windows rectangular selection over a TUI scroll region',font=os.environ['NEMOTERM_TEST_FONT'],profile=profile)
-        obs=json.loads((root/'research'/(tag+'.json')).read_bytes());assert len(obs['cases'])==(4 if action else len(CASES))
+        obs=json.loads((root/'research'/(tag+'.json')).read_bytes());assert len(obs['cases'])==(3 if action=='copy-key' else 4 if action else len(CASES))
         for n,r in obs['cases'].items():
             if r['scrolled']['columns']!=r['scrolled']['expected_columns']:mismatches.append((tag,n,'highlight'))
             if action:
