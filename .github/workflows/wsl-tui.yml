@@ -5,6 +5,7 @@ on:
       run: {type: string, required: true}
       commit: {type: string, required: true}
       suite: {type: string, default: pager}
+      bundled: {type: boolean, default: false}
 permissions:
   contents: read
   actions: read
@@ -123,8 +124,15 @@ jobs:
       - name: Compare a real WSL image against the libsixel decoder on GDI and DirectX
         if: inputs.suite == 'sixel'
         run: python build/wsl-check/tests/wsl_sixel_image.py
+      - name: Select the embedded transport and expected guest image
+        if: inputs.bundled
+        shell: pwsh
+        run: |
+          $pinned = Get-Content native/wsl_pty/bundled/manifest.json -Raw | ConvertFrom-Json
+          "NEMOTERM_WSL_PTY_RELAY=builtin" >> $env:GITHUB_ENV
+          "NEMOTERM_TEST_RELAY_SHA256=$($pinned.relay_sha256)" >> $env:GITHUB_ENV
       - name: Exercise ordinary mouse, forced selection, paste and window resize in WSL Vim
-        if: inputs.suite == 'vim'
+        if: inputs.suite == 'vim' || inputs.bundled
         run: python build/wsl-check/tests/wsl_vim_interaction.py
       - name: Exercise nested mouse ownership and resize with tmux and Vim
         if: inputs.suite == 'tmux-vim'
@@ -138,7 +146,7 @@ jobs:
       - if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
-          name: ${{ inputs.suite == 'relay-paste' && 'wsl-relay-paste' || inputs.suite == 'drop' && 'wsl-drop' || inputs.suite == 'byte-path' && 'wsl-byte-path' || inputs.suite == 'paste-quote' && 'wsl-paste-quote' || inputs.suite == 'sixel' && 'wsl-sixel' || inputs.suite == 'tmux-vim' && 'wsl-tmux-vim' || inputs.suite == 'vim' && 'wsl-vim' || inputs.suite == 'colour' && 'wsl-colour' || 'wsl-tui' }}-${{ github.run_id }}-${{ github.run_attempt }}
+          name: ${{ inputs.bundled && 'wsl-relay-vim' || inputs.suite == 'relay-paste' && 'wsl-relay-paste' || inputs.suite == 'drop' && 'wsl-drop' || inputs.suite == 'byte-path' && 'wsl-byte-path' || inputs.suite == 'paste-quote' && 'wsl-paste-quote' || inputs.suite == 'sixel' && 'wsl-sixel' || inputs.suite == 'tmux-vim' && 'wsl-tmux-vim' || inputs.suite == 'vim' && 'wsl-vim' || inputs.suite == 'colour' && 'wsl-colour' || 'wsl-tui' }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
             build/wsl-provision/*.log
             build/wsl-check/research/

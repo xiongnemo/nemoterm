@@ -303,3 +303,5 @@ For an exact-image Windows quoted-paste exit diagnostic, run `font-zoom-replay.y
 使用 `builtin` 的窗口还会分别核对 PE 释放到带空格的会话临时目录的文件、Linux 父进程和同次 Linux 构建的 SHA-256，并在正常关闭后确认临时 ELF 已删除。
 
 [WSL1 原始字节、按行边界与关闭测试的逐项结果](../research/wsl-relay-window.md)。
+
+`suite=wsl-relay-vim` 使用同一份单 EXE 的内嵌 WSL PTY，在真实 Vim 与 tmux 内的 Vim 中分别重放鼠标、Shift 强制选区、矩形复制、粘贴及窗口缩放。验证 guest 的 PTY、父进程与临时文件的实际散列，以及退出后临时文件的清理。

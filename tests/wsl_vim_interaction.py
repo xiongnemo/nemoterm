@@ -46,6 +46,9 @@ DRIVER=r'''set -eu
 cd -- "$(dirname -- "$0")"
 case "$1" in plain) export TERM=xterm;; esac
 export LC_ALL=C.UTF-8
+if [[ ${3:-} = builtin ]]; then
+    { tty; readlink "/proc/$PPID/exe"; sha256sum "/proc/$PPID/exe"; } > relay-id.txt
+fi
 { printf 'TERM=%s\n' "$TERM"; command -v vim; vim --version; sha256sum "$(command -v vim)"; } > vim-id.txt
 await() { for ((i=0;i<1200;i++)); do [[ ! -f stop ]] || return 22; [[ ! -f "$1" ]] || return 0; sleep .1; done; return 23; }
 printf '\033[2J\033[HVIM_PRIOR_SCREEN\n'
@@ -80,12 +83,17 @@ def trial(renderer,branch,mux):
     posix='/mnt/'+folder.drive[0].lower()+folder.as_posix()[2:]
     (folder/'buffer.txt').write_bytes(('\n'.join(BUFFER)+'\n').encode());(folder/'fixture.vim').write_bytes(VIMRC.encode());(folder/'driver').write_bytes(DRIVER.encode())
     if mux:(folder/'tmux.conf').write_bytes(TMUX_CONF.encode())
-    wsl=[shutil.which('wsl.exe'),'--distribution',os.environ['NEMOTERM_TEST_WSL_DISTRO'],'--exec']
+    bundled=os.environ.get('NEMOTERM_WSL_PTY_RELAY')=='builtin'
+    child_env=dict(os.environ,NEMOTERM_CONPTY='bundled')
+    if bundled:
+        session_temp=folder/'session files';session_temp.mkdir()
+        child_env.update(TEMP=str(session_temp),TMP=str(session_temp))
+    wsl=[str(Path(os.environ['SystemRoot'])/'System32'/'wsl.exe'),'--distribution',os.environ['NEMOTERM_TEST_WSL_DISTRO'],'--exec']
     proc=desk=clip=None; serial=0
     try:
         with winreg.CreateKey(winreg.HKEY_CURRENT_USER,reg) as key:
             for name,value in dict(NemoRenderer=renderer,WarnOnClose=0,CloseOnExit=1,WindowBorder=1,ScrollBar=0,FontHeight=12).items():winreg.SetValueEx(key,name,0,winreg.REG_DWORD,value)
-        proc=subprocess.Popen([str(exe),'--no-tabs','-load',profile,'--automation','--cols','60','--rows','20','--font',font,'-e',*wsl,'bash',posix+'/driver',branch,'tmux' if mux else 'direct'],env=dict(os.environ,NEMOTERM_CONPTY='bundled'),creationflags=subprocess.CREATE_NO_WINDOW)
+        proc=subprocess.Popen([str(exe),'--no-tabs','-load',profile,'--automation','--cols','60','--rows','20','--font',font,'-e',*wsl,'bash',posix+'/driver',branch,'tmux' if mux else 'direct',*(['builtin'] if bundled else [])],env=child_env,creationflags=subprocess.CREATE_NO_WINDOW)
         inst=wait_for(lambda:next(iter(api.discover(proc.pid)),None),timeout=30);s,=inst['sessions'];endpoint=inst['endpoint'];seat=s['id'];hwnd=s['hwnd'];report['session']=s
         def call(op,payload=b''):return api.request(endpoint,op,seat,payload)
         def photo(name):
@@ -114,6 +122,12 @@ def trial(renderer,branch,mux):
         cw,rw=divmod(s['client_width']-2,60);ch,rh=divmod(s['client_height']-2,20);assert not (rw or rh) and min(cw,ch)>0
         def xy(col,row):return (1+col*cw+cw//2,1+row*ch+ch//2)
         visible('VIM_PRIOR_SCREEN');(folder/'start').touch();visible(BUFFER[1]);before=state('initial');assert before['lines']==BUFFER and before['term']==('tmux-256color' if mux else term) and before['mouse']=='a' and before['ttymouse']=='sgr' and before['grid']==list(GRID),before
+        if bundled:
+            report['relay_identity']=rows=(folder/'relay-id.txt').read_text(encoding='utf-8').splitlines()
+            files=list(session_temp.glob('nemoterm-wsl-*.elf'))
+            assert len(rows)==3 and rows[0].startswith('/dev/pts/') and len(files)==1, (rows,files)
+            assert rows[1].endswith('/'+files[0].name)
+            assert rows[2].split()[0]==hashlib.sha256(files[0].read_bytes()).hexdigest()==os.environ['NEMOTERM_TEST_RELAY_SHA256']
         mux_state('initial',GRID)
         rows=screen().splitlines();assert rows[1].startswith(BUFFER[1]) and rows[2].startswith(BUFFER[2]);assert 'VIM_PRIOR_SCREEN' not in screen()
         desk=DesktopInput(proc.pid,s['window'],hwnd,report.setdefault('desktop',{}));clip=SavedClipboard(hwnd);set_clipboard(hwnd,'NEMO_VIM_UNCOPIED')
@@ -165,7 +179,11 @@ def trial(renderer,branch,mux):
         call('input',':wq');desk.chord(0x0d);visible('VIM_RETURNED');visible('VIM_PRIOR_SCREEN');assert BUFFER[0] not in screen();photo('restored')
         expected=BUFFER.copy();expected[2]+='中文';raw=(folder/'buffer.txt').read_bytes();assert raw==('\n'.join(expected)+'\n').encode() and (folder/'vim-exit').read_text()=='0'
         report['checks'].append('real Ctrl+Shift+V saved exact UTF-8 and restored the previous screen on exit')
-        clip.restore();clip=None;desk.restore();desk=None;(folder/'finish').touch();assert proc.wait(timeout=15)==0;report['completed']=True
+        clip.restore();clip=None;desk.restore();desk=None;(folder/'finish').touch();assert proc.wait(timeout=15)==0
+        if bundled:
+            report['relay_files_after_exit']=[p.name for p in session_temp.glob('nemoterm-wsl-*.elf')]
+            assert not report['relay_files_after_exit']
+        report['completed']=True
     except Exception:
         report['error']=traceback.format_exc()
         if proc and proc.poll() is None and 'call' in locals():
