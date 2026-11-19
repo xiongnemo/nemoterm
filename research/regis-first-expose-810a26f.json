@@ -1,0 +1,427 @@
+{
+  "first_expose_archive_sha256": "5d5f70d403d6703fb350f1f7559da2b2674f6d9df4c7a75d1e23f4057a3e6bb0",
+  "component_archive_sha256": "40c74cd4ca36d2ac9b8494de442cb3dee22f7d0af80afef8c8f539b038a2a2b5",
+  "original_archive_sha256": "f1cb288263b12e35be6ffc29b4edde6f71ee65054adabb1c105198ccdaf25b00",
+  "fixture": "fae26ca59d2c01b5b0ca4f72ddc4b46d6824c76a",
+  "reference_xterm": "0fc7b2f29c3777794701202c8d788a0e3392dcaba39662c14cac872a86829b84",
+  "transports": {
+    "whole": {
+      "component_executable": "b0b8dc39fff8fb3d19faa558926e1032d8507d668314e5af6808fcc17172f4b0",
+      "component_fixture": "810a26f45ec9bf9585ca9d78479b9dd2d4159037",
+      "cases": {
+        "scroll-up-end-2": {
+          "scene": "scroll-up",
+          "step": 2,
+          "component_rgb": "c72274a22cba2dcef62e0f62834446ee39b0cd95ad0faa27a89b3b49f48aa390",
+          "presented_rgb": "057a1594cd1349d01a2cc177d1ad97ae8cc5ddd427ca427cbe7387758daa29db",
+          "exposed_rgb": "c72274a22cba2dcef62e0f62834446ee39b0cd95ad0faa27a89b3b49f48aa390",
+          "product_vs_presented": {
+            "pixels": 101,
+            "bounds": [
+              20,
+              41,
+              121,
+              42
+            ]
+          },
+          "product_vs_first_expose": {
+            "pixels": 0,
+            "bounds": null
+          },
+          "effect_of_expose": {
+            "pixels": 101,
+            "bounds": [
+              20,
+              41,
+              121,
+              42
+            ]
+          }
+        },
+        "scroll-down-end-1": {
+          "scene": "scroll-down",
+          "step": 1,
+          "component_rgb": "fdd652e991f0df1b14bdf7f59b9d22178bb4e9a237e687c180e6aca3d764e2d3",
+          "presented_rgb": "0c8494d2968a8de1174943abda110e2bb9fe6076f09662ff3eb2328e78130b49",
+          "exposed_rgb": "fdd652e991f0df1b14bdf7f59b9d22178bb4e9a237e687c180e6aca3d764e2d3",
+          "product_vs_presented": {
+            "pixels": 303,
+            "bounds": [
+              20,
+              59,
+              121,
+              120
+            ]
+          },
+          "product_vs_first_expose": {
+            "pixels": 0,
+            "bounds": null
+          },
+          "effect_of_expose": {
+            "pixels": 303,
+            "bounds": [
+              20,
+              59,
+              121,
+              120
+            ]
+          }
+        },
+        "scroll-down-end-2": {
+          "scene": "scroll-down",
+          "step": 2,
+          "component_rgb": "fdd652e991f0df1b14bdf7f59b9d22178bb4e9a237e687c180e6aca3d764e2d3",
+          "presented_rgb": "0c8494d2968a8de1174943abda110e2bb9fe6076f09662ff3eb2328e78130b49",
+          "exposed_rgb": "fdd652e991f0df1b14bdf7f59b9d22178bb4e9a237e687c180e6aca3d764e2d3",
+          "product_vs_presented": {
+            "pixels": 303,
+            "bounds": [
+              20,
+              59,
+              121,
+              120
+            ]
+          },
+          "product_vs_first_expose": {
+            "pixels": 0,
+            "bounds": null
+          },
+          "effect_of_expose": {
+            "pixels": 303,
+            "bounds": [
+              20,
+              59,
+              121,
+              120
+            ]
+          }
+        },
+        "newline-scroll-end-2": {
+          "scene": "newline-scroll",
+          "step": 2,
+          "component_rgb": "c72274a22cba2dcef62e0f62834446ee39b0cd95ad0faa27a89b3b49f48aa390",
+          "presented_rgb": "13b9ac6c7536324355cd261c50695015f378a971d5c02f1d8b0ac4db9f89febb",
+          "exposed_rgb": "c72274a22cba2dcef62e0f62834446ee39b0cd95ad0faa27a89b3b49f48aa390",
+          "product_vs_presented": {
+            "pixels": 202,
+            "bounds": [
+              20,
+              7,
+              121,
+              68
+            ]
+          },
+          "product_vs_first_expose": {
+            "pixels": 0,
+            "bounds": null
+          },
+          "effect_of_expose": {
+            "pixels": 202,
+            "bounds": [
+              20,
+              7,
+              121,
+              68
+            ]
+          }
+        },
+        "regis-palette-False-end-1": {
+          "scene": "regis-palette-False",
+          "step": 1,
+          "component_rgb": "4d1e50d40d2c7bb1f2ed4ec09b272147b1f62ca8a70eec1e3777e1dea3376936",
+          "presented_rgb": "c72274a22cba2dcef62e0f62834446ee39b0cd95ad0faa27a89b3b49f48aa390",
+          "exposed_rgb": "4d1e50d40d2c7bb1f2ed4ec09b272147b1f62ca8a70eec1e3777e1dea3376936",
+          "product_vs_presented": {
+            "pixels": 600,
+            "bounds": [
+              0,
+              0,
+              100,
+              6
+            ]
+          },
+          "product_vs_first_expose": {
+            "pixels": 0,
+            "bounds": null
+          },
+          "effect_of_expose": {
+            "pixels": 600,
+            "bounds": [
+              0,
+              0,
+              100,
+              6
+            ]
+          }
+        },
+        "erase-line-end-1": {
+          "scene": "erase-line",
+          "step": 1,
+          "component_rgb": "3211c1455f606853b5482ef72c8db8c0f969ecfe5ac07bdfcd266abb0e0b36a6",
+          "presented_rgb": "3211c1455f606853b5482ef72c8db8c0f969ecfe5ac07bdfcd266abb0e0b36a6",
+          "exposed_rgb": "fdd652e991f0df1b14bdf7f59b9d22178bb4e9a237e687c180e6aca3d764e2d3",
+          "product_vs_presented": {
+            "pixels": 0,
+            "bounds": null
+          },
+          "product_vs_first_expose": {
+            "pixels": 101,
+            "bounds": [
+              20,
+              20,
+              121,
+              21
+            ]
+          },
+          "effect_of_expose": {
+            "pixels": 101,
+            "bounds": [
+              20,
+              20,
+              121,
+              21
+            ]
+          }
+        },
+        "erase-line-end-2": {
+          "scene": "erase-line",
+          "step": 2,
+          "component_rgb": "3211c1455f606853b5482ef72c8db8c0f969ecfe5ac07bdfcd266abb0e0b36a6",
+          "presented_rgb": "3211c1455f606853b5482ef72c8db8c0f969ecfe5ac07bdfcd266abb0e0b36a6",
+          "exposed_rgb": "fdd652e991f0df1b14bdf7f59b9d22178bb4e9a237e687c180e6aca3d764e2d3",
+          "product_vs_presented": {
+            "pixels": 0,
+            "bounds": null
+          },
+          "product_vs_first_expose": {
+            "pixels": 101,
+            "bounds": [
+              20,
+              20,
+              121,
+              21
+            ]
+          },
+          "effect_of_expose": {
+            "pixels": 101,
+            "bounds": [
+              20,
+              20,
+              121,
+              21
+            ]
+          }
+        }
+      }
+    },
+    "bytewise": {
+      "component_executable": "b0b8dc39fff8fb3d19faa558926e1032d8507d668314e5af6808fcc17172f4b0",
+      "component_fixture": "810a26f45ec9bf9585ca9d78479b9dd2d4159037",
+      "cases": {
+        "scroll-up-end-2": {
+          "scene": "scroll-up",
+          "step": 2,
+          "component_rgb": "c72274a22cba2dcef62e0f62834446ee39b0cd95ad0faa27a89b3b49f48aa390",
+          "presented_rgb": "057a1594cd1349d01a2cc177d1ad97ae8cc5ddd427ca427cbe7387758daa29db",
+          "exposed_rgb": "c72274a22cba2dcef62e0f62834446ee39b0cd95ad0faa27a89b3b49f48aa390",
+          "product_vs_presented": {
+            "pixels": 101,
+            "bounds": [
+              20,
+              41,
+              121,
+              42
+            ]
+          },
+          "product_vs_first_expose": {
+            "pixels": 0,
+            "bounds": null
+          },
+          "effect_of_expose": {
+            "pixels": 101,
+            "bounds": [
+              20,
+              41,
+              121,
+              42
+            ]
+          }
+        },
+        "scroll-down-end-1": {
+          "scene": "scroll-down",
+          "step": 1,
+          "component_rgb": "fdd652e991f0df1b14bdf7f59b9d22178bb4e9a237e687c180e6aca3d764e2d3",
+          "presented_rgb": "0c8494d2968a8de1174943abda110e2bb9fe6076f09662ff3eb2328e78130b49",
+          "exposed_rgb": "fdd652e991f0df1b14bdf7f59b9d22178bb4e9a237e687c180e6aca3d764e2d3",
+          "product_vs_presented": {
+            "pixels": 303,
+            "bounds": [
+              20,
+              59,
+              121,
+              120
+            ]
+          },
+          "product_vs_first_expose": {
+            "pixels": 0,
+            "bounds": null
+          },
+          "effect_of_expose": {
+            "pixels": 303,
+            "bounds": [
+              20,
+              59,
+              121,
+              120
+            ]
+          }
+        },
+        "scroll-down-end-2": {
+          "scene": "scroll-down",
+          "step": 2,
+          "component_rgb": "fdd652e991f0df1b14bdf7f59b9d22178bb4e9a237e687c180e6aca3d764e2d3",
+          "presented_rgb": "0c8494d2968a8de1174943abda110e2bb9fe6076f09662ff3eb2328e78130b49",
+          "exposed_rgb": "fdd652e991f0df1b14bdf7f59b9d22178bb4e9a237e687c180e6aca3d764e2d3",
+          "product_vs_presented": {
+            "pixels": 303,
+            "bounds": [
+              20,
+              59,
+              121,
+              120
+            ]
+          },
+          "product_vs_first_expose": {
+            "pixels": 0,
+            "bounds": null
+          },
+          "effect_of_expose": {
+            "pixels": 303,
+            "bounds": [
+              20,
+              59,
+              121,
+              120
+            ]
+          }
+        },
+        "newline-scroll-end-2": {
+          "scene": "newline-scroll",
+          "step": 2,
+          "component_rgb": "c72274a22cba2dcef62e0f62834446ee39b0cd95ad0faa27a89b3b49f48aa390",
+          "presented_rgb": "13b9ac6c7536324355cd261c50695015f378a971d5c02f1d8b0ac4db9f89febb",
+          "exposed_rgb": "c72274a22cba2dcef62e0f62834446ee39b0cd95ad0faa27a89b3b49f48aa390",
+          "product_vs_presented": {
+            "pixels": 202,
+            "bounds": [
+              20,
+              7,
+              121,
+              68
+            ]
+          },
+          "product_vs_first_expose": {
+            "pixels": 0,
+            "bounds": null
+          },
+          "effect_of_expose": {
+            "pixels": 202,
+            "bounds": [
+              20,
+              7,
+              121,
+              68
+            ]
+          }
+        },
+        "regis-palette-False-end-1": {
+          "scene": "regis-palette-False",
+          "step": 1,
+          "component_rgb": "4d1e50d40d2c7bb1f2ed4ec09b272147b1f62ca8a70eec1e3777e1dea3376936",
+          "presented_rgb": "c72274a22cba2dcef62e0f62834446ee39b0cd95ad0faa27a89b3b49f48aa390",
+          "exposed_rgb": "4d1e50d40d2c7bb1f2ed4ec09b272147b1f62ca8a70eec1e3777e1dea3376936",
+          "product_vs_presented": {
+            "pixels": 600,
+            "bounds": [
+              0,
+              0,
+              100,
+              6
+            ]
+          },
+          "product_vs_first_expose": {
+            "pixels": 0,
+            "bounds": null
+          },
+          "effect_of_expose": {
+            "pixels": 600,
+            "bounds": [
+              0,
+              0,
+              100,
+              6
+            ]
+          }
+        },
+        "erase-line-end-1": {
+          "scene": "erase-line",
+          "step": 1,
+          "component_rgb": "3211c1455f606853b5482ef72c8db8c0f969ecfe5ac07bdfcd266abb0e0b36a6",
+          "presented_rgb": "3211c1455f606853b5482ef72c8db8c0f969ecfe5ac07bdfcd266abb0e0b36a6",
+          "exposed_rgb": "fdd652e991f0df1b14bdf7f59b9d22178bb4e9a237e687c180e6aca3d764e2d3",
+          "product_vs_presented": {
+            "pixels": 0,
+            "bounds": null
+          },
+          "product_vs_first_expose": {
+            "pixels": 101,
+            "bounds": [
+              20,
+              20,
+              121,
+              21
+            ]
+          },
+          "effect_of_expose": {
+            "pixels": 101,
+            "bounds": [
+              20,
+              20,
+              121,
+              21
+            ]
+          }
+        },
+        "erase-line-end-2": {
+          "scene": "erase-line",
+          "step": 2,
+          "component_rgb": "3211c1455f606853b5482ef72c8db8c0f969ecfe5ac07bdfcd266abb0e0b36a6",
+          "presented_rgb": "3211c1455f606853b5482ef72c8db8c0f969ecfe5ac07bdfcd266abb0e0b36a6",
+          "exposed_rgb": "fdd652e991f0df1b14bdf7f59b9d22178bb4e9a237e687c180e6aca3d764e2d3",
+          "product_vs_presented": {
+            "pixels": 0,
+            "bounds": null
+          },
+          "product_vs_first_expose": {
+            "pixels": 101,
+            "bounds": [
+              20,
+              20,
+              121,
+              21
+            ]
+          },
+          "effect_of_expose": {
+            "pixels": 101,
+            "bounds": [
+              20,
+              20,
+              121,
+              21
+            ]
+          }
+        }
+      }
+    }
+  }
+}
