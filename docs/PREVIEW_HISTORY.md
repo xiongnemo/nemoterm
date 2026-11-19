@@ -4,6 +4,10 @@
 
 ## 开发快照
 
+[下载 Windows x64 单文件测试版 `6bed777`](https://github.com/xiongnemo/nemoterm/actions/runs/44486109121/artifacts/14511425344)。解压后只需 `nemoterm.exe`；EXE 的 SHA-256 为 `e50c888b1933893896de9889492b886a160f157ed3c4cd3ebbcd8c7d685019de`。
+
+新终端第一次显示 Sixel 图像时，尚未定义的共享颜色现在和 XTerm 一样是黑色。七个启动、复位和私有色表场景从 2/7 改善到 7/7。[实际窗口与 XTerm 对照](../research/shared-bank-start.md)。同一 EXE 的 [交互测试](../research/shared-bank-aggregate-6bed777.zip)通过 78/80；未通过的两项都是在 Codex 刚启动时贴图，等待编辑器就绪后两种贴图方式均通过。六种 160×48 压力负载的前端私有工作集最高为 GDI **18.678 MB**、DirectX **29.200 MB**。[完整 CI](https://github.com/xiongnemo/nemoterm/actions/runs/44486109121) · [历史测试版](#开发快照)。
+
 [下载 Windows x64 单文件测试版 `e02f0d0`](https://github.com/xiongnemo/nemoterm/actions/runs/44477059678/artifacts/14507241831)。解压后只需 `nemoterm.exe`；EXE 的 SHA-256 为 `be28e4e503383070855dac42d679c5427e224a68c3fb13195f7d2b820d0f2120`。
 
 按住 Shift 和鼠标左键之后，如果原来的字被滚出缓冲区或被分栏边界截断，松手会取消选择，右键也不会复制顶上来的文字。原字还在屏幕或滚动历史里时仍然能选。保持应用鼠标跟踪的 32 项丢字用例和 4 项实际键鼠均通过。同一 EXE 两轮六种 160×48 压力负载的前端私有工作集最高为 GDI **19.337 MB**、DirectX **29.372 MB**。[全组交互回放 79/80](../research/interaction-all-discard-e02f0d0.zip)，未通过的是 Codex 启动时的真实键盘贴图。[选区前后截图](../research/selection-discarded-scroll.md) · [本版交互、内存与未通过项](../research/interaction-preview-e02f0d0.md) · [完整 CI](https://github.com/xiongnemo/nemoterm/actions/runs/44477059678) · [历史测试版](#开发快照)。
@@ -60,6 +64,8 @@
 历史开发构建 `329019d` 的单 EXE 为 4,800,000 字节；来源与 SHA-256 见 [本轮记录](../research/terminfo-product-regression.md)，新的 DirectX 30 MB 验收见[专项回放](../research/directx-30mb.md)。此前迁移基线 `2312edd` 为 19/19 全绿，但尚未包含后来新增的完整 Sarasa 网格门槛，见 [迁移基线](../research/remote-test-migration.md)。历史语言预览保留在 [语言预览记录](../research/i18n.md)，不将旧版本结果套用于新 EXE。
 
 ## 内存
+
+在同一台 GitHub Windows runner 上，用 Sarasa Light、160×48 和同一个 Codex 客户端运行 `6bed777`。收到回复后，单标签 GDI 前端的稳定私有工作集为 **5.075–5.091 MB**，DirectX 为 **9.699–9.728 MB**；同机 pterm 0.85 对照为 **3.744–3.781 MB**。每种配置分别按正序、反序冷启动。这些数值只统计前端进程；满屏图文的峰值另行验收。[完整采样与测试条件](../research/shared-bank-start.md)。
 
 在同一台 GitHub Windows runner 上，用 Sarasa Light、160×48 和同一个 Codex 客户端运行 `e02f0d0`。收到回复后，单标签 GDI 前端的稳定私有工作集为 **5.362–5.419 MB**，DirectX 为 **10.027–10.031 MB**；同机 pterm 0.85 对照为 **3.748–3.781 MB**。每种配置分别按正序、反序冷启动。这些数值只统计前端进程；满屏图文的峰值另行验收。[完整采样与测试条件](../research/interaction-preview-e02f0d0.md)。
 

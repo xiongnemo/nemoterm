@@ -33,9 +33,9 @@ Kitty 图片支持直接 RGB/RGBA/PNG、压缩传输、裁剪、透明度、查�
 
 ## 下载
 
-[下载 Windows x64 单文件测试版 `6bed777`](https://github.com/xiongnemo/nemoterm/actions/runs/44486109121/artifacts/14511425344)。解压后只需 `nemoterm.exe`；EXE 的 SHA-256 为 `e50c888b1933893896de9889492b886a160f157ed3c4cd3ebbcd8c7d685019de`。
+[下载 Windows x64 单文件测试版 `bec4002`](https://github.com/xiongnemo/nemoterm/actions/runs/44491317295/artifacts/14512847979)。解压后只需 `nemoterm.exe`；EXE 的 SHA-256 为 `9f43a0ddc23219f3ac3974fee73b3b6f8de8f45c63adf3e668d7eef99984275e`。
 
-新终端第一次显示 Sixel 图像时，尚未定义的共享颜色现在和 XTerm 一样是黑色。七个启动、复位和私有色表场景从 2/7 改善到 7/7。[实际窗口与 XTerm 对照](research/shared-bank-start.md)。同一 EXE 的 [交互测试](research/shared-bank-aggregate-6bed777.zip)通过 78/80；未通过的两项都是在 Codex 刚启动时贴图，等待编辑器就绪后两种贴图方式均通过。六种 160×48 压力负载的前端私有工作集最高为 GDI **18.678 MB**、DirectX **29.200 MB**。[完整 CI](https://github.com/xiongnemo/nemoterm/actions/runs/44486109121) · [历史测试版](docs/PREVIEW_HISTORY.md)。
+本版修复了同时复制到位图和空文本时 Ctrl+Shift+V 没有反应的问题。非空文本和文件列表仍然优先。已就绪的真实 Codex 四项贴图全部通过，原生子进程十项输入全部通过；OpenCode 的正文及标题请求另外记录。[贴图动作与逐像素验证](research/clipboard-empty-text.md)。同一 EXE 的 13 份交互分组记录共 78/80，未通过的两项均为 Codex 启动即贴纯位图。六种 160×48 压力负载，前端私有工作集峰值为 GDI **19.137 MB**、DirectX **28.750 MB**。[原始内存与交互记录](research/clipboard-aggregate-bec4002.zip) · [完整 CI](https://github.com/xiongnemo/nemoterm/actions/runs/44491317295) · [历史测试版](docs/PREVIEW_HISTORY.md)。
 
 在 Codex 0.167.0 中，请等编辑器就绪后再贴图，看到输入框中出现图片附件再发送。启动草稿可能接受文字却忽略贴图，窗口标题也不能可靠地判断是否就绪。[实际提交与截图](research/codex-file-draft-order.md) · [按键后 Windows 何时索取位图](research/codex-bitmap-requests.md)。
 
@@ -173,7 +173,7 @@ GPU 模式使用 Windows 系统 DLL 与显卡驱动，不新增分发文件；�
 
 这里的 MB 按十进制字节计，20 MB 为 20,000,000 字节，30 MB 为 30,000,000 字节；私有工作集与私有提交量分别记录。
 
-在同一台 GitHub Windows runner 上，用 Sarasa Light、160×48 和同一个 Codex 客户端运行本版。收到回复后，单标签 GDI 前端的稳定私有工作集为 **5.075–5.091 MB**，DirectX 为 **9.699–9.728 MB**；同机 pterm 0.85 对照为 **3.744–3.781 MB**。每种配置分别按正序、反序冷启动。这些数值只统计前端进程；满屏图文的峰值另行验收。[完整采样与测试条件](research/shared-bank-start.md) · [历史内存记录](docs/PREVIEW_HISTORY.md#内存)。
+在同一台 GitHub Windows runner 上，用 Sarasa Light、160×48 和同一个 Codex 客户端运行本版。收到回复后，单标签 GDI 前端的稳定私有工作集为 **5.095–5.116 MB**，DirectX 为 **9.699–9.728 MB**；同机 pterm 0.85 对照为 **3.740–3.781 MB**。每种配置分别按正序、反序冷启动。这些数值只统计前端进程；满屏图文的峰值另行验收。[完整采样与测试条件](research/clipboard-empty-text.md) · [历史内存记录](docs/PREVIEW_HISTORY.md#内存)。
 切回 GDI 后，驱动保留的内存可能需要关闭窗口才能释放。
 
 “单 EXE”指一个分发文件：程序仍会启动同一个 EXE 的隐藏控制台宿主进程，并运行所选 shell。
