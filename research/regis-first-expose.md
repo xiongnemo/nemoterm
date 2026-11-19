@@ -19,3 +19,5 @@
 ```text
 python scripts/compare-regis-first-expose.py <reference-14504102884.zip> 5d5f70d403d6703fb350f1f7559da2b2674f6d9df4c7a75d1e23f4057a3e6bb0 <component-14503581061.zip> 40c74cd4ca36d2ac9b8494de442cb3dee22f7d0af80afef8c8f539b038a2a2b5 report.json
 ```
+
+[实际 Windows 窗口的逐帧回放](regis-presented-pairs.md)补充了 GDI 重绘前后的结果，并发现新终端首次使用共享 Sixel 色号时与预填色表的组件测试不同。
