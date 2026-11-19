@@ -5656,32 +5656,49 @@ static void check_trust_status(Terminal *term, termline *line)
     }
 }
 
+/* A released block names display columns and an inclusive range of rows.
+ * When only a pane scrolls, rows outside it stay put. Follow the surviving
+ * source rows if they still make one block; never bridge an unselected row
+ * by extending the highlight. The text already copied is independent. */
+static bool scroll_selected_block(Terminal *term, int top, int bottom, int delta)
+{
+    if (term->selstate != SELECTED || term->seltype != RECTANGULAR)
+        return false;
+    int first = term->selstart.y, last = term->selend.y;
+    if (last < top || first > bottom || !delta) return true;
+
+    int64_t moved_first = max((int64_t)top, (int64_t)max(first, top) + delta);
+    int64_t moved_last = min((int64_t)bottom, (int64_t)min(last, bottom) + delta);
+    struct row_span { int lo, hi; } spans[3];
+    size_t n = 0;
+    if (first < top) spans[n++] = (struct row_span){first, top-1};
+    if (moved_first <= moved_last)
+        spans[n++] = (struct row_span){(int)moved_first, (int)moved_last};
+    if (last > bottom) spans[n++] = (struct row_span){bottom+1, last};
+    for (size_t i = 1; i < n; i++) {
+        if ((int64_t)spans[i-1].hi + 1 != spans[i].lo) {
+            deselect(term);
+            return true;
+        }
+    }
+    if (!n) {
+        deselect(term);
+    } else {
+        int64_t anchor = term->selanchor.y;
+        if (anchor >= top && anchor <= bottom) anchor += delta;
+        term->selstart.y = spans[0].lo;
+        term->selend.y = spans[n-1].hi;
+        term->selanchor.y = (int)max((int64_t)term->selstart.y,
+                                     min((int64_t)term->selend.y, anchor));
+    }
+    return true;
+}
+
 /*
  * Scroll the screen. (`lines' is +ve for scrolling forward, -ve
  * for backward.) `sb' is true if the scrolling is permitted to
  * affect the scrollback buffer.
  */
-/* A block names the same display columns on every selected row, and both
- * row endpoints are inclusive. Clip only its rows as they leave the moving
- * region. Stream selection instead clips a lost endpoint to a line break. */
-static bool scroll_selected_block(Terminal *term, int top, int bottom, int delta)
-{
-    if (term->selstate != SELECTED || term->seltype != RECTANGULAR ||
-        term->selstart.y < top || term->selend.y > bottom)
-        return false;
-
-    if ((delta < 0 && term->selend.y == top) ||
-        (delta > 0 && term->selstart.y == bottom)) {
-        deselect(term);
-    } else {
-        term->selstart.y = max(top, term->selstart.y + delta);
-        term->selend.y = min(bottom, term->selend.y + delta);
-        term->selanchor.y = max(term->selstart.y,
-                                min(term->selend.y, term->selanchor.y + delta));
-    }
-    return true;
-}
-
 static void scroll(Terminal *term, int topline, int botline,
                    int lines, bool sb)
 {
@@ -5736,6 +5753,11 @@ static void scroll(Terminal *term, int topline, int botline,
         return;
     }
 
+    /* Transform once for the whole command: intermediate single-row moves
+     * can temporarily split a selection which is contiguous at the end. */
+    bool block = scroll_selected_block(term,
+        lines > 0 && sb ? -term->savelines : topline, botline,
+        -max(-scrollwinsize, min(lines, scrollwinsize)));
     if (lines < 0) {
         lines = -lines;
         if (lines > scrollwinsize)
@@ -5755,7 +5777,7 @@ static void scroll(Terminal *term, int topline, int botline,
                      term->selanchor.y < botline)
                 term->selanchor.y++;
 
-            if (scroll_selected_block(term, topline, botline, +1))
+            if (block)
                 continue;
 
             if (term->selstart.y >= topline && term->selstart.y <= botline) {
@@ -5841,7 +5863,7 @@ static void scroll(Terminal *term, int topline, int botline,
              * selected as we speak).
              */
             seltop = sb ? -term->savelines : topline;
-            if (scroll_selected_block(term, seltop, botline, -1))
+            if (block)
                 continue;
 
             /* A top row can still be selected in real scrollback. Lose the

@@ -806,6 +806,44 @@ static void test_block_clipping(Mock *mk)
     }
 }
 
+static void test_block_crossing_region(Mock *mk)
+{
+    /* Source rows 2..5 move. In particular, with a four-row scroll the
+     * entire pane is replaced: keep a stationary prefix or suffix alone. */
+    static const struct { int from, to, lines, first, last; } cases[] = {
+        {0,2,1,0,1}, {5,7,-1,6,7}, {1,3,-1,-1,-1}, {4,6,1,-1,-1},
+        {1,3,-4,1,1}, {4,6,4,6,6}, {3,4,-1,4,5}, {2,3,2,-1,-1},
+        {0,1,-1,0,1}, {6,7,1,6,7}, {0,7,2,-1,-1}, {0,7,-2,-1,-1},
+        {1,4,1,1,3}, {3,6,-1,4,6}, {1,4,-99,1,1}, {3,6,99,6,6},
+    };
+    for (size_t i = 0; i < lenof(cases); i++) {
+        for (int reverse = 0; reverse <= 1; reverse++) {
+            mouse_setup(mk, "Rectangular selection spanning fixed and moving rows", "");
+            term_size(mk->term,8,12,0);
+            term_data_fragmented(mk->term,
+                "row0abcd\r\nrow1efgh\r\nrow2ijkl\r\nrow3mnop\r\nrow4qrst\r\n"
+                "row5uvwx\r\nrow6yzAB\r\nrow7CDEF\033[3;6r\033[?1002;1006h");
+            int a = reverse ? cases[i].to : cases[i].from;
+            int b = reverse ? cases[i].from : cases[i].to;
+            send_mouse(mk,MBT_LEFT,MA_CLICK,3,a,true,true,false);
+            send_mouse(mk,MBT_LEFT,MA_RELEASE,6,b,false,false,false);
+            IEQUAL(mk->term->selstate,SELECTED);
+            char seq[32];
+            snprintf(seq,sizeof(seq),"\033[%d%c",abs(cases[i].lines),cases[i].lines>0?'S':'T');
+            term_data_fragmented(mk->term,seq);
+            if (cases[i].first < 0) {
+                IEQUAL(mk->term->selstate,NO_SELECTION);
+            } else {
+                IEQUAL(mk->term->selstate,SELECTED);
+                IEQUAL(mk->term->selstart.y,cases[i].first); IEQUAL(mk->term->selend.y,cases[i].last);
+                IEQUAL(mk->term->selstart.x,3); IEQUAL(mk->term->selend.x,7);
+                IEQUAL(mk->term->selanchor.y,reverse?cases[i].last:cases[i].first);
+            }
+            MOUSE_BYTES("");
+        }
+    }
+}
+
 static void test_zoom_policy(Mock *mk)
 {
     test_context(mk, "zoom leaves application Ctrl wheels alone; Shift forces local zoom");
@@ -852,6 +890,7 @@ int main(void)
     test_shift_selection(mk);
     test_ctrl_rectangle(mk);
     test_block_clipping(mk);
+    test_block_crossing_region(mk);
     test_selection_cursor_traffic(mk);
     test_zoom_policy(mk);
 
