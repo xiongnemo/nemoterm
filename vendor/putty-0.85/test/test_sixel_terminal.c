@@ -1058,10 +1058,12 @@ static void test_sixel_implicit_background(Mock *mk)
     check_image_accounting(mk);
 }
 
-/* Run before any test helper that performs a terminal reset. */
-static void test_first_shared_palette(Mock *mk)
+/* A fresh terminal: neither RIS nor another case's cell size is inherited. */
+static bool first_shared_palette_failed(void)
 {
-    Terminal *t = mk->term;
+    Mock *mk = mock_new();
+    Terminal *t = mk->term = term_init(mk->conf, mk->ucsdata, &mk->tw);
+    mk->ldisc = ldisc_create(mk->conf, t, &mk->backend, &mk->seat);
     term_size(t, 12, 40, 0);
     term_set_cell_size(t, 6, 13);
     test_context(mk, "fresh shared Sixel colours, private colours and RIS");
@@ -1073,6 +1075,9 @@ static void test_first_shared_palette(Mock *mk)
         palette_pixels(mk, t->images->next, 0, 1, UINT32_C(0xff33cc33));
     term_data_fragmented(t, "\033c\033[?1070l\033P9;1q#3~\033\\");
     palette_pixels(mk, t->images, 0, 1, UINT32_C(0xff33cc33));
+    bool failed = mk->any_test_failed;
+    mock_free(mk);
+    return failed;
 }
 
 #include "test_iterm_terminal.inc"
@@ -1084,7 +1089,6 @@ int main(void)
     Mock *mk = mock_new();
     mk->term = term_init(mk->conf, mk->ucsdata, &mk->tw);
     mk->ldisc = ldisc_create(mk->conf, mk->term, &mk->backend, &mk->seat);
-    test_first_shared_palette(mk);
     test_sixel_framing(mk);
     test_sixel_erase(mk);
     test_sixel_screen_lifecycle(mk);
@@ -1116,6 +1120,7 @@ int main(void)
     test_kitty_terminal(mk);
     bool failed = mk->any_test_failed;
     mock_free(mk);
+    if (first_shared_palette_failed()) failed = true;
     puts(failed ? "Sixel terminal suite FAILED" : "Sixel terminal suite passed");
     return failed ? 1 : 0;
 }
