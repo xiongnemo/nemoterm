@@ -72,4 +72,5 @@ def verify(hwnd, begin, point, capture, tile, copy, barrier, evidence, desktop=N
                     except AssertionError: pass
                 row['highlighted']=highlight();capture('selection-'+name+'-selected.png')
                 row['passed']=(row['copied']==row['expected'] and row['highlighted']==row['expected_highlight'])
-    assert all(r['passed'] for r in records),records
+    assert len(records)==(2 if desktop else 8),records
+    return all(r['passed'] for r in records)
