@@ -2,6 +2,7 @@
 from native_test_utils import (root,c,w,u,k,hashlib,json,os,subprocess,sys,tempfile,
     Path,read_snapshot,write_snapshot,wait_snapshot,wait_for,find_window,find_windows)
 from owned_job import OwnedJob
+from session_clipboard_fixture import pending_paste, check_receivers
 from session_dialog_observer import acknowledge_disconnect, owned_windows
 import argparse
 import time
@@ -20,8 +21,11 @@ u.GetSystemMenu.argtypes,u.GetSystemMenu.restype=[w.HWND,w.BOOL],w.HMENU
 u.GetMenuState.argtypes,u.GetMenuState.restype=[w.HMENU,w.UINT,w.UINT],w.UINT
 evidence=dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),
     completed=False,cycles=[],instrumented=not args.native_dialogs,
-    clipboard='not exercised' if args.native_dialogs else 'synthetic request; real clipboard untouched', dialogs=[])
+    clipboard='real delayed CF_UNICODETEXT', dialogs=[], paste_cycles=[])
 with winreg.CreateKey(winreg.HKEY_CURRENT_USER,keypath) as key:
+    if font:=os.environ.get('NEMOTERM_TEST_FONT'):
+        winreg.SetValueEx(key,'Font',0,winreg.REG_SZ,font)
+        evidence['profile_font']=font
     for name,value in dict(WarnOnClose=0,CloseOnExit=0,NemoRenderer=0).items():
         winreg.SetValueEx(key,name,0,winreg.REG_DWORD,value)
 try:
@@ -64,31 +68,30 @@ try:
                 script.load();script.exports_sync.inactive_dialogs()
             for index in range(4):
                 old_identity=original['identity'];old_pid=original['pid']
-                write_snapshot(original['control'],dict(stop=True))
-                if args.native_dialogs:
-                    modal=dict(cycle=index);evidence['dialogs'].append(modal)
-                    acknowledge_disconnect(process.pid,hwnd,other_hwnd,modal)
-                menu=u.GetSystemMenu(hwnd,False)
-                wait_for(lambda:u.GetMenuState(menu,0x40,0)!=0xffffffff,timeout=15)
-                assert u.IsWindow(hwnd) and u.IsWindow(other_hwnd) and process.poll() is None
-                output(other,'ACTIVE-WHILE-OTHER-INACTIVE')
-                if not args.native_dialogs:script.exports_sync.paste(hex(hwnd),hex(old_identity),'DISCONNECTED')
-                u.SendMessageW(hwnd,0x111,0x40,0)
-                original=child(hwnd)
-                assert original['identity'] and original['identity']!=old_identity
-                assert original['pid']!=old_pid
-                output(original,'RESTARTED')
+                stale,fresh=f'OLD-SHELL-{index}',f'NEW-SHELL-{index}'
+                receipt=dict(index=index,old_session=old_identity);evidence['paste_cycles'].append(receipt)
+                with pending_paste(hwnd,other_hwnd,stale,receipt) as release:
+                    write_snapshot(original['control'],dict(stop=True))
+                    if args.native_dialogs:
+                        modal=dict(cycle=index);evidence['dialogs'].append(modal)
+                        acknowledge_disconnect(process.pid,hwnd,other_hwnd,modal)
+                    menu=u.GetSystemMenu(hwnd,False)
+                    wait_for(lambda:u.GetMenuState(menu,0x40,0)!=0xffffffff,timeout=15)
+                    assert u.IsWindow(hwnd) and u.IsWindow(other_hwnd) and process.poll() is None
+                    output(other,'ACTIVE-WHILE-OTHER-INACTIVE')
+                    u.SendMessageW(hwnd,0x111,0x40,0)
+                    original=child(hwnd)
+                    assert original['identity'] and original['identity']!=old_identity
+                    assert original['pid']!=old_pid
+                    output(original,'RESTARTED')
+                    receipt['new_session']=original['identity']
+                    release()
+                    check_receivers(original,other,other_hwnd,stale,fresh,barrier,receipt)
                 if args.native_dialogs:
                     token=('RESTART-KEYS-%d'%index).encode()
                     for byte in token:u.SendMessageW(hwnd,0x102,byte,0)
                     assert token.hex() in barrier(original)['hex']
                     assert token.hex() not in barrier(other)['hex']
-                else:
-                    script.exports_sync.paste(hex(hwnd),hex(old_identity),'OLD-SHELL')
-                    assert b'OLD-SHELL'.hex() not in barrier(original)['hex']
-                    script.exports_sync.paste(hex(hwnd),hex(original['identity']),'NEW-SHELL')
-                    assert b'NEW-SHELL'.hex() in barrier(original)['hex']
-                    assert b'NEW-SHELL'.hex() not in barrier(other)['hex']
                 evidence['cycles'].append(dict(index=index,old_session=old_identity,
                     new_session=original['identity'],old_pid=old_pid,new_pid=original['pid']))
             if args.native_dialogs:assert len(evidence['dialogs'])==4

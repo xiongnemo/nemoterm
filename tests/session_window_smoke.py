@@ -6,6 +6,7 @@ owned HWNDs; this is session-core evidence, not four-sided tab UI acceptance.
 from native_test_utils import (root,c,w,u,k,hashlib,json,os,subprocess,sys,tempfile,
     Path,time,read_snapshot,write_snapshot,wait_snapshot,wait_for,memory_sample)
 from owned_job import OwnedJob
+from session_clipboard_fixture import pending_paste, check_receivers
 import argparse
 import frida
 import uuid
@@ -37,6 +38,9 @@ def windows(pid):
     return found
 
 with winreg.CreateKey(winreg.HKEY_CURRENT_USER,keypath) as key:
+    if font:=os.environ.get('NEMOTERM_TEST_FONT'):
+        winreg.SetValueEx(key,'Font',0,winreg.REG_SZ,font)
+        evidence['profile_font']=font
     for name,value in dict(WarnOnClose=0,CloseOnExit=1,NemoRenderer=
             {'gdi':0,'opengl':1,'directx':2}[args.renderer]).items():
         winreg.SetValueEx(key,name,0,winreg.REG_DWORD,value)
@@ -150,13 +154,15 @@ try:
             output(third);output(recovered)
             evidence['checks'].append('window creation failure frees a partial seat and preserves both running sessions')
             output(recovered)
-            script.exports_sync.paste(hex(recovered['hwnd']),hex(third['session']),'STALE-PASTE')
-            assert b'STALE-PASTE'.hex() not in barrier(recovered)['hex']
-            script.exports_sync.paste(hex(recovered['hwnd']),hex(recovered['session']),'VALID-PASTE')
-            assert b'VALID-PASTE'.hex() in barrier(recovered)['hex']
-            assert b'VALID-PASTE'.hex() not in barrier(third)['hex']
+            doomed=duplicate(recovered)
+            receipt=evidence['delayed_clipboard']={}
+            stale,fresh='CLOSED-PASTE','VALID-PASTE'
+            with pending_paste(doomed['hwnd'],third['hwnd'],stale,receipt) as release:
+                close(doomed,True)
+                release()
+                check_receivers(recovered,third,third['hwnd'],stale,fresh,barrier,receipt)
             assert not errors,errors
-            evidence['checks'].append('synthetic delayed paste rejects another session identity; valid paste stays isolated')
+            evidence['checks'].append('real paste completing after closure reaches neither live shell; a new paste reaches only its target')
             close(recovered,False);output(third)
             instrument.detach();instrument=None
             close(third,True);assert process.wait(timeout=15)==0

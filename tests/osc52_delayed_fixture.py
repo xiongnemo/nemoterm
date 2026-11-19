@@ -1,12 +1,16 @@
 """Hidden clipboard owner for testing delayed rendering, controlled by JSON."""
+import argparse
 import ctypes as c
 from ctypes import wintypes as w
 from pathlib import Path
-import sys
 import time
 from fixture_io import read_snapshot,write_snapshot
 
-report,control=map(Path,sys.argv[1:3])
+parser=argparse.ArgumentParser(description=__doc__)
+parser.add_argument('report',type=Path);parser.add_argument('control',type=Path)
+parser.add_argument('--long-hold',action='store_true')
+parser.add_argument('--text',default='delayed clipboard 秘密 😀')
+args=parser.parse_args();report,control=args.report,args.control
 u,k=c.windll.user32,c.windll.kernel32
 LRESULT=c.c_ssize_t
 WNDPROC=c.WINFUNCTYPE(LRESULT,w.HWND,w.UINT,w.WPARAM,w.LPARAM)
@@ -31,7 +35,7 @@ k.GlobalLock.argtypes=[w.HGLOBAL]; k.GlobalLock.restype=c.c_void_p
 k.GlobalUnlock.argtypes=[w.HGLOBAL]
 
 def render():
-    data=('delayed clipboard 秘密 😀\0').encode('utf-16-le')
+    data=(args.text+'\0').encode('utf-16-le')
     memory=k.GlobalAlloc(2,len(data)); assert memory
     pointer=k.GlobalLock(memory); assert pointer
     c.memmove(pointer,data,len(data)); k.GlobalUnlock(memory)
@@ -41,7 +45,7 @@ def render():
 def wndproc(hwnd,message,wp,lp):
     if message==0x305 and wp==13:  # WM_RENDERFORMAT, caller already holds clipboard
         write_snapshot(report,{'state':'rendering','hwnd':int(hwnd)})
-        deadline=time.monotonic()+(15 if sys.argv[3:]==['--long-hold'] else 5)
+        deadline=time.monotonic()+(15 if args.long_hold else 5)
         while not read_snapshot(control).get('release') and time.monotonic()<deadline:
             time.sleep(.01)
         render()
