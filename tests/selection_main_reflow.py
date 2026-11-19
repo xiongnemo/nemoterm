@@ -28,6 +28,10 @@ def verify(hwnd, begin, capture, resize, aim, barrier, desk, evidence):
             until=time.monotonic()+1.5
             while see(capture(return_pixels=True))!=selected and time.monotonic()<until: time.sleep(.04)
             observed=see(capture(tag+'-'+label+'.png',return_pixels=True));row['frames'].append(dict(stage=label,cols=cols,highlight=observed,expected=selected));return observed
+        def copy_at(stage):
+            begin(tag+'-copy-'+stage,'',preserve_mouse=True)
+            seq=u.GetClipboardSequenceNumber();desk.chord(0x11,0x10,ord('C'))
+            return dict(wire=barrier(None),text=clipboard_text(hwnd) if seq!=u.GetClipboardSequenceNumber() else None)
         try:
             assert frame('initial',80,[])==[]
             aim(76 if held else left,6);desk.event(0x10,True)
@@ -44,10 +48,10 @@ def verify(hwnd, begin, capture, resize, aim, barrier, desk, evidence):
                 desk.event(0x10,False);aim(left,6);desk.event(None,False);wait_for(lambda:desk.state().capture!=hwnd)
             expected=chosen if survives else [];frame('narrow',74,expected)
             row['gesture_wire']=barrier(None)
+            if survives:row['narrow_copy']=copy_at('narrow')
             resize(0,0);frame('wide',80,expected)
             if survives:
-                begin(tag+'-copy','',preserve_mouse=True);seq=u.GetClipboardSequenceNumber();desk.chord(0x11,0x10,ord('C'))
-                row['copy_wire']=barrier(None);row['copied']=clipboard_text(hwnd) if seq!=u.GetClipboardSequenceNumber() else None
+                wide=copy_at('wide');row['copy_wire']=wide['wire'];row['copied']=wide['text']
             begin(tag+'-right','',preserve_mouse=True);aim(76,6);seq=u.GetClipboardSequenceNumber();desk.event('right',True)
             try:wait_for(lambda:desk.state().capture==hwnd or seq!=u.GetClipboardSequenceNumber())
             finally:desk.event('right',False)
@@ -55,7 +59,7 @@ def verify(hwnd, begin, capture, resize, aim, barrier, desk, evidence):
             text='|ABCDEFGH|'[left-69:8] if survives else None
             mode=b'\x1b[?47;2$y\x1b[?1002;1$y\x1b[?1006;1$y';wire=b'' if survives else b'\x1b[<2;77;7M\x1b[<2;77;7m'
             row['passed']=(all(f['expected']==f['highlight'] for f in row['frames']) and row['gesture_wire']==(mode+ack*2).hex() and
-                           row.get('copied')==text==row['right_copy'] and (not survives or row['copy_wire']==(ack*2).hex()) and row['right_wire']==(ack+wire+ack).hex())
+                           row.get('copied')==text==row['right_copy'] and (not survives or (row['copy_wire']==(ack*2).hex() and row['narrow_copy']==dict(text=text,wire=(ack*2).hex()))) and row['right_wire']==(ack+wire+ack).hex())
         finally:
             for key in reversed(desk.held[:]):desk.event(key,False)
             resize(0,0)
