@@ -114,6 +114,23 @@ try:
             write_snapshot(root/'research/consecutive-right-clicks.json',proof)
             assert proof['actual']==proof['expected'] and proof['clipboard']=='TWO',proof
             evidence['checks'].append(dict(action='Right-click paste retains both selections in order',**proof))
+            # The next keyboard message can already be waiting when the right
+            # button is released. Send both on the same owned window thread.
+            request=phase('right-click-then-return','\x1b[2J\x1b[18;1H!RUN!\x1b[?1002;1006;2004h')
+            row=17
+            messages=[dict(message=m,keys=k,point=point(x,row)) for m,k,x in
+                      [(0x201,5,1),(0x200,5,3),(0x202,4,3),(0x204,2,1),(0x205,0,1)]]
+            action(mouse=messages+[dict(message=0x100,keys=13,point=0x001c0001),
+                                   dict(message=0x101,keys=13,point=0xc01c0001)])
+            wait_snapshot(snapshot,lambda v:b'\r' in bytes.fromhex(v.get('hex','')))
+            write_snapshot(control,dict(request,input_barrier='after-return'))
+            observed=wait_snapshot(snapshot,lambda v:v.get('input_barrier')=='after-return')
+            wanted=dsr+prefix+b'RUN'+suffix+b'\r'+dsr
+            proof=dict(expected=wanted.hex(),actual=observed['hex'],clipboard=clipboard_text(hwnd),
+                       executable_sha256=evidence['executable_sha256'],requested_font=font)
+            write_snapshot(root/'research/right-click-then-return.json',proof)
+            assert proof['actual']==proof['expected'] and proof['clipboard']=='RUN',proof
+            evidence['checks'].append(dict(action='Enter reaches the child after the short selection paste',**proof))
             phase('unbound-default','\x1b[?2004l')
             action(key=67,scan=46,modifiers=[16,17,160,162])
             action(key=86,scan=47,modifiers=[16,17,160,162])
