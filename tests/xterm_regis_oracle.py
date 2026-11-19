@@ -462,9 +462,11 @@ def main():
     parser.add_argument('--xterm',required=True)
     parser.add_argument('--output',required=True)
     group = parser.add_mutually_exclusive_group()
+    group.add_argument('--bank-start',action='store_true',help='Only the new shared-register cases and every original control, with both frame types')
     group.add_argument('--first-expose',action='store_true',help='Fresh XTerm for each selected input prefix; expose only at its last step')
     group.add_argument('--repaint',action='store_true',help='Also capture a full Expose after each unchanged step')
     args = parser.parse_args()
+    if args.bank_start: args.repaint=True
     output = Path(args.output).resolve()
     output.parent.mkdir(parents=True,exist_ok=True)
     base = output.with_suffix('')
@@ -476,7 +478,7 @@ def main():
         fixture_commit=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),
         fixture_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
         helper_sha256=hashlib.sha256(Path(__file__).with_name('xterm_locator_oracle.py').read_bytes()).hexdigest(),
-        repaint=args.repaint,first_expose=args.first_expose,cases={}, transport_mismatches=[], control_failures=[])
+        repaint=args.repaint,first_expose=args.first_expose,bank_start=args.bank_start,cases={}, transport_mismatches=[], control_failures=[])
     read_fd,write_fd = os.pipe()
     with (base/'xvfb.log').open('wb') as log:
         xvfb = subprocess.Popen(['Xvfb','-displayfd',str(write_fd),'-screen','0',
@@ -488,6 +490,8 @@ def main():
         display_name = ':'+os.read(read_fd,100).decode().strip()
         assert re.fullmatch(r':\d+',display_name), display_name
         scenes=cases()
+        if args.bank_start:
+            scenes={k:v for k,v in scenes.items() if k.startswith(('bank-start-','control-','erase-saved-')) or '-defined-palette-' in k}
         if args.first_expose:
             from regis_first_expose import targets, verify_prefixes
             scenes={tag:scenes[name][:last+1] for tag,(name,last) in targets().items()}

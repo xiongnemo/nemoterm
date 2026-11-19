@@ -14,6 +14,7 @@ from fixture_io import write_snapshot
 
 ROOT = Path(__file__).resolve().parents[1]
 ARCHIVE = 'd2ffea585f6477c2f71598107b7df74df8ebbc0e5f7c6bd1f0a5b13c4145604c'
+BANK_ARCHIVE = '2330a3808f2a1b2945eef5931328665ec72b8fda387ba6f22a9f82c5d8c86943'
 sha = lambda b: hashlib.sha256(b).hexdigest()
 
 
@@ -41,11 +42,20 @@ def mismatches(a,b):
 
 
 def run(tag):
-    source=(ROOT/'research/regis-first-expose-captures.zip').read_bytes(); assert sha(source)==ARCHIVE
+    bank=tag.startswith('bank-start-')
+    archive_hash=BANK_ARCHIVE if bank else ARCHIVE
+    filename='regis-bank-start-xterm.zip' if bank else 'regis-first-expose-captures.zip'
+    source=(ROOT/'research'/filename).read_bytes(); assert sha(source)==archive_hash
     ev={}; comparisons={}; historical_failures=[]; capture_failures=[]
     with ZipFile(io.BytesIO(source)) as ref:
         facts=json.loads(ref.read('reference/observations.json'))
-        scene,last=facts['targets'][tag]; upstream=facts['cases'][tag]['whole']
+        scene,last=(tag,0) if bank else facts['targets'][tag]
+        upstream=facts['cases'][tag]['whole']
+        if bank:
+            from shared_bank_start_cases import bank_starts
+            wire,=bank_starts()[tag.removeprefix('bank-start-')]
+            assert upstream['steps'][0]['sequence_hex']==wire.encode('ascii').hex()
+            assert facts['repaint'] and not facts['first_expose']
         assert facts['completed'] and upstream['completed'] and upstream['cell_pixels']==[6,13]
         assert not facts['control_failures'] and not facts['transport_mismatches']
         assert len(upstream['steps']) == last+1 and all('repaint' not in s for s in upstream['steps'][:-1])
@@ -78,6 +88,11 @@ def run(tag):
                 row=comparisons[label]=dict(samples=samples,reference_sha256=sha(reference.tobytes()),
                     samples_vs_reference=memo,last_sha256=digest,last_difference=memo[digest],last_stable_ms=stable_ms,
                     check_literal_pixels=comparison_required)
+                if bank:
+                    def stripes(image):
+                        return [sorted((count,bytes(rgb).hex()) for count,rgb in
+                                image.crop((x,0,x+4,6)).getcolors()) for x in range(0,16,4)]
+                    row.update(stripes=stripes(last_frame[0]),reference_stripes=stripes(reference))
                 if len(samples)<2 or stable_ms<80: capture_failures.append(label+': unsettled')
                 if comparison_required and row['last_difference']['pixels']: historical_failures.append(label)
                 return last_frame[0]
@@ -97,7 +112,7 @@ def run(tag):
                 passed=bool(occupied and occupied[2]<=7*6 and occupied[3]<=13 and 'CONTROL' in cells and
                             before.tobytes()==after.tobytes())
                 if not passed: capture_failures.append('text control')
-            write_snapshot(capture_dir/'paired.json',dict(tag=tag,scene=scene,step=last,archive_sha256=ARCHIVE,
+            write_snapshot(capture_dir/'paired.json',dict(tag=tag,scene=scene,step=last,archive_sha256=archive_hash,
                 transport='whole',font=os.environ['NEMOTERM_TEST_FONT'],cells=ev['cell_pixels'],
                 product_sha256=ev['executable_sha256'],reference_exe_sha256=facts['executable_sha256'],
                 frames=comparisons,before_vs_after=mismatches(before,after),
