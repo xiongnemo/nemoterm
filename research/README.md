@@ -2,6 +2,7 @@
 
 本目录只留当前工作的记录。测试所读取的固定输入另存于 [testdata/upstream](../testdata/upstream)；旧版截图、运行日志和原始失败均可从[清理前的提交](https://github.com/xiongnemo/nemoterm/tree/fca0e61388f99dd460811c231950d5d7c19a775e/research)查阅。
 
+- [WSL 配置在新标签和重启后的行为，以及不运行 Nemoterm 的退出对照](wsl-profile.md)。
 - [最新试用版 `fc769def` 的内存、真实客户端、跨会话粘贴和已知差异](acceptance-fc769def.md)；[主屏/备用屏下 Shift 选区的前后截图](selection-screen.md)。
 
 - 历史单文件 `cf091974`：[交互报告及六类压力场景的原始样本](preview-cf091974.zip)为 **81/81**，GDI 和 DirectX 私有工作集峰值分别为 **19,701,760 / 29,061,120 字节**。另有[真实客户端内存对照](agent-session-cf091974.zip)、[滚动中矩形复制](selection-region-after-cf091974.zip)和 [Vim、tmux、颜色与 Sixel](xterm-clients-cf091974.zip)的同一 EXE 记录。
