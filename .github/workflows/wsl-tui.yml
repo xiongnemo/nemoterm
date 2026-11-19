@@ -54,7 +54,7 @@ jobs:
       - name: Verify or install signed Ubuntu fixture packages over HTTPS
         shell: pwsh
         env:
-          WSL_FIXTURE_SUITE: ${{ inputs.suite == 'byte-path' && 'paste-quote' || inputs.suite }}
+          WSL_FIXTURE_SUITE: ${{ (inputs.suite == 'byte-path' || inputs.suite == 'drop') && 'paste-quote' || inputs.suite }}
         run: ./scripts/prepare-hosted-wsl-packages.ps1 -Suite $env:WSL_FIXTURE_SUITE
       - name: Prepare font and fixture
         if: inputs.suite != 'byte-path'
@@ -95,6 +95,9 @@ jobs:
           }
           if (-not $started) { throw 'WPR did not start; clipboard evidence retained independently' }
           exit $fixture
+      - name: Drop Explorer files into the active Linux distribution
+        if: inputs.suite == 'drop'
+        run: python build/wsl-check/tests/wsl_drop_paths.py
       - name: Compare a real WSL image against the libsixel decoder on GDI and DirectX
         if: inputs.suite == 'sixel'
         run: python build/wsl-check/tests/wsl_sixel_image.py
@@ -113,7 +116,7 @@ jobs:
       - if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
-          name: ${{ inputs.suite == 'byte-path' && 'wsl-byte-path' || inputs.suite == 'paste-quote' && 'wsl-paste-quote' || inputs.suite == 'sixel' && 'wsl-sixel' || inputs.suite == 'tmux-vim' && 'wsl-tmux-vim' || inputs.suite == 'vim' && 'wsl-vim' || inputs.suite == 'colour' && 'wsl-colour' || 'wsl-tui' }}-${{ github.run_id }}-${{ github.run_attempt }}
+          name: ${{ inputs.suite == 'drop' && 'wsl-drop' || inputs.suite == 'byte-path' && 'wsl-byte-path' || inputs.suite == 'paste-quote' && 'wsl-paste-quote' || inputs.suite == 'sixel' && 'wsl-sixel' || inputs.suite == 'tmux-vim' && 'wsl-tmux-vim' || inputs.suite == 'vim' && 'wsl-vim' || inputs.suite == 'colour' && 'wsl-colour' || 'wsl-tui' }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
             build/wsl-provision/*.log
             build/wsl-check/research/

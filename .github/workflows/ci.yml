@@ -114,6 +114,14 @@ jobs:
       run: ${{ github.run_id }}
       commit: ${{ github.sha }}
       suite: tmux-vim
+  wsl-drop:
+    if: ${{ inputs.scope == 'full' }}
+    needs: source-host
+    uses: ./.github/workflows/wsl-tui.yml
+    with:
+      run: ${{ github.run_id }}
+      commit: ${{ github.sha }}
+      suite: drop
   wsl-paste-quote:
     if: ${{ inputs.scope == 'full' }}
     needs: source-host
