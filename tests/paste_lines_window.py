@@ -66,6 +66,20 @@ def record_quote_pipe(path, details, cases):
         try: expected.decode('utf-8'); representable=True
         except UnicodeDecodeError: representable=False
         row['reference_representable_by_wide_receiver']=representable
+        # A Windows reader operates on Unicode. For quoted multibyte data,
+        # also demand a usable native result: a literal-next followed by each
+        # scalar, preserving the full text and leaving delimiters/Return alone.
+        native=expected
+        if not representable:
+            data=bytes.fromhex(cases[name]['paste_hex']); framed=data.startswith(b'\x1b[200~')
+            if framed:
+                assert data.endswith(b'\x1b[201~'); data=data[6:-6]
+            assert len(data)%2==0 and data[::2]==b'\x16'*(len(data)//2)
+            plain=data[1::2].decode('utf-8'); native=b''.join(b'\x16'+c.encode('utf-8') for c in plain)
+            if framed: native=b'\x1b[200~'+native+b'\x1b[201~'
+            native+=b'\r7'
+        row['expected_native_input_hex']=native.hex()
+        row['native_text_matches']=row['after_query_hex']==native.hex()
 
 
 def trial(kind, text, renderer, cases, digest, quote=False):
@@ -109,7 +123,7 @@ def trial(kind, text, renderer, cases, digest, quote=False):
     finally:
         (root/'research'/(label+'-keyboard.json')).write_text(json.dumps(details, indent=2))
     return all(r['mode_matches'] and (not quote or r['paste_pipe_matches']) and
-               (r['paste_and_return_match'] or (quote and not r['reference_representable_by_wide_receiver']))
+               (r['native_text_matches'] if quote else r['paste_and_return_match'])
                for r in details['cases'].values())
 
 
