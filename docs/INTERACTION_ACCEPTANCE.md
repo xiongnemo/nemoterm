@@ -6,6 +6,8 @@
 
 窗口宽度引起主屏软折行时，`selection` 组使用真实 Shift 拖动，核对选区内的字形、窄窗口与恢复后复制的文字，以及应用实际收到的鼠标事件。[修复前后回放和证据](../research/selection-reflow.md)。
 
+内存核对：从同一 EXE 的 Actions 下载源构建 ZIP、同机 24 轮 agent 对照 ZIP，以及 `interaction-memory-gdi`、`interaction-memory-directx` 两份 ZIP，按此顺序运行 `python scripts/review-frontend-memory.py SOURCE.zip AGENT.zip GDI.zip DX.zip`。脚本只读制品：它检查 EXE 的实际字节和三份来源清单，核对字体、真实网格、渲染器及进程数，然后从每个负载的逐次采样重新计算前端私有工作集、总工作集和私有提交峰值。三列的峰值不必来自同一时刻。
+
 ## 入口
 
 完整回归（包含重新构建）：
