@@ -1,6 +1,7 @@
 """A split TUI scrolls logical columns; Shift selects the painted glyphs."""
 from collections import Counter
 from native_test_utils import u, wait_for
+from clipboard_test_utils import clipboard_text
 
 
 COLOURS = ('42;72;100','80;45;71','43;86;49','101;54;41','61;43;102')
@@ -11,7 +12,7 @@ def coloured(chars):
     return ''.join('\x1b[48;2;'+rgb+'m'+ch for rgb,ch in zip(COLOURS,chars))+'\x1b[0m'
 
 
-def verify(hwnd, begin, point, capture, tile, copy, barrier, evidence, desktop=None):
+def verify(hwnd, begin, point, capture, tile, copy, barrier, evidence, desktop=None, await_input=None):
     records = evidence['split_scroll_system' if desktop else 'split_scroll_press'] = []
     def background(pic,x,y):
         t=tile(pic,x,y)
@@ -72,5 +73,18 @@ def verify(hwnd, begin, point, capture, tile, copy, barrier, evidence, desktop=N
                     except AssertionError: pass
                 row['highlighted']=highlight();capture('selection-'+name+'-selected.png')
                 row['passed']=(row['copied']==row['expected'] and row['highlighted']==row['expected_highlight'])
+                if desktop:
+                    # The default right-click should copy this selection without
+                    # pasting it, even while the program requests mouse reports.
+                    begin(name+'-right','');seq=u.GetClipboardSequenceNumber()
+                    desktop.event('right',True);desktop.event('right',False)
+                    wait_for(lambda:u.GetClipboardSequenceNumber()!=seq)
+                    row['right_copied']=clipboard_text(hwnd);row['right_wire']=barrier(None)
+                    begin(name+'-paste','');desktop.chord(0x11,0x10,ord('V'))
+                    await_input();row['paste_wire']=barrier(None)
+                    dsr=b'\x1b[0n'
+                    row['passed'] &= (row['right_copied']==row['expected'] and
+                        row['right_wire']==(dsr+dsr).hex() and
+                        row['paste_wire']==(dsr+row['expected'].encode()+dsr).hex())
     assert len(records)==(2 if desktop else 8),records
     return all(r['passed'] for r in records)

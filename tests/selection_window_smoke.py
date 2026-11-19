@@ -228,7 +228,11 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-selection-') as temporary:
                     seq=u.GetClipboardSequenceNumber();desktop.chord(0x11,0x10,ord('C'))
                     wait_for(lambda:u.GetClipboardSequenceNumber()!=seq)
                     return clipboard_text(hwnd)
-                split_system_ok=verify_split_scroll(hwnd,begin_phase,point,captured,tile,system_copy,no_forwarded_input,evidence,desktop)
+                def await_new_input():
+                    name=phase_request['phase']
+                    wait_snapshot(lambda:read_snapshot(report),lambda v:v.get('phase')==name and
+                                  len(bytes.fromhex(v.get('hex','')))>len(b'\x1b[0n'))
+                split_system_ok=verify_split_scroll(hwnd,begin_phase,point,captured,tile,system_copy,no_forwarded_input,evidence,desktop,await_new_input)
             finally:desktop.restore()
         assert split_messages_ok and split_system_ok, (evidence['split_scroll_press'],evidence.get('split_scroll_system'))
         evidence['completed']=True
