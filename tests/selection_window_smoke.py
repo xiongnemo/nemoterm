@@ -235,6 +235,7 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-selection-') as temporary:
                     wait_snapshot(lambda:read_snapshot(report),lambda v:v.get('phase')==name and
                                   len(bytes.fromhex(v.get('hex','')))>len(b'\x1b[0n'))
                 split_system_ok=verify_split_scroll(hwnd,begin_phase,point,captured,tile,system_copy,no_forwarded_input,evidence,desktop,await_new_input)
+                discard_ok=verify_discarded_scroll(hwnd,begin_phase,point,captured,tile,system_copy,no_forwarded_input,evidence,desktop,await_new_input) and discard_ok
             finally:desktop.restore()
         assert split_messages_ok and split_system_ok, (evidence['split_scroll_press'],evidence.get('split_scroll_system'))
         assert discard_ok,evidence['discarded_scroll_press']
