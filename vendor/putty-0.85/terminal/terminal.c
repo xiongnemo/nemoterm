@@ -4786,7 +4786,85 @@ static int nemo_reflow_length(Terminal *term, termline *line)
     return length;
 }
 
-static void nemo_reflow(Terminal *term, int rows, int cols, int savelines)
+/* Only map cells that reflow actually copies. In particular, a selection
+ * must never extend a trimmed line, keep a discarded row alive, or shift the
+ * cursor. Three cell positions and the geometry of one rectangle suffice. */
+typedef struct ReflowSelection {
+    pos src[3];                     /* first cell, last cell, pressed cell */
+    int x[3];
+    int64_t y[3], block_y, block_rows;
+    int block_x;
+    bool found[3], rectangle, lost;
+} ReflowSelection;
+
+static void lose_resize_selection(Terminal *term)
+{
+    if (term->selstate == ABOUT_TO || term->selstate == DRAGGING)
+        term->discarded_select_press = true;
+    deselect(term);
+}
+
+static bool reflow_selection_extent(Terminal *term, pos *a, pos *b)
+{
+    bool press = term->selstate == ABOUT_TO;
+    *a = press ? term->selanchor : term->selstart;
+    *b = press ? *a : term->selend;
+    if (!press) b->x--;  /* inclusive last source cell, not the next row's first */
+    if (a->y < -sblines(term) || b->y >= term->rows || a->y > b->y ||
+        a->x < 0 || a->x >= term->cols || b->x < 0 || b->x >= term->cols ||
+        ((term->seltype == RECTANGULAR || a->y == b->y) && a->x > b->x))
+        return false;
+    for (int y = a->y; y <= b->y; y++) {
+        termline *line = lineptr(y);
+        int right = term->seltype == RECTANGULAR || y == b->y ? b->x+1 : term->cols;
+        bool plain = !(line->lattr & LATTR_MODE) && !line->trusted &&
+            !(right == term->cols && line->cols > right && line->chars[right].chr == UCSWIDE) &&
+            !term_bidi_line(term, line, selection_bidi_slot(term, y));
+        unlineptr(line);
+        if (!plain) return false;
+    }
+    return true;
+}
+
+/* A run is a contiguous range of source cells copied to one output row.
+ * Never retain the source rows or a map proportional to the selection. */
+static void reflow_selection_run(ReflowSelection *s, int row, int first, int limit,
+                                 int x, int64_t y)
+{
+    if (!s || s->lost || row < s->src[0].y || row > s->src[1].y) return;
+    for (size_t i = 0; i < lenof(s->src); i++) {
+        pos p = s->src[i];
+        if (p.y == row && p.x >= first && p.x < limit) {
+            s->x[i] = x + (p.x-first); s->y[i] = y; s->found[i] = true;
+        }
+    }
+    if (!s->rectangle || s->src[0].x < first || s->src[1].x >= limit) return;
+    int left = x + (s->src[0].x-first);
+    if (!s->block_rows) { s->block_y = y; s->block_x = left; }
+    if (s->block_x != left || y != s->block_y + s->block_rows) s->lost = true;
+    s->block_rows++;
+}
+
+static void reflow_selection_finish(Terminal *term, ReflowSelection *s,
+                                    int64_t top, int history, int rows, int cols)
+{
+    pos dest[3];
+    if (s->rectangle && s->block_rows != (int64_t)s->src[1].y-s->src[0].y+1)
+        s->lost = true;
+    for (size_t i = 0; i < lenof(dest); i++) {
+        int64_t y = s->y[i]-top;
+        if (!s->found[i] || y < -history || y >= rows || s->x[i] >= cols) s->lost = true;
+        if (s->lost) { lose_resize_selection(term); return; }
+        dest[i] = (pos){ .x=s->x[i], .y=(int)y };
+    }
+    term->selanchor = dest[2];
+    if (term->selstate != ABOUT_TO) {
+        term->selstart = dest[0]; term->selend = dest[1]; term->selend.x++;
+    }
+}
+
+static void nemo_reflow(Terminal *term, int rows, int cols, int savelines,
+                        ReflowSelection *selection)
 {
     int history = count234(term->scrollback);
     size_t total = (size_t)history + term->rows;
@@ -4850,6 +4928,8 @@ static void nemo_reflow(Terminal *term, int rows, int cols, int savelines)
             continue;
         }
         if (fixed[i] || (src->lattr & LATTR_MODE) || src->trusted) {
+            if (selection && oldrow >= selection->src[0].y && oldrow <= selection->src[1].y)
+                selection->lost = true;
             if (r.line) nemo_reflow_emit(&r, true);
             rowmap[i] = r.count;
             while (r.nextmark < r.nmarks && r.marks[r.nextmark].row == oldrow) {
@@ -4878,9 +4958,12 @@ static void nemo_reflow(Terminal *term, int rows, int cols, int savelines)
                 length = max(length, r.point[p].col);
         /* Cursors can address blank cells beyond a lazily grown row. */
         if (length > src->cols) resizeline(term, src, length);
+        int run_start = 0, run_x = r.x;
         for (int x = 0; x < length;) {
             int width = x+1 < length && src->chars[x+1].chr == UCSWIDE ? 2 : 1;
             if (r.x && r.x + width > cols) {
+                reflow_selection_run(selection, oldrow, run_start, x, run_x, r.count);
+                run_start = x; run_x = 0;
                 if (r.x < cols) r.line->lattr |= LATTR_WRAPPED2;
                 nemo_reflow_emit(&r, true);
                 if (!x) rowmap[i] = r.count;
@@ -4894,6 +4977,7 @@ static void nemo_reflow(Terminal *term, int rows, int cols, int savelines)
             r.x += width;
             x += width;
         }
+        reflow_selection_run(selection, oldrow, run_start, length, run_x, r.count);
         nemo_reflow_point(&r, oldrow, length, 1);
         bool wrapped = src->lattr & LATTR_WRAPPED;
         freetermline(src);
@@ -4943,6 +5027,7 @@ static void nemo_reflow(Terminal *term, int rows, int cols, int savelines)
             p->dest->y = (int)y; p->dest->x = p->x;
         }
     }
+    if (selection) reflow_selection_finish(term, selection, top, newhistory, rows, cols);
     sfree(r.marks);
     nemo_shell_marks_rows(&term->shell_marks, -newhistory, rows-1, 0);
     for (NemoTermImage *im = term->images; im; im = im->next) {
@@ -4965,14 +5050,14 @@ static void nemo_reflow(Terminal *term, int rows, int cols, int savelines)
 /* Check both the old and new grid. The alternate screen is not reflowed;
  * the main screen is also a fixed grid when reflow is disabled. Keep a
  * selection only when its complete glyphs still occupy those columns. */
-static void check_selection_width(Terminal *term, int common_cols, bool fixed)
+static void check_selection_width(Terminal *term, int common_cols)
 {
     if (term->selstate == NO_SELECTION) return;
     bool press = term->selstate == ABOUT_TO;
     pos from = press ? term->selanchor : term->selstart;
     pos to = press ? from : term->selend;
     if (press) to.x++;
-    if (!fixed || from.y < 0 || to.y >= term->rows || from.y > to.y ||
+    if (from.y < 0 || to.y >= term->rows || from.y > to.y ||
         from.x < 0 || to.x <= from.x || to.x > common_cols ||
         (from.y != to.y && term->seltype != RECTANGULAR)) goto lost;
     for (int y = from.y; y <= to.y; y++) {
@@ -5081,8 +5166,17 @@ void term_size(Terminal *term, int newrows, int newcols, int newsavelines)
         term->alt_sblines : 0;
     bool width_changed = newcols != term->cols;
     int common_cols = min(newcols, term->cols);
-    if (width_changed)
-        check_selection_width(term, common_cols, save_alt_which || !reflow);
+    ReflowSelection mapping = {0}, *selection = NULL;
+    bool main_reflow = reflow && !save_alt_which;
+    if (main_reflow && term->selstate != NO_SELECTION) {
+        if (reflow_selection_extent(term, &mapping.src[0], &mapping.src[1])) {
+            mapping.src[2] = term->selstate == SELECTED ? mapping.src[0] : term->selanchor;
+            mapping.rectangle = term->seltype == RECTANGULAR;
+            selection = &mapping;
+        } else lose_resize_selection(term);
+    } else if (width_changed) {
+        check_selection_width(term, common_cols);
+    }
     int resize_view = term->disptop;
     swap_screen(term, 0, ALT_KEEP, false);
     if (!save_alt_which && reflow) term->disptop = resize_view;
@@ -5117,7 +5211,7 @@ void term_size(Terminal *term, int newrows, int newcols, int newsavelines)
      *    amount of scrollback we actually have, we must throw some
      *    away.
      */
-    if (reflow) nemo_reflow(term, newrows, newcols, newsavelines);
+    if (reflow) nemo_reflow(term, newrows, newcols, newsavelines, selection);
     sblen = count234(term->scrollback);
     int rows_to_history = 0;
     /* Do this loop to expand the screen if newrows > rows */
@@ -5274,7 +5368,10 @@ void term_size(Terminal *term, int newrows, int newcols, int newsavelines)
     swap_screen(term, save_alt_which, ALT_KEEP, false);
     resize_selection_rows(term, rows_to_history, old_alt_prefix);
     if (width_changed && term->selstate != NO_SELECTION) {
-        check_selection_width(term, common_cols, true);
+        if (main_reflow) {
+            pos a, b;
+            if (!reflow_selection_extent(term, &a, &b)) lose_resize_selection(term);
+        } else check_selection_width(term, common_cols);
         if (term->selstate == SELECTED) term->selection_copy_needs_refresh = true;
     }
     if (!save_alt_which && reflow) term->disptop = resize_view;

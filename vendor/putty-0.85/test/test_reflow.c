@@ -107,6 +107,47 @@ static void test_unicode_attributes_selection(Mock *mk)
     row(mk, 1, "next", false);
 }
 
+static void test_selection_follows_reflow(Mock *mk)
+{
+    Terminal *t = mk->term;
+    int clip = CLIP_LOCAL+1;
+    reflow_setup(mk, "a released visual span keeps wide and combining cells across wraps", 8, 10);
+    term_data_fragmented(t, "\033[?1002;1006hAB\xe4\xb8\xad" "e\xcc\x81" "CDEFG");
+    term_mouse(t, MBT_LEFT, MBT_SELECT, MA_CLICK, 6, 0, true, false, false);
+    term_mouse(t, MBT_LEFT, MBT_SELECT, MA_DRAG, 2, 0, true, false, false);
+    term_mouse(t, MBT_LEFT, MBT_SELECT, MA_RELEASE, 2, 0, true, false, false);
+    for (int pass = 0; pass < 2; pass++) {
+        mk->clipboard_writes = 0;
+        term_size(t, 8, pass ? 10 : 3, 2000);
+        IEQUAL(t->selstate, SELECTED); IEQUAL(mk->clipboard_writes, 0);
+        IEQUAL(t->selstart.x, pass ? 2 : 0); IEQUAL(t->selstart.y, pass ? 0 : 1);
+        IEQUAL(t->selend.x, pass ? 7 : 2); IEQUAL(t->selend.y, pass ? 0 : 2);
+        term_request_copy(t, &clip, 1); check_clipboard(mk, L"\x4e2d" L"e\x0301" L"CD");
+    }
+    reflow_setup(mk, "a reflowed block may move but cannot turn into unrelated columns", 8, 10);
+    term_data_fragmented(t, "\033[?1002;1006hABCDEFGH");
+    for (int cut = 0; cut <= 1; cut++) {
+        term_mouse(t, MBT_LEFT, MBT_SELECT, MA_CLICK, cut ? 3 : 5, 0, true, true, false);
+        term_mouse(t, MBT_LEFT, MBT_SELECT, MA_DRAG, 7, 0, true, true, false);
+        term_size(t, 8, 5, 2000);
+        IEQUAL(t->selstate, cut ? NO_SELECTION : DRAGGING);
+        term_mouse(t, MBT_LEFT, MBT_SELECT, MA_RELEASE, 2, 1, false, false, false);
+        IEQUAL(t->selstate, cut ? NO_SELECTION : SELECTED);
+        if (!cut) {
+            mk->clipboard_writes=0; term_request_copy(t, &clip, 1); check_clipboard(mk,L"FGH");
+        }
+        term_size(t, 8, 10, 2000);
+    }
+    reflow_setup(mk, "a discarded output row must not transfer its pressed cell", 4, 10);
+    term_data_fragmented(t, "ABCDEFGHIJ\r\nABCDEFGHIJ\r\nABCDEFGHIJ\033[H\033[?1002;1006h");
+    strbuf_clear(mk->to_backend);
+    term_mouse(t, MBT_LEFT, MBT_SELECT, MA_CLICK, 6, 2, true, false, false);
+    term_size(t, 4, 3, 0);
+    IEQUAL(t->selstate, NO_SELECTION); IEQUAL(t->discarded_select_press,true);
+    term_mouse(t, MBT_LEFT, MBT_SELECT, MA_RELEASE, 1, 1, false, false, false);
+    IEQUAL(t->discarded_select_press, false); IEQUAL(mk->to_backend->len, 0);
+}
+
 static void test_history_and_alternate(Mock *mk)
 {
     reflow_setup(mk, "width-only resize does not resurrect history after clear", 4, 12);
@@ -240,6 +281,7 @@ int main(void)
     mk->ldisc = ldisc_create(mk->conf, mk->term, &mk->backend, &mk->seat);
     test_text_and_cursor(mk);
     test_unicode_attributes_selection(mk);
+    test_selection_follows_reflow(mk);
     test_history_and_alternate(mk);
     test_fixed_rows(mk);
     test_copy_roundtrip(mk);
