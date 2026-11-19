@@ -36,6 +36,11 @@ jobs:
         env:
           RENDERER: ${{ matrix.renderer }}
         run: python tests/scrollback_modes_window.py --history-selection
+      - name: Preserve rectangular highlight columns as selected history rows are evicted
+        if: ${{ !cancelled() && env.NEMOTERM_TEST_FONT != '' }}
+        env:
+          RENDERER: ${{ matrix.renderer }}
+        run: python tests/selection_history_eviction.py
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
@@ -43,6 +48,7 @@ jobs:
           path: |
             research/scrollback-modes-*.json
             research/scrollback-held-history.json
+            research/scrollback-rectangle*
             build/scrollback-modes-product/SOURCE-HOST.json
             build/interaction-dependencies/environment.json
           if-no-files-found: error
