@@ -5661,6 +5661,27 @@ static void check_trust_status(Terminal *term, termline *line)
  * for backward.) `sb' is true if the scrolling is permitted to
  * affect the scrollback buffer.
  */
+/* A block names the same display columns on every selected row, and both
+ * row endpoints are inclusive. Clip only its rows as they leave the moving
+ * region. Stream selection instead clips a lost endpoint to a line break. */
+static bool scroll_selected_block(Terminal *term, int top, int bottom, int delta)
+{
+    if (term->selstate != SELECTED || term->seltype != RECTANGULAR ||
+        term->selstart.y < top || term->selend.y > bottom)
+        return false;
+
+    if ((delta < 0 && term->selend.y == top) ||
+        (delta > 0 && term->selstart.y == bottom)) {
+        deselect(term);
+    } else {
+        term->selstart.y = max(top, term->selstart.y + delta);
+        term->selend.y = min(bottom, term->selend.y + delta);
+        term->selanchor.y = max(term->selstart.y,
+                                min(term->selend.y, term->selanchor.y + delta));
+    }
+    return true;
+}
+
 static void scroll(Terminal *term, int topline, int botline,
                    int lines, bool sb)
 {
@@ -5733,6 +5754,9 @@ static void scroll(Terminal *term, int topline, int botline,
             else if (term->selstate == ABOUT_TO && term->selanchor.y >= topline &&
                      term->selanchor.y < botline)
                 term->selanchor.y++;
+
+            if (scroll_selected_block(term, topline, botline, +1))
+                continue;
 
             if (term->selstart.y >= topline && term->selstart.y <= botline) {
                 term->selstart.y++;
@@ -5817,6 +5841,9 @@ static void scroll(Terminal *term, int topline, int botline,
              * selected as we speak).
              */
             seltop = sb ? -term->savelines : topline;
+            if (scroll_selected_block(term, seltop, botline, -1))
+                continue;
+
             /* A top row can still be selected in real scrollback. Lose the
              * press only when that history slot or the region's top is lost. */
             if (term->selstate == ABOUT_TO && term->selanchor.y == seltop)

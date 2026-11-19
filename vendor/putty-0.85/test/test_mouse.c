@@ -778,6 +778,34 @@ static void test_ctrl_rectangle(Mock *mk)
     conf_set_int(mk->term->conf,CONF_nemo_rectangle_modifiers,2);
 }
 
+/* Both scroll directions, with the drag anchored at either end. Negative
+ * history coordinates are exercised separately in the actual Windows UI. */
+static void test_block_clipping(Mock *mk)
+{
+    for (int down = 0; down <= 1; down++) {
+        for (int reverse = 0; reverse <= 1; reverse++) {
+            mouse_setup(mk, "Block columns survive row eviction", "");
+            term_size(mk->term, 4, 12, 0);
+            term_data_fragmented(mk->term,
+                "row0abcd\r\nrow1efgh\r\nrow2ijkl\r\nrow3mnop\033[?1002;1006h");
+            int top = down ? 1 : 0, bot = top + 2;
+            send_mouse(mk, MBT_LEFT, MA_CLICK, reverse ? 6 : 3,
+                       reverse ? bot : top, true, true, false);
+            send_mouse(mk, MBT_LEFT, MA_RELEASE, reverse ? 3 : 6,
+                       reverse ? top : bot, false, false, false);
+            for (int i = 0; i < 3; i++) {
+                IEQUAL(mk->term->selstate, SELECTED);
+                IEQUAL(mk->term->selstart.x, 3); IEQUAL(mk->term->selend.x, 7);
+                IEQUAL(mk->term->selstart.y, down ? top+i : top);
+                IEQUAL(mk->term->selend.y, down ? bot : bot-i);
+                term_data_fragmented(mk->term, down ? "\033[1T" : "\033[1S");
+            }
+            IEQUAL(mk->term->selstate, NO_SELECTION);
+            MOUSE_BYTES("");
+        }
+    }
+}
+
 static void test_zoom_policy(Mock *mk)
 {
     test_context(mk, "zoom leaves application Ctrl wheels alone; Shift forces local zoom");
@@ -823,6 +851,7 @@ int main(void)
     test_unencodable_release_cancel(mk);
     test_shift_selection(mk);
     test_ctrl_rectangle(mk);
+    test_block_clipping(mk);
     test_selection_cursor_traffic(mk);
     test_zoom_policy(mk);
 
