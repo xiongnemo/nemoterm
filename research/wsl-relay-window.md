@@ -19,3 +19,16 @@
 退出不仅取决于输出管道的 EOF。旧转接器在子程序停止读输入、父端不再读输出、以及子程序先关掉自己的终端但仍继续运行时，都可能等不到前端已关闭的通知。[旧代码](https://github.com/xiongnemo/nemoterm/actions/runs/44616128897)在原生 Linux 的三项均超过 4 秒，实际由夹具的兜底闹钟退出；WSL1 复现后两项，第一项的旧夹具未成功证明管道堵满。[首次修复](https://github.com/xiongnemo/nemoterm/actions/runs/44616204175)保留了 WSL1 的测量失败：`select` 报可写不等于还能写下一整帧。
 
 [改为记录真正成功写入的帧后](https://github.com/xiongnemo/nemoterm/actions/runs/44616741427)，两台托管 runner 使用同一个 38,304 字节的静态 ELF（SHA-256 `8e292a12251c09a74349a17ab78b148ff7f819d2fa1dd19c48eb43279875a8fb`）。两端各通过 7 项字节/缩放/进程测试及 4 项关窗测试。堵满场景 Linux 接受 66 帧、WSL1 接受 68 帧，均发生连续超过 350 毫秒的写入停滞。三个异常关闭场景在 1.015–1.024 秒退出，子进程已回收；子程序只关闭终端、随后主动返回 37 时，仍得到 37。这里测试的是两端的真实管道关闭，不能单凭这条记录证明 Windows 用户实际点击标签时的临时文件回收。
+
+## 首个内嵌版本 `73b8630d`
+
+[Windows 单 EXE](https://github.com/xiongnemo/nemoterm/actions/runs/44617407295/artifacts/14575536516) 为 4,935,680 字节，SHA-256 `369e5a9b8e5fb8faee34be9a5b35304061350728a85a1996cd05c970c7591b62`。REA 的 PE 资源检查与文件字节对照均识别到 RCDATA 40003（38,304 字节），恰与同次 Linux 重建的 `8e292a12…` 转接器相同，RCDATA 40000 包含 musl 许可。
+
+| 同一份 EXE 上的检查 | 实际结果 |
+| --- | --- |
+| 正常启动和结束 WSL 应用 | [Vim / tmux 内 Vim](https://github.com/xiongnemo/nemoterm/actions/runs/44617938485/attempts/2) 共 8/8。每个窗口同时核对 GUI 临时文件与 Linux 父进程的路径和 SHA-256；退出后该文件均消失。覆盖普通点击、Shift 强制选区、矩形复制、实际 Ctrl+Shift+V、恢复备用屏幕，以及 Vim 确认 72×24、52×16 两次调整。GDI、DirectX 各覆盖 `xterm` 和 `xterm-256color`。第一次分派发生在源构建成功之前，被身份检查拒绝，没有启动 Vim。 |
+| 对照 XTerm 与 WSL 按行读取 | 12/12 组原始字节正确。按行读取 1/4 组取得完整数据，仍返回五段；其余三组在最后的哨兵超时，并由测试作业强制清理。强杀 GUI 遗留的三个临时 ELF 在原始制品中保留，不能将它们记为正常关闭。 |
+| 夹在两次粘贴之间的快速回车 | [单独的 Windows 复现](https://github.com/xiongnemo/nemoterm/actions/runs/44619482891)：一个独立剪贴板所有者收到取数请求后暂缓提供文字。真实键盘依次粘贴、按回车和 `7`、再次粘贴、按 `8`。GDI、DirectX 均在剪贴板仍未释放前就交付了回车和 `78`；随后才收到两份文本。它是前端按键排序问题，与 WSL1 的规范行边界分开处理。 |
+| 160×48，SarasaTermSC Nerd Light，多轮 Codex | [相同 runner 的 24 轮会话](https://github.com/xiongnemo/nemoterm/actions/runs/44618243646)均正常退出。前端私有工作集峰值：pterm 3,768,320、GDI 5,550,080、DirectX 9,723,904 字节；总工作集分别为 22,667,264、34,603,008、44,785,664 字节。 |
+
+[上述原始制品、散列与 PE 记录](wsl-bundled-73b8630d.zip)。这份 EXE 的行为不能代替后续排序修复的回放。
