@@ -27,10 +27,24 @@ jobs:
           scripts/fetch-ci-product.ps1 -Run $env:PRODUCT_RUN -Commit $env:PRODUCT_COMMIT -Destination build/column-product
           "NEMOTERM_TEST_EXE=$((Resolve-Path build/column-product/nemoterm.exe).Path)" | Out-File $env:GITHUB_ENV -Append -Encoding utf8
           scripts/prepare-remote-interaction.ps1
+      - name: Prepare a real desktop large enough for 160 by 48 Sarasa cells
+        shell: pwsh
+        run: |
+          $vswhere="${env:ProgramFiles(x86)}/Microsoft Visual Studio/Installer/vswhere.exe"
+          $vs=& $vswhere -latest -products '*' -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+          Import-Module "$vs/Common7/Tools/Microsoft.VisualStudio.DevShell.dll"
+          Enter-VsDevShell -VsInstallPath $vs -SkipAutomaticLocation -DevCmdArguments '-arch=x64 -host_arch=x64'
+          cl /nologo /W4 /WX /EHsc /std:c++17 tests/dpi_display_probe.cpp /Febuild/interaction-dependencies/dpi-display.exe /Fobuild/interaction-dependencies/dpi-display.obj user32.lib
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          ./scripts/prepare-full-grid-display.ps1
       - name: Compare upstream replies, Windows window dimensions and GDI text pixels
         env:
           RENDERER: ${{ matrix.renderer }}
         run: python tests/column_modes_window.py
+      - name: Restore the runner display and retain its measured geometry
+        if: always()
+        shell: pwsh
+        run: ./scripts/prepare-full-grid-display.ps1 -Restore
       - if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
@@ -39,4 +53,5 @@ jobs:
             research/column-mode-*
             build/column-product/SOURCE-HOST.json
             build/interaction-dependencies/environment.json
+            build/interaction-dependencies/full-grid-display.json
           if-no-files-found: error
