@@ -4948,6 +4948,49 @@ static void nemo_reflow(Terminal *term, int rows, int cols, int savelines)
     sfree(rowmap);
 }
 
+/* At unchanged width, surviving lines keep their character and display
+ * columns. The main grid moves as a unit when temporary history is pushed
+ * or pulled. The alternate grid stays at the top left; its virtual history
+ * may also include visible rows of the inactive main screen. */
+static void resize_selection_rows(Terminal *term, int pushed, int old_alt_prefix)
+{
+    if (term->selstate == NO_SELECTION) return;
+    bool press = term->selstate == ABOUT_TO;
+    int first = press ? term->selanchor.y : term->selstart.y;
+    int last = press ? first : term->selend.y;
+    bool exclusive_row = !press && term->seltype != RECTANGULAR &&
+        term->selend.x == 0 && last > first;
+    if (exclusive_row) last--;
+    int64_t delta = -(int64_t)pushed;
+    if (term->alt_which) {
+        int prefix = term->erase_to_scrollback ? term->alt_sblines : 0;
+        delta += (int64_t)old_alt_prefix - prefix;
+        if (first >= 0) delta = 0;
+        else if ((last >= 0 && delta != 0) || (last < 0 && last+delta >= 0))
+            goto lost; /* different banks or a gap inside the selected rows */
+    }
+    if (first+delta < -sblines(term) || last+delta >= term->rows) goto lost;
+
+    if (!press) {
+        term->selstart.y = (int)(first+delta);
+        term->selend.y = (int)(last+delta) + exclusive_row;
+    }
+    /* A released selection no longer uses its press to extend. Old edits
+     * may have left that anchor outside the current range. */
+    if (term->selstate == SELECTED &&
+        (term->selanchor.y < first || term->selanchor.y > last))
+        term->selanchor = term->selstart;
+    else
+        term->selanchor.y = (int)(term->selanchor.y+delta);
+    return;
+
+  lost:
+    /* Suppress the remaining motion/up from a lost local drag, even if the
+     * user releases Shift while the application is tracking the mouse. */
+    if (term->selstate != SELECTED) term->discarded_select_press = true;
+    deselect(term);
+}
+
 /*
  * Set up the terminal for a given size.
  */
@@ -4983,7 +5026,13 @@ void term_size(Terminal *term, int newrows, int newcols, int newsavelines)
     if (newcols < 1) newcols = 1;
     if (newsavelines < 0) newsavelines = 0;
 
-    deselect(term);
+    int old_alt_prefix = save_alt_which && term->erase_to_scrollback ?
+        term->alt_sblines : 0;
+    if (newcols != term->cols) {
+        if (term->selstate == ABOUT_TO || term->selstate == DRAGGING)
+            term->discarded_select_press = true;
+        deselect(term);
+    }
     int resize_view = term->disptop;
     swap_screen(term, 0, ALT_KEEP, false);
     if (!save_alt_which && reflow) term->disptop = resize_view;
@@ -5173,6 +5222,7 @@ void term_size(Terminal *term, int newrows, int newcols, int newsavelines)
 
     resize_view = term->disptop;
     swap_screen(term, save_alt_which, ALT_KEEP, false);
+    resize_selection_rows(term, rows_to_history, old_alt_prefix);
     if (!save_alt_which && reflow) term->disptop = resize_view;
 
     term->win_scrollbar_update_pending = true;

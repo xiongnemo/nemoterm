@@ -124,6 +124,54 @@ static void test_alternate_screen_resize(Mock *mk)
     IEQUAL(mk->term->curs.x, 7); IEQUAL(mk->term->curs.y, 1);
 }
 
+static void test_height_selection(Mock *mk)
+{
+    reset(mk);
+    test_context(mk, "height change follows selected glyphs into and out of history");
+    Terminal *t = mk->term;
+    mk->ucsdata->line_codepage = CP_UTF8;
+    term_size(t, 6, 10, 100);
+    term_data_fragmented(t, unicode_text);
+    term_data_fragmented(t, "\033[6;1H\033[?1002;1006h");
+    select_unicode(mk, 0, 0);
+    mk->clipboard_writes = 0;
+    term_size(t, 3, 10, 100);
+    IEQUAL(t->selstate, SELECTED); IEQUAL(t->selstart.y, -3);
+    IEQUAL(t->selend.y, -3); IEQUAL(t->selanchor.y, -3);
+    check_unicode_cells(mk, 0, -3, true);
+    term_size(t, 6, 10, 100);
+    IEQUAL(t->selstart.y, 0); IEQUAL(t->selend.y, 0);
+    IEQUAL(t->selstate, SELECTED); IEQUAL(mk->clipboard_writes, 0);
+    int clipboard = CLIP_LOCAL + 1;
+    term_request_copy(t, &clipboard, 1);
+    check_clipboard(mk, L"A\x4e2d" L"e\x0301Z");
+    term_size(t, 3, 10, 1); /* the selected historical row itself was evicted */
+    IEQUAL(t->selstate, NO_SELECTION);
+
+    test_context(mk, "lost local resize press does not select replacement text");
+    term_data_fragmented(t, "\033[?1049h\033[3;1Hlost\033[1;1Hsafe\033[?1002;1006h");
+    strbuf_clear(mk->to_backend);
+    term_mouse(t, MBT_LEFT, MBT_SELECT, MA_CLICK, 0, 2, true, true, false);
+    IEQUAL(t->selstate, ABOUT_TO);
+    term_size(t, 2, 10, 1);
+    IEQUAL(t->selstate, NO_SELECTION); IEQUAL(t->discarded_select_press, true);
+    term_mouse(t, MBT_LEFT, MBT_SELECT, MA_DRAG, 1, 0, false, false, false);
+    term_mouse(t, MBT_LEFT, MBT_SELECT, MA_RELEASE, 3, 0, false, false, false);
+    IEQUAL(t->selstate, NO_SELECTION); IEQUAL(t->discarded_select_press, false);
+    IEQUAL(mk->to_backend->len, 0);
+
+    test_context(mk, "rectangle survives a resize with its buttons still held");
+    term_mouse(t, MBT_LEFT, MBT_SELECT, MA_CLICK, 0, 0, true, true, false);
+    term_mouse(t, MBT_LEFT, MBT_SELECT, MA_DRAG, 1, 0, false, false, false);
+    term_size(t, 4, 10, 1);
+    IEQUAL(t->selstate, DRAGGING); IEQUAL(t->seltype, RECTANGULAR);
+    term_mouse(t, MBT_LEFT, MBT_SELECT, MA_RELEASE, 3, 0, false, false, false);
+    IEQUAL(t->selstate, SELECTED); IEQUAL(mk->to_backend->len, 0);
+    mk->clipboard_writes = 0;
+    term_request_copy(t, &clipboard, 1);
+    check_clipboard(mk, L"safe");
+}
+
 int main(void)
 {
     Mock *mk = mock_new();
@@ -132,6 +180,7 @@ int main(void)
     test_unicode_width_resize(mk);
     test_height_history_resize(mk);
     test_alternate_screen_resize(mk);
+    test_height_selection(mk);
     bool failed = mk->any_test_failed;
     mock_free(mk);
     puts(failed ? "Resize suite FAILED" : "Resize suite passed");
