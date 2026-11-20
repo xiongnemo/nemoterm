@@ -51,11 +51,14 @@ jobs:
         run: python tests/tab_hover_native.py
       - name: Check which tab a physical middle-button gesture may close
         run: python tests/tab_middle_native.py
+      - name: Check independent Shift selections immediately after right-click copy
+        run: python tests/tab_right_click_chain.py
       - if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: tab-hover-${{ env.SOURCE_KIND }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
             research/tab-hover-native/
+            research/tab-right-click-chain-observed.json
             build/interaction-dependencies/environment.json
           if-no-files-found: error
