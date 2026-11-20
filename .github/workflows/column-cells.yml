@@ -35,11 +35,23 @@ jobs:
       - name: Check the VT and Windows console rows after edits (DirectX)
         if: ${{ !cancelled() && steps.prepare.outcome == 'success' }}
         run: python tests/column_edit_native.py directx
+      - name: Prepare PNG capture for the two physical gestures
+        id: images
+        if: ${{ !cancelled() && steps.prepare.outcome == 'success' }}
+        run: python -m pip install Pillow==13.0.0
+      - name: Copy and paste a moving two-row Unicode rectangle (GDI)
+        if: ${{ !cancelled() && steps.images.outcome == 'success' }}
+        run: python tests/column_rectangle_paste.py gdi
+      - name: Copy and paste a moving two-row Unicode rectangle (DirectX)
+        if: ${{ !cancelled() && steps.images.outcome == 'success' }}
+        run: python tests/column_rectangle_paste.py directx
       - if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: column-cells-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
+            research/column-rectangle-*/
+            research/column-rectangle-*-observed.json
             research/column-press-observed.json
             research/column-edge-observed.json
             research/column-edit-native-*.json
