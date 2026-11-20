@@ -1,6 +1,6 @@
 # 当前测试版与待审阅材料
 
-- [候选版 `28a2da26` 的交互和内存验收](acceptance-28a2da26.md)：中英文 DPI、正常输入时的贴图、响铃补测和完整交互复跑。
+- [候选版 `28a2da26` 的交互和内存验收](acceptance-28a2da26.md)：中英文 DPI、就绪后贴图、响铃和设置复测，以及隔离单文件在右侧标签栏选区超时的原始记录。
 - [候选版 `371a6f01` 的交互与内存验收](acceptance-371a6f01.md)：Windows 综合回归通过；隔离检查 169 项通过、启动早期贴图一项失败。
 - [当前 dist 试用版 `03d0e0bc` 的全屏选区验收](acceptance-03d0e0bc.md)；[上一试用版的交互与内存](acceptance-706fe3ee.md)。[试用版历史和原始制品](../docs/PREVIEW_HISTORY.md)。
 - [试用版的 Backspace 模式、真实按键与 XTerm 数据库差异](backspace-706fe3ee.md)。

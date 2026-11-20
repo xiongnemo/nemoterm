@@ -26,6 +26,16 @@ GDI 和 DirectX 各通过 5 种全屏布局、13 项同步刷新期间的选区�
 
 只改字号不改网格时，本轮托管 WSL1 客体的 `TIOCGWINSZ` 留在 640×480，实际终端文字区是 800×576。见[该作业的原始数据](https://github.com/xiongnemo/nemoterm/actions/runs/44759373074/artifacts/14640462871)。
 
-[验收记录和原始制品标识](acceptance-28a2da26.zip)。 尚在运行：Windows x64 综合回归、隔离单文件回归。
+[隔离目录里的同一份 EXE](https://github.com/xiongnemo/nemoterm/actions/runs/44767889657)：交互后目录内仍只有 `nemoterm.exe`，大小、SHA-256 与源制品相同。使用 SarasaTermSC Nerd Light，Codex 确认就绪后，系统实按和窗口接口分别测试两种快捷键，**4/4** 首次提交含一张正确的 32×16 PNG，后续请求没有重复图片。早期观测分别为 api-immediate: 0/2, system-immediate: 1/2, system-caption: 1/2；没有将它们计入就绪结果。原始五份制品见证据包内 `isolated-paste.zip`。
 
-原始响铃分组在[下载 EXE 时收到 HTTP 503](https://github.com/xiongnemo/nemoterm/actions/runs/44759373074/job/136370565120)，两个用例都没有运行。[同一 EXE 的独立补测](https://github.com/xiongnemo/nemoterm/actions/runs/44764046453)为 **2/2**：Windows 的 `MessageBeep` 返回成功，视觉响铃保存了三组闪烁和恢复画面。原始 77/81 保留。[全部 81 项的交互复跑](https://github.com/xiongnemo/nemoterm/actions/runs/44764982238)也使用同一份 EXE，单独报告。
+[验收记录和原始制品标识](acceptance-28a2da26.zip)。 [Windows x64 测试与便携构建](https://github.com/xiongnemo/nemoterm/actions/runs/44759373074/job/136370287192)通过。隔离单文件作业未通过，两个作业分别计分。
+
+原始响铃分组在[下载 EXE 时收到 HTTP 503](https://github.com/xiongnemo/nemoterm/actions/runs/44759373074/job/136370565120)，两个用例都没有运行。[同一 EXE 的独立补测](https://github.com/xiongnemo/nemoterm/actions/runs/44764046453)为 **2/2**：Windows 的 `MessageBeep` 返回成功，视觉响铃保存了三组闪烁和恢复画面。原始 77/81 保留。[全部 81 项的交互复跑](https://github.com/xiongnemo/nemoterm/actions/runs/44764982238)实际执行了全部 81 项，严格结果 **78/81**。两个 Codex 启动早期组各有一个快捷键在就绪前提交了纯文字；响铃两项通过。第三项是独立窗口设置超时，详见下文。
+
+**设置窗口超时：** 切换到另一个 profile 并复制独立窗口后，测试发出 `WM_CLOSE`，未能在短时等待内观察到恢复为一个会话（原脚本第 757 行）。随后失败诊断也没有结束，外层 900 秒时仍记录了 5 个进程，最终由 Runner 清理。标签模式通过。这份记录不能确定关闭请求是否被成功投递、是否出现了确认框，也不能证明 UI 一直卡了 15 分钟。[原始设置制品](https://github.com/xiongnemo/nemoterm/actions/runs/44764982238/artifacts/14644109600)和[同 EXE 的设置专项诊断](https://github.com/xiongnemo/nemoterm/actions/runs/44769383351)分别保留。
+
+设置专项复测 **2/2**。记录显示，独立窗口投递 `WM_CLOSE` 后 56 毫秒观察到只剩原会话；标签模式的新增和复制分别是 53 和 49 毫秒。三个句柄、会话号、操作前后列表和实际耗时均在证据包的 `settings-diagnostic` 中。未复现前一次关闭超时；原因未确定。
+
+[隔离单文件原始作业](https://github.com/xiongnemo/nemoterm/actions/runs/44759373074/job/136370288813)明确记录了 150 个已通过的顶层检查；随后在标签页回归中止，本作业没有运行后面的 Codex 贴图。右侧标签栏、GDI、默认 profile 字体下，16 个矩形选区和 58 个窗口消息驱动的横向编辑用例均已完成。实按第十个横向编辑用例 `edge-right-ich` 时，两个鼠标模式的回复都正确，但等下一次终端状态回复超时，尚未执行该用例的选区像素和复制断言。收尾快照确实含同阶段的正确回复 `1b5b306e`；它在 8 秒判定前是否已对父进程可见，旧记录无法区分。原始输入、测试日志、最后快照以及制品摘要在证据包的 `single-exe-final/` 中。[同一 EXE 的选区专项](https://github.com/xiongnemo/nemoterm/actions/runs/44770876789)保留超时时松开鼠标之前的读数，另行计分。
+
+同一 EXE 的右侧 GDI 选区专项通过：16 组矩形选区、58/58 个窗口消息横向编辑、15/15 个真实鼠标横向编辑。原先超时的用例按住鼠标时完成插入，选区像素为第 19–21 列（从零起算），右键和快捷键都复制出“中U”。原始专项制品在 `right-tab-replay/original.zip`。本次未复现超时，不替代原单文件作业未执行的后续检查。

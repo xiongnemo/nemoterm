@@ -92,7 +92,6 @@ jobs:
           name: ${{ env.IMAGE_CLIENT }}-${{ inputs.mixed_bitmap && 'mixed' || inputs.image_files && 'file' || inputs.bitmap_witness && 'reads' || 'image' }}-${{ matrix.input }}-${{ matrix.phase }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
             build/isolated-image-receipt.json
-            build/interaction-dependencies/environment.json
             build/image-key-records/mixed-formats.json
             build/dib-witness-control.json
             research/agent-clipboard-${{ env.IMAGE_CLIENT }}.json
