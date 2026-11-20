@@ -140,6 +140,6 @@ for language in ('en','zh-CN'):
         row=output['cases'][mode if language=='en' else language+'-'+mode]=dict(language=language)
         try: exercise(mode,language,row);row['passed']=True
         except Exception: row.update(passed=False,error=traceback.format_exc())
-        print(language,mode,row.get('error','passed'),flush=True)
         (root/'research'/'dialog-close-input.json').write_text(json.dumps(output,indent=2),encoding='utf-8')
+        print(language,mode,json.dumps(row.get('error','passed'),ensure_ascii=True),flush=True)
 raise SystemExit(0 if all(row['passed'] for row in output['cases'].values()) else 1)
