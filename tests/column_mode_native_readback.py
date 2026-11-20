@@ -8,6 +8,8 @@ import json
 import os
 from pathlib import Path
 import re
+import subprocess
+from native_test_utils import c, u, w
 import time
 
 from column_mode_cases import C
@@ -40,18 +42,40 @@ def main():
     name = 'column-mode-readback-' + gpu
     records = dict(sha256=hashlib.sha256(Path(os.environ['NEMOTERM_TEST_EXE']).read_bytes()).hexdigest(),
                    api=['ReadConsoleOutputW', 'GetConsoleScreenBufferInfo'], profiles={})
-    for policy in ('allow', 'deny'):
-        allow = policy == 'allow'
+    for policy in ('allow', 'deny', 'startup-off'):
+        allow = policy != 'deny'
         cases = [('baseline', C+'?40;95h'+PAINT, 80, AWAY, MARK),
                  ('widen-keep', C+'?3h', 132 if allow else 80, HOME if allow else AWAY, MARK),
                  ('narrow-keep', PAINT+C+'?3l', 80, HOME if allow else AWAY, MARK),
                  ('same-width-clear', PAINT+C+'?95l'+C+'?3l', 80, HOME if allow else AWAY, BLANK if allow else MARK),
                  ('disabled-by-app', C+'?40l'+PAINT+C+'?3h', 80, AWAY, MARK),
                  ('reenable-clear', C+'?40h'+C+'?3h', 132 if allow else 80, HOME if allow else AWAY, BLANK if allow else MARK)]
+        # A separate client starts with the profile switch off; without any
+        # preceding ?40, the host has only the actual launch policy to consult.
+        cases[:0] = [('startup-default', PAINT+C+'?3h', 132 if allow else 80,
+                      HOME if allow else AWAY, BLANK if allow else MARK),
+                     ('return-to-80', C+'?3l', 80, HOME if allow else AWAY, BLANK if allow else MARK)]
+        if policy == 'startup-off':
+            cases = [('deny-at-start', PAINT+C+'?3h',80,AWAY,MARK),
+                     ('enable-at-runtime', C+'?40;95h'+C+'?3h',132,HOME,MARK)]
+        if policy == 'allow':
+            cases += [('reset-before-dialog', C+'?3l',80,HOME,BLANK),
+                      ('live-deny', PAINT+C+'?3h',80,AWAY,MARK),
+                      ('live-allow', C+'?95h'+C+'?3h',132,HOME,MARK),
+                      ('in-order', PAINT+C+'?3l'+C+'2;4H!'+C+'7;11H',80,AWAY,'K!EP')]
         output = records['profiles'][policy] = {}
 
         def exercise(hwnd, phase, current):
             for key, command, cols, pos, text in cases:
+                if key in ('live-deny','live-allow'):
+                    pid = w.DWORD()
+                    assert u.GetWindowThreadProcessId(hwnd,c.byref(pid)) and pid.value
+                    ui = subprocess.run(['powershell.exe','-NoProfile','-NonInteractive','-ExecutionPolicy','Bypass',
+                        '-File',str(root/'tests/owned_profile_settings.ps1'),'-TargetProcess',str(pid.value),
+                        '-TargetWindow',str(hwnd),'-Action',key.replace('live-','resize-')],capture_output=True,timeout=65)
+                    records.setdefault('live_settings',{})[key] = dict(pid=pid.value,hwnd=hwnd,exit_code=ui.returncode,
+                        log=(ui.stdout+ui.stderr).decode('utf8',errors='replace'))
+                    ui.check_returncode()
                 expected = dict(size=[cols,24],cursor=list(pos),text=text)
                 raw = phase(key, command+QUERY, None)
                 front = replies(raw)
@@ -66,13 +90,13 @@ def main():
                 while not matches(sample) and time.monotonic()<end:
                     time.sleep(.04); sample = read()
                 output[key] = dict(expected=expected, wire=raw.hex(),frontend=front, first=first,settled=sample,
-                                   passed=(front==expected and matches(sample) and (allow or matches(first))))
+                                   passed=(front==expected and matches(sample) and ((allow and key not in ('live-deny','deny-at-start')) or matches(first))))
             return output
 
         try:
             run(name+'-'+policy, [], exercise=exercise, barrier=(C+'5n',b'\x1b[0n'),
                 native_row=(2,1,4), font=os.environ['NEMOTERM_TEST_FONT'],
-                profile=dict(NemoTabs=1,NemoRenderer={'gdi':0,'directx':2}[gpu],NemoColumnModeStart=1,
+                profile=dict(NemoTabs=1,NemoRenderer={'gdi':0,'directx':2}[gpu],NemoColumnModeStart=2 if policy=='startup-off' else 1,
                              NoRemoteResize=int(not allow),NemoAllowChecksum=1,FontHeight=8,WarnOnClose=0))
         finally:
             (root/'research'/(name+'-results.json')).write_text(json.dumps(records,indent=2),encoding='utf8')

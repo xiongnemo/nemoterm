@@ -1,5 +1,5 @@
 param([Parameter(Mandatory)][int]$TargetProcess, [Parameter(Mandatory)][long]$TargetWindow,
-      [Parameter(Mandatory)][ValidateSet('save','revoke','shell-cmd','wsl-pty-on','wsl-pty-off')][string]$Action)
+      [Parameter(Mandatory)][ValidateSet('save','revoke','shell-cmd','wsl-pty-on','wsl-pty-off','resize-deny','resize-allow')][string]$Action)
 $ErrorActionPreference='Stop'
 if ($env:RUNNER_ENVIRONMENT -ne 'github-hosted' -or $env:GITHUB_ACTIONS -ne 'true') {throw 'Hosted Windows fixture only'}
 Add-Type -AssemblyName UIAutomationClient
@@ -41,7 +41,19 @@ $dialog=Wait-ForValue {
         $found=$entry.FindFirst([System.Windows.Automation.TreeScope]::Subtree,$class);if ($found) {return $found}
     }
 }
-if ($Action -eq 'shell-cmd' -or $Action -like 'wsl-pty-*') {
+if ($Action -like 'resize-*') {
+    $stage='setting remote resize permission'
+    $terminal=Wait-ForValue {Find-Named $dialog 'Terminal'}
+    $expand=$terminal.GetCurrentPattern([System.Windows.Automation.ExpandCollapsePattern]::Pattern)
+    if ($expand.Current.ExpandCollapseState -eq 'Collapsed') {$expand.Expand()}
+    $node=Wait-ForValue {Find-Named $terminal 'Features'}
+    $node.GetCurrentPattern([System.Windows.Automation.SelectionItemPattern]::Pattern).Select()
+    $option=Wait-ForValue {Find-Named $dialog 'Disable remote-controlled terminal resizing'}
+    $toggle=$option.GetCurrentPattern([System.Windows.Automation.TogglePattern]::Pattern)
+    $expected=if ($Action -eq 'resize-deny') {'On'} else {'Off'}
+    if ($toggle.Current.ToggleState.ToString() -eq $expected) {throw 'Unexpected initial resize preference'}
+    $toggle.Toggle(); Wait-ForValue {$toggle.Current.ToggleState.ToString() -eq $expected} | Out-Null
+} elseif ($Action -eq 'shell-cmd' -or $Action -like 'wsl-pty-*') {
     $stage='selecting startup shell'
     $profile=Wait-ForValue {Find-Named $dialog 'Profile'}
     $expand=$profile.GetCurrentPattern([System.Windows.Automation.ExpandCollapsePattern]::Pattern)
