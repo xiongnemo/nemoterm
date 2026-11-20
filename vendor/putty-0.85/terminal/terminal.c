@@ -7009,11 +7009,10 @@ static void erase_lots(Terminal *term,
     seen_disp_event(term);
 }
 
-/* ICH/DCH affects only one row. A rectangle spanning several rows cannot
- * follow a horizontal move on just that row. Keep the selection when the
- * same source glyphs still occupy its painted columns. */
+/* A rectangular selection can follow a column edit only if every row
+ * preserves the same complete glyphs with one common physical displacement. */
 struct block_edit_cell { int dest; unsigned long shown; };
-struct block_edit_row { int left, right; struct block_edit_cell *cells; };
+struct block_edit_row { int left, right, shift; struct block_edit_cell *cells; };
 
 static void lose_edited_block(Terminal *term)
 {
@@ -7021,10 +7020,9 @@ static void lose_edited_block(Terminal *term)
     else deselect(term);
 }
 
-static void begin_block_edit(Terminal *term, termline *line, int at, int end,
+static void begin_block_edit(Terminal *term, termline *line, int y, int at, int end,
                              int shift, struct block_edit_row *block)
 {
-    int y = term->curs.y;
     if (y < term->selstart.y || y > term->selend.y) return;
     if (line->trusted != term->trusted) {
         lose_edited_block(term); /* the trust transition erases the whole line */
@@ -7038,7 +7036,11 @@ static void begin_block_edit(Terminal *term, termline *line, int at, int end,
                     &block->left, &block->right);
     if (block->left >= block->right) return;
     if (!visual) {
-        if (at < block->right && block->left < end) lose_edited_block(term);
+        if (block->right <= at || end <= block->left) return;
+        if (block->left >= at - min(0, shift) && block->right <= end - max(0, shift))
+            block->shift = shift;
+        else
+            lose_edited_block(term); /* clipped or split across moving/stationary columns */
         return;
     }
 
@@ -7064,23 +7066,43 @@ static void begin_block_edit(Terminal *term, termline *line, int at, int end,
     }
 }
 
-static void finish_block_edit(Terminal *term, termline *line, struct block_edit_row *block)
+/* INT_MIN means that the first surviving row may establish the displacement.
+ * Single-row edits of a multi-row block, or a block crossing a vertical
+ * margin, already have stationary rows and therefore require zero. */
+static void finish_block_edit(Terminal *term, termline *line, int y,
+                              struct block_edit_row *block, int *common)
 {
-    if (!block->cells) return;
-    int slot = selection_bidi_slot(term, term->curs.y);
-    termchar *visual = term_bidi_line(term, line, slot);
+    if (block->left >= block->right || term->selstate == NO_SELECTION) {
+        sfree(block->cells);
+        return;
+    }
+    int slot = selection_bidi_slot(term, y);
+    termchar *visual = block->cells ? term_bidi_line(term, line, slot) : NULL;
     termchar *chars = visual ? visual : line->chars;
-    int left = term->selstart.x, right = term->selend.x;
-    block_row_edges(line, chars, term->cols, &left, &right);
-    bool same = left == block->left && right == block->right;
-    for (int x = left; same && x < right; x++) {
-        struct block_edit_cell cell = block->cells[x-left];
-        same = chars[x].chr == cell.shown && (visual ?
-               term->post_bidi_cache[slot].backward[x] == cell.dest &&
-               term->post_bidi_cache[slot].forward[cell.dest] == x : x == cell.dest);
+    int shift = block->shift;
+    if (block->cells) {
+        int dest = block->cells[0].dest;
+        shift = (visual ? term->post_bidi_cache[slot].forward[dest] : dest) - block->left;
+    }
+    int64_t delta = (int64_t)shift * selection_row_scale(line);
+    int64_t left = term->selstart.x + delta, right = term->selend.x + delta;
+    bool same = left >= 0 && right <= term->cols && (*common == INT_MIN || *common == delta);
+    if (same) {
+        int l = (int)left, r = (int)right;
+        block_row_edges(line, chars, term->cols, &l, &r);
+        same = l == block->left + shift && r == block->right + shift;
+        /* Only recollect the bidi map for a previously transformed row:
+         * moving existing LTR cells and inserting spaces cannot introduce RTL. */
+        for (int x = l; same && block->cells && x < r; x++) {
+            struct block_edit_cell cell = block->cells[x-l];
+            same = chars[x].chr == cell.shown && (visual ?
+                   term->post_bidi_cache[slot].backward[x] == cell.dest &&
+                   term->post_bidi_cache[slot].forward[cell.dest] == x : x == cell.dest);
+        }
     }
     sfree(block->cells);
-    if (!same) lose_edited_block(term);
+    if (same) *common = (int)delta;
+    else lose_edited_block(term);
 }
 
 static void insch_other_selection(Terminal *term, int n, int dir, int end)
@@ -7163,7 +7185,7 @@ static void insch(Terminal *term, int n)
         term->seltype == RECTANGULAR && term->selstart.y != term->selend.y;
     struct block_edit_row block = {0};
     if (multi_block)
-        begin_block_edit(term, ldata, term->curs.x, end, dir*n, &block);
+        begin_block_edit(term, ldata, term->curs.y, term->curs.x, end, dir*n, &block);
     else
         insch_other_selection(term, n, dir, end);
 
@@ -7189,7 +7211,8 @@ static void insch(Terminal *term, int n)
         while (n--)
             copy_termchar(ldata, term->curs.x + n, &blank);
     }
-    finish_block_edit(term, ldata, &block);
+    int stationary = 0;
+    finish_block_edit(term, ldata, term->curs.y, &block, &stationary);
     if (follow_press) restore_pressed_cell(term, anchor, half);
 }
 
@@ -7212,16 +7235,25 @@ static void nemo_scroll_columns(Terminal *term, unsigned count, bool to_left, in
         nemo_shell_marks_rows(&term->shell_marks, -count234(term->scrollback), term->rows-1, 0);
     }
     nemo_images_shift(term, left, right, term->marg_t, term->marg_b, to_left ? -n : n);
+    bool block = term->selstate == SELECTED && term->seltype == RECTANGULAR &&
+        term->selstart.y <= term->marg_b && term->selend.y >= term->marg_t;
+    int delta = block && term->selstart.y >= term->marg_t &&
+        term->selend.y <= term->marg_b ? INT_MIN : 0;
     for (int y = term->marg_t; y <= term->marg_b; y++) {
         termline *line = scrlineptr(y);
         check_line_size(term, line);
+        struct block_edit_row row = {0};
+        bool track = block && term->selstate == SELECTED;
+        if (track) begin_block_edit(term, line, y, left, right, to_left ? -n : n, &row);
         check_trust_status(term, line);
-        int changed_left = left > 0 && line->chars[left].chr == UCSWIDE ? left-1 : left;
-        int changed_right = right < term->cols && line->chars[right].chr == UCSWIDE ? right+1 : right;
-        check_selection(term, (pos){y, changed_left}, (pos){y, changed_right});
-        check_boundary(term, left, y);
-        check_boundary(term, right, y);
-        check_boundary(term, to_left ? left+n : right-n, y);
+        if (!track) {
+            int changed_left = left > 0 && line->chars[left].chr == UCSWIDE ? left-1 : left;
+            int changed_right = right < term->cols && line->chars[right].chr == UCSWIDE ? right+1 : right;
+            check_selection(term, (pos){y, changed_left}, (pos){y, changed_right});
+        }
+        check_edit_boundary(term, left, y, !track);
+        check_edit_boundary(term, right, y, !track);
+        check_edit_boundary(term, to_left ? left+n : right-n, y, !track);
         if (to_left) {
             for (int x = left; x < right-n; x++)
                 move_termchar(line, &line->chars[x], &line->chars[x+n]);
@@ -7235,6 +7267,14 @@ static void nemo_scroll_columns(Terminal *term, unsigned count, bool to_left, in
             for (int x = left; x < left+n; x++)
                 copy_termchar(line, x, &blank);
         }
+        if (track) finish_block_edit(term, line, y, &row, &delta);
+    }
+    if (block && term->selstate == SELECTED && delta != INT_MIN) {
+        term->selstart.x += delta;
+        term->selend.x += delta;
+        term->selanchor.x = (int)max((int64_t)term->selstart.x,
+            min((int64_t)term->selend.x-1, (int64_t)term->selanchor.x+delta));
+        term->selection_copy_needs_refresh = true;
     }
     if (follow_press) restore_pressed_cell(term, anchor, half);
     seen_disp_event(term);
