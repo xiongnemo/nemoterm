@@ -6,7 +6,7 @@ on:
       suite:
         description: Checks or notice-only packaging against the exact artifact
         type: choice
-        options: [font-bell, dpi, backarrow, backarrow-review, agent-pixels, agent-bindings, interaction, single, ui-regression, shell-lifetime, tcap, portable-notices, regis-window, regis-erase, regis-frame-pair, regis-presented-matrix, regis-text-motion, regis-bank-start, column-modes, column-cells, tab-selection, tab-hover, pointer-colour, colour-input, sync-selection, palette-exit, unicode-boundary, picture-keys, image-timing, image-mixed, image-mixed-opencode, image-reads, image-files, image-reference, draft-reference, draft-product, paste-order, wt-images, pterm-images, pterm-memory, agent-session-memory, frontend-memory-review, profile-dump, profile-dump-single, profile-env, wsl-tui, wsl-sixel, wsl-vim, wsl-tmux-vim, wsl-colour, wsl-paste-quote, wsl-relay-paste, wsl-relay-vim, wsl-byte-path, wsl-drop, rendering-settings, close-cancel, profile-sequence, font-ops, scrollback-modes, paste-lines, paste-quote, paste-quote-exit, taskbar-progress, taskbar-memory, fullscreen]
+        options: [font-bell, dpi, backarrow, backarrow-review, agent-pixels, agent-bindings, interaction, single, ui-regression, shell-lifetime, tcap, portable-notices, regis-window, regis-erase, regis-frame-pair, regis-presented-matrix, regis-text-motion, regis-bank-start, column-modes, column-cells, tab-selection, tab-hover, pointer-hiding, pointer-colour, colour-input, sync-selection, palette-exit, unicode-boundary, picture-keys, image-timing, image-mixed, image-mixed-opencode, image-reads, image-files, image-reference, draft-reference, draft-product, paste-order, wt-images, pterm-images, pterm-memory, agent-session-memory, frontend-memory-review, profile-dump, profile-dump-single, profile-env, wsl-tui, wsl-sixel, wsl-vim, wsl-tmux-vim, wsl-colour, wsl-paste-quote, wsl-relay-paste, wsl-relay-vim, wsl-byte-path, wsl-drop, rendering-settings, close-cancel, profile-sequence, font-ops, scrollback-modes, paste-lines, paste-quote, paste-quote-exit, taskbar-progress, taskbar-memory, fullscreen]
         default: font-bell
       source_commit:
         description: Full source commit of the source-console-host artifact
@@ -37,6 +37,12 @@ jobs:
   frontend-memory-review:
     if: inputs.suite == 'frontend-memory-review'
     uses: ./.github/workflows/frontend-memory-review.yml
+    with:
+      product_run: ${{ inputs.source_run }}
+      product_commit: ${{ inputs.source_commit }}
+  pointer-hiding:
+    if: inputs.suite == 'pointer-hiding'
+    uses: ./.github/workflows/pointer-hiding.yml
     with:
       product_run: ${{ inputs.source_run }}
       product_commit: ${{ inputs.source_commit }}

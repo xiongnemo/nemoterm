@@ -1,0 +1,35 @@
+name: Physical pointer visibility while typing
+on:
+  workflow_call:
+    inputs:
+      product_run: {type: string, required: true}
+      product_commit: {type: string, required: true}
+permissions:
+  actions: read
+  contents: read
+jobs:
+  desktop:
+    runs-on: windows-2025
+    timeout-minutes: 10
+    env:
+      GH_TOKEN: ${{ github.token }}
+      SOURCE_RUN: ${{ inputs.product_run }}
+      SOURCE_COMMIT: ${{ inputs.product_commit }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with: {fetch-depth: 0}
+      - run: |
+          scripts/fetch-ci-product.ps1 -Run $env:SOURCE_RUN -Commit $env:SOURCE_COMMIT -Destination build/pointer-hiding-product
+          "NEMOTERM_TEST_EXE=$((Resolve-Path build/pointer-hiding-product/nemoterm.exe).Path)" >> $env:GITHUB_ENV
+      - run: scripts/prepare-remote-interaction.ps1
+      - name: Compare OS cursor visibility around real key delivery and pointer motion
+        run: python tests/pointer_hiding_window.py
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: pointer-hiding-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            research/pointer-hiding-*-observed.json
+            build/pointer-hiding-product/SOURCE-HOST.json
+            build/interaction-dependencies/environment.json
+          if-no-files-found: error
