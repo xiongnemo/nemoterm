@@ -25,7 +25,7 @@ def saved_profile(values):
 
 
 def run(name, cases, scene=None, extra_cases=(), exercise=None, barrier=None, report_cursor=False,
-        profile=None, font=None, source_reference='XTerm(412)', automation=False, observe_exit=False, frontend_args=()):
+        profile=None, font=None, source_reference='XTerm(412)', automation=False, observe_exit=False, frontend_args=(), native_row=None):
     exe = Path(os.environ.get('NEMOTERM_TEST_EXE', root/'dist/nemoterm.exe')).resolve()
     barrier_sequence, marker = barrier or ('\x1bP$qprotocol-marker\x1b\\', b'\x1bP0$r\x1b\\')
     evidence = dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),
@@ -66,7 +66,7 @@ def run(name, cases, scene=None, extra_cases=(), exercise=None, barrier=None, re
                     wire_trace.phase(phase_name, sequence+active_barrier,
                                      expected_bytes+active_marker if expected_bytes is not None else None)
                 write_snapshot(control, dict(phase=phase_name, preserve_mouse=True, report_cursor=report_cursor,
-                    sequence=sequence+active_barrier))
+                    sequence=sequence+active_barrier, native_row=native_row))
                 def received():
                     value = current()
                     return value if value.get('phase') == phase_name and \

@@ -36,6 +36,10 @@ class ScreenInfo(c.Structure):
     _fields_ = [('size', Coord), ('cursor', Coord), ('attributes', w.WORD),
                ('window', SmallRect), ('maximum', Coord)]
 
+class NativeCell(c.Structure):
+    _fields_ = [('unit', w.WORD), ('attributes', w.WORD)]
+
+k.ReadConsoleOutputW.argtypes = [w.HANDLE, c.POINTER(NativeCell), Coord, Coord, c.POINTER(SmallRect)]
 k.GetConsoleScreenBufferInfo.argtypes = [w.HANDLE, c.POINTER(ScreenInfo)]
 stdin = k.GetStdHandle(-10)
 stdout = k.GetStdHandle(-11)
@@ -140,12 +144,22 @@ try:
             snapshot['flushed_responses'] = sorted(responded)
         if applied_blob is not None:
             snapshot['applied_blob'] = applied_blob
-        if request.get('report_cursor'):
+        if request.get('report_cursor') or request.get('native_row'):
             info=ScreenInfo()
             if not k.GetConsoleScreenBufferInfo(stdout, c.byref(info)):
                 raise c.WinError()
             snapshot['screen_cursor']=[info.cursor.x-info.window.left,
                                        info.cursor.y-info.window.top]
+            if request.get('native_row'):
+                x, y, length = request['native_row']
+                assert 0 <= x and 0 <= y and 0 < length <= 80
+                left, top = info.window.left + x, info.window.top + y
+                rect = SmallRect(left, top, left + length - 1, top)
+                buf = (NativeCell * length)()
+                if not k.ReadConsoleOutputW(stdout, buf, Coord(length, 1), Coord(0, 0), c.byref(rect)):
+                    raise c.WinError()
+                assert (rect.left, rect.top, rect.right, rect.bottom) == (left, top, left + length - 1, top)
+                snapshot['native_row'] = [[cell.unit, cell.attributes] for cell in buf]
         if barrier is not None:
             snapshot['input_barrier'] = barrier_ack
         write_snapshot(report, snapshot)
