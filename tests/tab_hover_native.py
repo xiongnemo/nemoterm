@@ -55,6 +55,16 @@ def perform(side, exe, tmp, out, profile, job, rec):
         return wait_snapshot(lambda:read_snapshot(file(i,'report')), lambda v:v.get('phase')==phase and v.get('hex')==ACK.hex())
     def barrier(serial, delta):
         row = []; rec.setdefault('input', []).append(row)
+        # SendInput returns when the key is queued, not when the terminal has
+        # dispatched it. The children's independently written DSRs must follow
+        # its delivery. Keep the original exact byte/order checks on both tabs.
+        before = []; rec.setdefault('before_input_barrier', []).append(before)
+        for i, key in enumerate(delta):
+            if key:
+                want = (expected[i]+key).hex()
+                snapshot = wait_snapshot(lambda:read_snapshot(file(i,'report')),
+                    lambda v:v.get('phase')==controls[i]['phase'] and v.get('hex')==want)
+                before.append(dict(pid=children[i], serial=serial, expected=want, actual=snapshot['hex']))
         for i in range(2):
             controls[i]['input_barrier'] = serial; write_snapshot(file(i,'control'), controls[i]); expected[i] += delta[i]+ACK
             r = wait_snapshot(lambda:read_snapshot(file(i,'report')), lambda v:v.get('input_barrier')==serial)
