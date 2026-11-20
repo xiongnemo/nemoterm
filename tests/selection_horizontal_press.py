@@ -60,6 +60,20 @@ CASES = (
     ('edge-adjacent-wide', '\x1b[3P', 5, 0, 21, 18, 15, '中界'),
     ('edge-right-ich', '\x1b[@', 5, 0, 20, 21, 19, '中U'),
     ('edge-right-sr', '\x1b[1 A', 5, 1, 20, 21, 19, '中U'),
+    # Rectangle writes redraw without moving the cursor. Track the original
+    # text (including a wide tail or combining mark), not the painted cell.
+    ('fill-replaced', '\x1b[90;{row};10;{row};12$x', 0, 0, 10, None, 12, None),
+    ('fill-identical', '\x1b[75;{row};11;{row};11$x', 0, 0, 10, 10, 12, 'KLM'),
+    ('fill-neighbour', '\x1b[90;{row};12;{row};12$x', 0, 0, 10, 10, 12, 'KZM'),
+    ('fill-wide-tail', '\x1b[90;{row};8;{row};8$x', 0, 0, 6, None, 9, None),
+    ('fill-strips-accent', '\x1b[75;{row};11;{row};11$x', 0, 0, 10, None, 12, None),
+    ('fill-bidi-neighbour', '\x1b[88;{row};11;{row};12$x', 0, 0, 11, 9, 10, 'אX'),
+    ('copy-replaced', '\x1b[{row};1;{row};3;1;{row};11;1$v', 0, 0, 10, None, 12, None),
+    ('copy-from-press', '\x1b[{row};11;{row};13;1;{row};15;1$v', 0, 0, 10, 10, 12, 'KLM'),
+    ('copy-overlap', '\x1b[{row};9;{row};12;1;{row};10;1$v', 0, 0, 10, None, 12, None),
+    ('copy-wide-tail', '\x1b[{row};1;{row};1;1;{row};8;1$v', 0, 0, 6, None, 9, None),
+    ('copy-same-accent', '\x1b[{row};5;{row};5;1;{row};11;1$v', 0, 0, 10, 10, 12, 'K\u0301LM'),
+    ('copy-new-accent', '\x1b[{row};5;{row};5;1;{row};11;1$v', 0, 0, 10, None, 12, None),
 )
 ACK = b'\x1b[0n'
 
@@ -68,12 +82,16 @@ def verify(hwnd, begin, point, capture, tile, copy, barrier, evidence, desktop=N
     rows = evidence['horizontal_press_system' if desktop else 'horizontal_press'] = []
     def aim(cell): desktop.point(cell & 0xffff, cell >> 16)
     for i, (name, edit, col, dy, press, dest, end, want) in enumerate(CASES):
-        if desktop and name not in ('ich','dch','deleted','paint-replaced','paint-identical','erase-ech','erase-protected','edge-dch','edge-adjacent-wide','edge-right-ich','edge-right-sr'): continue
+        if desktop and name not in ('ich','dch','deleted','paint-replaced','paint-identical','erase-ech','erase-protected','edge-dch','edge-adjacent-wide','edge-right-ich','edge-right-sr','fill-replaced','fill-identical',
+                                   'copy-overlap','copy-same-accent'): continue
         block = bool(i % 2)
         y = 8 if i % 2 == 0 else 13  # distinguish consecutive independent Win32 clicks
         phase = ('physical-' if desktop else 'message-')+'column-'+name
-        line = ('ABCDEF中q\u0301JKLMNOPQRSTUVWXYZ' if name in ('wide-tail','cut-wide-head','cut-wide-tail','paint-wide-trailer','erase-wide-trailer') else
-                'ABCDEFGHLאבג\u05b0RSTUVWXYZ' if name in ('bidi-stays','bidi-repaint') else ABC)
+        line = ('ABCDEF中q\u0301JKLMNOPQRSTUVWXYZ' if name in ('wide-tail','cut-wide-head','cut-wide-tail','paint-wide-trailer','erase-wide-trailer',
+                                                                    'fill-wide-tail','copy-wide-tail') else
+                'ABCDEFGHLאבג\u05b0RSTUVWXYZ' if name in ('bidi-stays','bidi-repaint','fill-bidi-neighbour') else ABC)
+        if name in ('fill-strips-accent','copy-same-accent','copy-new-accent'):
+            line=line.replace('K','K\u0301').replace('E','K\u0300' if name=='copy-new-accent' else 'K\u0301')
         if name.startswith('edge-'):
             line = 'ABCDEFGHIJKLMNOPQR中界WXYZ' if name=='edge-adjacent-wide' else 'ABCDEFGHIJKLMNOPQRS中VWXYZ'
             if name.startswith('edge-right-'): line = 'ABCDEFGHIJKLMNOPQR中UVWXYZ'
