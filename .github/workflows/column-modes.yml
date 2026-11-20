@@ -46,6 +46,11 @@ jobs:
         env:
           RENDERER: ${{ matrix.renderer }}
         run: python tests/column_modes_window.py --cli
+      - name: Shift-select wide text before requested, ignored and clearing switches
+        if: ${{ !cancelled() && steps.prepare.outcome == 'success' }}
+        env:
+          RENDERER: ${{ matrix.renderer }}
+        run: python tests/column_mode_selection.py
       - name: Restore the runner display and retain its measured geometry
         if: always()
         shell: pwsh
