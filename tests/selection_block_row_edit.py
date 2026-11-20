@@ -4,6 +4,7 @@ from ctypes import wintypes as w
 import json
 import os
 import struct
+import sys
 import time
 import traceback
 
@@ -26,9 +27,17 @@ CASES=[('right-ich',1,16,20,24,2,True),('right-dch',1,16,20,24,-2,True),
        ('bidi-right',1,16,20,24,2,True),('bidi-reorders',1,10,20,24,1,False),
        ('scaled-right',1,8,12,80,2,True),('scaled-cut',1,4,12,80,-2,False)]
 
-def trial(renderer):
+# Check the alternate right-button policy on both a surviving and a lost
+# selection. The explicit copy checks are about visible selections only.
+BINDING_CASES = {
+    'copy-key': {'right-ich', 'left-dch', 'bidi-right', 'scaled-right'},
+    'copy-paste': {'right-ich', 'left-dch', 'bidi-right', 'scaled-right', 'cut-wide-edge', 'bidi-reorders'},
+}
+
+def trial(renderer, action='default'):
     mode={'gdi':1,'directx':3}[renderer]; name='scrollback-block-edit-'+renderer
-    obs=dict(renderer=renderer,cases={}); checks=[]
+    if action!='default':name+='-'+action
+    obs=dict(renderer=renderer,action=action,cases={}); checks=[]
     def exercise(hwnd,phase,current):
         u.GetPropW.argtypes,u.GetPropW.restype=[w.HWND,w.LPCWSTR],w.HANDLE
         assert int(u.GetPropW(hwnd,'NemotermRenderer') or 0)==mode
@@ -43,6 +52,7 @@ def trial(renderer):
             def point(x,y):desk.point(1+x*cw+cw//2,1+y*ch+ch//2)
             empty=[[],[],[]]
             for i,(label,row,at,marker,end,shift,keep) in enumerate(CASES):
+                if action!='default' and label not in BINDING_CASES[action]:continue
                 bidi=label.startswith('bidi-');scaled=label.startswith('scaled-');scale=2 if scaled else 1
                 wanted=[list(range(6,11)),list(range(7,10) if bidi else range(6,10) if scaled else range(6,11)),list(range(6,11))]
                 expected_text=TEXT.replace('中B文','בגד' if bidi else '中' if scaled else '中B文')
@@ -76,11 +86,18 @@ def trial(renderer):
                 rec['initial_copy']=clipboard_text(hwnd);assert rec['initial_copy']==expected_text
                 phase(label+'-edit',cup(row,at)+CSI+str(abs(shift))+('@' if shift>0 else 'P'),b'')
                 marks=shot('edited',marker+shift);rec['clipboard_after_edit']=clipboard_text(hwnd)
-                point(15,4);seq=u.GetClipboardSequenceNumber();desk.chord('right');desk.chord(ord('8'))
+                point(15,4);seq=u.GetClipboardSequenceNumber()
+                if action=='copy-key':desk.chord(0x11,0x10,ord('C'))
+                else:desk.chord('right')
+                desk.chord(ord('8'))
                 wire=wait_for(lambda:v if (v:=bytes.fromhex(current()['hex'])).endswith(b'8') else None)
-                rec.update(right_changed=u.GetClipboardSequenceNumber()!=seq,right_text=clipboard_text(hwnd),wire=wire.hex())
-                target=ACK+(b'' if keep else b'\x1b[<2;16;5M\x1b[<2;16;5m')+b'8'
-                rec['passed']=marks==(wanted if keep else empty) and rec['right_changed']==keep and rec['right_text']==rec['clipboard_after_edit']==expected_text and wire==target
+                changed=u.GetClipboardSequenceNumber()!=seq;after=clipboard_text(hwnd)
+                # Keep the original right-click record for existing consumers.
+                if action!='copy-key':rec.update(right_changed=changed,right_text=after)
+                rec.update(action_changed=changed,action_text=after,wire=wire.hex())
+                body=(expected_text.replace('\r\n','\r').encode() if action=='copy-paste' else b'') if keep else b'\x1b[<2;16;5M\x1b[<2;16;5m'
+                target=ACK+body+b'8';rec['expected_wire']=target.hex()
+                rec['passed']=marks==(wanted if keep else empty) and changed==keep and after==rec['clipboard_after_edit']==expected_text and wire==target
                 checks.append(rec['passed'])
         finally:
             if cam:cam.close()
@@ -88,11 +105,16 @@ def trial(renderer):
             clip.restore()
     try:
         run(name,[],exercise=exercise,barrier=(CSI+'5n',ACK),font=os.environ['NEMOTERM_TEST_FONT'],source_reference='visible Windows rectangle and actual mouse/clipboard recipient',
-            profile=dict(NemoTabs=1,NemoRenderer=mode-1,FontHeight=8,WarnOnClose=0,MouseOverride=1,MouseAutocopy=0))
+            profile=dict(NemoTabs=1,NemoRenderer=mode-1,FontHeight=8,WarnOnClose=0,MouseOverride=1,MouseAutocopy=0,
+                         **({'RightClickCopyAndPaste':1} if action=='copy-paste' else {})))
     except Exception:obs['error']=traceback.format_exc()
-    obs['passed']='error' not in obs and len(checks)==len(CASES) and all(checks)
+    obs['passed']='error' not in obs and len(checks)==(len(CASES) if action=='default' else len(BINDING_CASES[action])) and all(checks)
     (root/'research'/(name+'.json')).write_text(json.dumps(obs,indent=2),encoding='utf-8');return obs['passed']
 
 if __name__=='__main__':
     assert os.environ.get('RUNNER_ENVIRONMENT')=='github-hosted'
-    raise SystemExit(not trial(os.environ['RENDERER']))
+    if len(sys.argv)==1:raise SystemExit(not trial(os.environ['RENDERER']))
+    assert sys.argv[1:]==['--bindings']
+    os.environ.update(NEMOTERM_TEST_INPUT_CP='65001',NEMOTERM_TEST_WIDE_INPUT='1')
+    results=[trial(os.environ['RENDERER'],action) for action in BINDING_CASES]
+    raise SystemExit(not all(results))

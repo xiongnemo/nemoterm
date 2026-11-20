@@ -285,6 +285,8 @@ The `selection` group holds Shift and the left button while the application eras
 
 同一套回放还用 `tests/selection_block_row_edit.py` 测应用在选区旁插入（ICH）或删除字符（DCH）。让应用接管鼠标，框选三行，从「中」的右半格拖到「文」的左半格，先复制，再只改其中一行。选区旁的色块移动后才取截图：如果选中的字没有动，高亮和右键复制都应保留；如果字被切开、单独移位或双向文字重排使框内换了字，高亮应取消，右键按下和松开都应传给应用。GDI 和 DirectX 各跑 14 例，含普通行、希伯来文和 DEC 双倍宽度行。`scrollback-block-edit-<renderer>.json` 记录逐格高亮、剪贴板和子进程收到的字节，每例保留编辑前、拖选中和编辑后三张原图。[旧版的原始失败记录](https://github.com/xiongnemo/nemoterm/actions/runs/44714350665)显示两种渲染器都误清了 8 次。
 
+同一作业的 `--bindings` 在独立窗口中验证编辑后的两项操作：四次 `Ctrl+Shift+C` 只写入系统剪贴板；启用“右键复制并粘贴”后的六次右键，分别要求应用收到一次完整文本或一对鼠标事件。用实际按键作为接收结束标记，并比较子程序读取的完整 UTF-8 字节，包括行分隔。
+
 ### 逐字节粘贴（XTerm 私有模式 2005）
 
 `protocol-reference.yml` 的 `family=paste-quote` 在固定的 XTerm 412 中直接读取 PTY 字节。默认 tty 的 literal-next 是 `16`（十六进制），另一轮将它改成 `1d`。每轮的 19 个阶段都包含中文、emoji、制表、两个连续换行和末尾界标；原件在 [testdata](../testdata/upstream/xterm412-paste-quote.zip)。例如 `中` 的 UTF-8 是 `e4 b8 ad`，打开 `?2005` 时默认 tty 收到 `16 e4 16 b8 16 ad`。包围粘贴的起止序列本身不加前缀。

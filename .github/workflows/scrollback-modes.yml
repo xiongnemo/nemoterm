@@ -61,6 +61,11 @@ jobs:
         env:
           RENDERER: ${{ matrix.renderer }}
         run: python tests/selection_block_row_edit.py
+      - name: Explicit copy and optional right-button paste after editing a neighbouring column
+        if: ${{ !cancelled() && env.NEMOTERM_TEST_FONT != '' }}
+        env:
+          RENDERER: ${{ matrix.renderer }}
+        run: python tests/selection_block_row_edit.py --bindings
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
