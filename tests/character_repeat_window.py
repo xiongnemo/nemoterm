@@ -22,6 +22,8 @@ CASES = [
     ('utf16-pairs', [(CHAR, 0xd83d, 3), (CHAR, 0xde42, 3)], '🙂' * 3),
     ('ime-pairs', [(IME, 0xd840, 2), (IME, 0xdc00, 2)], '𠀀' * 2),
     ('utf32', [(UNICHAR, 0x1f642, 5)], '🙂' * 5),
+    ('partial-pair-counts', [(CHAR, 0xd83d, 5), (CHAR, 0xde42, 2), (CHAR, 65, 1)], '🙂🙂A'),
+    ('batch-boundary', [(UNICHAR, 0x20000, 65)], '𠀀' * 65),
     ('orphan', [(CHAR, 0xd83d, 3), (CHAR, 66, 2), (CHAR, 0xde42, 1)], 'BB'),
     ('probe', [(UNICHAR, 0xffff, 9), (UNICHAR, 90, 0)], 'Z'),
 ]

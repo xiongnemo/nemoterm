@@ -2995,6 +2995,28 @@ static void nemo_stop_selection_scroll(WinGuiSeat *wgs, HWND hwnd)
     }
 }
 
+/* Windows may coalesce repeated character input into one message. Keep one
+ * enhanced keyboard event per scalar; legacy UTF-16 can be sent in batches. */
+static void nemo_character_message(WinGuiSeat *wgs, const wchar_t *units,
+                                   unsigned n, unsigned repeats)
+{
+    if (!wgs->ldisc) return;
+    if (nemo_keyboard_text(wgs, units, n)) {
+        for (unsigned i = 1; i < repeats; i++) nemo_keyboard_text(wgs, units, n);
+    } else if (repeats == 1) {
+        term_keyinputw(wgs->term, units, n);
+    } else {
+        wchar_t batch[64];
+        unsigned count = min(repeats, (unsigned)lenof(batch) / n);
+        for (unsigned i = 0; i < count; i++) memcpy(batch + i*n, units, n*sizeof(*units));
+        while (repeats) {
+            unsigned take = min(repeats, count);
+            term_keyinputw(wgs->term, batch, take*n);
+            repeats -= take;
+        }
+    }
+}
+
 static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
                                 WPARAM wParam, LPARAM lParam)
 {
@@ -4396,20 +4418,20 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
       unicode_character:
         if (unicode_window) {
             wchar_t c = wParam;
-
+            unsigned repeats = max(1, LOWORD(lParam));
             if (IS_HIGH_SURROGATE(c)) {
                 wgs->pending_surrogate = c;
+                wgs->pending_surrogate_repeats = repeats;
             } else if (IS_SURROGATE_PAIR(wgs->pending_surrogate, c)) {
                 wchar_t pair[2];
                 pair[0] = wgs->pending_surrogate;
                 pair[1] = c;
                 wgs->pending_surrogate = 0;
-                if (!nemo_keyboard_text(wgs, pair, 2))
-                    term_keyinputw(wgs->term, pair, 2);
+                /* Pair only the complete scalars; discard unmatched units. */
+                nemo_character_message(wgs, pair, 2, min(repeats, wgs->pending_surrogate_repeats));
             } else if (!IS_SURROGATE(c)) {
                 wgs->pending_surrogate = 0;
-                if (!nemo_keyboard_text(wgs, &c, 1))
-                    term_keyinputw(wgs->term, &c, 1);
+                nemo_character_message(wgs, &c, 1, repeats);
             } else {
                 wgs->pending_surrogate = 0;
             }
@@ -4434,8 +4456,7 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
             text[1] = 0xdc00 + (scalar & 0x3ff);
             length = 2;
         } else text[0] = (wchar_t)wParam;
-        if (!nemo_keyboard_text(wgs, text, length))
-            term_keyinputw(wgs->term, text, length);
+        nemo_character_message(wgs, text, length, max(1, LOWORD(lParam)));
         return 0;
       }
       case WM_SYSCOLORCHANGE:

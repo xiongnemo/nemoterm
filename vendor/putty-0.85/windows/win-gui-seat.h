@@ -192,6 +192,7 @@ struct WinGuiSeat {
     WPARAM last_wm_mousemove_wParam, last_wm_ncmousemove_wParam;
     LPARAM last_wm_mousemove_lParam, last_wm_ncmousemove_lParam;
     wchar_t pending_surrogate;
+    unsigned short pending_surrogate_repeats;
 };
 
 extern const LogPolicyVtable win_gui_logpolicy_vt; /* in dialog.c */
