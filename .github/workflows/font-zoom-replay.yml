@@ -6,7 +6,7 @@ on:
       suite:
         description: Checks or notice-only packaging against the exact artifact
         type: choice
-        options: [font-bell, dpi, backarrow, backarrow-review, agent-pixels, agent-bindings, interaction, single, ui-regression, shell-lifetime, tcap, portable-notices, regis-window, regis-erase, regis-frame-pair, regis-presented-matrix, regis-text-motion, regis-bank-start, column-modes, column-cells, tab-selection, tab-selection-pair, tab-hover, pointer-hiding, pointer-colour, colour-input, sync-selection, palette-exit, unicode-boundary, picture-keys, image-timing, image-mixed, image-mixed-opencode, image-reads, image-files, image-reference, draft-reference, draft-product, paste-order, wt-images, pterm-images, pterm-memory, agent-session-memory, frontend-memory-review, windows-trial, profile-dump, profile-dump-single, profile-env, wsl-tui, wsl-sixel, wsl-vim, wsl-tmux-vim, wsl-colour, wsl-paste-quote, wsl-relay-paste, wsl-relay-vim, wsl-byte-path, wsl-drop, rendering-settings, close-cancel, profile-sequence, font-ops, scrollback-modes, paste-lines, paste-quote, paste-quote-exit, taskbar-progress, taskbar-memory, fullscreen]
+        options: [font-bell, dpi, backarrow, backarrow-review, agent-pixels, agent-bindings, interaction, single, ui-regression, shell-lifetime, tcap, portable-notices, regis-window, regis-erase, regis-frame-pair, regis-presented-matrix, regis-text-motion, regis-bank-start, column-modes, column-cells, tab-selection, tab-selection-pair, right-copy-history, tab-hover, pointer-hiding, pointer-colour, colour-input, sync-selection, palette-exit, unicode-boundary, picture-keys, image-timing, image-mixed, image-mixed-opencode, image-reads, image-files, image-reference, draft-reference, draft-product, paste-order, wt-images, pterm-images, pterm-memory, agent-session-memory, frontend-memory-review, windows-trial, profile-dump, profile-dump-single, profile-env, wsl-tui, wsl-sixel, wsl-vim, wsl-tmux-vim, wsl-colour, wsl-paste-quote, wsl-relay-paste, wsl-relay-vim, wsl-byte-path, wsl-drop, rendering-settings, close-cancel, profile-sequence, font-ops, scrollback-modes, paste-lines, paste-quote, paste-quote-exit, taskbar-progress, taskbar-memory, fullscreen]
         default: font-bell
       source_commit:
         description: Full source commit of the source-console-host artifact
@@ -336,6 +336,45 @@ jobs:
       rendering_only: ${{ inputs.suite == 'rendering-settings' }}
       product_run: ${{ inputs.source_run }}
       product_commit: ${{ inputs.source_commit }}
+  right-copy-history:
+    if: inputs.suite == 'right-copy-history'
+    runs-on: windows-2025
+    timeout-minutes: 8
+    env:
+      GH_TOKEN: ${{ github.token }}
+      SOURCE_RUN: ${{ inputs.source_run }}
+      SOURCE_COMMIT: ${{ inputs.source_commit }}
+      FAILURE_HASH: ${{ inputs.diagnostic_sha256 }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Recover the portable image identified by its original failed selection record
+        run: |
+          $ErrorActionPreference='Stop'
+          if ($env:SOURCE_RUN -notmatch '^[1-9][0-9]*$' -or $env:SOURCE_COMMIT -cnotmatch '^[0-9a-f]{40}$' -or $env:FAILURE_HASH -cnotmatch '^[0-9a-f]{64}$') { throw 'Invalid source identity' }
+          $run=gh api "repos/$env:GITHUB_REPOSITORY/actions/runs/$env:SOURCE_RUN" | ConvertFrom-Json
+          if ($LASTEXITCODE -or $run.path -ne '.github/workflows/ci.yml' -or $run.head_sha -ne $env:SOURCE_COMMIT) { throw 'Wrong source run' }
+          gh run download $env:SOURCE_RUN --name "test-results-windows-$env:SOURCE_COMMIT" --dir build/original-report
+          if ($LASTEXITCODE) { throw 'Missing original records' }
+          $original=Get-Content -Raw build/original-report/test-results/tabs-selection-directx-observed.json | ConvertFrom-Json
+          if ($original.executable_sha256 -ne $env:FAILURE_HASH -or $original.completed -or $original.phase_timeout.name -ne 'screen-enter-alternate-mode' -or $original.active_renderer -ne 3 -or $original.tab_side -ne 'right') { throw 'Wrong original failure' }
+          gh run download $env:SOURCE_RUN --name "unverified-mingw-runtime-$env:SOURCE_COMMIT" --dir build/original-runtime
+          if ($LASTEXITCODE) { throw 'Missing original frontend and host' }
+          $exe=Get-Item build/original-runtime/nemoterm.exe
+          if ((Get-FileHash $exe.FullName).Hash.ToLowerInvariant() -cne $env:FAILURE_HASH) { throw 'Wrong portable executable' }
+          @{source_commit=$env:SOURCE_COMMIT;source_run=$env:SOURCE_RUN;fixture_commit=$env:GITHUB_SHA;original_timeout=$original.phase_timeout;files=@(Get-ChildItem $exe.DirectoryName -File | Get-FileHash | Select-Object Path,Hash)} | ConvertTo-Json -Depth 12 | Set-Content build/right-copy-history.json
+          "NEMOTERM_TEST_EXE=$($exe.FullName)" >> $env:GITHUB_ENV
+      - run: scripts/prepare-remote-interaction.ps1
+      - run: python tests/tab_right_click_chain.py
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: right-copy-history-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            build/right-copy-history.json
+            build/interaction-dependencies/environment.json
+            research/tab-right-click-chain-observed.json
+            research/tab-hover-native/right-click-chain/
+          if-no-files-found: error
   tab-selection-pair:
     if: inputs.suite == 'tab-selection-pair'
     runs-on: windows-2025
