@@ -27,8 +27,8 @@ def reference(exe,out):
     for k in ('enabled','disabled','level4','explicit-80','explicit-off','explicit-level4'):
         run_cases(exe,out/(k+'.json'),stages(k),['-ti','vt520','+132' if k.startswith('explicit-') else '-132','-xrm','*allowWindowOps: true'],raw_replies=True)
     from column_mode_saved_cases import QUERY, saved_cases
-    for name, args, initial_132 in [('on',['-132'],True), ('off',['+132'],False), ('auto',[],False)]:
-        sequences = {key: command+QUERY for key,command,*_ in saved_cases(True,initial_132)}
+    sequences = {key: command+QUERY for key,command in saved_cases().items()}
+    for name, args in [('on',['-132']), ('off',['+132']), ('auto',[])]:
         run_cases(exe,out/('saved-'+name+'.json'),sequences,['-ti','vt520',*args,'-xrm','*allowWindowOps: true'],raw_replies=True)
 
 

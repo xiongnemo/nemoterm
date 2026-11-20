@@ -60,21 +60,34 @@ def main(saved):
                    api=['ReadConsoleOutputW', 'GetConsoleScreenBufferInfo'], profiles={})
     for policy in (('allow', 'deny', 'startup-off', 'auto') if saved else ('allow', 'deny', 'startup-off')):
         allow = policy != 'deny'
-        cases = saved_cases(allow, policy == 'allow') if saved else ordinary_cases(policy, allow)
         output = records['profiles'][policy] = {}
-        reference = None
-        if saved and allow:
+        if not saved:
+            cases = [(k, cmd, dict(size=[cols,24],cursor=list(pos),text=text), None)
+                     for k,cmd,cols,pos,text in ordinary_cases(policy,allow)]
+        elif not allow:
+            # All directives that would change width are denied. Only the
+            # final input explicitly overwrites KEEP and homes the cursor.
+            cases = [(k, cmd, dict(size=[80,24],cursor=list(HOME if k=='restore-preserves-margins' else AWAY),
+                                   text='GOOD' if k=='restore-preserves-margins' else MARK), None)
+                     for k,cmd in saved_cases().items()]
+        else:
             source = root/'testdata/upstream/xterm412-saved-column-modes.zip'
             records['reference_sha256'] = hashlib.sha256(source.read_bytes()).hexdigest()
             with zipfile.ZipFile(source) as archive:
                 option = {'allow':'on','startup-off':'off','auto':'auto'}[policy]
                 captured = json.loads(archive.read('column-modes/saved-'+option+'.json'))
-            assert captured['version']=='XTerm(412)' and captured['executable_sha256']==records.setdefault('xterm_sha256',captured['executable_sha256'])
-            reference = captured['cases']
-            assert list(reference) == [key for key,*_ in cases]
+                records['xterm_sha256'] = archive.read('executable-sha256.txt').decode().split()[0]
+            assert captured['version']=='XTerm(412)' and captured['executable_sha256']==records['xterm_sha256']
+            reference, inputs = captured['cases'], saved_cases()
+            assert list(reference) == list(inputs)
+            cases = []
+            for key,command in inputs.items():
+                assert reference[key]['sequence'] == command+QUERY, key
+                wire = bytes.fromhex(reference[key]['reply_hex'])
+                cases.append((key, command, replies(wire), wire))
 
         def exercise(hwnd, phase, current):
-            for key, command, cols, pos, text in cases:
+            for key, command, expected, reference_bytes in cases:
                 if key in ('live-deny','live-allow'):
                     pid = w.DWORD()
                     assert u.GetWindowThreadProcessId(hwnd,c.byref(pid)) and pid.value
@@ -84,12 +97,6 @@ def main(saved):
                     records.setdefault('live_settings',{})[key] = dict(pid=pid.value,hwnd=hwnd,exit_code=ui.returncode,
                         log=(ui.stdout+ui.stderr).decode('utf8',errors='replace'))
                     ui.check_returncode()
-                expected = dict(size=[cols,24],cursor=list(pos),text=text)
-                reference_bytes = None
-                if reference is not None:
-                    assert reference[key]['sequence'] == command+QUERY, key
-                    reference_bytes = bytes.fromhex(reference[key]['reply_hex'])
-                    expected = replies(reference_bytes)
                 raw = phase(key, command+QUERY, None)
                 front = replies(raw)
                 def read():
@@ -110,6 +117,7 @@ def main(saved):
         try:
             run(name+'-'+policy, [], exercise=exercise, barrier=(C+'5n',b'\x1b[0n'),
                 native_row=(2,1,4), font=os.environ['NEMOTERM_TEST_FONT'],
+                source_reference='XTerm(412)' if saved and allow else 'Windows console and local profile policy',
                 profile=dict(NemoTabs=1,NemoRenderer={'gdi':0,'directx':2}[gpu],NemoColumnModeStart={'startup-off':2,'auto':0}.get(policy,1),
                              NoRemoteResize=int(not allow),NemoAllowChecksum=1,FontHeight=8,WarnOnClose=0))
         finally:
