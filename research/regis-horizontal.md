@@ -22,3 +22,5 @@
 - [旧版确切单文件的四组回放](https://github.com/xiongnemo/nemoterm/actions/runs/44692169465)，SHA-256 `bd8cf49fe772b29d9a22789c330ce57693d3a088e192532225af4d2f5f09e934`。
 - [修复版全量运行中的四组回放](https://github.com/xiongnemo/nemoterm/actions/runs/44692457263)，SHA-256 `3edfab2cd2a9eef007a2bdfaf7991390ce46f979b1ea69c7df4545dc6d0da86c`。
 - [两版的文字回执、窗口表面、原始 PNG、产物编号与 SHA-256](regis-horizontal-evidence.zip)。包内 `failed-collector/` 保留首次失败的原始记录；其 72 张 PNG 与固定参考包中同名文件逐字节相同，索引保存逐张散列。本项只验证横向文字编辑与 ReGIS 共存，不代表其他控制序列或全部交互已通过。
+
+在[同一 EXE 的另一次实按回放](https://github.com/xiongnemo/nemoterm/actions/runs/44694679112)中，文字 `A中Z` 与两段红线位于同一行。子程序接管鼠标，用户按住 Shift 和左键后，由程序插入两格；另一次按住 Ctrl+Shift 从 `Z` 开始矩形选择，由程序将文字左移两格。两种渲染器共四项，实际移动的字形、高亮的四列、两段共 49 个红色像素、Ctrl+Shift+C 和默认右键均正确。两次复制只得到 `A中Z`，应用没有收到本地手势或粘贴文本。

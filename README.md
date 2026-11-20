@@ -33,7 +33,7 @@ Kitty 图片支持直接 RGB/RGBA/PNG、压缩传输、裁剪、透明度、查�
 
 ## 下载
 
-[下载 Windows x64 单文件试用版 `226ddd98`](https://github.com/xiongnemo/nemoterm/actions/runs/44687000276/artifacts/14606599292)。本版修复[程序请求改变行列数后 Shift 选区消失](research/selection-page-size.md)的问题，原组 4/28、修复后 28/28。六种满屏负载的前端私有工作集峰值：**GDI 19.56 MB / DirectX 29.09 MB**。完整交互 80/81。[本版验收和 SHA-256](research/acceptance-226ddd98.md) · [上一试用版](research/acceptance-78b18ac0.md)。
+[下载 Windows x64 单文件试用版 `f20a27da`](https://github.com/xiongnemo/nemoterm/actions/runs/44692457263/artifacts/14609725291)。本版修复[横向编辑后 ReGIS 线条消失](research/regis-horizontal.md)：重绘后实测 36/36 与 XTerm 一致，旧版为 4/36。六种满屏负载的前端私有工作集峰值：**GDI 19.96 MB / DirectX 28.64 MB**。完整交互 79/81。[本版验收和 SHA-256](research/acceptance-f20a27da.md) · [上一试用版](research/acceptance-226ddd98.md)。
 
 旧版本的下载、内存和已知差异见[历史试用版](docs/PREVIEW_HISTORY.md)，其中 `cf091974` 通过了当时全部 81 项交互检查。
 
