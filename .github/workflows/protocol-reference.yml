@@ -26,6 +26,7 @@ on:
           - dec-udk
           - bell-modes
           - backarrow
+          - backarrow-pinned
           - feature-policy
           - font-ops
           - reset-palette
@@ -297,8 +298,25 @@ jobs:
           done
           sha256sum build/protocol-reference/udk-source/* > build/protocol-reference/udk-source-sha256.txt
           python3 tests/xterm_udk_oracle.py --xterm /tmp/nemoterm-xterm-reference/xterm --output build/protocol-reference/dec-udk-xterm.json
+      - name: Match the bundled ncurses source and record the resulting xterm-256color entry
+        if: inputs.family == 'backarrow-pinned'
+        run: |
+          git init "$RUNNER_TEMP/backarrow-ncurses"
+          git -C "$RUNNER_TEMP/backarrow-ncurses" fetch --depth 1 https://github.com/ThomasDickey/ncurses-snapshots.git 789942a72295ac37b53a8a167ba9a016325a9ef1
+          git -C "$RUNNER_TEMP/backarrow-ncurses" checkout --detach FETCH_HEAD
+          db="$RUNNER_TEMP/backarrow-db"
+          src="$RUNNER_TEMP/backarrow-ncurses/misc/terminfo.src"
+          tic -x -e xterm-256color -o "$db" "$src"
+          export TERMINFO="$db" TERMINFO_DIRS="$db"
+          infocmp -x -1 xterm-256color > build/protocol-reference/pinned-terminfo.txt
+          entry=$(find "$db" -name xterm-256color -type f -print -quit); test -f "$entry"
+          sha256sum "$src" "$entry" > build/protocol-reference/pinned-terminfo-sha256.txt
+          tic -V > build/protocol-reference/tic-version.txt
+          git -C "$RUNNER_TEMP/backarrow-ncurses" rev-parse HEAD > build/protocol-reference/ncurses-commit.txt
+          echo "TERMINFO=$db" >> "$GITHUB_ENV"
+          echo "TERMINFO_DIRS=$db" >> "$GITHUB_ENV"
       - name: Observe Backspace, reported backarrow mode and the termcap reply on upstream XTerm
-        if: inputs.family == 'backarrow'
+        if: inputs.family == 'backarrow' || inputs.family == 'backarrow-pinned'
         run: python3 tests/xterm_backarrow_oracle.py --xterm /tmp/nemoterm-xterm-reference/xterm --output build/protocol-reference/backarrow.json
       - name: Capture bell modes, urgency hints and stacking on a private display
         if: ${{ (success() || failure()) && inputs.family == 'bell-modes' }}
