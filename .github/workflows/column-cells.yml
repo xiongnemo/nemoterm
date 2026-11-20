@@ -24,7 +24,14 @@ jobs:
           scripts/fetch-ci-product.ps1 -Run $env:PRODUCT_RUN -Commit $env:PRODUCT_COMMIT -Destination build/column-product
           "NEMOTERM_TEST_EXE=$((Resolve-Path build/column-product/nemoterm.exe).Path)" | Out-File $env:GITHUB_ENV -Append -Encoding utf8
           scripts/prepare-remote-interaction.ps1
+      - name: Insert Chinese at a wrapping line edge on gdi
+        if: ${{ !cancelled() && steps.prepare.outcome == 'success' }}
+        run: python tests/cjk_insert_wrap.py gdi
+      - name: Insert Chinese at a wrapping line edge on directx
+        if: ${{ !cancelled() && steps.prepare.outcome == 'success' }}
+        run: python tests/cjk_insert_wrap.py directx
       - name: Record the complete margin-neighbour diagnostic rows
+        if: ${{ !cancelled() && steps.prepare.outcome == 'success' }}
         run: python tests/column_edge_audit.py --output research/column-edge-observed.json
       - name: Compare all 728 reported cells with the original XTerm replies
         if: ${{ !cancelled() && steps.prepare.outcome == 'success' }}
@@ -61,6 +68,7 @@ jobs:
             research/column-rectangle-*/
             research/column-rectangle-*-observed.json
             research/column-press-observed.json
+            research/column-cjk-insert-wrap-*.json
             research/column-edge-observed.json
             research/column-edit-native-*.json
             build/column-product/SOURCE-HOST.json
