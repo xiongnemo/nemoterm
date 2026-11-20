@@ -99,6 +99,44 @@ static bool visualWriter(CONSOLE_API_MSG* message)
             case InjectionType::RIS:''')
 
 
+def patch_linux_palette():
+    # Keep Windows buffer reads in step with the unchanged byte stream sent
+    # to Nemoterm. The input parser continues to parse OSC replies normally.
+    parser = DEST / 'src/terminal/parser'
+    cpp, hpp = parser / 'stateMachine.cpp', parser / 'stateMachine.hpp'
+    shutil.copyfile(ROOT / 'native/single_exe/linux_palette.inc', parser / 'nemo_linux_palette.inc')
+    replace(hpp, '            OscParam,', '            OscParam,\n            NemoOscPalette,')
+    anchor = '        void _EventOscParam(const wchar_t wch);'
+    replace(hpp, anchor, anchor + '\n        void _EventNemoOscPalette(const wchar_t wch);')
+    replace(hpp, '        VTInt _oscParameter;', '        VTInt _oscParameter;\n        bool _nemoOscStart{};')
+    anchor = '    _state = VTStates::OscParam;'
+    replace(cpp, anchor, anchor + '\n    _nemoOscStart = !_isEngineForInput;')
+    anchor = 'void StateMachine::_EventOscParam(const wchar_t wch)\n{'
+    replace(cpp, anchor, '#include "nemo_linux_palette.inc"\n\n' + anchor + """
+    if (std::exchange(_nemoOscStart, false))
+    {
+        if (wch == L'P')
+        {
+            _state = VTStates::NemoOscPalette;
+            return;
+        }
+        if (wch == L'R')
+        {
+            // PuTTY resets the indexed table and all session colour overrides.
+            // Reset the corresponding indexed and dynamic resources the host has.
+            for (const VTInt reset : { 104, 110, 111, 112, 117 })
+            {
+                _oscParameter = reset;
+                _ActionOscDispatch();
+            }
+            _EnterGround();
+            return;
+        }
+    }""")
+    anchor = '        case VTStates::OscParam:\n            return _EventOscParam(wch);'
+    replace(cpp, anchor, anchor + '\n        case VTStates::NemoOscPalette:\n            return _EventNemoOscPalette(wch);')
+
+
 def patch_column_edits():
     src = DEST / 'src'
     adapter = src / 'terminal/adapter/adaptDispatch.cpp'
@@ -543,6 +581,7 @@ def main():
     patch_visual_writer()
     patch_column_resize_owner()
     patch_column_edits()
+    patch_linux_palette()
     patch_cursor_sync()
     patch_input_dcs_fragments()
     patch_cursor_sync_fragments()
