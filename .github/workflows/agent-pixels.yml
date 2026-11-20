@@ -44,12 +44,16 @@ jobs:
       - name: Read the repeated Unicode glyphs, keeping incomplete attempts visible
         if: ${{ !cancelled() && !inputs.bindings && steps.fetch.outcome == 'success' && steps.pillow.outcome == 'success' }}
         run: '"$RUNNER_TEMP/agent-review-venv/bin/python" scripts/review-character-repeat.py build/agent-review/receipt.zip build/agent-review/surfaces.zip build/agent-review/character-repeat.json'
+      - name: Read the two physical RTL selections and verify the pasted provider prompt
+        if: ${{ !cancelled() && !inputs.bindings && steps.fetch.outcome == 'success' && steps.pillow.outcome == 'success' }}
+        run: '"$RUNNER_TEMP/agent-review-venv/bin/python" scripts/review-agent-bidi.py build/agent-review/receipt.zip build/agent-review/surfaces.zip build/agent-review/bidi.json'
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
           name: ${{ inputs.bindings && 'agent-bindings' || 'agent-pixels' }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
             build/agent-review/character-repeat.json
+            build/agent-review/bidi.json
             build/agent-review/inputs.json
             build/agent-review/bindings.json
             build/agent-review/agent-window-memory.*
