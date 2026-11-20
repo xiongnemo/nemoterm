@@ -1,6 +1,7 @@
 # 当前测试版与待审阅材料
 
-- 当前 dist 试用版 `3da1ebb8`：[交互和内存验收](acceptance-3da1ebb8.md) · [四边标签与进度条截图](tab-faces-3da1ebb8.md)。
+- 当前 dist 试用版 `355c73f8`：[交互、内存与已知差异](acceptance-355c73f8.md) · [打字隐藏指针后拖选中文](pointer-hiding-355c73f8.md)。
+- 上一试用版 `3da1ebb8`：[交互和内存验收](acceptance-3da1ebb8.md) · [四边标签与进度条截图](tab-faces-3da1ebb8.md)。
 - [上一试用版 `abe6de57` 的验收、内存数据及已知差异](acceptance-abe6de57.md)。
 - [`abe6de57`：按住 Shift 时文字移动，普通和矩形选区的前后画面](stationary-abe6de57.md)。
 - [候选版 `28a2da26` 的交互和内存验收](acceptance-28a2da26.md)：中英文 DPI、就绪后贴图、响铃和设置复测，以及隔离单文件在右侧标签栏选区超时的原始记录。
