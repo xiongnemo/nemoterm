@@ -10,7 +10,7 @@ Nemoterm 是 **PuTTY 0.85 Windows pterm 的下游 fork**，沿用其终端核心
 本项目独立维护，非 PuTTY 或 Microsoft 官方版本。
 
 **项目仍在开发中。** CI 产物是开发快照；协议兼容性、真实终端应用和长期资源占用仍在持续验证。
-[下载当前 Windows x64 试用版](#下载) · [v0 已知问题与使用限制](docs/KNOWN_ISSUES.md)。常用控制序列见[现代终端子集](docs/MODERN_VT.md)；逐项证据见[协议支持表](docs/PROTOCOLS.md)
+[下载当前 Windows x64 试用版](#下载) · [v0 已知问题与使用限制](docs/KNOWN_ISSUES.md)。v0 以 `TERM=xterm` / `xterm-256color` 应用的常用交互和 Sixel 为兼容目标，范围见[现代终端子集](docs/MODERN_VT.md)；逐项证据见[协议支持表](docs/PROTOCOLS.md)
 和 [需求与验证记录](docs/REQUIREMENTS.md)。
 
 支持 English / 简体中文 / 跟随 Windows 显示语言，在 **Window → Interface language** 中选择并保存，重启后生效。详见[界面语言说明](docs/I18N.md)。
