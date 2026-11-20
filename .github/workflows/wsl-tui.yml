@@ -10,6 +10,24 @@ permissions:
   contents: read
   actions: read
 jobs:
+  linux-geometry:
+    if: inputs.suite == 'sixel'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Check the shipped PTY at startup, on resize and on a pixel-only change
+        run: |
+          mkdir -p build/wsl-relay
+          install -m 755 native/wsl_pty/bundled/relay-x86_64.elf build/wsl-relay/relay
+          printf '%s  %s\n' "$(jq -er .relay_sha256 native/wsl_pty/bundled/manifest.json)" build/wsl-relay/relay | sha256sum -c -
+          python3 tests/wsl_pty_relay.py linux --geometry
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: linux-pty-pixels-${{ github.run_id }}-${{ github.run_attempt }}
+          path: build/wsl-relay-records/
+          if-no-files-found: error
   linux-pty:
     if: inputs.suite == 'paste-quote'
     runs-on: ubuntu-24.04
@@ -131,6 +149,16 @@ jobs:
           $env:NEMOTERM_TEST_RELAY_SHA256 = (Get-Content native/wsl_pty/bundled/manifest.json -Raw | ConvertFrom-Json).relay_sha256
           python build/wsl-check/tests/wsl_pixel_geometry.py
           exit $LASTEXITCODE
+      - name: Exercise the shipped PTY's geometry protocol directly on the hosted WSL1 kernel
+        if: ${{ !cancelled() && steps.prepare.outcome == 'success' && inputs.suite == 'sixel' }}
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force build/wsl-relay | Out-Null
+          Copy-Item native/wsl_pty/bundled/relay-x86_64.elf build/wsl-relay/relay
+          $relay = (Get-Content native/wsl_pty/bundled/manifest.json -Raw | ConvertFrom-Json).relay_sha256
+          if ((Get-FileHash build/wsl-relay/relay).Hash -ne $relay) { throw 'Shipped relay does not match manifest' }
+          python tests/wsl_pty_relay.py wsl1 --geometry
+          exit $LASTEXITCODE
       - name: Select the embedded transport and expected guest image
         if: inputs.bundled
         shell: pwsh
@@ -163,6 +191,7 @@ jobs:
           path: |
             build/wsl-provision/*.log
             build/wsl-check/research/
+            build/wsl-relay-records/
             build/wsl-product/SOURCE-HOST.json
             build/interaction-dependencies/environment.json
           if-no-files-found: error
