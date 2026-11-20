@@ -6,7 +6,7 @@ on:
       suite:
         description: Checks or notice-only packaging against the exact artifact
         type: choice
-        options: [font-bell, dpi, backarrow, backarrow-review, agent-pixels, agent-bindings, interaction, single, ui-regression, shell-lifetime, tcap, portable-notices, regis-window, regis-erase, regis-frame-pair, regis-presented-matrix, regis-text-motion, regis-bank-start, column-modes, column-cells, tab-selection, tab-selection-pair, right-copy-history, tab-hover, pointer-hiding, pointer-colour, colour-input, sync-selection, palette-exit, unicode-boundary, picture-keys, image-timing, image-mixed, image-mixed-opencode, image-reads, image-files, image-reference, draft-reference, draft-product, paste-order, wt-images, pterm-images, pterm-memory, agent-session-memory, frontend-memory-review, windows-trial, profile-dump, profile-dump-single, profile-env, wsl-tui, wsl-sixel, wsl-vim, wsl-tmux-vim, wsl-colour, wsl-paste-quote, wsl-relay-paste, wsl-relay-vim, wsl-byte-path, wsl-drop, rendering-settings, close-cancel, profile-sequence, font-ops, scrollback-modes, paste-lines, paste-quote, paste-quote-exit, taskbar-progress, taskbar-memory, fullscreen]
+        options: [font-bell, dpi, backarrow, backarrow-review, agent-pixels, agent-bindings, interaction, single, ui-regression, shell-lifetime, tcap, portable-notices, regis-window, regis-erase, regis-frame-pair, regis-presented-matrix, regis-text-motion, regis-bank-start, column-modes, column-cells, tab-selection, tab-selection-dx, tab-selection-pair, right-copy-history, tab-hover, pointer-hiding, pointer-colour, colour-input, sync-selection, palette-exit, unicode-boundary, picture-keys, image-timing, image-mixed, image-mixed-opencode, image-reads, image-files, image-reference, draft-reference, draft-product, paste-order, wt-images, pterm-images, pterm-memory, agent-session-memory, frontend-memory-review, windows-trial, profile-dump, profile-dump-single, profile-env, wsl-tui, wsl-sixel, wsl-vim, wsl-tmux-vim, wsl-colour, wsl-paste-quote, wsl-relay-paste, wsl-relay-vim, wsl-byte-path, wsl-drop, rendering-settings, close-cancel, profile-sequence, font-ops, scrollback-modes, paste-lines, paste-quote, paste-quote-exit, taskbar-progress, taskbar-memory, fullscreen]
         default: font-bell
       source_commit:
         description: Full source commit of the source-console-host artifact
@@ -424,7 +424,7 @@ jobs:
             research/selection-child-output.log
           if-no-files-found: error
   focused-replay:
-    if: ${{ inputs.suite == 'font-bell' || inputs.suite == 'tab-selection' || inputs.suite == 'ui-regression' || inputs.suite == 'tcap' || inputs.suite == 'pointer-colour' || inputs.suite == 'profile-env' || inputs.suite == 'close-cancel' || inputs.suite == 'fullscreen' }}
+    if: ${{ inputs.suite == 'font-bell' || inputs.suite == 'tab-selection' || inputs.suite == 'tab-selection-dx' || inputs.suite == 'ui-regression' || inputs.suite == 'tcap' || inputs.suite == 'pointer-colour' || inputs.suite == 'profile-env' || inputs.suite == 'close-cancel' || inputs.suite == 'fullscreen' }}
     runs-on: windows-2025
     timeout-minutes: 15
     env:
@@ -473,13 +473,26 @@ jobs:
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python tests/selection_window_smoke.py --tabs --tab-side right --renderer 0 2>&1 | Tee-Object build/focused-evidence/selection.log
           exit $LASTEXITCODE
+      - name: Prepare the hosted Sarasa font for the right-side DirectX regression
+        if: inputs.suite == 'tab-selection-dx'
+        run: scripts/prepare-remote-interaction.ps1
+      - name: Replay the right-side DirectX selection, including held screen changes
+        if: inputs.suite == 'tab-selection-dx'
+        env:
+          NEMOTERM_REQUIRE_DIRECTX: '1'
+        run: |
+          python -m pip install Pillow==13.0.0
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          python tests/selection_window_smoke.py --tabs --tab-side right --renderer 2 2>&1 | Tee-Object build/focused-evidence/selection.log
+          exit $LASTEXITCODE
       - name: Retain right-side selection receipts even when the fixture times out
-        if: ${{ always() && inputs.suite == 'tab-selection' && env.NEMOTERM_TEST_EXE != '' }}
+        if: ${{ always() && (inputs.suite == 'tab-selection' || inputs.suite == 'tab-selection-dx') && env.NEMOTERM_TEST_EXE != '' }}
         shell: pwsh
         run: |
           foreach ($name in @('tabs-selection-observed.json','selection-last-snapshot.json','selection-child-output.log')) {
             if (Test-Path "research/$name") { Copy-Item -LiteralPath "research/$name" -Destination build/focused-evidence }
           }
+          Get-ChildItem -LiteralPath research -Filter 'screen-*.png' -File | Copy-Item -Destination build/focused-evidence
           Get-ChildItem -LiteralPath research -Filter 'message-column-repeat-cell-*.png' -File | Copy-Item -Destination build/focused-evidence
       - name: Check the relocated glyph and both selections from the original PNGs
         if: inputs.suite == 'tab-selection' && success()
