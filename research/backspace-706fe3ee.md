@@ -1,13 +1,13 @@
 # Backspace：运行时模式、实际按键与两份 terminfo
 
-候选 `706fe3ee`（Windows x64 单 EXE，4,940,288 字节，SHA-256 `4aab33c307d391387aeabc28760339f5e800752179d6312f725cb56ad9e05373`）让应用在运行时选择 Backspace 发送 BS（`08`）还是 DEL（`7F`）。无关的 Profile 设置变更保留应用选择；终端硬重置恢复 Profile 默认值。在默认 xterm 键盘配置中，Ctrl 临时反转这两个字节，Shift 单独按住不反转。独立 Delete 键仍发送 `ESC [ 3 ~`。选择 Terminfo 键盘配置时，无修饰 Backspace 优先采用所选数据库的 `kbs` 值。
+[试用版 `706fe3ee`](acceptance-706fe3ee.md)（Windows x64 单 EXE，4,940,288 字节，SHA-256 `4aab33c307d391387aeabc28760339f5e800752179d6312f725cb56ad9e05373`）让应用在运行时选择 Backspace 发送 BS（`08`）还是 DEL（`7F`）。无关的 Profile 设置变更保留应用选择；终端硬重置恢复 Profile 默认值。在默认 xterm 键盘配置中，Ctrl 临时反转这两个字节，Shift 单独按住不反转。独立 Delete 键仍发送 `ESC [ 3 ~`。选择 Terminfo 键盘配置时，无修饰 Backspace 优先采用所选数据库的 `kbs` 值。
 
 [原试用版的 Windows 实测](https://github.com/xiongnemo/nemoterm/actions/runs/44738471654)在 64 个场景中均把模式 67 报告为未知。实际错误不限于查询：默认 DEL 的配置在 `CSI ? 67 h` 后按 Shift+Backspace 收到 `7F`，而同条件的 XTerm 收到 `08`。新版本让前端状态、按键编码和查询使用同一模式；内置控制台接收已经编码的 BS/DEL 时，保持 VT 输入的原值，常规控制台读行仍走原来的编辑路径。
 
 | 64 个场景，各自对照同一份 ncurses 来源 | 模式状态相同 | 解码后 `kbs` 相同 | 子程序收到的按键相同 | 三者均相同 |
 | --- | ---: | ---: | ---: | ---: |
 | 试用版 `89a3dd44` | 0 | 51 | 36 | 0 |
-| 候选 `706fe3ee` | 64 | 64 | 64 | 64 |
+| [试用版 `706fe3ee`](acceptance-706fe3ee.md) | 64 | 64 | 64 | 64 |
 
 [Windows 原始输入](https://github.com/xiongnemo/nemoterm/actions/runs/44739336945/artifacts/14629784071) · [独立验证原始字节及 EXE 身份的工作流](https://github.com/xiongnemo/nemoterm/actions/runs/44740494760)。两次 Linux 采集都使用真正的 XTerm 412 和真实按键，覆盖四种新会话，分别执行 16 个设置、查询、按键、保存恢复、软硬重置和切屏步骤。
 

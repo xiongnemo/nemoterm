@@ -33,7 +33,7 @@ Kitty 图片支持直接 RGB/RGBA/PNG、压缩传输、裁剪、透明度、查�
 
 ## 下载
 
-[下载 Windows x64 单文件试用版 `89a3dd44`](https://github.com/xiongnemo/nemoterm/actions/runs/44732574060/artifacts/14628095507)。Shift 拖选按眼前的文字复制；同一行旁边刷新时，高亮和右键复制仍有效。[修复前后窗口](research/sync-selection-3308de91.md)。六种满屏负载私有工作集峰值 **GDI 19.39 MB / DirectX 29.24 MB**，整组交互 79/81。[本版验收及 SHA-256](research/acceptance-89a3dd44.md) · [上一试用版](research/acceptance-3308de91.md)。
+[下载 Windows x64 单文件试用版 `706fe3ee`](https://github.com/xiongnemo/nemoterm/actions/runs/44739336945/artifacts/14630900237)。在真实 agent 中 Shift 选中、复制后可继续退格编辑和粘贴；GDI、DirectX 合计 10/10 个窗口通过[屏幕像素和提交回执](research/backspace-706fe3ee.md)。六种满屏负载私有工作集峰值 **GDI 18.98 MB / DirectX 29.67 MB**，整体交互 79/81。[本版验收及 SHA-256](research/acceptance-706fe3ee.md) · [上一试用版](research/acceptance-89a3dd44.md)。
 
 旧版本的下载、内存和已知差异见[历史试用版](docs/PREVIEW_HISTORY.md)，其中 `cf091974` 通过了当时全部 81 项交互检查。
 

@@ -1,6 +1,8 @@
 # Nemoterm requirements and evidence ledger
 
-The [distributed `89a3dd44` preview](../research/acceptance-89a3dd44.md) keeps physical Shift selection and default right click on the presented glyphs through a synchronized update, including an adjacent edit (13/13 per renderer). The 160×48 six-workload private working-set peaks were 19,394,560 GDI and 29,237,248 DirectX bytes. Full interaction: 79/81.
+The [distributed `706fe3ee` preview](../research/acceptance-706fe3ee.md) verifies physical Shift-copy, modal focus recovery, presented Backspace edits, paste and the submitted prompt across ten real agent windows. Private working-set peaks across six full-grid workloads: 18,984,960 bytes GDI, 29,671,424 bytes DirectX. Full interaction: 79/81.
+
+The [previous `89a3dd44` preview](../research/acceptance-89a3dd44.md) keeps physical Shift selection and default right click on the presented glyphs through a synchronized update, including an adjacent edit (13/13 per renderer). The 160×48 six-workload private working-set peaks were 19,394,560 GDI and 29,237,248 DirectX bytes. Full interaction: 79/81.
 
 The [previous `3308de91` preview](../research/acceptance-3308de91.md) keeps Win32 buffer text and palette reads in sync with Windows window pixels across Linux console palette changes. Four write/render combinations passed 6/6 stages each (3/6 before). Full interaction: 79/81; six full-grid workloads peaked at 19,288,064 GDI and 28,684,288 DirectX frontend private working-set bytes.
 
