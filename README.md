@@ -33,7 +33,7 @@ Kitty 图片支持直接 RGB/RGBA/PNG、压缩传输、裁剪、透明度、查�
 
 ## 下载
 
-[下载 Windows x64 单文件试用版 `c55cca64`](https://github.com/xiongnemo/nemoterm/actions/runs/44814333692/artifacts/14669630337)。修复应用用 `file:/C:/work` 或大写 `FILE:` 报告工作目录时，按 Ctrl+Shift+T 仍在旧目录打开的问题。[新标签实际目录与复制 URI](research/osc7-tab-directory.md)在 GDI、DirectX 上合计从 8/14 提升到 14/14。[本版完整回归](https://github.com/xiongnemo/nemoterm/actions/runs/44814333692)单独计分。
+[下载 Windows x64 单文件试用版 `c55cca64`](https://github.com/xiongnemo/nemoterm/actions/runs/44814333692/artifacts/14669630337)。修复应用用 `file:/C:/work` 或大写 `FILE:` 报告工作目录时，按 Ctrl+Shift+T 仍在旧目录打开的问题。[新标签实际目录与复制 URI](research/osc7-tab-directory.md)在 GDI、DirectX 上合计从 8/14 提升到 14/14。[本版交互和内存](research/osc7-tab-directory.md#单文件交互与内存验收)：六种满屏负载的前端私有工作集峰值为 **GDI 19.47 MB、DirectX 29.52 MB**。真实应用快捷键和右键 18/18，就绪后贴图 4/4；严格交互 **79/81**，两项失败均为 Codex 启动早期贴图。[完整运行](https://github.com/xiongnemo/nemoterm/actions/runs/44814333692)另含平台与协议对照。
 
 [上一版 `b04ca12a` 的单文件](https://github.com/xiongnemo/nemoterm/actions/runs/44806811770/artifacts/14662764153)。修复 Windows 把重复的中文或表情合并成一条字符消息时只出现一个的问题。44/44 项原生输入检查通过；Codex、Claude Code 和 OpenCode 的十个真实窗口均显示两个“中”，两次退格后分别剩一个、零个。六种满屏负载的前端私有工作集峰值为 GDI **19.97 MB**、DirectX **28.62 MB**。严格交互为 **80/81**，唯一未通过的是 Codex 输入框就绪前的一次贴图；就绪后的四种按键路径均通过。[输入框实图与验收结果](research/character-repeat.md)。
 

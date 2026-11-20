@@ -23,3 +23,16 @@
 [同机 24 轮 Codex 对话](https://github.com/xiongnemo/nemoterm/actions/runs/44814333692/artifacts/14669248402)中，前端私有工作集采样峰值为 pterm **3,768,320**、Nemoterm GDI **5,578,752**、DirectX **9,695,232** 字节。十个实际应用交互窗口中的采样峰值为 GDI **16,699,392**、DirectX **18,309,120** 字节（两者均是 Claude Code）。这两项负载和六种满屏压力负载分别计分。
 
 [WSL 粘贴与退出记录](https://github.com/xiongnemo/nemoterm/actions/runs/44814333692/artifacts/14670150460)保留了四个窗口超过两秒退出时限的失败。Windows 作业记录显示，每次留下的都是两个名为 `init` 的进程，约在时限后 13 秒退出，无需强制终止。同一 runner 上不启动 Nemoterm、只让 WSL 输出一行的两组对照（直接及带 relay）也留下两个 `init`，时间相同。这个对照能解释为什么单测退出时限也会失败，不能推断旧运行中未识别的进程就是 `init`。
+
+## 单文件交互与内存验收
+
+[远程 Windows 验收报告](https://github.com/xiongnemo/nemoterm/actions/runs/44814333692/artifacts/14671480264)严格计分 **79/81**，全部执行。两项未通过均在 Codex 输入框首次出现时贴图；按用户的范围，不要求此时已能接收图片。编辑器就绪后的四种路径（两种发送方式 × 两种快捷键）均一次提交了正确图片。18 项真实应用快捷键和右键检查全部通过；GDI、DirectX 上的八帧 Sixel 也通过。十个真实应用窗口的二十次模块和进程采样均未发现已知 WebView 标记。
+
+[内存复核](https://github.com/xiongnemo/nemoterm/actions/runs/44814333692/artifacts/14671395231)逐条读取本版 160×48 满屏负载的前端进程样本。峰值均在 Unicode 与 Kitty 图像混合负载中；下表使用十进制字节。
+
+| 六种满屏负载 | 私有工作集峰值 | 距上限 | 总工作集峰值 | 私有提交峰值 |
+|---|---:|---:|---:|---:|
+| GDI | 19,468,288 | 531,712 | 56,332,288 | 22,593,536 |
+| DirectX | 29,523,968 | 476,032 | 74,915,840 | 33,067,008 |
+
+[本版交互、内存、独立像素复核和便携构建转储的分析回执](trial-c55cca64.zip)保留四份 GitHub 原始分析制品及其编号、散列，不包含进程内存转储。历史边界：另一个 MinGW 便携构建（EXE `a58d794d…`）切换三个 profile 36 次后无法在 15 秒内退出。[原始失败](https://github.com/xiongnemo/nemoterm/actions/runs/44814333692/artifacts/14669453510)与[原始转储的远程解读](https://github.com/xiongnemo/nemoterm/actions/runs/44818152327/artifacts/14670552226)显示窗口线程在 `RtlEnterCriticalSection` 等待，调试器标出下一帧为已卸载的 `frida-agent.dll+0x13b655`，没有可靠展开到产品栈帧；不能据此认定锁的所有者。该失败不改变单文件内存和输入的实测数字。
