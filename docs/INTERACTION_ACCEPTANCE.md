@@ -386,3 +386,8 @@ identifies the displayed frame. The clipboard must change, the child must
 receive no gesture bytes and the frozen observations must fit within the
 one-second presentation timeout. The raw mode query is retained after each
 gesture for diagnosis.
+The runner also checks replacing the private primary selection via permitted
+OSC 52 while the highlight is still visible. The opt-in right-click paste must
+deliver the same UTF-8 text as the system clipboard; after the new frame is
+released, an unselected right click must reach the tracking application again.
+The [first exact-image failures](../research/sync-selection-3308de91.md) are retained.

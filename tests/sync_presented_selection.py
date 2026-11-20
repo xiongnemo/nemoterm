@@ -22,7 +22,7 @@ OLD, NEW = '中文', '明月'
 QUERIES = ''.join(CSI+f'?{m}$p' for m in (2026, 1002, 1006))
 
 
-def run(engine, output):
+def run(engine, output, paste):
     assert os.environ.get('RUNNER_ENVIRONMENT') == 'github-hosted' and os.environ.get('GITHUB_ACTIONS') == 'true'
     exe = Path(os.environ['NEMOTERM_TEST_EXE']).resolve()
     font = os.environ['NEMOTERM_TEST_FONT']
@@ -34,11 +34,13 @@ def run(engine, output):
         return draw(row,current)+CSI+f'{row+1};12H'+CSI+'48;2;'+('180;32;16' if current==OLD else '16;48;180')+'m   '+CSI+'0m'
     def mode_reply(frozen):
         return (CSI+f'?2026;{1 if frozen else 2}$y'+CSI+'?1002;1$y'+CSI+'?1006;1$y').encode()
-    with tempfile.TemporaryDirectory() as folder, OwnedJob() as job, saved_profile(dict(NemoRenderer=engine-1, WarnOnClose=0)) as profile:
+    settings=dict(NemoRenderer=engine-1, WarnOnClose=0, NemoOSC52Write=1, NemoOSC52Read=1)
+    if paste: settings['RightClickCopyAndPaste']=1
+    with tempfile.TemporaryDirectory() as folder, OwnedJob() as job, saved_profile(settings) as profile:
         report, control = (Path(folder)/f for f in ('report','control'))
         proc = job.spawn([str(exe), *profile, '--tabs','--font',font,'--cols','80','--rows','24','-e', sys.executable,
                           str(root/'tests/mouse_fixture.py'),str(report),str(control),'150'],
-                         env=dict(os.environ,NEMOTERM_CONPTY='bundled',NEMOTERM_TEST_EXACT_OUTPUT='1'),creationflags=subprocess.CREATE_NO_WINDOW)
+                         env=dict(os.environ,NEMOTERM_CONPTY='bundled',NEMOTERM_TEST_EXACT_OUTPUT='1',NEMOTERM_TEST_INPUT_CP='65001',NEMOTERM_TEST_WIDE_INPUT='1'),creationflags=subprocess.CREATE_NO_WINDOW)
         hwnd = wait_for(lambda: find_window(proc.pid)); host=terminal_host(hwnd); assert host != hwnd
         u.GetPropW.argtypes,u.GetPropW.restype=[w.HWND,w.LPCWSTR],w.HANDLE
         output['actual_renderer']=u.GetPropW(hwnd,'NemotermRenderer'); assert output['actual_renderer']==engine
@@ -74,9 +76,14 @@ def run(engine, output):
                     wait_for(lambda:desktop.state().capture==hwnd);point(6,y)
                 finally:
                     desktop.event(None,False);wait_for(lambda:desktop.state().capture!=hwnd);desktop.event(0x10,False)
-            for index,(case,preselect,freeze,action,initial) in enumerate((
+            cases=(
                 ('live-old',False,False,'key',OLD),('live-new',False,False,'key',NEW),
-                ('press-frozen',False,True,'key',OLD),('copy-frozen',True,True,'key',OLD),('right-frozen',True,True,'right',OLD))):
+                ('press-frozen',False,True,'key',OLD),('copy-frozen',True,True,'key',OLD),('right-frozen',True,True,'right',OLD),
+                ('copy-primary',True,True,'key',OLD),('right-primary',True,True,'right',OLD))
+            if paste:cases=tuple(c for c in cases if c[3]=='right')
+            for index,(case,preselect,freeze,action,initial) in enumerate(cases):
+                primary=case.endswith('primary')
+                if paste:case+='-paste'
                 y=4+2*index; row=dict(case=case,expected=initial);output['cases'].append(row)
                 req,raw=phase(case+'-start','\x1bc'+CSI+'?25l'+CSI+'?1002;1006h'+draw(18,OLD)+draw(20,NEW)+scene(y,initial)+QUERIES)
                 assert raw==mode_reply(False)+ACK,raw
@@ -92,8 +99,11 @@ def run(engine, output):
                         return frame if all(tile(frame,x,y)!=tile(frame,x,ref) for x in range(3,7)) else None
                     before=wait_for(highlighted)
                 seq=u.GetClipboardSequenceNumber(); t0=time.perf_counter_ns()
-                req,raw=phase(case+'-gesture',(CSI+'?2026h'+scene(y,NEW) if freeze else '')+QUERIES)
-                assert raw==mode_reply(freeze)+ACK,raw
+                primary_set='\x1b]52;p;TkVX\x07' if primary else ''
+                primary_read='\x1b]52;p;?\x07' if primary else ''
+                prefix=primary_set.encode()+mode_reply(freeze)
+                req,raw=phase(case+'-gesture',(CSI+'?2026h'+scene(y,NEW) if freeze else '')+primary_set+primary_read+QUERIES)
+                assert raw==prefix+ACK,raw
                 observed=sample(); row['pre_gesture_ms']=(time.perf_counter_ns()-t0)/1e6
                 row['pre_gesture_same_cells']=glyphs(observed,y)==glyphs(before,y);row['pre_gesture_chip']=chip(observed,y)
                 if not preselect:drag(y)
@@ -109,7 +119,15 @@ def run(engine, output):
                 for label,pixels in (('before',before),('gesture',observed),('after',after)):
                     capture_result(width,height,pixels,f'sync-select-{engine}-{case}-{label}.png')
                 row['passed']=(row['pre_gesture_same_cells'] and tuple(row['pre_gesture_chip'])==(oldchip if initial==OLD else newchip) and
-                               (not freeze or row['sample_end_ms']<1000) and raw==mode_reply(freeze)+ACK*2 and row['fresh_clipboard'] and row['copied']==initial)
+                               (not freeze or row['sample_end_ms']<1000) and raw==prefix+ACK+(initial.encode() if paste else b'')+ACK and
+                               row['fresh_clipboard'] and row['copied']==initial)
+                if freeze and preselect:
+                    # The following frame no longer highlights the text. Both right-button edges must now reach the application.
+                    point(6,y); req,raw=phase(case+'-released-right',QUERIES); seq=u.GetClipboardSequenceNumber()
+                    assert raw==mode_reply(False)+ACK
+                    desktop.chord('right'); wire=drain(req); row['committed_right_wire']=wire.hex()
+                    mouse=(CSI+f'<2;7;{y+1}M'+CSI+f'<2;7;{y+1}m').encode()
+                    row['passed'] &= wire==mode_reply(False)+ACK+mouse+ACK and u.GetClipboardSequenceNumber()==seq
         finally:
             if cap:output['capture']=cap.close()
             if desktop:desktop.restore()
@@ -119,8 +137,8 @@ def run(engine, output):
 
 
 if __name__=='__main__':
-    engine={'gdi':1,'directx':3}[sys.argv[1]]; result={}
-    try:run(engine,result)
+    engine={'gdi':1,'directx':3}[sys.argv[1]]; result={}; paste='--paste' in sys.argv[2:]
+    try:run(engine,result,paste)
     except BaseException as exc:
         result['error']=repr(exc);raise
-    finally:(root/'research'/f'sync-select-{engine}.json').write_text(json.dumps(result,indent=2),encoding='utf8')
+    finally:(root/'research'/('sync-select-%d%s.json'%(engine,'-paste' if paste else ''))).write_text(json.dumps(result,indent=2),encoding='utf8')

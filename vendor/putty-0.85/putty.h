@@ -2162,6 +2162,8 @@ void term_copyall(Terminal *, const int *, int);
 void term_pre_reconfig(Terminal *, Conf *);
 void term_reconfig(Terminal *, Conf *);
 void term_request_copy(Terminal *, const int *clipboards, int n_clipboards);
+void term_request_copy_paste(Terminal *, const int *clipboards, int n_clipboards);
+bool term_has_presented_selection(Terminal *);
 void term_request_paste(Terminal *, int clipboard);
 void term_seen_key_event(Terminal *);
 size_t term_data(Terminal *, const void *data, size_t len);

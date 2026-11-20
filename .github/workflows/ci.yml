@@ -26,6 +26,13 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  sync-selection:
+    if: ${{ inputs.scope != 'dpi' }}
+    needs: source-host
+    uses: ./.github/workflows/sync-selection.yml
+    with:
+      product_run: ${{ github.run_id }}
+      product_commit: ${{ github.sha }}
   wsl-pty-relay:
     if: ${{ inputs.scope != 'dpi' }}
     uses: ./.github/workflows/wsl-pty-relay.yml

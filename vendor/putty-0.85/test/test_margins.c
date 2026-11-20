@@ -301,9 +301,9 @@ static void test_reverse_wrap_lifetimes(Mock *mk)
     int clip = CLIP_LOCAL;
     term_copyall(t, &clip, 1); /* mock clipboard, never the desktop clipboard */
 #ifdef _WIN32
-    IEQUAL(wcsstr(t->last_selected_text, L"ABCDEF\r\n  GHIJKL") != NULL, true);
+    IEQUAL(wcsstr(t->selected_text.text, L"ABCDEF\r\n  GHIJKL") != NULL, true);
 #else
-    IEQUAL(wcsstr(t->last_selected_text, L"ABCDEF\n  GHIJKL") != NULL, true);
+    IEQUAL(wcsstr(t->selected_text.text, L"ABCDEF\n  GHIJKL") != NULL, true);
 #endif
     term_data_fragmented(t, "\033[?69l");
     term_size(t, 24, 100, 100);

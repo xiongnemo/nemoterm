@@ -190,6 +190,14 @@ void term_kitty_prepare(Terminal *);
  * or mouse character streams in visual row order. */
 typedef enum { LEXICOGRAPHIC, RECTANGULAR, VISUAL_STREAM } SelectionType;
 
+/* A completed selection may outlive the grid that supplied it. */
+typedef struct {
+    wchar_t *text;
+    int *attr;
+    truecolour *tc;
+    size_t len;
+} NemoSelectionText;
+
 struct terminal_tag {
 
     /* Oldest first, owned by the terminal. Coordinates are screen cell
@@ -574,10 +582,7 @@ struct terminal_tag {
     bool xterm_256_colour;
     bool true_colour;
 
-    wchar_t *last_selected_text;
-    int *last_selected_attr;
-    truecolour *last_selected_tc;
-    size_t last_selected_len;
+    NemoSelectionText selected_text, sync_selected_text;
     NemoOsc52 *osc52;
     uint64_t osc52_query_id;
     bool osc52_query_pending, osc52_query_bel;

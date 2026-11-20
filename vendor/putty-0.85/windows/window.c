@@ -3375,10 +3375,7 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
             term_request_copy(wgs->term, clips_system, lenof(clips_system));
             break;
           case IDM_COPYPASTE:
-            term_request_copy(wgs->term, clips_system, lenof(clips_system));
-            /* Paste the same selection even if the system clipboard is busy
-             * or another application replaces it between copy and paste. */
-            term_request_paste(wgs->term, CLIP_LOCAL);
+            term_request_copy_paste(wgs->term, clips_system, lenof(clips_system));
             break;
           case IDM_PASTE:
             term_request_paste(wgs->term, CLIP_SYSTEM);
@@ -3464,11 +3461,12 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
             return 0;
         }
         if (message == WM_RBUTTONDOWN && !(wParam & MK_CONTROL) &&
-            wgs->term->selstate == SELECTED) {
+            term_has_presented_selection(wgs->term)) {
             wgs->nemo_consumed_right_click = true;
-            term_request_copy(wgs->term, clips_system, lenof(clips_system));
             if (conf_get_bool(wgs->conf, CONF_nemo_right_click_paste))
-                term_request_paste(wgs->term, CLIP_LOCAL);
+                term_request_copy_paste(wgs->term, clips_system, lenof(clips_system));
+            else
+                term_request_copy(wgs->term, clips_system, lenof(clips_system));
             return 0;
         }
         if (message == WM_RBUTTONDOWN &&
@@ -5746,8 +5744,7 @@ static int TranslateKey(WinGuiSeat *wgs, UINT message, WPARAM wParam,
             return 0;
         }
         if (action == 3) {
-            term_request_copy(wgs->term, clips_system, lenof(clips_system));
-            term_request_paste(wgs->term, CLIP_LOCAL);
+            term_request_copy_paste(wgs->term, clips_system, lenof(clips_system));
             return 0;
         }
         if (action) {

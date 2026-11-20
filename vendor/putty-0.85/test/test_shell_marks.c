@@ -270,7 +270,7 @@ static void test_scrolling_and_navigation(Mock *mk)
     term_data_fragmented(t, "\033[2J");
     IEQUAL(t->shell_marks.count, 1);
     IEQUAL(term_shell_mark_select(t, true), true);
-    IEQUAL(wcsstr(t->last_selected_text, L"old") == NULL, true);
+    IEQUAL(wcsstr(t->selected_text.text, L"old") == NULL, true);
 }
 
 int main(void)

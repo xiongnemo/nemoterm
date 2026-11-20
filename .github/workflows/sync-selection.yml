@@ -17,7 +17,8 @@ jobs:
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with: {fetch-depth: 0}
-      - name: Fetch the exact release executable and verify the Sarasa Light face
+      - id: prepare
+        name: Fetch the exact release executable and verify the Sarasa Light face
         env:
           GH_TOKEN: ${{ github.token }}
           PRODUCT_RUN: ${{ inputs.product_run }}
@@ -30,6 +31,11 @@ jobs:
         env:
           RENDERER: ${{ matrix.renderer }}
         run: python tests/sync_presented_selection.py $env:RENDERER
+      - name: Verify optional right-click copy and paste delivers exactly the displayed selection
+        if: ${{ !cancelled() && steps.prepare.outcome == 'success' }}
+        env:
+          RENDERER: ${{ matrix.renderer }}
+        run: python tests/sync_presented_selection.py $env:RENDERER --paste
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:

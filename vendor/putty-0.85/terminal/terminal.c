@@ -1540,6 +1540,34 @@ static bool sync_frame_is_visually_idle(const Terminal *term,
     return false;
 }
 
+static void refresh_rectangle_copy(Terminal *term);
+
+static void selection_text_free(NemoSelectionText *text)
+{
+    sfree(text->text);
+    sfree(text->attr);
+    sfree(text->tc);
+    *text = (NemoSelectionText){0};
+}
+
+/* A frozen highlight borrows the existing allocation. If OSC 52 or a new
+ * selection replaces the private clipboard, the frame keeps the old buffers
+ * until presentation resumes. Ordinary refreshes allocate no second copy. */
+static void drop_selected_text(Terminal *term)
+{
+    if (term->sync_selected_text.text &&
+        term->sync_selected_text.text == term->selected_text.text)
+        term->selected_text = (NemoSelectionText){0};
+    else
+        selection_text_free(&term->selected_text);
+}
+
+bool term_has_presented_selection(Terminal *term)
+{
+    return term->synchronized_update ? term->sync_selected_text.text != NULL :
+        term->selstate == SELECTED;
+}
+
 /* DECSET 2026 defers presentation, never input parsing or protocol replies.
  * A fixed one-second deadline bounds an incomplete update. Repeated SET is
  * idempotent and does not prolong the deadline. */
@@ -1549,6 +1577,10 @@ static void term_start_synchronized_update(Terminal *term)
         return;
     term_update(term);
     if (term->win->vt->set_synchronized_update(term->win, true)) {
+        if (term->selstate == SELECTED) {
+            refresh_rectangle_copy(term);
+            term->sync_selected_text = term->selected_text;
+        }
         term->synchronized_update = true;
         term->synchronized_update_deadline = schedule_timer(
             TICKSPERSEC, term_timer, term);
@@ -1558,6 +1590,10 @@ static void term_start_synchronized_update(Terminal *term)
 void term_end_synchronized_update(Terminal *term)
 {
     if (!term->synchronized_update) return;
+    if (term->sync_selected_text.text != term->selected_text.text)
+        selection_text_free(&term->sync_selected_text);
+    else
+        term->sync_selected_text = (NemoSelectionText){0};
     term->synchronized_update = false;
     term->win->vt->set_synchronized_update(term->win, false);
     /* The callback queued before the freeze may already have run and deferred
@@ -4704,9 +4740,7 @@ void term_free(Terminal *term)
         printer_finish_job(term->print_job);
     bufchain_clear(&term->printer_buf);
     term_paste_clear(term);
-    sfree(term->last_selected_text);
-    sfree(term->last_selected_attr);
-    sfree(term->last_selected_tc);
+    drop_selected_text(term);
     sfree(term->ltemp);
     sfree(term->wcFrom);
     sfree(term->wcTo);
@@ -7920,15 +7954,15 @@ static void osc52_reply(Terminal *term, char target, const char *text, size_t le
 
 static char *osc52_primary(Terminal *term, size_t *length)
 {
-    if (!term->last_selected_text || term->last_selected_len > NEMO_OSC52_TEXT_MAX+1) return NULL;
+    if (!term->selected_text.text || term->selected_text.len > NEMO_OSC52_TEXT_MAX+1) return NULL;
     char *text = malloc(NEMO_OSC52_TEXT_MAX+1);
     if (!text) return NULL;
     size_t used = 0;
-    for (size_t i = 0; i < term->last_selected_len && term->last_selected_text[i]; i++) {
-        uint32_t ch = term->last_selected_text[i];
-        if (sizeof(wchar_t) == 2 && IS_HIGH_SURROGATE(ch) && i+1 < term->last_selected_len &&
-            IS_LOW_SURROGATE(term->last_selected_text[i+1])) {
-            ch = FROM_SURROGATES(ch, term->last_selected_text[i+1]); i++;
+    for (size_t i = 0; i < term->selected_text.len && term->selected_text.text[i]; i++) {
+        uint32_t ch = term->selected_text.text[i];
+        if (sizeof(wchar_t) == 2 && IS_HIGH_SURROGATE(ch) && i+1 < term->selected_text.len &&
+            IS_LOW_SURROGATE(term->selected_text.text[i+1])) {
+            ch = FROM_SURROGATES(ch, term->selected_text.text[i+1]); i++;
         } else if (IS_SURROGATE(ch) || ch > 0x10ffff) ch = 0xfffd;
         unsigned count = ch < 128 ? 1 : ch < 0x800 ? 2 : ch < 0x10000 ? 3 : 4;
         if (count > NEMO_OSC52_TEXT_MAX-used) { free(text); return NULL; }
@@ -8003,10 +8037,10 @@ static void osc52_finish(Terminal *term, bool bel)
             term->win->vt->osc52_write(term->win, text, packet.length);
         if (primary) {
             wchar_t *wide = packet.length ? decode_utf8_to_wide_string(text) : NULL;
-            sfree(term->last_selected_text); sfree(term->last_selected_attr); sfree(term->last_selected_tc);
-            term->last_selected_text = wide;
-            term->last_selected_attr = NULL; term->last_selected_tc = NULL;
-            term->last_selected_len = wide ? wcslen(wide)+1 : 0;
+            drop_selected_text(term);
+            term->selected_text.text = wide;
+            term->selected_text.attr = NULL; term->selected_text.tc = NULL;
+            term->selected_text.len = wide ? wcslen(wide)+1 : 0;
             deselect(term); term_invalidate(term);
         }
         if (mask) nemo_osc52_store(term->osc52, mask, text, packet.length);
@@ -13113,13 +13147,11 @@ static void clipme(Terminal *term, pos top, pos bottom, SelectionType type, bool
             }
         }
         if (clip_local) {
-            sfree(term->last_selected_text);
-            sfree(term->last_selected_attr);
-            sfree(term->last_selected_tc);
-            term->last_selected_text = buf.textbuf;
-            term->last_selected_attr = buf.attrbuf;
-            term->last_selected_tc = buf.tcbuf;
-            term->last_selected_len = buf.bufpos;
+            drop_selected_text(term);
+            term->selected_text.text = buf.textbuf;
+            term->selected_text.attr = buf.attrbuf;
+            term->selected_text.tc = buf.tcbuf;
+            term->selected_text.len = buf.bufpos;
             term->selection_copy_needs_refresh = false;
         } else {
             sfree(buf.textbuf);
@@ -13186,44 +13218,61 @@ void term_copyall(Terminal *term, const int *clipboards, int n_clipboards)
     clipme(term, top, bottom, LEXICOGRAPHIC, true, clipboards, n_clipboards);
 }
 
+static void refresh_rectangle_copy(Terminal *term)
+{
+    if (term->selection_copy_needs_refresh && term->selstate == SELECTED &&
+        term->seltype == RECTANGULAR) {
+        int local = CLIP_LOCAL;
+        clipme(term, term->selstart, term->selend, term->seltype, false, &local, 1);
+    }
+}
+
+static NemoSelectionText presented_copy(Terminal *term)
+{
+    if (term->synchronized_update && term->sync_selected_text.text)
+        return term->sync_selected_text;
+    refresh_rectangle_copy(term);
+    return term->selected_text;
+}
+
+static void paste_selection_text(Terminal *term, NemoSelectionText value)
+{
+    if (value.len && value.text[value.len-1] == L'\0')
+        value.len--;
+    term_enqueue_paste(term, value.text, value.len, true);
+}
+
+static void copy_selection_text(Terminal *term, NemoSelectionText value,
+                                const int *clipboards, int n_clipboards)
+{
+    for (int i = 0; i < n_clipboards; i++) {
+        assert(clipboards[i] != CLIP_LOCAL);
+        if (clipboards[i] != CLIP_NULL)
+            win_clip_write(term->win, clipboards[i], value.text, value.attr,
+                           value.tc, value.len, false);
+    }
+}
+
 void term_request_copy(Terminal *term, const int *clipboards, int n_clipboards)
 {
-    int i;
-    for (i = 0; i < n_clipboards; i++) {
-        assert(clipboards[i] != CLIP_LOCAL);
-        if (clipboards[i] != CLIP_NULL) {
-            /* Do not change either clipboard as output scrolls. An explicit
-             * copy (including right-click copy-and-paste) takes the remaining
-             * highlighted rows; a following local paste uses that same text. */
-            if (term->selection_copy_needs_refresh && term->selstate == SELECTED &&
-                term->seltype == RECTANGULAR) {
-                int local = CLIP_LOCAL;
-                clipme(term, term->selstart, term->selend, term->seltype,
-                       false, &local, 1);
-            }
-            win_clip_write(term->win, clipboards[i],
-                           term->last_selected_text, term->last_selected_attr,
-                           term->last_selected_tc, term->last_selected_len,
-                           false);
-        }
-    }
+    copy_selection_text(term, presented_copy(term), clipboards, n_clipboards);
+}
+
+void term_request_copy_paste(Terminal *term, const int *clipboards, int n_clipboards)
+{
+    /* The paste queue copies the chosen payload before a clipboard-owner
+     * notification can replace it. Actual delivery remains deferred. */
+    NemoSelectionText value = presented_copy(term);
+    paste_selection_text(term, value);
+    copy_selection_text(term, value, clipboards, n_clipboards);
 }
 
 void term_request_paste(Terminal *term, int clipboard)
 {
     switch (clipboard) {
-      case CLIP_NULL:
-        /* Do nothing: CLIP_NULL never has data in it. */
+      case CLIP_LOCAL:
+        paste_selection_text(term, term->selected_text);
         break;
-      case CLIP_LOCAL: {
-        /* Another selection can replace this text before the next callback.
-         * Copy it into the ordinary paste queue now; defer delivery as before. */
-        size_t len = term->last_selected_len;
-        if (len && term->last_selected_text[len-1] == L'\0')
-            len--;  /* the clipboard terminator is not keyboard input */
-        term_enqueue_paste(term, term->last_selected_text, len, true);
-        break;
-      }
       default:
         win_clip_request_paste(term->win, clipboard);
         break;
