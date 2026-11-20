@@ -55,12 +55,16 @@ jobs:
         run: python tests/tab_right_click_chain.py
       - name: Count pastes and inspect wide-cell selections after a rapid reclick
         run: python tests/tab_rapid_wide_paste.py
+      - name: Check local OSC 7 URIs by opening real tabs and querying the child directory
+        if: ${{ !cancelled() && env.SOURCE_KIND == 'single' }}
+        run: python tests/osc7_tab_directory.py
       - if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: tab-hover-${{ env.SOURCE_KIND }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
             research/tab-hover-native/
+            research/osc7-tab-directory.json
             research/tab-right-click-chain-observed.json
             research/wide-rapid-*-observed.json
             build/interaction-dependencies/environment.json
