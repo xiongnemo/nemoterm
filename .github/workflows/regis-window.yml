@@ -140,12 +140,18 @@ jobs:
             if ($LASTEXITCODE) { $failed += $case }
           }
           if ($failed.Count) { throw "Shared graphics register failures: $($failed -join ', ')" }
+      - name: Hold Shift over moving text while keeping ReGIS marks on the same line
+        if: ${{ !cancelled() && (matrix.mode == 'gdi' || matrix.mode == 'directx') && steps.image.outcome == 'success' && steps.font.outcome == 'success' }}
+        env:
+          RENDERER: ${{ matrix.mode }}
+        run: python tests/regis_selection_window.py
       - name: Retain all observations including failures
         if: always()
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Force build/regis-window-evidence | Out-Null
           Copy-Item research/regis-window-* build/regis-window-evidence/ -Recurse -ErrorAction SilentlyContinue
+          if (Test-Path research/regis-selection-*) { Copy-Item research/regis-selection-* build/regis-window-evidence/ }
           Copy-Item build/regis-product/*.json,build/interaction-dependencies/environment.json build/regis-window-evidence/ -ErrorAction SilentlyContinue
           git rev-parse HEAD > build/regis-window-evidence/fixture-commit.txt
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
