@@ -30,9 +30,10 @@ def run(engine, output, paste):
     output.update(exe_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(), font=font, cases=[])
     def draw(row, text):
         return CSI+f'{row+1};4H'+text
-    def scene(row, current):
+    def marker(row, current):
         # The colour chip outside the selection identifies its backing frame even when highlighted.
-        return draw(row,current)+CSI+f'{row+1};12H'+CSI+'48;2;'+('180;32;16' if current==OLD else '16;48;180')+'m   '+CSI+'0m'
+        return CSI+f'{row+1};12H'+CSI+'48;2;'+('180;32;16' if current==OLD else '16;48;180')+'m   '+CSI+'0m'
+    def scene(row, current):return draw(row,current)+marker(row,current)
     def mode_reply(frozen):
         return (CSI+f'?2026;{1 if frozen else 2}$y'+CSI+'?1002;1$y'+CSI+'?1006;1$y').encode()
     settings=dict(NemoRenderer=engine-1, WarnOnClose=0, NemoOSC52Write=1, NemoOSC52Read=1)
@@ -90,10 +91,12 @@ def run(engine, output, paste):
                 ('live-old',False,False,'key',OLD),('live-new',False,False,'key',NEW),
                 ('press-frozen',False,True,'key',OLD),('copy-frozen',True,True,'key',OLD),('right-frozen',True,True,'right',OLD),
                 ('copy-primary',True,True,'key',OLD),('right-primary',True,True,'right',OLD),
-                ('press-slow',False,True,'key',OLD),('press-rectangle',False,True,'key',OLD))
+                ('press-slow',False,True,'key',OLD),('press-rectangle',False,True,'key',OLD),
+                ('press-neighbour',False,True,'key',OLD),('press-neighbour-rectangle',False,True,'key',OLD))
             if paste:cases=tuple(c for c in cases if c[3]=='right')
             for index,(case,preselect,freeze,action,initial) in enumerate(cases):
                 primary=case.endswith('primary')
+                neighbour=case.startswith('press-neighbour')
                 if paste:case+='-paste'
                 y=4+2*(index%7); row=dict(case=case,expected=initial);output['cases'].append(row)
                 req,raw=phase(case+'-start','\x1bc'+CSI+'?25l'+CSI+'?1002;1006h'+draw(18,OLD)+draw(20,NEW)+scene(y,initial)+QUERIES)
@@ -113,7 +116,8 @@ def run(engine, output, paste):
                 primary_set='\x1b]52;p;TkVX\x07' if primary else ''
                 primary_read='\x1b]52;p;?\x07' if primary else ''
                 prefix=primary_set.encode()+mode_reply(freeze)
-                req,raw=phase(case+'-gesture',(CSI+'?2026h'+scene(y,NEW) if freeze else '')+primary_set+primary_read+QUERIES)
+                update=marker(y,NEW) if neighbour else scene(y,NEW)
+                req,raw=phase(case+'-gesture',(CSI+'?2026h'+update if freeze else '')+primary_set+primary_read+QUERIES)
                 assert raw==prefix+ACK,raw
                 observed=sample(); row['pre_gesture_ms']=(time.perf_counter_ns()-t0)/1e6
                 row['pre_gesture_same_cells']=glyphs(observed,y)==glyphs(before,y);row['pre_gesture_chip']=chip(observed,y)
@@ -133,7 +137,7 @@ def run(engine, output, paste):
                         old_glyphs=glyph_shape(f,y)==glyph_shape(observed,18),new_glyphs=glyph_shape(f,y)==glyph_shape(observed,20),
                         captured=desktop.state().capture==hwnd) for label,f in held_frames.items()}
                     row['held_memory']=memory_sample(proc._handle)
-                if not preselect:drag(y,inspect_held if freeze else None,block=case=='press-rectangle')
+                if not preselect:drag(y,inspect_held if freeze else None,block=case.endswith('rectangle'))
                 if action=='key':desktop.chord(0x11,0x10,ord('C'))
                 else:desktop.event('right',True);desktop.event('right',False)
                 row['gesture_sent_ms']=(time.perf_counter_ns()-t0)/1e6
@@ -153,6 +157,20 @@ def run(engine, output, paste):
                                       all(h['changed']==[3,4,5,6] and h['old_glyphs'] and not h['new_glyphs'] and
                                           h['captured'] and h['chip']==oldchip for h in row['held_checks'].values()) and
                                       row['held_memory']['private_ws'] < (20_000_000 if engine==1 else 30_000_000))
+                if neighbour or case=='press-frozen':
+                    # Repaint has presented the hidden frame. Inspect the selection and right click again,
+                    # with a new clipboard sentinel: shortcuts can still use a previous primary selection.
+                    committed=sample(); ref_y=18 if neighbour else 20
+                    capture_result(width,height,committed,f'sync-select-{engine}-{case}-committed.png')
+                    marked=[x for x in range(3,7) if tile(committed,x,y)!=tile(committed,x,ref_y)]
+                    set_clipboard(hwnd,'committed:'+case);seq=u.GetClipboardSequenceNumber()
+                    point(6,y);req,_=phase(case+'-committed-right',QUERIES);desktop.chord('right');wire=drain(req)
+                    fresh=u.GetClipboardSequenceNumber()!=seq;copied=clipboard_text(hwnd)
+                    mouse=(CSI+f'<2;7;{y+1}M'+CSI+f'<2;7;{y+1}m').encode()
+                    row['commit_check']=dict(wire=wire.hex(),marked=marked,clipboard=copied,fresh=fresh)
+                    row['passed'] &= (wire==mode_reply(False)+ACK+(b'' if neighbour else mouse)+ACK and fresh==neighbour and
+                                      copied==(OLD if neighbour else 'committed:'+case) and marked==([3,4,5,6] if neighbour else []) and
+                                      glyph_shape(committed,y)==glyph_shape(committed,ref_y))
                 if freeze and preselect:
                     # The following frame no longer highlights the text. Both right-button edges must now reach the application.
                     point(6,y); req,raw=phase(case+'-released-right',QUERIES); seq=u.GetClipboardSequenceNumber()

@@ -15,6 +15,8 @@ GROUPS={'initial':{'live-old','live-new','press-frozen','copy-frozen','right-fro
 GROUPS['copy']=GROUPS['initial']|{'copy-primary','right-primary','right-frozen-paste','right-primary-paste'}
 GROUPS['drag']=GROUPS['copy']|{'press-slow','press-rectangle'}
 
+GROUPS['adjacent']=GROUPS['drag']|{'press-neighbour','press-neighbour-rectangle'}
+
 def review(path,generation):
     with ZipFile(path) as z:
         def doc(n):return json.loads(z.read(n).decode('utf-8-sig'))
@@ -43,8 +45,15 @@ def review(path,generation):
                 for label in row.get('held_checks',{}):
                     held=load(label);bounds=ImageChops.difference(at,held).getbbox();spans[label]=bounds
                     flags[label]=(bounds==rowbox(y) and shape(held.crop(rowbox(y)))==ref and row['held_checks'][label]['captured'] and row['first_highlight_ms']<1000)
-                if generation=='drag' and case.startswith('press-'):
+                if generation in ('drag','adjacent') and case.startswith('press-'):
                     flags['held_frames_complete']=set(spans)==({'held','held-over-deadline'} if case=='press-slow' else {'held'}) and row['post_mode_wire']==mode(False).hex() and 'held_memory' in row
+                if generation=='adjacent' and (case.startswith('press-neighbour') or case=='press-frozen'):
+                    adjacent=case.startswith('press-neighbour');commit=row['commit_check'];img=load('committed');ref_y=18 if adjacent else 20
+                    cell=lambda x,cy:img.crop((1+x*cw,1+cy*ch,1+(x+1)*cw,1+(cy+1)*ch)).tobytes()
+                    marks=[x for x in range(3,7) if cell(x,y)!=cell(x,ref_y)]
+                    flags['committed_pixels']=(marks==([3,4,5,6] if adjacent else []) and shape(img.crop(rowbox(y)))==shape(img.crop(rowbox(ref_y))) and img.getpixel((1+12*cw,1+y*ch))==(16,48,180))
+                    mouse=f'\x1b[<2;7;{y+1}M\x1b[<2;7;{y+1}m'.encode()
+                    flags['committed_right']=(bytes.fromhex(commit['wire'])==mode(False)+(b'' if adjacent else mouse)+ACK and commit['fresh']==adjacent and commit['clipboard']==(want if adjacent else 'committed:'+case))
                 if 'held_memory' in row:flags['memory']=row['held_memory']['private_ws']<(20_000_000 if engine==1 else 30_000_000)
                 result['cases'][case]=dict(passed=all(flags.values()),checks=flags,changed_pixels_bbox=spans,copy=row['copied'],fixture_passed=row['passed'],held_private_ws=row.get('held_memory',{}).get('private_ws'))
         assert set(result['cases'])==GROUPS[generation],(generation,list(result['cases']))
