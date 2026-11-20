@@ -8,7 +8,7 @@ import subprocess
 from zipfile import ZipFile
 
 
-def fetch(product_run, commit, receipt_run, output):
+def fetch(product_run, commit, receipt_run, output, group):
     output.mkdir(parents=True,exist_ok=False)
     base='repos/'+os.environ['GITHUB_REPOSITORY']+'/actions/'
     def api(s):return subprocess.check_output(['gh','api',base+s])
@@ -20,12 +20,12 @@ def fetch(product_run, commit, receipt_run, output):
             part=json.loads(api(f'runs/{run}/artifacts?per_page=100&page={page}'))['artifacts'];rows.extend(a for a in part if a['name']==name)
             if len(part)<100:break
             page+=1
-        a,=rows;assert not a['expired'];blob=api(f'artifacts/{a["id"]}/zip');assert len(blob)==a['size_in_bytes'] and 'sha256:'+hashlib.sha256(blob).hexdigest()==a['digest']
+        a,=rows;assert not a['expired'] and a['workflow_run']['id']==run;blob=api(f'artifacts/{a["id"]}/zip');assert len(blob)==a['size_in_bytes'] and 'sha256:'+hashlib.sha256(blob).hexdigest()==a['digest']
         ids[dest]=dict(run=run,name=name,id=a['id'],digest=a['digest']);p=output/dest;p.write_bytes(blob);return p
     with ZipFile(download(product_run,'source-console-host-x64-'+commit,'source.zip')) as z:
         manifest=json.loads(z.read('SOURCE-HOST.json').decode('utf-8-sig'));binary=z.read('nemoterm.exe')
         assert manifest['SourceCommit']==commit and manifest['Executable']==dict(Bytes=len(binary),SHA256=hashlib.sha256(binary).hexdigest())
-    suffix=f'agents-grid-{receipt_run}-{trace["run_attempt"]}'
+    suffix=f'{group}-{receipt_run}-{trace["run_attempt"]}'
     for prefix,dest in [('interaction-receipt-','receipt.zip'),('interaction-','surfaces.zip')]:
         with ZipFile(download(receipt_run,prefix+suffix,dest)) as z:
             assert json.loads(z.read('interaction-product/SOURCE-HOST.json').decode('utf-8-sig'))==manifest
@@ -34,4 +34,4 @@ def fetch(product_run, commit, receipt_run, output):
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('product_run',type=int);p.add_argument('commit');p.add_argument('receipt_run',type=int);p.add_argument('output',type=Path);args=p.parse_args();fetch(args.product_run,args.commit,args.receipt_run,args.output)
+    p=argparse.ArgumentParser();p.add_argument('product_run',type=int);p.add_argument('commit');p.add_argument('receipt_run',type=int);p.add_argument('output',type=Path);p.add_argument('--group',choices=('agents-grid','agents'),default='agents-grid');args=p.parse_args();fetch(args.product_run,args.commit,args.receipt_run,args.output,args.group)

@@ -417,3 +417,5 @@ opens the system menu. Each placement retains its own PNGs and result JSON.
 `font-zoom-replay.yml` 的 `suite=tab-selection` 使用源制品的独立 EXE 和原始 profile 字体，在右侧标签栏、GDI 下重跑整个选区脚本。若终端状态回复超时，制品保留等待期间的采样、松开鼠标前的最后读数及清理时的读数；之后到达的回复不改变测试失败结果。
 
 同一专项还保留 `repeat-cell-stream` 和 `repeat-cell-block` 的三张原始画面：按下前、字符被应用移动后、拖选并复制后。`scripts/review-stationary-selection.py` 从 PNG 单独核对 `KLM` 是否平移两格、选中行及上下邻行中是否仅三个目标格发生高亮变化，同时核对应用收到的原始字节和两种复制结果。这两个重复坐标的用例通过窗口消息触发。已有的系统实按用例仍单独列在 `horizontal_press_system` 中。
+
+`suite=agent-bindings` 在单独的 Linux Runner 上读取 `agents` 分组已经上传的两份制品，并与指定 `source_run` 的 EXE 和构建清单核对身份。它分别复核 Codex、Claude Code、OpenCode 在 GDI 和 DirectX 下的 18 种系统输入交互：检查客户端开启鼠标跟踪的原始输出、按键和鼠标事件的顺序、Shift 选区原图中每格高亮及两侧边界、剪贴板和本地服务实际收到的完整 Unicode 提交。默认右键后必须另按粘贴键；可选复制并粘贴不需要补按。此项不启动客户端或替代整套交互验收。参数与 `suite=agent-pixels` 相同，`receipt_run` 指含 `agents` 分组的那一轮。
