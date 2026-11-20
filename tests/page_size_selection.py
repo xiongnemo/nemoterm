@@ -5,14 +5,12 @@ import hashlib
 import json
 import os
 from pathlib import Path
-import struct
 import time
 import traceback
 
 from clipboard_test_utils import SavedClipboard, clipboard_text, set_clipboard
 from hosted_gesture_input import DesktopInput
-from native_test_utils import root, terminal_host, u, wait_for
-from PIL import Image
+from native_test_utils import capture_result, root, terminal_host, u, wait_for
 from presented_window_capture import PresentedWindowCapture
 from protocol_oracle_window import run
 
@@ -60,27 +58,29 @@ def exercise_case(gpu, case):
         pid = w.DWORD(); u.GetWindowThreadProcessId(hwnd, c.byref(pid))
         clip = SavedClipboard(hwnd); desk = camera = None
         y = 3; left = 2 if keep else 75; end = left+3 if keep else 8
-        marker = (34, 51, 85)
+        marker = bytes((85, 51, 34))
         def observe_frame():
             width, height = size(hwnd)
             if (width, height) != size(camera.surface): return None
-            bmp = camera.capture(); image = Image.frombytes('RGB', (width, height), bmp[54:], 'raw', 'BGRX')
-            cols = (width-2)//cw
-            marks = [x for x in range(cols) if image.getpixel((2+x*cw, 2+y*ch)) == marker]
-            return image, marks
+            pixels = camera.capture()[54:]
+            def selected(x):
+                offset = 4*((2+y*ch)*width + 2+x*cw)
+                return pixels[offset:offset+3] == marker
+            return (width, height), pixels, [x for x in range((width-2)//cw) if selected(x)]
         def frame(label, expected=None):
             # The DSR confirms parsing, not that the resulting paint has been presented.
             last = None; stable = time.monotonic(); deadline = stable+2
             while time.monotonic() < deadline:
                 result = observe_frame()
                 if result:
-                    image, marks = result
-                    value = (image.size, marks)
+                    geom, _, marks = result
+                    value = (geom, marks)
                     if value != last: stable = time.monotonic(); last = value
                     elif time.monotonic()-stable >= .16 and (expected is None or marks == expected): break
                 time.sleep(.03)
             assert result, label
-            image, marks = result; image.save(root/'research'/f'{name}-{label}.png'); rec[label] = marks
+            geom, pixels, marks = result
+            capture_result(*geom, pixels, f'{name}-{label}.png'); rec[label] = marks
             if expected is not None: assert marks == expected, (label, marks, expected)
         try:
             desk = DesktopInput(pid.value, host, hwnd, rec.setdefault('input', {}))
