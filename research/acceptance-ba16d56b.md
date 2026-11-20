@@ -20,6 +20,14 @@
 
 六种满屏负载涵盖文字、静态/动画图片、Kitty、压缩 Kitty 和 Unicode 与 Kitty 混排。前端私有工作集：[GDI 18,882,560 字节](https://github.com/xiongnemo/nemoterm/actions/runs/44793711901/artifacts/14658929244)，[DirectX 29,446,144 字节](https://github.com/xiongnemo/nemoterm/actions/runs/44793711901/artifacts/14657644663)。总工作集峰值分别为 53.66 和 74.75 MB，与私有口径不同。
 
+## 标签栏与键盘
+
+在 **窗口 → 标签页**（Window → Tabs）选择停靠边。下图取自[该 EXE 在 GitHub 托管 Windows 上捕获的八张原图](https://github.com/xiongnemo/nemoterm/actions/runs/44793711901/artifacts/14657243031)，仅裁去空白并排显示。第一列选中第一项，第二列选中第二项。四个方向都保留经典 Win32 属性页的削角；选中标签和内容区相连，侧栏标题横排。该次运行也验证了四边悬停预览和点击后的键盘焦点。
+
+![上、下、左、右标签在两种选中状态下的原始像素](tab-faces-ba16d56b.png)
+
+[同一文件的 Backspace 实际按键回执](https://github.com/xiongnemo/nemoterm/actions/runs/44793711901/artifacts/14657622701)覆盖四种 Profile、每种 16 项。与使用同一份 terminfo 的 XTerm 412 比，模式查询、能力应答和送到子程序的按键字节 **64/64 完全一致**。与 Ubuntu 自带 terminfo 的严格对照仍为 **32/64**（按键本身 42/64），原失败保留。
+
 ## 实际选区、复制和粘贴
 
 [18 个实际应用组合](https://github.com/xiongnemo/nemoterm/actions/runs/44793711901/artifacts/14659370506)下证实快捷键和右键策略正确；另有十个窗口验证 Shift 选中渲染出来的「中文」、关闭确认选「取消」后仍能键入并提交。启动与提交后的 20 份原始进程、模块快照未发现已知 WebView/浏览器标志。
