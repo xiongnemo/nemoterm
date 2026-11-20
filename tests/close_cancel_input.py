@@ -20,12 +20,31 @@ u.IsWindowEnabled.argtypes = [w.HWND]
 exe = Path(os.environ['NEMOTERM_TEST_EXE']).resolve(strict=True)
 output = dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(), cases={})
 
-def exercise(mode, row):
+def dialog_words(dlg):
+    # Read window-owned Unicode strings from the runner's live dialog. WM_GETTEXT
+    # is marshalled by USER32; no access to the terminal process memory is needed.
+    send=u.SendMessageTimeoutW
+    send.argtypes=[w.HWND,w.UINT,w.WPARAM,w.LPARAM,w.UINT,w.UINT,c.POINTER(c.c_size_t)]
+    def read(hwnd):
+        buf=c.create_unicode_buffer(1024); count=c.c_size_t()
+        assert send(hwnd,0x000d,len(buf),c.addressof(buf),2,1000,c.byref(count)) and count.value<len(buf)-1
+        return buf.value
+    controls=[]
+    @c.WINFUNCTYPE(w.BOOL,w.HWND,w.LPARAM)
+    def visit(hwnd,_):
+        kind=c.create_unicode_buffer(64);u.GetClassNameW(hwnd,kind,len(kind))
+        if kind.value=='Static' and u.IsWindowVisible(hwnd):controls.append(hwnd)
+        return True
+    u.EnumChildWindows(dlg,visit,0)
+    return dict(title=read(dlg),body=[text for hwnd in controls if (text:=read(hwnd))])
+
+
+def exercise(mode, language, row):
     tabs = mode != 'standalone'
     with tempfile.TemporaryDirectory() as tmp, saved_profile(dict(NemoTabs=int(tabs),
-            WarnOnClose=1, NemoShell='custom', NemoShellCommand='cmd.exe /d /q', CloseOnExit=1)) as profile, OwnedJob() as job:
+            WarnOnClose=1, NemoTabSide=0, NemoShell='custom', NemoShellCommand='cmd.exe /d /q', CloseOnExit=1)) as profile, OwnedJob() as job:
         report,control = Path(tmp)/'report.json',Path(tmp)/'control.json'
-        proc = job.spawn([str(exe), '--automation', '--profile', profile[1], '--cols', '64', '--rows', '16',
+        proc = job.spawn([str(exe), '--automation', '--ui-language', language, '--profile', profile[1], '--cols', '64', '--rows', '16',
             '-e', sys.executable, str(root/'tests/mouse_fixture.py'), str(report), str(control), '120'],
             env=dict(os.environ, NEMOTERM_CONPTY='bundled'), creationflags=subprocess.CREATE_NO_WINDOW)
         wait_for(lambda: 'hex' in read_snapshot(report))
@@ -52,10 +71,22 @@ def exercise(mode, row):
             desktop.chord(ord('A')); wait_for(lambda: read_snapshot(report).get('hex')=='61'); row['before']=state()
             expected=b'a';row['dismissals']=[]
             target=host if mode=='tab-window' else term
+            def request_close():
+                if mode!='background-tab':
+                    assert u.PostMessageW(target,0x10,0,0);return
+                # A middle click on the second (inactive) label must not switch seats.
+                r=w.RECT();assert u.GetClientRect(host,c.byref(r));dpi=u.GetDpiForWindow(host)
+                height=(28*dpi+48)//96; extent=min((168*dpi+48)//96,(r.right-height)//2)
+                pt=w.POINT(extent+extent//3,height//2);assert u.ClientToScreen(host,c.byref(pt))
+                desktop.move_screen(pt.x,pt.y)
+                def arrived():
+                    cursor=w.POINT();return (win.GetCursorPos(c.byref(cursor)) and (cursor.x,cursor.y)==(pt.x,pt.y)
+                                              and win.WindowFromPoint(cursor)==host)
+                wait_for(arrived);desktop.event('middle',True);desktop.event('middle',False)
             for how,key in [('cancel-button','B'),('escape','C')]:
                 step=dict(method=how);row['dismissals'].append(step)
-                assert u.PostMessageW(target,0x10,0,0)
-                dlg=wait_for(desktop.owned_confirmation);step['during']=state();assert not step['during']['enabled']
+                request_close()
+                dlg=wait_for(desktop.owned_confirmation);step['words']=dialog_words(dlg);step['during']=state();assert not step['during']['enabled']
                 pair(ord('X'))  # A real key while the dialog owns input must never reach the child.
                 # Trigger normal VT output from the already running child
                 # while the system dialog owns the foreground. Observe its
@@ -82,20 +113,33 @@ def exercise(mode, row):
                 assert screen.count(marker)==1,(marker,screen)
                 step['background_output'].update(visible_after_key=True,matched_line=next(line.strip()
                     for line in screen.splitlines() if marker in line))
-            assert u.PostMessageW(target,0x10,0,0);dlg=wait_for(desktop.owned_confirmation)
+            request_close();dlg=wait_for(desktop.owned_confirmation)
             confirm=row['confirm']={};desktop.click_confirmation_button(dlg,1,confirm)
             try: wait_for(lambda: not u.IsWindow(dlg))
             finally: confirm.update(popup_alive=bool(u.IsWindow(dlg)),host_alive=bool(u.IsWindow(host)),exit_code=proc.poll())
-            if mode=='tab-session':
-                wait_for(lambda: len(sessions())==1 and sessions()[0]['id']==other['id'])
+            if mode in ('tab-session','background-tab'):
+                remaining_id=other['id'] if mode=='tab-session' else seat['id']
+                wait_for(lambda: [s['id'] for s in sessions() if s['active']]==[remaining_id] and len(sessions())==1)
+                if mode=='background-tab':
+                    pair(ord('D'));wait_for(lambda: read_snapshot(report).get('hex')=='61626364')
+                    assert state()['focus']==term
+                assert u.PostMessageW(host,0x10,0,0);dlg=wait_for(desktop.owned_confirmation)
+                desktop.click_confirmation_button(dlg,1,row.setdefault('last_window_close',{}));assert proc.wait(timeout=12)==0
             else: assert proc.wait(timeout=12)==0
             row['ok_closed']=True
+            window=mode=='tab-window';zh=language=='zh-CN'
+            body=(('关闭此窗口及其中的所有终端标签页？' if zh else 'Close this window and all its terminal tabs?') if window else
+                  ('确定要关闭此会话吗？' if zh else 'Are you sure you want to close this session?'))
+            title='Nemoterm' if window else ('Nemoterm 退出确认' if zh else 'Nemoterm Exit Confirmation')
+            row['expected_dialog']=dict(title=title,body=body)
+            assert all(v['words']['title']==title and body in v['words']['body'] for v in row['dismissals']), row['expected_dialog']
         finally: desktop.restore()
 
-for mode in ('tab-session','tab-window','standalone'):
-    row=output['cases'][mode]={}
-    try: exercise(mode,row);row['passed']=True
-    except Exception: row.update(passed=False,error=traceback.format_exc())
-    print(mode,row.get('error','passed'),flush=True)
-    (root/'research'/'dialog-close-input.json').write_text(json.dumps(output,indent=2),encoding='utf-8')
+for language in ('en','zh-CN'):
+    for mode in ('tab-session','tab-window','standalone','background-tab'):
+        row=output['cases'][mode if language=='en' else language+'-'+mode]=dict(language=language)
+        try: exercise(mode,language,row);row['passed']=True
+        except Exception: row.update(passed=False,error=traceback.format_exc())
+        print(language,mode,row.get('error','passed'),flush=True)
+        (root/'research'/'dialog-close-input.json').write_text(json.dumps(output,indent=2),encoding='utf-8')
 raise SystemExit(0 if all(row['passed'] for row in output['cases'].values()) else 1)
