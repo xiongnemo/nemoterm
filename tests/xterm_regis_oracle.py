@@ -341,7 +341,7 @@ def capture_case(executable, display_name, name, wires, transport, base, repaint
         '-xrm', 'XTerm*regisScreenSize:160x120', '-xrm', 'XTerm*maxGraphicSize:160x120',
         '-xrm', 'XTerm*decGraphicsID:340', '-xrm', 'XTerm*regisDefaultFont:']
     argv = [str(Path(executable).resolve()), '-geometry', '40x12+10+10',
-        '-b','2','-bw','0','+sb','-fn','fixed','-fg','white','-bg','black','-ti','vt340',
+        '-b','2','-bw','0','+sb','-fn','fixed','-fg','white','-bg','black','-ti','vt520' if name.startswith('text-motion-') else 'vt340',
         *resources, '-e',sys.executable,str(Path(__file__).resolve()),
         '--child',str(report.resolve()),str(control.resolve())]
     result = dict(name=name, transport=transport, completed=False, steps=[], argv=argv,
@@ -462,6 +462,7 @@ def main():
     parser.add_argument('--xterm',required=True)
     parser.add_argument('--output',required=True)
     group = parser.add_mutually_exclusive_group()
+    group.add_argument('--text-motion',action='store_true',help='Fresh process per text edit; checksum text and expose at the last step')
     group.add_argument('--bank-start',action='store_true',help='Only the new shared-register cases and every original control, with both frame types')
     group.add_argument('--first-expose',action='store_true',help='Fresh XTerm for each selected input prefix; expose only at its last step')
     group.add_argument('--repaint',action='store_true',help='Also capture a full Expose after each unchanged step')
@@ -490,6 +491,10 @@ def main():
         display_name = ':'+os.read(read_fd,100).decode().strip()
         assert re.fullmatch(r':\d+',display_name), display_name
         scenes=cases()
+        if args.text_motion:
+            from regis_text_motion import scenes as text_scenes, verify as verify_motion
+            scenes=text_scenes(); result['targets']={k:[k,len(v)-1] for k,v in scenes.items()}
+            result['motion_fixture_sha256']=hashlib.sha256(Path(__file__).with_name('regis_text_motion.py').read_bytes()).hexdigest()
         if args.bank_start:
             scenes={k:v for k,v in scenes.items() if k.startswith(('bank-start-','control-','erase-saved-')) or '-defined-palette-' in k}
         if args.first_expose:
@@ -499,7 +504,7 @@ def main():
         for name,wires in scenes.items():
             result['cases'][name] = {}
             for transport in ('whole','bytewise'):
-                observed = capture_case(str(executable),display_name,name,wires,transport,base,args.repaint,len(wires)-1 if args.first_expose else None)
+                observed = capture_case(str(executable),display_name,name,wires,transport,base,args.repaint,len(wires)-1 if (args.first_expose or args.text_motion) else None)
                 result['cases'][name][transport] = observed
                 write(output,result)
                 print(name, transport, observed['completed'],
@@ -512,7 +517,7 @@ def main():
                     or comparable(whole) != comparable(bytewise)):
                 result['transport_mismatches'].append(name)
         result['control_failures'] = (verify_prefixes(result,base) if args.first_expose
-                                      else verify_controls(result['cases']))
+                                      else verify_motion(result['cases']) if args.text_motion else verify_controls(result['cases']))
         result['completed'] = not result['transport_mismatches'] and not result['control_failures']
     finally:
         os.close(read_fd)

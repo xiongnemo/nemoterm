@@ -48,6 +48,7 @@ on:
           - terminfo-database
           - regis
           - regis-bank-start
+          - regis-text-motion
           - regis-first-expose
           - regis-core
           - regis-discovery
@@ -122,9 +123,10 @@ jobs:
     if: inputs.family == 'regis-core'
     uses: ./.github/workflows/regis-component.yml
   regis:
-    if: inputs.family == 'regis' || inputs.family == 'regis-first-expose' || inputs.family == 'regis-bank-start'
+    if: inputs.family == 'regis-text-motion' || inputs.family == 'regis' || inputs.family == 'regis-first-expose' || inputs.family == 'regis-bank-start'
     uses: ./.github/workflows/regis-reference.yml
     with:
+      text_motion: ${{ inputs.family == 'regis-text-motion' }}
       first_expose: ${{ inputs.family == 'regis-first-expose' }}
       bank_start: ${{ inputs.family == 'regis-bank-start' }}
   terminfo-database:
@@ -180,7 +182,7 @@ jobs:
     with:
       skip_windows: ${{ inputs.family == 'pointer-components-linux' }}
   xterm-reference:
-    if: inputs.family != 'regis-discovery' && inputs.family != 'regis-product' && inputs.family != 'regis-core' && inputs.family != 'regis-bank-start' && inputs.family != 'regis' && inputs.family != 'regis-first-expose' && inputs.family != 'terminfo-database' && inputs.family != 'historical-xterm' && inputs.family != 'sidecar-wire' && inputs.family != 'kitty-graphics' && inputs.family != 'kitty-compression' && inputs.family != 'kitty-features' && inputs.family != 'kitty-query-errors' && inputs.family != 'kitty-relative' && inputs.family != 'kitty-unicode' && inputs.family != 'kitty-unicode-geometry' && inputs.family != 'kitty-pointer' && inputs.family != 'pointer-resources' && inputs.family != 'pointer-components' && inputs.family != 'pointer-components-linux' && inputs.family != 'pointer-window-replay' && inputs.family != 'wsl-pty-relay'
+    if: inputs.family != 'regis-text-motion' && inputs.family != 'regis-discovery' && inputs.family != 'regis-product' && inputs.family != 'regis-core' && inputs.family != 'regis-bank-start' && inputs.family != 'regis' && inputs.family != 'regis-first-expose' && inputs.family != 'terminfo-database' && inputs.family != 'historical-xterm' && inputs.family != 'sidecar-wire' && inputs.family != 'kitty-graphics' && inputs.family != 'kitty-compression' && inputs.family != 'kitty-features' && inputs.family != 'kitty-query-errors' && inputs.family != 'kitty-relative' && inputs.family != 'kitty-unicode' && inputs.family != 'kitty-unicode-geometry' && inputs.family != 'kitty-pointer' && inputs.family != 'pointer-resources' && inputs.family != 'pointer-components' && inputs.family != 'pointer-components-linux' && inputs.family != 'pointer-window-replay' && inputs.family != 'wsl-pty-relay'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
