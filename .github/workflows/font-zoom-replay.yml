@@ -297,6 +297,8 @@ jobs:
             $name=if ($hostMode -eq 'tabs') {'tabs-window-resize-observed.json'} else {'window-resize-observed.json'}
             Copy-Item -LiteralPath "research/$name" -Destination build/focused-evidence -ErrorAction Stop
           }
+          python tests/xtwinops_axis_tabs.py
+          if ($LASTEXITCODE) { $failed=$true }
           if ($failed) { exit 1 }
       - name: Click Cancel and immediately type into the child
         if: ${{ inputs.suite == 'close-cancel' }}
