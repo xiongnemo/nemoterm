@@ -2853,8 +2853,9 @@ void setup_config_box(struct controlbox *b, bool midsession,
 
     /* Windows adds three more radio choices here. Keep the complete group
      * on its own page so the final checkboxes cannot overlap the footer. */
-    ctrl_settitle(b, "Window/Translation/Line drawing", "Line drawing characters");
-    str = dupprintf("Adjust how %s handles line drawing characters", appname);
+    ctrl_settitle(b, "Window/Translation/Line drawing",
+                  nemo_ui_text("category.line_drawing"));
+    str = nemo_ui_format("encoding.line_title", "app", appname, NULL, NULL);
     s = ctrl_getset(b, "Window/Translation/Line drawing", "linedraw", str);
     sfree(str);
     ctrl_radiobuttons(

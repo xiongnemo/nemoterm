@@ -19,6 +19,7 @@ u.GetDpiForWindow.argtypes=[w.HWND];u.GetDpiForWindow.restype=w.UINT
 u.GetWindowThreadProcessId.argtypes=[w.HWND,c.POINTER(w.DWORD)]
 u.GetClassNameW.argtypes=[w.HWND,w.LPWSTR,c.c_int]
 u.GetWindowTextW.argtypes=[w.HWND,w.LPWSTR,c.c_int]
+u.GetWindowLongW.argtypes=[w.HWND,c.c_int]
 u.PostMessageW.argtypes=[w.HWND,w.UINT,w.WPARAM,w.LPARAM]
 u.IsWindowEnabled.argtypes=[w.HWND]
 u.IsWindowVisible.argtypes=[w.HWND]
@@ -108,6 +109,24 @@ def probe(process,hwnd,lang,page='language',choice=None,action='stage'):
         capture(hwnd,filename);evidence['screenshots'].append(filename)
     return value
 
+def check_line_drawing(process, hwnd, language):
+    # The page heading is owner-drawn. Keep its actual screenshot; read the
+    # adjacent native group-box caption separately from the navigation tree.
+    probe(process, hwnd, language, page='line-drawing')
+    expected = {'en': 'Adjust how Nemoterm displays line drawing characters',
+                'zh-CN': '设置 Nemoterm 的线条字符显示方式'}[language]
+    captions = []
+    button = None
+    while (button := u.FindWindowExW(hwnd, button, 'Button', None)):
+        if not u.IsWindowVisible(button) or (u.GetWindowLongW(button, -16) & 0xF) != 7:  # BS_GROUPBOX
+            continue
+        text = c.create_unicode_buffer(256)
+        u.SendMessageW(button, 0x000D, len(text), c.addressof(text))  # WM_GETTEXT
+        captions.append(text.value)
+    evidence.setdefault('line_drawing', {})[language] = dict(
+        group_captions=captions, screenshot=evidence['screenshots'][-1])
+    assert expected in captions, (language, expected, captions)
+
 def closed(hwnd):wait_for(lambda:not u.IsWindow(hwnd))
 
 original=current()
@@ -125,6 +144,7 @@ try:
         set_preference('invalid-language')
         with terminal(first) as (process,term):
             hwnd=settings(process,term,'en')
+            check_line_drawing(process, hwnd, 'en')
             assert probe(process,hwnd,'en')['language_before']==0
             probe(process,hwnd,'en',choice=2,action='cancel');closed(hwnd)
             assert current()==('invalid-language',winreg.REG_SZ)
@@ -132,6 +152,7 @@ try:
         set_preference('en')
         with terminal(first,'zh-CN') as (process,term):
             hwnd=settings(process,term,'zh-CN')
+            check_line_drawing(process, hwnd, 'zh-CN')
             assert probe(process,hwnd,'zh-CN')['language_before']==1
             assert current()==('en',winreg.REG_SZ)
             probe(process,hwnd,'zh-CN',choice=0,action='cancel');closed(hwnd)
