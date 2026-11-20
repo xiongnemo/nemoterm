@@ -33,4 +33,10 @@
 
 **严格总评与适用范围。** [原始严格交互](https://github.com/xiongnemo/nemoterm/actions/runs/44827444033/artifacts/14675679014)是 **79/81**，没有跳过；两项失败均为前面记录的 Codex 输入框首次可见时贴图。[汇总和原始画面复核](https://github.com/xiongnemo/nemoterm/actions/runs/44827444033/artifacts/14676181384)还核对了 GDI、DirectX 共 8 帧 Sixel，以及 `TERM=xterm` / `xterm-256color` 下 Vim 和 tmux/Vim 的矩形选区。XTerm 的[三个行尾宽字格](column-edge-integrity.md)、[ReGIS 部分中间帧](regis-presented-pairs.md)和 WSL1 的终端尺寸等仍有差异，不宣称完整协议兼容。
 
+**与 Linux XTerm 412 对照，哪些差别能复现？**
+
+- 退格键：在[四种配置的 64 组模式查询和实际按键](https://github.com/xiongnemo/nemoterm/actions/runs/44827444033/artifacts/14674177998)中，双方使用同一份 terminfo 时，原始字节 64/64 一致。换成 Linux 发行版自带的数据库，默认键盘的 32 组仍一致；显式选择 Terminfo 键盘时，32 组中有 22 组实际按键不同。例如启动时 Nemoterm 发 `08`（BS），该配置下的 Linux XTerm 发 `7F`（DEL）。
+- 行尾文字：在[字符格原始读数](https://github.com/xiongnemo/nemoterm/actions/runs/44827444033/artifacts/14674753537)中，删除字符、删除列、向左滚动各有一格不同。右端 `中V` 左移后，Nemoterm 保留 `V`，XTerm 清空它。详见[逐格解释](column-edge-integrity.md)。
+- ReGIS 图形：逐像素复核同一参考包与本版窗口的 160×120 图形区域。每组包含八种文字编辑和一个无编辑对照。强制重绘前，四个无编辑对照相同，32 个编辑画面不同；强制重绘后 36/36 完全一致。例如在第 4 行第 9 列删除三个字符，XTerm 的红色像素从 176 恢复到 185，Nemoterm 两帧均为 185，两者重绘前有 59 个像素的位置或颜色不一致。这个结论只涵盖这组水平编辑。原图：[GDI 整段](https://github.com/xiongnemo/nemoterm/actions/runs/44827444033/artifacts/14674907569)、[GDI 逐字节](https://github.com/xiongnemo/nemoterm/actions/runs/44827444033/artifacts/14675890472)、[DirectX 整段](https://github.com/xiongnemo/nemoterm/actions/runs/44827444033/artifacts/14675920447)、[DirectX 逐字节](https://github.com/xiongnemo/nemoterm/actions/runs/44827444033/artifacts/14674947474)。
+
 [本页依据的记录包](trial-83d584d8.zip)包括未改动的 GitHub 总评、内存、键鼠、四边标签制品，以及本版 PE 导入记录。`sources.json` 给出原始下载编号和散列；总评内保留原始失败。所有编译、交互和渲染测试均在 GitHub 托管 Runner 上执行。
