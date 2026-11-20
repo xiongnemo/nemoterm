@@ -33,7 +33,7 @@ Kitty 图片支持直接 RGB/RGBA/PNG、压缩传输、裁剪、透明度、查�
 
 ## 下载
 
-[下载 Windows x64 单文件试用版 `fe5f98f9`](https://github.com/xiongnemo/nemoterm/actions/runs/44820130857/artifacts/14672630186)。中文界面关闭单个会话时，确认问题也使用中文。[中英文关闭确认、取消后立即输入及后台标签检查](research/close-dialog-language.md)为 **8/8**。[本版完整回归](https://github.com/xiongnemo/nemoterm/actions/runs/44820130857)与上一版的内存结果分别计分。
+[下载 Windows x64 单文件试用版 `fe5f98f9`](https://github.com/xiongnemo/nemoterm/actions/runs/44820130857/artifacts/14672630186)。中文界面关闭单个会话时，确认问题也使用中文。[中英文关闭确认、取消后立即输入及后台标签检查](research/close-dialog-language.md)为 **8/8**。[应用交互和内存实测](research/trial-fe5f98f9.md)：18/18 种快捷键与右键组合通过，六种满屏负载的前端私有工作集峰值为 GDI **19.23 MB**、DirectX **28.88 MB**。[本版完整回归](https://github.com/xiongnemo/nemoterm/actions/runs/44820130857)与上一版的内存结果分别计分。
 
 [上一版 `c55cca64` 的单文件](https://github.com/xiongnemo/nemoterm/actions/runs/44814333692/artifacts/14669630337)。修复应用用 `file:/C:/work` 或大写 `FILE:` 报告工作目录时，按 Ctrl+Shift+T 仍在旧目录打开的问题。[新标签实际目录与复制 URI](research/osc7-tab-directory.md)在 GDI、DirectX 上合计从 8/14 提升到 14/14。[本版交互和内存](research/osc7-tab-directory.md#单文件交互与内存验收)：六种满屏负载的前端私有工作集峰值为 **GDI 19.47 MB、DirectX 29.52 MB**。真实应用快捷键和右键 18/18，就绪后贴图 4/4；严格交互 **79/81**，两项失败均为 Codex 启动早期贴图。[完整运行](https://github.com/xiongnemo/nemoterm/actions/runs/44814333692)另含平台与协议对照。
 

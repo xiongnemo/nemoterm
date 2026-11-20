@@ -2,6 +2,8 @@
 
 调查日期：2026-11-12（Australia/Sydney）。仅查询已运行进程，不输入命令、不读取终端画面、不修改 PuTTY 配置、不清空工作集、不终止用户进程。
 
+[本次试用版 `fe5f98f9` 的 24 轮 Codex 同机对照](trial-fe5f98f9.md)：原版 pterm、Nemoterm GDI、DirectX 前端私有工作集采样峰值分别为 **3.76、5.47、9.76 MB**。
+
 [`b04ca12a` 的同机 24 轮 Codex 实测](character-repeat.md)：原版 pterm 前端私有工作集峰值 **3.81 MB**，Nemoterm GDI **5.77 MB**，DirectX **10.02 MB**。三者总工作集分别为 22.76、37.14、47.37 MB；与最初用户桌面上看到约 8 MB 的场景和口径分开记录。
 
 [此前 `ba16d56b` 的原版 pterm、GDI、DirectX 同机对照](acceptance-ba16d56b.md)：24 轮 Codex 中三个前端的私有工作集峰值分别为 **3.77、5.50、9.73 MB**。

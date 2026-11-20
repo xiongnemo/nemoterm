@@ -1,5 +1,7 @@
 # 当前测试版与待审阅材料
 
+- 当前单文件 `fe5f98f9`：[三款真实应用的交互、内存与严格计分](trial-fe5f98f9.md) · [经典四边标签实图](tab-faces-fe5f98f9.png)。
+
 - 当前 dist 试用版 `fe5f98f9`：[中英文关闭确认与取消后的按键](close-dialog-language.md)。
 - `c55cca64`：[实际新标签目录、四边标签截图、真实应用交互与内存](osc7-tab-directory.md)。
 - `b04ca12a`：[Windows 重复字符输入与满屏内存](character-repeat.md)。
