@@ -48,7 +48,7 @@ text and malformed data in owned real terminal/ConPTY sessions. It also lets
 installed pwsh, Windows PowerShell, BusyBox ash and Git Bash parse the actual
 delivered quoting. GDI and DirectX are supported test variants. This test does
 not simulate a physical Explorer mouse drag or validate a WSL distribution's
-custom mount layout. [The WSL share and shell profile replay](../research/drop-shell-paths.md)
+custom mount layout. [The WSL share and shell profile replay](https://github.com/xiongnemo/nemoterm/blob/408a251dca608961d936f0200001cdd2f649079b/research/drop-shell-paths.md)
 also checks the actual file contents across Save and Apply and a new session.
 
 The real-client tests run on GitHub-hosted Windows only. An exact-image replay

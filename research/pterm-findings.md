@@ -154,7 +154,7 @@ The [ten-run original archive](https://github.com/xiongnemo/nemoterm/blob/fca0e6
 
 ## `b3274ed`：同一份交互候选的普通 Codex 会话
 
-[十次托管 Windows 原始记录](selection-enter-pterm-b3274ed.zip)使用同一 runner、固定的 Codex 0.167.0、160×48 与 SarasaTermSC Nerd Light。五种前端配置正序、逆序各跑一次；十次均收到指定提示的回环请求、在屏上显示回复并自然退出。表中为每次回复可见后 3 秒内采样的中位数范围，单位为十进制 MB，仅计窗口前端。
+[十次托管 Windows 原始记录](https://github.com/xiongnemo/nemoterm/blob/408a251dca608961d936f0200001cdd2f649079b/research/selection-enter-pterm-b3274ed.zip)使用同一 runner、固定的 Codex 0.167.0、160×48 与 SarasaTermSC Nerd Light。五种前端配置正序、逆序各跑一次；十次均收到指定提示的回环请求、在屏上显示回复并自然退出。表中为每次回复可见后 3 秒内采样的中位数范围，单位为十进制 MB，仅计窗口前端。
 
 | 单窗口配置 | 私有工作集 | 总工作集 | 私有提交量 |
 | --- | ---: | ---: | ---: |
@@ -202,7 +202,7 @@ Nemoterm EXE 的 SHA-256 为 `c7f4f4be019a2fb0262f984d15e7f6177eb47da043558dd819
 | Nemoterm GDI | 5.45 | 34.44 | 6.75 |
 | Nemoterm DirectX | 9.74 | 44.77 | 11.32 |
 
-每组有 1,227–1,280 份采样。pterm 的 SHA-256 与本机指定文件相同；Nemoterm 的 SHA-256 为 `5b9ede235d557ccafbe6545dd369867b0c2f135ead7ee9205a1c794c9835ca14`。三个窗口会话结束时均未观察到 WebView 运行库或子进程。这些数字不包含 Codex 和控制台宿主的内存，也不能替代六种图文压力工作负载。见[该 EXE 的静态导入证据](paste-lines-476a2c76.zip)。
+每组有 1,227–1,280 份采样。pterm 的 SHA-256 与本机指定文件相同；Nemoterm 的 SHA-256 为 `5b9ede235d557ccafbe6545dd369867b0c2f135ead7ee9205a1c794c9835ca14`。三个窗口会话结束时均未观察到 WebView 运行库或子进程。这些数字不包含 Codex 和控制台宿主的内存，也不能替代六种图文压力工作负载。见[该 EXE 的静态导入证据](https://github.com/xiongnemo/nemoterm/blob/408a251dca608961d936f0200001cdd2f649079b/research/paste-lines-476a2c76.zip)。
 
 ### 局部滚屏选区版 `42232a2d` 的同机对照
 
@@ -214,11 +214,11 @@ Nemoterm EXE 的 SHA-256 为 `c7f4f4be019a2fb0262f984d15e7f6177eb47da043558dd819
 | Nemoterm GDI | 5.49 | 34.53 | 6.78 |
 | Nemoterm DirectX | 9.66 | 44.72 | 11.18 |
 
-[完整采样与进程、模块快照](https://github.com/xiongnemo/nemoterm/blob/ba1cc8fec99470377b668bd3a3a8cc6275b203a8/research/agent-session-42232a2d.zip)：三组均正常退出，每组服务端记录首轮加 24 轮共 25 个请求。采样时未观察到 WebView 运行库或子进程。pterm 文件与指定的本机安装 SHA-256 相同；[REA 的静态导入记录](selection-region-after-42232a2d.zip)以及[真实 Vim、tmux、颜色与 Sixel](https://github.com/xiongnemo/nemoterm/blob/ba1cc8fec99470377b668bd3a3a8cc6275b203a8/research/xterm-clients-42232a2d.zip)均对应 SHA-256 `f6e2acd5d51db02e3ff0095e65da72c13e38d4f1ea1f12c7c55ba3eb8efb874d` 的 Nemoterm。
+[完整采样与进程、模块快照](https://github.com/xiongnemo/nemoterm/blob/ba1cc8fec99470377b668bd3a3a8cc6275b203a8/research/agent-session-42232a2d.zip)：三组均正常退出，每组服务端记录首轮加 24 轮共 25 个请求。采样时未观察到 WebView 运行库或子进程。pterm 文件与指定的本机安装 SHA-256 相同；[REA 的静态导入记录](https://github.com/xiongnemo/nemoterm/blob/408a251dca608961d936f0200001cdd2f649079b/research/selection-region-after-42232a2d.zip)以及[真实 Vim、tmux、颜色与 Sixel](https://github.com/xiongnemo/nemoterm/blob/ba1cc8fec99470377b668bd3a3a8cc6275b203a8/research/xterm-clients-42232a2d.zip)均对应 SHA-256 `f6e2acd5d51db02e3ff0095e65da72c13e38d4f1ea1f12c7c55ba3eb8efb874d` 的 Nemoterm。
 
 ## 逐字节粘贴版 `9b5e1111` 的同机对照
 
-[同一个 runner 的逐次采样和实际画面](https://github.com/xiongnemo/nemoterm/blob/b34d1a21f80027faf082357a522132b98fb0fdf0/research/agent-session-9b5e1111.zip)使用安装版 pterm 0.85 对应的同一 SHA-256、单标签 Nemoterm GDI 和单标签 DirectX，字体均为 SarasaTermSC Nerd Light，160×48。各完成 24 轮追问、自然退出。每轮在同一帧看到全部 16 行中文回复及其结尾；过程中未观察到 WebView 相关模块或进程。[同一 EXE 的 PE 导入表](paste-quote-native-9b5e1111.zip)提供独立的静态检查。以下是整个会话的**峰值**，单位为十进制 MB，仅统计终端前端：
+[同一个 runner 的逐次采样和实际画面](https://github.com/xiongnemo/nemoterm/blob/b34d1a21f80027faf082357a522132b98fb0fdf0/research/agent-session-9b5e1111.zip)使用安装版 pterm 0.85 对应的同一 SHA-256、单标签 Nemoterm GDI 和单标签 DirectX，字体均为 SarasaTermSC Nerd Light，160×48。各完成 24 轮追问、自然退出。每轮在同一帧看到全部 16 行中文回复及其结尾；过程中未观察到 WebView 相关模块或进程。[同一 EXE 的 PE 导入表](https://github.com/xiongnemo/nemoterm/blob/408a251dca608961d936f0200001cdd2f649079b/research/paste-quote-native-9b5e1111.zip)提供独立的静态检查。以下是整个会话的**峰值**，单位为十进制 MB，仅统计终端前端：
 
 | 前端 | 私有工作集 | 总工作集 | 私有提交 |
 | --- | ---: | ---: | ---: |
@@ -238,4 +238,4 @@ Nemoterm EXE 的 SHA-256 为 `c7f4f4be019a2fb0262f984d15e7f6177eb47da043558dd819
 | Nemoterm GDI | 5.49 | 34.54 | 6.89 |
 | Nemoterm DirectX | 9.70 | 44.75 | 11.20 |
 
-此工作负载中，GDI 前端私有峰值比原版高约 1.70 MB。三个进程的采样都没有发现浏览器组件；候选的 PE 常规及延迟导入表同样没有这些模块（见[同一二进制的 REA 导入证据](drop-shell-after-cf091974.zip)）。这些观测不能替代图片、滚动及密集字形的压力测试。
+此工作负载中，GDI 前端私有峰值比原版高约 1.70 MB。三个进程的采样都没有发现浏览器组件；候选的 PE 常规及延迟导入表同样没有这些模块（见[同一二进制的 REA 导入证据](https://github.com/xiongnemo/nemoterm/blob/408a251dca608961d936f0200001cdd2f649079b/research/drop-shell-after-cf091974.zip)）。这些观测不能替代图片、滚动及密集字形的压力测试。

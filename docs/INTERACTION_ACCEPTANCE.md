@@ -56,7 +56,7 @@ gh workflow run font-zoom-replay.yml --ref <branch> -f suite=interaction -f sour
 
 `shell-lifetime` 在同一个准确 EXE 上交替执行 12 次普通 Git Bash 复制/关闭和 12 次带进程观察的复制/关闭，随后执行 2 次正常连接对照和 4 次受控的延迟客户端检查。完整 CI 也会自动调用此工作流。每次保留独立结果；原先的 3 秒回收门槛不变。失败后额外观察 12 秒并采集遗留进程的命令行、线程和转储，只用于诊断，不能把失败改成通过。已发现的关闭残留及修复验证见 [Git Bash 关闭调查](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/git-bash-close-race.md) 和 [关闭后连接检查](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/closed-console-connections.md)。
 
-`suite=paste-lines` 还使用真实 Windows 剪贴板延迟交付来验证会话隔离：先确认后台读取已经开始，关闭窗口（GDI、DirectX）或在同一 HWND 内重启 shell（GDI，四次），再放行旧文字。两个存活的子进程都不得收到旧文字；重新发起粘贴时只能由目标收到一次。保留各自的实际输入字节和自然退出状态。`tabs-close-replay.yml` 的 `sessions-mingw`、`restart-mingw` 可以复核原先失败的便携 EXE；不要用便携结果替单文件签收。[同一单文件与便携原失败记录](../research/acceptance-fc769def.md)。
+`suite=paste-lines` 还使用真实 Windows 剪贴板延迟交付来验证会话隔离：先确认后台读取已经开始，关闭窗口（GDI、DirectX）或在同一 HWND 内重启 shell（GDI，四次），再放行旧文字。两个存活的子进程都不得收到旧文字；重新发起粘贴时只能由目标收到一次。保留各自的实际输入字节和自然退出状态。`tabs-close-replay.yml` 的 `sessions-mingw`、`restart-mingw` 可以复核原先失败的便携 EXE；不要用便携结果替单文件签收。[同一单文件与便携原失败记录](https://github.com/xiongnemo/nemoterm/blob/408a251dca608961d936f0200001cdd2f649079b/research/acceptance-fc769def.md)。
 
 `single-exe.yml` 保留独立手动入口，正常 push/PR 由完整 CI 调用，避免重复构建。上游协议对照与内存/句柄诊断继续使用仓库中已有的专用远程工作流，不需要本机补跑。
 
@@ -241,11 +241,11 @@ The `selection` group holds Shift and the left button while the application eras
 
 同一 `selection` 回放还在应用开启鼠标跟踪时按住行尾的 `V` 或 `界` 的后半格，让应用左移该行后反向拖选。分别比对移动前后的整段字形、腾出的空格、分栏边界外的 `W`、松手后的高亮、Ctrl+Shift+C 和右键取得的 `中V` 或 `中界`，并核对手势没有漏送给子进程。原有 XTerm 412 逐格比对仍独立报告。[该 EXE 的 20 项实测与两幅高亮截图](../research/column-edge-integrity.md)。
 
-`suite=unicode-boundary` 的 WinPTY 对照保留两种读屏结果：原始行读取和完整 `CHAR_INFO` 矩形读取；另行记录原始终端输出。普通视图的截止时间不变，之后重绘或切换 transcript 不能补算通过。[同一 EXE 的 5 项回放](https://github.com/xiongnemo/nemoterm/actions/runs/44550320946)及[原始制品](../research/winpty-wide-claude-b3274ed.zip)：GDI 和 DirectX 的原生接收端逐字节收到相同的括号粘贴（含中文、分解重音及两个 Nerd Font 字符）。独立系统 ConPTY、WinPTY 和串行 WinPTY 中的真实 Claude 都提交了 NFC 文本。普通 WinPTY 此次在截止前通过逐格画面确认回复：当时没有可用的旧行快照，原始输出也未出现完整回复标记。串行 WinPTY 则先从终端输出确认。两者的活动缓冲区都记录了回复，旧读法均未记录到标记。这里的可见格只用于确认 ASCII 回复标记；输入字序另以原始字节和请求为准。
+`suite=unicode-boundary` 的 WinPTY 对照保留两种读屏结果：原始行读取和完整 `CHAR_INFO` 矩形读取；另行记录原始终端输出。普通视图的截止时间不变，之后重绘或切换 transcript 不能补算通过。[同一 EXE 的 5 项回放](https://github.com/xiongnemo/nemoterm/actions/runs/44550320946)及[原始制品](https://github.com/xiongnemo/nemoterm/blob/408a251dca608961d936f0200001cdd2f649079b/research/winpty-wide-claude-b3274ed.zip)：GDI 和 DirectX 的原生接收端逐字节收到相同的括号粘贴（含中文、分解重音及两个 Nerd Font 字符）。独立系统 ConPTY、WinPTY 和串行 WinPTY 中的真实 Claude 都提交了 NFC 文本。普通 WinPTY 此次在截止前通过逐格画面确认回复：当时没有可用的旧行快照，原始输出也未出现完整回复标记。串行 WinPTY 则先从终端输出确认。两者的活动缓冲区都记录了回复，旧读法均未记录到标记。这里的可见格只用于确认 ASCII 回复标记；输入字序另以原始字节和请求为准。
 
 `suite=scrollback-modes` 在同一份 Windows EXE 上分别启动 GDI 和 DirectX，每种渲染器单独覆盖四种 `ScrollOnDisp` / `ScrollOnKey` 启动组合。先逐字节比较固定 XTerm 412 的 72 段模式应答，再滚到历史顶部，交替让应用写出一个字符或从 runner 的 Windows 桌面输入一个数字。用原生滚动条位置判断窗口是否回到底部，并核对子程序收到的数字。附加交互在子程序接管鼠标时按住 Shift 和左键，等待新行写入，再选择和复制历史中的 `HISTORY 03 中`，随后键入 `7`。记录独立区分复制留在历史、新输出留在历史和实际键入后跟随到底部。独立参考可用 `protocol-reference.yml` 的 `family=scrollback-modes` 重取。
 
-同一回放还检查历史已满时的矩形选区：让应用接管鼠标，在最老三行用 Ctrl+Shift+左键框选五列，取一次剪贴板，再连续追加四行。每一步比对 GDI / DirectX 自身窗口的像素、独立标记的行号、滚动条位置和原有剪贴板，确认只删除已经滚出历史的高亮行。见[原始画面和逐行对照](../research/scrollback-modes.md#滚动历史已满时的矩形高亮)。
+同一回放还检查历史已满时的矩形选区：让应用接管鼠标，在最老三行用 Ctrl+Shift+左键框选五列，取一次剪贴板，再连续追加四行。每一步比对 GDI / DirectX 自身窗口的像素、独立标记的行号、滚动条位置和原有剪贴板，确认只删除已经滚出历史的高亮行。见[原始画面和逐行对照](https://github.com/xiongnemo/nemoterm/blob/408a251dca608961d936f0200001cdd2f649079b/research/scrollback-modes.md#滚动历史已满时的矩形高亮)。
 
 ### 多行剪贴板换行与括号粘贴
 
@@ -265,27 +265,27 @@ The `selection` group holds Shift and the left button while the application eras
 
 Windows 用 `font-zoom-replay.yml` 的 `suite=paste-quote` 对指定 EXE 重放默认 tty 的记录。实按 Ctrl+Shift+V 后再单独按 Enter 和 `7`；一份记录保留终端实际写入输入管道的字节，另一份记录保留 `ReadConsoleW` 子进程读到的文字。逐字节加前缀后的中文不构成合法 UTF-8，不能从宽字符返回值还原原始字节。严格的管道对照涵盖全部样例；宽字符对照对可表示的样例同样严格，其他样例保留两种观察，不计作 Unicode 等价。此专项含只读管道观察器，不用于内存验收。
 
-[第一次同图 Windows 记录](../research/paste-quote-before-42232a2d.zip)中，旧实现对 `?2005` 的查询全部回答“不识别”。另有 ConPTY 在滚屏重置时发出的带编号的内部光标查询，其回复会和粘贴同走一条管道。比较器保留未经处理的字节，并单独记录读取方向实际出现的查询与写入方向同编号的回复；只有一对一且未送到子程序的回复才从应用粘贴对照中扣除。未配对的输入不会被忽略。
+[第一次同图 Windows 记录](https://github.com/xiongnemo/nemoterm/blob/408a251dca608961d936f0200001cdd2f649079b/research/paste-quote-before-42232a2d.zip)中，旧实现对 `?2005` 的查询全部回答“不识别”。另有 ConPTY 在滚屏重置时发出的带编号的内部光标查询，其回复会和粘贴同走一条管道。比较器保留未经处理的字节，并单独记录读取方向实际出现的查询与写入方向同编号的回复；只有一对一且未送到子程序的回复才从应用粘贴对照中扣除。未配对的输入不会被忽略。
 
-[同一 EXE、同样按键的第二次回放](../research/paste-quote-pipe-42232a2d.zip)在四组中分别配对了七次查询。每组 19 个阶段的模式查询都不同（`?2005` 未识别）；在 8 个未启用引用的阶段粘贴字节完全一致，另 11 个缺少 literal-next。原始管道对照仍各只有 5/19 相同，未经改写；`ReadConsoleW` 对照各为 8/19。此处是旧产品的失败基线。
+[同一 EXE、同样按键的第二次回放](https://github.com/xiongnemo/nemoterm/blob/408a251dca608961d936f0200001cdd2f649079b/research/paste-quote-pipe-42232a2d.zip)在四组中分别配对了七次查询。每组 19 个阶段的模式查询都不同（`?2005` 未识别）；在 8 个未启用引用的阶段粘贴字节完全一致，另 11 个缺少 literal-next。原始管道对照仍各只有 5/19 相同，未经改写；`ReadConsoleW` 对照各为 8/19。此处是旧产品的失败基线。
 
 后续候选还须单独验证 Windows 应用实际收到的中文与 emoji。对不能由 `ReadConsoleW` 表示的原始 PTY 序列，游标控制和括号边界不变，要求子进程在每个 Unicode 字符前读到一次 literal-next，并读到完整字符；发送管道仍须逐字节符合 XTerm。不能用“前端发送正确”掩盖子进程收到替换字符或丢字。两项各自记录，后者是 Windows 可用性要求，不是声称 XTerm 的 PTY 返回 UTF-16。
 
-`49f11579` 的[四组原始回放](../research/paste-quote-frontend-49f11579.zip)在应用粘贴管道上各为 19/19，真实 Windows 子进程却只有 8/19：`中` 被读成三个 `U+FFFD`，emoji 被读成四个。后续回放同时检查默认 `^V` 和 profile 指定的 `^]`，包括正式的模式查询、括号边界、CRLF/LF 和紧随粘贴的实按 Enter。在任一端比较失败都不算通过。
+`49f11579` 的[四组原始回放](https://github.com/xiongnemo/nemoterm/blob/408a251dca608961d936f0200001cdd2f649079b/research/paste-quote-frontend-49f11579.zip)在应用粘贴管道上各为 19/19，真实 Windows 子进程却只有 8/19：`中` 被读成三个 `U+FFFD`，emoji 被读成四个。后续回放同时检查默认 `^V` 和 profile 指定的 `^]`，包括正式的模式查询、括号边界、CRLF/LF 和紧随粘贴的实按 Enter。在任一端比较失败都不算通过。
 
 `font-zoom-replay.yml` 的 `suite=wsl-paste-quote` 将同一 EXE 放在托管 Windows 的 Ubuntu 24.04 中对照：原始 TTY 逐字节比对 XTerm 412 的剪贴板记录；启用 Linux 行编辑后，分别检查含中文、表情、Tab 和内嵌换行的完整一行及下一行哨兵。两种 renderer 和两个实际 `VLNEXT` 值分开记录。该检查也属于 `ci.yml scope=full`。
 
-候选 `9b5e1111` 的[原生 Windows 回执](../research/paste-quote-native-9b5e1111.zip)覆盖两种渲染器 × 三组剪贴板（默认 `^V` 的 CRLF 和 LF、自定义 `^]` 的 LF）× 19 个阶段，**114/114**。逐项比对了模式回复、输入管道中的真实字节、`ReadConsoleW` 接收的数据和自然退出。比如粘贴 `中` 时，管道有三次前缀，宽字符应用只收到一个前缀和一个完好的 `中`。同一归档内附 REA 对该 EXE 的 PE 导入表，未发现 WebView 导入。
+候选 `9b5e1111` 的[原生 Windows 回执](https://github.com/xiongnemo/nemoterm/blob/408a251dca608961d936f0200001cdd2f649079b/research/paste-quote-native-9b5e1111.zip)覆盖两种渲染器 × 三组剪贴板（默认 `^V` 的 CRLF 和 LF、自定义 `^]` 的 LF）× 19 个阶段，**114/114**。逐项比对了模式回复、输入管道中的真实字节、`ReadConsoleW` 接收的数据和自然退出。比如粘贴 `中` 时，管道有三次前缀，宽字符应用只收到一个前缀和一个完好的 `中`。同一归档内附 REA 对该 EXE 的 PE 导入表，未发现 WebView 导入。
 
-[同一 EXE 在托管 WSL1 的第一轮](../research/paste-quote-wsl-9b5e1111.zip)显示，这个结论不能直接推广到 Linux：Ubuntu 24.04 的 `/dev/tty1` 在四种组合里都给出正确的模式回复，普通粘贴正确；启用 `?2005` 后，原始读取在 `中` 前只有一次前缀，三个 UTF-8 字节之间没有前缀。按行读取拼接后的文字正确，但应用收到五次读取（按三个内嵌 LF 和两次手动提交分割），而非所需的两次。Linux 测试程序四次均正常完成；Windows 作业各留下两个进程，需要强制清理。上述差异分别保留。`wsl-paste-quote` 另在原生 Linux 和 WSL 的私有 `/dev/pts` 中直接写入同一份字节，并记录控制台要求的数据类型，供分层对照。
+[同一 EXE 在托管 WSL1 的第一轮](https://github.com/xiongnemo/nemoterm/blob/408a251dca608961d936f0200001cdd2f649079b/research/paste-quote-wsl-9b5e1111.zip)显示，这个结论不能直接推广到 Linux：Ubuntu 24.04 的 `/dev/tty1` 在四种组合里都给出正确的模式回复，普通粘贴正确；启用 `?2005` 后，原始读取在 `中` 前只有一次前缀，三个 UTF-8 字节之间没有前缀。按行读取拼接后的文字正确，但应用收到五次读取（按三个内嵌 LF 和两次手动提交分割），而非所需的两次。Linux 测试程序四次均正常完成；Windows 作业各留下两个进程，需要强制清理。上述差异分别保留。`wsl-paste-quote` 另在原生 Linux 和 WSL 的私有 `/dev/pts` 中直接写入同一份字节，并记录控制台要求的数据类型，供分层对照。
 
-**哪一层改变了字节？** [同一测试脚本在原生 Linux 和 WSL1 的私有 PTY 及实际窗口中的记录](../research/paste-quote-hosts-9b5e1111.zip)把原版 XTerm 字节直接写进新建的 PTY，不经过 Windows 窗口。原生 Ubuntu runner 的八种对照均通过；WSL1 的同样八种只有四种通过。两种前缀的原始读取都能保留每个字节；但在 WSL1 中，即使直接写入正确的引用序列，内嵌 LF 仍会提前结束一次按行读取。Windows 端则是另一层：绑定到四个内置宿主的 ETW 记录共观察到 402 次 `API_GetConsoleInput`，`Unicode=1`，没有观察到 `API_ReadConsole`；这些是宿主记录的请求，不是字节读取。新诊断单独检查重定向的 `wsl.exe` 管道与 Linux 私有 PTY 能否双向保留任意八位数据；它不改变产品启动方式。启用跟踪的窗口回放保留了一次超时，其余三次自然退出，不能替第一次的强制清理改分。
+**哪一层改变了字节？** [同一测试脚本在原生 Linux 和 WSL1 的私有 PTY 及实际窗口中的记录](https://github.com/xiongnemo/nemoterm/blob/408a251dca608961d936f0200001cdd2f649079b/research/paste-quote-hosts-9b5e1111.zip)把原版 XTerm 字节直接写进新建的 PTY，不经过 Windows 窗口。原生 Ubuntu runner 的八种对照均通过；WSL1 的同样八种只有四种通过。两种前缀的原始读取都能保留每个字节；但在 WSL1 中，即使直接写入正确的引用序列，内嵌 LF 仍会提前结束一次按行读取。Windows 端则是另一层：绑定到四个内置宿主的 ETW 记录共观察到 402 次 `API_GetConsoleInput`，`Unicode=1`，没有观察到 `API_ReadConsole`；这些是宿主记录的请求，不是字节读取。新诊断单独检查重定向的 `wsl.exe` 管道与 Linux 私有 PTY 能否双向保留任意八位数据；它不改变产品启动方式。启用跟踪的窗口回放保留了一次超时，其余三次自然退出，不能替第一次的强制清理改分。
 
 重定向管道的[托管 WSL1 实验](../research/wsl-byte-transport-9b5e1111.zip)已完成：不启动 Nemoterm，Windows 通过 `wsl.exe` 的匿名管道向真实 `/dev/pts` 送入四组 XTerm 原始粘贴数据，以及一次从 `00` 到 `ff` 的全部 256 个字节。五次都从 slave 读到原字节，反向写回到 Windows 也完整，查询尺寸均为 160×48。仅重放此探针可选 `font-zoom-replay.yml` 的 `suite=wsl-byte-path`。它证明生字节有可行路径；产品中的默认 WSL 后端仍使用控制台。WSL1 自身的规范行编辑差异也不因更换传输而消失。
 
 ### 从资源管理器拖入 WSL，以及更改默认 shell 后再拖放
 
-用 `font-zoom-replay.yml` 的 `suite=wsl-drop`、`source_run`、完整 `source_commit` 回放同一 EXE；`ci.yml scope=full` 运行相同的检查。GitHub 托管的 Windows runner 在 Ubuntu 中生成文件和目录，把 Windows 文件列表拖放或粘贴到真实窗口。检查原始 PTY 输入、Bash 能否用收到的路径读到两份原始内容，以及混入另一发行版时是否整批拒绝。显式指定发行版与默认发行版各有覆盖。另开实际 Windows PowerShell，在 Profile Settings 中保存 cmd 为默认 shell；当前 PowerShell 和随后打开的 cmd 必须用同一 profile 分别读到对应文件的随机内容。两组都保留 GDI 和 DirectX 结果。原始失败：[资源管理器路径的旧版对照](../research/wsl-share-drop-before-9b5e1111.zip)。
+用 `font-zoom-replay.yml` 的 `suite=wsl-drop`、`source_run`、完整 `source_commit` 回放同一 EXE；`ci.yml scope=full` 运行相同的检查。GitHub 托管的 Windows runner 在 Ubuntu 中生成文件和目录，把 Windows 文件列表拖放或粘贴到真实窗口。检查原始 PTY 输入、Bash 能否用收到的路径读到两份原始内容，以及混入另一发行版时是否整批拒绝。显式指定发行版与默认发行版各有覆盖。另开实际 Windows PowerShell，在 Profile Settings 中保存 cmd 为默认 shell；当前 PowerShell 和随后打开的 cmd 必须用同一 profile 分别读到对应文件的随机内容。两组都保留 GDI 和 DirectX 结果。原始失败：[资源管理器路径的旧版对照](https://github.com/xiongnemo/nemoterm/blob/408a251dca608961d936f0200001cdd2f649079b/research/wsl-share-drop-before-9b5e1111.zip)。
 
 ### 原版 pterm 的真实窗口与图片粘贴
 
@@ -293,9 +293,9 @@ Windows 用 `font-zoom-replay.yml` 的 `suite=paste-quote` 对指定 EXE 重放�
 
 The tabbed `selection` cases also change the top-level window height while the application owns mouse reporting. Real Shift/left-button and Ctrl+Shift/left-button gestures cover an unchanged main row, main rows pushed toward history, a surviving alternate-screen rectangle and an alternate-screen press on a discarded row. `height_selection` records the client geometry, selected pixels, explicit keyboard copy, right-button clipboard/child bytes and full gesture input. `width_selection` additionally checks a released stream when widening the alternate grid, a held rectangular selection when narrowing it, and a press on a column that actually disappears. Each resize uses the new client width for pixel comparisons. The separate `reflow_selection` cases start with `|ABCDEFGH|` near the right edge of the main screen and an untouched reference copy at the left. They physically select, resize from 80 to 74 columns, then back to 80. The released stream and reverse held press must track `CDEFG` across a soft wrap; a block entirely to the right of the break must track `EFG`, and a block split into incompatible columns must stay cancelled on widening. Check the narrow and wide screenshots separately, along with mode replies, shortcut and right-click copy, and the child’s raw mouse input.
 
-[Before/after height-selection evidence](../research/selection-height.md).
+[Before/after height-selection evidence](https://github.com/xiongnemo/nemoterm/blob/408a251dca608961d936f0200001cdd2f649079b/research/selection-height.md).
 
-For an exact-image Windows quoted-paste exit diagnostic, run `font-zoom-replay.yml` with `suite=paste-quote-exit`, `source_run` and `source_commit`. Each renderer opens six independent windows for the same three inputs, with and without the pipe observer. Both arms require mode and wide receiver bytes, native input and natural exit within the original ten seconds; only the instrumented arm also measures the frontend pipe. A missed deadline remains a failure even if the process subsequently exits. The diagnostic additionally captures an owned-process minidump only on such a miss. [Product and fixture identities, observed windows, raw receipts and limits](../research/acceptance-6072ebc9.md).
+For an exact-image Windows quoted-paste exit diagnostic, run `font-zoom-replay.yml` with `suite=paste-quote-exit`, `source_run` and `source_commit`. Each renderer opens six independent windows for the same three inputs, with and without the pipe observer. Both arms require mode and wide receiver bytes, native input and natural exit within the original ten seconds; only the instrumented arm also measures the frontend pipe. A missed deadline remains a failure even if the process subsequently exits. The diagnostic additionally captures an owned-process minidump only on such a miss. [Product and fixture identities, observed windows, raw receipts and limits](https://github.com/xiongnemo/nemoterm/blob/408a251dca608961d936f0200001cdd2f649079b/research/acceptance-6072ebc9.md).
 
 
 `suite=taskbar-progress` 在 GDI 和 DirectX 各启动真正的 Windows 子程序，交替以 BEL 和 ST 结束 OSC 9;4。它逐步比较实际标签栏的进度长度、颜色及未知进度条纹，包括重置和非法输入。旧版 `6072ebc9` [首次对照](https://github.com/xiongnemo/nemoterm/actions/runs/44602298022) 每种后端均仅通过 5/16 项（都是应为空白的对照），11 个应有标记的步骤实际上也全空白。独立桌面检查记录 Explorer 的 TaskbarButtonCreated 通知，以及独立窗口、同窗前后台标签和关闭后台标签后 ITaskbarList3 调用的返回值。没有真实 Shell 回执将使此项不通过；回执也不等同于截图看到了 Explorer 图标。
@@ -312,6 +312,10 @@ For an exact-image Windows quoted-paste exit diagnostic, run `font-zoom-replay.y
 
 `suite=wsl-relay-vim` 使用同一份单 EXE 的内嵌 WSL PTY，在真实 Vim 与 tmux 内的 Vim 中分别重放鼠标、Shift 强制选区、矩形复制、粘贴及窗口缩放。验证 guest 的 PTY、父进程与临时文件的实际散列，以及退出后临时文件的清理。
 
-`suite=paste-lines` 还会在托管 GDI 和 DirectX 窗口中用延迟提供 `CF_UNICODETEXT` 的所有者检查连续粘贴、回车和后续按键的真实顺序，以及超时放行与忽略迟到的结果。见[修复前后的按键、内容与时序](../research/paste-key-order.md)。
+`suite=paste-lines` 还会在托管 GDI 和 DirectX 窗口中用延迟提供 `CF_UNICODETEXT` 的所有者检查连续粘贴、回车和后续按键的真实顺序，以及超时放行与忽略迟到的结果。见[修复前后的按键、内容与时序](https://github.com/xiongnemo/nemoterm/blob/408a251dca608961d936f0200001cdd2f649079b/research/paste-key-order.md)。
 
 在支持配置方案选择 WSL PTY 的构建上，`suite=wsl-relay-vim` 还会从普通命名 WSL Bash 配置启动，实际点击 Profile → Shell 复选框并保存。在原 shell 保持运行时实按 Ctrl+Shift+T，核对新标签的 Bash、TTY 和父进程文件散列，并检查关标签后原 shell 仍在。重新打开配置、关闭选项以及临时改用 Windows PowerShell 都独立检查。产品进程不继承 `NEMOTERM_WSL_PTY_RELAY`；`research/wsl-transport-profile/result.json` 记录每一次切换及自然退出。测试是否通过以对应 EXE 的回执为准。
+
+`suite=column-modes`（`font-zoom-replay.yml`）在能完整容纳 132 列 Sarasa 的托管桌面上逐项比较 `TERM` 应答、Win32 窗口尺寸和子程序查询到的控制台宽度。它对照 `protocol-reference.yml` 的 `family=column-modes`：六种新会话，每种 22 个阶段；本地不准改尺寸以及 `-132` / `+132` 覆盖 profile 各自单独计分。见[上游、旧版和实测差异](../research/column-modes.md)。
+
+如单文件任务在 `close-host` 超时并生成小型转储，`font-zoom-replay.yml` 的 `suite=profile-dump-single` 在远程只读解析原始文件；`tabs-close-replay.yml` 的 `fixture=profiles-single-pair` 在原始源码和 EXE 上交替运行 Frida 观察和不注入的窗口接口观察，`repetitions` 指每种方式分别执行几次。见[一次超时与成对复测](../research/profile-close-dc8b6913.md)。
