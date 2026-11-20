@@ -2,6 +2,8 @@
 
 下文保留当时的记录。每条数字都对应所列提交；当前测试版请从 [README 下载](../README.md#下载)。
 
+[上一试用版 `f073c8d1`](../research/acceptance-f073c8d1.md) 修复已放大行跨行选择时复制不可见文字的问题（18/18）。后续在按住鼠标期间改变行宽时出现的独立问题，以及两版对照见[窗口截图与剪贴板](../research/selection-rendition-press.md)。
+
 ## `cf091974`：81 项交互通过的历史试用版
 
 [上一份 81/81 的 Windows x64 测试版 `cf091974`](https://github.com/xiongnemo/nemoterm/actions/runs/44588222859/artifacts/14562762043)。解压后只需 `nemoterm.exe`（4,862,464 字节）。SHA-256：`9df8365b9e32444f24d279c114750090122f8550c1aa53dffa2972c448aa4788`。
