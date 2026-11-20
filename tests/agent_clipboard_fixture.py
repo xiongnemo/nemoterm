@@ -185,7 +185,7 @@ class Handler(BaseHTTPRequestHandler):
                 if selected:
                     answer+='\n\nROW '+BIDI_WITNESS.strip().replace('END_BIDI','END_PASTE')
                 elif glyph_match:
-                    answer='NEMOTERM_GLYPH_ACCEPTED'
+                    answer='NEMOTERM_GLYPH_ACCEPTED\n\n```\nBOX1|中文|Z\nBOX2|abcd|Z\n```'
             if plan is not None:
                 answer = reply
             if path=='/v1/messages':

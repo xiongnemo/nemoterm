@@ -365,6 +365,9 @@ def main():
                         return matches[0]
                 partial['receipt']=wait_for(glyph_submission,timeout=30)
                 wait_for(lambda:'NEMOTERM_GLYPH_ACCEPTED' in text())
+                from agent_rectangle_witness import verify_rectangle
+                verify_rectangle(evidence, text, desktop, frame, observed['pid'], hwnd,
+                                 session['renderer'], cw, ch, ox, oy, width)
             sample('submitted')
             if sampler:
                 stop.set();sampler.join(5)

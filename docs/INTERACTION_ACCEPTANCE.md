@@ -39,6 +39,8 @@ gh workflow run font-zoom-replay.yml --ref <branch> -f suite=interaction -f sour
 
 `suite=rendering-settings` 在远程显示器实际支持的缩放比例下打开英文、简体中文“渲染”页，记录两个复选框的文字边界、与底部按钮的间距和窗口截图。分别检查标签窗口、独立窗口和运行中改变 DPI 的情况。
 
+`suite=column-cells` 中的 `column-cjk-insert-wrap-{gdi,directx}-result.json` 从托管 Windows 的真实程序同时读取终端报告的字格和 Win32 屏幕缓冲区：行末只余一格时，在插入模式写入「中」应把下一行的「界V尾」右移；覆盖模式、直接插入和已待换行的对照分别计数。此项不安装 WSL。`interaction` 的 `agents-grid` 则直接在三个客户端的回复中跨行框选：上行切过两个宽字的内半格、下行切过 `bc`，分别保留可见窗口原图、相邻字格和系统剪贴板。
+
 `suite=wsl-tui` 在单独的 Windows runner 上只安装所需 WSL 环境，记录直接运行的 `less` 与 `script` 记录器运行的 `less`，并区分窗口 API 和系统导航键。记录器的成功不能替代直接运行。
 
 `suite=wsl-sixel` 用 Ubuntu 的 `img2sixel` 经 WSL 终端输出一张彩色 PNG，保存实际 Sixel 字节并用 `sixel2png` 独立解码。分别核验真实 GDI、DirectX 对应位置的每个像素、四边一像素范围、重绘及清除后的结果，同时保留工具版本、文件摘要和原始截图。工具只安装在 runner 上。
