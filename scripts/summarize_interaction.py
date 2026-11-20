@@ -35,6 +35,24 @@ def record_reader(path,row):
     return checked
 
 
+def scaled_copy_cases(obs, tab):
+    expected = {'normal-control': 'WXYZOFFSCREEN', 'double-width': 'WXYZ',
+                'upper-half-reverse': 'WXYZ', 'lower-half-spaces': 'W'}
+    counts = {}
+    for channel, names in [('messages', set(expected)), ('system', {'double-width'} if tab else set())]:
+        records = obs.get('scaled_copy_'+channel, [])
+        require(len(records)==len(names) and {r['case'] for r in records}==names,
+                'missing or duplicate scaled-copy case: '+channel)
+        for r in records:
+            name = r['case']
+            columns = [list(range(36 if name=='normal-control' else 72, 80)), [0,1,2]]
+            require(r['highlight']==columns and r['copied']==expected[name]+'\r\nEND'
+                    and bytes.fromhex(r['raw_input'])==b'\x1b[0n'*2 and r['passed'] is True,
+                    'scaled-copy highlight, clipboard or application input differs: '+channel+'/'+name)
+        counts[channel] = len(records)
+    return counts
+
+
 def selection_cursor_case(path,row,identity):
     case=row['id']; tab='-profile-font-' not in case
     renderer={'gdi':1,'directx':3}[case.rsplit('-',1)[1]]
@@ -73,7 +91,7 @@ def selection_cursor_case(path,row,identity):
                 and r['copied'] is None and bytes.fromhex(r['right_wire'])==ack+right+ack
                 and r['next_copy']=='SAFE' and bytes.fromhex(r['next_wire'])==bytes.fromhex(r['gesture_wire'])==2*ack,
                 'stale highlight, clipboard or mouse ownership after scroll: '+r['case'])
-    return len(rows),len(discards)
+    return len(rows),len(discards),scaled_copy_cases(obs,tab)
 
 
 def verify_right_gesture(events, manual_paste):
@@ -257,7 +275,8 @@ def main():
                         out['right_click'] = agent_right_case(path,row,identity,case_args[case])
                     if group=='agents-grid':out['frontend_peak_bytes']=agent_grid_case(path,row,identity)
                     if group=='selection' and case.startswith('selection-'):
-                        out['verified_cursor_updates'],out['verified_discarded_presses']=selection_cursor_case(path,row,identity)
+                        (out['verified_cursor_updates'], out['verified_discarded_presses'],
+                         out['verified_scaled_copy']) = selection_cursor_case(path,row,identity)
                     out['verified'] = True
                 except (OSError, ValueError, TypeError, KeyError) as failure:
                     errors.append(f'{group}/{case}: {failure}')
