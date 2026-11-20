@@ -95,7 +95,11 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-selection-') as temporary:
             # drain preceding mouse/key input before asserting its exact bytes.
             barrier=phase_request['phase']
             write_snapshot(control,dict(phase_request,input_barrier=barrier))
-            value=wait_snapshot(lambda:read_snapshot(report),lambda v:v.get('phase')==barrier and v.get('input_barrier')==barrier and 'hex' in v)
+            try:
+                value=wait_snapshot(lambda:read_snapshot(report),lambda v:v.get('phase')==barrier and v.get('input_barrier')==barrier and 'hex' in v)
+            except AssertionError:
+                evidence['barrier_timeout_before_release']=dict(phase=barrier,report=read_snapshot(report),control=read_snapshot(control))
+                raise
             if expected_mouse is not None:
                 assert bytes.fromhex(value['hex'])==b'\x1b[0n'+expected_mouse+b'\x1b[0n',value
             return value['hex']

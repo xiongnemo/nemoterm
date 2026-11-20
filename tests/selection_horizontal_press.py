@@ -74,6 +74,8 @@ CASES = (
     ('copy-wide-tail', '\x1b[{row};1;{row};1;1;{row};8;1$v', 0, 0, 6, None, 9, None),
     ('copy-same-accent', '\x1b[{row};5;{row};5;1;{row};11;1$v', 0, 0, 10, 10, 12, 'K\u0301LM'),
     ('copy-new-accent', '\x1b[{row};5;{row};5;1;{row};11;1$v', 0, 0, 10, None, 12, None),
+    ('repeat-cell-stream', '\x1b[2@', 5, 0, 10, 12, 14, 'KLM'),
+    ('repeat-cell-block', '\x1b[2@', 5, 0, 10, 12, 14, 'KLM'),
 )
 ACK = b'\x1b[0n'
 
@@ -118,6 +120,16 @@ def verify(hwnd, begin, point, capture, tile, copy, barrier, evidence, desktop=N
                 p=capture(return_pixels=True)
                 return p if tile(p,50,21)==tile(initial,51,21) else None
             normal=wait_for(repainted)
+            if name.startswith('repeat-cell-'):
+                # The character moved two cells; the pointer did not. Deliver a
+                # client mouse-move at exactly the original down coordinates.
+                at=point(press,y);row['down_and_motion_lparam']=at
+                u.SendMessageW(hwnd,0x200,13 if block else 5,at)
+                # While the button is still held the terminal must service a
+                # DSR and leak no SGR mouse report. Restart a fresh interval
+                # afterwards so the ordinary drag's wire oracle is unchanged.
+                row['wire_before_real_drag']=barrier()
+                begin(phase+'-resume','')
             if dest is not None:
                 row['same_glyph_pixels']=tile(initial,press,y)==tile(normal,dest,y)
             if name.startswith('edge-'):
