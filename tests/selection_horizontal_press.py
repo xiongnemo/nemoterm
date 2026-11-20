@@ -58,6 +58,8 @@ CASES = (
     ('edge-decdc', "\x1b[2'~", 5, 1, 21, 19, 17, '中V'),
     ('edge-sl', '\x1b[2 @', 5, 1, 21, 19, 17, '中V'),
     ('edge-adjacent-wide', '\x1b[3P', 5, 0, 21, 18, 15, '中界'),
+    ('edge-right-ich', '\x1b[@', 5, 0, 20, 21, 19, '中U'),
+    ('edge-right-sr', '\x1b[1 A', 5, 1, 20, 21, 19, '中U'),
 )
 ACK = b'\x1b[0n'
 
@@ -66,7 +68,7 @@ def verify(hwnd, begin, point, capture, tile, copy, barrier, evidence, desktop=N
     rows = evidence['horizontal_press_system' if desktop else 'horizontal_press'] = []
     def aim(cell): desktop.point(cell & 0xffff, cell >> 16)
     for i, (name, edit, col, dy, press, dest, end, want) in enumerate(CASES):
-        if desktop and name not in ('ich','dch','deleted','paint-replaced','paint-identical','erase-ech','erase-protected','edge-dch','edge-adjacent-wide'): continue
+        if desktop and name not in ('ich','dch','deleted','paint-replaced','paint-identical','erase-ech','erase-protected','edge-dch','edge-adjacent-wide','edge-right-ich','edge-right-sr'): continue
         block = bool(i % 2)
         y = 8 if i % 2 == 0 else 13  # distinguish consecutive independent Win32 clicks
         phase = ('physical-' if desktop else 'message-')+'column-'+name
@@ -74,6 +76,7 @@ def verify(hwnd, begin, point, capture, tile, copy, barrier, evidence, desktop=N
                 'ABCDEFGHLאבג\u05b0RSTUVWXYZ' if name in ('bidi-stays','bidi-repaint') else ABC)
         if name.startswith('edge-'):
             line = 'ABCDEFGHIJKLMNOPQR中界WXYZ' if name=='edge-adjacent-wide' else 'ABCDEFGHIJKLMNOPQRS中VWXYZ'
+            if name.startswith('edge-right-'): line = 'ABCDEFGHIJKLMNOPQR中UVWXYZ'
         if name in ('erase-protected','erase-protected-rect'):
             line=line.replace('K','\x1b[1"qK\x1b[0"q')
         if name=='erase-blank': line=line.replace('K',' ')
@@ -106,9 +109,10 @@ def verify(hwnd, begin, point, capture, tile, copy, barrier, evidence, desktop=N
                 def strip(frame, start, stop):
                     return b''.join(tile(frame,x,y) for x in range(start,stop))
                 blank=tile(initial,27,y)
-                row['moved_span_visible']=(strip(normal,end,dest+1)==strip(initial,end+shift,22)
+                row['moved_span_visible']=(strip(normal,end,dest+1)==strip(initial,end+shift,dest+1+shift)
                                            and strip(normal,end,dest+1)!=blank*(dest-end+1))
-                row['vacated_blank']=strip(normal,22-shift,22)==blank*shift
+                gap = 22-shift if shift>0 else (4 if name=='edge-right-sr' else col)
+                row['vacated_blank']=strip(normal,gap,gap+abs(shift))==blank*abs(shift)
                 row['outside_preserved']=tile(initial,22,y)==tile(normal,22,y)!=blank
             if desktop:
                 if block:desktop.event(0x11,False)

@@ -29,6 +29,12 @@ jobs:
       - name: Compare all 728 reported cells with the original XTerm replies
         if: ${{ !cancelled() && steps.prepare.outcome == 'success' }}
         run: python tests/column_press_cells.py --product
+      - name: Check the VT and Windows console rows after edits (GDI)
+        if: ${{ !cancelled() && steps.prepare.outcome == 'success' }}
+        run: python tests/column_edit_native.py gdi
+      - name: Check the VT and Windows console rows after edits (DirectX)
+        if: ${{ !cancelled() && steps.prepare.outcome == 'success' }}
+        run: python tests/column_edit_native.py directx
       - if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
@@ -36,6 +42,7 @@ jobs:
           path: |
             research/column-press-observed.json
             research/column-edge-observed.json
+            research/column-edit-native-*.json
             build/column-product/SOURCE-HOST.json
             build/interaction-dependencies/environment.json
           if-no-files-found: error
