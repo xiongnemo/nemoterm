@@ -1,6 +1,8 @@
 # 当前测试版与待审阅材料
 
-- 当前 dist 试用版 `5ccb22b4`：[松手后矩形选区随文字平移，修复前后真实按键与截图](acceptance-5ccb22b4.md)。
+- 当前 dist 试用版 `c55cca64`：[实际新标签目录、四边标签截图、真实应用交互与内存](osc7-tab-directory.md)。
+- `b04ca12a`：[Windows 重复字符输入与满屏内存](character-repeat.md)。
+- `5ccb22b4`：[松手后矩形选区随文字平移，修复前后真实按键与截图](acceptance-5ccb22b4.md)。
 - `ba16d56b`：[三个实际 agent、满屏负载的内存与交互验收](acceptance-ba16d56b.md) · [右键复制后的快速 Shift 拖选、备用屏与标签](right-copy-ba16d56b.md)。
 - `355c73f8`：[交互、内存与已知差异](acceptance-355c73f8.md) · [打字隐藏指针后拖选中文](pointer-hiding-355c73f8.md)。
 - 上一试用版 `3da1ebb8`：[交互和内存验收](acceptance-3da1ebb8.md) · [四边标签与进度条截图](tab-faces-3da1ebb8.md)。
