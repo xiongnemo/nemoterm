@@ -89,6 +89,45 @@ static void sync_query(Mock *mk, const char *expected)
     strbuf_clear(mk->to_backend);
 }
 
+static unsigned drag_cells;
+static bool sync_overlay(TermWin *win, const unsigned char *old,
+                         const unsigned char *now, int cols, int rows)
+{
+    drag_cells=0;
+    for (int x=0; x<cols && x<16; x++) if (now[x]) drag_cells |= 1U<<x;
+    return true;
+}
+
+static void test_select_presented_frame(Mock *mk)
+{
+    Terminal *t=mk->term;
+    sync_reset(mk, "local drag pins the presented cells across the synchronization deadline");
+    term_data_fragmented(t,"AOLDZ\033[?1002;1006h\033[?2026h\rANEWZ");
+    term_mouse(t,MBT_LEFT,MBT_SELECT,MA_CLICK,1,0,true,false,false);
+    term_mouse(t,MBT_LEFT,MBT_SELECT,MA_DRAG,3,0,true,false,false);
+    IEQUAL(drag_cells, 0x0e);
+    advance_test_clock(t->synchronized_update_deadline+100);
+    term_data_fragmented(t,"!");
+    IEQUAL(t->sync_drag, true);
+    IEQUAL(get_termchar(t,2,0).chr & ~CSET_MASK, 'E');
+    term_mouse(t,MBT_LEFT,MBT_SELECT,MA_RELEASE,3,0,false,false,false);
+    IEQUAL(t->sync_drag, false);
+    IEQUAL(t->synchronized_update, false);
+    IEQUAL(t->selected_text.text && t->selected_text.len >= 3 &&
+           !wmemcmp(t->selected_text.text,L"OLD",3), true);
+    IEQUAL(term_has_presented_selection(t), false);
+    IEQUAL(get_termchar(t,5,0).chr & ~CSET_MASK, '!');
+    sync_query(mk,"\033[?2026;2$y");
+
+    sync_reset(mk, "cancel before moving releases the old frame and resumes queued output");
+    term_data_fragmented(t,"ONE\033[?2026h\rTWO");
+    term_mouse(t,MBT_LEFT,MBT_SELECT,MA_CLICK,0,0,true,false,false);
+    term_data_fragmented(t,"!");
+    term_cancel_selection_drag(t);
+    IEQUAL(t->sync_text == NULL, true);
+    IEQUAL(get_termchar(t,3,0).chr & ~CSET_MASK, '!');
+}
+
 static void test_parse_and_input_continue(Mock *mk)
 {
     sync_reset(mk, "2026 preserves the visible frame while parsing and input continue");
@@ -282,11 +321,13 @@ int main(void)
     vt.set_cursor_pos = sync_set_cursor;
     vt.refresh = sync_refresh;
     vt.set_synchronized_update = sync_set_update;
+    vt.draw_frozen_selection = sync_overlay;
     mk->tw.vt = &vt;
     frame.allow_begin = true;
     mk->term = term_init(mk->conf, mk->ucsdata, &mk->tw);
     mk->ldisc = ldisc_create(mk->conf, mk->term, &mk->backend, &mk->seat);
 
+    test_select_presented_frame(mk);
     test_parse_and_input_continue(mk);
     test_buffered_idle_frames(mk);
     test_deadline_and_repeated_set(mk);

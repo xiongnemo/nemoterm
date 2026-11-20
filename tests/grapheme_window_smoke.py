@@ -130,12 +130,9 @@ try:
                             u.RedrawWindow(hwnd,None,None,0x185)
                             copied_texts=texts
                             if frozen:
-                                # Local selection deliberately releases sync
-                                # output, paints the new frame, then selects
-                                # its visible cells. Exercise different whole
-                                # clusters in that newly presented frame.
-                                copied_texts=list(reversed(texts))
-                                send(phase+'-hidden','\x1b[?2026h\x1b[2J\x1b[H'+'\r\n'.join(copied_texts))
+                                # The mouse acts on the already presented clusters. The
+                                # opposite order is parsed, but still hidden when pressed.
+                                send(phase+'-hidden','\x1b[?2026h\x1b[2J\x1b[H'+'\r\n'.join(reversed(texts)))
                             u.SendMessageW(hwnd,0x201,13,point(0,0))
                             u.SendMessageW(hwnd,0x200,1,point(1,2))
                             u.SendMessageW(hwnd,0x202,0,point(1,2))
@@ -153,7 +150,7 @@ try:
                             assert bytes.fromhex(delivered['hex'])==b'\x1b[0n'*2,delivered
                             if frozen:
                                 assert b'\x1b[?2026;2$y' in send('copy-sync-status','\x1b[?2026$p')
-                        mode['checks'].append('Shift-Ctrl rectangles and Ctrl-Shift-C preserve clusters; local selection releases sync output before selecting')
+                        mode['checks'].append('Shift-Ctrl rectangles and Ctrl-Shift-C preserve clusters; local selection copies the presented order before releasing synchronized output')
                         saved.restore();saved=None
                         key_session.detach();key_session=None
                     if gpu:gpu.close();gpu=None

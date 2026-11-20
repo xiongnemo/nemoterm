@@ -77,7 +77,7 @@ static bool nemo_debug_image(WinGuiSeat *wgs,strbuf *out,RECT rect)
          * when their tab is inactive. The DIB clips columns without retaining
          * a full-window capture allocation. */
         if (ok && wgs->sync_snapshot && wgs->term->synchronized_update)
-            ok=nemo_snapshot_paint(wgs->sync_snapshot,dc,&rect,NULL);
+            ok=nemo_frozen_paint(wgs,dc,&rect,NULL);
         else if (ok && wgs_active(wgs) && wgs->gpu)
             ok=nemo_gpu_print_band(wgs->gpu,dc,rect.top,height);
         else if (ok) {

@@ -323,7 +323,8 @@ struct terminal_tag {
 
     int rows, cols, savelines;
     bool has_focus;
-    bool synchronized_update;
+    bool synchronized_update, sync_drag;
+    struct NemoFrozenText *sync_text;
     unsigned long synchronized_update_deadline;
     bool in_vbell;
     long vbell_end;

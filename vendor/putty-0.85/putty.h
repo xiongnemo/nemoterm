@@ -1711,6 +1711,10 @@ struct TermWinVtable {
     /* Optional presentation snapshot. Enabling may fail under resource limits.
      * Called without a draw context; disabling must release all saved pixels. */
     bool (*set_synchronized_update)(TermWin *, bool enabled);
+    /* The optional callback updates the selection over already presented pixels.
+     * Rows contain one byte per physical cell; a NULL old mask means all zero. */
+    bool (*draw_frozen_selection)(TermWin *, const unsigned char *old_mask,
+                                  const unsigned char *new_mask, int cols, int rows);
     /*
      * All functions listed here between setup_draw_ctx and
      * free_draw_ctx expect to be _called_ between them too, so that

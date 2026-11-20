@@ -1,4 +1,5 @@
 """Compare the text visible at a real Shift gesture with the Windows clipboard."""
+from collections import Counter
 import hashlib
 import json
 import os
@@ -10,7 +11,7 @@ import time
 from pathlib import Path
 from clipboard_test_utils import SavedClipboard, clipboard_text, set_clipboard
 from hosted_gesture_input import DesktopInput
-from native_test_utils import c, w, u, root, find_window, terminal_host, wait_for, capture_result
+from native_test_utils import c, w, u, memory_sample, root, find_window, terminal_host, wait_for, capture_result
 from fixture_io import read_snapshot, write_snapshot
 from owned_job import OwnedJob
 from presented_window_capture import PresentedWindowCapture
@@ -70,21 +71,31 @@ def run(engine, output, paste):
                 return b''.join(frame[(width*j+1+x*cw)*4:(width*j+1+(x+1)*cw)*4] for j in range(1+y*ch,1+(y+1)*ch))
             def glyphs(frame,y):return b''.join(tile(frame,x,y) for x in range(3,7))
             def chip(frame,y):return tuple(tile(frame,12,y)[:3][::-1])
-            def drag(y):
-                point(3,y);desktop.event(0x10,True);desktop.event(None,True)
+            def glyph_shape(frame,y):
+                data=glyphs(frame,y); colours=[data[i:i+3] for i in range(0,len(data),4)]
+                bg=Counter(colours).most_common(1)[0][0]
+                return bytes(c!=bg for c in colours)
+            def drag(y,held=None,block=False):
+                point(3,y);desktop.event(0x10,True)
+                if block:desktop.event(0x11,True)
+                desktop.event(None,True)
                 try:
                     wait_for(lambda:desktop.state().capture==hwnd);point(6,y)
+                    if held:held()
                 finally:
-                    desktop.event(None,False);wait_for(lambda:desktop.state().capture!=hwnd);desktop.event(0x10,False)
+                    desktop.event(None,False);wait_for(lambda:desktop.state().capture!=hwnd)
+                    if block:desktop.event(0x11,False)
+                    desktop.event(0x10,False)
             cases=(
                 ('live-old',False,False,'key',OLD),('live-new',False,False,'key',NEW),
                 ('press-frozen',False,True,'key',OLD),('copy-frozen',True,True,'key',OLD),('right-frozen',True,True,'right',OLD),
-                ('copy-primary',True,True,'key',OLD),('right-primary',True,True,'right',OLD))
+                ('copy-primary',True,True,'key',OLD),('right-primary',True,True,'right',OLD),
+                ('press-slow',False,True,'key',OLD),('press-rectangle',False,True,'key',OLD))
             if paste:cases=tuple(c for c in cases if c[3]=='right')
             for index,(case,preselect,freeze,action,initial) in enumerate(cases):
                 primary=case.endswith('primary')
                 if paste:case+='-paste'
-                y=4+2*index; row=dict(case=case,expected=initial);output['cases'].append(row)
+                y=4+2*(index%7); row=dict(case=case,expected=initial);output['cases'].append(row)
                 req,raw=phase(case+'-start','\x1bc'+CSI+'?25l'+CSI+'?1002;1006h'+draw(18,OLD)+draw(20,NEW)+scene(y,initial)+QUERIES)
                 assert raw==mode_reply(False)+ACK,raw
                 ref=18 if initial==OLD else 20; oldchip=(180,32,16); newchip=(16,48,180)
@@ -106,7 +117,23 @@ def run(engine, output, paste):
                 assert raw==prefix+ACK,raw
                 observed=sample(); row['pre_gesture_ms']=(time.perf_counter_ns()-t0)/1e6
                 row['pre_gesture_same_cells']=glyphs(observed,y)==glyphs(before,y);row['pre_gesture_chip']=chip(observed,y)
-                if not preselect:drag(y)
+                held_frames={}
+                def inspect_held():
+                    def changed(frame):return [x for x in range(2,9) if tile(observed,x,y)!=tile(frame,x,y)]
+                    def visible_highlight():
+                        frame=sample(); held_frames['held']=frame
+                        return frame if changed(frame)==[3,4,5,6] else None
+                    # Record even a wrong frame; its glyph shape and chip determine pass/fail.
+                    until=time.monotonic()+.40
+                    while not visible_highlight() and time.monotonic()<until:time.sleep(.01)
+                    row['first_highlight_ms']=(time.perf_counter_ns()-t0)/1e6
+                    if case=='press-slow':
+                        time.sleep(1.15);held_frames['held-over-deadline']=sample()
+                    row['held_checks']={label:dict(changed=changed(f),chip=chip(f,y),
+                        old_glyphs=glyph_shape(f,y)==glyph_shape(observed,18),new_glyphs=glyph_shape(f,y)==glyph_shape(observed,20),
+                        captured=desktop.state().capture==hwnd) for label,f in held_frames.items()}
+                    row['held_memory']=memory_sample(proc._handle)
+                if not preselect:drag(y,inspect_held if freeze else None,block=case=='press-rectangle')
                 if action=='key':desktop.chord(0x11,0x10,ord('C'))
                 else:desktop.event('right',True);desktop.event('right',False)
                 row['gesture_sent_ms']=(time.perf_counter_ns()-t0)/1e6
@@ -116,11 +143,16 @@ def run(engine, output, paste):
                 row['sample_end_ms']=(time.perf_counter_ns()-t0)/1e6
                 _,end=phase(case+'-release',CSI+'?2026l'+QUERIES);assert end==mode_reply(False)+ACK
                 if freeze:wait_for(lambda:chip(sample(),y)==newchip)
-                for label,pixels in (('before',before),('gesture',observed),('after',after)):
+                for label,pixels in (('before',before),('gesture',observed),('after',after),*held_frames.items()):
                     capture_result(width,height,pixels,f'sync-select-{engine}-{case}-{label}.png')
                 row['passed']=(row['pre_gesture_same_cells'] and tuple(row['pre_gesture_chip'])==(oldchip if initial==OLD else newchip) and
-                               (not freeze or row['sample_end_ms']<1000) and raw==prefix+ACK+(initial.encode() if paste else b'')+ACK and
+                               (not freeze or (1120<row['sample_end_ms'] if case=='press-slow' else row['sample_end_ms']<1000)) and raw==prefix+ACK+(initial.encode() if paste else b'')+ACK and
                                row['fresh_clipboard'] and row['copied']==initial)
+                if held_frames:
+                    row['passed'] &= (row['first_highlight_ms']<1000 and post==mode_reply(False)+ACK and
+                                      all(h['changed']==[3,4,5,6] and h['old_glyphs'] and not h['new_glyphs'] and
+                                          h['captured'] and h['chip']==oldchip for h in row['held_checks'].values()) and
+                                      row['held_memory']['private_ws'] < (20_000_000 if engine==1 else 30_000_000))
                 if freeze and preselect:
                     # The following frame no longer highlights the text. Both right-button edges must now reach the application.
                     point(6,y); req,raw=phase(case+'-released-right',QUERIES); seq=u.GetClipboardSequenceNumber()

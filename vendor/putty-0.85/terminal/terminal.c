@@ -1470,7 +1470,7 @@ static void term_timer(void *ctx, unsigned long now)
 
     if (term->mouse_highlight == HIGHLIGHT_WAIT && now == term->mouse_highlight_deadline)
         nemo_highlight_cancel(term, true);
-    if (term->synchronized_update && now == term->synchronized_update_deadline)
+    if (term->synchronized_update && !term->sync_drag && now == term->synchronized_update_deadline)
         term_end_synchronized_update(term);
     if (term->window_update_pending)
         term_update_callback(term);
@@ -1540,6 +1540,49 @@ static bool sync_frame_is_visually_idle(const Terminal *term,
     return false;
 }
 
+typedef struct NemoFrozenText {
+    compressed_scrollback_line **line;
+    int rows, top;
+    unsigned char *baseline, *overlay;
+} NemoFrozenText;
+
+static void frozen_selection_mask(Terminal *term, unsigned char *mask, int top);
+
+static void freeze_text(Terminal *term)
+{
+    NemoFrozenText *f = term->sync_text = snew(NemoFrozenText);
+    *f = (NemoFrozenText){ .rows = term->rows, .top = term->disptop };
+    f->line = snewn(f->rows, compressed_scrollback_line *);
+    for (int y = 0; y < f->rows; y++) {
+        termline *line = lineptr(f->top + y);
+        f->line[y] = compressline_no_free(line);
+        unlineptr(line);
+    }
+    if (term->selstate == SELECTED) {
+        f->baseline = snewn((size_t)f->rows * term->cols, unsigned char);
+        frozen_selection_mask(term, f->baseline, f->top);
+    }
+}
+
+static void free_frozen_text(Terminal *term)
+{
+    NemoFrozenText *f = term->sync_text;
+    if (!f) return;
+    for (int y = 0; y < f->rows; y++) free_compressed_line(f->line[y]);
+    sfree(f->line); sfree(f->baseline); sfree(f->overlay); sfree(f);
+    term->sync_text = NULL;
+}
+
+/* Only selection geometry and clipboard extraction use these immutable rows.
+ * VT/parser/console queries continue to refer to the live logical screen. */
+static termline *selection_line(Terminal *term, int y)
+{
+    if (!term->sync_drag) return lineptr(y);
+    int row = y - term->disptop;
+    assert(row >= 0 && row < term->sync_text->rows);
+    return decompressline_no_free(term->sync_text->line[row]);
+}
+
 static void refresh_rectangle_copy(Terminal *term);
 
 static void selection_text_free(NemoSelectionText *text)
@@ -1564,7 +1607,7 @@ static void drop_selected_text(Terminal *term)
 
 bool term_has_presented_selection(Terminal *term)
 {
-    return term->synchronized_update ? term->sync_selected_text.text != NULL :
+    return term->synchronized_update ? !term->sync_drag && term->sync_selected_text.text != NULL :
         term->selstate == SELECTED;
 }
 
@@ -1573,14 +1616,15 @@ bool term_has_presented_selection(Terminal *term)
  * idempotent and does not prolong the deadline. */
 static void term_start_synchronized_update(Terminal *term)
 {
-    if (term->synchronized_update || !term->win->vt->set_synchronized_update)
-        return;
+    if (term->synchronized_update || term->rows <= 0 || term->cols <= 0 ||
+        !term->win->vt->set_synchronized_update) return;
     term_update(term);
     if (term->win->vt->set_synchronized_update(term->win, true)) {
         if (term->selstate == SELECTED) {
             refresh_rectangle_copy(term);
             term->sync_selected_text = term->selected_text;
         }
+        if (term->win->vt->draw_frozen_selection) freeze_text(term);
         term->synchronized_update = true;
         term->synchronized_update_deadline = schedule_timer(
             TICKSPERSEC, term_timer, term);
@@ -1590,6 +1634,14 @@ static void term_start_synchronized_update(Terminal *term)
 void term_end_synchronized_update(Terminal *term)
 {
     if (!term->synchronized_update) return;
+    if (term->sync_drag) {
+        /* Resize, focus loss and capture cancellation can interrupt a press. */
+        term->sync_drag = false;
+        deselect(term);
+        term->discarded_select_press = true;
+        if (bufchain_size(&term->inbuf)) queue_toplevel_callback(term_out_cb, term);
+    }
+    free_frozen_text(term);
     if (term->sync_selected_text.text != term->selected_text.text)
         selection_text_free(&term->sync_selected_text);
     else
@@ -9418,7 +9470,7 @@ static void term_out(Terminal *term, bool called_from_term_data)
      * During drag-selects, we do not process terminal input, because
      * the user will want the screen to hold still to be selected.
      */
-    if (term->selstate == DRAGGING)
+    if (term->selstate == DRAGGING || term->sync_drag)
         return;
 
     unget = -1;
@@ -12171,6 +12223,63 @@ static void block_row_edges(termline *line, termchar *visual, int cols,
     *right = whole_glyph_edge(visual, cols, *right, +1);
 }
 
+/* Build the same physical-cell coverage as do_paint, including visually
+ * reordered words, double-size rows and both halves of wide glyphs. */
+static void frozen_selection_mask(Terminal *term, unsigned char *mask, int top)
+{
+    size_t size = (size_t)term->rows * term->cols;
+    memset(mask, 0, size);
+    if (term->selstate != DRAGGING && term->selstate != SELECTED) return;
+    for (int y = 0; y < term->rows; y++) {
+        int logical = top+y;
+        if (logical < term->selstart.y || logical > term->selend.y) continue;
+        termline *line = decompressline_no_free(term->sync_text->line[y]);
+        termchar *visual = term_bidi_line(term, line, y);
+        int left=term->selstart.x, right=term->selend.x, scale=selection_row_scale(line);
+        if (term->seltype == RECTANGULAR)
+            block_row_edges(line, visual ? visual : line->chars, term->cols, &left, &right);
+        for (int x = 0; x < term->cols; x++) {
+            int col = x / scale;
+            pos cell = {.y=logical, .x=(term->seltype == LEXICOGRAPHIC && visual) ?
+                term->post_bidi_cache[y].backward[col] : col};
+            mask[(size_t)y*term->cols+x] = term->seltype == RECTANGULAR ?
+                col >= left && col < right : posle(term->selstart,cell) && poslt(cell,term->selend);
+        }
+        unlineptr(line);
+    }
+}
+
+static bool show_frozen_selection(Terminal *term)
+{
+    NemoFrozenText *f = term->sync_text;
+    size_t size = (size_t)f->rows * term->cols;
+    unsigned char *next = snewn(size, unsigned char);
+    frozen_selection_mask(term, next, term->disptop);
+    if (f->baseline) for (size_t i=0; i<size; i++) next[i] ^= f->baseline[i];
+    unsigned char *previous=f->overlay;
+    f->overlay=NULL; /* A native surface resize can cancel this view in the callback. */
+    bool ok = term->win->vt->draw_frozen_selection(term->win, previous, next, term->cols, f->rows);
+    sfree(previous);
+    if (term->sync_text != f || !term->sync_drag) { sfree(next); return false; }
+    f->overlay=next;
+    return ok;
+}
+
+/* Keep a released highlight on the live screen only if its rows survived.
+ * The copied text remains available even when the application replaced them. */
+static bool frozen_selection_survives(Terminal *term)
+{
+    if (term->selstate != SELECTED || term->disptop != term->sync_text->top) return false;
+    for (int y = term->selstart.y; y <= term->selend.y && y < term->disptop+term->rows; y++) {
+        termline *a = selection_line(term, y), *b = lineptr(y);
+        bool same = a->lattr == b->lattr;
+        for (int x=0; same && x<term->cols; x++) same=termchars_equal(&a->chars[x], &b->chars[x]);
+        unlineptr(a); unlineptr(b);
+        if (!same) return false;
+    }
+    return true;
+}
+
 static void do_paint(Terminal *term)
 {
     uint64_t kitty_generation=nemo_kitty_placements_generation(
@@ -12913,7 +13022,7 @@ static void clip_addchar(clip_workbuf *b, wchar_t chr, int attr, truecolour tc)
 }
 
 static void clipme(Terminal *term, pos top, pos bottom, SelectionType type, bool desel,
-                   const int *clipboards, int n_clipboards)
+                   const int *clipboards, int n_clipboards, bool frozen)
 {
     clip_workbuf buf;
     int old_top_x;
@@ -12931,7 +13040,7 @@ static void clipme(Terminal *term, pos top, pos bottom, SelectionType type, bool
 
     while (poslt(top, bottom)) {
         bool nl = false;
-        termline *ldata = lineptr(top.y);
+        termline *ldata = frozen ? selection_line(term, top.y) : lineptr(top.y);
         pos nlpos, row_bottom = bottom;
         int left = old_top_x, right = bottom.x;
         const int *forward = NULL, *backward = NULL;
@@ -13199,7 +13308,7 @@ bool term_shell_mark_select(Terminal *term, bool output)
     /* Selection fills the private clipboard; an explicit Copy action writes
      * to the system clipboard, matching normal local mouse selection. */
     int clipboard = CLIP_LOCAL;
-    clipme(term, term->selstart, term->selend, LEXICOGRAPHIC, false, &clipboard, 1);
+    clipme(term, term->selstart, term->selend, LEXICOGRAPHIC, false, &clipboard, 1, false);
     term_scroll_to_selection(term, 0);
     term->shell_mark_selected = id;
     term_invalidate(term);
@@ -13215,7 +13324,7 @@ void term_copyall(Terminal *term, const int *clipboards, int n_clipboards)
     top.x = 0;
     bottom.y = find_last_nonempty_line(term, screen);
     bottom.x = term->cols;
-    clipme(term, top, bottom, LEXICOGRAPHIC, true, clipboards, n_clipboards);
+    clipme(term, top, bottom, LEXICOGRAPHIC, true, clipboards, n_clipboards, false);
 }
 
 static void refresh_rectangle_copy(Terminal *term)
@@ -13223,7 +13332,7 @@ static void refresh_rectangle_copy(Terminal *term)
     if (term->selection_copy_needs_refresh && term->selstate == SELECTED &&
         term->seltype == RECTANGULAR) {
         int local = CLIP_LOCAL;
-        clipme(term, term->selstart, term->selend, term->seltype, false, &local, 1);
+        clipme(term, term->selstart, term->selend, term->seltype, false, &local, 1, false);
     }
 }
 
@@ -13413,9 +13522,10 @@ static int selection_word_class(Terminal *term, const SelectionWordRow *row, int
 static pos sel_spread_half(Terminal *term, pos p, int dir)
 {
     termline *ldata;
-    int topy = -sblines(term);
+    int topy = term->sync_drag ? term->disptop : -sblines(term);
+    int bottom = term->rows + (term->sync_drag ? term->disptop : 0);
 
-    ldata = lineptr(p.y);
+    ldata = selection_line(term, p.y);
 
     switch (term->selmode) {
       case SM_CHAR: {
@@ -13451,9 +13561,9 @@ static pos sel_spread_half(Terminal *term, pos p, int dir)
                 p.x = x;
             } else {
                 int y = p.y + dir;
-                if (y < topy || y >= term->rows ||
+                if (y < topy || y >= bottom ||
                     (dir > 0 && !(ldata->lattr & LATTR_WRAPPED))) break;
-                termline *next = lineptr(y);
+                termline *next = selection_line(term, y);
                 if (dir < 0 && !(next->lattr & LATTR_WRAPPED)) {
                     unlineptr(next);
                     break;
@@ -14101,8 +14211,12 @@ void term_mouse_pixels(Terminal *term, Mouse_Button braw, Mouse_Button bcooked,
     }
     if (term->synchronized_update && (shift || !term->xterm_mouse) &&
         (a == MA_CLICK || a == MA_DRAG || a == MA_2CLK || a == MA_3CLK)) {
-        term_end_synchronized_update(term);
-        term_update(term); /* local selection must match visible character cells */
+        if (term->sync_text && bcooked == MBT_SELECT) {
+            term->sync_drag = true;
+        } else {
+            term_end_synchronized_update(term);
+            term_update(term);
+        }
     }
     if (shift && term->mouse_buttons) {
         term_mouse_cancel(term);
@@ -14145,12 +14259,12 @@ void term_mouse_pixels(Terminal *term, Mouse_Button braw, Mouse_Button bcooked,
 
     if (y < 0) {
         y = 0;
-        if (a == MA_DRAG && !raw_mouse)
+        if (a == MA_DRAG && !raw_mouse && !term->sync_drag)
             term_scroll(term, 0, -1);
     }
     if (y >= term->rows) {
         y = term->rows - 1;
-        if (a == MA_DRAG && !raw_mouse)
+        if (a == MA_DRAG && !raw_mouse && !term->sync_drag)
             term_scroll(term, 0, +1);
     }
     if (x < 0) {
@@ -14175,7 +14289,7 @@ void term_mouse_pixels(Terminal *term, Mouse_Button braw, Mouse_Button bcooked,
         x = term->cols - 1;
 
     selpoint.y = y + term->disptop;
-    ldata = lineptr(selpoint.y);
+    ldata = selection_line(term, selpoint.y);
 
     if (term->seltype == RECTANGULAR) {
         selpoint.x = x; /* keep the actual screen column across all rows */
@@ -14296,7 +14410,7 @@ void term_mouse_pixels(Terminal *term, Mouse_Button braw, Mouse_Button bcooked,
             clipme(term, term->selstart, term->selend,
                    term->seltype, false,
                    term->mouse_select_clipboards,
-                   term->n_mouse_select_clipboards);
+                   term->n_mouse_select_clipboards, term->sync_drag);
             term->selstate = SELECTED;
         } else if (term->selstate == ABOUT_TO) {
             /* A stationary click in this terminal clears its selection. A
@@ -14318,6 +14432,16 @@ void term_mouse_pixels(Terminal *term, Mouse_Button braw, Mouse_Button bcooked,
      * should make sure to write any pending output if one has just
      * finished.
      */
+    if (term->sync_drag) {
+        if (a == MA_RELEASE && bcooked == MBT_SELECT) {
+            bool keep = frozen_selection_survives(term);
+            term->sync_drag = false;
+            if (!keep) deselect(term);
+            term_end_synchronized_update(term);
+        } else if (!show_frozen_selection(term)) {
+            term_end_synchronized_update(term);
+        }
+    }
     term_out(term, false);
     term_schedule_update(term);
 }
@@ -14333,7 +14457,8 @@ void term_cancel_selection_drag(Terminal *term)
      * this function from the front end in such situations to restore
      * sensibleness.
      */
-    term->discarded_select_press = false;
+    if (term->sync_drag) term_end_synchronized_update(term);
+    else term->discarded_select_press = false;
     if (term->selstate == DRAGGING || term->selstate == ABOUT_TO)
         term->selstate = NO_SELECTION;
     term_out(term, false);

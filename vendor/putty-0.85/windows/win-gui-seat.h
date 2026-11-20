@@ -123,6 +123,7 @@ struct WinGuiSeat {
     LogContext *logctx;
     Terminal *term;
     struct NemoSnapshot *sync_snapshot;
+    HRGN sync_drag_region; /* temporary GDI overlay, client pixel coordinates */
     bool sync_capture_failed;
 
     int vtmode;

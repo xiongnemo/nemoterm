@@ -317,7 +317,7 @@ static bool nemo_host_preview_render(WinGuiSeat *w)
         IntersectClipRect(src,0,top,cr.right,top+lines);
         if (w->sync_snapshot && w->term->synchronized_update) {
             RECT clip={0,top,cr.right,top+lines};
-            ok=nemo_snapshot_paint(w->sync_snapshot,src,&clip,NULL);
+            ok=nemo_frozen_paint(w,src,&clip,NULL);
         } else if (w->gpu) ok=nemo_gpu_print_band(w->gpu,src,top,lines);
         else ok=nemo_render_snapshot_band(src,top,lines,w);
         RestoreDC(src,save);

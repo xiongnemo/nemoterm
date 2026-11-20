@@ -383,8 +383,10 @@ the two live controls select `中文` and `明月`; the other cases change `中�
 to `明月` behind a frozen frame before a new Shift drag, shortcut copy of an
 existing highlight, or default right click. The RGB chip outside the highlight
 identifies the displayed frame. The clipboard must change, the child must
-receive no gesture bytes and the frozen observations must fit within the
-one-second presentation timeout. The raw mode query is retained after each
+receive no gesture bytes. The first highlight must appear within the original
+one-second presentation deadline. In the slow-drag case, keep the button down
+past that deadline and verify the same old glyph outlines and exactly four
+highlighted cells until release. Record the private working set while held. The raw mode query is retained after each
 gesture for diagnosis.
 The runner also checks replacing the private primary selection via permitted
 OSC 52 while the highlight is still visible. The opt-in right-click paste must

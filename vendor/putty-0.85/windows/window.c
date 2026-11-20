@@ -251,6 +251,8 @@ struct WinGuiSeatListNode wgslisthead = {
 
 static bool wintw_setup_draw_ctx(TermWin *);
 static bool wintw_set_synchronized_update(TermWin *, bool);
+static bool wintw_draw_frozen_selection(TermWin *, const unsigned char *, const unsigned char *, int, int);
+static bool nemo_frozen_paint(WinGuiSeat *, HDC, const RECT *, NemoSnapshotError *);
 static void wintw_draw_text(TermWin *, int x, int y, wchar_t *text, int len,
                             unsigned long attrs, int lattrs, truecolour tc);
 static void wintw_draw_cursor(TermWin *, int x, int y, wchar_t *text, int len,
@@ -323,6 +325,7 @@ static const TermWinVtable windows_termwin_vt = {
     .get_geometry = wintw_get_geometry,
     .get_pointer = wintw_get_pointer,
     .set_synchronized_update = wintw_set_synchronized_update,
+    .draw_frozen_selection = wintw_draw_frozen_selection,
     .setup_draw_ctx = wintw_setup_draw_ctx,
     .draw_text = wintw_draw_text,
     .draw_cursor = wintw_draw_cursor,
@@ -3720,7 +3723,7 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
         return 0;
       case WM_PRINTCLIENT:
         if (wgs->sync_snapshot && wgs->term->synchronized_update &&
-            nemo_snapshot_paint(wgs->sync_snapshot,(HDC)wParam,NULL,NULL)) return 0;
+            nemo_frozen_paint(wgs,(HDC)wParam,NULL,NULL)) return 0;
         if (wgs->gpu && nemo_gpu_print(wgs->gpu, (HDC)wParam)) return 0;
         {
             /* Render the requested client image directly for standalone GDI
@@ -3759,7 +3762,7 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
         }
         if (wgs->sync_snapshot && wgs->term->synchronized_update) {
             NemoSnapshotError error;
-            if (nemo_snapshot_paint(wgs->sync_snapshot, hdc, &p.rcPaint, &error)) {
+            if (nemo_frozen_paint(wgs, hdc, &p.rcPaint, &error)) {
                 EndPaint(hwnd, &p);
                 ShowCaret(hwnd);
                 return 0;
@@ -6389,6 +6392,55 @@ static bool nemo_render_snapshot_band(HDC dc, int top, int height, void *ctx)
     return true;
 }
 
+/* Invert only the changed cells of the immutable presentation, including
+ * any actual image pixels behind the text. No renderer replays the next
+ * frame in order to highlight the old one. */
+static bool nemo_frozen_paint(WinGuiSeat *wgs, HDC dc, const RECT *clip, NemoSnapshotError *error)
+{
+    if (!nemo_snapshot_paint(wgs->sync_snapshot, dc, clip, error)) return false;
+    if (!wgs->sync_drag_region || InvertRgn(dc, wgs->sync_drag_region)) return true;
+    if (error) *error=(NemoSnapshotError){NEMO_SNAPSHOT_GDI_FAILURE, GetLastError(), "InvertRgn"};
+    return false;
+}
+
+static bool wintw_draw_frozen_selection(TermWin *tw, const unsigned char *old,
+                                         const unsigned char *now, int cols, int rows)
+{
+    WinGuiSeat *wgs = container_of(tw, WinGuiSeat, termwin);
+    HRGN region = NULL;
+    bool drawing = false;
+    if (!wgs->gpu && !(region = CreateRectRgn(0,0,0,0))) return false;
+    for (int y=0; y<rows; y++) {
+        size_t i=(size_t)y*cols;
+        for (int x=0; x<cols;) {
+            int start=x++;
+            if (!(now[i+start] ^ (wgs->gpu && old ? old[i+start] : 0))) continue;
+            while (x<cols && (now[i+x] ^ (wgs->gpu && old ? old[i+x] : 0))) x++;
+            RECT r={ wgs->offset_width+start*wgs->font_width, wgs->offset_height+y*wgs->font_height,
+                     wgs->offset_width+x*wgs->font_width, wgs->offset_height+(y+1)*wgs->font_height };
+            if (region) {
+                HRGN run=CreateRectRgnIndirect(&r);
+                bool ok=run && CombineRgn(region,region,run,RGN_OR)!=ERROR;
+                if (run) DeleteObject(run);
+                if (!ok) { DeleteObject(region); return false; }
+            } else {
+                if (!drawing && nemo_gpu_frame(wgs->gpu,wgs->colours[ATTR_DEFBG>>ATTR_BGSHIFT])!=1) return false;
+                drawing=true;
+                if (!nemo_gpu_begin_run(wgs->gpu,r,true)) return false;
+                bool ok=InvertRect(nemo_gpu_dc(wgs->gpu),&r)!=0;
+                nemo_gpu_end_run(wgs->gpu,r,make_ptrlen(NULL,0));
+                if (!ok) return false;
+            }
+        }
+    }
+    if (region) {
+        if (wgs->sync_drag_region) DeleteObject(wgs->sync_drag_region);
+        wgs->sync_drag_region=region;
+        InvalidateRect(wgs->term_hwnd,NULL,false);
+    }
+    return !drawing || nemo_gpu_present(wgs->gpu);
+}
+
 static bool wintw_set_synchronized_update(TermWin *tw, bool enabled)
 {
     WinGuiSeat *wgs = container_of(tw, WinGuiSeat, termwin);
@@ -6396,6 +6448,8 @@ static bool wintw_set_synchronized_update(TermWin *tw, bool enabled)
      * synchronized output suppresses the terminal's paint callbacks. */
     if (enabled && wgs->gpu) return true;
     if (!enabled) {
+        if (wgs->sync_drag_region) DeleteObject(wgs->sync_drag_region);
+        wgs->sync_drag_region=NULL;
         nemo_snapshot_free(wgs->sync_snapshot);
         wgs->sync_snapshot = NULL;
         if (wgs->tabbed && wgs_active(wgs) && !wgs->closing && !wgs->gpu && tab_host.gpu) {
