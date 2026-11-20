@@ -1,0 +1,36 @@
+name: Native Backspace mode and physical key bytes
+on:
+  workflow_call:
+    inputs:
+      source_commit: {required: true, type: string}
+      source_run: {required: true, type: string}
+permissions:
+  contents: read
+  actions: read
+jobs:
+  compare:
+    runs-on: windows-2025
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with: {fetch-depth: 0}
+      - name: Fetch the exact source-host executable and the pinned Sarasa font
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PRODUCT_RUN: ${{ inputs.source_run }}
+          PRODUCT_COMMIT: ${{ inputs.source_commit }}
+        run: |
+          scripts/fetch-ci-product.ps1 -Run $env:PRODUCT_RUN -Commit $env:PRODUCT_COMMIT -Destination build/backarrow-product
+          "NEMOTERM_TEST_EXE=$((Resolve-Path build/backarrow-product/nemoterm.exe).Path)" | Out-File $env:GITHUB_ENV -Append -Encoding utf8
+          scripts/prepare-remote-interaction.ps1
+      - name: Compare queries and physical keys on four fresh profiles with XTerm 412
+        run: python tests/backarrow_window.py
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: backarrow-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            research/backarrow-window.json
+            build/backarrow-product/SOURCE-HOST.json
+            build/interaction-dependencies/environment.json
+          if-no-files-found: error
