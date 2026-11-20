@@ -3755,6 +3755,7 @@ static void power_on(Terminal *term, bool clear, bool keep_encoding)
     term->alt_which = 0;
     term_print_finish(term);
     term->xterm_mouse = 0;
+    term->pointer_typing_mode = -1;
     term->mouse_encoding = 0;
     memset(&term->locator, 0, sizeof(term->locator));
     term->mouse_focus_reporting = term->mouse_alternate_scroll = false;
@@ -10848,6 +10849,12 @@ static void term_out(Terminal *term, bool called_from_term_data)
                       case 'u':       /* restore cursor */
                         save_cursor(term, false);
                         break;
+                      case ANSI('p', '>'): {    /* XTSMPOINTER */
+                        unsigned mode = (term->esc_arg_present & 1u) ? term->esc_args[0] : 1;
+                        if (mode <= 3 && !term->esc_has_subargs)
+                            term->pointer_typing_mode = (int)mode;
+                        break;
+                      }
                       case ANSI('m', '>'):
                         nemo_modify_keys_setting(term, false);
                         break;

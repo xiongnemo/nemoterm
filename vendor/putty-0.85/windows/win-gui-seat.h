@@ -160,6 +160,7 @@ struct WinGuiSeat {
     bool font_zoom_wheeling;
 
     bool pointer_indicates_raw_mouse;
+    bool typing_pointer_hidden;
     unsigned app_pointer_shape;
 
     BusyStatus busy_status;

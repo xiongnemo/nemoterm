@@ -1534,7 +1534,6 @@ void nemo_update_mouse_pointer(WinGuiSeat *wgs)
     }
     NemoPointerShape shape = NEMO_POINTER_TEXT;
     bool force_visible = false;
-    static bool forced_visible = false;
     switch (wgs->busy_status) {
       case BUSY_NOT:
         if ((GetKeyState(VK_SHIFT) & 0x8000) || (wgs->term &&
@@ -1559,6 +1558,10 @@ void nemo_update_mouse_pointer(WinGuiSeat *wgs)
       default:
         unreachable("Bad busy_status");
     }
+    if (wgs->typing_pointer_hidden && !force_visible) {
+        SetCursor(NULL);
+        return;
+    }
     {
         int size = p_GetSystemMetricsForDpi ?
             p_GetSystemMetricsForDpi(SM_CXCURSOR, (UINT)max(96, wgs->dpi_info.cur_dpi.x)) :
@@ -1572,14 +1575,6 @@ void nemo_update_mouse_pointer(WinGuiSeat *wgs)
         } else {
             nemo_pointer_select(source, false, 0, 0);
         }
-    }
-    if (force_visible != forced_visible) {
-        /* We want some cursor shapes to be visible always.
-         * Along with show_mouseptr(), this manages the ShowCursor()
-         * counter such that if we switch back to a non-force_visible
-         * cursor, the previous visibility state is restored. */
-        ShowCursor(force_visible);
-        forced_visible = force_visible;
     }
 }
 
@@ -2851,24 +2846,26 @@ static Mouse_Button translate_button(WinGuiSeat *wgs, Mouse_Button button)
 
 static void show_mouseptr(WinGuiSeat *wgs, bool show)
 {
-    /* NB that the counter in ShowCursor() is also frobbed by
-     * nemo_update_mouse_pointer() */
-    static bool cursor_visible = true;
-    if (wgs) {
-        if (!conf_get_bool(wgs->conf, CONF_hide_mouseptr))
-            show = true; /* hiding mouse pointer disabled in Conf */
-    } else {
-        /*
-         * You can pass wgs==NULL if you want to _show_ the pointer
-         * rather than hiding it, because that's never disallowed.
-         */
+    if (!wgs) {
         assert(show);
+        if (!GetCursor()) SetCursor(LoadCursor(NULL, IDC_ARROW));
+        return;
     }
-    if (cursor_visible && !show)
-        ShowCursor(false);
-    else if (!cursor_visible && show)
-        ShowCursor(true);
-    cursor_visible = show;
+    bool hide = false;
+    if (!show && wgs->term) {
+        Terminal *term = wgs->term;
+        switch (term->pointer_typing_mode) {
+          case 0: break;
+          case 1: hide = !term->xterm_mouse || term->xterm_mouse_forbidden; break;
+          case 2: case 3: hide = true; break;
+          default: hide = conf_get_bool(wgs->conf, CONF_hide_mouseptr); break;
+        }
+    }
+    if (hide != wgs->typing_pointer_hidden) {
+        /* WM_SETCURSOR reuses this state only inside this terminal's client. */
+        wgs->typing_pointer_hidden = hide;
+        nemo_update_mouse_pointer(wgs);
+    }
 }
 
 static bool is_alt_pressed(void)
@@ -3690,6 +3687,8 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
             return DefWindowProc(hwnd, message, wParam, lParam);
         return 0;
       case WM_MOUSELEAVE:
+        if (!wgs->term || wgs->term->pointer_typing_mode != 3)
+            show_mouseptr(wgs, true);
         nemo_link_leave(wgs);
         return 0;
       case WM_SETCURSOR:
@@ -3884,6 +3883,7 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
             ShowCaret(hwnd);
         }
         nemo_bell_acknowledge(wgs);
+        nemo_update_mouse_pointer(wgs);
         wgs->compose_state = 0;
         term_update(wgs->term);
         break;
@@ -3896,7 +3896,8 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
         nemo_link_cancel(wgs);
         nemo_keyboard_focus_lost(wgs);
         wgs->pending_surrogate = 0;
-        show_mouseptr(wgs, true);
+        if (!wgs->term || wgs->term->pointer_typing_mode != 3)
+            show_mouseptr(wgs, true);
         term_set_focus(wgs->term, false);
         term_cancel_selection_drag(wgs->term);
         if (GetCapture() == hwnd) ReleaseCapture();

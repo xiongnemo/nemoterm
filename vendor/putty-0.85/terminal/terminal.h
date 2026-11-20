@@ -333,6 +333,7 @@ struct terminal_tag {
     bool big_cursor;
 
     bool xterm_mouse_forbidden;
+    int pointer_typing_mode;           /* XTSMPOINTER; -1 follows the profile */
     int xterm_mouse;                   /* send mouse messages to host */
     int mouse_encoding;               /* 0, 1005, 1006, 1015 or 1016 */
     bool mouse_focus_reporting, mouse_alternate_scroll;
