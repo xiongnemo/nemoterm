@@ -14,4 +14,6 @@
 
 [81 项交互回归](https://github.com/xiongnemo/nemoterm/actions/runs/44687000276)验证 **80/81**。Codex 正常输入框里的四次粘贴都提交了一张像素正确的图片。启动早期的实际键盘两次均提交了图片；窗口消息 Ctrl+V 提交了图片，Ctrl+Shift+V 在看不到附件后停在回车之前，没有目标请求，不能判为提交了纯文字。十项满屏 agent 交互、八个默认 WSL Vim/tmux 窗口、两种渲染器的 WSL Sixel 均通过。[同一 EXE 的原始交互、内存和协议记录](acceptance-226ddd98.zip)。
 
+[同一 EXE 的一次单独回放](https://github.com/xiongnemo/nemoterm/actions/runs/44689069786)在附件标记超时后，只按一次回车提交原草稿。四个早期会话中，窗口消息 Ctrl+Shift+V 的首次请求带一张正确图片；另三次的首次请求均只有本次文字，没有图片。四个会话发键前均未观察到客户端 idle。在等待输入框就绪的另外四个新会话中，四次首次请求均带一张逐像素正确的图片。八个会话的剪贴板均已恢复，均未强制终止残留子进程。此回放只跑 agents 组，仍按原门槛记 **28/30**；不替换上面的 80/81。原始报告、按键时的 VT、三张超时截图和八份服务端回执保存在同一验收包的 `codex-first-submit/`。
+
 整套 CI 仍有严格对照失败：[宽字边界](column-edge-integrity.md)、[ReGIS 历史画面](regis-presented-pairs.md)与 [WSL1 按行粘贴](wsl-relay-window.md)。WSL profile 的三次 WSL 窗口运行均返回 0、临时 ELF 均被清理，但其子进程没有在四秒内全部消失；没有 Nemoterm 的两个 WSL 控制也超过了四秒。不能将这些结果记为全量通过。
