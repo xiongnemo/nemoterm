@@ -56,6 +56,11 @@ jobs:
         env:
           RENDERER: ${{ matrix.renderer }}
         run: python tests/column_mode_native_readback.py
+      - name: Apply and revoke the resize permission on just one of two live tabs
+        if: ${{ !cancelled() && steps.prepare.outcome == 'success' }}
+        env:
+          RENDERER: ${{ matrix.renderer }}
+        run: python tests/column_mode_native_tabs.py
       - name: Restore the runner display and retain its measured geometry
         if: always()
         shell: pwsh
