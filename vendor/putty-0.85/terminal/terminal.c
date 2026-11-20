@@ -14212,6 +14212,10 @@ void term_mouse_pixels(Terminal *term, Mouse_Button braw, Mouse_Button bcooked,
     if (term->synchronized_update && (shift || !term->xterm_mouse) &&
         (a == MA_CLICK || a == MA_DRAG || a == MA_2CLK || a == MA_3CLK)) {
         if (term->sync_text && bcooked == MBT_SELECT) {
+            /* A button held in a different window can deliver motion here
+             * without a press or a future release. It must not pin a frame. */
+            if (a == MA_DRAG && term->selstate != ABOUT_TO && term->selstate != DRAGGING &&
+                !(shift && term->mouse_buttons)) return;
             term->sync_drag = true;
         } else {
             term_end_synchronized_update(term);

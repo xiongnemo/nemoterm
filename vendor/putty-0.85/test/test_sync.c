@@ -119,6 +119,13 @@ static void test_select_presented_frame(Mock *mk)
     IEQUAL(get_termchar(t,5,0).chr & ~CSET_MASK, '!');
     sync_query(mk,"\033[?2026;2$y");
 
+    sync_reset(mk, "motion without a local press cannot pin an application frame");
+    term_data_fragmented(t,"ONE\033[?1002;1006h\033[?2026h\rTWO");
+    term_mouse(t,MBT_LEFT,MBT_SELECT,MA_DRAG,1,0,true,false,false);
+    IEQUAL(t->sync_drag, false);
+    advance_test_clock(t->synchronized_update_deadline);
+    IEQUAL(t->synchronized_update, false);
+
     sync_reset(mk, "cancel before moving releases the old frame and resumes queued output");
     term_data_fragmented(t,"ONE\033[?2026h\rTWO");
     term_mouse(t,MBT_LEFT,MBT_SELECT,MA_CLICK,0,0,true,false,false);
