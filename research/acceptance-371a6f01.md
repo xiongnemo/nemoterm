@@ -2,7 +2,7 @@
 
 [下载单文件制品](https://github.com/xiongnemo/nemoterm/actions/runs/44754283954/artifacts/14635929258)，解压后运行 `nemoterm.exe`。4,940,800 字节，SHA-256 `98d63fdb00e1d54d66c60019beb6622d002452933ec61854fec51d48630f9248`。下列验收使用同一份 Windows x64 EXE。
 
-**候选版状态：** 远程交互汇总和截图已出，Windows x64 综合回归和隔离单文件回归仍在运行。当前 `dist` 仍为 `03d0e0bc`。
+**最终作业结果：** [Windows x64 综合回归](https://github.com/xiongnemo/nemoterm/actions/runs/44754283954/job/136352602346)通过。[隔离单文件回归](https://github.com/xiongnemo/nemoterm/actions/runs/44754283954/job/136352602911)有 169 项通过，唯一失败是 `codex-image-paste`：它在首次看到输入提示时按键，两个快捷键都未出现附件。该作业未测试就绪后贴图；同一 EXE 的就绪结果见下面的独立交互报告。此候选未替换 `dist`。
 
 首次用 `--list-shells` 查询已安装的 shell，不再创建 Default profile。三种查询方式返回相同结果；正常启动仍会创建 Default，传给子程序的同名参数也保持原样。Git Bash 共 24 次启动和关闭均自然退出，无残留。旧版曾有一次 10 秒超时，未复现，不能认定已找到超时的原因。[修复前后的原始回执](shell-list-first-use.zip)。
 
