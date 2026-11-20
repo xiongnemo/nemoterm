@@ -29,13 +29,19 @@ jobs:
       - name: Check the readiness witness against recorded cells and VT bytes
         run: python tests/agent_ready_redraw_test.py
       - name: Fetch the exact single executable
+        id: isolate
         env:
           GH_TOKEN: ${{ github.token }}
           PRODUCT_RUN: ${{ inputs.product_run }}
           PRODUCT_COMMIT: ${{ inputs.product_commit }}
         run: |
           scripts/fetch-ci-product.ps1 -Run $env:PRODUCT_RUN -Commit $env:PRODUCT_COMMIT -Destination build/picture-keys-product
-          "NEMOTERM_TEST_EXE=$((Resolve-Path build/picture-keys-product/nemoterm.exe).Path)" | Out-File $env:GITHUB_ENV -Append -Encoding utf8
+          $dir = New-Item -ItemType Directory -Path build/isolated-image
+          $exe = Copy-Item -LiteralPath build/picture-keys-product/nemoterm.exe -Destination $dir.FullName -PassThru
+          if (@(Get-ChildItem -Force -LiteralPath $dir.FullName).Count -ne 1) { throw 'The runtime directory must contain only nemoterm.exe' }
+          $source = Get-Content -Raw build/picture-keys-product/SOURCE-HOST.json | ConvertFrom-Json
+          if ((Get-FileHash -LiteralPath $exe.FullName).Hash -ne $source.Executable.SHA256 -or $exe.Length -ne $source.Executable.Bytes) { throw 'Isolated image differs from source manifest' }
+          "NEMOTERM_TEST_EXE=$($exe.FullName)" | Out-File $env:GITHUB_ENV -Append -Encoding utf8
       - name: Install and identify Sarasa Light
         run: scripts/prepare-remote-interaction.ps1
       - name: Install the exact real client
@@ -67,6 +73,16 @@ jobs:
           if ($env:STARTUP_PHASE -eq 'idle') {$opts+='--after-client-idle'} elseif ($env:STARTUP_PHASE -eq 'caption') {$opts+='--after-window-caption'} elseif ($env:STARTUP_PHASE -eq 'immediate' -and $env:CLIPBOARD_KIND -eq 'bitmap') {$opts+='--observe-first-miss'}
           python @opts
           exit $LASTEXITCODE
+      - name: Retain the single-file identity after exercising the client
+        if: ${{ !cancelled() && steps.isolate.outcome == 'success' }}
+        shell: pwsh
+        run: |
+          $source = Get-Content -Raw build/picture-keys-product/SOURCE-HOST.json | ConvertFrom-Json
+          $files = @(Get-ChildItem -Force -LiteralPath (Split-Path -Parent $env:NEMOTERM_TEST_EXE))
+          if ($files.Count -ne 1 -or $files[0].Name -ne 'nemoterm.exe' -or $files[0].PSIsContainer) { throw 'Unexpected runtime directory contents' }
+          $hash = (Get-FileHash -LiteralPath $files[0].FullName).Hash.ToLowerInvariant()
+          [ordered]@{Source=$source; Fixture=$env:GITHUB_SHA; Files=@($files.Name); Bytes=$files[0].Length; SHA256=$hash} | ConvertTo-Json -Depth 8 | Set-Content build/isolated-image-receipt.json -Encoding utf8
+          if ($hash -ne $source.Executable.SHA256 -or $files[0].Length -ne $source.Executable.Bytes) {throw 'Isolated image changed during interaction'}
       - name: Read exact child input for ten mixed-format clipboard cases
         if: ${{ !cancelled() && inputs.mixed_bitmap && !inputs.mixed_opencode && matrix.input == 'api' }}
         run: python tests/image_paste_protocol.py --mixed-formats
@@ -75,6 +91,8 @@ jobs:
         with:
           name: ${{ env.IMAGE_CLIENT }}-${{ inputs.mixed_bitmap && 'mixed' || inputs.image_files && 'file' || inputs.bitmap_witness && 'reads' || 'image' }}-${{ matrix.input }}-${{ matrix.phase }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
+            build/isolated-image-receipt.json
+            build/interaction-dependencies/environment.json
             build/image-key-records/mixed-formats.json
             build/dib-witness-control.json
             research/agent-clipboard-${{ env.IMAGE_CLIENT }}.json

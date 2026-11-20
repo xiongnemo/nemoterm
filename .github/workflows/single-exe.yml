@@ -81,6 +81,8 @@ jobs:
           ./scripts/test-failure-dump.ps1 -Destination build/profile-failure-dump
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           "NEMOTERM_PROFILE_FAILURE_DUMP=$((Resolve-Path build/profile-failure-dump/helper.exe).Path)" | Out-File $env:GITHUB_ENV -Append -Encoding utf8
+      - name: Install and verify Sarasa Light for the ready-editor interaction
+        run: ./scripts/prepare-remote-interaction.ps1
       - name: Verify isolated executable with native protocol and pixel tests
         shell: pwsh
         run: |
@@ -117,6 +119,7 @@ jobs:
             build/profile-failure-dump/
             build-single-exe.log
             build/single-exe.binlog
+            build/interaction-dependencies/environment.json
             build/single-exe-check/research/
             build/single-exe-check/logs/
             build/single-exe-check/build/*failure.json

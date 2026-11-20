@@ -161,6 +161,12 @@ try {
             # windows and twelve independent renderer workloads below.
             $failedCases.Add('codex-image-paste')
         } else { $checks.Add('codex-image-paste') }
+        # The strict first-visible case above keeps its own exit status and receipts.
+        # Use a fresh client and a distinct output directory for normal, ready input.
+        $ready = "$Destination/research/codex-ready"
+        & python "$Destination/tests/agent_clipboard_smoke.py" --client codex --client-exe $CodexExecutable --terminal "$Destination/dist/nemoterm.exe" --font 'SarasaTermSC Nerd Light' --after-client-idle --evidence-dir $ready 2>&1 | Tee-Object "$Destination/logs/codex-image-paste-after-ready.log"
+        if ($LASTEXITCODE) { $failedCases.Add('codex-image-paste-after-ready') }
+        else { $checks.Add('codex-image-paste-after-ready') }
         foreach ($mode in @('default', 'inline', 'tabs-default', 'tabs-inline')) {
             $nativeArgs = @('--codex', $CodexExecutable)
             if ($mode.EndsWith('inline')) { $nativeArgs += '--inline' }

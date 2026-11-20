@@ -54,7 +54,11 @@ def main():
     parser.add_argument('--mixed-bitmap', action='store_true', help='Publish an empty Unicode text alternative alongside the generated DIB')
     parser.add_argument('--image-file', action='store_true', help='Paste a real copied PNG file (CF_HDROP only) instead of a clipboard bitmap')
     parser.add_argument('--binding',choices=('ctrl-v','ctrl-shift-v'))
+    parser.add_argument('--evidence-dir',type=Path,default=ROOT/'research',
+                        help="Directory for this run's screenshots and provider receipts")
     args=parser.parse_args()
+    evidence_dir=args.evidence_dir.resolve()
+    evidence_dir.mkdir(parents=True,exist_ok=True)
     folder=Path(tempfile.mkdtemp(prefix='agent-image-',dir=ROOT/'build'))
     result=dict(client=args.client,cases=[],live_model=False,tool_responses=False,font=args.font)
     if args.witness_bitmap:
@@ -204,7 +208,7 @@ def main():
                     write_snapshot(control,dict(id=90,action='clipboard-probe'))
                     missed['clipboard_probe']=wait_for(lambda:read_snapshot(report).get('clipboard_probe'),timeout=35)
                 image=api.png_from_bmp(api.request(endpoint,'image',seat))
-                (ROOT/f'research/agent-{args.client}-{name}.png').write_bytes(image)
+                (evidence_dir/f'agent-{args.client}-{name}.png').write_bytes(image)
                 write_snapshot(control,dict(id=2,action='restore'))
                 wait_for(lambda:read_snapshot(report).get('clipboard_restored'))
                 for _ in range(2):
@@ -221,7 +225,7 @@ def main():
                 if missed is None: observed['attachment_seconds']=attachment_seconds
                 else: observed['seconds_until_attachment_deadline']=attachment_seconds
                 if args.after_window_caption:observed['caption']=caption_record
-                write_snapshot(ROOT/f'research/agent-{args.client}-{name}.json',observed)
+                write_snapshot(evidence_dir/f'agent-{args.client}-{name}.json',observed)
                 if missed is not None:
                     missed['requests']=observed['requests'];missed['outcome']=codex_first_submission(observed['requests'],name)
                     missed['clipboard_restored']=observed['clipboard_restored'];missed['cleanup']=observed['cleanup']
@@ -269,9 +273,9 @@ def main():
                     try:process.wait(timeout=15)
                     except subprocess.TimeoutExpired:pass
                 job.finish()
-                write_snapshot(ROOT/f'research/agent-clipboard-{args.client}.json',result)
+                write_snapshot(evidence_dir/f'agent-clipboard-{args.client}.json',result)
     result['completed']=not result['failures']
-    write_snapshot(ROOT/f'research/agent-clipboard-{args.client}.json',result)
+    write_snapshot(evidence_dir/f'agent-clipboard-{args.client}.json',result)
     print(json.dumps(result,indent=2))
     if result['failures']:raise SystemExit(1)
 
