@@ -38,6 +38,12 @@
 
 ![备用屏快速重选的实际 DirectX 像素](rapid-wide-ba16d56b.png)
 
+**应用改列时的矩形复制。** 在 GDI 和 DirectX 上，GitHub 托管 Windows 用 SarasaTermSC Nerd Light 实际按住 Ctrl、Shift 和左键，从 `𠀀`（U+20000）的右半格开始。应用把两行各左移三格后，再拖到下一行的组合重音。两个渲染器都只高亮第一行四格、第二行三格。右键和 Ctrl+Shift+C 两次复制都得到 `中𠀀`、Windows 换行和 `é界`（`e` + U+0301）；在应用已开启括号粘贴及 LF 模式时，Ctrl+Shift+V 只送入一次完整的两行 UTF-8，换行为单个 LF。[原始 PNG、子进程输入、EXE 及字体身份](column-rectangle-ba16d56b.zip) · [远程作业](https://github.com/xiongnemo/nemoterm/actions/runs/44800262115/job/136510284444)。
+
+![两行内容左移前后及两种渲染器的实测高亮](column-rectangle-ba16d56b.png)
+
+同一次作业中，与 XTerm 412 严格比是 **725/728** 格：三种左移操作只在第 20 列不同，Nemoterm 保留完整的 `V`，XTerm 返回空格。按原字符的位置和宽度核对则为 **1,872/1,872** 格；每种渲染器的 120 个用例在 VT 应答与 Windows API 读回中均无差异。[为什么这三格仍保留为失败](column-edge-integrity.md)。
+
 就绪后 Codex 两种按键、两种输入路径共 4/4 首次提交都只带一张正确原图。刚见提示的四种组合有三次只收到文字，一次带图；不能把窗口提示当作图片输入已就绪的信号。英、中各 12 个真实 DPI 用例通过。GDI/DirectX 的 8 帧 Sixel 与独立参考像素一致；Vim 和 tmux/Vim 在 `TERM=xterm`、`xterm-256color` 均完成矩形选区。
 
 全量回归仍有差异，包括重绘前的 ReGIS 像素、宽字符边界以及 WSL1 的窗口尺寸和按行粘贴。这份交互与内存记录不代表所有协议均已通过。[保存的回执、像素与原始采样](acceptance-ba16d56b.zip)。
