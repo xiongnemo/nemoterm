@@ -260,33 +260,39 @@ bool nemo_regis_drop_graphic(NemoRegis *owner,unsigned id)
     return true;
 }
 
-/* Discard the part of the main-screen graphic above the retained history.
- * As the limit advances, visit only newly discarded sparse tile rows. */
+/* Rows before trimmed_top are transparent across the stored width. Advancing
+ * that edge only touches existing tiles; erasing a solid background must not
+ * allocate rows of transparent pixels. New ink above the edge lowers it in
+ * draw_solid_pixel. */
+static void regis_clear_prefix(Graphic *g,unsigned cut)
+{
+    unsigned first=g->trimmed_top,end=Min(cut,g->content_height);
+    if (cut<=first) return;
+    g->trimmed_top=cut;
+    g->background_top=Max(g->background_top,Min(cut,g->background_height));
+    for (unsigned ty=first/32;ty*32<end;ty++) {
+        if (!g->tiles[ty]) continue;
+        if ((ty+1)*32<=cut || cut>=g->content_height) {
+            regis_free_tile_row(g,ty);
+        } else {
+            unsigned start=(Max(ty*32,first)-ty*32)*32;
+            unsigned stop=(end-ty*32)*32;
+            for (unsigned tx=0;tx<g->tile_columns;tx++) {
+                RegisterNum *tile=g->tiles[ty][tx];
+                if (tile) for (unsigned i=start;i<stop;i++) tile[i]=COLOR_HOLE;
+            }
+        }
+    }
+    g->dirty=true;
+}
+
 void nemo_regis_trim_history(NemoRegis *owner,unsigned keep_rows,unsigned cell_height)
 {
     if (!owner || owner->active || !cell_height) return;
     for (Graphic *g=owner->graphics;g;g=g->next) {
         int64_t lost=-(int64_t)g->charrow-(int64_t)keep_rows;
-        if (g->screen!=0 || lost<=0) continue;
-        unsigned cut=(unsigned)Min((uint64_t)lost*cell_height,(uint64_t)g->max_height);
-        unsigned first=g->trimmed_top, end=Min(cut,g->content_height);
-        if (cut<=first) continue;
-        g->trimmed_top=cut;
-        g->background_top=Max(g->background_top,Min(cut,g->background_height));
-        for (unsigned ty=first/32;ty*32<end;ty++) {
-            if (!g->tiles[ty]) continue;
-            if ((ty+1)*32<=cut || cut>=g->content_height) {
-                regis_free_tile_row(g,ty);
-            } else {
-                unsigned start=(Max(ty*32,first)-ty*32)*32;
-                unsigned stop=(end-ty*32)*32;
-                for (unsigned tx=0;tx<g->tile_columns;tx++) {
-                    RegisterNum *tile=g->tiles[ty][tx];
-                    if (tile) for (unsigned i=start;i<stop;i++) tile[i]=COLOR_HOLE;
-                }
-            }
-        }
-        g->dirty=true;
+        if (g->screen==0 && lost>0)
+            regis_clear_prefix(g,(unsigned)Min((uint64_t)lost*cell_height,(uint64_t)g->max_height));
     }
 }
 
@@ -359,7 +365,13 @@ bool nemo_regis_erase(NemoRegis *owner,int64_t x,int64_t y,unsigned width,
             int y1=(int)Max(0,Min(g->actual_height,top));
             int x2=(int)Max(0,Min(g->actual_width,left+width));
             int y2=(int)Max(0,Min(g->actual_height,top+height));
-            if (x1<x2 && y1<y2) draw_solid_rectangle(g,x1,y1,x2-1,y2-1,COLOR_HOLE);
+            if (x1>=x2 || y1>=y2) continue;
+            /* The page can have temporarily hidden columns after S(A...).
+             * Only discard complete stored rows, never just the visible width. */
+            if (!x1 && (unsigned)x2>=g->content_width && (unsigned)y1<=g->trimmed_top)
+                regis_clear_prefix(g,(unsigned)y2);
+            else
+                draw_solid_rectangle(g,x1,y1,x2-1,y2-1,COLOR_HOLE);
         }
     }
     owner->active=false;

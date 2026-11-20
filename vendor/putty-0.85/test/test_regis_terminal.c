@@ -329,6 +329,44 @@ static void check_colour_stream_ownership(Mock *mk)
     mock_free(other);
 }
 
+static void check_large_page_erase(Mock *mk)
+{
+    Terminal *t=mk->term;
+    test_context(mk,"clearing a solid page leaves another screen's ink and needs no new tiles");
+    feed_regis(mk,"\033c");
+    term_size(t,48,160,0); term_set_cell_size(t,16,32);
+    IEQUAL(term_regis_set_size(t,2048,1152,2048,1152),true);
+    feed_regis(mk,"\033[?47h\033P1pS(E)W(I2)P[20,40]V[120,40]\033\\");
+    expect_pixel(mk,40,20,0xffcc2121);
+    feed_regis(mk,"\033[?47l\033P1pS(E)W(I3)P[20,20]V[120,20]\033\\");
+    expect_pixel(mk,20,20,0xff33cc33);
+    feed_regis(mk,"\033[?47h"); expect_pixel(mk,40,20,0xffcc2121);
+    feed_regis(mk,"\033[?47l"); expect_pixel(mk,20,20,0xff33cc33);
+    size_t initial=term_regis_memory(t);
+    feed_regis(mk,"\033[2J");
+    size_t erased=term_regis_memory(t);
+    expect_pixel(mk,20,20,0); expect_pixel(mk,1151,2047,0);
+    IEQUAL(erased<=initial,true);
+    feed_regis(mk,"\033[?47h");
+    expect_pixel(mk,40,20,0xffcc2121);
+    fprintf(stderr,"ReGIS 2048x1152 ED2: decoder bytes before=%zu after=%zu\n",initial,erased);
+
+    test_context(mk,"clip erase to the visible width and erase fresh ink in a previously cleared row");
+    feed_regis(mk,"\033c"); term_size(t,12,40,0); term_set_cell_size(t,6,13);
+    IEQUAL(term_regis_set_size(t,160,120,320,240),true);
+    feed_regis(mk,"\033P1pS(A[0,0][319,239])S(E)W(I3)P[250,20]V[260,20]\033\\");
+    expect_pixel(mk,20,250,0xff33cc33);
+    feed_regis(mk,"\033P0pS(A[0,0][159,119])\033\\\033[2J\033P0pS(A[0,0][319,239])\033\\");
+    expect_pixel(mk,20,10,0); expect_pixel(mk,20,250,0xff33cc33);
+    feed_regis(mk,"\033c\033P1pS(E)W(I3)P[20,13]V[120,13]\033\\\033[1;1H\033[2K");
+    expect_pixel(mk,12,20,0); expect_pixel(mk,13,20,0xff33cc33);
+    feed_regis(mk,"\033P0pW(I2)P[20,12]V[120,12]\033\\");
+    expect_pixel(mk,12,20,0xffcc2121);
+    feed_regis(mk,"\033[1;1H\033[2K");
+    expect_pixel(mk,12,20,0); expect_pixel(mk,13,20,0xff33cc33);
+    feed_regis(mk,"\033c");
+}
+
 static int framing_tests(void)
 {
     Mock *mk=regis_mock();
@@ -422,6 +460,7 @@ static int framing_tests(void)
     expect_pixel(mk,200,200,0);
     feed_regis(mk,"\033c");
     IEQUAL(term_regis_memory(t),0);
+    check_large_page_erase(mk);
     check_shared_graphics(mk);
     check_alternate_visibility(mk);
     check_graphic_margins(mk);
