@@ -83,6 +83,8 @@ jobs:
             build/wt-images/summary.json
             build/wt-images/*/before-submit.png
             build/wt-images/*/reference-settings.json
+            build/wt-images/*/peer-error.json
+            build/wt-images/*/failure-window.png
             build/wt-images/*/grid.json
             build/wt-images/*/peer-terminal.json
             build/wt-images/*/cell-calibration.json
