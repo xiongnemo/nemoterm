@@ -1,6 +1,8 @@
 # Nemoterm requirements and evidence ledger
 
-The [distributed `78b18ac0` preview](../research/acceptance-78b18ac0.md) keeps a held Shift press on the original glyph during rectangle fills and copies. When the glyph is replaced the gesture is cancelled. Raw screen, clipboard and input checks passed 56/56, up from 20/56 on the previous image. Its interaction run verified 80/81; six stress workloads per renderer peaked at 19,685,376 and 28,659,712 private working-set bytes on GDI and DirectX.
+The [distributed `226ddd98` preview](../research/acceptance-226ddd98.md) keeps Shift selections through DEC page requests when the original text survives. Held and released selection, visible pixels, child grid and clipboard checks pass 28/28 (previously 4/28). Interaction: 80/81; six stress workloads per renderer peaked at 19,562,496 (GDI) and 29,089,792 (DirectX) private working-set bytes.
+
+The [previous `78b18ac0` preview](../research/acceptance-78b18ac0.md) keeps a held Shift press on the original glyph during rectangle fills and copies. When the glyph is replaced the gesture is cancelled. Raw screen, clipboard and input checks passed 56/56, up from 20/56 on the previous image. Its interaction run verified 80/81; six stress workloads per renderer peaked at 19,685,376 and 28,659,712 private working-set bytes on GDI and DirectX.
 
 The [previous `6a8986d5` preview](https://github.com/xiongnemo/nemoterm/blob/0d447c11be56895b89210c0f64f8aba8916c512a/research/acceptance-6a8986d5.md) honours horizontal and vertical maximise requests independently; applications cannot resize a locked window. The candidate passed 36/36 geometry and permission checks and 11/11 shared-window checks. Its interaction run verified 79/81; six stress workloads per renderer peaked at 18,898,944 and 28,995,584 private working-set bytes on GDI and DirectX.
 
