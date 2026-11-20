@@ -6,7 +6,7 @@ on:
       suite:
         description: Checks or notice-only packaging against the exact artifact
         type: choice
-        options: [font-bell, dpi, interaction, single, ui-regression, shell-lifetime, tcap, portable-notices, regis-window, regis-frame-pair, regis-presented-matrix, regis-bank-start, column-modes, column-cells, pointer-colour, colour-input, unicode-boundary, picture-keys, image-timing, image-mixed, image-mixed-opencode, image-reads, image-files, image-reference, draft-reference, draft-product, paste-order, pterm-images, pterm-memory, agent-session-memory, profile-dump, profile-dump-single, profile-env, wsl-tui, wsl-sixel, wsl-vim, wsl-tmux-vim, wsl-colour, wsl-paste-quote, wsl-relay-paste, wsl-relay-vim, wsl-byte-path, wsl-drop, rendering-settings, close-cancel, profile-sequence, font-ops, scrollback-modes, paste-lines, paste-quote, paste-quote-exit, taskbar-progress, taskbar-memory, fullscreen]
+        options: [font-bell, dpi, interaction, single, ui-regression, shell-lifetime, tcap, portable-notices, regis-window, regis-frame-pair, regis-presented-matrix, regis-bank-start, column-modes, column-cells, tab-hover, pointer-colour, colour-input, unicode-boundary, picture-keys, image-timing, image-mixed, image-mixed-opencode, image-reads, image-files, image-reference, draft-reference, draft-product, paste-order, pterm-images, pterm-memory, agent-session-memory, profile-dump, profile-dump-single, profile-env, wsl-tui, wsl-sixel, wsl-vim, wsl-tmux-vim, wsl-colour, wsl-paste-quote, wsl-relay-paste, wsl-relay-vim, wsl-byte-path, wsl-drop, rendering-settings, close-cancel, profile-sequence, font-ops, scrollback-modes, paste-lines, paste-quote, paste-quote-exit, taskbar-progress, taskbar-memory, fullscreen]
         default: font-bell
       source_commit:
         description: Full source commit of the source-console-host artifact
@@ -16,6 +16,10 @@ on:
         description: Successful Test and build run containing that artifact
         type: string
         required: true
+      diagnostic_sha256:
+        description: Optional exact failed MSVC image to exercise alongside the single EXE for tab-hover
+        type: string
+        required: false
       groups:
         description: Optional JSON array of interaction groups; empty runs all
         type: string
@@ -32,6 +36,19 @@ jobs:
     with:
       source_commit: ${{ inputs.source_commit }}
       source_run: ${{ inputs.source_run }}
+  tab-hover:
+    if: inputs.suite == 'tab-hover'
+    uses: ./.github/workflows/tab-hover-native.yml
+    with:
+      source_commit: ${{ inputs.source_commit }}
+      source_run: ${{ inputs.source_run }}
+  tab-hover-diagnostic:
+    if: inputs.suite == 'tab-hover' && inputs.diagnostic_sha256 != ''
+    uses: ./.github/workflows/tab-hover-native.yml
+    with:
+      source_commit: ${{ inputs.source_commit }}
+      source_run: ${{ inputs.source_run }}
+      diagnostic_sha256: ${{ inputs.diagnostic_sha256 }}
   column-cells:
     if: inputs.suite == 'column-cells'
     uses: ./.github/workflows/column-cells.yml

@@ -324,3 +324,5 @@ For an exact-image Windows quoted-paste exit diagnostic, run `font-zoom-replay.y
 
 
 如单文件任务在 `close-host` 超时并生成小型转储，`font-zoom-replay.yml` 的 `suite=profile-dump-single` 在远程只读解析原始文件；`tabs-close-replay.yml` 的 `fixture=profiles-single-pair` 在原始源码和 EXE 上交替运行 Frida 观察和不注入的窗口接口观察，`repetitions` 指每种方式分别执行几次。见[一次超时与成对复测](../research/profile-close-dc8b6913.md)。
+
+`font-zoom-replay.yml`, `suite=tab-hover`, runs real pointer and keyboard input on a GitHub-hosted Windows desktop against the isolated source-built single EXE. Pass the source run and commit as above. To replay the same four sides on a failed MSVC renderer package alongside it, also pass its full `diagnostic_sha256`. Each side captures the visible popup before/after a hidden update, records both children’s ordered input and the copied selection, and reports the active renderer. GDI fallback is evidence for that fallback only; it does not validate hardware OpenGL. `ci.yml` also runs the product lane after building the source host.

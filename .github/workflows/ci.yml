@@ -85,6 +85,13 @@ jobs:
     with:
       source_commit: ${{ github.sha }}
       source_run: ${{ github.run_id }}
+  tab-hover:
+    if: ${{ inputs.scope != 'dpi' }}
+    needs: source-host
+    uses: ./.github/workflows/tab-hover-native.yml
+    with:
+      source_commit: ${{ github.sha }}
+      source_run: ${{ github.run_id }}
   column-cells:
     if: ${{ inputs.scope != 'dpi' }}
     needs: source-host

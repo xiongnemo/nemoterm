@@ -19,7 +19,7 @@ g.BitBlt.argtypes=[w.HDC,c.c_int,c.c_int,c.c_int,c.c_int,w.HDC,c.c_int,c.c_int,w
 
 
 class PresentedWindowCapture:
-    def __init__(self,pid,hwnd,directx=False):
+    def __init__(self,pid,hwnd,directx=False, *, raise_window=True):
         self.pid=pid;self.hwnd=hwnd;self.closed=False
         self.record=dict(method='GetDC(owned HWND) + BitBlt',pid=pid,hwnd=hwnd,
             desktop_dc=False,wm_print=False,activation=False,captures=0)
@@ -32,8 +32,8 @@ class PresentedWindowCapture:
         self._owner()
         assert u.IsWindowVisible(hwnd) and not u.IsIconic(hwnd)
         self.was_topmost=bool(u.GetWindowLongW(hwnd,-20)&8)
-        assert u.SetWindowPos(hwnd,-1,0,0,0,0,0x13) # topmost, no move/size/activation
-        self.record['temporarily_topmost']=not self.was_topmost
+        if raise_window:assert u.SetWindowPos(hwnd,-1,0,0,0,0,0x13) # topmost, no move/size/activation
+        self.record['temporarily_topmost']=raise_window and not self.was_topmost
 
     def _owner(self):
         owner=w.DWORD()
@@ -96,7 +96,7 @@ class PresentedWindowCapture:
         if self.closed:return self.record
         owner=w.DWORD()
         same=u.GetWindowThreadProcessId(self.hwnd,c.byref(owner)) and owner.value==self.pid
-        if same and not self.was_topmost:
+        if same and self.record['temporarily_topmost']:
             assert u.SetWindowPos(self.hwnd,-2,0,0,0,0,0x13)
             self.record['topmost_restored']=True
         self.record['closed']=True

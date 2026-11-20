@@ -1,0 +1,59 @@
+name: Physical tab hover and selection
+on:
+  workflow_call:
+    inputs:
+      source_run: {required: true, type: string}
+      source_commit: {required: true, type: string}
+      diagnostic_sha256: {required: false, type: string, default: ''}
+permissions:
+  contents: read
+  actions: read
+jobs:
+  desktop:
+    runs-on: windows-2025
+    timeout-minutes: 12
+    env:
+      GH_TOKEN: ${{ github.token }}
+      SOURCE_RUN: ${{ inputs.source_run }}
+      SOURCE_COMMIT: ${{ inputs.source_commit }}
+      DIAGNOSTIC_SHA: ${{ inputs.diagnostic_sha256 }}
+      SOURCE_KIND: ${{ inputs.diagnostic_sha256 && 'diagnostic' || 'single' }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with: {fetch-depth: 0}
+      - name: Verify and isolate the exact frontend
+        run: |
+          $product = 'build/tab-hover-product'
+          if (!$env:DIAGNOSTIC_SHA) {
+            scripts/fetch-ci-product.ps1 -Run $env:SOURCE_RUN -Commit $env:SOURCE_COMMIT -Destination $product
+            New-Item -Type Directory build/tab-hover-single | Out-Null
+            Copy-Item "$product/nemoterm.exe" build/tab-hover-single/
+            $exe = Get-Item build/tab-hover-single/nemoterm.exe
+          } else {
+            if ($env:SOURCE_COMMIT -cnotmatch '^[0-9a-f]{40}$' -or $env:SOURCE_RUN -notmatch '^[1-9][0-9]*$' -or $env:DIAGNOSTIC_SHA -cnotmatch '^[0-9a-f]{64}$') { throw 'Invalid diagnostic identity' }
+            $run = gh run view $env:SOURCE_RUN --json headSha,workflowName,jobs | ConvertFrom-Json
+            if ($LASTEXITCODE -or $run.headSha -ne $env:SOURCE_COMMIT -or $run.workflowName -ne 'Test and build') { throw 'Unexpected source run' }
+            $failed = @($run.jobs | Where-Object { $_.name -eq 'MSVC native renderer diagnostics' -and $_.conclusion -eq 'failure' })
+            if ($failed.Count -ne 1) { throw 'Expected the original failed diagnostic job' }
+            git diff --quiet $env:SOURCE_COMMIT HEAD -- vendor native locales scripts/build.ps1 scripts/build-single-exe.ps1 scripts/prepare-single-exe.py scripts/generate-ui-catalog.py
+            if ($LASTEXITCODE) { throw 'Production differs from the failed diagnostic' }
+            gh run download $env:SOURCE_RUN --name "unverified-msvc-renderer-$env:SOURCE_COMMIT" --dir $product
+            if ($LASTEXITCODE) { throw 'Missing diagnostic package' }
+            $exe = Get-Item "$product/nemoterm.exe"
+            if ((Get-FileHash $exe.FullName).Hash.ToLowerInvariant() -cne $env:DIAGNOSTIC_SHA) { throw 'Diagnostic SHA-256 mismatch' }
+          }
+          "NEMOTERM_TEST_EXE=$($exe.FullName)" | Out-File $env:GITHUB_ENV -Append -Encoding utf8
+          New-Item -ItemType Directory -Force research/tab-hover-native | Out-Null
+          [ordered]@{kind=$env:SOURCE_KIND;source_commit=$env:SOURCE_COMMIT;source_run=$env:SOURCE_RUN;fixture_commit=(git rev-parse HEAD).Trim();files=@(Get-ChildItem $exe.DirectoryName -File | Get-FileHash | Select-Object Path,Hash)} | ConvertTo-Json -Depth 5 | Set-Content research/tab-hover-native/identity.json
+      - run: scripts/prepare-remote-interaction.ps1
+      - run: python -m pip install Pillow==13.0.0
+      - name: Hover and refresh a hidden tab, click it and verify recipients and copied text
+        run: python tests/tab_hover_native.py
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: tab-hover-${{ env.SOURCE_KIND }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            research/tab-hover-native/
+            build/interaction-dependencies/environment.json
+          if-no-files-found: error

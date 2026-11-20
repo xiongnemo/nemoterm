@@ -174,7 +174,7 @@ class DesktopInput:
             accepts=hit==self.hwnd
             # WindowFromPoint in the controller can return the renderer even
             # though its same-thread WM_NCHITTEST delegates actual input.
-            if hit and name.value=='NemotermDirect3D11' and u.GetParent(hit)==self.hwnd and u.GetWindowThreadProcessId(hit,None)==self.thread:
+            if hit and name.value in ('NemotermDirect3D11','NemotermOpenGL') and u.GetParent(hit)==self.hwnd and u.GetWindowThreadProcessId(hit,None)==self.thread:
                 reply=c.c_size_t();coords=(p.x&0xffff)|((p.y&0xffff)<<16)
                 if u.SendMessageTimeoutW(hit,0x84,0,coords,2,300,c.byref(reply)):
                     obs['render_hit_test']=c.c_ssize_t(reply.value).value;accepts=obs['render_hit_test']==-1
