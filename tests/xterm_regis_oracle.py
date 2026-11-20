@@ -340,6 +340,9 @@ def capture_case(executable, display_name, name, wires, transport, base, repaint
     resources = ['-xrm', 'XTerm*locale:false', '-xrm', 'XTerm*cursorBlink:false',
         '-xrm', 'XTerm*regisScreenSize:160x120', '-xrm', 'XTerm*maxGraphicSize:160x120',
         '-xrm', 'XTerm*decGraphicsID:340', '-xrm', 'XTerm*regisDefaultFont:']
+    if name.startswith('text-motion-'):
+        # The private Xvfb reference must grant DECRQCRA (GetChecksum).
+        resources.extend(['-xrm', '*allowWindowOps: true'])
     argv = [str(Path(executable).resolve()), '-geometry', '40x12+10+10',
         '-b','2','-bw','0','+sb','-fn','fixed','-fg','white','-bg','black','-ti','vt520' if name.startswith('text-motion-') else 'vt340',
         *resources, '-e',sys.executable,str(Path(__file__).resolve()),
