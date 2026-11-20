@@ -18,6 +18,8 @@ ACK = b'\x1b[0n'
 def observe(case, gpu):
     renderer = {'gdi': 1, 'directx': 3}[gpu]
     name = f'column-mode-selection-{gpu}-{case}'
+    restored = case.startswith('restore-')
+    clears = case in ('clear','restore-clear')
     record = dict(case=case, renderer=renderer, frames={}, passed=False)
 
     def exercise(hwnd, phase, current):
@@ -46,6 +48,10 @@ def observe(case, gpu):
             camera = PresentedWindowCapture(pid.value,hwnd,directx=renderer==3);camera.wait_for_initial_geometry()
             set_clipboard(hwnd,'column selection sentinel')
             draw = CSI+'?25l'+CSI+'?1002;1006h'+'\x1b]17;#223355\x07'+CSI+'2;2H|A中Z|'+CSI+'7;11H'
+            if restored:
+                # The explicit -132 profile starts with logical wide mode and an 80-column window.
+                # Save that bit, select 80 explicitly, and draw before the actual drag.
+                draw = CSI+'?40h'+CSI+'?3s'+CSI+'?3l'+CSI+'?95l'+CSI+'?95s'+draw
             phase('draw',draw+CSI+'?1002$p'+CSI+'?1006$p',b'\x1b[?1002;1$y\x1b[?1006;1$y')
             frame('before',80,[])
             phase('gesture','','')
@@ -58,9 +64,13 @@ def observe(case, gpu):
             record['gesture_wire']=current()['hex'];assert bytes.fromhex(record['gesture_wire'])==ACK+b'7'
             permit='l' if case=='ignored' else 'h'; keep='l' if case=='clear' else 'h'
             cols=80 if case=='ignored' else 132
-            phase('switch',CSI+'?40'+permit+CSI+'?95'+keep+CSI+'?3h'+CSI+'18t',f'\x1b[8;24;{cols}t')
-            frame('after',cols,[] if case=='clear' else [2,3,4,5])
-            if case!='clear':
+            switch = CSI+'?40'+permit+CSI+'?95'+keep+CSI+'?3h'
+            if restored:
+                switch = (CSI+'?95r' if not clears else CSI+'?95l') + CSI+'?3r'
+            record['switch_hex'] = switch.encode().hex()
+            phase('switch',switch+CSI+'18t',f'\x1b[8;24;{cols}t')
+            frame('after',cols,[] if clears else [2,3,4,5])
+            if not clears:
                 previous=u.GetClipboardSequenceNumber();desk.chord(0x11,0x10,ord('C'))
                 wait_for(lambda:u.GetClipboardSequenceNumber()!=previous)
                 record['clipboard']=clipboard_text(hwnd);assert record['clipboard']=='A中Z'
@@ -72,7 +82,8 @@ def observe(case, gpu):
             clip.restore()
     try:
         run(name,[],exercise=exercise,barrier=(CSI+'5n',ACK),font=os.environ['NEMOTERM_TEST_FONT'],
-            profile=dict(NemoTabs=1,NemoRenderer=renderer-1,FontHeight=8,WarnOnClose=0,NoRemoteResize=0,LockSize=0,MouseOverride=1))
+            profile=dict(NemoTabs=1,NemoRenderer=renderer-1,FontHeight=8,WarnOnClose=0,NoRemoteResize=0,LockSize=0,MouseOverride=1,
+                         **({'NemoColumnModeStart':1} if restored else {})))
         record['passed']=True
     finally:
         (root/'research'/(name+'-result.json')).write_text(json.dumps(record,ensure_ascii=False,indent=2),encoding='utf-8')
@@ -81,7 +92,7 @@ def observe(case, gpu):
 if __name__=='__main__':
     if os.environ.get('RUNNER_ENVIRONMENT')!='github-hosted':raise RuntimeError('Requires a hosted desktop')
     failures=[]
-    for case in ('keep','ignored','clear'):
+    for case in ('keep','ignored','clear','restore-keep','restore-clear'):
         try: observe(case,os.environ['RENDERER'])
         except Exception as error: failures.append((case,repr(error)))
     assert not failures,failures

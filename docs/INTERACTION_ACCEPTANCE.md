@@ -318,4 +318,7 @@ For an exact-image Windows quoted-paste exit diagnostic, run `font-zoom-replay.y
 
 `suite=column-modes`（`font-zoom-replay.yml`）在能完整容纳 132 列 Sarasa 的托管桌面上逐项比较 `TERM` 应答、Win32 窗口尺寸和子程序查询到的控制台宽度。它对照 `protocol-reference.yml` 的 `family=column-modes`：六种新会话，每种 22 个阶段；本地不准改尺寸以及 `-132` / `+132` 覆盖 profile 各自单独计分。见[上游、旧版和实测差异](../research/column-modes.md)。 程序可见的文字另用 `ReadConsoleOutputW` 核对：同一子程序同时读四个普通 ASCII 格、原生光标、窗口尺寸和前端协议回复。另有 Save and Apply 后在同一会话禁用／重新允许的检查。
 
+同一工作流用 `tests/column_mode_native_readback.py --saved` 检查应用临时改变列宽、改宽权限或是否清屏，再恢复先前状态的行为。每种渲染器有三组 17 项与[原版 XTerm 412 的逐字节回复](../testdata/upstream/xterm412-saved-column-modes.zip)比较，另有 17 项检查本地禁止改宽。每一项还从 Windows 子程序读回同一行文字和光标。`tests/column_mode_selection.py` 在应用启用鼠标报告时实际按 Shift 拖选 `A中Z`，分别验证普通改宽、恢复列宽及清屏后显示的选区；保留时还会实际按 Ctrl+Shift+C 核对剪贴板。
+
+
 如单文件任务在 `close-host` 超时并生成小型转储，`font-zoom-replay.yml` 的 `suite=profile-dump-single` 在远程只读解析原始文件；`tabs-close-replay.yml` 的 `fixture=profiles-single-pair` 在原始源码和 EXE 上交替运行 Frida 观察和不注入的窗口接口观察，`repetitions` 指每种方式分别执行几次。见[一次超时与成对复测](../research/profile-close-dc8b6913.md)。
