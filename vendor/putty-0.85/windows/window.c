@@ -3543,40 +3543,15 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
                 press = false;
             }
             show_mouseptr(wgs, true);
-            /*
-             * Special case: in full-screen mode, if the left
-             * button is clicked in the very top left corner of the
-             * window, we put up the System menu instead of doing
-             * selection.
-             */
-            {
-                bool mouse_on_hotspot = false;
-                POINT pt;
-
-                GetCursorPos(&pt);
-#ifndef NO_MULTIMON
-                if (p_GetMonitorInfoA && p_MonitorFromPoint) {
-                    HMONITOR mon;
-                    MONITORINFO mi;
-
-                    mon = p_MonitorFromPoint(pt, MONITOR_DEFAULTTONULL);
-
-                    if (mon != NULL) {
-                        mi.cbSize = sizeof(MONITORINFO);
-                        p_GetMonitorInfoA(mon, &mi);
-
-                        if (mi.rcMonitor.left == pt.x &&
-                            mi.rcMonitor.top == pt.y) {
-                            mouse_on_hotspot = true;
-                        }
-                    }
-                } else
-#endif
-                if (pt.x == 0 && pt.y == 0) {
-                    mouse_on_hotspot = true;
-                }
-                if (is_full_screen(wgs) && press &&
-                    button == MBT_LEFT && mouse_on_hotspot) {
+            /* Shift+left always belongs to the visible-text selection, even
+             * at the fullscreen system-menu hotspot. Hit-test the original
+             * press: the pointer may have moved while the message was queued. */
+            if (press && button == MBT_LEFT && !(wParam & MK_SHIFT) &&
+                is_full_screen(wgs)) {
+                POINT pt = { X_POS(lParam), Y_POS(lParam) };
+                RECT monitor;
+                if (ClientToScreen(hwnd, &pt) && get_fullscreen_rect(wgs, &monitor) &&
+                    pt.x == monitor.left && pt.y == monitor.top) {
                     SendMessage(hwnd, WM_SYSCOMMAND, SC_MOUSEMENU,
                                 MAKELPARAM(pt.x, pt.y));
                     return 0;
