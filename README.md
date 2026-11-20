@@ -33,7 +33,7 @@ Kitty 图片支持直接 RGB/RGBA/PNG、压缩传输、裁剪、透明度、查�
 
 ## 下载
 
-[下载 Windows x64 单文件试用版 `d7db3abf`](https://github.com/xiongnemo/nemoterm/actions/runs/44669471663/artifacts/14598474988)。本版修复了[擦除大张 ReGIS 图后另一屏的图也消失](research/regis-sparse-erase.md)的问题。六种满屏负载的前端私有工作集峰值为 **GDI 19.13 MB / DirectX 28.57 MB**。交互 79/81；两项仍是 Codex 启动早期贴图。[本版验收和 SHA-256](research/acceptance-d7db3abf.md) · [上一试用版](research/acceptance-a96e10b4.md)。
+[下载 Windows x64 单文件试用版 `f073c8d1`](https://github.com/xiongnemo/nemoterm/actions/runs/44673225346/artifacts/14601575029)。本版修复 [Shift 跨行复制夹带窗口外的文字](research/selection-scaled-copy.md)，对应的 18 项窗口检查全部通过。六种满屏负载的前端私有工作集峰值：**GDI 19.36 MB / DirectX 29.50 MB**。完整交互 79/81。[本版验收和 SHA-256](research/acceptance-f073c8d1.md) · [上一试用版](research/acceptance-d7db3abf.md)。
 
 旧版本的下载、内存和已知差异见[历史试用版](docs/PREVIEW_HISTORY.md)，其中 `cf091974` 通过了当时全部 81 项交互检查。
 

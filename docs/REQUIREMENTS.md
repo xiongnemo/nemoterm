@@ -1,6 +1,8 @@
 # Nemoterm requirements and evidence ledger
 
-The [distributed `d7db3abf` preview](../research/acceptance-d7db3abf.md) keeps all 101 pixels of the stored graphic when clearing a tall ReGIS page on the other screen. On its 81-case interaction run, 79 passed; the two failures were early Codex image pastes. The exact-file evidence includes the six stress workloads per renderer and paired 24-turn Codex sessions.
+The [distributed `f073c8d1` preview](../research/acceptance-f073c8d1.md) passes every scaled-row clipboard observation (18/18, up from 4/18). Its full interaction run verified 79/81; six stress workloads per renderer peaked at 19,361,792 and 29,495,296 private working-set bytes on GDI and DirectX.
+
+The [previous `d7db3abf` preview](../research/acceptance-d7db3abf.md) keeps all 101 pixels of the stored graphic when clearing a tall ReGIS page on the other screen. On its 81-case interaction run, 79 passed; the two failures were early Codex image pastes. The exact-file evidence includes the six stress workloads per renderer and paired 24-turn Codex sessions.
 
 The [previous `a96e10b4` preview](../research/acceptance-a96e10b4.md) passes all 20 real middle-button gestures across four tab positions, up from 4/20; the remaining terminal receives subsequent typing. The same file passed all ten fullscreen agent interactions. Six stress workloads per renderer peak at 19,230,720 private working-set bytes on GDI and 28,950,528 on DirectX. The interaction aggregate verified 79/81: both initial Codex image cases failed and all four ready-composer paths delivered matching pixels.
 

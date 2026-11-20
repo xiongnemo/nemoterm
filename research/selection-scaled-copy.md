@@ -17,3 +17,5 @@
 [旧 EXE 与原始失败](https://github.com/xiongnemo/nemoterm/actions/runs/44672824926/artifacts/14601013448) · [新 EXE 的原始选区记录](https://github.com/xiongnemo/nemoterm/actions/runs/44673225346/artifacts/14602230647) · [两版原始 JSON、截图、制品身份和逐格复核记录](selection-scaled-copy.zip)。复跑方法见[远程交互验收](../docs/INTERACTION_ACCEPTANCE.md)。
 
 下载上面两份名为 `interaction-selection-…` 的原始制品后，可用 `python scripts/compare-scaled-selection.py before.zip after.zip`（需要 Pillow）独立复核。脚本核对每张 PNG 和观测 JSON 的原始 SHA-256，再从截图计算变化的单元格，不启动终端。
+
+[同一 EXE 再次回放](https://github.com/xiongnemo/nemoterm/actions/runs/44674603741/artifacts/14601448035)的选区组为 6/6，汇总程序逐项核对四个窗口的 16 条窗口消息和 2 条 Windows 系统手势；报告也保存在上述证据包的 `repeat/` 中。
