@@ -1,0 +1,36 @@
+name: Review a Windows trial from its original records
+on:
+  workflow_dispatch:
+    inputs:
+      product_run: {description: Original full Test and build run ID, required: true, type: string}
+      product_commit: {description: Full source commit of that run, required: true, type: string}
+  workflow_call:
+    inputs:
+      product_run: {required: true, type: string}
+      product_commit: {required: true, type: string}
+permissions:
+  actions: read
+  contents: read
+jobs:
+  review:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Check original Windows captures and samples, and retain the strict verdict
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SOURCE_RUN: ${{ inputs.product_run }}
+          SOURCE_COMMIT: ${{ inputs.product_commit }}
+        run: |
+          python3 -m venv "$RUNNER_TEMP/trial-review"
+          "$RUNNER_TEMP/trial-review/bin/pip" install Pillow==13.0.0
+          "$RUNNER_TEMP/trial-review/bin/python" scripts/review-windows-trial.py "$SOURCE_RUN" "$SOURCE_COMMIT" build/windows-trial
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: windows-trial-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            build/windows-trial/report/
+            build/windows-trial/sources/inputs.json
+          if-no-files-found: error

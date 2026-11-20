@@ -9,7 +9,7 @@ import subprocess
 from zipfile import ZipFile
 
 
-def fetch(run, commit, output):
+def fetch(run, commit, output, *, extra_archives=None):
     if run < 1 or not re.fullmatch('[0-9a-f]{40}', commit):
         raise ValueError('Expected a source run ID and a full Git commit')
     api = 'repos/' + os.environ['GITHUB_REPOSITORY'] + '/actions/'
@@ -21,6 +21,10 @@ def fetch(run, commit, output):
     suffix = f"-{run}-{record['run_attempt']}"
     names = {'source': 'source-console-host-x64-' + commit, 'conversation': 'agent-session-memory' + suffix,
              'gdi': 'interaction-receipt-memory-gdi' + suffix, 'directx': 'interaction-receipt-memory-directx' + suffix}
+    for key, prefix in (extra_archives or {}).items():
+        if key in names or not re.fullmatch(r'[a-z-]+', key) or not re.fullmatch(r'[a-z-]+', prefix):
+            raise ValueError('Invalid additional artifact selector')
+        names[key] = prefix + suffix
     pages = json.loads(subprocess.check_output(['gh', 'api', '--paginate', '--slurp', api + f'runs/{run}/artifacts?per_page=100']))
     available = [a for page in pages for a in page['artifacts']]
     output.mkdir(parents=True, exist_ok=False)

@@ -34,6 +34,13 @@ jobs:
       suite: agent-session-memory
       product_run: ${{ github.run_id }}
       product_commit: ${{ github.sha }}
+  windows-trial:
+    if: ${{ !cancelled() && inputs.scope == 'full' && needs.source-host.result == 'success' }}
+    needs: [source-host, interaction, agent-session-memory, wsl-sixel, wsl-vim, wsl-tmux-vim]
+    uses: ./.github/workflows/windows-trial.yml
+    with:
+      product_run: ${{ github.run_id }}
+      product_commit: ${{ github.sha }}
   frontend-memory-review:
     if: ${{ !cancelled() && inputs.scope == 'full' && needs.source-host.result == 'success' }}
     needs: [source-host, agent-session-memory, interaction]
