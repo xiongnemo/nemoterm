@@ -43,7 +43,12 @@ jobs:
         run: |
           python -m pip install --only-binary=:all: Pillow==13.0.0
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
-          python tests/fullscreen_corner_selection.py $env:RENDERER
+          $failed=$false
+          foreach ($placement in @('standalone','top','bottom','left','right')) {
+            python tests/fullscreen_corner_selection.py $env:RENDERER $placement
+            if ($LASTEXITCODE) { $failed=$true }
+          }
+          if ($failed) { exit 1 }
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:

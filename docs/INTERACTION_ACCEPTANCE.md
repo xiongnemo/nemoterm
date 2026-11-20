@@ -399,3 +399,13 @@ released, an unselected right click must reach the tracking application again.
 The [first exact-image failures](../research/sync-selection-3308de91.md) are retained.
 
 The two adjacent-edit cases change only a colour chip on the selected row. After the new frame appears, stream and rectangular selections must still highlight the four original cells. A new clipboard sentinel must be replaced by the next default right click, with no button report to the application. The replacement control requires the opposite result. The `review` job downloads both original Windows archives by artifact name and SHA-256 on a separate Linux runner, compares the PNGs, clipboard and child input for the same EXE, and uploads `sync-selection-review-<run>-<attempt>` with the results. The original Windows observations are retained even when the checks fail.
+When replaying `suite=sync-selection`, the Windows observers also exercise the
+first line in fullscreen. `tests/fullscreen_corner_selection.py` records real
+Shift/left, mouse capture or system-menu ownership, the visible selection of
+`A中Z`, a fresh Ctrl+Shift+C clipboard read, and the child’s bracketed-paste
+bytes after Ctrl+Shift+V. Both renderers check standalone and tab strips on
+all four sides. For top/left tabs the gesture starts at the first pixel of
+the terminal pane; for bottom/right tabs and standalone it starts at the
+monitor corner. A nearby unmodified click must reach the mouse-aware child.
+A separate standalone control checks that an unmodified corner click still
+opens the system menu. Each placement retains its own PNGs and result JSON.
