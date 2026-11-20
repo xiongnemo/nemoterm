@@ -121,6 +121,14 @@ jobs:
       shell_fixtures: true
       product_run: ${{ inputs.product_run }}
       product_commit: ${{ inputs.product_commit }}
+  agent-pixels:
+    if: ${{ !cancelled() && needs.orchestration.result == 'success' && contains(fromJSON(needs.orchestration.outputs.independent_groups), 'agents-grid') }}
+    needs: [orchestration, independent]
+    uses: ./.github/workflows/agent-pixels.yml
+    with:
+      product_run: ${{ inputs.product_run }}
+      product_commit: ${{ inputs.product_commit }}
+      receipt_run: ${{ format('{0}', github.run_id) }}
   report:
     name: Verify and publish the combined interaction report
     if: ${{ !cancelled() && needs.orchestration.result == 'success' }}

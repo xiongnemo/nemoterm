@@ -1,0 +1,39 @@
+name: Review the exact agent interaction frames
+on:
+  workflow_call:
+    inputs:
+      product_run: {type: string, required: true}
+      product_commit: {type: string, required: true}
+      receipt_run: {type: string, required: true}
+permissions:
+  actions: read
+  contents: read
+jobs:
+  review:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Authenticate the two agent archives and the matching executable
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PRODUCT_RUN: ${{ inputs.product_run }}
+          PRODUCT_COMMIT: ${{ inputs.product_commit }}
+          RECEIPT_RUN: ${{ inputs.receipt_run }}
+        run: python3 scripts/fetch-agent-review.py "$PRODUCT_RUN" "$PRODUCT_COMMIT" "$RECEIPT_RUN" build/agent-review
+      - name: Verify the original pixels, exact clipboard and provider submissions
+        run: |
+          python3 -m venv "$RUNNER_TEMP/agent-review-venv"
+          py="$RUNNER_TEMP/agent-review-venv/bin/python"
+          "$py" -m pip install Pillow==13.0.0
+          "$py" scripts/review-agent-wide-selection.py build/agent-review/receipt.zip build/agent-review/surfaces.zip --output build/agent-review/selection
+          "$py" scripts/review-agent-composer.py build/agent-review/receipt.zip build/agent-review/surfaces.zip --output build/agent-review/composer
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: agent-pixels-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            build/agent-review/inputs.json
+            build/agent-review/selection/
+            build/agent-review/composer/
+          if-no-files-found: error
