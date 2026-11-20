@@ -666,6 +666,53 @@ static void test_scaled_visual_copy(Mock *mk)
     }
 }
 
+static void test_press_across_line_rendition(Mock *mk)
+{
+    const int clipboard = CLIP_LOCAL + 1;
+    const struct { const char *initial, *edit; int x, release, anchor; bool block;
+                   const wchar_t *copy; } cases[] = {
+        {"ABCDEFGHIJK", "\033#6", 3, 10, 6, true, L"DEF"},
+        {"ABCDEFGHIJK\033#6", "\033#5", 7, 5, 3, true, L"DEF"},
+        {"ABCDEFGHIJK\033#6", "\033[?69h", 7, 5, 3, true, L"DEF"},
+        {"ABCDEFGHIJK", "\033#3", 7, 4, -1, false, NULL},
+        {"ABCDEFGHIJK", "\033#4", 7, 4, -1, true, NULL},
+        {"ABCDX\xe4\xb8\xadY", "\033#6", 6, 8, 10, true, L"X\x4e2d"},
+        {"ABCDX\xe4\xb8\xadY", "\033#6", 6, 8, 5, false, L"X\x4e2d"},
+    };
+    for (size_t i = 0; i < lenof(cases); i++) {
+        mouse_setup(mk, "held press across DEC line sizing", "");
+        test_context(mk, "held press across DEC line sizing, case %zu", i);
+        term_size(mk->term, 3, 12, 0);
+        mk->ucsdata->line_codepage = CP_UTF8;
+        mk->term->rect_select = false;
+        term_data_fragmented(mk->term, "\033%G\033[?1002;1006h");
+        term_data_fragmented(mk->term, cases[i].initial);
+        send_mouse(mk, MBT_LEFT, MA_CLICK, cases[i].x, 0, true, cases[i].block, false);
+        term_data_fragmented(mk->term, cases[i].edit);
+        IEQUAL(mk->term->selstate, cases[i].copy ? ABOUT_TO : NO_SELECTION);
+        if (cases[i].copy) IEQUAL(mk->term->selanchor.x, cases[i].anchor);
+        send_mouse(mk, MBT_LEFT, MA_DRAG, cases[i].release, 0, false, false, false);
+        mouse_release(mk, cases[i].release, 0);
+        MOUSE_BYTES("");
+        IEQUAL(mk->term->selstate, cases[i].copy ? SELECTED : NO_SELECTION);
+        if (cases[i].copy) {
+            term_request_copy(mk->term, &clipboard, 1);
+            check_clipboard(mk, cases[i].copy);
+        }
+        mouse_click(mk, 0, 2); mouse_release(mk, 0, 2);
+        MOUSE_BYTES("\033[<0;1;3M\033[<0;1;3m");
+    }
+    /* Enabling margins also restores ordinary width outside the cursor row.
+     * A finished block must not claim a right click over different text. */
+    mouse_setup(mk, "DECLRMM invalidates a finished block on a resized row",
+                "ABCDEFGHIJK\033#6\033[?1002;1006h");
+    send_mouse(mk, MBT_LEFT, MA_CLICK, 2, 0, true, true, false);
+    mouse_release(mk, 5, 0);
+    IEQUAL(mk->term->selstate, SELECTED);
+    term_data_fragmented(mk->term, "\033[2;1H\033[?69h");
+    IEQUAL(mk->term->selstate, NO_SELECTION);
+}
+
 static void test_ctrl_rectangle(Mock *mk)
 {
     const int clipboard = CLIP_LOCAL + 1;
@@ -940,6 +987,7 @@ int main(void)
     test_unencodable_release_cancel(mk);
     test_shift_selection(mk);
     test_scaled_visual_copy(mk);
+    test_press_across_line_rendition(mk);
     test_ctrl_rectangle(mk);
     test_block_clipping(mk);
     test_block_crossing_region(mk);

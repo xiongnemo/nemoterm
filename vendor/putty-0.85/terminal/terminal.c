@@ -7057,6 +7057,37 @@ static void dec_screen_request(Terminal *term, bool alternate,
     swap_screen(term, which, clear, keep_cur_pos);
 }
 
+/* Changing the width moves the glyph under a held Shift press. A block
+ * anchor uses physical columns, while a stream anchor uses painted glyph
+ * columns. An established range instead keeps the existing invalidation
+ * policy: its cached clipboard must not describe a newly sized rectangle. */
+static void set_line_rendition(Terminal *term, termline *line, int y, int mode)
+{
+    int old_scale = selection_row_scale(line);
+    line->lattr = (line->lattr & ~LATTR_MODE) | mode;
+    int scale = selection_row_scale(line);
+    if (scale == old_scale || term->seltype == LEXICOGRAPHIC) return;
+    if (term->selstate == ABOUT_TO && term->selanchor.y == y) {
+        bool rect = term->seltype == RECTANGULAR;
+        int x = rect ? term->selanchor.x / old_scale : term->selanchor.x;
+        int visible = selection_painted_columns(term, line);
+        if (x >= visible) {
+            /* The continuation can leave the screen while part of the
+             * original wide glyph is still painted in the last column. */
+            if (x == visible && x < term->cols) {
+                check_line_size(term, line);
+                termchar *visual = term_bidi_line(term, line, selection_bidi_slot(term, y));
+                if ((visual ? visual : line->chars)[x].chr == UCSWIDE) x--;
+            }
+            if (x >= visible) { discard_selection_press(term); return; }
+        }
+        term->selanchor.x = rect ? x * scale : x;
+    } else if ((term->selstate == DRAGGING || term->selstate == SELECTED) &&
+               term->selstart.y <= y && y <= term->selend.y) {
+        lose_resize_selection(term);
+    }
+}
+
 /* Restoring a saved width homes the cursor within the existing margins;
  * an explicit width request also resets the margins and line renditions. */
 static void nemo_column_mode(Terminal *term, bool state, bool restore)
@@ -7178,10 +7209,8 @@ static void toggle_mode(Terminal *term, int mode, int query, bool state)
           case 69:                     /* DECLRMM: left/right margins */
             term->lrmm = state;
             if (!state) { term->marg_l = 0; term->marg_r = term->cols-1; }
-            else for (int y = 0; y < term->rows; y++) {
-                termline *line = scrlineptr(y);
-                line->lattr &= ~LATTR_MODE;
-            }
+            else for (int y = 0; y < term->rows; y++)
+                set_line_rendition(term, scrlineptr(y), y, LATTR_NORM);
             seen_disp_event(term);
             break;
           case 47:                     /* alternate screen */
@@ -9709,11 +9738,7 @@ static void term_out(Terminal *term, bool called_from_term_data)
                     check_trust_status(term, ldata);
                     if ((ldata->lattr & LATTR_MODE) != nlattr && nlattr != LATTR_NORM)
                         term->curs.x = min(term->curs.x, min(term->cols-1, term->cols/2));
-                    if (term->seltype != LEXICOGRAPHIC && term->selstate != NO_SELECTION &&
-                        ((ldata->lattr & LATTR_MODE) == LATTR_NORM) != (nlattr == LATTR_NORM) &&
-                        term->curs.y >= term->selstart.y && term->curs.y <= term->selend.y)
-                        deselect(term);
-                    ldata->lattr = (ldata->lattr & ~LATTR_MODE) | nlattr;
+                    set_line_rendition(term, ldata, term->curs.y, nlattr);
                     seen_disp_event(term);
                     break;
                   }
