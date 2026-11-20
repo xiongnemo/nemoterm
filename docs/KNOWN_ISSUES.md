@@ -1,6 +1,10 @@
 # v0 已知问题与使用限制
 
-适用于 Windows x64 单文件 `7faa7fac`（[下载与构建记录](https://github.com/xiongnemo/nemoterm/actions/runs/44832796247/artifacts/14677562291)）。[原始验收包](../research/trial-7faa7fac.zip)保存严格总评、内存回执、中文框选前后的 20 张原图及制品散列。下面列的是这份 EXE 在 GitHub 托管 runner 上的结果。普通 shell 或其他 WSL 版本不一定会遇到相同问题。
+当前试用版为 [`9b82d1cf`](https://github.com/xiongnemo/nemoterm/actions/runs/44837714426/artifacts/14679302876)。[本版验收与内存记录](../research/trial-9b82d1cf.md)及[原始数据](../research/trial-9b82d1cf.zip)对应同一份 EXE。严格交互 **80/81**，未通过项为 `agent-image-system-codex`（输入框就绪前贴图）；就绪后四条贴图路径通过。与上一版相比，Alacritty 的 `OSC 50;CursorShape` 在两种渲染器上都已验证。历史 ReGIS、WSL1 和行尾字符对照仍有失败，见[本版完整工作流](https://github.com/xiongnemo/nemoterm/actions/runs/44837714426)。
+
+## 上一版 `7faa7fac` 的原始记录
+
+以下记录适用于 Windows x64 单文件 `7faa7fac`（[下载与构建记录](https://github.com/xiongnemo/nemoterm/actions/runs/44832796247/artifacts/14677562291)）。[原始验收包](../research/trial-7faa7fac.zip)保存严格总评、内存回执、中文框选前后的 20 张原图及制品散列。下面列的是这份 EXE 在 GitHub 托管 runner 上的结果。普通 shell 或其他 WSL 版本不一定会遇到相同问题。
 
 ## 已知兼容问题
 

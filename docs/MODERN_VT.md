@@ -30,10 +30,10 @@ Shift 拖选屏幕文字、Ctrl+Shift+C/V 和可配置右键是 **Nemoterm 自�
 ## 判断一项是否属于目标
 
 1. 先看应用所需的 xterm 行为，再对照 [Alacritty 支持表（固定版本）](https://github.com/alacritty/alacritty/blob/aa5d942f46c40184a3f214830ff5f7989f4733a1/extra/man/alacritty-escapes.7.scd)、[Windows Terminal 解析器（固定版本）](https://github.com/microsoft/terminal/blob/5f7dc283013152f89bfb76950515c33f45157ad7/src/terminal/parser/OutputStateMachineEngine.cpp)及其 [VT](https://learn.microsoft.com/en-us/windows/console/console-virtual-terminal-sequences) 和 [shell 集成说明](https://learn.microsoft.com/en-us/windows/terminal/tutorials/shell-integration)。按方向、参数、开关、可见效果及回复字节核对。上游写的是部分支持，就只引用它实际支持的部分。
-2. **编号相同不代表语义相同。** 例如 Alacritty 的 `OSC 50` 支持 `CursorShape`；`7faa7fac` 的 [OSC 50 处理函数](../vendor/putty-0.85/terminal/nemo_font_ops.inc)实现的是字体查询和设置，没有该光标子命令。跨终端设置光标形状可用 `DECSCUSR`，例如 `CSI 2 SP q` 表示常亮方块（`SP` 是实际空格）。与这个已交付版本分开，开发版按 [Alacritty 使用的 vte 0.15.0 解析代码](https://github.com/alacritty/vte/blob/3b3da71c34cc1256c7e20981cf03f8eb95e08ffc/src/ansi.rs) 分派 `CursorShape=0/1/2`（方块、竖线、下划线），维持原有闪烁模式。候选 `9b82d1cf` 已通过[逐字节解析、取消及闪烁状态检查](https://github.com/xiongnemo/nemoterm/actions/runs/44837714426/artifacts/14679840880)。同一份 Windows EXE 使用 Sarasa Light，在 [GDI](https://github.com/xiongnemo/nemoterm/actions/runs/44837714426/artifacts/14679796635) 和 [DirectX](https://github.com/xiongnemo/nemoterm/actions/runs/44837714426/artifacts/14679647034) 各四种字体读写权限组合下，把闪烁方块改成竖线后，查询都读到闪烁竖线，字形像素与原字体一致。此项验证的是状态回复和字体保持。另一次[同一单文件的屏幕回放](https://github.com/xiongnemo/nemoterm/actions/runs/44838883485)从 GDI 窗口和 DirectX 子窗口分别取图。在 8×20 像素字格上，两者的方块为 8×20、竖线为 1×20、下划线为 8×1；六个结果均与各自的标准 `DECSCUSR` 对照逐像素相同。[12 张完整窗口原图、状态回复及制品身份](../research/osc50-cursor-9b82d1cf.zip)。
+2. **编号相同不代表语义相同。** 例如 Alacritty 的 `OSC 50` 支持 `CursorShape`；`7faa7fac` 的 [OSC 50 处理函数](../vendor/putty-0.85/terminal/nemo_font_ops.inc)实现的是字体查询和设置，没有该光标子命令。跨终端设置光标形状可用 `DECSCUSR`，例如 `CSI 2 SP q` 表示常亮方块（`SP` 是实际空格）。当前试用版 `9b82d1cf` 则按 [Alacritty 使用的 vte 0.15.0 解析代码](https://github.com/alacritty/vte/blob/3b3da71c34cc1256c7e20981cf03f8eb95e08ffc/src/ansi.rs) 分派 `CursorShape=0/1/2`（方块、竖线、下划线），维持原有闪烁模式。本版已通过[逐字节解析、取消及闪烁状态检查](https://github.com/xiongnemo/nemoterm/actions/runs/44837714426/artifacts/14679840880)。同一份 Windows EXE 使用 Sarasa Light，在 [GDI](https://github.com/xiongnemo/nemoterm/actions/runs/44837714426/artifacts/14679796635) 和 [DirectX](https://github.com/xiongnemo/nemoterm/actions/runs/44837714426/artifacts/14679647034) 各四种字体读写权限组合下，把闪烁方块改成竖线后，查询都读到闪烁竖线，字形像素与原字体一致。此项验证的是状态回复和字体保持。另一次[同一单文件的屏幕回放](https://github.com/xiongnemo/nemoterm/actions/runs/44838883485)从 GDI 窗口和 DirectX 子窗口分别取图。在 8×20 像素字格上，两者的方块为 8×20、竖线为 1×20、下划线为 8×1；六个结果均与各自的标准 `DECSCUSR` 对照逐像素相同。[12 张完整窗口原图、状态回复及制品身份](../research/osc50-cursor-9b82d1cf.zip)。
 3. [XTerm 控制序列手册](https://invisible-island.net/xterm/ctlseqs/ctlseqs.html)还收录 VT52、Tektronix 绘图、打印机转发、ReGIS 等。仅因列在该手册，并不成为 v0 阻塞项。已实现的功能和重现过的差异保留在[详细支持表](PROTOCOLS.md)和[已知问题](KNOWN_ISSUES.md)里。Kitty、iTerm2、VS Code 的私有扩展也按子命令评估；不能因一条常用命令推及整个厂商命名空间。
 
-![候选 9b82d1cf：GDI、DirectX 各三种光标实际字格，按整数放大两倍](../research/osc50-cursor-pixels.png)
+![试用版 9b82d1cf：GDI、DirectX 各三种光标实际字格，按整数放大两倍](../research/osc50-cursor-pixels.png)
 
 ## 两个参考终端实际列了哪些 OSC？
 
@@ -48,4 +48,4 @@ Windows Terminal 还有一批按子命令分派的 OSC。下面列出会影响�
 | `OSC 777;notify;标题;正文` | 上游启用桌面通知功能后才显示通知 | 当前 `777` 分支只识别内部文字排版提示，没有此通知子命令。 |
 | `OSC 9001;CmdNotFound;命令名` | Windows Terminal 可向应用层请求查找缺失的命令 | 当前前端没有这个 OSC 操作。已有的 `CSI ?9001h` 是 Win32 键盘输入模式，不会搜索或安装软件。 |
 
-这是一份范围说明，**不是逐项一致性认证**。`7faa7fac` 的[原始验收包](../research/trial-7faa7fac.zip)包括单文件身份、内存采样、实际客户端按键/选区、渲染画面和未通过的交互用例；[v0 验收结果](KNOWN_ISSUES.md#v0-的验收边界)给出统计和适用范围。
+这是一份范围说明，**不是逐项一致性认证**。`9b82d1cf` 的[原始验收包](../research/trial-9b82d1cf.zip)包括单文件身份、内存采样、实际客户端按键/选区、渲染画面和未通过的交互用例；[本版验收结果](../research/trial-9b82d1cf.md)给出统计和适用范围。

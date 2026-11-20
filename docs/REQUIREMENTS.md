@@ -2,6 +2,8 @@
 
 Current protocol goal (2026-11-21): the [modern VT subset](MODERN_VT.md) used by xterm / xterm-256color applications, plus Sixel. Windows Terminal and Alacritty are behavioral references; their combined inventories are not a release checklist. Historical full-catalogue goals below are retained for context. See the [current binary’s acceptance results and known differences](KNOWN_ISSUES.md).
 
+The [current `9b82d1cf` trial](../research/trial-9b82d1cf.md) passed the six full-grid memory workloads on both renderers, the 18 physical binding cases and the 8 Sixel frames. The unchanged strict interaction result is 80/81; see the report for the early Codex image case.
+
 The [previous single executable `83d584d8`](../research/trial-83d584d8.md) passed the current physical clipboard and mouse checks, 8 Sixel frames, 8 bilingual close-dialog cases and the six-workload private working set budgets (19,333,120 bytes GDI; 29,577,216 DirectX). Its original strict interaction result is 79/81: both failed cases pasted before Codex signalled ready. General terminal status and other protocol gaps remain in the [coverage ledger](PROTOCOL_COVERAGE.md).
 
 The [previous single executable `fe5f98f9`](../research/close-dialog-language.md) passed 8/8 English and Chinese native close-dialog cases, including Cancel and Escape on an inactive tab. Product identity and original observations are linked there.

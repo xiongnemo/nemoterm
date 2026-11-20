@@ -33,7 +33,9 @@ Kitty 图片支持直接 RGB/RGBA/PNG、压缩传输、裁剪、透明度、查�
 
 ## 下载
 
-[下载 Windows x64 单文件试用版 `7faa7fac`](https://github.com/xiongnemo/nemoterm/actions/runs/44832796247/artifacts/14677562291)。开启插入模式，在行末只剩一格时输入汉字，现在会移到下一行并保留那里原有的文字。托管 Windows 上 GDI、DirectX 的[16 组终端和 Win32 读回对照](research/column-edge-integrity.md#行尾输入一个汉字时下一行的第一个字消失)均通过。同一份 EXE 的六种满屏负载私有工作集峰值为 **GDI 19.47 MB、DirectX 29.15 MB**。[内存与交互验收](docs/KNOWN_ISSUES.md#v0-的验收边界)。
+[下载 Windows x64 单文件试用版 `9b82d1cf`](https://github.com/xiongnemo/nemoterm/actions/runs/44837714426/artifacts/14679302876)。现在能识别 Alacritty 的 `OSC 50;CursorShape`；GDI 和 DirectX 的方块、竖线、下划线均与标准光标序列的[窗口像素逐一相同](docs/MODERN_VT.md)。六种满屏负载的前端私有工作集峰值：**GDI 19.08 MB、DirectX 28.75 MB**。严格交互 **80/81**，未通过项属于 Codex 输入框就绪前的贴图；就绪后的四条路径全部通过。[本版交互与内存验收](research/trial-9b82d1cf.md)。
+
+[上一版 `7faa7fac` 的单文件](https://github.com/xiongnemo/nemoterm/actions/runs/44832796247/artifacts/14677562291)。开启插入模式，在行末只剩一格时输入汉字，现在会移到下一行并保留那里原有的文字。托管 Windows 上 GDI、DirectX 的[16 组终端和 Win32 读回对照](research/column-edge-integrity.md#行尾输入一个汉字时下一行的第一个字消失)均通过。同一份 EXE 的六种满屏负载私有工作集峰值为 **GDI 19.47 MB、DirectX 29.15 MB**。[内存与交互验收](docs/KNOWN_ISSUES.md#v0-的验收边界)。
 
 [上一版 `83d584d8` 的单文件](https://github.com/xiongnemo/nemoterm/actions/runs/44827444033/artifacts/14675625577)。本版修复应用恢复调色板后窗口仍显示旧色的问题。[交互和内存实测](research/trial-83d584d8.md)：18/18 种复制、粘贴和右键组合通过；六组满屏负载中，前端私有工作集峰值为 **GDI 19.33 MB、DirectX 29.58 MB**。严格交互 79/81，两项失败都在 Codex 输入框就绪前；就绪后四种贴图方式全部通过。
 
