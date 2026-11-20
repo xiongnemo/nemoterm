@@ -9,6 +9,13 @@
 
 typedef struct WinGuiSeat WinGuiSeat;
 
+/* Single-axis maximise is a normal framed HWND on Windows. Store the
+ * user's original rectangle and the actual last position imposed by us. */
+typedef struct NemoAxisPlacement {
+    RECT original, applied;
+    bool active;
+} NemoAxisPlacement;
+
 struct PopupMenu {
     HMENU menu;
     HMENU shell_menu; /* owned by menu, destroyed with its parent */
@@ -176,6 +183,7 @@ struct WinGuiSeat {
 
     bool ignore_clip;
     bool fullscr_on_max, fullscreen_was_maximised;
+    NemoAxisPlacement axis_placement;
     bool processed_resize;
     bool in_scrollbar_loop;
     UINT last_mousemove;

@@ -66,8 +66,9 @@ static void nemo_report_feature_policy(Terminal *term, bool bel)
         DENY(POSITION); DENY(SIZE_PIXELS); DENY(SIZE_CHARS);
         DENY(LINES); DENY(COLUMNS);
     }
-    if (term->no_remote_resize || conf_get_int(term->conf, CONF_resize_action) == RESIZE_DISABLED)
-        DENY(FULLSCREEN);
+    if (term->no_remote_resize || conf_get_int(term->conf, CONF_resize_action) == RESIZE_DISABLED) {
+        DENY(MAXIMIZE); DENY(FULLSCREEN);
+    }
     /* An empty title response is supported, but discloses no title. */
     if (term->remote_qtitle_action != TITLE_REAL) {
         DENY(ICON_TITLE); DENY(WIN_TITLE);

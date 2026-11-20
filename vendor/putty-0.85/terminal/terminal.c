@@ -3702,8 +3702,10 @@ void term_update(Terminal *term)
         term->win_minimise_pending = false;
     }
     if (term->win_maximise_pending) {
-        win_set_maximised(term->win, term->win_maximise_enable);
-        term->win_maximise_pending = false;
+        term->win_maximise_pending = false; /* changing the HWND size may re-enter */
+        if (term->win->vt->set_maximised && !term->no_remote_resize &&
+            conf_get_int(term->conf, CONF_resize_action) != RESIZE_DISABLED)
+            win_set_maximised(term->win, term->win_maximise_mode);
     }
     if (term->win_fullscreen_pending != TERM_FS_KEEP) {
         TermFullscreenOp op = term->win_fullscreen_pending;
@@ -10675,14 +10677,17 @@ static void term_out(Terminal *term, bool called_from_term_data)
                                     nemo_window_parameter(term, 2),
                                     nemo_window_parameter(term, 1), false);
                                 break;
-                              case 9:
-                                if (term->esc_nargs >= 2) {
-                                    term->win_maximise_pending = true;
-                                    term->win_maximise_enable =
-                                        term->esc_args[1];
-                                    term_schedule_update(term);
-                                }
+                              case 9: { /* XTWINOPS: restore or maximise specified axes */
+                                if (!term->win->vt->set_maximised || term->no_remote_resize ||
+                                    conf_get_int(term->conf, CONF_resize_action) == RESIZE_DISABLED)
+                                    break;
+                                unsigned arg = term->esc_nargs >= 2 ? term->esc_args[1] : 0;
+                                term->win_maximise_mode = arg <= TERM_MAX_HORIZONTAL ?
+                                    (TermMaximiseOp)arg : TERM_MAX_RESTORE;
+                                term->win_maximise_pending = true;
+                                term_schedule_update(term);
                                 break;
+                              }
                               case 10: { /* XTWINOPS: fullscreen (separate from maximise) */
                                 if (term->no_remote_resize || !term->win->vt->fullscreen ||
                                     conf_get_int(term->conf, CONF_resize_action) == RESIZE_DISABLED)

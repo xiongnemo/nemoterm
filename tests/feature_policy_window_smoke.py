@@ -38,7 +38,7 @@ for name, settings in profiles.items():
     allowed = (all_categories if name == 'permitted' else 'allowColorOps' if name == 'restricted'
                else 'allowColorOps,allowMouseOps,allowTitleOps')
     denied_window = ('' if name == 'permitted' else
-        'SetWinPosition,SetWinSizePixels,SetWinSizeChars,FullscreenWin,GetIconTitle,GetWinTitle,PushTitle,PopTitle,'
+        'SetWinPosition,SetWinSizePixels,SetWinSizeChars,MaximizeWin,FullscreenWin,GetIconTitle,GetWinTitle,PushTitle,PopTitle,'
         'SetWinLines,ColumnMode,GetSelection,SetSelection,GetChecksum,SetChecksum' if name == 'restricted' else
         'GetIconTitle,GetWinTitle,GetSelection,GetChecksum,SetChecksum')
     cases = [

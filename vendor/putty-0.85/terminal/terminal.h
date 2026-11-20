@@ -639,7 +639,7 @@ struct terminal_tag {
     bool win_minimise_pending;
     bool win_minimise_enable;
     bool win_maximise_pending;
-    bool win_maximise_enable;
+    TermMaximiseOp win_maximise_mode;
     TermFullscreenOp win_fullscreen_pending;
     bool win_title_pending, win_icon_title_pending;
     bool win_pointer_shape_pending;

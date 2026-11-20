@@ -596,16 +596,16 @@ static void gtkwin_refresh(TermWin *tw)
  * Maximise or restore the window in response to a server-side
  * request.
  */
-static void gtkwin_set_maximised(TermWin *tw, bool maximised)
+static void gtkwin_set_maximised(TermWin *tw, TermMaximiseOp op)
 {
     /*
      * GTK 1.2 doesn't know how to do this.
      */
 #if GTK_CHECK_VERSION(2,0,0)
     GtkFrontend *inst = container_of(tw, GtkFrontend, termwin);
-    if (maximised)
+    if (op == TERM_MAX_BOTH)
         gtk_window_maximize(GTK_WINDOW(inst->window));
-    else
+    else if (op == TERM_MAX_RESTORE)
         gtk_window_unmaximize(GTK_WINDOW(inst->window));
 #endif
 }

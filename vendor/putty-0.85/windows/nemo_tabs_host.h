@@ -12,6 +12,7 @@ typedef struct NemoTabHost {
     int gpu_kind, side, sidebar, first, dpi, system_menu_items;
     bool moving, destroying;
     bool fullscreen;
+    NemoAxisPlacement axis_placement; /* shared by all sessions in this host */
     WINDOWPLACEMENT placement;
     LONG_PTR normal_style;
     unsigned char consumed_keys[256];

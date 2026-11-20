@@ -1672,6 +1672,11 @@ typedef struct TermPointerState {
     unsigned buttons;
 } TermPointerState;
 
+/* XTWINOPS 9: the values are the protocol parameters. */
+typedef enum {
+    TERM_MAX_RESTORE, TERM_MAX_BOTH, TERM_MAX_VERTICAL, TERM_MAX_HORIZONTAL
+} TermMaximiseOp;
+
 /* KEEP is the identity when composing deferred XTWINOPS 10 requests. */
 typedef enum {
     TERM_FS_KEEP, TERM_FS_ENTER, TERM_FS_LEAVE, TERM_FS_TOGGLE
@@ -1787,7 +1792,7 @@ struct TermWinVtable {
      * the window it remembers whether to go back to normal or
      * maximised. */
     void (*set_minimised)(TermWin *, bool minimised);
-    void (*set_maximised)(TermWin *, bool maximised);
+    void (*set_maximised)(TermWin *, TermMaximiseOp);
     void (*fullscreen)(TermWin *, TermFullscreenOp); /* optional */
     void (*move)(TermWin *, int x, int y);
     void (*set_zorder)(TermWin *, bool top);
@@ -1860,8 +1865,8 @@ static inline void win_set_icon_title(TermWin *win, const char *icontitle,
 { win->vt->set_icon_title(win, icontitle, codepage); }
 static inline void win_set_minimised(TermWin *win, bool minimised)
 { win->vt->set_minimised(win, minimised); }
-static inline void win_set_maximised(TermWin *win, bool maximised)
-{ win->vt->set_maximised(win, maximised); }
+static inline void win_set_maximised(TermWin *win, TermMaximiseOp op)
+{ win->vt->set_maximised(win, op); }
 static inline void win_move(TermWin *win, int x, int y)
 { win->vt->move(win, x, y); }
 static inline void win_set_zorder(TermWin *win, bool top)

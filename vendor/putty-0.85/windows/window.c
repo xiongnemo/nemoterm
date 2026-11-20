@@ -278,7 +278,7 @@ static void wintw_set_title(TermWin *, const char *title, int codepage);
 static void wintw_set_icon_title(TermWin *, const char *icontitle,
                                  int codepage);
 static void wintw_set_minimised(TermWin *, bool minimised);
-static void wintw_set_maximised(TermWin *, bool maximised);
+static void wintw_set_maximised(TermWin *, TermMaximiseOp);
 static void wintw_fullscreen(TermWin *, TermFullscreenOp);
 static void wintw_move(TermWin *, int x, int y);
 static void wintw_set_zorder(TermWin *, bool top);
@@ -7558,17 +7558,50 @@ static void wintw_refresh(TermWin *tw)
  * Maximise or restore the window in response to a server-side
  * request.
  */
-static void wintw_set_maximised(TermWin *tw, bool maximised)
+static bool place_framed_window(HWND hwnd, const RECT *r)
+{
+    return SetWindowPos(hwnd, NULL, r->left, r->top, r->right-r->left,
+                        r->bottom-r->top, SWP_NOACTIVATE | SWP_NOZORDER) != 0;
+}
+
+static void wintw_set_maximised(TermWin *tw, TermMaximiseOp op)
 {
     WinGuiSeat *wgs = container_of(tw, WinGuiSeat, termwin);
-    if (!wgs_active(wgs)) return;
-    if (IsZoomed(wgs_window(wgs))) {
-        if (!maximised)
-            ShowWindow(wgs_window(wgs), SW_RESTORE);
-    } else {
-        if (maximised)
-            ShowWindow(wgs_window(wgs), SW_MAXIMIZE);
+    HWND hwnd = wgs_window(wgs);
+    if (!wgs_active(wgs) || wgs->closing || !IsWindowEnabled(hwnd) ||
+        IsIconic(hwnd) || is_full_screen(wgs)) return;
+
+    /* An inactive tab must not own this state: each top-level window has
+     * exactly one restore rectangle. Keep SW_MAXIMIZE for both axes so the
+     * ordinary Windows restore button and taskbar retain their behaviour. */
+    NemoAxisPlacement *axis = wgs->tabbed ? &tab_host.axis_placement : &wgs->axis_placement;
+    if (IsZoomed(hwnd)) {
+        if (op == TERM_MAX_BOTH) return;
+        ShowWindow(hwnd, SW_RESTORE);
     }
+    RECT current;
+    if (!GetWindowRect(hwnd, &current)) return;
+    if (axis->active && !EqualRect(&current, &axis->applied))
+        axis->active = false; /* a later user move/resize takes precedence */
+    if (op == TERM_MAX_RESTORE || op == TERM_MAX_BOTH) {
+        if (axis->active) {
+            if (!place_framed_window(hwnd, &axis->original)) return;
+            axis->active = false;
+        }
+        if (op == TERM_MAX_BOTH) ShowWindow(hwnd, SW_MAXIMIZE);
+        return;
+    }
+    RECT work;
+    if (!get_workingarea_rect(wgs, &work)) return;
+    RECT original = axis->active ? axis->original : current, next = original;
+    if (op == TERM_MAX_VERTICAL) {
+        next.top = work.top; next.bottom = work.bottom;
+    } else {
+        next.left = work.left; next.right = work.right;
+    }
+    if (!place_framed_window(hwnd, &next)) return;
+    axis->original = original;
+    axis->active = GetWindowRect(hwnd, &axis->applied) != 0;
 }
 
 /*
