@@ -5,6 +5,7 @@ import json
 import os
 from pathlib import Path
 import subprocess
+import sys
 import time
 import winreg
 
@@ -52,8 +53,24 @@ def main():
                 rows = json.loads(run['stdout'])
                 assert child.returncode == 0 and {row['id'] for row in rows} == SHELLS and len(rows) == len(SHELLS)
                 assert {'powershell','cmd'} <= {row['id'] for row in rows if row['available'] and Path(row['path']).is_file()}
+        # As a child argument the same word must be delivered literally. This
+        # ordinary terminal launch should also create Default on first use.
+        marker = args.output.with_suffix('.child.txt').resolve()
+        if marker.exists():
+            raise ValueError('Child marker must be fresh')
+        child_script = 'import pathlib,sys; pathlib.Path(sys.argv[1]).write_text(sys.argv[2], encoding="ascii")'
+        with subprocess.Popen([str(exe), '--no-tabs', '-e', sys.executable, '-c',
+                               child_script, str(marker), '--list-shells']) as frontend:
+            try:
+                exit_code = frontend.wait(timeout=15)
+            except subprocess.TimeoutExpired:
+                frontend.kill(); frontend.wait(timeout=5); raise
+        control = dict(exit_code=exit_code, argument=marker.read_text(encoding='ascii') if marker.exists() else None,
+                       has_default=has_default())
+        result['child_control'] = control
         result['passed'] = (not any(run['has_default'] for run in result['runs']) and
-                            len({run['stdout'] for run in result['runs']}) == 1)
+                            len({run['stdout'] for run in result['runs']}) == 1 and
+                            control == dict(exit_code=0, argument='--list-shells', has_default=True))
         return 0 if result['passed'] else 1
     finally:
         args.output.parent.mkdir(parents=True, exist_ok=True)

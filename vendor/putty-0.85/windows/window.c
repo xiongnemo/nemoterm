@@ -1016,6 +1016,25 @@ static LRESULT CALLBACK app_event_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp
     return DefWindowProcW(hwnd, msg, wp, lp);
 }
 
+/* A shell inventory needs neither a profile nor a GUI. Match complete argv
+ * words: a shell command or -e argument may itself contain --list-shells. */
+static bool shell_list_only(void)
+{
+    CmdlineArgList *args = cmdline_arg_list_from_GetCommandLineW();
+    bool list = false;
+    for (size_t i = 0; args->args[i]; i++) {
+        const char *arg = cmdline_arg_to_str(args->args[i]);
+        if (!strcmp(arg, "--list-shells")) {
+            list = true;
+        } else if (strcmp(arg, "--no-tabs") && strcmp(arg, "--tabs")) {
+            list = false;
+            break;
+        }
+    }
+    cmdline_arg_list_free(args);
+    return list;
+}
+
 int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmdline, int show)
 {
     MSG msg;
@@ -1026,6 +1045,9 @@ int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmdline, int show)
 
     hinst = inst;
     hprev = prev;
+
+    if ((cmdline_tooltype & TOOLTYPE_NONNETWORK) && *cmdline && shell_list_only())
+        return nemo_shell_write_list() ? 0 : 1;
 
     sk_init();
 

@@ -27,4 +27,5 @@ wchar_t *nemo_shell_git_environment(const wchar_t *);
 wchar_t *nemo_shell_powershell_environment(void);
 void nemo_shell_export_wsl_identity(void);
 char *nemo_shell_json(const NemoShellList *);
+bool nemo_shell_write_list(void);
 #endif

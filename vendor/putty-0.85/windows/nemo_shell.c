@@ -318,3 +318,18 @@ char *nemo_shell_json(const NemoShellList *list)
     }
     put_data(out, "]\n", 2); return strbuf_to_str(out);
 }
+
+bool nemo_shell_write_list(void)
+{
+    NemoShellList shells;
+    nemo_shell_detect(&shells);
+    char *json = nemo_shell_json(&shells);
+    size_t len = strlen(json);
+    DWORD written = 0;
+    bool ok = len <= MAXDWORD && WriteFile(GetStdHandle(STD_OUTPUT_HANDLE),
+                                           json, (DWORD)len, &written, NULL) &&
+        written == len;
+    sfree(json);
+    nemo_shell_free(&shells);
+    return ok;
+}

@@ -88,15 +88,8 @@ void gui_term_process_cmdline(Conf *conf, char *cmdline)
             if (value<0) cmdline_error("--tab-side expects top, bottom, left or right");
             tab_side=value;arglistpos++;continue;
         }
-        if (!strcmp(argstr, "--list-shells")) {
-            NemoShellList shells;
-            nemo_shell_detect(&shells);
-            char *json = nemo_shell_json(&shells);
-            DWORD written;
-            bool ok = WriteFile(GetStdHandle(STD_OUTPUT_HANDLE), json, (DWORD)strlen(json), &written, NULL);
-            nemo_shell_free(&shells); sfree(json);
-            cleanup_exit(ok ? 0 : 1);
-        }
+        if (!strcmp(argstr, "--list-shells"))
+            cleanup_exit(nemo_shell_write_list() ? 0 : 1);
         if (!strcmp(argstr, "--directory")) {
             if (!nextarg) cmdline_error("option %s requires an argument", argstr);
             arglistpos++;sfree(directory);directory=dupstr(cmdline_arg_to_utf8(nextarg));
