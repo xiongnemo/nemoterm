@@ -13,7 +13,7 @@ reference_path = Path(__file__).with_name('tcap_key_reference.json')
 reference = json.loads(reference_path.read_text())
 assert reference['count'] == 1378
 marker = b'\x1b[0n'
-identity = b'\x1bP1+r544e=787465726d2d323536636f6c6f72;'
+identity = b'\x1bP1+r544e=787465726D2D323536636F6C6F72;'
 evidence = dict(completed=False, executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),
     reference_sha256=hashlib.sha256(reference_path.read_bytes()).hexdigest(),
     physical_input=False, clipboard_access=False, thread_keyboard_state_restored=True,

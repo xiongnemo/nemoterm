@@ -228,8 +228,8 @@ static void termcap_permissions(Mock *mk)
         response(mk, expected->s, expected->len); strbuf_free(expected);
         term_data_fragmented(mk->term, "\033P+p6c696e7578\033\\\033P+q6b6631\033\\\033[5n");
         if (!(mask & 2)) RESPONSE(mk, "\033[0n");
-        else if (mask & 1) RESPONSE(mk, "\033P1+r6b6631=1b5b5b41\033\\\033[0n");
-        else RESPONSE(mk, "\033P1+r6b6631=1b4f50\033\\\033[0n");
+        else if (mask & 1) RESPONSE(mk, "\033P1+r6b6631=1B5B5B41\033\\\033[0n");
+        else RESPONSE(mk, "\033P1+r6b6631=1B4F50\033\\\033[0n");
     }
 }
 

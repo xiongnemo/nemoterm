@@ -21,19 +21,19 @@ static void response(Mock *mk, const char *expected)
     strbuf_clear(mk->to_backend);
 }
 
-static void hex(strbuf *buf, const char *value)
+static void hex(strbuf *buf, const char *value, bool upper)
 {
-    while (*value) put_fmt(buf, "%02x", (unsigned char)*value++);
+    while (*value) put_fmt(buf, upper ? "%02X" : "%02x", (unsigned char)*value++);
 }
 
 static void query(Mock *mk, const char *name, const char *value)
 {
     test_context(mk, "XTGETTCAP %s", name);
     strbuf *input = strbuf_new(), *expected = strbuf_new();
-    put_dataz(input, "\033P+q"); hex(input, name); put_dataz(input, "\033\\");
+    put_dataz(input, "\033P+q"); hex(input, name, false); put_dataz(input, "\033\\");
     put_dataz(expected, value ? "\033P1+r" : "\033P0+r");
-    hex(expected, name);
-    if (value) { put_byte(expected, '='); hex(expected, value); }
+    hex(expected, name, false);
+    if (value) { put_byte(expected, '='); hex(expected, value, true); }
     put_dataz(expected, "\033\\");
     term_data_fragmented(mk->term, input->s);
     response(mk, expected->s);
@@ -47,7 +47,7 @@ static void test_queries_and_bounds(Mock *mk)
     query(mk, "Co", "256"); query(mk, "colors", "256"); query(mk, "RGB", "8");
     query(mk, "kund", NULL);
     term_data_fragmented(mk->term, "\033P+q436F;524742;544E\033\\");
-    response(mk, "\033P1+r436F=323536;524742=38;544E=787465726d2d323536636f6c6f72\033\\");
+    response(mk, "\033P1+r436F=323536;524742=38;544E=787465726D2D323536636F6C6F72\033\\");
     term_data_fragmented(mk->term, "\033P+q637570;436f\033\\\033P+q436f;637570;524742\033\\");
     response(mk, "\033P0+r\033\\\033P1+r436f=323536;\033\\");
     term_data_fragmented(mk->term, "\033P+q436f;2678;524742\033\\");
@@ -89,7 +89,7 @@ static void test_queries_and_bounds(Mock *mk)
     const char *program = "\033[58:2::%p1%{65536}%/%d:%p1%{256}%/%{255}%&%d:%p1%{255}%&%dm";
     for (int i = 0; i < 157; i++) {
         put_dataz(many, "536574756c63;");
-        put_dataz(expected, "536574756c63="); hex(expected, program); put_byte(expected, ';');
+        put_dataz(expected, "536574756c63="); hex(expected, program, true); put_byte(expected, ';');
     }
     put_dataz(expected, "\033\\");
     reply = nemo_tcap_reply(mk->term, many->s, false);
@@ -158,14 +158,14 @@ static void test_renditions(Mock *mk)
     static const char *unknown[] = {"smol", "rmol", "SMOL", "smulx", "setulc", "Su", "Setulc1"};
     for (size_t i = 0; i < lenof(unknown); i++) {
         strbuf *input = strbuf_new();
-        put_dataz(input, "\033P+q"); hex(input, unknown[i]); put_dataz(input, "\033\\");
+        put_dataz(input, "\033P+q"); hex(input, unknown[i], false); put_dataz(input, "\033\\");
         term_data_fragmented(mk->term, input->s); response(mk, "\033P0+r\033\\");
         strbuf_free(input);
     }
     term_data_fragmented(mk->term, "\033P+q536D6F6C;526D6F6C;436f\033\\");
-    response(mk, "\033P1+r536D6F6C=1b5b35336d;526D6F6C=1b5b35356d;436f=323536\033\\");
+    response(mk, "\033P1+r536D6F6C=1B5B35336D;526D6F6C=1B5B35356D;436f=323536\033\\");
     term_data_fragmented(mk->term, "\033P+q536d6f6c;736d6f6c;526d6f6c\033\\");
-    response(mk, "\033P1+r536d6f6c=1b5b35336d;\033\\");
+    response(mk, "\033P1+r536d6f6c=1B5B35336D;\033\\");
     for (int ansi = 0; ansi < 2; ansi++) for (int rgb = 0; rgb < 2; rgb++) {
         conf_set_bool(mk->conf, CONF_true_colour, rgb);
         conf_set_bool(mk->conf, CONF_ansi_colour, ansi);
@@ -412,7 +412,7 @@ static void test_independent_database_keys(Mock *mk)
             /* -tn selected the reference keyboard AND its emulator identity.
              * Our selector only changes keys; assert our TN independently,
              * then compare every remaining original reference byte. */
-            static const char identity[] = "\033P1+r544e=787465726d2d323536636f6c6f72;";
+            static const char identity[] = "\033P1+r544e=787465726D2D323536636F6C6F72;";
             size_t length = sizeof(identity)-1;
             if (mk->to_backend->len < length || memcmp(mk->to_backend->s, identity, length)) {
                 report_fail(mk, __FILE__, __LINE__, "Keyboard selection changed emulator TN");
@@ -438,7 +438,7 @@ int main(int argc, char **argv)
         static const char *names[] = {"Smulx", "Setulc"};
         for (size_t i = 0; i < lenof(names); i++) {
             strbuf *input = strbuf_new();
-            put_dataz(input, "\033P+q"); hex(input, names[i]); put_dataz(input, "\033\\");
+            put_dataz(input, "\033P+q"); hex(input, names[i], false); put_dataz(input, "\033\\");
             term_data_fragmented(mk->term, input->s);
             printf("%s\t", names[i]);
             for (size_t j = 0; j < mk->to_backend->len; j++)

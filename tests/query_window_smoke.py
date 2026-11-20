@@ -182,7 +182,7 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-query-') as directory:
             values = [value.replace(b'\x1b[', b'\x1bO')
                       if app and name in ('khome', 'kend', 'kcuu1', 'kcud1', 'kcuf1', 'kcub1')
                       else value for name, _, value, _ in keys]
-            expected = b'\x1bP1+r'+b';'.join(name.encode().hex().encode()+b'='+value.hex().encode()
+            expected = b'\x1bP1+r'+b';'.join(name.encode().hex().encode()+b'='+value.hex().upper().encode()
                 for (name, *_), value in zip(keys, values))+b'\x1b\\'
             name = 'keys-application' if app else 'keys-normal'
             phase(name, f'\x1b[?1{"h" if app else "l"}\x1bP+q{encoded_names}\x1b\\', expected)
@@ -198,7 +198,7 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-query-') as directory:
                 raise AssertionError((name, expected_input.hex(), current()))
             evidence[name].update(key_input=b''.join(values).hex(), child_input=observed['hex'])
         phase('tcap-colours', '\x1bP+q436f;544e;524742\x1b\\',
-              b'\x1bP1+r436f=323536;544e=787465726d2d323536636f6c6f72;524742=38\x1b\\')
+              b'\x1bP1+r436f=323536;544e=787465726D2D323536636F6C6F72;524742=38\x1b\\')
         phase('tcap-unsupported', '\x1bP+q637570\x1b\\', b'\x1bP0+r\x1b\\')
         # Exact wire replies for the parameter-free rendition whitelist.
         # Replay the values actually returned by the terminal, then use a
@@ -214,7 +214,7 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-query-') as directory:
             encoded = name.encode().hex()
             case = 'tcap-rendition-'+name
             identity_phase(case, f'\x1bP+q{encoded}\x1b\\',
-                           f'\x1bP1+r{encoded}={value.encode().hex()}\x1b\\'.encode())
+                           f'\x1bP1+r{encoded}={value.encode().hex().upper()}\x1b\\'.encode())
             reply = bytes.fromhex(evidence[case]['reply'])
             returned[name] = bytes.fromhex(reply.split(b'=', 1)[1].split(b'\x1b\\', 1)[0].decode()).decode()
         for name in ('smol', 'rmol', 'smulx', 'setulc', 'Su', 'Setulc1'):
@@ -231,14 +231,14 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-query-') as directory:
             encoded = name.encode().hex()
             case = 'tcap-program-'+name
             identity_phase(case, f'\x1bP+q{encoded}\x1b\\',
-                           f'\x1bP1+r{encoded}={value.hex()}\x1b\\'.encode())
+                           f'\x1bP1+r{encoded}={value.hex().upper()}\x1b\\'.encode())
             decode_reply(name, bytes.fromhex(evidence[case]['reply']))
         # A repeated Setulc query exceeds the previous 14 KiB reply bound and
         # crosses many ConPTY pipe reads. Verify all bytes and recovery through
         # the actual host, not just the core parser's in-memory reply buffer.
         token = 'Setulc'.encode().hex()
         many = (token+';')*157
-        reply = b'\x1bP1+r'+((token+'='+PROGRAMS['Setulc'].hex()+';')*157).encode()+b'\x1b\\'
+        reply = b'\x1bP1+r'+((token+'='+PROGRAMS['Setulc'].hex().upper()+';')*157).encode()+b'\x1b\\'
         assert len(reply) == 21045
         identity_phase('tcap-program-max', '\x1bP+q'+many+'\x1b\\', reply)
         identity_phase('tcap-program-overflow', '\x1bP+q'+many+token+'\x1b\\', b'\x1bP0+r\x1b\\')

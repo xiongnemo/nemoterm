@@ -80,8 +80,8 @@ for mask in range(4):
     allow_set, allow_get = bool(mask & 1), bool(mask & 2)
     denied = ','.join(name for name, enabled in (('SetTcap', allow_set), ('GetTcap', allow_get)) if not enabled)
     query_f1 = '\x1bP+q6b6631'+ST
-    initial = '\x1bP1+r6b6631=1b4f50'+ST if allow_get else ''
-    selected = ('\x1bP1+r6b6631='+('1b5b5b41' if allow_set else '1b4f50')+ST) if allow_get else ''
+    initial = '\x1bP1+r6b6631=1B4F50'+ST if allow_get else ''
+    selected = ('\x1bP1+r6b6631='+('1B5B5B41' if allow_set else '1B4F50')+ST) if allow_get else ''
     cases = [
         ('restrictions', query(61,'allowTcapOps'), response(61,denied)),
         ('supported', query(62,'allowTcapOps'), response(62,'SetTcap,GetTcap')),
@@ -90,7 +90,7 @@ for mask in range(4):
         ('invalid-selection-retains-state', '\x1bP+pgg'+ST+query_f1, selected),
         ('reset-retains-selection', '\x1bc'+query_f1, selected),
         ('emulator-identity', '\x1bP+q544e'+ST,
-            '\x1bP1+r544e=787465726d2d323536636f6c6f72'+ST if allow_get else ''),
+            '\x1bP1+r544e=787465726D2D323536636F6C6F72'+ST if allow_get else ''),
     ]
     run('feature-policy-tcap-'+str(mask), (), extra_cases=cases,
         profile=dict(WarnOnClose=0,Beep=0,NemoRenderer=0,NemoTabs=0,LinuxFunctionKeys=9,

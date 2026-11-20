@@ -3,7 +3,6 @@ import argparse
 import hashlib
 import json
 from pathlib import Path
-import re
 import zipfile
 
 root = Path(__file__).resolve().parents[1]
@@ -34,16 +33,13 @@ for case in data['cases'].values():
     for step in case['steps']:
         if 'requested_capability' not in step:
             continue  # Independent physical-key mechanism controls, not queries.
-        original = bytes.fromhex(step['reply_hex'])
-        # Hexadecimal values are case-insensitive. Retain Nemoterm's established
-        # lowercase wire spelling; never change decoded bytes or availability.
-        reply = re.sub(rb'=[0-9a-fA-F]*', lambda m: m[0].lower(), original)
+        reply = bytes.fromhex(step['reply_hex'])
         rows.append('    {' + ', '.join(map(literal, (
             case['selected_terminal'], step['requested_capability'],
             bytes.fromhex(step['sequence_hex']), reply))) + '},')
 if len(rows) != 2180:
     raise ValueError('Incomplete individual-query projection')
-header = ('/* Generated from retained unmodified XTerm queries. Only hex case is normalized. */\n'
+header = ('/* Exact wire bytes from retained XTerm queries and replies. */\n'
           'static const struct { const char *terminal, *capability, *query, *reply; }\n'
           'tcap_query_reference[] = {\n' + '\n'.join(rows) + '\n};\n')
 target = root/'tests/tcap_query_reference.h'

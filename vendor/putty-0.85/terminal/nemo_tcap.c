@@ -405,7 +405,7 @@ strbuf *nemo_tcap_reply(Terminal *term, const char *query, bool invalid)
             put_data(reply, token, len); /* preserve the request's hex case */
             if (size < 0) break;
             put_byte(reply, '=');
-            for (int i = 0; i < size; i++) put_fmt(reply, "%02x", (unsigned char)value[i]);
+            for (int i = 0; i < size; i++) put_fmt(reply, "%02X", (unsigned char)value[i]);
             if (!end) break;
             put_byte(reply, ';');
             first = false;

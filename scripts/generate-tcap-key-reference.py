@@ -4,7 +4,6 @@ import hashlib
 import io
 import json
 from pathlib import Path
-import re
 import zipfile
 
 root = Path(__file__).resolve().parents[1]
@@ -58,11 +57,6 @@ def native_event(action):
                 keysym=symbol, down=bool(action['action'][2]))
 
 
-def normalize_query_hex(reply):
-    return re.sub(rb'(\x1bP[01]\+r[^\x1b]*)',
-                  lambda m: re.sub(rb'=[0-9a-fA-F]*', lambda h: h[0].lower(), m[0]), reply)
-
-
 rows = []
 records = []
 identity_rows = 0
@@ -92,17 +86,14 @@ for name, case in data['cases'].items():
                 kind, resource, point = 4, 7, symbol-0xff00 if symbol >= 0xff00 else 0xe120
             else:
                 raise ValueError('Unmapped observed symbol: ' + hex(symbol))
-        # Only ASCII hex case in a capability response is normalized. Physical
-        # input bytes (including ESC, letters and function-key finals) stay exact.
         reply = bytes.fromhex(step['reply_hex'])
-        reply = normalize_query_hex(reply)
         # -tn changes XTerm's startup TN as well as its keyboard database.
         # Nemoterm's keyboard-only selector deliberately preserves emulator TN.
         # Retain the complete original reply, but mark this exact prefix for a
         # separate identity-policy assertion. All other bytes compare unchanged.
         identity_bytes = 0
         if reply.startswith(b'\x1bP1+r544e='):
-            prefix = b'\x1bP1+r544e=' + case['selected_terminal'].encode().hex().encode() + b';'
+            prefix = b'\x1bP1+r544e=' + case['selected_terminal'].encode().hex().upper().encode() + b';'
             if not reply.startswith(prefix):
                 raise ValueError('Unexpected startup identity')
             identity_bytes = len(prefix)
@@ -123,7 +114,7 @@ for name, case in data['cases'].items():
             exclusions.append('Shift+PageUp/PageDown is the configured local scroll binding')
         records.append(dict(name=name, index=index, terminal=case['selected_terminal'], reset=index==0,
                             sequence_hex=step['sequence_hex'], original_reply_hex=step['reply_hex'],
-                            before_reply_hex=normalize_query_hex(before).hex(), key_reply_hex=after.hex(),
+                            before_reply_hex=before.hex(), key_reply_hex=after.hex(),
                             startup_identity_bytes=identity_bytes, events=native_events,
                             native_comparable=not exclusions, native_exclusion='; '.join(exclusions)))
 if len(rows) != 1378:

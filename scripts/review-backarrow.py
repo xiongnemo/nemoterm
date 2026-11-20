@@ -70,14 +70,17 @@ def compare(record, product_hash):
 
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('receipt',type=Path);p.add_argument('manifest',type=Path)
-    p.add_argument('--output',type=Path,required=True);args=p.parse_args()
+    p.add_argument('--output',type=Path,required=True)
+    p.add_argument('--exact-bundled', action='store_true', help='Require the original reply and key bytes with the matching database')
+    args=p.parse_args()
     raw=args.receipt.read_bytes(); manifest=json.loads(args.manifest.read_text(encoding='utf-8-sig'))
     result=compare(json.loads(raw),manifest['Executable']['SHA256']); result.update(receipt_sha256=digest(raw),product_commit=manifest['SourceCommit'])
     args.output.write_text(json.dumps(result,indent=2),encoding='utf-8')
     for k,r in result['references'].items(): print(k,r['counts'])
     # This is an additional matched-database check. The existing byte-for-byte
     # comparison against distribution XTerm still runs and retains its verdict.
-    return int(result['references']['bundled']['counts']['all_fields_and_key']!=64)
+    counts = result['references']['bundled']['counts']
+    return int(counts['all_fields_and_key'] != 64 or (args.exact_bundled and counts['raw'] != 64))
 
 
 if __name__ == '__main__':
