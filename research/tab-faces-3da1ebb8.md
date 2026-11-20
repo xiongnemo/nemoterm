@@ -14,4 +14,4 @@
 
 [两份最初失败制品、同一 EXE 的复测制品及独立像素统计](tab-progress-3da1ebb8.zip)。
 
-[该 EXE 的完整回归](https://github.com/xiongnemo/nemoterm/actions/runs/44778524143)另计；[上一试用版的 80/81 项交互及内存成绩](acceptance-abe6de57.md)对应上一份 EXE。
+[本版交互总表、逐进程内存及已知差异](acceptance-3da1ebb8.md)。[该 EXE 的完整回归](https://github.com/xiongnemo/nemoterm/actions/runs/44778524143)另计；[上一试用版的 80/81 项交互及内存成绩](acceptance-abe6de57.md)对应上一份 EXE。

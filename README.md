@@ -33,7 +33,7 @@ Kitty 图片支持直接 RGB/RGBA/PNG、压缩传输、裁剪、透明度、查�
 
 ## 下载
 
-[下载 Windows x64 单文件试用版 `3da1ebb8`](https://github.com/xiongnemo/nemoterm/actions/runs/44778524143/artifacts/14651845827)。标签改为经典 Win32 属性页式轮廓。四边共 8 张选中状态截图、悬停预览和 20 项中键手势均已在这份 EXE 上验证。[实机截图及 SHA-256](research/tab-faces-3da1ebb8.md) · [上一试用版的交互和内存成绩](research/acceptance-abe6de57.md)。
+[下载 Windows x64 单文件试用版 `3da1ebb8`](https://github.com/xiongnemo/nemoterm/actions/runs/44778524143/artifacts/14651845827)。标签改为经典 Win32 属性页式轮廓。四边共 8 张选中状态截图、悬停预览和 20 项中键手势均已在这份 EXE 上验证。六种满屏负载下的前端私有工作集峰值是 GDI **19.23 MB**、DirectX **29.50 MB**。[本版交互与内存成绩](research/acceptance-3da1ebb8.md) · [标签截图及 SHA-256](research/tab-faces-3da1ebb8.md)。
 
 旧版本的下载、内存和已知差异见[历史试用版](docs/PREVIEW_HISTORY.md)，其中 `cf091974` 通过了当时全部 81 项交互检查。
 
