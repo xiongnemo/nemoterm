@@ -293,6 +293,12 @@ Windows 用 `font-zoom-replay.yml` 的 `suite=paste-quote` 对指定 EXE 重放�
 
 `font-zoom-replay.yml` 的 `suite=pterm-images` 在同一台托管 Windows runner 上比较官方 pterm 0.85 窗口和指定 `source_run`、`source_commit` 的 Nemoterm GDI 窗口。二者使用独立 profile、相同字体与网格、同一版真实 Codex 及本地测试服务。每个快捷键与时点都从新进程开始；实际按一次 Ctrl+V 或 Ctrl+Shift+V，分别记录窗口附件、服务端收到的图片数及其像素、剪贴板与进程退出。首次可见输入只定义收集时点。完成一轮的 Ctrl+V 是两端的阳性对照。此可选对照不改变产品交互报告的通过数。
 
+### 微软 Windows Terminal 的真实窗口与图片粘贴
+
+用 `font-zoom-replay.yml` 的 `suite=wt-images`，并指定保留了单文件制品的 `source_run` 和完整 `source_commit`。同一台托管 Windows 上启动十个独立会话：微软原版 Windows Terminal 的默认绑定与 Nemoterm GDI 各测两个时点、两个快捷键；另外两个会话只取消 Windows Terminal 对 Ctrl+V 的绑定，让应用接收这个键。两个时点分别为输入框首次回显测试文字，以及上一轮回复已经显示。
+
+从 `windows-terminal-images-<run>-<attempt>` 下载 `wt-images/summary.json` 和各窗口提交前的截图。每例只按一次贴图键、只提交一次目标草稿；以请求所带图片数和像素判断结果。没有发出目标请求的窗口不能计为「收到 0 张图」。在默认绑定下没有附件与在按键转交给应用后没有附件是两个独立结果。这个对照不改变产品的 81 项交互验收。
+
 The tabbed `selection` cases also change the top-level window height while the application owns mouse reporting. Real Shift/left-button and Ctrl+Shift/left-button gestures cover an unchanged main row, main rows pushed toward history, a surviving alternate-screen rectangle and an alternate-screen press on a discarded row. `height_selection` records the client geometry, selected pixels, explicit keyboard copy, right-button clipboard/child bytes and full gesture input. `width_selection` additionally checks a released stream when widening the alternate grid, a held rectangular selection when narrowing it, and a press on a column that actually disappears. Each resize uses the new client width for pixel comparisons. The separate `reflow_selection` cases start with `|ABCDEFGH|` near the right edge of the main screen and an untouched reference copy at the left. They physically select, resize from 80 to 74 columns, then back to 80. The released stream and reverse held press must track `CDEFG` across a soft wrap; a block entirely to the right of the break must track `EFG`, and a block split into incompatible columns must stay cancelled on widening. Check the narrow and wide screenshots separately, along with mode replies, shortcut and right-click copy, and the child’s raw mouse input.
 
 [Before/after height-selection evidence](https://github.com/xiongnemo/nemoterm/blob/408a251dca608961d936f0200001cdd2f649079b/research/selection-height.md).
