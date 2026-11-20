@@ -114,16 +114,10 @@ Nemoterm 使用系统中已有的 shell；单文件产物不包含 PowerShell 7�
 - 在 **Profile / Shell** 中选择 shell，使用 **Save and Apply** 保存当前 profile；`--profile "名称"` 可加载命名 profile。
 - **Profile / Shell** 用于编辑自定义命令和启动目录；命令行也可用 `--shell custom --shell-command "命令"`。
 
-从[开发候选 `fc769def`](https://github.com/xiongnemo/nemoterm/blob/408a251dca608961d936f0200001cdd2f649079b/research/paste-key-order.md) 起，如果 WSL 程序使用 `?2005` 逐字节引用粘贴，可以在启动 Nemoterm 的 PowerShell 中选择内嵌的 Linux PTY：
+如果 WSL 程序会在粘贴时逐字节引用输入（XTerm `?2005`），到 **配置方案 → Shell** 勾选 **「x64 WSL 会话使用 Linux PTY」**，点「保存并应用」，再开一个 WSL 标签。这样中文和表情的每个 UTF-8 字节都能带上引用前缀。原来打开的标签保持原样；取消勾选后，新 WSL 标签恢复默认 ConPTY。PowerShell、Git Bash 不受影响。
 
-```powershell
-$env:NEMOTERM_WSL_PTY_RELAY = 'builtin'
-.\nemoterm.exe --shell wsl-bash
-```
+这项设置适用于 x86-64 Linux 发行版，内嵌在同一个 `nemoterm.exe` 里。如果之前设置过环境变量 `NEMOTERM_WSL_PTY_RELAY`，先移除它，配置方案的选择才会生效。在托管 WSL1 上，启用此项仍不能让按行读取的程序把含换行的粘贴当成一整行；这与原始字节是否到齐是两件事。[逐字节与按行读取对照](research/wsl-relay-window.md) · [新标签和配置保存实测](research/wsl-profile.md)。
 
-这仍是单 EXE 分发，不用在发行版里安装软件；正常关闭会话会删除临时 ELF。删除该环境变量后，新窗口恢复默认 ConPTY。适用于 x86-64 Linux 发行版。WSL1 原始输入可以保持中文和 emoji 的全部引用前缀；按行读取内嵌换行的差异见[窗口实测](research/wsl-relay-window.md)。
-
-从 `844ad5c3` 试用版起，也可以在 **Profile → Shell → Use Linux PTY for x64 WSL sessions**（「配置方案 → Shell → x64 WSL 会话使用 Linux PTY」）中按配置方案开启。点「保存并应用」后，下次新建该配置的 WSL 会话生效；当前 shell 保持原样。取消后新会话恢复 ConPTY，PowerShell、Git Bash 等 Windows shell 不受影响。如果曾设置上面的环境变量，请先移除它再按配置方案选择。`fc769def` 下载版仍使用上面的环境变量。[新标签、重新打开配置和退出对照的实测记录](research/wsl-profile.md)。
 
 更多说明见 [Shell 检测](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/shell-selection.md) 与 [工作目录集成](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/working-directory.md)。
 
@@ -175,6 +169,8 @@ Sarasa 字体在本机 GDI、OpenGL、DirectX 下的字号回归也已通过；
 界面语言在独立的 **Window / Interface language（窗口 / 界面语言）** 页设置，保存后重启生效，所有 profile 共用；取消不保存。也可用 `--ui-language en|zh-CN|system` 临时覆盖本次启动。详见[界面语言说明](docs/I18N.md)。
 
 不带参数启动使用 Default，也可用 `--profile "名称"` 指定；Profile 菜单可以用所选 profile 新建标签。字体、颜色、绑定等即时应用，Profile / Shell 的 shell 和目录设置在新标签或下次启动生效。临时 `-e` 命令不会保存到 profile。配置保存在 `HKCU\Software\Nemo\Nemoterm`，与 PuTTY / pterm 分开；已有配置和 `-load` 继续兼容，旧 Default Settings 显示为 Default。
+
+在 WSL 的 Bash 里，`TERM=xterm vim` 和 `TERM=xterm-256color vim` 会让 Vim 采用对应的终端能力描述，后者声明 256 色。这两个名称不需要安装或启动 Linux 上的 XTerm 图形程序。当前试用版已在两种 `TERM` 下实际验证 Vim 和 tmux 中的 Vim；Sixel 另有像素检查。参见[本版交互结果](research/character-repeat.md)、[已知协议差异](docs/PROTOCOL_COVERAGE.md)和 [ncurses 对终端名称的说明](https://invisible-island.net/ncurses/man/term.7.html)。
 
 OSC 52 剪贴板读取默认关闭，读写权限可在 Terminal / Clipboard 分别设置。
 需要按 Terminfo 数据库发送功能键时，在 **Terminal / Keyboard** 选择 **Terminfo**；其子页可设置启动终端名称，以及独立的查询和切换权限（默认允许查询、禁止应用切换）。设置随当前 profile 保存；详见 [Terminfo 说明](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/terminfo-database.md)。

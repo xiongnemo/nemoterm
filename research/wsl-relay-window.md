@@ -1,5 +1,27 @@
 # WSL1 实际窗口的逐字节粘贴
 
+## 当前试用版 `b04ca12a`：窗口粘贴与 Linux 读取
+
+同一份 [Windows 单文件](https://github.com/xiongnemo/nemoterm/actions/runs/44806811770/artifacts/14662764153)（SHA-256 `ab0cba09fd6c33f3620fdf7e5ae92b49b60026b5376dfae8290171c5a84045cc`）使用 GDI、DirectX，各跑默认 `^V`、自定义 `^]` 两种引用符。每组实按 Ctrl+Shift+V，再键入回车和哨兵字符。下表按子程序实收字节及每次读取的边界计数。
+
+| 实际子程序检查 | 默认 ConPTY | 配置方案中的 Linux PTY |
+| --- | ---: | ---: |
+| 普通原始粘贴与 XTerm 参考相同 | 4/4 | 4/4 |
+| `?2005` 逐字节引用与 XTerm 参考相同 | 0/4 | 4/4 |
+| `?2004;2005;2006` 组合与 XTerm 参考相同 | 0/4 | 4/4 |
+| 按行读取时完整正文和哨兵都在 | 4/4 | 4/4 |
+| 正文作为一整行、哨兵作为下一行读出 | 0/4 | 0/4 |
+
+将 Linux 接收器每次 `read` 的原始字节拼起来，与仓库中固定 XTerm 412 参考的粘贴加回车和 `7` 直接比较：普通粘贴都是 21/21 字节；逐字节引用时默认路径是 35/40 字节，带包围标记时为 47/52。两个场景缺的是引用前缀；内嵌 PTY 分别是 40/40、52/52，内容也逐字节相同。
+
+两条路径各 16 个模式查询均相符。WSL1 把正文拆开，加上哨兵共读五次；同样的 XTerm 原始字节直接写给没有 Nemoterm 的私有 PTY，WSL1 仍是五次、原生 Linux 是两次。[默认路径及 WSL1 对照](https://github.com/xiongnemo/nemoterm/actions/runs/44806811770/artifacts/14662969051) · [内嵌 PTY 窗口](https://github.com/xiongnemo/nemoterm/actions/runs/44806811770/artifacts/14662923176) · [原生 Linux 对照](https://github.com/xiongnemo/nemoterm/actions/runs/44806811770/artifacts/14663052442)。原始严格检查仍失败。
+
+**窗口退出单独计分。** 原内嵌 PTY 四组均正常退出前端、删除了临时 ELF，但在 2 秒期限之后仍有两个未识别的进程，继续观察 5 秒仍存活，夹具才终止该私有作业。[同次配置窗口及直接 WSL 对照](https://github.com/xiongnemo/nemoterm/actions/runs/44806811770/artifacts/14663099424)能识别两个 `init`，包括未启动 Nemoterm 的 `/bin/true` 对照；这不证明粘贴作业中原来那两个 PID 就是 `init`。
+
+[同一 EXE 与 Linux 接收器的独立回放](https://github.com/xiongnemo/nemoterm/actions/runs/44812462777/artifacts/14668372001)在相同的 2 秒期限内四组均自然结束、没有剩余进程。两组无窗口对照分别经过和绕过转接器，也都返回了正确正文并自然结束。这次只改了进程身份记录和超时后的观察期，没有改产品、字节判据或退出期限。**各组的原始粘贴字节仍完全相同，WSL1 的五次按行读取仍然失败。** 未复现首次退出超时，故保留两次结果；未确认其原因。[两次窗口回执、无窗口对照及原始制品散列](wsl-paste-b04ca12a.zip)。
+
+## 较早的独立转接器对照
+
 同一份 Windows 单 EXE `da3de317`（SHA-256 `a29758608b55f11eec245ce44e1ddc6ea53eb09142ef076413f263b8be3c776a`）分别走系统控制台和自有的 Linux PTY 转接器。两台托管 Windows runner 都运行 Ubuntu 24.04 WSL1，GDI、DirectX 各用默认 `^V`、自定义 `^]` 两种逐字节引用符。每次在实际终端窗口按 Ctrl+Shift+V，由 Linux 接收器读回数据。剪贴板包含中文、emoji、Tab 和多个换行。这里测的是文本协议，不是 Codex 图片附件。
 
 | 独立断言 | 默认 ConPTY → `/dev/tty1` | 转接器 → `/dev/pts/0` |

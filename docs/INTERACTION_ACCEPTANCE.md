@@ -365,6 +365,8 @@ For an exact-image Windows quoted-paste exit diagnostic, run `font-zoom-replay.y
 
 `font-zoom-replay.yml` 的 `suite=wsl-relay-paste` 在托管 Linux 上编译独立的 x86-64 PTY 转接器，校验同一份制品在 Ubuntu、WSL1 上的字节与进程行为，再用指定的 Nemoterm EXE 在 WSL1 的真实窗口实按 Ctrl+Shift+V。Linux 接收器记录 PTY 名称与其直接父进程的二进制散列，区分实际走转接器与意外回到系统控制台。GDI、DirectX 均保留原始模式回复、逐字节输入和按行读取结果；原 `wsl-paste-quote` 使用默认 ConPTY 的测试独立保留。两者均纳入 `ci.yml scope=full`。
 
+该回放的退出检查以 2 秒为限。超时后保留同一批进程句柄再观察 16 秒，记录它们是否自行退出。`result.json` 的 `job_at_ready`、`job_after_exit` 记录所属进程的名称、创建时间和可取得的完整路径；`cleanup` 保留实际超时和是否兜底终止。`wsl-paste-exit-controls.json` 在同一 runner 上分别直接启动 WSL，以及启动 WSL 加转接器；两者都没有 Nemoterm 窗口。检查退出时请与原始粘贴字节、每次按行读取的边界分别计分。
+
 使用 `builtin` 的窗口还会分别核对 PE 释放到带空格的会话临时目录的文件、Linux 父进程和同次 Linux 构建的 SHA-256，并在正常关闭后确认临时 ELF 已删除。
 
 [WSL1 原始字节、按行边界与关闭测试的逐项结果](../research/wsl-relay-window.md)。
