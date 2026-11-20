@@ -16,4 +16,6 @@
 
 [整组交互](https://github.com/xiongnemo/nemoterm/actions/runs/44696025018)验证 **80/81**：六项选区和绑定、九项标签交互和十项满屏 agent 检查均通过。Codex 正常编辑框的四次粘贴均在首次目标提交中收到一张像素正确的图片。四个提前发键的独立会话中，有 3 次收到正确图片、1 次只收到文字、0 次没有目标请求。首次手势失败仍保留原评分。[原始记录、内存采样与产物身份](acceptance-bdf847f9.zip)。
 
+[tmux 3.4 与 Vim 的同一 EXE 回放](tmux-clipboard.md)验证了默认写入和 profile 拒写两种情况：应用写入不替换屏幕上 Shift 选中的文字；随后右键和快捷键都能复制原文。两种渲染器共 4/4 个新增窗口。
+
 严格对照仍报告 [XTerm 宽字边界](column-edge-integrity.md)、[ReGIS 历史画面](regis-presented-pairs.md)、[ReGIS 横向编辑的中间画面](regis-horizontal.md)和 [WSL1 按行粘贴及退出](wsl-relay-window.md)差异。这是开发试用版。
