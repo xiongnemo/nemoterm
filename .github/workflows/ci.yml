@@ -26,6 +26,14 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  agent-session-memory:
+    if: ${{ inputs.scope == 'full' }}
+    needs: source-host
+    uses: ./.github/workflows/pterm-memory.yml
+    with:
+      suite: agent-session-memory
+      product_run: ${{ github.run_id }}
+      product_commit: ${{ github.sha }}
   sync-selection:
     if: ${{ inputs.scope != 'dpi' }}
     needs: source-host

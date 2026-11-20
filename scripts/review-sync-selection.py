@@ -60,7 +60,7 @@ def review(path,generation):
         return result
 
 if __name__=='__main__':
-    cli=argparse.ArgumentParser(description=__doc__);cli.add_argument('archives',nargs='+',type=Path);cli.add_argument('--output',type=Path);cli.add_argument('--generation',choices=GROUPS,default='drag');cli.add_argument('--expect-commit');args=cli.parse_args()
+    cli=argparse.ArgumentParser(description=__doc__);cli.add_argument('archives',nargs='+',type=Path);cli.add_argument('--output',type=Path);cli.add_argument('--generation',choices=GROUPS,default='adjacent');cli.add_argument('--expect-commit');args=cli.parse_args()
     reports=[review(archive,args.generation) for archive in args.archives]
     assert {r['renderer'] for r in reports}=={1,3} and len(reports)==2
     assert len({(r['product'],r['exe'],r['font']) for r in reports})==1
