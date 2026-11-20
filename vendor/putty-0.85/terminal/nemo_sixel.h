@@ -13,8 +13,6 @@
 #define NEMO_SIXEL_PALETTE_SIZE 256u
 
 typedef struct NemoSixel NemoSixel;
-/* DEC hue: blue = 0 degrees. Result is packed ARGB. */
-uint32_t nemo_sixel_hls(unsigned hue, unsigned light, unsigned saturation);
 typedef enum NemoSixelStatus {
     NEMO_SIXEL_OK,
     NEMO_SIXEL_LIMIT,

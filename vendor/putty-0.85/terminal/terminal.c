@@ -3577,7 +3577,7 @@ static bool nemo_dcs_byte(Terminal *term, unsigned char c)
             term->termstate = NEMO_DCS_UDK;
         } else if (c > ' ') term->termstate = NEMO_DCS_DROP;
     } else if (term->termstate == NEMO_DCS_QUERY_PREFIX) {
-        if (c == 's' && term->sixel_header_index == 0 && term->sixel_header[0] == 2 &&
+        if (c == 'p' && term->sixel_header_index == 0 && term->sixel_header[0] == 2 &&
             term->dcs_query_type == '2' && has_compat(VT340TEXT)) {
             term->dcs_query_active = true;
             term->dcs_query_type = 'C';

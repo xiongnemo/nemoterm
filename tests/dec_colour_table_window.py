@@ -64,6 +64,8 @@ def main():
                osc_value(0,(0,0,255))+osc_value(255,(252,130,3)),a.style)
         record('cancel-after-complete-entry',DCS+'2$p0;2;0;100;0/255;2;100;0;100\x18'+osc_read(0)+osc_read(255),
                osc_value(0,(0,0,255))+osc_value(255,(252,130,3)),a.style)
+        record('unfinished-escape-is-not-ST',DCS+'2$p0;2;0;100;0/255;2;100;0;100'+CSI+'0m'+osc_read(0)+osc_read(255),
+               osc_value(0,(0,0,255))+osc_value(255,(252,130,3)),a.style)
         record('invalid-entries-do-not-escape',DCS+'2$p256;2;100;100;100/0;2;9;8/0;9;0;0;0/0;2;100;0;999999999999999999999/254;2;0;100;0'+ST+osc_read(0)+osc_read(254),
                osc_value(0,(0,0,255))+osc_value(254,(0,255,0)),a.style)
         # A light theme can exceed one 4 KiB input buffer even with exactly 256 registers.

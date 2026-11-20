@@ -11,6 +11,7 @@
  * rectangle activated by the first Sixel byte; other unset pixels are holes.
  */
 #include "nemo_sixel.h"
+#include "nemo_dec_colour.h"
 
 #include <stdlib.h>
 #include <string.h>
@@ -228,29 +229,6 @@ static bool draw_sixel(NemoSixel *s, unsigned bits, uint32_t repeat)
     return true;
 }
 
-/* Integer HLS conversion. DEC hue is blue=0, red=120, green=240. */
-uint32_t nemo_sixel_hls(unsigned hue, unsigned light, unsigned saturation)
-{
-    unsigned h = (hue % 360 + 240) % 360;
-    unsigned chroma, x, base, r = 0, g = 0, b = 0;
-    if (light > 100) light = 100;
-    if (saturation > 100) saturation = 100;
-    chroma = (100 - (unsigned)abs((int)(2 * light) - 100)) * saturation;
-    x = chroma * (60 - (unsigned)abs((int)(h % 120) - 60)) / 60;
-    base = light * 100 - chroma / 2;
-    switch (h / 60) {
-      case 0: r = chroma; g = x; break;
-      case 1: r = x; g = chroma; break;
-      case 2: g = chroma; b = x; break;
-      case 3: g = x; b = chroma; break;
-      case 4: r = x; b = chroma; break;
-      default: r = chroma; b = x; break;
-    }
-    return rgb(((r + base) * 255 + 5000) / 10000,
-               ((g + base) * 255 + 5000) / 10000,
-               ((b + base) * 255 + 5000) / 10000);
-}
-
 void nemo_sixel_set_aspect(NemoSixel *s, unsigned vertical, unsigned horizontal)
 {
     unsigned a, b;
@@ -278,7 +256,7 @@ static bool commit_parameters(NemoSixel *s, bool apply_colour)
             if (p[1] == 2)
                 colour = rgb(percent(p[2]), percent(p[3]), percent(p[4]));
             else if (p[1] == 1)
-                colour = nemo_sixel_hls(p[2], p[3], p[4]);
+                colour = nemo_dec_hls(p[2], p[3], p[4]);
             else return fail(s, NEMO_SIXEL_MALFORMED);
             if (apply_colour && palette[reg] != colour) {
                 palette[reg] = colour;

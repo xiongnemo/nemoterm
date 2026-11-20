@@ -99,6 +99,38 @@ static bool visualWriter(CONSOLE_API_MSG* message)
             case InjectionType::RIS:''')
 
 
+def patch_dec_colour_table():
+    parser = DEST / 'src/terminal/parser'
+    shutil.copyfile(ROOT / 'vendor/putty-0.85/terminal/nemo_dec_colour.h', parser / 'nemo_dec_colour.h')
+    shutil.copyfile(ROOT / 'native/single_exe/dec_colour_table.inc', parser / 'nemo_dec_colour_table.inc')
+    hpp, cpp = parser / 'stateMachine.hpp', parser / 'stateMachine.cpp'
+    replace(hpp, '#include <memory>', '#include <memory>\n#include "nemo_dec_colour.h"')
+    anchor = '        IStateMachineEngine::StringHandler _dcsStringHandler;'
+    replace(hpp, anchor, anchor + """
+        std::unique_ptr<NemoPendingColourTable> _nemoColourTable;
+        bool _nemoColourEsc = false;
+        void _NemoDecColourCharacter(wchar_t wch);""")
+    anchor = 'void StateMachine::_ActionDcsDispatch(const wchar_t wch)'
+    replace(cpp, anchor, '#include "nemo_dec_colour_table.inc"\n\n' + anchor)
+    anchor = '        _dcsStringHandler = _engine->ActionDcsDispatch(_identifier.Finalize(wch), { _parameters.data(), _parameters.size() });'
+    replace(cpp, anchor, """        const auto id = _identifier.Finalize(wch);
+        if (!_isEngineForInput && id == VTID("$p") && _parameters.size() == 1 && _parameters.front().value_or(0) == 2)
+        {
+            _nemoColourTable = std::make_unique<NemoPendingColourTable>();
+            _nemoColourEsc = false;
+            _dcsStringHandler = [this](const wchar_t ch) {
+                if (_nemoColourTable && ch >= L' ') nemo_dec_colour_byte(_nemoColourTable.get(), ch);
+                return true;
+            };
+        }
+        else
+        {
+            _dcsStringHandler = _engine->ActionDcsDispatch(id, { _parameters.data(), _parameters.size() });
+        }""")
+    anchor = 'void StateMachine::ProcessCharacter(const wchar_t wch)\n{'
+    replace(cpp, anchor, anchor + '\n    if (_nemoColourTable) _NemoDecColourCharacter(wch);')
+
+
 def patch_linux_palette():
     # Keep Windows buffer reads in step with the unchanged byte stream sent
     # to Nemoterm. The input parser continues to parse OSC replies normally.
@@ -595,6 +627,7 @@ def main():
     patch_column_resize_owner()
     patch_column_edits()
     patch_linux_palette()
+    patch_dec_colour_table()
     patch_cursor_sync()
     patch_vt_backspace_input()
     patch_input_dcs_fragments()
