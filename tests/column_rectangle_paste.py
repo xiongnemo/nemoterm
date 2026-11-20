@@ -5,7 +5,7 @@ import json
 import os
 
 from PIL import Image
-from clipboard_test_utils import SavedClipboard, clipboard_text
+from clipboard_test_utils import SavedClipboard, clipboard_text, set_clipboard
 from hosted_gesture_input import DesktopInput
 from native_test_utils import c, root, terminal_host, u, w, wait_for
 from presented_window_capture import PresentedWindowCapture
@@ -86,6 +86,25 @@ def exercise(label, renderer, out):
             desk.chord(ord('Z'))
             record['wire'] = wait_for(lambda: v if (v:=current()['hex']).endswith('7a') else None)
             assert record['wire'] == record['expected_wire'], record
+            # Paint a reference row independently; the real insert starts one
+            # row earlier on its last cell. Match ink, then copy across the
+            # glyph that the old frontend lost (the raw console kept it).
+            seed='界V尾abcXYZ'; prefix='中界V尾'; wanted='中'+seed
+            phase('cjk-setup', CSI+'?69l'+CSI+'r'+CSI+'2J'+CSI+'3;1H'+wanted+
+                  CSI+'4;1H'+seed+CSI+'9;1H'+seed+QUERY, REPLY)
+            initial=shot('cjk-before',lambda im: tiles(im,0,8,14)==tiles(im,0,3,14) and
+                         tiles(im,0,8,14)!=tiles(im,0,2,14))
+            phase('cjk-insert',CSI+'8;80H'+CSI+'4h'+'中'+CSI+'4l'+QUERY,REPLY)
+            moved=shot('cjk-edited',lambda im: tiles(im,0,8,14)==tiles(initial,0,2,14))
+            def cjk_highlight():
+                im=frame(); changed=[j for j in range(14) if tiles(im,j,8)!=tiles(moved,j,8)]
+                record['insert_wrap_highlight']=changed
+                return im if changed==list(range(7)) else None
+            desk.drag(1+cw+cw//2,1+5*cw+cw//2,1+8*ch+ch//2,cjk_highlight)
+            chosen=wait_for(cjk_highlight);chosen.crop((1,1,1+27*cw,1+10*ch)).save(out/'cjk-selected.png')
+            set_clipboard(hwnd,'UNCOPIED');serial=u.GetClipboardSequenceNumber();desk.chord(0x11,0x10,ord('C'))
+            wait_for(lambda:u.GetClipboardSequenceNumber()!=serial)
+            record['insert_wrap_copied']=clipboard_text(hwnd);assert record['insert_wrap_copied']==prefix
             record['completed'] = True
             return record
         finally:

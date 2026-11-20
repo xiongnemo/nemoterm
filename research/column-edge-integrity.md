@@ -35,3 +35,11 @@
 修复使内置控制台执行相同的左右滚动，在移动源格之前清理跨越裁切线的宽字，避免单独写半个字时跨界补全。新版另外测试了 55 项，包括跨左右边界的汉字、光标在区域外、编辑相邻行，以及滚动距离大于区域宽度。GDI、DirectX 各自 **120/120**，各检查 3,120 格的 VT 回复及 Windows 读回结果。[旧版运行](https://github.com/xiongnemo/nemoterm/actions/runs/44655207026) · [新版全量运行](https://github.com/xiongnemo/nemoterm/actions/runs/44655885414) · [前后原始回复、控制台读数及鼠标截图](column-edit-native.zip)。VT 用零表示续格，Windows 用宽字码元加续格标志；严格的 XTerm 412 比较仍单独报告 725/728。
 
 [旧版的实际选区回放](https://github.com/xiongnemo/nemoterm/actions/runs/44655207231)已能正确复制：应用接管鼠标时按住 Shift 与左键，插入一列或将整块右移，把 `中U` 正好移到右边界后反向拖选。四组真实系统手势与八组窗口消息均复制出 `中U`；区域外的 `W` 像素保持不变。新版在相同的 12 项中也全部通过。两版原始截图、剪贴板和应用输入记录均在上面的压缩包中。这确认了故障发生在 Windows 程序读回的屏幕缓冲区。
+
+## 行尾输入一个汉字时，下一行的第一个字消失
+
+这与上面的「左移后保留 `V`」是两种情况。开启插入模式（`CSI 4 h`），让下一行已有 `界V尾abcXYZ`。将光标放到上一行的最后一格，输入两格宽的 `中`。它应换行并插在 `界` 前面，得到 `中界V尾abcXYZ`。
+
+[Windows 旧版回放](https://github.com/xiongnemo/nemoterm/actions/runs/44832637710/artifacts/14677541761)直接使用已交付的 `83d584d8`：GDI、DirectX 各跑八组。两种字宽模式都复现，终端报告 `中V尾abcXYZ`，而同一进程通过 `ReadConsoleOutputW` 能读到完整的 `中界V尾abcXYZ`。其余六个对照各自通过：覆盖模式应当覆盖 `界`，直接在目标行插入应保留 `界`，先在行末写 ASCII 再触发延迟换行也应保留 `界`。
+
+修复 `7faa7fac` 把为插入字符腾出空间的时机移到确定目标行和字宽之后，维持原本覆盖模式的行为。[终端字格回归](https://github.com/xiongnemo/nemoterm/actions/runs/44832796282)在 MSVC、GCC 和 Clang 上通过，也覆盖了设置左右栏边界、边界外文字不能跟着移动的情况。
