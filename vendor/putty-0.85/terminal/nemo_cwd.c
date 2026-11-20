@@ -92,12 +92,21 @@ bool nemo_cwd_update(NemoCwd *cwd, unsigned osc, const char *s, size_t n)
     char *path=NULL,*host=NULL; bool replace_host=false;
     if (n>NEMO_CWD_OSC_MAX || memchr(s,0,n)) return false;
     if (osc==7) {
-        if (n<8 || memcmp(s,"file://",7)) return false;
-        const char *slash=memchr(s+7,'/',n-7);
-        if (!slash || memchr(s,'?',n) || memchr(s,'#',n) || memchr(s,'\\',n)) return false;
-        size_t h=(size_t)(slash-(s+7));
-        if (!host_valid(s+7,h)) return false;
-        host=mkstr(make_ptrlen(s+7,h)); replace_host=true;
+        /* RFC 8089 allows both file:/absolute and file://authority/absolute.
+         * The scheme is ASCII case-insensitive; keep host and path as sent. */
+        if (n<6 || s[4]!=':' || s[5]!='/') return false;
+        for (size_t i=0;i<4;i++)
+            if (s[i]!="file"[i] && s[i]!="FILE"[i]) return false;
+        if (memchr(s,'?',n) || memchr(s,'#',n) || memchr(s,'\\',n)) return false;
+        const char *slash=s+5, *authority=slash;
+        size_t h=0;
+        if (n>=7 && s[6]=='/') {
+            authority=s+7; slash=memchr(authority,'/',n-7);
+            if (!slash) return false;
+            h=(size_t)(slash-authority);
+            if (!host_valid(authority,h)) return false;
+        }
+        host=mkstr(make_ptrlen(authority,h)); replace_host=true;
         path=decode(slash,n-(size_t)(slash-s),1);
     } else if (osc==9) {
         if (n<2 || memcmp(s,"9;",2)) return false;

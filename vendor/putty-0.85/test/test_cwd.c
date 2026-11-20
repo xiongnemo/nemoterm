@@ -19,6 +19,12 @@ static void test_metadata(Mock *mk)
     char *s=nemo_cwd_uri(&d);SEQUAL(s,"file://Workstation/C:/a%20b/%E4%B8%AD/%2525");sfree(s);
     s=nemo_cwd_native(&d,"workstation","workstation.example",false);SEQUAL(s,"C:\\a b\\\xe4\xb8\xad\\%25");sfree(s);
     IEQUAL(nemo_cwd_native(&d,"other","other.example",false)==NULL,true);
+    IEQUAL(update(&d,7,"FiLe:/C:/a%20b%23%25"),true);
+    expect_path(mk,&d,"/C:/a b#%","");
+    s=nemo_cwd_uri(&d);SEQUAL(s,"file:///C:/a%20b%23%25");sfree(s);
+    IEQUAL(update(&d,7,"FILE:/"),true);expect_path(mk,&d,"/","");
+    IEQUAL(update(&d,7,"FILE://Remote.example/home"),true);
+    IEQUAL(nemo_cwd_local(&d,"local","local.example"),false);
     IEQUAL(update(&d,9,"9;\"D:\\a b\\foo;bar\""),true);
     expect_path(mk,&d,"D:\\a b\\foo;bar","");
     s=nemo_cwd_uri(&d);SEQUAL(s,"file:///D:/a%20b/foo%3Bbar");sfree(s);
@@ -44,7 +50,9 @@ static void test_rejection(Mock *mk)
     test_context(mk,"malformed metadata is atomic and never becomes a local path");
     NemoCwd d={0};update(&d,7,"file://localhost/C:/keep");
     struct { unsigned osc;const char *text; } cases[]={
-        {7,""},{7,"http://host/C:/bad"},{7,"file://host"},{7,"file://user@host/C:/bad"},
+        {7,""},{7,"file:"},{7,"file://"},{7,"file:C:/relative"},{7,"notfile:/C:/plain"},
+        {7,"file:/bad%"},{7,"FiLe:/bad%00"},{7,"file:/C:/q?s"},{7,"file:/C:/q#f"},
+        {7,"file:/C:/raw\\backslash"},{7,"http://host/C:/bad"},{7,"file://host"},{7,"file://user@host/C:/bad"},
         {7,"file://host:22/C:/bad"},{7,"file:///C:/a#fragment"},{7,"file:///C:/a?query"},
         {7,"file:///C:/\\bad"},{7,"file:///C:/%"},{7,"file:///C:/%x1"},{7,"file:///C:/%00bad"},
         {7,"file:///C:/%0abad"},{7,"file:///C:/%C0%AF"},{7,"file:///C:/%ED%A0%80"},
@@ -92,6 +100,7 @@ static void test_terminal_metadata(Mock *mk)
     Terminal *t=mk->term;NemoCwd *d=&t->working_directory;nemo_cwd_clear(d);
     term_size(t,12,40,100);
     term_data_fragmented(t,"\033]7;file://localhost/C:/one%20two\a");expect_path(mk,d,"/C:/one two","localhost");
+    term_data_fragmented(t,"\033]7;FILE:/C:/mixed%20\xE4\xB8\xAD\033\\");expect_path(mk,d,"/C:/mixed \xE4\xB8\xAD","");
     term_data_fragmented(t,"\033]9;9;\"D:\\unicode \xe4\xb8\xad\"\033\\");expect_path(mk,d,"D:\\unicode \xe4\xb8\xad","");
     term_data_fragmented(t,"\033]633;P;Cwd=C:\\x5cnew\\x3bname\a");expect_path(mk,d,"C:\\new;name","");
     term_data_fragmented(t,"\033]1337;RemoteHost=user@other\a\033]1337;CurrentDir=/remote/path\033\\");
