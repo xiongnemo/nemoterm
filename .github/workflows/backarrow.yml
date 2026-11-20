@@ -32,6 +32,9 @@ jobs:
       - name: Switch from native line editing into VT ReadFile and ReadConsoleW, then back
         if: ${{ !cancelled() && steps.prepare.outcome == 'success' }}
         run: python tests/backspace_native_transition.py
+      - name: Check Win32 character repeat counts through byte and wide readers
+        if: ${{ !cancelled() && steps.prepare.outcome == 'success' }}
+        run: python tests/character_repeat_window.py
       - if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
