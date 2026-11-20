@@ -34,10 +34,11 @@ def catalog():
         add('drop-'+renderer, 'clipboard', 'drop_window_smoke.py',
             ['--renderer', renderer, '--font', FONT], 'clipboard; file-drop messages; isolated shell parsing')
     for client in ('codex', 'opencode'):
+        diagnostic = ['--submit-first-miss'] if client=='codex' else []
         add('agent-image-'+client, 'agents', 'agent_clipboard_smoke.py',
-            ['--client', client, '--client-exe', '{'+client+'}', '--font', FONT], 'clipboard; isolated real client; loopback provider')
+            ['--client', client, '--client-exe', '{'+client+'}', '--font', FONT,*diagnostic], 'clipboard; isolated real client; loopback provider')
         add('agent-image-system-'+client, 'agents', 'agent_clipboard_smoke.py',
-            ['--client', client, '--client-exe', '{'+client+'}', '--font', FONT,'--system-input'],
+            ['--client', client, '--client-exe', '{'+client+'}', '--font', FONT,'--system-input',*diagnostic],
             'Windows desktop Ctrl+V and Ctrl+Shift+V; generated clipboard pixels received by the real client')
     for suffix,extra in [('',[]),('-system',['--system-input'])]:
         add('agent-image-ready'+suffix+'-codex','agents','agent_clipboard_smoke.py',

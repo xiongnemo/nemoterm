@@ -31,3 +31,20 @@ def chat_attachment(requests, client, binding):
             and image['mime'] == 'image/png' and re.fullmatch('[a-f0-9]{64}', image['sha256'])):
         raise ValueError('Chat attachment does not match the generated 32 x 16 PNG')
     return dict(chat_image_sha256=image['sha256'], title_images=title_images)
+
+
+def codex_first_submission(requests, binding):
+    """Classify the first marked chat after one Enter, never credit an absent request."""
+    marker = 'NEMOTERM_CODEX_IMAGE_' + binding.upper().replace('-', '_')
+    turns = [r for r in requests if r['path']=='/v1/responses' and marker in r['text']]
+    if not turns:
+        return 'no-receipt'
+    if any(r['path']!='/v1/responses' for r in requests) or turns[0]['text'].count(marker)!=1:
+        return 'unexpected-request'
+    if not turns[0]['images']:
+        return 'text-only' if not any(r['images'] for r in requests) else 'unexpected-image'
+    try:
+        chat_attachment(requests, 'codex', binding)
+    except ValueError:
+        return 'unexpected-image'
+    return 'exact-image'

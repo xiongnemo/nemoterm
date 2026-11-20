@@ -76,6 +76,16 @@ class ReportTest(unittest.TestCase):
                     [request(False,dict(image,generated_pixels_match=False))], [dict(chat,text=['OTHER'])]):
             with self.subTest(bad=bad),self.assertRaises(ValueError):report.chat_attachment(bad,client,binding)
 
+    def test_first_paste_deadline_does_not_imply_text_was_submitted(self):
+        binding='ctrl-v';marker='NEMOTERM_CODEX_IMAGE_CTRL_V'
+        def request(*images):return dict(path='/v1/responses',text=[marker],images=list(images))
+        image=dict(generated_pixels_match=True, png_size=[32,16], mime='image/png', sha256='b'*64)
+        for records, verdict in [([], 'no-receipt'), ([dict(request(),text=['OTHER'])], 'no-receipt'),
+                                 ([request()], 'text-only'), ([request(image), request()], 'exact-image'),
+                                 ([request(), request(image)], 'unexpected-image'),
+                                 ([request(dict(image,generated_pixels_match=False))], 'unexpected-image')]:
+            self.assertEqual(report.codex_first_submission(records, binding), verdict)
+
     def test_forced_cleanup_cannot_pass_even_with_exit_zero(self):
         p=self.group('bell','c'*64);rows=json.loads(p.read_text());rows[0]['cleanup']['terminated_remaining']=True
         p.write_text(json.dumps(rows));status,result=self.inspect();self.assertNotEqual(status,0)

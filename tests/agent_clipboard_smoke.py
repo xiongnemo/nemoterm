@@ -14,7 +14,7 @@ from fixture_io import read_snapshot,write_snapshot
 from native_test_utils import c, u, w, wait_for
 from owned_job import OwnedJob
 from agent_ready_redraw import read_idle_redraw
-from agent_image_receipt import chat_attachment
+from agent_image_receipt import chat_attachment, codex_first_submission
 
 ROOT=Path(__file__).resolve().parent.parent
 sys.path.insert(0,str(ROOT/'tools'))
@@ -46,6 +46,7 @@ def main():
     parser.add_argument('--font',default=os.environ.get('NEMOTERM_TEST_FONT','SarasaTermSC Nerd Light'))
     parser.add_argument('--system-input', action='store_true')
     parser.add_argument('--after-client-idle',action='store_true',help='Also require Codex to report idle and redraw the marker after startup queries')
+    parser.add_argument('--submit-first-miss',action='store_true',help='Retain the missing attachment failure and submit that unchanged early draft once to the loopback service')
     parser.add_argument('--observe-first-miss', action='store_true', help='Keep the failed startup gesture and separately observe one subsequent user action in that same session')
     parser.add_argument('--after-window-caption',action='store_true',help='Physically paste when the real window displays the fixture project name, without waiting for a VT status or redraw')
     parser.add_argument('--witness-bitmap',action='store_true',help='Observe first Windows request for the generated bitmap with a delayed-rendering owner')
@@ -64,6 +65,9 @@ def main():
     if args.image_file:assert args.client=='codex' and not args.after_window_caption and not args.observe_first_miss
     if args.after_window_caption:assert args.client=='codex' and args.system_input and not args.after_client_idle and not args.observe_first_miss
     if args.after_client_idle:assert args.client=='codex'
+    if args.submit_first_miss:
+        assert args.client=='codex' and not any((args.observe_first_miss,args.after_client_idle,args.image_file,
+                                                args.mixed_bitmap,args.after_window_caption,args.witness_bitmap))
     if args.observe_first_miss:assert args.client=='codex' and not args.after_client_idle
     result.update(clipboard_format='CF_HDROP' if args.image_file else 'empty CF_UNICODETEXT + CF_DIB' if args.mixed_bitmap else 'CF_DIB',system_input=args.system_input,after_client_idle=args.after_client_idle,after_window_caption=args.after_window_caption,failures=[])
     for name,mods in [('ctrl-v',2),('ctrl-shift-v',3)]:
@@ -76,7 +80,7 @@ def main():
                 '--automation','--font',args.font,*(['--witness-bitmap'] if args.witness_bitmap else []),
                 *(['--image-title',args.opencode_title] if args.opencode_title else [])],stdout=log,stderr=subprocess.STDOUT,
                 creationflags=subprocess.CREATE_NO_WINDOW)
-            desk=None;events={};followup=None
+            desk=None;events={};followup=None;missed=None
             try:
                 observed=wait_for(lambda:read_snapshot(report),timeout=30)
                 instance=wait_for(lambda:next(iter(api.discover(observed['pid'])),None),timeout=20)
@@ -151,30 +155,54 @@ def main():
                 has_attachment=lambda:'[Image' in api.request(endpoint,'text',seat)
                 try:wait_for(has_attachment,timeout=60 if args.client=='opencode' else 20)
                 except AssertionError as miss:
-                    if not args.observe_first_miss or str(miss)!='Timed out waiting for native fixture':raise
-                    # The original gate remains red even if the same draft can recover.
-                    result['failures'].append(dict(binding=name,stage='first-attachment',error=traceback.format_exc()))
-                    followup=dict(binding=name,pid=observed['pid'],session=seat,second_gesture=False,completed=False)
-                    result.setdefault('same_draft_observations',[]).append(followup)
-                    (case/'first-miss.png').write_bytes(api.png_from_bmp(api.request(endpoint,'image',seat)))
-                    wait_for(idle_redraw,timeout=60)
-                    draft=api.request(endpoint,'text',seat);(case/'before-followup.txt').write_text(draft,encoding='utf-8')
-                    assert marker in draft and process.poll() is None and not any(marker in req['text'] for req in read_snapshot(report)['requests'])
-                    (case/'before-followup.vt').write_bytes(trace.read_bytes())
-                    if '[Image' not in draft:
-                        followup['second_gesture']=True;followup['seconds_after_first']=time.monotonic()-attachment_started
-                        key(86,mods);wait_for(has_attachment,timeout=20)
-                    else:followup['late_first_attachment']=True
+                    if str(miss)!='Timed out waiting for native fixture':raise
+                    if args.submit_first_miss:
+                        # This deadline is still a failure, irrespective of what the server sees later.
+                        result['failures'].append(dict(binding=name,stage='first-attachment',error=traceback.format_exc()))
+                        missed=dict(binding=name,idle_before=evidence['idle_before'],enter_sent=False,
+                                    terminal_sha256=observed['terminal_sha256'],client_sha256=observed['client_sha256'],
+                                    outcome='no-receipt')
+                        result.setdefault('submitted_after_miss',[]).append(missed)
+                        draft=api.request(endpoint,'text',seat)
+                        missed['attachment_visible_on_next_read']='[Image' in draft
+                        (case/'first-miss.txt').write_text(draft,encoding='utf-8')
+                        (case/'first-miss.png').write_bytes(api.png_from_bmp(api.request(endpoint,'image',seat)))
+                        assert marker in draft and not any(marker in req['text'] for req in read_snapshot(report)['requests'])
+                    elif args.observe_first_miss:
+                        # The original gate remains red even if the same draft can recover.
+                        result['failures'].append(dict(binding=name,stage='first-attachment',error=traceback.format_exc()))
+                        followup=dict(binding=name,pid=observed['pid'],session=seat,second_gesture=False,completed=False)
+                        result.setdefault('same_draft_observations',[]).append(followup)
+                        (case/'first-miss.png').write_bytes(api.png_from_bmp(api.request(endpoint,'image',seat)))
+                        wait_for(idle_redraw,timeout=60)
+                        draft=api.request(endpoint,'text',seat);(case/'before-followup.txt').write_text(draft,encoding='utf-8')
+                        assert marker in draft and process.poll() is None and not any(marker in req['text'] for req in read_snapshot(report)['requests'])
+                        (case/'before-followup.vt').write_bytes(trace.read_bytes())
+                        if '[Image' not in draft:
+                            followup['second_gesture']=True;followup['seconds_after_first']=time.monotonic()-attachment_started
+                            key(86,mods);wait_for(has_attachment,timeout=20)
+                        else:followup['late_first_attachment']=True
+                    else:raise
 
                 attachment_seconds=time.monotonic()-attachment_started
                 time.sleep(.2)
                 key(13,0)
+                if missed is not None: missed['enter_sent']=True
                 def received():
                     value=read_snapshot(report)
+                    if missed is not None:
+                        return value if value and any(r['path']=='/v1/responses' and marker in r['text'] for r in value['requests']) else None
                     return value if value and any(marker in req['text'] and any(
                         im.get('generated_pixels_match') for im in req['images']) for req in value['requests']) else None
-                wait_for(received,timeout=30)
-                wait_for(lambda:'NEMOTERM_IMAGE_ACCEPTED' in api.request(endpoint,'text',seat),timeout=15)
+                first=wait_for(received,timeout=30)
+                reply='NEMOTERM_IMAGE_ACCEPTED'
+                if missed is not None:
+                    missed['requests']=first['requests']; missed['outcome']=codex_first_submission(first['requests'],name)
+                    if missed['outcome']=='text-only':reply='NEMOTERM_TEXT_ACCEPTED'
+                wait_for(lambda:reply in api.request(endpoint,'text',seat),timeout=15)
+                if missed is not None:
+                    write_snapshot(control,dict(id=90,action='clipboard-probe'))
+                    missed['clipboard_probe']=wait_for(lambda:read_snapshot(report).get('clipboard_probe'),timeout=35)
                 image=api.png_from_bmp(api.request(endpoint,'image',seat))
                 (ROOT/f'research/agent-{args.client}-{name}.png').write_bytes(image)
                 write_snapshot(control,dict(id=2,action='restore'))
@@ -190,9 +218,14 @@ def main():
                 assert not observed['errors'],observed
                 assert not observed['cleanup']['terminated_remaining'],observed['cleanup']
                 observed['binding']=name
-                observed['attachment_seconds']=attachment_seconds
+                if missed is None: observed['attachment_seconds']=attachment_seconds
+                else: observed['seconds_until_attachment_deadline']=attachment_seconds
                 if args.after_window_caption:observed['caption']=caption_record
                 write_snapshot(ROOT/f'research/agent-{args.client}-{name}.json',observed)
+                if missed is not None:
+                    missed['requests']=observed['requests'];missed['outcome']=codex_first_submission(observed['requests'],name)
+                    missed['clipboard_restored']=observed['clipboard_restored'];missed['cleanup']=observed['cleanup']
+                    continue
                 if args.witness_bitmap:
                     witness=read_snapshot(case/'bitmap-requests.json')
                     hits=[e for e in witness['events'] if e['reason']=='WM_RENDERFORMAT' and e['supplied']]

@@ -9,7 +9,7 @@ from interaction_acceptance import catalog
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'tests'))
 from memory_limits import private_ws_passes
-from agent_image_receipt import chat_attachment
+from agent_image_receipt import chat_attachment, codex_first_submission
 
 
 def require(condition, message):
@@ -147,6 +147,23 @@ def agent_right_case(path, row, identity, args):
                 separate_title_requests=len(titles))
 
 
+def early_paste_diagnostics(path, row, identity, args):
+    obs = record_reader(path,row)('research/agent-clipboard-codex.json')
+    require(obs['client']=='codex' and obs['after_client_idle'] is False and obs['system_input'] is ('--system-input' in args)
+            and obs['clipboard_format']=='CF_DIB' and obs['font']==identity['font'], 'wrong early-paste fixture')
+    results = {}
+    for miss in obs.get('submitted_after_miss', []):
+        b = miss['binding']
+        require(b in ('ctrl-v','ctrl-shift-v') and b not in results and any(
+            e.get('stage')=='first-attachment' and e['binding']==b for e in obs['failures']), 'missing original paste failure')
+        require(miss['terminal_sha256']==identity['executable_sha256'] and miss['client_sha256']==identity['clients']['codex']['sha256'],
+                'wrong executable in first-miss diagnostic')
+        state = codex_first_submission(miss.get('requests', []), b)
+        require(state==miss['outcome'] and (state=='no-receipt' or miss['enter_sent'] is True), 'invalid marked submission')
+        results[b] = dict(outcome=state, enter_sent=miss['enter_sent'], idle_before=miss['idle_before'])
+    return results
+
+
 def agent_image_case(path, row, identity, args):
     client = args[args.index('--client')+1]
     obs = record_reader(path,row)(f'research/agent-clipboard-{client}.json')
@@ -264,6 +281,8 @@ def main():
                 require(case in expected and case not in stats['cases'], f'unexpected or duplicate case {case}')
                 out = stats['cases'][case] = dict(status=row.get('status'), verified=False)
                 try:
+                    if row['status']!='passed' and '--submit-first-miss' in case_args[case]:
+                        out['early_paste_diagnostics'] = early_paste_diagnostics(path,row,identity,case_args[case])
                     require(row['status'] == 'passed' and row['exit_code'] == 0 and row['cleanup']['terminated_remaining'] is False
                             and row['cleanup']['after']['active'] == 0 and row['cleanup']['remaining_processes'] == [],
                             'did not pass and exit naturally')
@@ -296,6 +315,10 @@ def main():
         rows = list(stats['cases'].values()); peak = max((v['frontend_peak_bytes']['private_ws'] for v in rows if 'frontend_peak_bytes' in v), default=None)
         note.append(f"| {group} | {sum(v['verified'] for v in rows)}/{len(stats['expected'])} | {peak if peak is not None else '—'} |")
     note += ['', *(f'- {v}' for v in errors), '', 'Original group artifacts contain the raw logs and screenshots. This report covers interaction only.']
+    for case, value in result['groups'].get('agents', {}).get('cases', {}).items():
+        for binding, diag in value.get('early_paste_diagnostics', {}).items():
+            note.append(f"- {case} / {binding}: no attachment indicator by the deadline; "
+                        f"Enter sent: {diag['enter_sent']}; first marked submission: {diag['outcome']}.")
     with open(e['GITHUB_STEP_SUMMARY'],'a',encoding='utf-8') as stream: print('\n'.join(note),file=stream)
     print('\n'.join(note)); return 0 if result['passed'] else 1
 
