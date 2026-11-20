@@ -36,12 +36,21 @@ jobs:
         env:
           RENDERER: ${{ matrix.renderer }}
         run: python tests/sync_presented_selection.py $env:RENDERER --paste
+      - name: Verify fullscreen corner menu and Shift selection using real desktop input
+        if: ${{ !cancelled() && steps.prepare.outcome == 'success' }}
+        env:
+          RENDERER: ${{ matrix.renderer }}
+        run: |
+          python -m pip install --only-binary=:all: Pillow==13.0.0
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          python tests/fullscreen_corner_selection.py $env:RENDERER
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
           name: sync-selection-${{ matrix.renderer }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
             research/sync-select-*
+            research/fullscreen-corner-*
             build/sync-selection-product/SOURCE-HOST.json
             build/interaction-dependencies/environment.json
           if-no-files-found: error
