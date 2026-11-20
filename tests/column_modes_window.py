@@ -33,6 +33,18 @@ def main():
                     m=re.search(rb'\x1b\[8;(\d+);(\d+)t',raw);assert m,(key,raw)
                     cells=[int(n,16) for n in re.findall(rb'!~([0-9A-F]{4})',raw)];assert len(cells)==4
                     geom=client==(2+cw*int(m[2]),2+ch*int(m[1]));o=points[key]=dict(wire=raw.hex(),cells=cells,client=client,cell=[cw,ch],reported_cols=int(m[2]),child_cols=state.get('columns'),geometry_matches=geom)
+                    # The hosted console has an independent native screen buffer. A
+                    # correct CSI 18t and a correct client rect can both conceal a
+                    # different width reported to the Windows child. Keep the first
+                    # sample; allow approved asynchronous resizes to settle, without
+                    # sending any more VT. A forbidden resize may not appear at all.
+                    target=(int(m[2]),int(m[1])); first=(state.get('columns'),state.get('rows'))
+                    child=first; end=time.monotonic()+1.0
+                    while child!=target and time.monotonic()<end:
+                        time.sleep(.04); after=current(); assert after['phase']==key
+                        child=(after.get('columns'),after.get('rows'))
+                    o.update(child_initial=first,child_settled=child,
+                             child_matches=child==target and (profile!='local-deny' or first==target))
                     if src:o['expected']=src[key]['reply_hex'];o['matches']=raw.hex()==o['expected'];rows.append(o['matches'] and geom)
                     else:local.append(cols==80 and geom and cells==[65,0x4e2d,0,90] and b'\x1b[7;11R' in raw and b'\x1b[?3;4$y' in raw and b'\x1b[?40;4$y' in raw)
                     if gpu=='gdi' and key in ('paint','keep-widen','keep-narrow','same-width-clear','before','clear-attempt'):
@@ -46,7 +58,7 @@ def main():
             run(name,[],exercise=body,barrier=(C+'5n',b'\x1b[0n'),font=font,profile=dict(NemoTabs=1,NemoRenderer=renderer-1,NemoColumnModeStart=2 if profile.startswith('explicit') else 1,NoRemoteResize=int(profile=='local-deny'),NemoAllowChecksum=1,UTF8linedraw=1,FontHeight=8,WarnOnClose=0,LockSize=0))
     report['strict_matches']=sum(rows);report['strict_total']=len(rows);report['local_policy']=local
     (root/'research'/('column-mode-'+gpu+'-summary.json')).write_text(json.dumps(report,indent=2),encoding='utf-8')
-    assert len(rows)==132 and len(local)==3 and all(rows) and all(local) and all(o.get('ink_matches',True) for v in report['profiles'].values() for o in v.values()),(sum(rows),len(rows),local)
+    assert len(rows)==132 and len(local)==3 and all(rows) and all(local) and all(o['child_matches'] and o.get('ink_matches',True) for v in report['profiles'].values() for o in v.values()),(sum(rows),len(rows),local)
 
 def cli():
     if os.environ.get('RUNNER_ENVIRONMENT')!='github-hosted':raise RuntimeError('GitHub-hosted runner required')
