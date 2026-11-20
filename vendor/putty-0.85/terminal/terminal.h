@@ -327,6 +327,7 @@ struct terminal_tag {
     int xterm_mouse;                   /* send mouse messages to host */
     int mouse_encoding;               /* 0, 1005, 1006, 1015 or 1016 */
     bool mouse_focus_reporting, mouse_alternate_scroll;
+    bool inband_resize, inband_resize_dirty, inband_resize_queued;
     unsigned mouse_buttons;           /* buttons actually reported to host */
     int raw_mouse_reported_x;
     int raw_mouse_reported_y;

@@ -842,6 +842,34 @@ static void test_window_resize(Mock *mk)
     mk->tw.vt = &mock_termwin_vt;
 }
 
+static void drain_inband_report(Mock *mk)
+{
+    for (unsigned i = 0; i < 64 && mk->term->inband_resize_queued; i++)
+        run_toplevel_callbacks();
+    if (mk->term->inband_resize_queued)
+        report_fail(mk, __FILE__, __LINE__, "in-band resize callback did not drain");
+}
+
+static void test_inband_resize(Mock *mk)
+{
+    Terminal *t = mk->term;
+    reset(mk); term_set_cell_size(t, 8, 16);
+    test_context(mk, "in-band resize and text area metrics");
+    term_data_fragmented(t, "\033[?2048$p\033[?2048h\033[?2048h\033[?2048$p");
+    response(mk, "\033[?2048;2$y\033[48;24;80;384;640t\033[48;24;80;384;640t\033[?2048;1$y");
+    term_size(t, 20, 70, 0); term_set_cell_size(t, 9, 18); drain_inband_report(mk);
+    response(mk, "\033[48;20;70;360;630t");
+    term_size(t, 20, 70, 20); drain_inband_report(mk); response(mk, "");
+    term_set_cell_size(t, 9, 19); drain_inband_report(mk); response(mk,"\033[48;20;70;380;630t");
+    term_set_cell_size(t, 9, 20); term_data_fragmented(t,"\033[?2048l");
+    drain_inband_report(mk); response(mk, "");
+    term_data_fragmented(t,"\033[?2048h\033[?1049h\033[!p\033[?2048$p\033[?1049l");
+    response(mk,"\033[48;20;70;400;630t\033[?2048;1$y");
+    term_set_cell_size(t, 9, 21); term_data_fragmented(t,"\033c\033[?2048$p");
+    drain_inband_report(mk); response(mk,"\033[?2048;2$y");
+    term_set_cell_size(t, 8, 16); reset(mk);
+}
+
 #include "test_iterm_reports.inc"
 
 int main(void)
@@ -864,6 +892,7 @@ int main(void)
     test_legacy_parameters(mk);
     test_answerback_configuration(mk);
     test_iterm_reports(mk);
+    test_inband_resize(mk);
     bool failed = mk->any_test_failed;
     mock_free(mk);
     puts(failed ? "Query suite FAILED" : "Query suite passed");

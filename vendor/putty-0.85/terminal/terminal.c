@@ -1786,6 +1786,38 @@ static bool nemo_inline_admit(void *ctx, size_t current, size_t extra)
 
 #include "nemo_regis_terminal.inc"
 
+/* Mode 2048 describes the character grid, excluding borders, scrollbars and
+ * the tab strip. Font changes and a grid resize can be part of the same HWND
+ * operation. Report from the event loop after the backend has been resized. */
+static void report_text_area(Terminal *term)
+{
+    term->inband_resize_dirty = false;
+    if (!term->inband_resize || term->rows < 1 || term->cols < 1) return;
+    char report[96];
+    int n = sprintf(report, "\033[48;%d;%d;%llu;%llut", term->rows, term->cols,
+                    (unsigned long long)term->rows * term->cell_height,
+                    (unsigned long long)term->cols * term->cell_width);
+    nemo_protocol_send(term, report, n);
+}
+
+static void report_text_area_callback(void *ctx)
+{
+    Terminal *term = ctx;
+    term->inband_resize_queued = false;
+    if (term->inband_resize_dirty && term->win_resize_pending == WIN_RESIZE_NO)
+        report_text_area(term);
+}
+
+static void schedule_text_area_report(Terminal *term)
+{
+    if (!term->inband_resize) return;
+    term->inband_resize_dirty = true;
+    if (!term->inband_resize_queued && term->win_resize_pending == WIN_RESIZE_NO) {
+        term->inband_resize_queued = true;
+        queue_toplevel_callback(report_text_area_callback, term);
+    }
+}
+
 void term_set_cell_size(Terminal *term, int width, int height)
 {
     if (!term || width < 1 || height < 1) return;
@@ -1798,6 +1830,7 @@ void term_set_cell_size(Terminal *term, int width, int height)
     term->cell_width = width;
     nemo_inline_cancel(term);
     term->cell_height = height;
+    schedule_text_area_report(term);
     nemo_kitty_rescale(term);
     for (NemoTermImage *image = term->images; image; image = image->next)
         nemo_image_live(term, image);
@@ -3633,6 +3666,7 @@ static void power_on(Terminal *term, bool clear, bool keep_encoding)
     term->mouse_encoding = 0;
     memset(&term->locator, 0, sizeof(term->locator));
     term->mouse_focus_reporting = term->mouse_alternate_scroll = false;
+    term->inband_resize = term->inband_resize_dirty = false;
     term->mouse_buttons = 0;
     term->raw_mouse_reported_code = -1;
     term->raw_mouse_reported_x = term->raw_mouse_reported_y = -1;
@@ -5397,6 +5431,7 @@ void term_size(Terminal *term, int newrows, int newcols, int newsavelines)
     term_schedule_update(term);
     if (term->backend)
         backend_size(term->backend, term->cols, term->rows);
+    if (width_changed || term->rows != oldrows) schedule_text_area_report(term);
 }
 
 void term_resize_request_completed(Terminal *term)
@@ -5410,6 +5445,7 @@ void term_resize_request_completed(Terminal *term)
         term->rows == term->win_resize_old_rows)
         backend_size(term->backend, term->cols, term->rows);
     term->win_resize_pending = WIN_RESIZE_NO;
+    if (term->inband_resize_dirty) schedule_text_area_report(term);
     queue_toplevel_callback(term_out_cb, term);
 }
 
@@ -7344,6 +7380,11 @@ static void toggle_mode(Terminal *term, int mode, int query, bool state)
           case 8452:                   /* Sixel cursor to graphic right */
             term->sixel_scrolls_right = state;
             break;
+          case 2048:                   /* in-band text-area resize reports */
+            term->inband_resize = state;
+            if (state) report_text_area(term); /* explicit re-enable also reports */
+            else term->inband_resize_dirty = false;
+            break;
           case 2026:                   /* synchronized presentation */
             if (state) term_start_synchronized_update(term);
             else term_end_synchronized_update(term);
@@ -7456,6 +7497,7 @@ static unsigned term_mode_status(Terminal *term, unsigned mode, bool dec)
           case 9001:
             if (!conf_get_bool(term->conf, CONF_nemo_win32_input)) return 4;
             state = term->win32_input; break;
+          case 2048: state = term->inband_resize; break;
           case 2026:
             if (!term->win->vt->set_synchronized_update) return 0;
             state = term->synchronized_update; break;

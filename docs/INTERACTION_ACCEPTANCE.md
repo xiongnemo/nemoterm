@@ -346,6 +346,8 @@ For an exact-image Windows quoted-paste exit diagnostic, run `font-zoom-replay.y
 
 `suite=column-modes`（`font-zoom-replay.yml`）在能完整容纳 132 列 Sarasa 的托管桌面上逐项比较 `TERM` 应答、Win32 窗口尺寸和子程序查询到的控制台宽度。它对照 `protocol-reference.yml` 的 `family=column-modes`：六种新会话，每种 22 个阶段；本地不准改尺寸以及 `-132` / `+132` 覆盖 profile 各自单独计分。见[上游、旧版和实测差异](../research/column-modes.md)。 程序可见的文字另用 `ReadConsoleOutputW` 核对：同一子程序同时读四个普通 ASCII 格、原生光标、窗口尺寸和前端协议回复。另有 Save and Apply 后在同一会话禁用／重新允许的检查。
 
+`tests/inband_resize_window.py` runs in the same suite. Each renderer opens a standalone window and a tabbed window. The child subscribes with `CSI ? 2048 h`, then reads reports after a real window resize and font zoom. Compare row/column counts with the native child console and pixel dimensions with the measured terminal client area. The final physical `9` keystroke bounds each observation, including checks for silence after unsubscribe or reset. Results are in `column-mode-inband-*-result.json`.
+
 `tests/page_size_selection.py` 在同一工作流中检查程序请求的行列数相同、改变或被 profile 拒绝时，Shift 选区与右键复制是否仍然有效。GDI 与 DirectX 各 14 个实际窗口；[原始截图、剪贴板、子进程回执及 XTerm 412 的尺寸策略](../research/selection-page-size.md)。
 
 同一工作流用 `tests/column_mode_native_readback.py --saved` 检查应用临时改变列宽、改宽权限或是否清屏，再恢复先前状态的行为。每种渲染器有三组 17 项与[原版 XTerm 412 的逐字节回复](../testdata/upstream/xterm412-saved-column-modes.zip)比较，另有 17 项检查本地禁止改宽。每一项还从 Windows 子程序读回同一行文字和光标。`tests/column_mode_selection.py` 在应用启用鼠标报告时实际按 Shift 拖选 `A中Z`，分别验证普通改宽、恢复列宽及清屏后显示的选区；保留时还会实际按 Ctrl+Shift+C 核对剪贴板。
