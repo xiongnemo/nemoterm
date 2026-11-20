@@ -44,9 +44,9 @@ def main():
             swatches=CSI+'?25l'+CSI+'H'+''.join(CSI+f'48;5;{i}m ' for i in ids)+CSI+'0m'
             stage('initial',commands+swatches,seed)
             changed=[(255,0,0),(0,0,255),(0,255,0),(252,130,3)]
-            stage('restored',DCS+'2$s0;1;120;50;100/1;1;0;50;100/254;2;0;100;0/255;2;99;51;1'+ST,changed)
-            stage('cancelled',DCS+'2$s0;2;100;100;100/1;2;100;100;100\x18',changed)
-            stage('subset',DCS+'2$s254;2;100;100;0'+ST,changed[:2]+[(255,255,0),changed[3]])
+            stage('restored',DCS+'2$p0;1;120;50;100/1;1;0;50;100/254;2;0;100;0/255;2;99;51;1'+ST,changed)
+            stage('cancelled',DCS+'2$p0;2;100;100;100/1;2;100;100;100\x18',changed)
+            stage('subset',DCS+'2$p254;2;100;100;0'+ST,changed[:2]+[(255,255,0),changed[3]])
         finally:
             cam.close();record['capture']=cam.record;(out/'stages.json').write_text(json.dumps(record,indent=2),encoding='utf8')
         return record
