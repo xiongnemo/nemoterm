@@ -237,6 +237,8 @@ Use `suite=profile-sequence` on the exact EXE to replay the aggregate profile wo
 
 `suite=palette-exit` 对同一 EXE 重放 DirectX 调色板栈单文件用例（Consolas，与原失败一致）。两台 runner 分别用进程内取帧和窗口外截图，每台独立启动三次。保留 101 组参考回复、像素核对、1,000 次保存/恢复、子程序见到结束请求和恢复控制台的时间；原始 10 秒退出期限不变。若超时，先记失败再采集该作业所属进程的诊断。
 
+`suite=colour-input` 还在实际 Windows 子程序里发送 DEC 调色板报告与恢复请求。`dec-colour-table-*-checks.json` 记录两种坐标系下 256 个颜色寄存器的完整应答、跨 4 KiB 的整表回放、取消和损坏颜色项。`dec-swatch-*/stages.json` 和各阶段 PNG 独立记录同一行已绘制的四个色块、OSC 4 回执，以及 `GetConsoleScreenBufferInfoEx` 返回的前两个 ANSI 颜色。GDI、DirectX 均分整段与逐字节写入；原始失败照常上传。
+
 `suite=colour-input` 还重放 `22ed829` 记录中 Codex 输入乱序现场在颜色查询前实际发出的 VT。原生 `ReadConsoleInputW` 接收器与真实客户端分开：同一 EXE 分别在 GDI、DirectX 下向它粘贴完整标记；无查询的对照以及查询前、并发启动和查询回复后三种顺序都保留原始按键记录。完整状态回复将输入定界；只移除明确的回复后，用户字节须与基准逐字相同。
 
 `suite=draft-product` 与 `suite=draft-reference` 分别在受测 EXE（GDI、DirectX）和独立系统 ConPTY、WinPTY 上运行固定版本的真实 Codex。每种窗口、每个时点各开三个新会话，区分首次可见输入框与一个完整回复后。独立宿主一次写入整段原生按键记录；产品使用发现接口粘贴和实按 Ctrl+Shift+V。输入按原样只提交一次，不因字符串出错而重试，保存屏幕、原始输出和本地服务的回执。[原始证据与输入边界](../research/codex-file-draft-order.md)。

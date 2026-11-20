@@ -59,6 +59,11 @@ def main():
                osc_value(0,(0,0,255))+osc_value(255,(252,130,3)),a.style)
         record('invalid-entries-do-not-escape',DCS+'2$s256;2;100;100;100/0;2;9;8/0;9;0;0;0/0;2;100;0;999999999999999999999/254;2;0;100;0'+ST+osc_read(0)+osc_read(254),
                osc_value(0,(0,0,255))+osc_value(254,(0,255,0)),a.style)
+        # A light theme can exceed one 4 KiB input buffer even with exactly 256 registers.
+        # Mutate a swatch through OSC before replaying the actual reply to catch a no-op restore.
+        white = table(2,[(100,100,100)]*256); assert len(white)>4096
+        actual=record('report-over-4k',white+CSI+'2;2$u',white,a.style)
+        record('restore-over-4k','\x1b]4;255;#000000\x07'+(actual or white)+osc_read(255),osc_value(255,(255,255,255)),a.style)
         return dict(checks=rows)
     run(name,(),exercise=exercise,profile=dict(NemoRenderer={'gdi':0,'directx':2}[a.renderer],WarnOnClose=0),
         font='SarasaTermSC Nerd Light',barrier=(CSI+'5n',b'\x1b[0n'),source_reference='VT525 colour table values in microsoft/terminal PR 17708')
