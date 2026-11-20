@@ -33,7 +33,7 @@ Kitty 图片支持直接 RGB/RGBA/PNG、压缩传输、裁剪、透明度、查�
 
 ## 下载
 
-[下载 Windows x64 单文件试用版 `dc8b6913`](https://github.com/xiongnemo/nemoterm/actions/runs/44632752976/artifacts/14583162547)。解压后运行 `nemoterm.exe`。主屏缩窄再加宽时，Shift 选区会跟着文字折行；[中英文实际窗口的前后对比](research/selection-reflow.md)也验证了宽字符和组合附标没有被复制成空格或换行。六种满屏压力下，前端私有工作集峰值为 **GDI 19.09 MB / DirectX 29.15 MB**。完整交互 **79/81**，两项未过的都是 Codex 启动时贴图，就绪后四种组合均通过。[完整结果与 SHA-256](research/acceptance-dc8b6913.md) · [上一试用版 `844ad5c3`](https://github.com/xiongnemo/nemoterm/blob/408a251dca608961d936f0200001cdd2f649079b/research/acceptance-844ad5c3.md)。
+[下载 Windows x64 单文件试用版 `32e588e7`](https://github.com/xiongnemo/nemoterm/actions/runs/44646064546/artifacts/14588991439)。解压后运行 `nemoterm.exe`。应用切换 80／132 列时，窗口与 Windows 子程序都服从当前标签的设置；禁止改宽时，已有文字和光标都保留。[修复前后对比](research/column-modes.md)。六种满屏压力下，前端私有工作集峰值为 **GDI 19.08 MB / DirectX 28.84 MB**。完整交互 **80/81**；Codex 启动阶段一次实际键盘贴图未通过，输入框就绪后四种组合均通过。[完整结果与 SHA-256](research/acceptance-32e588e7.md) · [上一试用版 `dc8b6913`](research/acceptance-dc8b6913.md)。
 
 [上一份 81/81 的 Windows x64 测试版 `cf091974`](https://github.com/xiongnemo/nemoterm/actions/runs/44588222859/artifacts/14562762043)。解压后只需 `nemoterm.exe`（4,862,464 字节）。SHA-256：`9df8365b9e32444f24d279c114750090122f8550c1aa53dffa2972c448aa4788`。
 
