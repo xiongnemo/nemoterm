@@ -6,7 +6,7 @@ on:
       suite:
         description: Checks or notice-only packaging against the exact artifact
         type: choice
-        options: [font-bell, dpi, backarrow, interaction, single, ui-regression, shell-lifetime, tcap, portable-notices, regis-window, regis-erase, regis-frame-pair, regis-presented-matrix, regis-text-motion, regis-bank-start, column-modes, column-cells, tab-hover, pointer-colour, colour-input, sync-selection, palette-exit, unicode-boundary, picture-keys, image-timing, image-mixed, image-mixed-opencode, image-reads, image-files, image-reference, draft-reference, draft-product, paste-order, wt-images, pterm-images, pterm-memory, agent-session-memory, profile-dump, profile-dump-single, profile-env, wsl-tui, wsl-sixel, wsl-vim, wsl-tmux-vim, wsl-colour, wsl-paste-quote, wsl-relay-paste, wsl-relay-vim, wsl-byte-path, wsl-drop, rendering-settings, close-cancel, profile-sequence, font-ops, scrollback-modes, paste-lines, paste-quote, paste-quote-exit, taskbar-progress, taskbar-memory, fullscreen]
+        options: [font-bell, dpi, backarrow, backarrow-review, interaction, single, ui-regression, shell-lifetime, tcap, portable-notices, regis-window, regis-erase, regis-frame-pair, regis-presented-matrix, regis-text-motion, regis-bank-start, column-modes, column-cells, tab-hover, pointer-colour, colour-input, sync-selection, palette-exit, unicode-boundary, picture-keys, image-timing, image-mixed, image-mixed-opencode, image-reads, image-files, image-reference, draft-reference, draft-product, paste-order, wt-images, pterm-images, pterm-memory, agent-session-memory, profile-dump, profile-dump-single, profile-env, wsl-tui, wsl-sixel, wsl-vim, wsl-tmux-vim, wsl-colour, wsl-paste-quote, wsl-relay-paste, wsl-relay-vim, wsl-byte-path, wsl-drop, rendering-settings, close-cancel, profile-sequence, font-ops, scrollback-modes, paste-lines, paste-quote, paste-quote-exit, taskbar-progress, taskbar-memory, fullscreen]
         default: font-bell
       source_commit:
         description: Full source commit of the source-console-host artifact
@@ -30,6 +30,51 @@ permissions:
   actions: read
 
 jobs:
+  backarrow-review:
+    if: inputs.suite == 'backarrow-review'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Fetch the recorded Windows inputs and verify the actual PE and both manifests
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SOURCE_RUN: ${{ inputs.source_run }}
+          SOURCE_COMMIT: ${{ inputs.source_commit }}
+        run: |
+          python3 - <<'PY'
+          import hashlib,io,json,os,pathlib,subprocess,zipfile
+          out=pathlib.Path('build/backarrow-review');out.mkdir(parents=True)
+          endpoint='repos/'+os.environ['GITHUB_REPOSITORY']+'/actions/'
+          def api(path):return subprocess.check_output(['gh','api',endpoint+path])
+          run=os.environ['SOURCE_RUN']; commit=os.environ['SOURCE_COMMIT']
+          meta=json.loads(api('runs/'+run));assert meta['head_sha']==commit
+          items=[];page=1
+          while True:
+              part=json.loads(api(f'runs/{run}/artifacts?per_page=100&page={page}'))['artifacts'];items+=part
+              if len(part)<100:break
+              page+=1
+          receipts={}
+          def artifact(name):
+              row,=[a for a in items if a['name']==name and not a['expired']];blob=api('artifacts/'+str(row['id'])+'/zip')
+              assert len(blob)==row['size_in_bytes'] and 'sha256:'+hashlib.sha256(blob).hexdigest()==row['digest']
+              receipts[name]=[row['id'],row['digest']];return zipfile.ZipFile(io.BytesIO(blob))
+          with artifact('source-console-host-x64-'+commit) as z:
+              manifest=json.loads(z.read('SOURCE-HOST.json').decode('utf-8-sig'));exe=z.read('nemoterm.exe')
+              assert manifest['SourceCommit']==commit and manifest['Executable']['SHA256']==hashlib.sha256(exe).hexdigest() and manifest['Executable']['Bytes']==len(exe)
+          with artifact(f'backarrow-{run}-{meta["run_attempt"]}') as z:
+              assert json.loads(z.read('build/backarrow-product/SOURCE-HOST.json').decode('utf-8-sig'))==manifest
+              (out/'native.json').write_bytes(z.read('research/backarrow-window.json'))
+          (out/'manifest.json').write_text(json.dumps(manifest));(out/'inputs.json').write_text(json.dumps(receipts))
+          PY
+      - name: Compare both references against the original native key and query streams
+        run: python3 scripts/review-backarrow.py build/backarrow-review/native.json build/backarrow-review/manifest.json --output build/backarrow-review/comparison.json
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: backarrow-review-${{ github.run_id }}-${{ github.run_attempt }}
+          path: build/backarrow-review/
+          if-no-files-found: error
   backarrow:
     if: inputs.suite == 'backarrow'
     uses: ./.github/workflows/backarrow.yml
