@@ -34,6 +34,27 @@ permissions:
   actions: read
 
 jobs:
+  discovery:
+    name: List shells before the first profile exists
+    runs-on: windows-2025
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with: {fetch-depth: 0}
+      - name: Fetch the exact executable
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PRODUCT_RUN: ${{ inputs.source_run }}
+          PRODUCT_COMMIT: ${{ inputs.source_commit }}
+        run: ./scripts/fetch-ci-product.ps1 -Run $env:PRODUCT_RUN -Commit $env:PRODUCT_COMMIT -Destination build/shell-product
+      - name: Read the available shells with an untouched user profile
+        run: python tests/shell_list_first_use.py build/shell-product build/shell-list.json
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: shell-list-${{ github.run_id }}-${{ github.run_attempt }}
+          path: build/shell-list.json
+          if-no-files-found: error
   lifetime:
     runs-on: windows-2025
     timeout-minutes: 20
