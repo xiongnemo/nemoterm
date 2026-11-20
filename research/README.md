@@ -1,6 +1,7 @@
 # 当前测试版与待审阅材料
 
 - [当前 dist 试用版 `10f0390f` 的原生读屏、交互和内存验收](acceptance-10f0390f.md)。
+- [标签中键误关的修复和两版实际鼠标记录](tab-middle-gestures.md)。
 - [上一版 `8f375f7d` 的列宽恢复、交互和内存验收](acceptance-8f375f7d.md)。
 - [上一版 `32e588e7` 的列宽与内存验收](acceptance-32e588e7.md)。
 - [Codex 输入就绪前后的贴图](codex-bitmap-requests.md)单列启动草稿和正常输入的结果；更早的 [`dc8b6913` 验收记录](https://github.com/xiongnemo/nemoterm/blob/212f1fcbf302e6b46d3ae2a887ac70915e367082/research/acceptance-dc8b6913.md) 已归档。
