@@ -2,6 +2,22 @@
 
 下文保留当时的记录。每条数字都对应所列提交；当前测试版请从 [README 下载](../README.md#下载)。
 
+## `cf091974`：81 项交互通过的历史试用版
+
+[上一份 81/81 的 Windows x64 测试版 `cf091974`](https://github.com/xiongnemo/nemoterm/actions/runs/44588222859/artifacts/14562762043)。解压后只需 `nemoterm.exe`（4,862,464 字节）。SHA-256：`9df8365b9e32444f24d279c114750090122f8550c1aa53dffa2972c448aa4788`。
+
+从资源管理器拖入同一 WSL 发行版的文件或文件夹，现在会贴入可用的 Linux 路径。修改 profile 的默认 shell 后，现有标签仍沿用原 shell 的引号规则，新会话使用新设置。GDI、DirectX 上的 [18 项拖放回放](https://github.com/xiongnemo/nemoterm/blob/408a251dca608961d936f0200001cdd2f649079b/research/drop-shell-paths.md)均通过。
+
+同一份 EXE 通过 **[81/81 项交互验收](https://github.com/xiongnemo/nemoterm/blob/408a251dca608961d936f0200001cdd2f649079b/research/preview-cf091974.zip)**，覆盖真实客户端、鼠标、键盘、剪贴板、标签和设置。[局部滚屏时的矩形选择](https://github.com/xiongnemo/nemoterm/blob/408a251dca608961d936f0200001cdd2f649079b/research/selection-region-after-cf091974.zip)另通过 46/46 项；[真实应用回放](https://github.com/xiongnemo/nemoterm/blob/408a251dca608961d936f0200001cdd2f649079b/research/xterm-clients-cf091974.zip)覆盖 Vim、tmux 内 Vim、颜色与 Sixel。交互通过不代表整个协议回归通过：与原版 XTerm 412 的[宽字边界](../research/column-edge-integrity.md)、[ReGIS 重绘](../research/regis-presented-pairs.md)和 WSL1 的 [`?2005` 逐字节粘贴](docs/INTERACTION_ACCEPTANCE.md#逐字节粘贴xterm-私有模式-2005)仍有差异。
+
+160×48、SarasaTermSC Nerd Light 的六种压力场景，前端私有工作集峰值为 **GDI 19.70 MB / DirectX 29.06 MB**，总工作集为 56.59 / 74.28 MB。[同机 24 轮 Codex 对照](../research/pterm-findings.md#cf091974资源管理器拖放修复后的同机对照)中，原版 pterm / Nemoterm GDI / DirectX 的前端私有峰值为 **3.79 / 5.49 / 9.70 MB**。[完整 CI](https://github.com/xiongnemo/nemoterm/actions/runs/44588222859)。
+
+## 窗口高度和任务栏进度的专项候选
+
+另有[修复窗口变高或变矮后选区丢失的候选 `6072ebc9`](https://github.com/xiongnemo/nemoterm/blob/408a251dca608961d936f0200001cdd2f649079b/research/acceptance-6072ebc9.md)，可从该页下载同一份远程构建。候选的选区 8/8 通过、GDI / DirectX 压力内存达标；完整交互为 80/81，Codex 启动早期的一次贴图未通过。
+
+[应用进度候选 `6fbfa79e`](https://github.com/xiongnemo/nemoterm/blob/408a251dca608961d936f0200001cdd2f649079b/research/taskbar-progress.md) 可在标签和 Windows 任务栏显示长任务进度。实际标签栏像素共 32/32 项通过；在两标签启用进度的 160×48 图文压力场景中，前端私有工作集峰值为 GDI 19.21 MB、DirectX 28.77 MB。此专项结果不替代完整交互验收。
+
 ## `3947dee3` 单文件测试版
 
 [下载 Windows x64 单文件试用版 `3947dee3`](https://github.com/xiongnemo/nemoterm/actions/runs/44607488923/artifacts/14571391046)。解压后运行 `nemoterm.exe`。[GDI、DirectX 实际窗口回放](https://github.com/xiongnemo/nemoterm/blob/408a251dca608961d936f0200001cdd2f649079b/research/selection-screen.md)由 6/14 提高到 14/14，另有 8/8 次在鼠标仍拖动时切屏的检查通过。六种满屏压力下的私有工作集峰值为 **19.10 / 29.12 MB**。完整交互 79/81：两个 Codex 启动早期贴图用例未过；就绪后的两种快捷键均通过。 [完整记录与校验值](https://github.com/xiongnemo/nemoterm/blob/408a251dca608961d936f0200001cdd2f649079b/research/acceptance-3947dee3.md)。
