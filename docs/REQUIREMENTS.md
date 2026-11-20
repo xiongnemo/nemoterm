@@ -1,6 +1,8 @@
 # Nemoterm requirements and evidence ledger
 
-The [distributed `6a8986d5` preview](../research/acceptance-6a8986d5.md) honours horizontal and vertical maximise requests independently; applications cannot resize a locked window. The candidate passed 36/36 geometry and permission checks and 11/11 shared-window checks. Its interaction run verified 79/81; six stress workloads per renderer peaked at 18,898,944 and 28,995,584 private working-set bytes on GDI and DirectX.
+The [distributed `78b18ac0` preview](../research/acceptance-78b18ac0.md) keeps a held Shift press on the original glyph during rectangle fills and copies. When the glyph is replaced the gesture is cancelled. Raw screen, clipboard and input checks passed 56/56, up from 20/56 on the previous image. Its interaction run verified 80/81; six stress workloads per renderer peaked at 19,685,376 and 28,659,712 private working-set bytes on GDI and DirectX.
+
+The [previous `6a8986d5` preview](../research/acceptance-6a8986d5.md) honours horizontal and vertical maximise requests independently; applications cannot resize a locked window. The candidate passed 36/36 geometry and permission checks and 11/11 shared-window checks. Its interaction run verified 79/81; six stress workloads per renderer peaked at 18,898,944 and 28,995,584 private working-set bytes on GDI and DirectX.
 
 The [previous `f2f553b9` preview](../research/acceptance-f2f553b9.md) keeps a held Shift press on the same visible glyph across application line-sizing commands (34/34 hosted gestures versus 12/34 on the previous executable). Its full interaction run verified 79/81; six stress workloads per renderer peaked at 18,759,680 and 29,478,912 private working-set bytes on GDI and DirectX.
 

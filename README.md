@@ -33,7 +33,7 @@ Kitty 图片支持直接 RGB/RGBA/PNG、压缩传输、裁剪、透明度、查�
 
 ## 下载
 
-[下载 Windows x64 单文件试用版 `6a8986d5`](https://github.com/xiongnemo/nemoterm/actions/runs/44680462961/artifacts/14604052453)。本版修复[应用只要求拉高或拉宽窗口却触发整窗最大化](research/window-maximise.md)的问题。六种满屏负载的前端私有工作集峰值：**GDI 18.90 MB / DirectX 29.00 MB**。完整交互 79/81。[本版验收和 SHA-256](research/acceptance-6a8986d5.md) · [上一试用版](research/acceptance-f2f553b9.md)。
+[下载 Windows x64 单文件试用版 `78b18ac0`](https://github.com/xiongnemo/nemoterm/actions/runs/44683142606/artifacts/14605202946)。本版修复[应用矩形重绘时 Shift 拖选会复制错字](research/selection-rectangle-redraw.md)的问题，原组 20/56，修复后 56/56。六种满屏负载的前端私有工作集峰值：**GDI 19.69 MB / DirectX 28.66 MB**。完整交互 80/81。[本版验收和 SHA-256](research/acceptance-78b18ac0.md) · [上一试用版](research/acceptance-6a8986d5.md)。
 
 旧版本的下载、内存和已知差异见[历史试用版](docs/PREVIEW_HISTORY.md)，其中 `cf091974` 通过了当时全部 81 项交互检查。
 
