@@ -36,6 +36,14 @@ class ScreenInfo(c.Structure):
     _fields_ = [('size', Coord), ('cursor', Coord), ('attributes', w.WORD),
                ('window', SmallRect), ('maximum', Coord)]
 
+class ScreenInfoEx(c.Structure):
+    _fields_ = [('size_bytes',w.DWORD)]+ScreenInfo._fields_+[
+        ('popup',w.WORD),('fullscreen',w.BOOL),('colours',w.DWORD*16)]
+
+collect_palette=os.environ.get('NEMOTERM_TEST_NATIVE_PALETTE')=='1'
+if collect_palette:
+    k.GetConsoleScreenBufferInfoEx.argtypes=[w.HANDLE,c.POINTER(ScreenInfoEx)]
+
 class NativeCell(c.Structure):
     _fields_ = [('unit', w.WORD), ('attributes', w.WORD)]
 
@@ -155,6 +163,10 @@ try:
             snapshot['flushed_responses'] = sorted(responded)
         if applied_blob is not None:
             snapshot['applied_blob'] = applied_blob
+        if collect_palette:
+            info_ex=ScreenInfoEx(size_bytes=c.sizeof(ScreenInfoEx))
+            if not k.GetConsoleScreenBufferInfoEx(stdout,c.byref(info_ex)):raise c.WinError()
+            snapshot['win32_colorref']=list(info_ex.colours)
         if request.get('report_cursor') or request.get('native_row'):
             info=ScreenInfo()
             if not k.GetConsoleScreenBufferInfo(stdout, c.byref(info)):

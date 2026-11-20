@@ -27,7 +27,8 @@ def test(renderer, style, ref):
     # The terminfo output has no BEL or ST. Put an actual printed @ immediately
     # after each command; a later standalone ST lets a broken receiver recover.
     stages=[('legacy-set',legacy,palette),('legacy-reset',[bytes.fromhex(ref['reset']).decode('ascii')],BASE),
-            ('modern-set',modern,palette),('modern-reset',[OSC+'104'+ST],BASE)]
+            ('modern-set',modern,palette),('modern-reset',[OSC+'104'+ST],BASE),
+            ('modern-set-for-reset',modern,palette),('cross-reset',[bytes.fromhex(ref['reset']).decode('ascii')],BASE)]
     checks=[]
     def exercise(hwnd,phase,current):
         u.GetPropW.argtypes,u.GetPropW.restype=[w.HWND,w.LPCWSTR],w.HANDLE
@@ -60,17 +61,29 @@ def test(renderer, style, ref):
             seed=CSI+'?25l'+CSI+'?1002;1006h'+CSI+'2J'+CSI+'1;1H'+''.join(CSI+f'48;5;{i}m ' for i in range(16))+CSI+'0m'+CSI+'3;3Ha中文z'+paint_marker(0)
             set_clipboard(hwnd,'palette sentinel');phase('scene',seed+CSI+'?1002$p'+CSI+'?1006$p'+queries,b'\x1b[?1002;1$y\x1b[?1006;1$y'+replies(BASE))
             swatches,_,_=frame('before',0);assert swatches==BASE,swatches
+            native_base=current()['win32_colorref'];assert len(native_base)==16;obs['native_base']=native_base
+            # Win32 numbers colours BGR in the low three index bits. In each
+            # COLORREF it stores red in the least significant value byte.
+            native_set=[0]*16
+            for ansi,(red,green,blue) in enumerate(palette):
+                index=(ansi&10)|((ansi&1)<<2)|((ansi&4)>>2)
+                native_set[index]=red|(green<<8)|(blue<<16)
+
             point(3,2);desk.event(0x10,True);desk.event(None,True);wait_for(lambda:desk.state().capture==hwnd);point(6,2)
             frame('selected',0,True);desk.event(None,False);desk.event(0x10,False);wait_for(lambda:desk.state().capture!=hwnd)
             for i,(label,commands,colours) in enumerate(stages,1):
                 seq=CSI+'4;1H'+CSI+'2K'+CSI+'38;2;255;255;255;48;2;0;0;0m'+''.join(cmd+'@' for cmd in commands)+ST+CSI+'6n'+queries+paint_marker(i)
                 wire=phase(label,seq,None,console_write=style);expected=CSI.encode()+f'4;{1+len(commands)}R'.encode()+replies(colours)
+                snapshot=current();assert snapshot['phase']==label
+                native_text=''.join(chr(cell[0]) for cell in snapshot['native_row']); native_colours=snapshot['win32_colorref']
+                expected_text='@'*len(commands)+' '*(17-len(commands));expected_native=native_set if colours==palette else native_base
                 swatches,selected,ink=frame(label,i);clip_seq=u.GetClipboardSequenceNumber();desk.chord(0x11,0x10,ord('C'));desk.chord(ord('8'))
                 child=wait_for(lambda:r if (r:=bytes.fromhex(current()['hex'])).endswith(b'8') else None)
                 changed=u.GetClipboardSequenceNumber()!=clip_seq;copied=clipboard_text(hwnd)
                 passed=dict(replies=wire==expected,swatches=swatches==colours,following_text=ink==list(range(len(commands))),
                             highlight=selected==[3,4,5,6],copy=changed and copied=='中文',input=child==wire+ACK+b'8')
-                obs['stages'][label]=dict(actual=wire.hex(),expected=expected.hex(),colours=swatches,following_text=ink,selected=selected,
+                passed.update(native_text=native_text==expected_text,native_colours=native_colours==expected_native)
+                obs['stages'][label]=dict(native_text=native_text,expected_text=expected_text,native_colours=native_colours,expected_native_colours=expected_native,actual=wire.hex(),expected=expected.hex(),colours=swatches,following_text=ink,selected=selected,
                                           clipboard=copied,clipboard_changed=changed,child=child.hex(),checks=passed)
                 checks.extend(passed.values())
         finally:
@@ -83,14 +96,15 @@ def test(renderer, style, ref):
     profile.update(NemoTabs=1,NemoRenderer=active-1,FontHeight=8,WarnOnClose=0,MouseOverride=1,MouseAutocopy=0,
                    NemoSelectionBackgroundEnabled=1,NemoSelectionBackground=0x223355)
     try:
-        run(name,[],exercise=exercise,barrier=(CSI+'5n',ACK),font=os.environ['NEMOTERM_TEST_FONT'],profile=profile,
+        run(name,[],exercise=exercise,barrier=(CSI+'5n',ACK),font=os.environ['NEMOTERM_TEST_FONT'],profile=profile,native_row=(0,3,17),
             source_reference='hosted ncurses linux terminfo initc/oc; OSC 4 and screen probes are measured by the Windows fixture')
-        obs['passed']=len(checks)==24 and all(checks)
+        obs['passed']=len(checks)==8*len(stages) and all(checks)
     finally:(out/'result.json').write_text(json.dumps(obs,indent=2))
     return obs['passed']
 
 
 if __name__=='__main__':
     assert os.environ.get('RUNNER_ENVIRONMENT')=='github-hosted'
+    os.environ['NEMOTERM_TEST_NATIVE_PALETTE']='1'
     p=argparse.ArgumentParser();p.add_argument('reference',type=Path);p.add_argument('renderer',choices=('gdi','directx'));p.add_argument('style',choices=('whole','bytewise'))
     a=p.parse_args();raise SystemExit(not test(a.renderer,a.style,json.loads(a.reference.read_bytes())))
