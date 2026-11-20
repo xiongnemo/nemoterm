@@ -186,7 +186,8 @@ GPU 模式使用 Windows 系统 DLL 与显卡驱动，不新增分发文件；�
 
 这里的 MB 按十进制字节计，20 MB 为 20,000,000 字节，30 MB 为 30,000,000 字节；私有工作集与私有提交量分别记录。
 
-在同一台 GitHub Windows runner 上，用 Sarasa Light、160×48 和同一个 Codex 客户端运行 `2c0152c`。收到回复后，单标签 GDI 前端的私有工作集中位数为 **5.071–5.112 MB**，DirectX 为 **9.724–9.761 MB**；同机 pterm 0.85 为 **3.752–3.781 MB**。GDI 和 DirectX 的总工作集分别为 **33.18–34.09 MB**、**44.75–44.79 MB**。每种配置分别按正序、反序冷启动；这些数字只统计前端进程，满屏图文的峰值另行验收。[完整采样与峰值](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/selection-repaint.md) · [历史内存记录](docs/PREVIEW_HISTORY.md#内存)。
+[下载区](#下载)链接到当前试用版的实测表。**24 轮 Codex** 一栏比较同一台托管 Windows 机器上的 pterm、Nemoterm GDI 和 DirectX，固定 160×48 与 SarasaTermSC Nerd Light；**六种满屏负载**一栏记录大量文字、Unicode 和图形内容下的峰值。内存按前端进程统计，shell、Codex 和控制台宿主单独计数。[pterm 为什么占用较低](research/pterm-findings.md) · [历史内存记录](docs/PREVIEW_HISTORY.md#内存)。
+
 切回 GDI 后，驱动保留的内存可能需要关闭窗口才能释放。
 
 “单 EXE”指一个分发文件：程序仍会启动同一个 EXE 的隐藏控制台宿主进程，并运行所选 shell。
