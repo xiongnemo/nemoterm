@@ -1,5 +1,6 @@
 # 当前测试版与待审阅材料
 
+- [候选版 `371a6f01` 的交互与内存验收](acceptance-371a6f01.md)：同一 EXE 的实测、原始制品与剩余检查。
 - [当前 dist 试用版 `03d0e0bc` 的全屏选区验收](acceptance-03d0e0bc.md)；[上一试用版的交互与内存](acceptance-706fe3ee.md)。[试用版历史和原始制品](../docs/PREVIEW_HISTORY.md)。
 - [试用版的 Backspace 模式、真实按键与 XTerm 数据库差异](backspace-706fe3ee.md)。
 - [Linux 调色后，窗口像素与子程序读到的文字和颜色是否一致](linux-console-palette.md)：GDI、DirectX 的整段和逐字节检查由各 3/6 到 6/6。
