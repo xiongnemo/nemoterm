@@ -56,6 +56,11 @@ jobs:
         env:
           RENDERER: ${{ matrix.renderer }}
         run: python tests/column_mode_native_readback.py
+      - name: Preserve or discard the selected glyphs according to actual page-size changes
+        if: ${{ !cancelled() && steps.prepare.outcome == 'success' }}
+        env:
+          RENDERER: ${{ matrix.renderer }}
+        run: python tests/page_size_selection.py
       - name: Read the native row and cursor after restoring private column modes
         if: ${{ !cancelled() && steps.prepare.outcome == 'success' }}
         env:
