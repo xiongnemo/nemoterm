@@ -1,6 +1,8 @@
 # Codex 启动时，Windows 何时收到位图读取请求？
 
-**换一个终端宿主也会发生。** 在不运行 Nemoterm 的[独立回放](https://github.com/xiongnemo/nemoterm/actions/runs/44292905252)里，同一版本 Codex 分别由 Windows 系统 ConPTY 和 WinPTY 启动。刚看到输入文字时发送同一组原生按键，两边都只提交文字（0 张图）；完成一轮回复后发送，服务端各收到 1 张逐像素匹配的 32×16 PNG。这是两个控制台宿主的对照，没有运行 Windows Terminal 或 Alacritty 的图形界面。[四个场景的原始回执](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/codex-independent-image-4db9c54.zip)与[另一次系统 ConPTY 在首次文字可见时即成功的记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/codex-independent-image-212034f.zip)共同说明：文字已经出现，不能据此判断是哪一个编辑器在接收按键。
+**换一个终端也会发生。** [微软 Windows Terminal 实际窗口](#微软-windows-terminal-的真实窗口)把 Ctrl+V 转给 Codex 后，与原版 pterm、Nemoterm 一样，都观察到刚能打字时提交纯文字，稍后同一个快捷键能贴图。
+
+在不运行 Nemoterm 的[独立回放](https://github.com/xiongnemo/nemoterm/actions/runs/44292905252)里，同一版本 Codex 分别由 Windows 系统 ConPTY 和 WinPTY 启动。刚看到输入文字时发送同一组原生按键，两边都只提交文字（0 张图）；完成一轮回复后发送，服务端各收到 1 张逐像素匹配的 32×16 PNG。这是两个控制台宿主的对照，没有运行 Windows Terminal 或 Alacritty 的图形界面。[四个场景的原始回执](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/codex-independent-image-4db9c54.zip)与[另一次系统 ConPTY 在首次文字可见时即成功的记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/codex-independent-image-212034f.zip)共同说明：文字已经出现，不能据此判断是哪一个编辑器在接收按键。
 
 同一份 `e02f0d0` 的 Nemoterm 上，固定的 Codex 0.167.0 有三次在输入文字已经显示、但还没有 idle 信号时收到了测试手势。Windows 在接下来的约 20 秒里没有要求剪贴板所有者提供位图，屏幕上也没有附件。等到同一份草稿就绪，再按一次，三次都出现了附件，回环服务端均只收到一张像素正确的 32×16 图片。**发键时已经有 idle 信号的五次，第一次就成功了。** 这个信号用于对齐测试记录，不能把窗口标题当作同等的用户可见提示。
 
@@ -38,6 +40,26 @@
 
 ![两个真实窗口按 Ctrl+V 后、提交前的原始输入行裁剪](pterm-gui-codex-paste.png)
 
-对照使用默认按键绑定。刚能打字时不附图，原版 pterm 也确实能复现；这不表示每次启动都会错过，也不表示必须先提交第一条消息。完成一轮只用于得到稳定的阳性对照。原版 pterm 的 Ctrl+Shift+V 在本次稳定阶段没有附图，不能用它来判断 Codex 就绪与否。这里采集的是 pterm 和 Nemoterm 的 Win32 窗口，没有实测 Windows Terminal 或 Alacritty。
+对照使用默认按键绑定。刚能打字时不附图，原版 pterm 也确实能复现；这不表示每次启动都会错过，也不表示必须先提交第一条消息。完成一轮只用于得到稳定的阳性对照。原版 pterm 的 Ctrl+Shift+V 在本次稳定阶段没有附图，不能用它来判断 Codex 就绪与否。这八个窗口只包括 pterm 和 Nemoterm；Windows Terminal 的独立实测见下节，Alacritty 不在本次样本中。
 
 [全部八张原始窗口截图、实际按键、服务端回执和文件身份](pterm-gui-images-44593038636.zip)。[首轮原始记录](pterm-gui-images-44592058260.zip)已经出现三个正确位图回执，但测试只识别纯数字标记，未将 `8932[Image #1]` 识别为对应的提交，三例超时。后续使用相同 EXE 和客户端，允许这个精确的附件标记；原始失败没有覆盖或计入产品的 81 项验收。较早一次[分派错误的作业](https://github.com/xiongnemo/nemoterm/actions/runs/44591368740)只执行了内存测试，不作为贴图证据。
+
+## 微软 Windows Terminal 的真实窗口
+
+[第一轮完整回放](https://github.com/xiongnemo/nemoterm/actions/runs/44666609875)和[保留后续画面的复测](https://github.com/xiongnemo/nemoterm/actions/runs/44667306079)各启动十个新窗口，使用官方便携 Windows Terminal 1.25.3131.0、Nemoterm 单文件 `a96e10b4` 和同一版 Codex 0.167.0。网格均为 160×48，字体为 SarasaTermSC Nerd Light；Windows Terminal 子进程逐一回报了预期的 profile GUID 和不同的会话 ID。每个窗口只对目标草稿按一次贴图键、提交一次。下表各格是**收到一张正确图片的次数 / 实际提交数**。每列来自两轮各一次，二十个目标草稿全部有回执；没有图的请求也都包含本次测试文字。七次带图的请求各有且仅有一张逐像素正确的 32×16 PNG。
+
+| 窗口和按键 | 刚回显测试文字 | 已显示上一轮回复 |
+| --- | ---: | ---: |
+| Windows Terminal 默认，Ctrl+V | 0/2 | 0/2 |
+| Windows Terminal 默认，Ctrl+Shift+V | 0/2 | 0/2 |
+| Windows Terminal 取消自身的 Ctrl+V 绑定，Ctrl+V | 0/2 | 2/2 |
+| Nemoterm 默认，Ctrl+V | 1/2 | 2/2 |
+| Nemoterm 默认，Ctrl+Shift+V | 0/2 | 2/2 |
+
+微软这版的两个默认键均绑定到终端自身的粘贴操作。只把 Ctrl+V 交给应用后，**刚能打字却贴不上图**在 Windows Terminal 也复现了；同一设置下，稍后 Codex 能收到正确图片。这个结论限于所测客户端、按键和剪贴板格式（只有位图）。完成一轮回复只是用来确定稳定的对照时点，正常使用并不要求先发一条消息。Nemoterm 的早期 Ctrl+V 两轮分别是零张、一张；首次出现文字并不是可靠的就绪判据。全部二十个窗口都正常退出并恢复剪贴板，没有残留进程需要终止。
+
+下面三张原始裁剪来自同一个 Windows Terminal 窗口，均在同一次 Ctrl+V 之后、唯一一次回车之前。测试读到控制台缓冲区的附件标记后，首张截图（采集结束于 32 毫秒）仍是纯文字；297 和 1016 毫秒处均已显示 `[Image #1]`。不能仅凭最早一张截图判定贴图失败；这三个时间也不是 Codex 启动后要等待的时间。
+
+![Windows Terminal 输入行在 32、297 和 1016 毫秒时的画面，从左到右](windows-terminal-paste-frames.png)
+
+[首轮失败](https://github.com/xiongnemo/nemoterm/actions/runs/44665424784)的六个微软窗口没有通过准备阶段，没有按键或目标提交，不能当成六次零图。修正的是测试进程的环境、profile 选择和错误记录，产品 EXE 和真实客户端都没换。正式的 81 项验收仍保留启动早期的两项失败。原始上传包、散列、各次完整截图，以及标明无提交、纯文字和有图的索引均保存在[证据包](windows-terminal-codex-images.zip)中。

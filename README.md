@@ -43,7 +43,7 @@ Kitty 图片支持直接 RGB/RGBA/PNG、压缩传输、裁剪、透明度、查�
 
 160×48、SarasaTermSC Nerd Light 的六种压力场景，前端私有工作集峰值为 **GDI 19.70 MB / DirectX 29.06 MB**，总工作集为 56.59 / 74.28 MB。[同机 24 轮 Codex 对照](research/pterm-findings.md#cf091974资源管理器拖放修复后的同机对照)中，原版 pterm / Nemoterm GDI / DirectX 的前端私有峰值为 **3.79 / 5.49 / 9.70 MB**。[完整 CI](https://github.com/xiongnemo/nemoterm/actions/runs/44588222859) · [历史测试版](docs/PREVIEW_HISTORY.md)。
 
-Codex 0.167.0 的启动草稿只收文字。即使已经能打字，也请等正常编辑器接手后再贴图，看到图片附件再发送。[原版 pterm 的真实窗口对照](research/codex-bitmap-requests.md#原版-pterm-和-nemoterm-的真实窗口)也复现了这个现象：同样按 Ctrl+V，刚见到文字时只提交了文字，稍后则收到完整图片。窗口标题不能判断是否就绪。[实际提交与截图](research/codex-file-draft-order.md) · [按键后 Windows 何时索取位图](research/codex-bitmap-requests.md)。
+Codex 0.167.0 的启动草稿只收文字。即使已经能打字，也请等正常编辑器接手后再贴图，看到图片附件再发送。[原版 pterm 和微软 Windows Terminal 的真实窗口对照](research/codex-bitmap-requests.md#微软-windows-terminal-的真实窗口)也复现过：Ctrl+V 交给 Codex 时，刚见到文字只提交了文字，稍后则收到完整图片。窗口标题不能判断是否就绪。[实际提交与截图](research/codex-file-draft-order.md) · [按键后 Windows 何时索取位图](research/codex-bitmap-requests.md)。
 
 另有[修复窗口变高或变矮后选区丢失的候选 `6072ebc9`](https://github.com/xiongnemo/nemoterm/blob/408a251dca608961d936f0200001cdd2f649079b/research/acceptance-6072ebc9.md)，可从该页下载同一份远程构建。候选的选区 8/8 通过、GDI / DirectX 压力内存达标；完整交互为 80/81，Codex 启动早期的一次贴图未通过。
 
