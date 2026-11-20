@@ -17,7 +17,7 @@
 #include <time.h>
 #include <unistd.h>
 
-enum { DATA = 1, RESIZE = 2, CAPACITY = 16384, BAD = 125 };
+enum { DATA = 1, RESIZE = 2, GEOMETRY = 3, CAPACITY = 16384, BAD = 125 };
 
 typedef struct {
     unsigned char header[3], data[CAPACITY];
@@ -26,16 +26,19 @@ typedef struct {
 
 static unsigned number(const unsigned char *p) { return ((unsigned)p[0] << 8) | p[1]; }
 static bool dimension(unsigned value) { return value > 0 && value <= 32767; }
-static int grid_arg(const char *s)
+/* Reject the whole number; never truncate an oversized pixel coordinate. */
+static bool dimension_arg(const char *s, unsigned min, unsigned max, unsigned short *out)
 {
     unsigned n = 0;
-    if (!*s) return 0;
+    if (!*s) return false;
     for (; *s; s++) {
-        if (*s < '0' || *s > '9') return 0;
+        if (*s < '0' || *s > '9') return false;
         n = n*10 + (unsigned)(*s-'0');
-        if (n > 32767) return 0;
+        if (n > max) return false;
     }
-    return (int)n;
+    if (n < min) return false;
+    *out = (unsigned short)n;
+    return true;
 }
 static int nonblock(int fd)
 {
@@ -64,7 +67,8 @@ static int read_frame(Frame *f)
     if (header && *used == sizeof(f->header)) {
         f->length = number(f->header+1);
         if (!(f->header[0] == DATA && f->length && f->length <= CAPACITY) &&
-            !(f->header[0] == RESIZE && f->length == 4)) {
+            !(f->header[0] == RESIZE && f->length == 4) &&
+            !(f->header[0] == GEOMETRY && f->length == 8)) {
             errno = EPROTO; return -1;
         }
     }
@@ -82,8 +86,11 @@ static enum end pump(int master)
         return FAILED;
     for (;;) {
         if (eof && out_at == out_end) return SLAVE_EOF;
-        if (!eof && ready(&f) && f.header[0] == RESIZE) {
+        if (!eof && ready(&f) && f.header[0] != DATA) {
             struct winsize ws = {.ws_col=number(f.data), .ws_row=number(f.data+2)};
+            if (f.header[0] == GEOMETRY) {
+                ws.ws_xpixel = number(f.data+4); ws.ws_ypixel = number(f.data+6);
+            }
             if (!dimension(ws.ws_col) || !dimension(ws.ws_row)) { errno=EPROTO; return FAILED; }
             if (ioctl(master,TIOCSWINSZ,&ws) < 0) { if (errno==EINTR) continue; return FAILED; }
             clear_frame(&f);
@@ -160,16 +167,21 @@ static int wait_child(pid_t child, bool cancel)
 
 int main(int argc, char **argv)
 {
-    if (argc<4 || isatty(STDIN_FILENO) || isatty(STDOUT_FILENO)) {
-        fputs("expected redirected pipes and COLS ROWS PROGRAM [ARG ...]\n",stderr); return BAD;
+    bool pixels = argc > 1 && !strcmp(argv[1], "--pixels");
+    int col = pixels ? 2 : 1, prog = pixels ? 6 : 3;
+    if (argc <= prog || isatty(STDIN_FILENO) || isatty(STDOUT_FILENO)) {
+        fputs("expected redirected pipes and [--pixels] COLS ROWS [XPIX YPIX] PROGRAM [ARG ...]\n",stderr); return BAD;
     }
-    struct winsize ws={.ws_col=grid_arg(argv[1]),.ws_row=grid_arg(argv[2])};
-    if (!ws.ws_col || !ws.ws_row) { fputs("invalid initial dimensions\n",stderr); return BAD; }
+    struct winsize ws = {0};
+    if (!dimension_arg(argv[col],1,32767,&ws.ws_col) || !dimension_arg(argv[col+1],1,32767,&ws.ws_row) ||
+        (pixels && (!dimension_arg(argv[4],0,65535,&ws.ws_xpixel) || !dimension_arg(argv[5],0,65535,&ws.ws_ypixel)))) {
+        fputs("invalid initial dimensions\n",stderr); return BAD;
+    }
     int master=-1;
     pid_t child=forkpty(&master,NULL,NULL,&ws);
     if (child<0) { perror("forkpty"); return BAD; }
     if (!child) {
-        execvp(argv[3],argv+3);
+        execvp(argv[prog],argv+prog);
         int code=errno==ENOENT ? 127 : 126; perror("execvp"); _exit(code);
     }
     signal(SIGPIPE,SIG_IGN); /* keep the child's inherited signal policy */

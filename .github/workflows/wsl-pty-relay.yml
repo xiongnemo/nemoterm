@@ -17,8 +17,6 @@ jobs:
           mkdir -p build/wsl-relay
           musl-gcc -std=c11 -Wall -Wextra -Werror -Os -static -s -Wl,--build-id=none -o build/wsl-relay/relay native/wsl_pty/relay.c -lutil
           cp /usr/share/doc/musl/copyright build/wsl-relay/musl-copyright
-          cmp build/wsl-relay/relay native/wsl_pty/bundled/relay-x86_64.elf
-          cmp build/wsl-relay/musl-copyright native/wsl_pty/bundled/musl-copyright.txt
           file build/wsl-relay/relay
           if readelf -lW build/wsl-relay/relay | grep -q INTERP; then exit 1; fi
           cd build/wsl-relay && sha256sum relay > SHA256SUMS
@@ -28,6 +26,10 @@ jobs:
           name: wsl-relay-build-${{ github.run_id }}-${{ github.run_attempt }}
           path: build/wsl-relay/
           if-no-files-found: error
+      - name: Require the embedded relay and licence to match the hosted rebuild
+        run: |
+          cmp build/wsl-relay/relay native/wsl_pty/bundled/relay-x86_64.elf
+          cmp build/wsl-relay/musl-copyright native/wsl_pty/bundled/musl-copyright.txt
   exercise:
     needs: build
     strategy:
