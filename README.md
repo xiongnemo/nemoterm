@@ -33,7 +33,7 @@ Kitty 图片支持直接 RGB/RGBA/PNG、压缩传输、裁剪、透明度、查�
 
 ## 下载
 
-[下载 Windows x64 单文件试用版 `bdf847f9`](https://github.com/xiongnemo/nemoterm/actions/runs/44696025018/artifacts/14611150964)。本版修复[清空滚动历史时的 Shift 拖选](research/selection-history-clear.md)，GDI 和 DirectX 共验证 20/20 个窗口。六种满屏负载的前端私有工作集峰值：**GDI 18.65 MB / DirectX 29.27 MB**。整组交互 80/81。[本版验收和 SHA-256](research/acceptance-bdf847f9.md) · [上一试用版](research/acceptance-f20a27da.md)。
+[下载 Windows x64 单文件试用版 `bda4d485`](https://github.com/xiongnemo/nemoterm/actions/runs/44703215110/artifacts/14613364439)。本版支持[窗口和字号的尺寸变化通知](research/inband-resize.md)，四个实际窗口通过 76/76 项。六种满屏负载的前端私有工作集峰值：**GDI 19.60 MB / DirectX 29.28 MB**。整组交互 79/81。[本版验收和 SHA-256](research/acceptance-bda4d485.md) · [上一试用版](research/acceptance-bdf847f9.md)。
 
 旧版本的下载、内存和已知差异见[历史试用版](docs/PREVIEW_HISTORY.md)，其中 `cf091974` 通过了当时全部 81 项交互检查。
 

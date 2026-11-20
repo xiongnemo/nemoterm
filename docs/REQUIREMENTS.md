@@ -1,6 +1,8 @@
 # Nemoterm requirements and evidence ledger
 
-The [distributed `bdf847f9` preview](../research/acceptance-bdf847f9.md) preserves local Shift selection on surviving rows and discards erased history. In [20 hosted windows](../research/selection-history-clear.md), GDI and DirectX agreed on the visible selection, clipboard and child input. Interaction: 80/81. Six stress workloads peaked at 18,653,184 (GDI) and 29,274,112 (DirectX) private working-set bytes.
+The [distributed `bda4d485` preview](../research/acceptance-bda4d485.md) passed 76/76 native resize checks, including text metrics at input read time. Interaction: 79/81. Six full-grid stress workloads peaked at 19,599,360 (GDI) and 29,278,208 (DirectX) frontend private working-set bytes.
+
+The [previous `bdf847f9` preview](../research/acceptance-bdf847f9.md) preserves local Shift selection on surviving rows and discards erased history. In [20 hosted windows](../research/selection-history-clear.md), GDI and DirectX agreed on the visible selection, clipboard and child input. Interaction: 80/81. Six stress workloads peaked at 18,653,184 (GDI) and 29,274,112 (DirectX) private working-set bytes.
 
 The [previous `f20a27da` preview](../research/acceptance-f20a27da.md) retains ReGIS ink after horizontal text edits on GDI and DirectX: 36/36 presented repaints match XTerm, previously 4/36. Intermediate frame differences remain. Interaction: 79/81; the six stress workloads peaked at 19,963,904 (GDI) and 28,635,136 (DirectX) private working-set bytes.
 
