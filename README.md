@@ -33,7 +33,9 @@ Kitty 图片支持直接 RGB/RGBA/PNG、压缩传输、裁剪、透明度、查�
 
 ## 下载
 
-[下载 Windows x64 单文件试用版 `b04ca12a`](https://github.com/xiongnemo/nemoterm/actions/runs/44806811770/artifacts/14662764153)。修复 Windows 把重复的中文或表情合并成一条字符消息时只出现一个的问题。44/44 项原生输入检查通过；Codex、Claude Code 和 OpenCode 的十个真实窗口均显示两个“中”，两次退格后分别剩一个、零个。六种满屏负载的前端私有工作集峰值为 GDI **19.97 MB**、DirectX **28.62 MB**。严格交互为 **80/81**，唯一未通过的是 Codex 输入框就绪前的一次贴图；就绪后的四种按键路径均通过。[输入框实图与验收结果](research/character-repeat.md)。
+[下载 Windows x64 单文件试用版 `c55cca64`](https://github.com/xiongnemo/nemoterm/actions/runs/44814333692/artifacts/14669630337)。修复应用用 `file:/C:/work` 或大写 `FILE:` 报告工作目录时，按 Ctrl+Shift+T 仍在旧目录打开的问题。[新标签实际目录与复制 URI](research/osc7-tab-directory.md)在 GDI、DirectX 上合计从 8/14 提升到 14/14。[本版完整回归](https://github.com/xiongnemo/nemoterm/actions/runs/44814333692)单独计分。
+
+[上一版 `b04ca12a` 的单文件](https://github.com/xiongnemo/nemoterm/actions/runs/44806811770/artifacts/14662764153)。修复 Windows 把重复的中文或表情合并成一条字符消息时只出现一个的问题。44/44 项原生输入检查通过；Codex、Claude Code 和 OpenCode 的十个真实窗口均显示两个“中”，两次退格后分别剩一个、零个。六种满屏负载的前端私有工作集峰值为 GDI **19.97 MB**、DirectX **28.62 MB**。严格交互为 **80/81**，唯一未通过的是 Codex 输入框就绪前的一次贴图；就绪后的四种按键路径均通过。[输入框实图与验收结果](research/character-repeat.md)。
 
 [上一版 `5ccb22b4` 的单文件](https://github.com/xiongnemo/nemoterm/actions/runs/44801554063/artifacts/14660973842)。修复应用左右移列后矩形选区消失、右键被送给应用的问题。GDI 和 DirectX 各 30 项相关手势全部通过。本版四边标签的切换与悬停预览均通过；[看标签实图](research/tab-faces-ba16d56b.png)。六种满屏负载中，前端私有工作集峰值为 GDI **19.95 MB**、DirectX **29.23 MB**。严格交互通过 **80/81**：Codex 刚显示输入提示时有一次物理 Ctrl+Shift+V 只提交了文字，编辑器就绪后两种粘贴键均通过。[本版实测与已知差异](research/acceptance-5ccb22b4.md)。
 
@@ -160,6 +162,7 @@ Sarasa 字体在本机 GDI、OpenGL、DirectX 下的字号回归也已通过；
 详见[字号与响铃记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/font-zoom-and-bell.md)。
 默认使用多标签，`Ctrl+Shift+T` 新建标签。`--no-tabs` 可启动独立窗口。`--tab-side` 接受 `top`、`bottom`、`left`、`right`；
 例如 `--tabs --tab-side left` 将标签栏放在左侧，悬停标签可预览对应终端。
+要让 `Ctrl+Shift+T` 从正在使用的目录打开，在 **配置方案 → Shell** 勾选「新建或复制标签页时使用 Shell 报告的目录」。这需要 shell 或应用报告当前目录；远程主机报告的目录不会当成本机路径。[OSC 7 工作目录实测](research/osc7-tab-directory.md)。
 
 `--choose-shell` 和 `--settings` 都会先打开启动设置窗口；也可从运行中的上下文菜单选择
 **Profile Settings**，调整字体、颜色、光标、回滚和渲染器。
