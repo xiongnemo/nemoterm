@@ -10663,9 +10663,10 @@ static void term_out(Terminal *term, bool called_from_term_data)
                         if (term->esc_has_subargs || term->esc_overflow) break;
                         if (term->esc_args[0] >= 24) {
                             compatibility(VT340TEXT);
+                            /* term_size maps or discards the selection if the
+                             * grid changes. A page request alone edits no text. */
                             nemo_request_window_size(term, -1,
                                 nemo_window_parameter(term, 0), false);
-                            deselect(term);
                         } else if (term->esc_nargs >= 1 &&
                                    term->esc_args[0] >= 1 &&
                                    term->esc_args[0] < 24) {
@@ -10796,14 +10797,9 @@ static void term_out(Terminal *term, bool called_from_term_data)
                          * (24..49 AIUI) with no default specified.
                          */
                         compatibility(VT420);
-                        if (term->esc_nargs == 1 && term->esc_args[0] > 0) {
-                            if (!term->no_remote_resize)
-                                term_request_resize(
-                                    term,
-                                    term->cols,
-                                    def(term->esc_args[0], term->conf_height));
-                            deselect(term);
-                        }
+                        if (term->esc_nargs == 1 && term->esc_args[0] > 0)
+                            nemo_request_window_size(term, -1,
+                                nemo_window_parameter(term, 0), false);
                         break;
                       case ANSI('|', '$'): /* DECSCPP */
                         /*
@@ -10812,14 +10808,10 @@ static void term_out(Terminal *term, bool called_from_term_data)
                          * I'll allow any.
                          */
                         compatibility(VT340TEXT);
-                        if (term->esc_nargs <= 1) {
-                            if (!term->no_remote_resize)
-                                term_request_resize(
-                                    term,
-                                    def(term->esc_args[0], term->conf_width),
-                                    term->rows);
-                            deselect(term);
-                        }
+                        if (term->esc_nargs <= 1)
+                            nemo_request_window_size(term,
+                                term->esc_args[0] ? nemo_window_parameter(term, 0) :
+                                term->conf_width, -1, false);
                         break;
                       case 'X': {   /* ECH: write N spaces w/o moving cursor */
                         /* XXX VTTEST says this is vt220, vt510 manual
