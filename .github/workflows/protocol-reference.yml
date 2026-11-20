@@ -11,6 +11,7 @@ on:
           - identity
           - guarded-area
           - column-press
+          - window-maximise
           - column-modes
           - scrollback-modes
           - paste-lines
@@ -229,6 +230,11 @@ jobs:
             xvfb-run -a python3 tests/xterm_paste_lines.py --quote-next "$mode" --xterm /tmp/nemoterm-xterm-reference/xterm --output "build/protocol-reference/paste-quote/$mode.json" || status=1
           done
           exit "$status"
+      - name: Measure XTerm window maximisation on a private EWMH desktop
+        if: ${{ (success() || failure()) && (inputs.family == 'window-maximise' || inputs.family == 'all') }}
+        run: |
+          sudo apt-get install -y openbox x11-utils xauth
+          xvfb-run -a -s '-screen 0 1024x768x24' python3 tests/xterm_maximise_reference.py --xterm /tmp/nemoterm-xterm-reference/xterm --output build/protocol-reference/window-maximise/result.json
       - name: Capture column switching, preserved content and reset state on XTerm 412
         if: ${{ (success() || failure()) && (inputs.family == 'column-modes' || inputs.family == 'all') }}
         run: python3 tests/column_mode_cases.py --xterm /tmp/nemoterm-xterm-reference/xterm --directory build/protocol-reference/column-modes
