@@ -86,6 +86,9 @@ def collect(run, commit, directory):
                   ident['font']=='SarasaTermSC Nerd Light' and not ident['fixture_dirty'],'window fixture: '+key)
     reviewer('review-agent-wide-selection').review(archive('windows'),archive('grid'),out/'selection')
     reviewer('review-agent-composer').review(archive('windows'),archive('grid'),out/'composer')
+    bidi=reviewer('review-agent-bidi').review(archive('windows'),archive('grid'))
+    check(bidi['product']==commit and bidi['executable']==exe, 'displayed bidi selection identity')
+    (out/'bidi.json').write_text(json.dumps(bidi,indent=2,ensure_ascii=False)+'\n',encoding='utf8')
     window_memory=reviewer('review-agent-window-memory')
     by_window=window_memory.review(archive('windows'))
     check(by_window['source']==commit and by_window['executable']==exe,'agent memory source')
@@ -108,6 +111,7 @@ def collect(run, commit, directory):
     rows += [(label+' / 六种满屏负载',stress[key]['peak']) for label,key in [('GDI','gdi'),('DirectX','directx')]]
     lines += ['| '+label+' | '+' | '.join(f'{m[k]:,}' for k in mem.METRICS)+' |' for label,m in rows]
     lines += ['', 'Codex、Claude Code、OpenCode：18/18 项快捷键和右键行为通过。10 个窗口的实际 Shift 选区都复制出「中文」；选区及相邻字格见附件 `selection/selected.png`。',
+              f'双向混排：{bidi["stages_verified"]}/20 次拖选与原始画面及剪贴板一致；{bidi["verified"]}/{bidi["expected"]} 个窗口完成反向复制、粘贴并提交到应用服务。见 `bidi.json`。',
               '10 个真实 agent 窗口的启动、提交后共 20 次采样：前端已加载模块和测试作业进程均未发现已知 WebView/浏览器标记。此项只覆盖采样时刻。',
               'GDI 和 DirectX 的 8 帧 Sixel 已核对。字体为 SarasaTermSC Nerd Light。','',
               '| Codex 粘贴时机 | 输入方式 | Ctrl+V 首次提交 | Ctrl+Shift+V 首次提交 | 原始用例结果 |','|---|---|---|---|---|']
@@ -118,7 +122,7 @@ def collect(run, commit, directory):
     text='\n'.join(lines)+'\n'; (out/'report.md').write_text(text,encoding='utf8')
     if summary:=os.environ.get('GITHUB_STEP_SUMMARY'):
         with open(summary,'a',encoding='utf8') as stream:stream.write(text)
-    return all(c['within_limit'] for c in by_window['cases'].values()) and strict['passed'] and all(row['fixture_status']=='passed' and all(x['passed'] for x in row['shortcuts'].values()) for row in paste['cases'].values())
+    return bidi['verified']==bidi['expected'] and all(c['within_limit'] for c in by_window['cases'].values()) and strict['passed'] and all(row['fixture_status']=='passed' and all(x['passed'] for x in row['shortcuts'].values()) for row in paste['cases'].values())
 
 
 if __name__=='__main__':
