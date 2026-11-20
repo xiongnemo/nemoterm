@@ -8,6 +8,7 @@
 - [混合 profile 的关闭超时](profile-close-dc8b6913.md)：一次原始失败、对应转储的分析及相同 EXE 的六次独立复测。
 - [主屏变窄后的 Shift 选区](selection-reflow.md)、[终端程序编辑列时的选区](selection-column-edits.md)，以及[宽字在行尾与 XTerm 的差异](column-edge-integrity.md)。
 - [WSL profile 与子进程退出](wsl-profile.md)、[WSL 字节转发和窗口退出](wsl-relay-window.md)。
+- [横向编辑文字时保留 ReGIS 图形](regis-horizontal.md)：旧版八种编辑会永久擦掉红线；候选版 36/36 个窗口重绘吻合，另列重绘前的实际差异。
 - [擦除大张 ReGIS 图后保留另一屏的图](regis-sparse-erase.md)：GDI、DirectX 的旧版失败与新版回放。
 - [ReGIS 首帧](regis-first-expose.md)与[窗口重绘前后画面](regis-presented-pairs.md)。
 - [pterm 的进程和内存](pterm-findings.md)：原版 PuTTY 0.85 的二进制证据、私有与总工作集，以及与 Nemoterm 的比较范围。

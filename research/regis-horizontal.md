@@ -21,4 +21,4 @@
 - [XTerm 412 原始采集](https://github.com/xiongnemo/nemoterm/actions/runs/44691719953)；[重放输入、应答和逐帧参考](../testdata/upstream/regis-text-motion-xterm.zip)。首次未开启 GetChecksum 的[失败运行](https://github.com/xiongnemo/nemoterm/actions/runs/44691360396)没有取得文字回执，不作为文字移动的证据。
 - [旧版确切单文件的四组回放](https://github.com/xiongnemo/nemoterm/actions/runs/44692169465)，SHA-256 `bd8cf49fe772b29d9a22789c330ce57693d3a088e192532225af4d2f5f09e934`。
 - [修复版全量运行中的四组回放](https://github.com/xiongnemo/nemoterm/actions/runs/44692457263)，SHA-256 `3edfab2cd2a9eef007a2bdfaf7991390ce46f979b1ea69c7df4545dc6d0da86c`。
-- [两版的文字回执、窗口表面、原始 PNG、产物编号与 SHA-256](regis-horizontal-evidence.zip)。本项只验证横向文字编辑与 ReGIS 共存，不代表其他控制序列或全部交互已通过。
+- [两版的文字回执、窗口表面、原始 PNG、产物编号与 SHA-256](regis-horizontal-evidence.zip)。包内 `failed-collector/` 保留首次失败的原始记录；其 72 张 PNG 与固定参考包中同名文件逐字节相同，索引保存逐张散列。本项只验证横向文字编辑与 ReGIS 共存，不代表其他控制序列或全部交互已通过。
