@@ -14316,6 +14316,14 @@ void term_mouse_pixels(Terminal *term, Mouse_Button braw, Mouse_Button bcooked,
         return;
     }
     if (a == MA_MOVE) return;
+    pos view_cell = { y, x };
+    /* Applications can move the character under a held button. A repeated
+     * mouse position is still a stationary press, not the start of a drag:
+     * entering DRAGGING would suspend application output until button-up. */
+    if (bcooked == MBT_SELECT && a == MA_DRAG && term->selstate == ABOUT_TO &&
+        x >= 0 && x < term->cols && y >= 0 && y < term->rows &&
+        poseq(term->selpress_view, view_cell))
+        return;
     /* Side buttons have no local selection, paste or scrolling binding. */
     if (braw == MBT_X1 || braw == MBT_X2) return;
 
@@ -14386,6 +14394,7 @@ void term_mouse_pixels(Terminal *term, Mouse_Button braw, Mouse_Button bcooked,
     if (bcooked == MBT_SELECT && a == MA_CLICK) {
         deselect(term);
         term->selstate = ABOUT_TO;
+        term->selpress_view = view_cell;
         term->seltype = default_seltype;
         term->selanchor = selpoint;
         term->selmode = SM_CHAR;

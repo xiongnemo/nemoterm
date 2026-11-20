@@ -713,6 +713,30 @@ static void test_press_across_line_rendition(Mock *mk)
     IEQUAL(mk->term->selstate, NO_SELECTION);
 }
 
+static void test_stationary_press_after_edit(Mock *mk)
+{
+    const int clipboard = CLIP_LOCAL + 1;
+    for (int block = 0; block < 2; block++) {
+        mouse_setup(mk, "stationary pointer after ICH vs actual selection drag", "");
+        term_size(mk->term, 3, 24, 0);
+        term_data_fragmented(mk->term, "ABCDEFGHIJKLMNO\033[?1002;1006h");
+        send_mouse(mk, MBT_LEFT, MA_CLICK, 10, 0, true, block, false);
+        term_data_fragmented(mk->term, "\033[1;6H\033[2@");
+        send_mouse(mk, MBT_LEFT, MA_DRAG, 10, 0, true, block, false);
+        term_data_fragmented(mk->term, "\033[5n");
+        MOUSE_BYTES("\033[0n");
+        /* Real motion pins the frame until release as before; the application
+         * must get the deferred reply, and the clipboard the relocated text. */
+        send_mouse(mk, MBT_LEFT, MA_DRAG, 14, 0, false, false, false);
+        term_data_fragmented(mk->term, "\033[5n");
+        MOUSE_BYTES("");
+        mouse_release(mk, 14, 0);
+        MOUSE_BYTES("\033[0n");
+        term_request_copy(mk->term, &clipboard, 1);
+        check_clipboard(mk, L"KLM");
+    }
+}
+
 static void test_ctrl_rectangle(Mock *mk)
 {
     const int clipboard = CLIP_LOCAL + 1;
@@ -988,6 +1012,7 @@ int main(void)
     test_shift_selection(mk);
     test_scaled_visual_copy(mk);
     test_press_across_line_rendition(mk);
+    test_stationary_press_after_edit(mk);
     test_ctrl_rectangle(mk);
     test_block_clipping(mk);
     test_block_crossing_region(mk);

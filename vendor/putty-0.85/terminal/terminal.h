@@ -448,6 +448,7 @@ struct terminal_tag {
         SM_CHAR, SM_WORD, SM_LINE
     } selmode;
     pos selstart, selend, selanchor;
+    pos selpress_view; /* viewport cell at mouse-down, before text edits */
 
     short wordness[256];
 
