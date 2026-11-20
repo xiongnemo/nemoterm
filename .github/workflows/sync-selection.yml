@@ -45,3 +45,39 @@ jobs:
             build/sync-selection-product/SOURCE-HOST.json
             build/interaction-dependencies/environment.json
           if-no-files-found: error
+
+  review:
+    name: Verify both rendered windows from the uploaded PNGs
+    needs: observe
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Download the original renderer archives and check their GitHub digests
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir review
+          for renderer in gdi directx; do
+            name="sync-selection-$renderer-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+            record=$(gh api --method GET "repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID/artifacts" -f "name=$name")
+            id=$(jq -er --arg n "$name" '[.artifacts[] | select(.name==$n and (.expired|not))] | select(length==1) | .[0].id' <<< "$record")
+            digest=$(jq -er --argjson id "$id" '.artifacts[] | select(.id==$id) | .digest | select(test("^sha256:[0-9a-f]{64}$"))' <<< "$record")
+            gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$id/zip" > "review/$renderer.zip"
+            echo "${digest#sha256:}  review/$renderer.zip" | sha256sum --check
+          done
+      - name: Compare cell bounds, glyphs, clipboard, child input and product identity
+        env:
+          PRODUCT_COMMIT: ${{ inputs.product_commit }}
+        run: |
+          python3 -m venv "$RUNNER_TEMP/selection-review"
+          "$RUNNER_TEMP/selection-review/bin/pip" install --only-binary=:all: Pillow==13.0.0
+          "$RUNNER_TEMP/selection-review/bin/python" scripts/review-sync-selection.py --expect-commit "$PRODUCT_COMMIT" --output review/results.json review/gdi.zip review/directx.zip
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: ${{ !cancelled() && hashFiles('review/results.json') != '' }}
+        with:
+          name: sync-selection-review-${{ github.run_id }}-${{ github.run_attempt }}
+          path: review/results.json
+          if-no-files-found: error
