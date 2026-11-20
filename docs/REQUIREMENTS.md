@@ -1,6 +1,8 @@
 # Nemoterm requirements and evidence ledger
 
-The [distributed `8f375f7d` preview](../research/acceptance-8f375f7d.md) passes all 68 saved-column stages on GDI and DirectX, including Win32 text readback, plus five physical selection gestures on each renderer. The 81-case interaction aggregate verified 79; both failed groups concern early Codex bitmap paste, and all four ready-composer cases delivered matching pixels. The six full-grid workloads per renderer peak at 19,734,528 / 29,200,384 bytes of frontend private working set.
+The [distributed `a96e10b4` preview](../research/acceptance-a96e10b4.md) passes all 20 real middle-button gestures across four tab positions, up from 4/20; the remaining terminal receives subsequent typing. The same file passed all ten fullscreen agent interactions. Six stress workloads per renderer peak at 19,230,720 private working-set bytes on GDI and 28,950,528 on DirectX. The interaction aggregate verified 79/81: both initial Codex image cases failed and all four ready-composer paths delivered matching pixels.
+
+The [previous `8f375f7d` preview](../research/acceptance-8f375f7d.md) passes all 68 saved-column stages on GDI and DirectX, including Win32 text readback, plus five physical selection gestures on each renderer. The 81-case interaction aggregate verified 79; both failed groups concern early Codex bitmap paste, and all four ready-composer cases delivered matching pixels. The six full-grid workloads per renderer peak at 19,734,528 / 29,200,384 bytes of frontend private working set.
 
 The [previous `32e588e7` preview](../research/acceptance-32e588e7.md) passes 22 Windows native text/cursor/geometry checks and seven same-window tab isolation checks on each renderer. Its own interaction aggregate verified 80/81; six full-grid workloads per renderer peak at 19,075,072 bytes on GDI and 28,835,840 on DirectX (private working set).
 

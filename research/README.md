@@ -1,6 +1,7 @@
 # 当前测试版与待审阅材料
 
-- [当前 dist 试用版 `10f0390f` 的原生读屏、交互和内存验收](acceptance-10f0390f.md)。
+- [当前 dist 试用版 `a96e10b4` 的中键手势、内存和交互验收](acceptance-a96e10b4.md)。
+- [上一版 `10f0390f` 的原生读屏、交互和内存验收](acceptance-10f0390f.md)。
 - [标签中键误关的修复和两版实际鼠标记录](tab-middle-gestures.md)。
 - [上一版 `8f375f7d` 的列宽恢复、交互和内存验收](acceptance-8f375f7d.md)。
 - [上一版 `32e588e7` 的列宽与内存验收](acceptance-32e588e7.md)。
