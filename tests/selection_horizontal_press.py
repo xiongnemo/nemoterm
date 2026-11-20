@@ -1,5 +1,5 @@
 """Follow the character under a local mouse press through terminal column edits."""
-from native_test_utils import u, wait_for
+from native_test_utils import os, root, u, wait_for
 from clipboard_test_utils import clipboard_text
 
 
@@ -170,6 +170,15 @@ def verify(hwnd, begin, point, capture, tile, copy, barrier, evidence, desktop=N
         # Skip the Copy timeout when the original image fails to select anything.
         row['shortcut_copy']=copy() if changed and want is not None else None
         after=capture(phase+'.png',return_pixels=True)
+        if name.startswith('repeat-cell-') and os.environ.get('NEMOTERM_STATIONARY_FRAMES')=='1':
+            # Preserve the buffers already used by the assertions. Capturing a
+            # second time could sample a different repaint or delay the gesture.
+            from PIL import Image
+            with Image.open(root/'research'/(phase+'.png')) as image:
+                size=image.size
+            for stage,pixels in [('source',initial),('edited',normal)]:
+                assert len(pixels)==3*size[0]*size[1]
+                Image.frombytes('RGB',size,pixels).save(root/'research'/(phase+'-'+stage+'.png'))
         row['highlight']=[x for x in range(28) if tile(after,x,y)!=tile(normal,x,y)]
         wanted=(list(range(min(dest,end),max(dest,end)+1)) if dest is not None else [])
         if name=='wide-tail':wanted.insert(0,dest-1)
