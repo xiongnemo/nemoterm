@@ -212,10 +212,14 @@ def agent_grid_case(path,row,identity):
             and min(paint['guard_ratios'])>=.9,'missing bidi glyph identity, physical highlight, or original clipboard text')
     modal=obs['close_cancel'];http=obs['http_receipt']
     edit=modal['backspace_edit']
-    require(edit['typed']=='NEMOTERM_SUBMIT x' and edit['corrected'] and edit['clipboard_before']==edit['clipboard_after']
+    frames=edit['frames']; start=frames['before-backspace']; mid=frames['one-backspace']; end=frames['after-backspace']
+    require(edit['typed']=='NEMOTERM_SUBMIT xx' and edit['corrected'] and edit['clipboard_before']==edit['clipboard_after']
+            and edit['capture']['closed'] and not edit['capture']['wm_print'] and not edit['capture']['activation']
+            and start['mask_sha256'][0]==start['mask_sha256'][1]==mid['mask_sha256'][0]
+            and start['ink'][0]>=5 and mid['ink']==[start['ink'][0],0] and end['ink']==[0,0]
             and all(any(name.endswith(suffix) for name in obs['screenshots']) for suffix in
-                    ('-composer-before-backspace.png','-composer-after-backspace.png')),
-            'missing physical Backspace edit or clipboard changed before paste')
+                    ('-composer-before-backspace.png','-composer-one-backspace.png','-composer-after-backspace.png')),
+            'physical Backspace edit was not presented or clipboard changed before paste')
     require(modal['button_id']==2 and modal['dialog']!=sess['window'] and modal['owner_disabled']
             and modal['capture']==modal['button'] and modal['button_state'] & 4 and modal['foreground']==sess['window']
             and modal['focus']==sess['hwnd'] and modal['clipboard_intact'] and modal['typed_prefix']=='NEMOTERM_SUBMIT '

@@ -298,17 +298,12 @@ def main():
                         elif letter=='_': desktop.chord(0x10,0xbd)
                         else: assert letter==' ';desktop.chord(0x20)
                     wait_for(lambda:SELECTION_PREFIX.rstrip() in text());modal['typed_prefix']=SELECTION_PREFIX
-                    # Exercise the first real edit after Cancel, before pasting the copied reply.
-                    # The provider must still receive the original prefix and the exact selection.
-                    typo = SELECTION_PREFIX+'x'
-                    edit = modal['backspace_edit'] = dict(typed=typo, clipboard_before=win.GetClipboardSequenceNumber())
-                    desktop.chord(ord('X'))  # unshifted lowercase x
-                    wait_for(lambda:typo in text()); frame('composer-before-backspace')
-                    desktop.chord(0x08)
-                    wait_for(lambda:SELECTION_PREFIX.rstrip() in (v:=text()) and typo not in v)
-                    frame('composer-after-backspace'); edit.update(corrected=True, clipboard_after=win.GetClipboardSequenceNumber())
+                    from presented_composer_edit import verify_composer_edit
+                    edit=modal['backspace_edit']=dict(clipboard_before=win.GetClipboardSequenceNumber())
+                    verify_composer_edit(observed['pid'],hwnd,args.renderer=='directx',desktop,text,width,
+                                         (cols,rows),(cw,ch),(ox,oy),SELECTION_PREFIX,frame,edit)
+                    edit['clipboard_after']=win.GetClipboardSequenceNumber()
                     assert edit['clipboard_before']==edit['clipboard_after'] and clipboard_text(hwnd)==copied
-                    desktop.target()
                 else:
                     api.request(endpoint,'input',seat,SELECTION_PREFIX)
                     wait_for(lambda:SELECTION_PREFIX.rstrip() in text())
