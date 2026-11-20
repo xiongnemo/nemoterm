@@ -100,14 +100,124 @@ static bool visualWriter(CONSOLE_API_MSG* message)
 
 
 def patch_column_resize_owner():
-    # WriteCharsVT both interprets the controls in OpenConsole and forwards
-    # them to Nemoterm. Only the frontend knows the current profile, size
-    # policy and desktop limits. Let its accepted Win32 resize feed back via
-    # the normal pseudoconsole resize signal; never resize the child first.
-    # Keep the upstream non-PTY dispatcher and the other mirror operations.
-    replace(DEST / "src/terminal/adapter/adaptDispatch.cpp",
-            "        _api.ResizeWindow(pageWidth, pageHeight);",
-            "        if (!_api.IsConPTY())\n        {\n            _api.ResizeWindow(pageWidth, pageHeight);\n        }")
+    src = DEST / 'src'
+    def sub(file, before, after):
+        replace(src / file, before, after)
+
+    # Only the frontend can approve geometry. The Windows console still has
+    # to apply the corresponding erase/cursor operations, in stream order,
+    # before it processes later text in the same WriteConsole call.
+    adapter = 'terminal/adapter/adaptDispatch.cpp'
+    sub(adapter, '        _api.ResizeWindow(pageWidth, pageHeight);',
+        '        if (!pty)\n        {\n            _api.ResizeWindow(pageWidth, pageHeight);\n        }')
+    sub(adapter, '    if (_modes.test(Mode::AllowDECCOLM))', '''    const bool pty = _api.IsConPTY();
+    if (pty && _api.GetSystemMode(ITerminalApi::Mode::NemoColumnDenied))
+    {
+        return;
+    }
+    const bool allowed = pty && !_modes.test(Mode::NemoColumnPermissionSet) ?
+        _api.GetSystemMode(ITerminalApi::Mode::NemoColumnStartEnabled) : _modes.test(Mode::AllowDECCOLM);
+    if (allowed)''')
+    sub(adapter, '        CursorPosition(1, 1);\n        EraseInDisplay(DispatchTypes::EraseType::All);\n        _DoSetTopBottomScrollingMargins(0, 0);',
+        '''        CursorPosition(1, 1);
+        if (!pty || !_modes.test(Mode::NemoKeepOnColumnChange))
+        {
+            EraseInDisplay(DispatchTypes::EraseType::All);
+        }
+        _DoSetTopBottomScrollingMargins(0, 0);''')
+    sub('terminal/adapter/adaptDispatch.hpp','            AllowDECCOLM,',
+        '            AllowDECCOLM,\n            NemoColumnPermissionSet,\n            NemoKeepOnColumnChange,')
+    sub('terminal/adapter/DispatchTypes.hpp','        XTERM_EnableDECCOLMSupport = DECPrivateMode(40),',
+        '        XTERM_EnableDECCOLMSupport = DECPrivateMode(40),\n        NemoKeepOnColumnChange = DECPrivateMode(95),')
+    sub(adapter,'        _modes.set(Mode::AllowDECCOLM, enable);','''        _modes.set(Mode::AllowDECCOLM, enable);
+        _modes.set(Mode::NemoColumnPermissionSet);
+        break;
+    case DispatchTypes::ModeParams::NemoKeepOnColumnChange:
+        if (_api.IsConPTY()) _modes.set(Mode::NemoKeepOnColumnChange, enable);''')
+    sub(adapter,'    _modes = { Mode::PageCursorCoupling };', '''    const bool columnWasSet = _api.IsConPTY() && _modes.test(Mode::NemoColumnPermissionSet);
+    const bool columnsAllowed = _modes.test(Mode::AllowDECCOLM);
+    _modes = { Mode::PageCursorCoupling };
+    if (columnWasSet)
+    {
+        _modes.set(Mode::NemoColumnPermissionSet);
+        _modes.set(Mode::AllowDECCOLM, columnsAllowed);
+    }''')
+    sub('terminal/adapter/ITerminalApi.hpp','            AutoWrap,','            NemoColumnDenied,\n            NemoColumnStartEnabled,\n            AutoWrap,')
+    sub('host/outputStream.cpp','bool ConhostInternalGetSet::GetSystemMode(const Mode mode) const\n{\n    switch (mode)\n    {',
+        '''bool ConhostInternalGetSet::GetSystemMode(const Mode mode) const
+{
+    switch (mode)
+    {
+    case Mode::NemoColumnDenied:
+        return ServiceLocator::LocateGlobals().getConsoleInformation().NemoColumnDenied();
+    case Mode::NemoColumnStartEnabled:
+        return ServiceLocator::LocateGlobals().getConsoleInformation().NemoColumnStartEnabled();''')
+    sub('host/server.h','    bool GetBracketedPasteMode() const noexcept;', '''    void InitializeNemoColumnPolicy(HANDLE event, bool startEnabled) noexcept
+    {
+        _nemoColumnDenied.reset(event);
+        _nemoColumnStartEnabled = startEnabled;
+    }
+    bool NemoColumnDenied() const noexcept
+    {
+        return _nemoColumnDenied && WaitForSingleObject(_nemoColumnDenied.get(), 0) != WAIT_TIMEOUT;
+    }
+    bool NemoColumnStartEnabled() const noexcept { return _nemoColumnStartEnabled; }
+    bool GetBracketedPasteMode() const noexcept;''')
+    sub('host/server.h','    bool _bracketedPasteMode = false;', '    wil::unique_handle _nemoColumnDenied;\n    bool _nemoColumnStartEnabled = false;\n    bool _bracketedPasteMode = false;')
+    sub('host/ConsoleArguments.hpp','    HANDLE GetSignalHandle() const;', '''    HANDLE GetSignalHandle() const;
+    HANDLE GetNemoColumnEvent() const { return ULongToHandle(_nemoColumnEvent); }
+    bool GetNemoColumnStart() const { return _nemoColumnStart; }''')
+    sub('host/ConsoleArguments.hpp','    DWORD _signalHandle = 0;', '    DWORD _signalHandle = 0;\n    DWORD _nemoColumnEvent = 0;\n    bool _nemoColumnStart = false;')
+    sub('host/ConsoleArguments.cpp', '        else if (arg == SIGNAL_HANDLE_ARG)', '''        else if (arg == L"--nemoColumnOn" || arg == L"--nemoColumnOff")
+        {
+            _nemoColumnStart = arg == L"--nemoColumnOn";
+            std::wstring handle;
+            hr = s_GetArgumentValue(args, i, &handle);
+            if (SUCCEEDED(hr)) hr = s_ParseHandleArg(handle, _nemoColumnEvent);
+        }
+        else if (arg == SIGNAL_HANDLE_ARG)''')
+    sub('host/VtIo.cpp', '        if (pArgs->GetAmbiguousIsWide())', '''        if (const auto event = pArgs->GetNemoColumnEvent())
+        {
+            ServiceLocator::LocateGlobals().getConsoleInformation().InitializeNemoColumnPolicy(event, pArgs->GetNemoColumnStart());
+        }
+        if (pArgs->GetAmbiguousIsWide())''')
+
+    # Explicitly pass the optional owner handle through creation. Only the
+    # same-image API adds it to the existing restricted inheritance list;
+    # the host duplicate can observe but cannot change the parent's policy.
+    cpp = 'winconpty/winconpty.cpp'
+    sub('winconpty/winconpty.h','_Inout_ PseudoConsole* pPty);','_Inout_ PseudoConsole* pPty, HANDLE columnEvent = nullptr, BOOL columnStart = FALSE);')
+    sub(cpp,'_Inout_ PseudoConsole* pPty)\n{','_Inout_ PseudoConsole* pPty, HANDLE columnEvent, BOOL columnStart)\n{')
+    sub(cpp,'    const auto inheritCursor =', '''    wil::unique_handle columnRead;
+    wil::unique_process_heap_string columnArg;
+    if (columnEvent)
+    {
+        RETURN_IF_WIN32_BOOL_FALSE(DuplicateHandle(GetCurrentProcess(), columnEvent, GetCurrentProcess(),
+                                                    columnRead.addressof(), SYNCHRONIZE, TRUE, 0));
+        RETURN_IF_FAILED(wil::str_printf_nothrow(columnArg, L"--nemoColumn%s 0x%tx ",
+            columnStart ? L"On" : L"Off", std::bit_cast<uintptr_t>(columnRead.get())));
+    }
+    const auto inheritCursor =''')
+    sub(cpp,'--headless %s%s%s--width','--headless %s%s%s%s--width')
+    sub(cpp,'        inheritCursor,\n        ambiguousIsWide,','        columnArg ? columnArg.get() : L"",\n        inheritCursor,\n        ambiguousIsWide,')
+    sub(cpp,'    const size_t INHERITED_HANDLES_COUNT = 4;\n    HANDLE inheritedHandles[INHERITED_HANDLES_COUNT];',
+        '    const size_t inheritedCount = columnRead ? 5 : 4;\n    HANDLE inheritedHandles[5];\n    inheritedHandles[4] = columnRead.get();')
+    sub(cpp,'(INHERITED_HANDLES_COUNT * sizeof(HANDLE))','(inheritedCount * sizeof(HANDLE))')
+    old='extern "C" HRESULT WINAPI ConptyCreatePseudoConsoleAsUser(_In_ HANDLE hToken,'
+    sub(cpp,old,'static HRESULT _CreateForUser(HANDLE columnEvent, BOOL columnStart, _In_ HANDLE hToken,')
+    sub(cpp,'duplicatedOutput.get(), dwFlags, pPty));','duplicatedOutput.get(), dwFlags, pPty, columnEvent, columnStart));')
+    marker='// Function Description:\n// Resizes the given conpty to the specified size, in characters.'
+    sub(cpp,marker,'''extern "C" HRESULT WINAPI ConptyCreatePseudoConsoleAsUser(_In_ HANDLE token, _In_ COORD size, _In_ HANDLE in, _In_ HANDLE out, _In_ DWORD flags, _Out_ HPCON* pc)
+{
+    return _CreateForUser(nullptr, FALSE, token, size, in, out, flags, pc);
+}
+
+extern "C" HRESULT WINAPI NemoCreatePseudoConsole(COORD size, HANDLE in, HANDLE out, HANDLE columnEvent, BOOL columnStart, HPCON* pc)
+{
+    return _CreateForUser(columnEvent, columnStart, INVALID_HANDLE_VALUE, size, in, out, 0, pc);
+}
+
+'''+marker)
 
 
 def patch_cursor_sync():

@@ -17,6 +17,9 @@
 typedef struct ConPTY ConPTY;
 struct ConPTY {
     HPCON pseudoconsole;
+#ifdef NEMOTERM_SINGLE_EXE
+    HANDLE column_denied;
+#endif
     HANDLE outpipe, inpipe, hprocess;
     struct handle *out, *in;
     HandleWait *subprocess;
@@ -42,6 +45,7 @@ static const char *conpty_api_error;
 static DWORD conpty_api_winerror;
 
 #ifdef NEMOTERM_SINGLE_EXE
+HRESULT WINAPI NemoCreatePseudoConsole(COORD, HANDLE, HANDLE, HANDLE, BOOL, HPCON *);
 HRESULT WINAPI ConptyCreatePseudoConsole(COORD, HANDLE, HANDLE, DWORD, HPCON *);
 HRESULT WINAPI ConptyResizePseudoConsole(HPCON, COORD);
 void WINAPI ConptyClosePseudoConsole(HPCON);
@@ -407,6 +411,9 @@ static char *conpty_init(const BackendVtable *vt, Seat *seat,
     HANDLE out_w = INVALID_HANDLE_VALUE;
 
     HPCON pcon = INVALID_HANDLE_VALUE;
+#ifdef NEMOTERM_SINGLE_EXE
+    HANDLE column_denied = NULL;
+#endif
     bool pcon_needs_cleanup = false;
     bool attributes_initialized = false;
     wchar_t *directory = NULL;
@@ -492,7 +499,17 @@ static char *conpty_init(const BackendVtable *vt, Seat *seat,
         si.StartupInfo.hStdInput = in_r;
         si.StartupInfo.hStdOutput = si.StartupInfo.hStdError = out_w;
     } else {
-        HRESULT result = p_CreatePseudoConsole(size, in_r, out_w, 0, &pcon);
+        HRESULT result;
+#ifdef NEMOTERM_SINGLE_EXE
+        if (p_CreatePseudoConsole == ConptyCreatePseudoConsole) {
+            /* Session-private policy: the host inherits a wait-only duplicate.
+             * Changing this profile updates the live mirror synchronously. */
+            column_denied = CreateEventW(NULL, TRUE, conf_get_bool(conf, CONF_no_remote_resize), NULL);
+            result = column_denied ? NemoCreatePseudoConsole(size, in_r, out_w, column_denied,
+                conf_get_int(conf, CONF_nemo_column_mode_start) != 2, &pcon) : HRESULT_FROM_WIN32(GetLastError());
+        } else
+#endif
+            result = p_CreatePseudoConsole(size, in_r, out_w, 0, &pcon);
         if (FAILED(result)) {
             if (HRESULT_FACILITY(result) == FACILITY_WIN32)
                 err = dupprintf("CreatePseudoConsole: %s",
@@ -559,6 +576,10 @@ static char *conpty_init(const BackendVtable *vt, Seat *seat,
     memset(&relay_image, 0, sizeof(relay_image));
     conpty->byte_relay = byte_relay;
     conpty->pseudoconsole = pcon;
+#ifdef NEMOTERM_SINGLE_EXE
+    conpty->column_denied = column_denied;
+    column_denied = NULL;
+#endif
     pcon_needs_cleanup = false;
     conpty->outpipe = in_w;
     conpty->out = handle_output_new(in_w, conpty_sentdata, conpty, 0);
@@ -601,6 +622,9 @@ static char *conpty_init(const BackendVtable *vt, Seat *seat,
         CloseHandle(out_r);
     if (out_w != INVALID_HANDLE_VALUE)
         CloseHandle(out_w);
+#ifdef NEMOTERM_SINGLE_EXE
+    if (column_denied) CloseHandle(column_denied);
+#endif
     if (pcon_needs_cleanup)
         p_ClosePseudoConsole(pcon);
     if (attributes_initialized)
@@ -619,11 +643,21 @@ static void conpty_free(Backend *be)
 
     conpty_terminate(conpty, true);
     expire_timer_context(conpty);
+#ifdef NEMOTERM_SINGLE_EXE
+    if (conpty->column_denied) CloseHandle(conpty->column_denied);
+#endif
     sfree(conpty);
 }
 
 static void conpty_reconfig(Backend *be, Conf *conf)
 {
+#ifdef NEMOTERM_SINGLE_EXE
+    ConPTY *conpty = container_of(be, ConPTY, backend);
+    if (conpty->column_denied) {
+        if (conf_get_bool(conf, CONF_no_remote_resize)) SetEvent(conpty->column_denied);
+        else ResetEvent(conpty->column_denied);
+    }
+#endif
 }
 
 static void conpty_send(Backend *be, const char *buf, size_t len)
