@@ -33,7 +33,7 @@ Kitty 图片支持直接 RGB/RGBA/PNG、压缩传输、裁剪、透明度、查�
 
 ## 下载
 
-[下载 Windows x64 单文件试用版 `32e588e7`](https://github.com/xiongnemo/nemoterm/actions/runs/44646064546/artifacts/14588991439)。解压后运行 `nemoterm.exe`。应用切换 80／132 列时，窗口与 Windows 子程序都服从当前标签的设置；禁止改宽时，已有文字和光标都保留。[修复前后对比](research/column-modes.md)。六种满屏压力下，前端私有工作集峰值为 **GDI 19.08 MB / DirectX 28.84 MB**。完整交互 **80/81**；Codex 启动阶段一次实际键盘贴图未通过，输入框就绪后四种组合均通过。[完整结果与 SHA-256](research/acceptance-32e588e7.md) · [上一试用版 `dc8b6913`](research/acceptance-dc8b6913.md)。
+[下载 Windows x64 单文件试用版 `8f375f7d`](https://github.com/xiongnemo/nemoterm/actions/runs/44651165951/artifacts/14591596296)。解压后运行 `nemoterm.exe`。应用保存并恢复 80／132 列设置后，窗口和 Windows 子程序读到相同的文字；保留画面时 Shift 选中的 `A中Z` 仍能复制。[截图与原版 XTerm 对比](research/column-modes.md)。六种满屏压力下前端私有工作集峰值为 **GDI 19.73 MB / DirectX 29.20 MB**。交互 **79/81**；Codex 输入框就绪后四种图片粘贴组合均通过，启动早期另有两组未过。[完整结果与 SHA-256](research/acceptance-8f375f7d.md) · [上一试用版 `32e588e7`](research/acceptance-32e588e7.md)。
 
 [上一份 81/81 的 Windows x64 测试版 `cf091974`](https://github.com/xiongnemo/nemoterm/actions/runs/44588222859/artifacts/14562762043)。解压后只需 `nemoterm.exe`（4,862,464 字节）。SHA-256：`9df8365b9e32444f24d279c114750090122f8550c1aa53dffa2972c448aa4788`。
 

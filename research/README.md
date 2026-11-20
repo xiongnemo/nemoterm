@@ -1,7 +1,8 @@
 # 当前测试版与待审阅材料
 
-- [当前 dist 试用版 `32e588e7` 的列宽、交互和内存验收](acceptance-32e588e7.md)。
-- [上一试用版 `dc8b6913` 的验收记录](acceptance-dc8b6913.md)：79/81 项交互、满屏终端负载，以及与原版 pterm 的同机对照。[Codex 输入就绪前后的贴图](codex-bitmap-requests.md)单列启动草稿和正常输入的结果。
+- [当前 dist 试用版 `8f375f7d` 的列宽恢复、交互和内存验收](acceptance-8f375f7d.md)。
+- [上一版 `32e588e7` 的列宽与内存验收](acceptance-32e588e7.md)。
+- [Codex 输入就绪前后的贴图](codex-bitmap-requests.md)单列启动草稿和正常输入的结果；更早的 [`dc8b6913` 验收记录](https://github.com/xiongnemo/nemoterm/blob/212f1fcbf302e6b46d3ae2a887ac70915e367082/research/acceptance-dc8b6913.md) 已归档。
 - [80／132 列、窗口尺寸与 Shift 选区](column-modes.md)：旧版、只改前端的版本，以及同时修复内置控制台后的原始记录和截图。
 - [混合 profile 的关闭超时](profile-close-dc8b6913.md)：一次原始失败、对应转储的分析及相同 EXE 的六次独立复测。
 - [主屏变窄后的 Shift 选区](selection-reflow.md)、[终端程序编辑列时的选区](selection-column-edits.md)，以及[宽字在行尾与 XTerm 的差异](column-edge-integrity.md)。
