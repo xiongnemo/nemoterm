@@ -159,7 +159,7 @@ Sarasa Light 从固定 v2.3.1 压缩包安装，校验下载及实际字体名�
 
 单独复核应用设置鼠标颜色时，可用 `font-zoom-replay.yml` 的 `suite=pointer-colour` 指定确切的 `source_run` 和 `source_commit`；完整交互的 `mouse` 组使用同一套输入和像素检查。独立 XTerm 原始捕获入口为 `protocol-reference.yml` 的 `family=pointer-colour`，Win32/GDI 资源对照为 `family=pointer-resources`。见[原始回复、光标截图和资源记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/pointer-colours.md)。
 
-打字时鼠标指针是否隐藏（XTSMPOINTER）：在 `protocol-reference.yml` 选 `family=pointer-hiding` 采集 XTerm；在 `font-zoom-replay.yml` 选 `suite=pointer-hiding`，指定 `source_run`、`source_commit` 回放同一份 Windows EXE。测试分别记录按键前、键入后、再次移动后的系统指针，以及子程序实际收到的字节。
+打字时鼠标指针是否隐藏（XTSMPOINTER）：在 `protocol-reference.yml` 选 `family=pointer-hiding` 采集 XTerm；在 `font-zoom-replay.yml` 选 `suite=pointer-hiding`，指定 `source_run`、`source_commit` 回放同一份 Windows EXE。测试分别记录按键前、键入后、再次移动后的系统指针，以及子程序实际收到的字节。 该 Windows 回放也在 GDI、DirectX 上分别检查：应用开启鼠标跟踪、打字隐藏指针后，在同一位置按下 Shift 和左键拖选「中文」。保留拖选前和按住时的截图，并核对四个高亮格、系统剪贴板以及两次按键之间的完整子程序输入。
 
 `selection` 组覆盖越界拖选：一次移动后保持左键，在两端从滚动缓冲区复制有编号的中文和组合字符，并检查选区像素。另一个用例在独立的托管 Windows 桌面上使用系统鼠标键盘输入，检查应用接管、重新移入、松键、取消捕获及粘贴给子进程的字节。
 

@@ -21,15 +21,24 @@ jobs:
       - run: |
           scripts/fetch-ci-product.ps1 -Run $env:SOURCE_RUN -Commit $env:SOURCE_COMMIT -Destination build/pointer-hiding-product
           "NEMOTERM_TEST_EXE=$((Resolve-Path build/pointer-hiding-product/nemoterm.exe).Path)" >> $env:GITHUB_ENV
-      - run: scripts/prepare-remote-interaction.ps1
+      - id: prepare
+        run: scripts/prepare-remote-interaction.ps1
       - name: Compare OS cursor visibility around real key delivery and pointer motion
         run: python tests/pointer_hiding_window.py
+      - name: Verify physical Shift copy from a hidden pointer (gdi)
+        if: ${{ !cancelled() && steps.prepare.outcome == 'success' }}
+        run: python tests/pointer_typing_selection.py gdi
+      - name: Verify physical Shift copy from a hidden pointer (directx)
+        if: ${{ !cancelled() && steps.prepare.outcome == 'success' }}
+        run: python tests/pointer_typing_selection.py directx
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
           name: pointer-hiding-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
             research/pointer-hiding-*-observed.json
+            research/pointer-hiding-copy-*-gesture.json
+            research/pointer-hiding-copy-*.png
             build/pointer-hiding-product/SOURCE-HOST.json
             build/interaction-dependencies/environment.json
           if-no-files-found: error
