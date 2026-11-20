@@ -31,6 +31,11 @@ jobs:
         env:
           RENDERER: ${{ matrix.renderer }}
         run: python tests/font_ops_window.py --renderer $env:RENDERER
+      - name: Compare three OSC 50 cursor shapes on the visible window surface
+        if: ${{ !cancelled() && env.NEMOTERM_TEST_FONT != '' }}
+        env:
+          RENDERER: ${{ matrix.renderer }}
+        run: python tests/osc50_cursor_pixels.py $env:RENDERER
       - name: Check duplicate tabs, inactive changes and persistent profile
         if: ${{ !cancelled() && env.NEMOTERM_TEST_FONT != '' }}
         env:
@@ -43,6 +48,7 @@ jobs:
           path: |
             research/font-ops-*-observed.json
             research/font-ops-*.png
+            research/font-ops-cursor-*/
             build/font-ops/*.json
             build/interaction-dependencies/environment.json
             build/font-ops-product/SOURCE-HOST.json
