@@ -53,6 +53,8 @@ jobs:
         run: python tests/tab_middle_native.py
       - name: Check independent Shift selections immediately after right-click copy
         run: python tests/tab_right_click_chain.py
+      - name: Count pastes and inspect wide-cell selections after a rapid reclick
+        run: python tests/tab_rapid_wide_paste.py
       - if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
@@ -60,5 +62,6 @@ jobs:
           path: |
             research/tab-hover-native/
             research/tab-right-click-chain-observed.json
+            research/wide-rapid-*-observed.json
             build/interaction-dependencies/environment.json
           if-no-files-found: error
