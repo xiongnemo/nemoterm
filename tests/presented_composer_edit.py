@@ -53,18 +53,22 @@ def verify_composer_edit(pid, hwnd, directx, desktop, text, width, grid, cell, o
         repeat=receipt['character_repeat']=dict(message='WM_CHAR',scalar=0x4e2d,count=2)
         assert x+4<=cols
         u.SendMessageW(hwnd,0x102,0x4e2d,2)
-        def count_is(count):
-            for line in text().splitlines():
-                if prefix not in line: continue
-                suffix=line.split(prefix,1)[1]
+        def expect_count(count):
+            def matches():
+                lines=text().split('\n')
+                if y>=len(lines) or prefix not in lines[y]: return False
+                suffix=lines[y].split(prefix,1)[1]
                 repeat['last_count']=len(suffix)-len(suffix.lstrip('中'))
-                if repeat['last_count']==count: return True
-            return False
-        wait_for(lambda:count_is(2))
+                return repeat['last_count']==count
+            try: wait_for(matches)
+            except AssertionError:
+                frame('composer-unmatched-han-count-'+str(count),capture.capture())
+                raise
+        expect_count(2)
         full,_=stage('repeated-han',lambda a,b:a==b and sum(a)>=5,2)
-        desktop.chord(0x08);wait_for(lambda:count_is(1))
+        desktop.chord(0x08);expect_count(1)
         stage('one-han',lambda a,b:a==full and not any(b),2)
-        desktop.chord(0x08);wait_for(lambda:count_is(0))
+        desktop.chord(0x08);expect_count(0)
         stage('removed-han',lambda a,b:not any(a) and not any(b),2)
         repeat['counts']=[2,1,0]
         desktop.target();receipt['corrected']=True
