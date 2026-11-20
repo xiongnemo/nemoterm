@@ -24,23 +24,25 @@ LABEL = 'A\u4e2dZ'
 BG = (24, 64, 96)
 
 
-def run(engine, dest, record):
+def run(engine, dest, record, placement):
     assert os.environ.get('GITHUB_ACTIONS') == 'true' and os.environ.get('RUNNER_ENVIRONMENT') == 'github-hosted'
     exe = Path(os.environ['NEMOTERM_TEST_EXE']).resolve()
     font = os.environ['NEMOTERM_TEST_FONT']
-    record.update(sha256=hashlib.sha256(exe.read_bytes()).hexdigest(), font=font)
+    record.update(placement=placement,sha256=hashlib.sha256(exe.read_bytes()).hexdigest(), font=font)
     with tempfile.TemporaryDirectory() as folder, OwnedJob() as job, saved_profile(dict(NemoRenderer=engine-1, WarnOnClose=0)) as profile:
         control, report = (Path(folder)/n for n in ('control','report'))
-        proc = job.spawn([str(exe), *profile, '--no-tabs', '--font', font, '--cols','60','--rows','16', '-e', sys.executable,
+        layout=['--no-tabs'] if placement=='standalone' else ['--tabs','--tab-side',placement]
+        proc = job.spawn([str(exe), *profile, *layout, '--font', font, '--cols','60','--rows','16', '-e', sys.executable,
                           str(root/'tests/mouse_fixture.py'),str(report),str(control),'100'],
                          env=dict(os.environ,NEMOTERM_CONPTY='bundled',NEMOTERM_TEST_EXACT_OUTPUT='1',NEMOTERM_TEST_INPUT_CP='65001',NEMOTERM_TEST_WIDE_INPUT='1'),creationflags=subprocess.CREATE_NO_WINDOW)
-        hwnd = wait_for(lambda:find_window(proc.pid)); assert terminal_host(hwnd)==hwnd
+        hwnd = wait_for(lambda:find_window(proc.pid));host=terminal_host(hwnd)
+        assert (host==hwnd)==(placement=='standalone')
         wait_snapshot(lambda:read_snapshot(report))
         u.GetPropW.argtypes,u.GetPropW.restype=[w.HWND,w.LPCWSTR],w.HANDLE
         record['renderer']=u.GetPropW(hwnd,'NemotermRenderer'); assert record['renderer']==engine
         desktop=surface=None; saved=SavedClipboard(hwnd)
         try:
-            desktop=DesktopInput(proc.pid,hwnd,hwnd,record.setdefault('desktop',{}))
+            desktop=DesktopInput(proc.pid,host,hwnd,record.setdefault('desktop',{}))
             def phase(name, sequence):
                 req=dict(phase=name,sequence=sequence+CSI+'5n');write_snapshot(control,req)
                 v=wait_snapshot(lambda:read_snapshot(report),lambda v:v.get('phase')==name and bytes.fromhex(v['hex']).endswith(ACK))
@@ -51,11 +53,13 @@ def run(engine, dest, record):
                 return bytes.fromhex(v['hex'])
             phase('fullscreen',CSI+'10;1t')
             # This runner is single-monitor. Confirm the actual HWND fills that monitor
-            # and its client owns the hot pixel before testing any gestures there.
+            # and locate the actual terminal pane separately from the tab strip.
             width,height=(desktop.u.GetSystemMetrics(i) for i in (0,1))
             def covers():
-                r=w.RECT();p=w.POINT();assert u.GetWindowRect(hwnd,c.byref(r)) and u.ClientToScreen(hwnd,c.byref(p))
-                return (r.left,r.top,r.right,r.bottom,p.x,p.y)==(0,0,width,height,0,0) and not u.GetWindowLongW(hwnd,-16)&0xc00000
+                r=w.RECT();p=w.POINT();assert u.GetWindowRect(host,c.byref(r)) and u.ClientToScreen(hwnd,c.byref(p))
+                record['pane_origin']=[p.x,p.y]
+                return ((r.left,r.top,r.right,r.bottom)==(0,0,width,height) and not u.GetWindowLongW(host,-16)&0xc00000 and
+                        (p.x>0 if placement=='left' else p.x==0) and (p.y>0 if placement=='top' else p.y==0))
             wait_for(covers);record['monitor']=[0,0,width,height]
             surface=PresentedWindowCapture(proc.pid,hwnd,engine==3,raise_window=False);surface.wait_for_initial_geometry()
             seq=CSI+'?25l'+CSI+'2J'+CSI+'H'+CSI+'48;2;24;64;96m'+LABEL+CSI+'0m!'+CSI+'?1002;1006;2004h'+CSI+'16t'
@@ -90,10 +94,11 @@ def run(engine, dest, record):
                 # Escape belongs only to the owned menu. Post cancel as well if the
                 # menu did not already end when the left button was released.
                 if desktop.state().flags&0x1c or desktop.state().menu:
-                    assert u.PostMessageW(hwnd,0x1f,0,0)
+                    assert u.PostMessageW(desktop.state().menu or host,0x1f,0,0)
                 wait_for(lambda:not (desktop.state().flags&0x1c or desktop.state().menu))
-            plain,_=phase('plain',CSI+'?1002;1006h'); state=press(False);desktop.event(None,False);dismiss()
-            assert state['menu'] and drain(plain)==ACK*2,state
+            if placement=='standalone':
+                plain,_=phase('plain',CSI+'?1002;1006h'); state=press(False);desktop.event(None,False);dismiss()
+                record['plain_wire']=drain(plain).hex();assert state['menu'] and record['plain_wire']==(ACK*2).hex(),state
             gesture,_=phase('selection',CSI+'?1002;1006;2004h'); state=press(True)
             if state['menu']:
                 desktop.event(None,False);desktop.event(0x10,False);dismiss()
@@ -119,7 +124,9 @@ def run(engine, dest, record):
 
 if __name__=='__main__':
     label=sys.argv[1];engine={'gdi':1,'directx':3}[label];record={}
-    dest=root/'research'/('fullscreen-corner-'+label);dest.mkdir(parents=True,exist_ok=True)
-    try:run(engine,dest,record);record['passed']=True
+    placement=sys.argv[2] if len(sys.argv)>2 else 'standalone'
+    assert placement in ('standalone','top','bottom','left','right')
+    dest=root/'research'/('fullscreen-corner-'+label+('' if placement=='standalone' else '-'+placement));dest.mkdir(parents=True,exist_ok=True)
+    try:run(engine,dest,record,placement);record['passed']=True
     except BaseException as exc:record['error']=repr(exc);raise
     finally:(dest/'result.json').write_text(json.dumps(record,indent=2),encoding='utf-8')
