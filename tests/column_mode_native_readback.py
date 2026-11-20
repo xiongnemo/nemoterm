@@ -12,6 +12,7 @@ import re
 import subprocess
 from native_test_utils import c, u, w
 import time
+import zipfile
 
 from column_mode_saved_cases import AWAY, BLANK, C, HOME, MARK, PAINT, QUERY, saved_cases
 from protocol_oracle_window import root, run
@@ -61,6 +62,16 @@ def main(saved):
         allow = policy != 'deny'
         cases = saved_cases(allow, policy == 'allow') if saved else ordinary_cases(policy, allow)
         output = records['profiles'][policy] = {}
+        reference = None
+        if saved and allow:
+            source = root/'testdata/upstream/xterm412-saved-column-modes.zip'
+            records['reference_sha256'] = hashlib.sha256(source.read_bytes()).hexdigest()
+            with zipfile.ZipFile(source) as archive:
+                option = {'allow':'on','startup-off':'off','auto':'auto'}[policy]
+                captured = json.loads(archive.read('column-modes/saved-'+option+'.json'))
+            assert captured['version']=='XTerm(412)' and captured['executable_sha256']==records.setdefault('xterm_sha256',captured['executable_sha256'])
+            reference = captured['cases']
+            assert list(reference) == [key for key,*_ in cases]
 
         def exercise(hwnd, phase, current):
             for key, command, cols, pos, text in cases:
@@ -74,6 +85,11 @@ def main(saved):
                         log=(ui.stdout+ui.stderr).decode('utf8',errors='replace'))
                     ui.check_returncode()
                 expected = dict(size=[cols,24],cursor=list(pos),text=text)
+                reference_bytes = None
+                if reference is not None:
+                    assert reference[key]['sequence'] == command+QUERY, key
+                    reference_bytes = bytes.fromhex(reference[key]['reply_hex'])
+                    expected = replies(reference_bytes)
                 raw = phase(key, command+QUERY, None)
                 front = replies(raw)
                 def read():
@@ -86,8 +102,9 @@ def main(saved):
                 end = time.monotonic()+1
                 while not matches(sample) and time.monotonic()<end:
                     time.sleep(.04); sample = read()
-                output[key] = dict(expected=expected, input=command.encode().hex(), wire=raw.hex(),frontend=front, first=first,settled=sample,
-                                   passed=(front==expected and matches(sample) and ((allow and key not in ('live-deny','deny-at-start')) or matches(first))))
+                output[key] = dict(expected=expected, input=command.encode().hex(), wire=raw.hex(),reference_wire=reference_bytes.hex() if reference_bytes is not None else None,
+                                   frontend=front, first=first,settled=sample,
+                                   passed=((reference_bytes is None or raw==reference_bytes) and front==expected and matches(sample) and ((allow and key not in ('live-deny','deny-at-start')) or matches(first))))
             return output
 
         try:
