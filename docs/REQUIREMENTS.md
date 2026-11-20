@@ -1,6 +1,8 @@
 # Nemoterm requirements and evidence ledger
 
-The [distributed `bda4d485` preview](../research/acceptance-bda4d485.md) passed 76/76 native resize checks, including text metrics at input read time. Interaction: 79/81. Six full-grid stress workloads peaked at 19,599,360 (GDI) and 29,278,208 (DirectX) frontend private working-set bytes.
+The [distributed `032bb830` preview](../research/acceptance-032bb830.md) passes 76/76 native resize checks and feeds measured pixel geometry to the embedded WSL PTY. Fixed-grid WSL1 ioctl readback is stale even on a private kernel control; direct VT queries and in-band reports match the Windows surface. Interaction: 79/81. Six full-grid stress workloads peaked at 18,837,504 (GDI) and 29,167,616 (DirectX) frontend private working-set bytes.
+
+The [previous `bda4d485` preview](../research/acceptance-bda4d485.md) passed 76/76 native resize checks, including text metrics at input read time. Interaction: 79/81. Six full-grid stress workloads peaked at 19,599,360 (GDI) and 29,278,208 (DirectX) frontend private working-set bytes.
 
 The [previous `bdf847f9` preview](../research/acceptance-bdf847f9.md) preserves local Shift selection on surviving rows and discards erased history. In [20 hosted windows](../research/selection-history-clear.md), GDI and DirectX agreed on the visible selection, clipboard and child input. Interaction: 80/81. Six stress workloads peaked at 18,653,184 (GDI) and 29,274,112 (DirectX) private working-set bytes.
 
