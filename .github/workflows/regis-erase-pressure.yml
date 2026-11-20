@@ -1,0 +1,41 @@
+name: Erasing an opaque ReGIS page with another screen retained
+on:
+  workflow_call:
+    inputs:
+      product_run: {type: string, required: true}
+      product_commit: {type: string, required: true}
+permissions: {contents: read, actions: read}
+jobs:
+  windows:
+    runs-on: windows-2025
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with: {fetch-depth: 0}
+      - name: Fetch the exact executable and font
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SOURCE_RUN: ${{ inputs.product_run }}
+          SOURCE_SHA: ${{ inputs.product_commit }}
+        run: |
+          scripts/fetch-ci-product.ps1 -Run $env:SOURCE_RUN -Commit $env:SOURCE_SHA -Destination build/regis-erase-product
+          "NEMOTERM_TEST_EXE=$((Resolve-Path build/regis-erase-product/nemoterm.exe).Path)" | Out-File $env:GITHUB_ENV -Append -Encoding utf8
+          scripts/prepare-remote-interaction.ps1
+      - name: Erase only the active page and restore the other screen
+        env: {NEMOTERM_REQUIRE_DIRECTX: '1'}
+        run: |
+          $bad=@()
+          foreach ($mode in 'gdi','directx') {
+            python tests/regis_erase_pressure_window.py --renderer $mode
+            if ($LASTEXITCODE) { $bad+=$mode }
+          }
+          if ($bad.Count) { throw "ReGIS clear failed: $bad" }
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: regis-erase-pressure-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            research/regis-erase-pressure-*
+            build/regis-erase-product/SOURCE-HOST.json
+            build/interaction-dependencies/environment.json
+          if-no-files-found: error

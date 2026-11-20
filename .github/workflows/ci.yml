@@ -32,6 +32,13 @@ jobs:
   regis-core:
     if: ${{ inputs.scope != 'dpi' }}
     uses: ./.github/workflows/regis-component.yml
+  regis-erase:
+    if: ${{ inputs.scope != 'dpi' }}
+    needs: source-host
+    uses: ./.github/workflows/regis-erase-pressure.yml
+    with:
+      product_run: ${{ github.run_id }}
+      product_commit: ${{ github.sha }}
   regis-window:
     if: ${{ inputs.scope != 'dpi' }}
     needs: source-host
