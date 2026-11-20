@@ -42,6 +42,8 @@ gh workflow run font-zoom-replay.yml --ref <branch> -f suite=interaction -f sour
 
 同一 `wsl-sixel` 回放也覆盖可选内嵌 Linux PTY。`wsl-pty-geometry-{gdi,directx}/geometry.json` 分别记录启动、拉大窗口、放大字号的 Windows 客户区测量，Linux 程序的 VT 查询及 `TIOCGWINSZ`；`-fixed` 两个目录是「调整字体、保持行列」的独立窗口。`startup.json` 保存不经过产品的 PTY 对照。另用相同散列的内嵌 ELF 在原生 Linux 和托管 WSL1 直接读回四项尺寸、检验无效包；详见 `linux-pty-pixels-*` 和 Windows 制品的 `wsl-relay-records`。同一行列下像素未更新仍记失败。该检查不作为收集剪贴板和退出回执的前置条件。
 
+下载同一源构建的 `wsl-vim`、`wsl-tmux-vim`、`wsl-sixel` 三份原始 ZIP 后，可用 `python scripts/review-wsl-window-records.py <vim.zip> <tmux-vim.zip> <sixel.zip>` 离线复核。脚本读取 Vim 逐次写出的光标、尺寸与内容，比较选区与相邻格的截图变化，检查粘贴后保存的 UTF-8 文件，以及 Sixel 绘制、重绘、擦除时包含边界的像素。
+
 `suite=wsl-colour` 使用 Ubuntu 自带的 `tput` 和 `ncurses-term` 的三个条目画色块。分别记录真实 `setaf`/`setab` 字节，再检查 GDI 和 DirectX 的每一个色块像素、相邻空白、重绘和退出备用屏幕后的背景。`xterm-direct` 使用仅蓝色分量相差 1 的两个 RGB 值，能检出调色板量化。
 
 `suite=wsl-vim` 在两个 TERM 条目和实际 GDI、DirectX 下启动 Vim。普通鼠标点击须改变 Vim 自己报告的光标，Shift 拖选须复制完整中文字且不移动 Vim 光标；窗口两次改尺寸后 Vim 与前端应报告同一网格；最后用快捷键粘贴，验证保存文件的 UTF-8 字节和退出后的画面。
