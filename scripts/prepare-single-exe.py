@@ -99,6 +99,17 @@ static bool visualWriter(CONSOLE_API_MSG* message)
             case InjectionType::RIS:''')
 
 
+def patch_column_resize_owner():
+    # WriteCharsVT both interprets the controls in OpenConsole and forwards
+    # them to Nemoterm. Only the frontend knows the current profile, size
+    # policy and desktop limits. Let its accepted Win32 resize feed back via
+    # the normal pseudoconsole resize signal; never resize the child first.
+    # Keep the upstream non-PTY dispatcher and the other mirror operations.
+    replace(DEST / "src/terminal/adapter/adaptDispatch.cpp",
+            "        _api.ResizeWindow(pageWidth, pageHeight);",
+            "        if (!_api.IsConPTY())\n        {\n            _api.ResizeWindow(pageWidth, pageHeight);\n        }")
+
+
 def patch_cursor_sync():
     # ConPTY's internal CPR must not consume an application's outstanding CPR.
     # This same-image host uses a tagged Nemoterm query with viewport-absolute
@@ -398,6 +409,7 @@ def main():
                 }""")
 
     patch_visual_writer()
+    patch_column_resize_owner()
     patch_cursor_sync()
     patch_input_dcs_fragments()
     patch_cursor_sync_fragments()
