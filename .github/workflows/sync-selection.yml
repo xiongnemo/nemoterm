@@ -89,9 +89,16 @@ jobs:
           python3 -m venv "$RUNNER_TEMP/selection-review"
           "$RUNNER_TEMP/selection-review/bin/pip" install --only-binary=:all: Pillow==13.0.0
           "$RUNNER_TEMP/selection-review/bin/python" scripts/review-sync-selection.py --expect-commit "$PRODUCT_COMMIT" --output review/results.json review/gdi.zip review/directx.zip
+      - name: Independently verify fullscreen selections from original window pixels and input
+        if: ${{ !cancelled() && hashFiles('review/gdi.zip', 'review/directx.zip') != '' }}
+        env:
+          PRODUCT_COMMIT: ${{ inputs.product_commit }}
+        run: '"$RUNNER_TEMP/selection-review/bin/python" scripts/review-fullscreen-corner.py --commit "$PRODUCT_COMMIT" --output review/fullscreen.json review/gdi.zip review/directx.zip'
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
-        if: ${{ !cancelled() && hashFiles('review/results.json') != '' }}
+        if: ${{ !cancelled() && hashFiles('review/results.json', 'review/fullscreen.json') != '' }}
         with:
           name: sync-selection-review-${{ github.run_id }}-${{ github.run_attempt }}
-          path: review/results.json
+          path: |
+            review/results.json
+            review/fullscreen.json
           if-no-files-found: error
