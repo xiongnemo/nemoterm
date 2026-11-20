@@ -33,7 +33,7 @@ Kitty 图片支持直接 RGB/RGBA/PNG、压缩传输、裁剪、透明度、查�
 
 ## 下载
 
-[下载 Windows x64 单文件试用版 `ba16d56b`](https://github.com/xiongnemo/nemoterm/actions/runs/44793711901/artifacts/14657592423)。修复右键复制后快速 Shift 拖选被误判成双击的问题。四边标签预览、实际复制和右侧 DirectX 选区专项已通过。[修复前后对照](research/right-copy-ba16d56b.md) · [本版完整回归](https://github.com/xiongnemo/nemoterm/actions/runs/44793711901)。
+[下载 Windows x64 单文件试用版 `ba16d56b`](https://github.com/xiongnemo/nemoterm/actions/runs/44793711901/artifacts/14657592423)。修复右键复制后快速 Shift 拖选被误判成双击的问题。四边标签预览、实际复制和右侧 DirectX 选区专项已通过。这份 EXE 的六组满屏负载中，GDI 私有工作集最高 **18.88 MB**，DirectX **29.45 MB**。[三个实际 agent 的内存与交互验收](research/acceptance-ba16d56b.md)。[修复前后对照](research/right-copy-ba16d56b.md) · [本版完整回归](https://github.com/xiongnemo/nemoterm/actions/runs/44793711901)。
 
 [上一版 `355c73f8` 的单文件](https://github.com/xiongnemo/nemoterm/actions/runs/44785665334/artifacts/14653593498)。保留经典 Win32 风格标签和四边停靠；打字时应用可隐藏指针，Shift 仍能直接拖选屏幕文字。六种满屏负载下的前端私有工作集峰值为 GDI **19.40 MB**、DirectX **28.82 MB**。[本版成绩、SHA-256 和已知差异](research/acceptance-355c73f8.md) · [真实 agent 的选区截图](research/agent-grid-355c73f8.png)。
 

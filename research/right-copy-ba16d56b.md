@@ -17,3 +17,5 @@
 [这份 EXE 的右侧 DirectX 完整选区回放](https://github.com/xiongnemo/nemoterm/actions/runs/44794676564/artifacts/14657638014)通过：7 个屏幕切换和 4 个拖动中切换场景均通过，对原始 15 张截图另行逐格核对了高亮。
 
 [下载 `ba16d56b` 单文件](https://github.com/xiongnemo/nemoterm/actions/runs/44793711901/artifacts/14657592423)，4,942,336 字节，SHA-256 `b0b03507848b437aced6a326be2f2452035af53e16104234ba59e5ef984e3db8`。[保留的三份实际手势回执、15 张原图与构建身份](right-copy-ba16d56b.zip)。[此提交的全量测试](https://github.com/xiongnemo/nemoterm/actions/runs/44793711901)与这次专项验收分开记录。
+
+[两种右键策略下快速重选宽字符的四个实测窗口、内存与实际应用回执](acceptance-ba16d56b.md)。新 MinGW 便携版本在[完整 Windows 作业](https://github.com/xiongnemo/nemoterm/actions/runs/44793711901/job/136490921983)中的 `Test tab overflow, geometry, resizing, input methods and selection` 步骤也已通过。

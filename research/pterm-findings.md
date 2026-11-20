@@ -2,7 +2,9 @@
 
 调查日期：2026-11-12（Australia/Sydney）。仅查询已运行进程，不输入命令、不读取终端画面、不修改 PuTTY 配置、不清空工作集、不终止用户进程。
 
-[本次 `355c73f8` 单文件的同机对照](acceptance-355c73f8.md)：同样的 24 轮 Codex 下，原版 pterm、Nemoterm GDI、DirectX 的前端私有工作集峰值分别为 **3.75、5.50、9.70 MB**。
+[本次 `ba16d56b` 的原版 pterm、GDI、DirectX 同机对照](acceptance-ba16d56b.md)：24 轮 Codex 中三个前端的私有工作集峰值分别为 **3.77、5.50、9.73 MB**。
+
+[此前 `355c73f8` 单文件的同机对照](acceptance-355c73f8.md)：同样的 24 轮 Codex 下，原版 pterm、Nemoterm GDI、DirectX 的前端私有工作集峰值分别为 **3.75、5.50、9.70 MB**。
 
 [与 `3da1ebb8` 单文件试用版的同机对照](acceptance-3da1ebb8.md)：使用相同的字体、160×48 网格和 24 轮 Codex 对话，原版 pterm、Nemoterm GDI、DirectX 的前端私有工作集峰值分别为 3.77、5.52、9.78 MB。[上次以 `03d0e0bc` 对照的数据](acceptance-03d0e0bc.md)仍单独保留。下表的 7.13–7.85 MiB 则是最初调查时，你机器上五个既有窗口的实测值。
 
