@@ -1,0 +1,56 @@
+name: DirectX palette stack window exit
+on:
+  workflow_call:
+    inputs:
+      product_run: {required: true, type: string}
+      product_commit: {required: true, type: string}
+permissions:
+  contents: read
+  actions: read
+jobs:
+  compare:
+    runs-on: windows-2025
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix: {capture: [retained, presented]}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with: {fetch-depth: 0}
+      - name: Read the same single EXE as in the failed suite
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PRODUCT_RUN: ${{ inputs.product_run }}
+          PRODUCT_COMMIT: ${{ inputs.product_commit }}
+        run: |
+          scripts/fetch-ci-product.ps1 -Run $env:PRODUCT_RUN -Commit $env:PRODUCT_COMMIT -Destination build/palette-exit-product
+          "NEMOTERM_TEST_EXE=$((Resolve-Path build/palette-exit-product/nemoterm.exe).Path)" | Out-File $env:GITHUB_ENV -Append -Encoding utf8
+      - name: Install the original suite's capture dependencies
+        run: python -m pip install frida==17.24.3 Pillow==13.0.0
+      - name: Verify the post-timeout diagnostic helper against positive and negative controls
+        run: |
+          ./scripts/test-failure-dump.ps1 -Destination build/palette-exit-controls
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          "NEMOTERM_QUOTE_EXIT_DUMP=$((Resolve-Path build/palette-exit-controls/helper.exe).Path)" | Out-File $env:GITHUB_ENV -Append -Encoding utf8
+      - name: Record all three independent exits, keeping any original timeout
+        env:
+          CAPTURE: ${{ matrix.capture }}
+          NEMOTERM_TEST_FONT: Consolas
+          NEMOTERM_REQUIRE_DIRECTX: '1'
+        run: |
+          $failed = @()
+          foreach ($trial in 1..3) {
+            python tests/palette_stack_window_smoke.py --renderer directx --capture $env:CAPTURE --trial $trial
+            if ($LASTEXITCODE -ne 0) { $failed += $trial }
+          }
+          if ($failed.Count) { throw "Failed palette exit trials: $failed" }
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: palette-exit-${{ matrix.capture }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            research/palette-stack-directx-*
+            research/quote-exit-diagnostics/
+            build/palette-exit-controls/test.log
+            build/palette-exit-product/SOURCE-HOST.json
+          if-no-files-found: error

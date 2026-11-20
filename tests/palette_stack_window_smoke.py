@@ -8,7 +8,11 @@ from gpu_capture import OwnedGPUCapture
 
 parser=argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--renderer',choices=('gdi','directx','opengl'),default='gdi')
+parser.add_argument('--capture', choices=('retained','presented'), default='retained')
+parser.add_argument('--trial', type=int, choices=(1,2,3))
 args=parser.parse_args()
+if args.capture=='presented' and args.renderer!='directx':parser.error('presented control requires DirectX')
+name='palette-stack-'+args.renderer+(f'-{args.capture}-{args.trial}' if args.trial else '')
 requested={'gdi':0,'opengl':1,'directx':2}[args.renderer]
 CSI='\x1b['
 barrier=(CSI+'>q',b'\x1bP>|Nemoterm(PuTTY 0.85)\x1b\\')
@@ -23,11 +27,24 @@ def exercise(hwnd,phase,current):
     if requested==0:assert active==1
     if requested==1 and os.environ.get('NEMOTERM_REQUIRE_OPENGL')=='1':assert active==2
     if requested==2 and os.environ.get('NEMOTERM_REQUIRE_DIRECTX')=='1':assert active==3
-    gpu=None
+    gpu=presented=None
     evidence=dict(actual_renderer=active,pixel_checks=[],memory_samples=[],memory_instrumented=active!=1)
+    evidence['capture']=args.capture
     try:
-        if active!=1:gpu=OwnedGPUCapture(pid.value,hwnd)
-        def image():return gpu.capture(return_pixels=True) if gpu else capture(hwnd,return_pixels=True)
+        if args.capture=='presented':
+            from presented_window_capture import PresentedWindowCapture
+            assert active==3
+            presented=PresentedWindowCapture(pid.value,hwnd,directx=True)
+            presented.wait_for_initial_geometry();evidence['memory_instrumented']=False
+        elif active!=1:gpu=OwnedGPUCapture(pid.value,hwnd)
+        def image(filename=None):
+            if presented:
+                import struct
+                from native_test_utils import capture_result
+                bmp=presented.capture();width,height=struct.unpack_from('<ii',bmp,18)
+                return capture_result(width,-height,bmp[54:],filename,True)
+            if gpu:return gpu.capture(name=filename,return_pixels=True)
+            return capture(hwnd,name=filename,return_pixels=True)
         def remember(name):
             time.sleep(.08)
             pixels=image()
@@ -73,14 +90,14 @@ def exercise(hwnd,phase,current):
         evidence['peak_private_ws']=max(s['private_ws'] for s in evidence['memory_samples'])
         evidence['peak_total_ws']=max(s['total_ws'] for s in evidence['memory_samples'])
         if active==1:assert evidence['peak_private_ws']<20_000_000,evidence
-        if gpu:gpu.capture(f'palette-stack-{args.renderer}-window.png')
-        else:capture(hwnd,f'palette-stack-{args.renderer}-window.png')
+        image(f'{name}-window.png')
         return evidence
     finally:
+        if presented:evidence['presented_surface']=presented.close()
         if gpu:gpu.close()
         k.CloseHandle(handle)
 
 
-run('palette-stack-'+args.renderer,CASES,exercise=exercise,barrier=barrier,
+run(name,CASES,exercise=exercise,barrier=barrier,observe_exit=args.renderer=='directx',
     profile=dict(NemoRenderer=requested,RemoteQTitleAction=2,WarnOnClose=0),
     font=os.environ.get('NEMOTERM_TEST_FONT','Consolas' if os.environ.get('CI')=='true' else 'SarasaTermSC Nerd Font Light'))
