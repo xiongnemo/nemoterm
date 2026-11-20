@@ -29,3 +29,13 @@
 | [同一份 EXE 加入启动策略、真实设置窗口和连续写入](https://github.com/xiongnemo/nemoterm/actions/runs/44646746945) | 22/22 | 22/22 |
 
 22 项包含原有 12 项。扩展回放在同一次运行中两次打开 Profile Settings：禁用并保存后，程序不能擦掉 `KEEP`；重新允许后，它能改宽。在一段连续写入中改宽，随即覆盖第二个字母，双方最终都读到 `K!EP`。[六份完整原始制品与散列](column-native-readback.zip)含失败和成功版本、每步可见／原生观测、实际 UI 操作回执；新 EXE 的 SHA-256 为 `81542ed8bf334eb2804894ee59e02ff31a76ef4d79f5bbdf560f0b914ca2dd65`。这 22 项使用 ASCII 检查原生文字；独立的 `A中Z` 检查验证前端宽字符、可见选区和剪贴板，不能外推为所有 Win32 宽字符编码或所有 DEC 模式的原生缓冲区都一致。
+
+## 恢复应用临时改过的列宽设置
+
+[旧试用版 `32e588e7` 的首次回放](https://github.com/xiongnemo/nemoterm/actions/runs/44649798687)里，窗口与 Windows 子程序在三种恢复路径上读到了相反的文字。之后，把相同的字节发给[原版 XTerm 412](https://github.com/xiongnemo/nemoterm/actions/runs/44650802334)，又发现“保存时关闭了保留文字，所以恢复后应当清屏”这个预期并不成立。XTerm 412 用 `CSI ? 95 s` 保存、再用 `CSI ? 95 r` 恢复后会保留文字；明确再发 `CSI ? 95 l` 才会在下次获准改宽时清屏。保存列宽时如果应用已禁用改宽，原有保存值也不会被覆盖。普通设置列宽会重置滚动边界，恢复保存的列宽则保留边界。这些结论针对实际测试的 XTerm 版本和 VT520 配置。
+
+[固定参考 ZIP](../testdata/upstream/xterm412-saved-column-modes.zip)是远程原始制品 `14590962150`，SHA-256 `ea953b1e76800eb51ecbfb993d2f2b266244dc480222365244415ea9172b6eaf`。Windows 每种渲染器分开比较 51 项逐字节回复（三种启动配置 × 17），以及 17 项本地禁止改宽策略。每项都独立检查 Windows 子程序的 `ReadConsoleOutputW`、光标、尺寸是否符合相同预期。[按这个标准重放旧 EXE](https://github.com/xiongnemo/nemoterm/actions/runs/44651044887)：GDI 和 DirectX 各 **53/68**，其中本地禁止改宽各 **17/17**。例如，程序暂时关闭改宽后尝试保存 80 列，再开启并恢复：原版 XTerm 回到 132 列，旧 EXE 停在 80 列。[逐项读数及原始失败制品](column-saved-readback.zip)。
+
+在候选 `8f375f7d` 上，[同样 68 项](https://github.com/xiongnemo/nemoterm/actions/runs/44651165951)在 GDI、DirectX 各 **68/68**。普通改宽的 22 项原生读回与两个标签互不影响的 7 项也继续通过。更贴近使用时的[实际键鼠回放](https://github.com/xiongnemo/nemoterm/actions/runs/44651889509)每端 **5/5**：应用接管鼠标时用 Shift 拖选四格 `A中Z`。恢复 132 列并保留画面后，高亮仍在原来的四格，按 Ctrl+Shift+C 从系统剪贴板读到 `A中Z`，应用没收到复制按键；明确清屏后四格均不再高亮。此图来自同一份 EXE 在托管 GDI 窗口的对应区域，最近邻放大两倍。
+
+![左为 Shift 拖选，中为恢复列宽并保留，右为恢复列宽并清屏。](column-restore-selection.png)
