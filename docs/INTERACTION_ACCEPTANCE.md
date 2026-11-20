@@ -413,3 +413,5 @@ the terminal pane; for bottom/right tabs and standalone it starts at the
 monitor corner. A nearby unmodified click must reach the mouse-aware child.
 A separate standalone control checks that an unmodified corner click still
 opens the system menu. Each placement retains its own PNGs and result JSON.
+
+`font-zoom-replay.yml` 的 `suite=tab-selection` 使用源制品的独立 EXE 和原始 profile 字体，在右侧标签栏、GDI 下重跑整个选区脚本。若终端状态回复超时，制品保留等待期间的采样、松开鼠标前的最后读数及清理时的读数；之后到达的回复不改变测试失败结果。

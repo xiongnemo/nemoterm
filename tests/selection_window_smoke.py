@@ -57,7 +57,24 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-selection-') as temporary:
             return gpu.capture(name,return_pixels) if gpu else capture(hwnd,name,return_pixels)
         phase_request=None
         def phase_state(name,wait_reply=True):
-            return wait_snapshot(lambda:read_snapshot(report),lambda v:v.get('phase')==name and (not wait_reply or bytes.fromhex(v.get('hex','')).endswith(b'\x1b[0n')))
+            # Keep the actual observations tested during the wait distinct from the
+            # final snapshot taken after releasing the physical mouse on cleanup.
+            from collections import deque
+            start=time.monotonic(); changes=deque(maxlen=8); polls=0
+            def observed():
+                nonlocal polls
+                value=read_snapshot(report); polls+=1
+                if not changes or changes[-1][1]!=value:
+                    changes.append((round((time.monotonic()-start)*1000),value))
+                return value
+            try:
+                return wait_snapshot(observed,lambda v:v.get('phase')==name and (not wait_reply or bytes.fromhex(v.get('hex','')).endswith(b'\x1b[0n')))
+            except AssertionError:
+                evidence['phase_timeout']=dict(name=name,request=phase_request,wait_reply=wait_reply,
+                    polls=polls,elapsed_ms=round((time.monotonic()-start)*1000),
+                    changes=list(changes),process_exit=process.poll(),control=read_snapshot(control),
+                    snapshot_before_mouse_cleanup=read_snapshot(report))
+                raise
         def begin_phase(name,sequence,*,preserve_mouse=False,wait_reply=True):
             global phase_request
             phase_request=dict(phase=name,sequence=sequence+'\x1b[5n',preserve_mouse=preserve_mouse)
