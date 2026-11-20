@@ -1,5 +1,7 @@
 # Protocol coverage and remaining gaps
 
+[Large ReGIS erasure](../research/regis-sparse-erase.md): clearing a 320×8192 opaque page in successive visible bands no longer drops a stored graphic on the other text screen. On the exact Windows build `d7db3abf`, GDI and DirectX both preserved all 101 reference pixels when switching back and after a forced repaint. The separate historical XTerm comparisons below remain unchanged.
+
 Fresh shared Sixel/ReGIS colours, including private, RIS and DECSTR controls: the [pinned XTerm and presented GDI comparison](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/shared-bank-start.md) improves from 2/7 to 7/7 on the `6bed777` candidate. This covers first-use colour registers, not the remaining historical ReGIS presentation differences.
 
 ## Windows preview `42232a2d`

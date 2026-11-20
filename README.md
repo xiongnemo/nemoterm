@@ -33,7 +33,7 @@ Kitty 图片支持直接 RGB/RGBA/PNG、压缩传输、裁剪、透明度、查�
 
 ## 下载
 
-[下载 Windows x64 单文件试用版 `a96e10b4`](https://github.com/xiongnemo/nemoterm/actions/runs/44661690615/artifacts/14595528446)。本版修复中键拖到其他标签再松手时误关会话的问题，四种标签栏位置的[实际鼠标验收](research/tab-middle-gestures.md) **20/20**。六种满屏负载的前端私有工作集峰值为 **GDI 19.23 MB / DirectX 28.95 MB**。交互 79/81。[完整结果和 SHA-256](research/acceptance-a96e10b4.md) · [上一试用版](research/acceptance-10f0390f.md)。
+[下载 Windows x64 单文件试用版 `d7db3abf`](https://github.com/xiongnemo/nemoterm/actions/runs/44669471663/artifacts/14598474988)。本版修复了[擦除大张 ReGIS 图后另一屏的图也消失](research/regis-sparse-erase.md)的问题。六种满屏负载的前端私有工作集峰值为 **GDI 19.13 MB / DirectX 28.57 MB**。交互 79/81；两项仍是 Codex 启动早期贴图。[本版验收和 SHA-256](research/acceptance-d7db3abf.md) · [上一试用版](research/acceptance-a96e10b4.md)。
 
 [上一份 81/81 的 Windows x64 测试版 `cf091974`](https://github.com/xiongnemo/nemoterm/actions/runs/44588222859/artifacts/14562762043)。解压后只需 `nemoterm.exe`（4,862,464 字节）。SHA-256：`9df8365b9e32444f24d279c114750090122f8550c1aa53dffa2972c448aa4788`。
 
