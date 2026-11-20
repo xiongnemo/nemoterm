@@ -35,7 +35,7 @@ gh workflow run font-zoom-replay.yml --ref <branch> -f suite=interaction -f sour
 
 同一入口记录 `CSI 9 ; Ps t` 的工作区边界、原窗口与每一步的四边坐标、有无标题栏及 Windows 最大化状态。单轴最大化应保持另一轴不变；禁用远程调整大小或锁定窗口时应忽略应用请求。对当前 `f2f553b9` 的[原始失败回放](https://github.com/xiongnemo/nemoterm/actions/runs/44680175234/artifacts/14603833745)为 12/36。独立上游对照使用 `protocol-reference.yml -f family=window-maximise`：XTerm 412 在专用 Xvfb + Openbox 中运行，记录 5 组输入的客户区、外框、窗口管理器属性和终端回复。
 
-`suite=font-ops` 在同一个 EXE 上分别验证 GDI 和 DirectX。先用独立启动的 Sarasa、Consolas 窗口核对实际字形和字符格，再验证标签间字体互不影响，以及从“窗口 → 外观 → 字体访问”保存配置和撤销权限。原始数据和首次失败见 [OSC 50 实测](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/osc-font-operations.md)。
+`suite=font-ops` 在同一个 EXE 上分别验证 GDI 和 DirectX。此专项也会激活 runner 上自己创建的窗口：以 `DECSCUSR` 的常亮方块、竖线和下划线为对照，在不同形状之间切换 `OSC 50;CursorShape=…`，从同一窗口的呈现表面取原图并核对状态回复。每种渲染器保留六张 PNG 和 `frames.json`。先用独立启动的 Sarasa、Consolas 窗口核对实际字形和字符格，再验证标签间字体互不影响，以及从“窗口 → 外观 → 字体访问”保存配置和撤销权限。原始数据和首次失败见 [OSC 50 实测](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/osc-font-operations.md)。
 
 `suite=rendering-settings` 在远程显示器实际支持的缩放比例下打开英文、简体中文“渲染”页，记录两个复选框的文字边界、与底部按钮的间距和窗口截图。分别检查标签窗口、独立窗口和运行中改变 DPI 的情况。
 
