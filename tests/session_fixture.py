@@ -1,4 +1,4 @@
-"""Independent per-PID VT mailboxes for sessions in one frontend process."""
+"""Independent VT mailboxes; stress runs distinguish repeated uses of a PID."""
 import os
 from pathlib import Path
 import runpy
@@ -11,12 +11,15 @@ seconds = int(sys.argv[2]) if len(sys.argv) > 2 else 300
 if not 1 <= seconds <= 1800:
     raise ValueError('Session fixture lifetime must be between 1 and 1800 seconds')
 pid = os.getpid()
-write_snapshot(directory/f'{pid}.launch.json',
-               dict(pid=pid, parent=os.getppid(), cwd=os.getcwd(), lifetime_seconds=seconds))
+# Windows can recycle a retired child PID during one create/close loop.
+# Keep older callers' paths; resource tests opt into a fresh mailbox per launch.
+mailbox = f'{pid}-{os.urandom(12).hex()}' if sys.argv[3:] == ['--unique-mailbox'] else str(pid)
+write_snapshot(directory/f'{mailbox}.launch.json',
+               dict(pid=pid, mailbox=mailbox, parent=os.getppid(), cwd=os.getcwd(), lifetime_seconds=seconds))
 sys.argv = [str(Path(__file__).with_name('mouse_fixture.py')),
-            str(directory/f'{pid}.report.json'), str(directory/f'{pid}.control.json'), str(seconds)]
+            str(directory/f'{mailbox}.report.json'), str(directory/f'{mailbox}.control.json'), str(seconds)]
 started = time.monotonic()
-exit_record = dict(pid=pid, lifetime_seconds=seconds)
+exit_record = dict(pid=pid, mailbox=mailbox, lifetime_seconds=seconds)
 try:
     state = runpy.run_path(sys.argv[0], run_name='__main__')
     exit_record.update(reason='control-stop' if state['request'].get('stop') else 'deadline',
@@ -27,4 +30,4 @@ except BaseException as error:
     raise
 finally:
     exit_record['elapsed_seconds'] = time.monotonic()-started
-    write_snapshot(directory/f'{pid}.exit.json', exit_record)
+    write_snapshot(directory/f'{mailbox}.exit.json', exit_record)

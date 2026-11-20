@@ -158,7 +158,7 @@ try:
         tmp=Path(tmp);known=set();serial=0;captures=[];hover_session=None;memory_sampler=None;census_observer=None
         worker_leases=[];evidence['worker_closes']=[];menu_checks=None;exception_observer=None;resize_observer=None
         process=job.spawn([str(exe),'-load',profile,'--automation','--tabs','--tab-side',args.side,
-            '--cols',str(args.cols),'--rows',str(args.rows),'--font',args.font,'-e',sys.executable,str(root/'tests/session_fixture.py'),str(tmp),str(args.session_seconds)],
+            '--cols',str(args.cols),'--rows',str(args.rows),'--font',args.font,'-e',sys.executable,str(root/'tests/session_fixture.py'),str(tmp),str(args.session_seconds),'--unique-mailbox'],
             env=dict(os.environ,NEMOTERM_CONPTY='bundled',NEMOTERM_TEST_UTF8_INPUT='1'),
             creationflags=subprocess.CREATE_NO_WINDOW)
         handle=k.OpenProcess(0x410,False,process.pid)
@@ -188,11 +188,13 @@ try:
                 def launch():
                     for path in tmp.glob('*.launch.json'):
                         value=read_snapshot(path)
-                        if value and value['pid'] not in known:return value
-                child=wait_for(launch);known.add(child['pid'])
+                        if value and value['mailbox'] not in known:
+                            assert path.name == value['mailbox']+'.launch.json'
+                            return value
+                child=wait_for(launch);known.add(child['mailbox'])
                 child['hwnd']=wait_for(lambda:next(iter(set(windows(process.pid,'Nemoterm',host))-set(before)),None))
-                child['report']=tmp/f"{child['pid']}.report.json"
-                child['control']=tmp/f"{child['pid']}.control.json"
+                child['report']=tmp/f"{child['mailbox']}.report.json"
+                child['control']=tmp/f"{child['mailbox']}.control.json"
                 wait_for(lambda:read_snapshot(child['report']))
                 assert child['parent']==process.pid
                 assert u.GetParent(child['hwnd'])==host
@@ -239,7 +241,7 @@ try:
                 return created
             def wait_for_tab_workers(child):
                 lease=child['worker_lease'];started=time.monotonic()
-                observation=dict(child_pid=child['pid'],threads=lease.entries,before=lease.states())
+                observation=dict(child_pid=child['pid'],mailbox=child['mailbox'],threads=lease.entries,before=lease.states())
                 evidence['worker_closes'].append(observation)
                 try:
                     observation['all_signalled']=lease.wait(2000)
