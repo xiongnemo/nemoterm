@@ -56,6 +56,11 @@ jobs:
         env:
           RENDERER: ${{ matrix.renderer }}
         run: python tests/selection_scroll_region.py --right-click
+      - name: Edit one row beside a real mouse rectangle and then right-click
+        if: ${{ !cancelled() && env.NEMOTERM_TEST_FONT != '' }}
+        env:
+          RENDERER: ${{ matrix.renderer }}
+        run: python tests/selection_block_row_edit.py
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
@@ -63,6 +68,7 @@ jobs:
           path: |
             research/scrollback-modes-*.json
             research/scrollback-held-history.json
+            research/scrollback-block-edit*
             research/scrollback-region*
             research/scrollback-rectangle*
             research/scrollback-clear-*
