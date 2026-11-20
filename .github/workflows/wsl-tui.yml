@@ -136,6 +136,9 @@ jobs:
       - name: Open the dropped file before and after saving a different default shell
         if: inputs.suite == 'drop'
         run: python build/wsl-check/tests/drop_profile_shell.py
+      - name: Open a dropped file and list a dropped folder after the actual shell prompt appears
+        if: ${{ !cancelled() && inputs.suite == 'drop' && steps.prepare.outcome == 'success' }}
+        run: python build/wsl-check/tests/drop_profile_shell.py --after-prompt
       - name: Drop Explorer files into the active Linux distribution
         if: ${{ !cancelled() && inputs.suite == 'drop' && steps.prepare.outcome == 'success' }}
         run: python build/wsl-check/tests/wsl_drop_paths.py
