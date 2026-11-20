@@ -44,17 +44,21 @@ def main():
         record('seed-last-and-first',seed+osc_read(1)+osc_read(255),osc_value(1,PALETTE[1])+osc_value(255,(0,0,0)))
         hls,rgb=(table(model,arr+[(0,0,0)]*240) for model,arr in [(1,HLS),(2,RGB)])
         record('read-hls',CSI+'2;1$u',hls,a.style); actual=record('read-rgb',CSI+'2;2$u',rgb,a.style)
-        record('unsupported',CSI+'1$u'+CSI+'2;3$u','',a.style)
+        record('unsupported',CSI+'1$u'+CSI+'2$u'+CSI+'2;0$u'+CSI+'2;3$u','',a.style)
         mutate=DCS+'2$s0;2;0;100;0/255;1;120;50;100'+ST
         record('restore-two-models',mutate+osc_read(0)+osc_read(255),osc_value(0,(0,255,0))+osc_value(255,(255,0,0)),a.style)
         # Replay the application's own saved table; the query/restore format is percent-based.
         # A baseline with no reply must still carry the restore probe through the window.
+        record('independent-restore-sentinel','\x1b]4;0;#112233;1;#445566;255;#778899\x07'+osc_read(0)+osc_read(1)+osc_read(255),
+               osc_value(0,(17,34,51))+osc_value(1,(68,85,102))+osc_value(255,(119,136,153)))
         record('restore-full-table',(actual or rgb)+osc_read(0)+osc_read(1)+osc_read(255),
                osc_value(0,(0,0,0))+osc_value(1,(204,36,36))+osc_value(255,(0,0,0)),a.style)
         record('first-last-and-duplicate',DCS+'2$s0;2;100;0;0/255;2;99;51;1/0;1;0;50;100'+ST+osc_read(0)+osc_read(255),
                osc_value(0,(0,0,255))+osc_value(255,(252,130,3)),a.style)
         record('cancel-after-complete-entry',DCS+'2$s0;2;0;100;0/255;2;100;0;100\x18'+osc_read(0)+osc_read(255),
                osc_value(0,(0,0,255))+osc_value(255,(252,130,3)),a.style)
+        record('invalid-entries-do-not-escape',DCS+'2$s256;2;100;100;100/0;2;9;8/0;9;0;0;0/0;2;100;0;999999999999999999999/254;2;0;100;0'+ST+osc_read(0)+osc_read(254),
+               osc_value(0,(0,0,255))+osc_value(254,(0,255,0)),a.style)
         return dict(checks=rows)
     run(name,(),exercise=exercise,profile=dict(NemoRenderer={'gdi':0,'directx':2}[a.renderer],WarnOnClose=0),
         font='SarasaTermSC Nerd Light',barrier=(CSI+'5n',b'\x1b[0n'),source_reference='VT525 colour table values in microsoft/terminal PR 17708')

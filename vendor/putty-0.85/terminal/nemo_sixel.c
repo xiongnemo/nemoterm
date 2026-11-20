@@ -229,7 +229,7 @@ static bool draw_sixel(NemoSixel *s, unsigned bits, uint32_t repeat)
 }
 
 /* Integer HLS conversion. DEC hue is blue=0, red=120, green=240. */
-static uint32_t hls(unsigned hue, unsigned light, unsigned saturation)
+uint32_t nemo_sixel_hls(unsigned hue, unsigned light, unsigned saturation)
 {
     unsigned h = (hue % 360 + 240) % 360;
     unsigned chroma, x, base, r = 0, g = 0, b = 0;
@@ -278,7 +278,7 @@ static bool commit_parameters(NemoSixel *s, bool apply_colour)
             if (p[1] == 2)
                 colour = rgb(percent(p[2]), percent(p[3]), percent(p[4]));
             else if (p[1] == 1)
-                colour = hls(p[2], p[3], p[4]);
+                colour = nemo_sixel_hls(p[2], p[3], p[4]);
             else return fail(s, NEMO_SIXEL_MALFORMED);
             if (apply_colour && palette[reg] != colour) {
                 palette[reg] = colour;

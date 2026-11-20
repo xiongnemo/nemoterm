@@ -3381,11 +3381,14 @@ static void nemo_restore_cursor_information(Terminal *term)
 }
 
 #include "nemo_udk_terminal.inc"
+#include "nemo_dec_colour_table.inc"
 
 static void nemo_dcs_payload_cancel(Terminal *term)
 {
     nemo_regis_cancel_input(term);
     nemo_udk_cancel(term);
+    sfree(term->dcs_colour_table);
+    term->dcs_colour_table = NULL;
     sfree(term->dcs_tabs_pending);
     term->dcs_tabs_pending = NULL;
     term->dcs_tabs_bytes = 0;
@@ -3497,6 +3500,7 @@ static bool nemo_dcs_byte(Terminal *term, unsigned char c)
         if (term->dcs_query_active) {
             if (term->dcs_query_type == 'U') nemo_charset_assign_preferred(term);
             else if (term->dcs_query_type == '$') nemo_decrqss(term);
+            else if (term->dcs_query_type == 'C') nemo_dec_colour_finish(term);
             else if (term->dcs_query_type == '1') nemo_restore_cursor_information(term);
             else if (term->dcs_query_type == '2') {
                 if (!term->dcs_tab_stopped) nemo_presentation_tab_stop(term);
@@ -3573,7 +3577,14 @@ static bool nemo_dcs_byte(Terminal *term, unsigned char c)
             term->termstate = NEMO_DCS_UDK;
         } else if (c > ' ') term->termstate = NEMO_DCS_DROP;
     } else if (term->termstate == NEMO_DCS_QUERY_PREFIX) {
-        if ((c == 'u' && term->dcs_query_type == 'U' && has_compat(VT320)) ||
+        if (c == 's' && term->sixel_header_index == 0 && term->sixel_header[0] == 2 &&
+            term->dcs_query_type == '2' && has_compat(VT340TEXT)) {
+            term->dcs_query_active = true;
+            term->dcs_query_type = 'C';
+            term->dcs_colour_table = snew(struct NemoPendingColourTable);
+            memset(term->dcs_colour_table, 0, sizeof(*term->dcs_colour_table));
+            term->termstate = NEMO_DCS_QUERY;
+        } else if ((c == 'u' && term->dcs_query_type == 'U' && has_compat(VT320)) ||
             (c == 'q' && (term->dcs_query_type == '$' || term->dcs_query_type == '+')) ||
             (c == 'p' && term->dcs_query_type == '+') ||
             (c == 't' && has_compat(VT320) &&
@@ -3597,6 +3608,10 @@ static bool nemo_dcs_byte(Terminal *term, unsigned char c)
             nemo_bell(term);
         }
         if (c >= ' ') {
+            if (term->dcs_query_type == 'C') {
+                nemo_dec_colour_byte(term->dcs_colour_table, c);
+                return true;
+            }
             if (term->dcs_query_type == '2') {
                 nemo_presentation_tab_byte(term, c);
                 return true;
@@ -10460,6 +10475,9 @@ static void term_out(Terminal *term, bool called_from_term_data)
                             nemo_protocol_send(term, reply, n);
                         }
                         break;
+                      case ANSI('u', '$'): /* DECRQTSR, colour table */
+                        compatibility(VT340TEXT);
+                        nemo_report_colour_table(term); break;
                       case ANSI('w', '$'): /* DECRQPSR */
                         compatibility(VT320);
                         nemo_presentation_report(term); break;
