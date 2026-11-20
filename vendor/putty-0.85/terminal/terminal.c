@@ -207,6 +207,7 @@ static void deselect(Terminal *);
 static void discard_selection_press(Terminal *);
 static termchar *term_bidi_line(Terminal *, termline *, int);
 static int selection_bidi_slot(Terminal *, int);
+static void block_row_edges(termline *, termchar *, int, int *, int *);
 static void term_print_finish(Terminal *);
 static uint32_t nemo_checksum_legacy(unsigned long ch);
 static bool nemo_charset_base_utf8(Terminal *term);
@@ -6363,7 +6364,7 @@ static void nemo_soft_reset(Terminal *term)
  * The input to the function is the coordinates of the _second_
  * character of the pair.
  */
-static void check_boundary(Terminal *term, int x, int y)
+static void check_edit_boundary(Terminal *term, int x, int y, bool check_sel)
 {
     termline *ldata;
 
@@ -6378,7 +6379,7 @@ static void check_boundary(Terminal *term, int x, int y)
         ldata->lattr &= ~LATTR_WRAPPED2;
     } else {
         if (ldata->chars[x].chr == UCSWIDE) {
-            check_selection(term, (pos){y,x-1}, (pos){y,x+1});
+            if (check_sel) check_selection(term, (pos){y,x-1}, (pos){y,x+1});
             clear_cc(ldata, x-1);
             clear_cc(ldata, x);
             ldata->chars[x-1].chr = ' ' | CSET_ASCII;
@@ -6386,6 +6387,11 @@ static void check_boundary(Terminal *term, int x, int y)
             ldata->chars[x] = ldata->chars[x-1];
         }
     }
+}
+
+static void check_boundary(Terminal *term, int x, int y)
+{
+    check_edit_boundary(term, x, y, true);
 }
 
 /*
@@ -6913,31 +6919,83 @@ static void erase_lots(Terminal *term,
     seen_disp_event(term);
 }
 
-/*
- * Insert or delete characters within the current line. n is +ve if
- * insertion is desired, and -ve for deletion.
- */
-static void insch(Terminal *term, int n)
+/* ICH/DCH affects only one row. A rectangle spanning several rows cannot
+ * follow a horizontal move on just that row. Keep the selection when the
+ * same source glyphs still occupy its painted columns. */
+struct block_edit_cell { int dest; unsigned long shown; };
+struct block_edit_row { int left, right; struct block_edit_cell *cells; };
+
+static void lose_edited_block(Terminal *term)
 {
-    if (!nemo_in_lr(term)) return;
-    int end = term->marg_r+1;
-    term->wrapnext = false;
-    int dir = (n < 0 ? -1 : +1);
-    int m, j;
+    if (term->selstate == DRAGGING) discard_selection_press(term);
+    else deselect(term);
+}
+
+static void begin_block_edit(Terminal *term, termline *line, int at, int end,
+                             int shift, struct block_edit_row *block)
+{
+    int y = term->curs.y;
+    if (y < term->selstart.y || y > term->selend.y) return;
+    if (line->trusted != term->trusted) {
+        lose_edited_block(term); /* the trust transition erases the whole line */
+        return;
+    }
+    int slot = selection_bidi_slot(term, y);
+    termchar *visual = term_bidi_line(term, line, slot);
+    block->left = term->selstart.x;
+    block->right = term->selend.x;
+    block_row_edges(line, visual ? visual : line->chars, term->cols,
+                    &block->left, &block->right);
+    if (block->left >= block->right) return;
+    if (!visual) {
+        if (at < block->right && block->left < end) lose_edited_block(term);
+        return;
+    }
+
+    /* Editing outside a visual selection can still reorder it. Track just
+     * its cells across this operation; an ordinary row needs no snapshot. */
+    block->cells = snewn(block->right-block->left, struct block_edit_cell);
+    int cut = shift > 0 ? end-shift : at-shift;
+    for (int x = block->left; x < block->right; x++) {
+        int src = term->post_bidi_cache[slot].backward[x];
+        int dest = src;
+        if (at <= src && src < end) dest += shift;
+        int lo = src - (src > 0 && line->chars[src].chr == UCSWIDE);
+        int hi = src+1 + (src+1 < term->cols && line->chars[src+1].chr == UCSWIDE);
+        if (term->post_bidi_cache[slot].forward[src] != x ||
+            (lo < at && at < hi) || (lo < end && end < hi) || (lo < cut && cut < hi) ||
+            (dest != src && (dest < at || dest >= end))) {
+            sfree(block->cells);
+            block->cells = NULL;
+            lose_edited_block(term);
+            return;
+        }
+        block->cells[x-block->left] = (struct block_edit_cell){dest, visual[x].chr};
+    }
+}
+
+static void finish_block_edit(Terminal *term, termline *line, struct block_edit_row *block)
+{
+    if (!block->cells) return;
+    int slot = selection_bidi_slot(term, term->curs.y);
+    termchar *visual = term_bidi_line(term, line, slot);
+    termchar *chars = visual ? visual : line->chars;
+    int left = term->selstart.x, right = term->selend.x;
+    block_row_edges(line, chars, term->cols, &left, &right);
+    bool same = left == block->left && right == block->right;
+    for (int x = left; same && x < right; x++) {
+        struct block_edit_cell cell = block->cells[x-left];
+        same = chars[x].chr == cell.shown && (visual ?
+               term->post_bidi_cache[slot].backward[x] == cell.dest &&
+               term->post_bidi_cache[slot].forward[cell.dest] == x : x == cell.dest);
+    }
+    sfree(block->cells);
+    if (!same) lose_edited_block(term);
+}
+
+static void insch_other_selection(Terminal *term, int n, int dir, int end)
+{
     pos eol;
-    termline *ldata;
-
-    nemo_rasters_erase(term, term->curs, (pos){term->curs.y, end});
-    n = (n < 0 ? -n : n);
-    if (n > end - term->curs.x)
-        n = end - term->curs.x;
-    if (n <= 0) return;
-    m = end - term->curs.x - n;
-    pos anchor;
-    int half;
-    bool follow_press = pressed_columns_source(term, term->curs.y, term->curs.y,
-        term->curs.x, end, dir*n, &anchor, &half);
-
     /*
      * We must de-highlight the selection if it overlaps any part of
      * the region affected by this operation, i.e. the region from the
@@ -6983,11 +7041,46 @@ static void insch(Terminal *term, int n)
             deselect(term);
         }
     }
+}
 
-    check_boundary(term, term->curs.x, term->curs.y);
-    check_boundary(term, end, term->curs.y);
-    check_boundary(term, dir < 0 ? term->curs.x+n : end-n, term->curs.y);
+/*
+ * Insert or delete characters within the current line. n is +ve if
+ * insertion is desired, and -ve for deletion.
+ */
+static void insch(Terminal *term, int n)
+{
+    if (!nemo_in_lr(term)) return;
+    int end = term->marg_r+1;
+    term->wrapnext = false;
+    int dir = (n < 0 ? -1 : +1);
+    int m, j;
+    termline *ldata;
+
+    nemo_rasters_erase(term, term->curs, (pos){term->curs.y, end});
+    n = (n < 0 ? -n : n);
+    if (n > end - term->curs.x)
+        n = end - term->curs.x;
+    if (n <= 0) return;
+    m = end - term->curs.x - n;
+    pos anchor;
+    int half;
+    bool follow_press = pressed_columns_source(term, term->curs.y, term->curs.y,
+        term->curs.x, end, dir*n, &anchor, &half);
+
     ldata = scrlineptr(term->curs.y);
+    check_line_size(term, ldata);
+    bool multi_block = (term->selstate == SELECTED || term->selstate == DRAGGING) &&
+        term->seltype == RECTANGULAR && term->selstart.y != term->selend.y;
+    struct block_edit_row block = {0};
+    if (multi_block)
+        begin_block_edit(term, ldata, term->curs.x, end, dir*n, &block);
+    else
+        insch_other_selection(term, n, dir, end);
+
+    /* begin_block_edit already checked split glyphs across all three edges. */
+    check_edit_boundary(term, term->curs.x, term->curs.y, !multi_block);
+    check_edit_boundary(term, end, term->curs.y, !multi_block);
+    check_edit_boundary(term, dir < 0 ? term->curs.x+n : end-n, term->curs.y, !multi_block);
     check_trust_status(term, ldata);
     if (dir < 0) {
         for (j = 0; j < m; j++)
@@ -7006,6 +7099,7 @@ static void insch(Terminal *term, int n)
         while (n--)
             copy_termchar(ldata, term->curs.x + n, &blank);
     }
+    finish_block_edit(term, ldata, &block);
     if (follow_press) restore_pressed_cell(term, anchor, half);
 }
 
