@@ -53,7 +53,9 @@ def stress(path, source, renderer, number, limit):
 def conversation(path, source):
     with ZipFile(path) as z:
         check(read(z,'pair-product/SOURCE-HOST.json')==source, 'agent product manifest')
-        result = {}; cases=read(z,'paired-agent-memory/summary.json')['cases']
+        summary = read(z,'paired-agent-memory/summary.json')
+        check(summary['scenario']=='24-followups','agent scenario')
+        result = {}; cases=summary['cases']
         check(set(cases)=={'1-pterm','2-nemoterm-tab','3-nemoterm-directx-tab'}, 'agent inventory')
         for name,c in cases.items():
             sha = PTERM if name=='1-pterm' else source['Executable']['SHA256']
@@ -61,7 +63,17 @@ def conversation(path, source):
             check(c['chat_requests']==25 and c['exit_code']==0 and not c['sample_errors'] and not c['provider_errors'] and not c['cleanup']['terminated_remaining'], 'agent session: '+name)
             check(c['native_runtime'] and all(r['exact_frontend_module'] and not r['matched_modules'] and not r['matched_processes'] for r in c['native_runtime']), 'sampled WebView indicators: '+name)
             check([x['stage'] for x in c['turns']]==[f'turn-{i:02d}' for i in range(1,25)] and all(x['memory']['samples'] for x in c['turns']), 'agent turns: '+name)
-            result[name] = {'whole_run_peak':c['whole_run_peak'], 'empty_median':c['empty']['median'],
+            samples = c['samples']
+            check(bool(samples), 'missing raw agent process samples: '+name)
+            peak = {key:max(sample[key] for sample in samples) for key in METRICS}
+            check(peak==c['whole_run_peak'], 'raw agent peak mismatch: '+name)
+            if name != '1-pterm':
+                renderer = 1 if name=='2-nemoterm-tab' else 3
+                check(c['renderer_before']==c['renderer_after']==renderer and
+                      all(turn['actual_renderer']==renderer for turn in c['turns']), 'agent renderer changed: '+name)
+                check(peak['private_ws']<20_000_000 if renderer==1 else peak['private_ws']<=30_000_000,
+                      'agent private working set exceeds limit: '+name)
+            result[name] = {'whole_run_peak':peak, 'samples':len(samples), 'empty_median':c['empty']['median'],
                             'last_turn_median':c['turns'][-1]['memory']['median']}
         return result
 
