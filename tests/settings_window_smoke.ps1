@@ -13,6 +13,37 @@ public static class ShellSettingsNative {
     [DllImport("user32.dll")] private static extern bool EnumChildWindows(IntPtr hwnd, EnumChildProc callback, IntPtr data);
     [DllImport("user32.dll")] private static extern uint GetWindowThreadProcessId(IntPtr hwnd, out uint pid);
     [DllImport("user32.dll", CharSet=CharSet.Unicode)] private static extern int GetClassNameW(IntPtr hwnd, System.Text.StringBuilder name, int capacity);
+    public sealed class WindowState {
+        public long hwnd, owner, session;
+        public uint tid;
+        public string className;
+        public bool visible, enabled;
+    }
+    [DllImport("user32.dll")] private static extern IntPtr GetWindow(IntPtr hwnd, uint relation);
+    [DllImport("user32.dll")] private static extern bool IsWindowVisible(IntPtr hwnd);
+    [DllImport("user32.dll")] private static extern bool IsWindowEnabled(IntPtr hwnd);
+    // These observations do not invoke a UIA provider or send a message to the hung window.
+    public static WindowState[] OwnedWindows(int pid) {
+        var windows=new System.Collections.Generic.List<WindowState>();
+        EnumChildProc add=(hwnd,unused)=> {
+            uint process; uint tid=GetWindowThreadProcessId(hwnd,out process);
+            if (process!=(uint)pid) return true;
+            var name=new System.Text.StringBuilder(128); GetClassNameW(hwnd,name,name.Capacity);
+            windows.Add(new WindowState { hwnd=hwnd.ToInt64(), tid=tid, className=name.ToString(),
+                owner=GetWindow(hwnd,4).ToInt64(), session=GetPropW(hwnd,"NemotermSessionId").ToInt64(),
+                visible=IsWindowVisible(hwnd), enabled=IsWindowEnabled(hwnd) });
+            return true;
+        };
+        EnumWindows((hwnd,data)=> {
+            uint process; GetWindowThreadProcessId(hwnd,out process);
+            if (process==(uint)pid) { add(hwnd,data); EnumChildWindows(hwnd,(child,unused)=> {
+                if(GetPropW(child,"NemotermSessionId")!=IntPtr.Zero) add(child,unused);
+                return true;
+            },data); }
+            return true;
+        },IntPtr.Zero);
+        return windows.ToArray();
+    }
     public static IntPtr Terminal(int pid, bool tabbed) {
         IntPtr found=IntPtr.Zero;
         EnumWindows((hwnd,data)=> {
@@ -38,7 +69,7 @@ public static class ShellSettingsNative {
     [DllImport("user32.dll")] public static extern IntPtr SendMessageW(IntPtr hwnd, uint msg, IntPtr wp, IntPtr lp);
     [DllImport("user32.dll")] public static extern IntPtr GetParent(IntPtr hwnd);
     [DllImport("user32.dll")] public static extern int GetDlgCtrlID(IntPtr hwnd);
-    [DllImport("user32.dll")] public static extern bool PostMessageW(IntPtr hwnd, uint msg, IntPtr wp, IntPtr lp);
+    [DllImport("user32.dll",SetLastError=true)] public static extern bool PostMessageW(IntPtr hwnd, uint msg, IntPtr wp, IntPtr lp);
     [DllImport("user32.dll", CharSet=CharSet.Unicode)] public static extern IntPtr GetPropW(IntPtr hwnd, string name);
     [DllImport("user32.dll")] public static extern bool IsWindow(IntPtr hwnd);
     [DllImport("kernel32.dll", CharSet=CharSet.Unicode, SetLastError=true)]
@@ -66,6 +97,13 @@ New-Item -ItemType Directory -Path $directory | Out-Null
 $report = Join-Path $directory 'report.json'
 $controlFile = Join-Path $directory 'control.json'
 $app = $null
+$closeRecord = $null
+$closeRecords = @()
+$script:lastSessionList = $null
+$closeFile = if ($TabHost) {'research/tabs-settings-close.json'} else {'research/settings-close.json'}
+function Save-CloseRecords {
+    ConvertTo-Json -InputObject @($closeRecords) -Depth 8 | Set-Content -LiteralPath (Join-Path $root $closeFile) -Encoding utf8
+}
 $scope = [System.Windows.Automation.TreeScope]::Descendants
 
 function Wait-Value([scriptblock]$Read) {
@@ -733,7 +771,8 @@ try {
     function Read-Instance {
         $instances=@(python "$root/tools/nemoterm_debug.py" discover --pid $app.Id | ConvertFrom-Json)
         if ($LASTEXITCODE) {throw 'Owned automation discovery failed'}
-        if ($instances.Count -eq 1) {return $instances[0]}
+        if ($instances.Count -eq 1) { $script:lastSessionList = @($instances[0].sessions | Select-Object id,hwnd,window,profile); return $instances[0] }
+        $script:lastSessionList = $null
     }
     # Edit another profile while a child is already running. Its stored launch
     # mode must not move New/Duplicate Tab into a different kind of window.
@@ -753,8 +792,17 @@ try {
         $added=@($instance.sessions | Where-Object id -ne $originalSeat.id)[0]
         if ($added.profile -ne $copyProfile -or ($added.window -eq $originalSeat.window) -ne [bool]$TabHost -or
             ($added.hwnd -ne $added.window) -ne [bool]$TabHost) {throw 'Live profile switch changed New/Duplicate Tab host type or identity'}
-        [ShellSettingsNative]::PostMessageW([IntPtr]$added.hwnd,0x10,[IntPtr]::Zero,[IntPtr]::Zero) | Out-Null
-        Wait-Value { $v=Read-Instance; $v -and $v.sessions.Count -eq 1 } | Out-Null
+        $watch=[Diagnostics.Stopwatch]::StartNew()
+        $posted=[ShellSettingsNative]::PostMessageW([IntPtr]$added.hwnd,0x10,[IntPtr]::Zero,[IntPtr]::Zero)
+        $postError=if (!$posted) {[Runtime.InteropServices.Marshal]::GetLastWin32Error()} else {$null}
+        $closeRecord=[ordered]@{pid=$app.Id; command=$command; original=$originalSeat.id; added=$added.id;
+            hwnd=$added.hwnd; window=$added.window; before=$script:lastSessionList; posted=$posted; post_error=$postError; settled=$false}
+        $closeRecords+=@($closeRecord)
+        if (!$posted) { throw "Could not post WM_CLOSE to duplicated session: $postError" }
+        Wait-Value { $v=Read-Instance; $v -and $v.sessions.Count -eq 1 -and $v.sessions[0].id -eq $originalSeat.id } | Out-Null
+        $closeRecord.settled=$true; $closeRecord.elapsed_ms=$watch.ElapsedMilliseconds
+        $closeRecord.sessions=$script:lastSessionList
+        Save-CloseRecords
     }
     if ((Get-ItemProperty -LiteralPath $copyPath).NemoTabs -ne [int](!$TabHost)) {throw 'Runtime host type overwrote saved profile launch preference'}
     $evidence = @{executable_sha256=(Get-FileHash -LiteralPath $exe -Algorithm SHA256).Hash.ToLower();
@@ -797,12 +845,16 @@ try {
     }
     if ($app -and $app.HasExited) { Write-Output "Owned process exit: $($app.ExitCode)" }
     if ($app -and !$app.HasExited) {
-        $owner = New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::ProcessIdProperty, $app.Id)
-        $windows = [System.Windows.Automation.AutomationElement]::RootElement.FindAll([System.Windows.Automation.TreeScope]::Children, $owner)
-        foreach ($window in $windows) {
-            Write-Output ($window.Current | Select-Object Name, ClassName | ConvertTo-Json -Compress)
-            $window.FindAll($scope, [System.Windows.Automation.Condition]::TrueCondition) | ForEach-Object { Write-Output $_.Current.Name }
-        }
+        try {
+            $windows=@([ShellSettingsNative]::OwnedWindows($app.Id))
+            Write-Output ($windows | ConvertTo-Json -Depth 3 -Compress)
+            if ($null -ne $closeRecord -and !$closeRecord.settled) {
+                $closeRecord.elapsed_ms=$watch.ElapsedMilliseconds; $closeRecord.windows=$windows
+                $closeRecord.sessions=$script:lastSessionList
+                $closeRecord.stored_warn_on_close=(Get-ItemProperty -LiteralPath $copyPath -ErrorAction SilentlyContinue).WarnOnClose
+                Save-CloseRecords
+            }
+        } catch { Write-Output "Could not save native window diagnostics: $_" }
     }
     throw
 } finally {
