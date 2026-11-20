@@ -25,4 +25,17 @@ Shift 拖选屏幕文字、Ctrl+Shift+C/V 和可配置右键是 **Nemoterm 自�
 2. **编号相同不代表语义相同。** 例如 Alacritty 的 `OSC 50` 支持 `CursorShape`；`7faa7fac` 的 [OSC 50 处理函数](../vendor/putty-0.85/terminal/nemo_font_ops.inc)实现的是字体查询和设置，没有该光标子命令。跨终端设置光标形状可用 `DECSCUSR`，例如 `CSI 2 SP q` 表示常亮方块（`SP` 是实际空格）。与这个已交付版本分开，开发版按 [Alacritty 使用的 vte 0.15.0 解析代码](https://github.com/alacritty/vte/blob/3b3da71c34cc1256c7e20981cf03f8eb95e08ffc/src/ansi.rs) 分派 `CursorShape=0/1/2`（方块、竖线、下划线），维持原有闪烁模式。是否兼容按新 EXE 的状态回复、光标像素和字体权限回归分别验收。
 3. [XTerm 控制序列手册](https://invisible-island.net/xterm/ctlseqs/ctlseqs.html)还收录 VT52、Tektronix 绘图、打印机转发、ReGIS 等。仅因列在该手册，并不成为 v0 阻塞项。已实现的功能和重现过的差异保留在[详细支持表](PROTOCOLS.md)和[已知问题](KNOWN_ISSUES.md)里。Kitty、iTerm2、VS Code 的私有扩展也按子命令评估；不能因一条常用命令推及整个厂商命名空间。
 
+## 两个参考终端实际列了哪些 OSC？
+
+[Alacritty 固定版本的支持表](https://github.com/alacritty/alacritty/blob/aa5d942f46c40184a3f214830ff5f7989f4733a1/extra/man/alacritty-escapes.7.scd)把 `0`、`2`、`4`、`8`、`10`、`11`、`12`、`50`、`52`、`104`、`110`、`111`、`112` 列为已实现，明确拒绝 `1`（图标名称）。部分编号只实现特定参数，如 `50` 的光标形状。这是该手册的清单，不是其代码路径的全集：例如它依赖的 vte 解析器还识别 `OSC 22` 鼠标指针形状，这也不同于 `OSC 50` 的文字光标。
+
+Windows Terminal 还有一批按子命令分派的 OSC。下面列出会影响现代应用的几个区别；上游的解析入口、具体操作和 Nemoterm 的当前实现要分开看。[微软固定版本的处理函数](https://github.com/microsoft/terminal/blob/5f7dc283013152f89bfb76950515c33f45157ad7/src/terminal/adapter/adaptDispatch.cpp) · [Nemoterm 的详细支持表](PROTOCOLS.md)。
+
+| 控制串 | 参考实现的效果 | Nemoterm 的边界 |
+| --- | --- | --- |
+| `OSC 9;4`、`OSC 133;A/B/C/D`、`OSC 1337;SetMark` | 任务栏进度、提示符与命令边界、添加标记 | 有对应处理。`SetMark` 不代表要实现 iTerm2 的所有 `1337` 命令。 |
+| `OSC 633;Completions;…` | 将 shell 给出的候选项交给 Windows Terminal 的补全界面 | 现有 `633` 命令标记和目录支持不包含补全菜单。 |
+| `OSC 777;notify;标题;正文` | 上游启用桌面通知功能后才显示通知 | 当前 `777` 分支只识别内部文字排版提示，没有此通知子命令。 |
+| `OSC 9001;CmdNotFound;命令名` | Windows Terminal 可向应用层请求查找缺失的命令 | 当前前端没有这个 OSC 操作。已有的 `CSI ?9001h` 是 Win32 键盘输入模式，不会搜索或安装软件。 |
+
 这是一份范围说明，**不是逐项一致性认证**。`7faa7fac` 的[原始验收包](../research/trial-7faa7fac.zip)包括单文件身份、内存采样、实际客户端按键/选区、渲染画面和未通过的交互用例；[v0 验收结果](KNOWN_ISSUES.md#v0-的验收边界)给出统计和适用范围。
