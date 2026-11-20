@@ -393,3 +393,5 @@ OSC 52 while the highlight is still visible. The opt-in right-click paste must
 deliver the same UTF-8 text as the system clipboard; after the new frame is
 released, an unselected right click must reach the tracking application again.
 The [first exact-image failures](../research/sync-selection-3308de91.md) are retained.
+
+The two adjacent-edit cases change only a colour chip on the selected row. After the new frame appears, stream and rectangular selections must still highlight the four original cells. A new clipboard sentinel must be replaced by the next default right click, with no button report to the application. The replacement control requires the opposite result. The `review` job downloads both original Windows archives by artifact name and SHA-256 on a separate Linux runner, compares the PNGs, clipboard and child input for the same EXE, and uploads `sync-selection-review-<run>-<attempt>` with the results. The original Windows observations are retained even when the checks fail.
