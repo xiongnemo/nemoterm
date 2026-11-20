@@ -32,5 +32,10 @@ def saved_cases(allow, initial_132):
         check('restore-width-132', PAINT+mode('3r'), width=132),
         check('narrow-before-disabled-save', PAINT+mode('3l')),
         check('ignore-disabled-save', mode('40l')+PAINT+mode('3s')+mode('40h')+mode('3r'), width=132),
+        check('explicit-clear-after-restore', mode('95l')+PAINT+mode('3l'), text=BLANK),
+        # Restoring width keeps the scroll margins. With origin enabled,
+        # writing in row one therefore replaces KEEP in absolute row two.
+        ('restore-preserves-margins', mode('95h')+mode('3s')+PAINT+C+'2;12r'+mode('3r')+
+            mode('6h')+C+'1;3HGOOD'+mode('6l'), 80, HOME, 'GOOD'),
     ]
 
