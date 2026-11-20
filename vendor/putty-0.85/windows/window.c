@@ -24,6 +24,7 @@
 #include "nemo_snapshot.h"
 #include "nemo_debug.h"
 #include "nemo_drop.h"
+#include "nemo_wsl_image.h"
 #include "nemo_link_ui.h"
 #include "nemo_pointer_win.h"
 #include "nemo_shell.h"
@@ -428,6 +429,19 @@ static const SeatVtable win_seat_vt = {
     .interactive = nullseat_interactive_yes,
     .get_cursor_position = win_seat_get_cursor_position,
 };
+
+void nemo_wsl_text_pixels(Seat *seat, int cols, int rows, unsigned *x, unsigned *y)
+{
+    *x = *y = 0;
+    if (seat->vt != &win_seat_vt) return;
+    WinGuiSeat *wgs = container_of(seat, WinGuiSeat, seat);
+    /* The PTY ABI has a 16-bit field on each axis. Never wrap an
+     * unrepresentable size or count the scrollbar, border or margins. */
+    if (cols > 0 && wgs->font_width > 0 && cols <= 65535 / wgs->font_width)
+        *x = cols * wgs->font_width;
+    if (rows > 0 && wgs->font_height > 0 && rows <= 65535 / wgs->font_height)
+        *y = rows * wgs->font_height;
+}
 
 /* Capture the exact shell and distro being launched, once for this seat.
  * Saving settings edits the next launch; it cannot replace a running shell. */

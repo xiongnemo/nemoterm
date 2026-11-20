@@ -39,10 +39,24 @@ def exercise():
             ctl.append(dict(sent=dims, slave=size(slave)))
     finally:
         os.close(master); os.close(slave)
+    # Check both PTY ends independently: a stale master/slave observation
+    # doesn't show whether an ioctl on the other end would reach this guest.
+    endpoints = {}
+    for setter in ('slave','master'):
+        master, slave = pty.openpty()
+        try:
+            samples = endpoints[setter] = []
+            for dims in [(24,80,640,480),(24,80,720,504)]:
+                fcntl.ioctl(slave if setter=='slave' else master,termios.TIOCSWINSZ,struct.pack('=HHHH',*dims))
+                samples.append(dict(sent=dims,master=size(master),slave=size(slave)))
+        except OSError as error:
+            samples.append(dict(error=str(error),errno=error.errno))
+        finally:
+            os.close(master); os.close(slave)
     parent = Path('/proc') / str(os.getppid()) / 'exe'
     publish('startup', dict(tty=os.ttyname(0), parent=os.readlink(parent),
-        relay_sha256=hashlib.sha256(parent.read_bytes()).hexdigest(), winsize=size(0), kernel_control=ctl))
-    for stage in ['initial', 'grow', 'zoom']:
+        relay_sha256=hashlib.sha256(parent.read_bytes()).hexdigest(), winsize=size(0), kernel_control=ctl, endpoint_control=endpoints))
+    for stage in sys.argv[2:]:
         deadline = time.monotonic()+30
         while not (folder / ('request-'+stage)).is_file():
             if (folder/'stop').exists(): return

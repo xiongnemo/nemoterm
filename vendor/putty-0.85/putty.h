@@ -765,6 +765,8 @@ struct BackendVtable {
     /* Only relevant for the serial protocol: bit masks of which
      * parity and flow control settings are supported. */
     unsigned serial_parity_mask, serial_flow_mask;
+    /* Optional: a new font can change the text area without a grid resize. */
+    void (*cell_size_changed)(Backend *be, int cols, int rows);
 };
 
 static inline char *backend_init(

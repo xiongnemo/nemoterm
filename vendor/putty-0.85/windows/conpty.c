@@ -344,10 +344,10 @@ static void conpty_sentdata(struct handle *h, size_t new_backlog, int err,
 /* A saved WSL transport preference or an explicit override. Only intercept the actual
  * system wsl.exe with an explicit --exec program. Preserve every argument
  * of the original guest command, including Windows quoting. */
-static wchar_t *wsl_relay_command(wchar_t *cmd, COORD size, bool profile_pty,
+static wchar_t *wsl_relay_command(Seat *seat, wchar_t *cmd, COORD size, bool profile_pty,
                                   NemoWslImage *image, char **error)
 {
-    wchar_t helper[1024], sysdir[MAX_PATH], dims[32];
+    wchar_t helper[1024], sysdir[MAX_PATH], dims[64];
     DWORD n = GetEnvironmentVariableW(L"NEMOTERM_WSL_PTY_RELAY", helper, lenof(helper));
     if (n >= lenof(helper) || size.X < 1 || size.Y < 1 ||
         (!n && (!profile_pty || !nemo_wsl_image_resource())))
@@ -368,8 +368,10 @@ static wchar_t *wsl_relay_command(wchar_t *cmd, COORD size, bool profile_pty,
                 size_t prefix_len = tail - cmd;
                 wchar_t *prefix = snewn(prefix_len + 1, wchar_t);
                 memcpy(prefix, cmd, prefix_len * sizeof(*prefix)); prefix[prefix_len] = 0;
-                swprintf(dims, lenof(dims), L" %d %d ", size.X, size.Y);
                 if (bundled) {
+                    unsigned x, y;
+                    nemo_wsl_text_pixels(seat, size.X, size.Y, &x, &y);
+                    swprintf(dims, lenof(dims), L" --pixels %d %d %u %u ", size.X, size.Y, x, y);
                     DWORD e = nemo_wsl_image_open(image);
                     if (e) *error = dupprintf("Cannot prepare the bundled WSL PTY: %s", win_strerror(e));
                     else {
@@ -381,6 +383,7 @@ static wchar_t *wsl_relay_command(wchar_t *cmd, COORD size, bool profile_pty,
                         sfree(script); sfree(file);
                     }
                 } else {
+                    swprintf(dims, lenof(dims), L" %d %d ", size.X, size.Y);
                     out = dupwcscat(prefix, helper, dims, tail);
                 }
                 sfree(prefix);
@@ -465,7 +468,7 @@ static char *conpty_init(const BackendVtable *vt, Seat *seat,
     }
     nemo_drop_record_launch(seat,conf,command,launch_shell);
     COORD size = { (SHORT)conf_get_int(conf, CONF_width), (SHORT)conf_get_int(conf, CONF_height) };
-    wchar_t *relay_cmd = wsl_relay_command(command, size, conf_get_bool(conf, CONF_nemo_wsl_linux_pty),
+    wchar_t *relay_cmd = wsl_relay_command(seat, command, size, conf_get_bool(conf, CONF_nemo_wsl_linux_pty),
                                             &relay_image, &err);
     if (err) goto out;
     bool byte_relay = relay_cmd != NULL;
@@ -691,9 +694,16 @@ static void conpty_size(Backend *be, int width, int height)
     ConPTY *conpty = container_of(be, ConPTY, backend);
     if (conpty->byte_relay) {
         if (conpty->out && width > 0 && width <= 32767 && height > 0 && height <= 32767) {
-            unsigned char frame[] = {2, 0, 4, (unsigned char)(width >> 8), (unsigned char)width,
-                                     (unsigned char)(height >> 8), (unsigned char)height};
-            conpty->bufsize = handle_write(conpty->out, frame, sizeof(frame));
+            unsigned char frame[11] = {2, 0, 4, (unsigned char)(width >> 8), (unsigned char)width,
+                                       (unsigned char)(height >> 8), (unsigned char)height};
+            if (conpty->relay_image.path) {
+                unsigned x, y;
+                nemo_wsl_text_pixels(conpty->seat, width, height, &x, &y);
+                frame[0] = 3; frame[2] = 8;
+                frame[7] = (unsigned char)(x >> 8); frame[8] = (unsigned char)x;
+                frame[9] = (unsigned char)(y >> 8); frame[10] = (unsigned char)y;
+            }
+            conpty->bufsize = handle_write(conpty->out, frame, 3 + frame[2]);
         }
         return;
     }
@@ -701,6 +711,12 @@ static void conpty_size(Backend *be, int width, int height)
     size.X = width;
     size.Y = height;
     p_ResizePseudoConsole(conpty->pseudoconsole, size);
+}
+
+static void conpty_cell_size_changed(Backend *be, int cols, int rows)
+{
+    ConPTY *conpty = container_of(be, ConPTY, backend);
+    if (conpty->relay_image.path) conpty_size(be, cols, rows);
 }
 
 static void conpty_special(Backend *be, SessionSpecialCode code, int arg)
@@ -779,6 +795,7 @@ const BackendVtable conpty_backend = {
     .send = conpty_send,
     .sendbuffer = conpty_sendbuffer,
     .size = conpty_size,
+    .cell_size_changed = conpty_cell_size_changed,
     .special = conpty_special,
     .get_specials = conpty_get_specials,
     .connected = conpty_connected,

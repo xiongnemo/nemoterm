@@ -1830,6 +1830,8 @@ void term_set_cell_size(Terminal *term, int width, int height)
     term->cell_width = width;
     nemo_inline_cancel(term);
     term->cell_height = height;
+    if (term->backend && term->backend->vt->cell_size_changed && term->cols > 0 && term->rows > 0)
+        term->backend->vt->cell_size_changed(term->backend, term->cols, term->rows);
     schedule_text_area_report(term);
     nemo_kitty_rescale(term);
     for (NemoTermImage *image = term->images; image; image = image->next)

@@ -77,6 +77,8 @@ jobs:
         run: |
           wsl.exe -d Ubuntu-24.04 --cd $env:GITHUB_WORKSPACE --exec /usr/bin/env NEMO_HOSTED_PTY_FIXTURE=1 /usr/bin/python3 tests/wsl_relay_closure.py wsl1
           exit $LASTEXITCODE
+      - name: Read the initial and resized pixel geometry from a real child PTY
+        run: python tests/wsl_pty_relay.py ${{ matrix.host }} --geometry
       - if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:

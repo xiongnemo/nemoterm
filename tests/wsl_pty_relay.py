@@ -53,6 +53,15 @@ def peer(mode, arg):
     signals=[]; signal.signal(signal.SIGWINCH,lambda *_: signals.append(size()))
     if mode=='hold': signal.signal(signal.SIGHUP,signal.SIG_IGN)
     writeall(1,ACK)
+    if mode=='geometry':
+        import fcntl
+        def report_size():
+            raw=fcntl.ioctl(0,termios.TIOCGWINSZ,bytes(8))
+            writeall(1,struct.pack('>HHHH',*struct.unpack('=HHHH',raw)))
+        report_size()
+        for _ in range(4):
+            assert exact(sys.stdin.buffer,1)==b'?';report_size()
+        return 37
     if mode=='hold':
         while True: signal.pause()
     if mode=='partial':
@@ -85,11 +94,14 @@ def run(kind, report):
     prefix=['wsl.exe','--distribution','Ubuntu-24.04','--cd',str(ROOT),'--exec','/usr/bin/env','TERM=xterm'] if windows else []
     cmd=prefix+['./'+REL,'160','48','/usr/bin/python3','tests/wsl_pty_relay.py','--peer']
     out=ROOT/'build/wsl-relay-records';out.mkdir(parents=True,exist_ok=True)
-    for name in ('duplex','partial-header','unknown-type','oversize','truncated','bad-grid','close-live'):
+    geometry=sys.argv[2:]==['--geometry']
+    names=('geometry','bad-geometry-length','bad-geometry-grid') if geometry else ('duplex','partial-header','unknown-type','oversize','truncated','bad-grid','close-live')
+    for name in names:
         rec=report['cases'][name]={'passed':False}; p=None; timer=None
-        mode='duplex' if name=='duplex' else 'partial' if name=='partial-header' else 'hold'
+        mode=name if name in ('duplex','geometry') else 'partial' if name=='partial-header' else 'hold'
         try:
-            p=subprocess.Popen(cmd+[mode,ARG],cwd=ROOT,env=env,stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,**options)
+            launch=(prefix+['./'+REL,'--pixels','160','48','1280','960','/usr/bin/python3','tests/wsl_pty_relay.py','--peer'] if mode=='geometry' else cmd)
+            p=subprocess.Popen(launch+[mode,ARG],cwd=ROOT,env=env,stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,**options)
             def expire(proc=p,row=rec):
                 row['timed_out']=True
                 if proc.poll() is None:proc.kill()
@@ -116,19 +128,31 @@ def run(kind, report):
                 a,b=exact(p.stdout,len(BULK)),exact(p.stdout,len(BULK));writer.join(5)
                 assert not errors and not writer.is_alive();rec['bulk']={'bytes_each':len(BULK),'output_sha256':digest(a),'echo_sha256':digest(b)};assert a==BULK[::-1] and b==BULK
                 assert exact(p.stdout,13)==b'PEER-STDERR\r\n';wanted=37
+            elif name=='geometry':
+                rec['sizes']=[]
+                def measured(expect):
+                    rec['sizes'].append(dict(expected=expect,observed=struct.unpack('>HHHH',exact(p.stdout,8))))
+                measured((48,160,1280,960))
+                for op,(rows,cols,x,y) in [(3,(31,87,696,620)),(3,(31,87,783,651)),(3,(45,131,65535,32768)),(2,(24,80,0,0))]:
+                    payload=struct.pack('>HHHH',cols,rows,x,y) if op==3 else struct.pack('>HH',cols,rows)
+                    send(frame(op,payload)+frame(1,b'?'));measured((rows,cols,x,y))
+                wanted=37
             elif name=='partial-header':
                 # Last write includes a following header fragment. It must
                 # never prevent already-produced child output from reaching us.
                 send(frame(1,b'!')+b'\x01');assert exact(p.stdout,1)==b'Q';wanted=0
             else:
                 packet={'unknown-type':b'\x77\0\x01','oversize':b'\x01\x40\x01','truncated':b'\x01\0\x04xx',
-                        'bad-grid':frame(2,b'\0\0\0\x18'),'close-live':b''}[name]
+                        'bad-grid':frame(2,b'\0\0\0\x18'),'bad-geometry-length':frame(3,bytes(4)),
+                        'bad-geometry-grid':frame(3,bytes(8)),'close-live':b''}[name]
                 if packet:send(packet)
                 if name in ('truncated','close-live'):p.stdin.close()
                 wanted=137 if name=='close-live' else 125
             rec['exit']=p.wait(timeout=12);rec['tail']=p.stdout.read().hex();rec['diagnostic']=p.stderr.read().decode('utf-8','replace')
             assert rec['exit']==wanted and not rec['tail'] and not rec.get('timed_out'),rec
-            assert bool(rec['diagnostic'])==(wanted==125),rec['diagnostic'];rec['passed']=True
+            assert bool(rec['diagnostic'])==(wanted==125),rec['diagnostic']
+            if name=='geometry': assert all(row['observed']==row['expected'] for row in rec['sizes']),rec['sizes']
+            rec['passed']=True
         except Exception: rec['error']=traceback.format_exc()
         finally:
             if timer:timer.cancel()
@@ -143,7 +167,7 @@ def run(kind, report):
                     rec['cleanup_exit']=p.returncode
                     if 'diagnostic' not in rec:rec['diagnostic']=p.stderr.read().decode('utf-8','replace')
                 p.stdout.close();p.stderr.close()
-            (out/(kind+'.json')).write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
+            (out/(kind+('-geometry' if geometry else '')+'.json')).write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
     assert all(v['passed'] for v in report['cases'].values()),[(k,v.get('error')) for k,v in report['cases'].items() if not v['passed']]
 
 

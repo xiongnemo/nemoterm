@@ -18,7 +18,12 @@ parent executable's SHA-256, its path, and removal after a normal exit.
 original compiler artifact. GitHub Actions builds this source with static musl
 and requires a byte-identical ELF before exercising it and the candidate PE.
 
-`relay COLS ROWS PROGRAM [ARG ...]` launches the supplied argv on a new PTY.
+Bundled launches use `relay --pixels COLS ROWS XPIX YPIX PROGRAM [ARG ...]`.
+The grid and pixel size are set on the slave before its program starts. The
+text area is columns × cell width by rows × cell height, excluding window
+borders and padding. A zero pixel axis means unavailable (including sizes
+above 65,535). An external relay selected by path still receives the original
+`relay COLS ROWS PROGRAM [ARG ...]` invocation and type 2 resize packets.
 Stdout is the slave's exact terminal stream (including the child's stderr).
 The relay's own diagnostics use its inherited stderr. Input packets use one
 byte for the type followed by an unsigned big-endian 16-bit payload length:
@@ -27,6 +32,7 @@ byte for the type followed by an unsigned big-endian 16-bit payload length:
 | --- | --- |
 | 1 | 1–16,384 uninterpreted input bytes |
 | 2 | Exactly four bytes: new columns, then rows (unsigned big-endian 16-bit values, 1–32767) |
+| 3 | Exactly eight bytes: columns, rows, text width and text height in pixels (four big-endian 16-bit values) |
 
 A resize is applied after the preceding data has been written to the PTY, and
 before the next packet. Closing the owner's input ends the session. On natural
