@@ -1,6 +1,8 @@
 # Nemoterm requirements and evidence ledger
 
-The [distributed single executable `c55cca64`](../research/osc7-tab-directory.md) passed 14/14 new-tab directory cases and all four tab placements, including hover previews. Both drag directions in ten real-agent windows copied the displayed glyph and its combining mark. This image and the older builds below have separate memory and interaction results.
+The [distributed single executable `fe5f98f9`](../research/close-dialog-language.md) passed 8/8 English and Chinese native close-dialog cases, including Cancel and Escape on an inactive tab. Product identity and original observations are linked there.
+
+The [previous single executable `c55cca64`](../research/osc7-tab-directory.md) passed 14/14 new-tab directory cases and all four tab placements, including hover previews. Both drag directions in ten real-agent windows copied the displayed glyph and its combining mark. This image and the older builds below have separate memory and interaction results.
 
 The [previous single executable `b04ca12a`](../research/character-repeat.md) preserves Win32 character repeat counts for plain Unicode and negotiated Kitty keyboard events (44/44 native checks). All ten real-agent windows accepted the two full-width characters from one message and removed them separately with physical Backspace. The same image peaked at 5,771,264 bytes GDI and 10,018,816 DirectX in 24 Codex turns; peak private working sets in six independent 160×48 workloads were 19,972,096 and 28,622,848 bytes, respectively. Strict interaction: 80/81; only the first-visible Codex window-message image case failed. All four after-ready paths and all 18 actual agent binding combinations passed.
 

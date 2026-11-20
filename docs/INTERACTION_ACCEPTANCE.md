@@ -29,7 +29,7 @@ gh workflow run ci.yml --ref <branch> -f scope=full
 gh workflow run font-zoom-replay.yml --ref <branch> -f suite=interaction -f source_run=<run-id> -f source_commit=<40-character-sha>
 ```
 
-`suite=close-cancel` 在双标签下分别关闭当前会话、关闭整个窗口，再在独立窗口重复。先让子进程接收实际按键 `a`，用鼠标点关闭确认的 Cancel，立即按 `b`；再次关闭时用 Esc 取消，再按 `c`。取消后不点击终端、不请求激活、不打开设置。检查原子进程收到的精确字节、键盘焦点、现存会话和最后点 OK 的效果。原始记录在制品的 `dialog-close-input.json`。完整回归的 profile 任务也运行这套检查。
+`suite=close-cancel` 分别用 `--ui-language en` 和 `zh-CN` 检查当前标签、后台标签、整个标签窗口和独立窗口。后台标签用真实中键发起关闭；每次确认框从原生窗口读取标题和正文，分开检查关闭会话和关闭整窗的文案。先让子进程接收实际按键 `a`，用鼠标点关闭确认的 Cancel，立即按 `b`；再次关闭时用 Esc 取消，再按 `c`。取消后不点击终端、不请求激活、不打开设置。检查原子进程收到的精确字节、键盘焦点、现存会话和最后点 OK 的效果。原始记录在制品的 `dialog-close-input.json`。完整回归的 profile 任务也运行这套检查。
 
 `suite=fullscreen` 在独立窗口和标签窗口中让子程序发送 `CSI 10 ; Ps t`，用 Win32 读取顶层窗口的实际矩形、边框和最大化状态。进入时必须铺满显示器；退出时必须完整恢复原状。禁用远程调整大小或锁定窗口后，进入和切换请求都必须保持原状。两份结果和被测 EXE 的哈希保存在同一制品中。
 
