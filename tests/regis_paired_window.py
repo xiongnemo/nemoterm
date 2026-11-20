@@ -15,6 +15,7 @@ from fixture_io import write_snapshot
 ROOT = Path(__file__).resolve().parents[1]
 ARCHIVE = 'd2ffea585f6477c2f71598107b7df74df8ebbc0e5f7c6bd1f0a5b13c4145604c'
 BANK_ARCHIVE = '2330a3808f2a1b2945eef5931328665ec72b8fda387ba6f22a9f82c5d8c86943'
+MOTION_ARCHIVE = '2da558cf2246e03091861a2450969c6c5c1808a2b5416b358a5c2fdbd583a162'
 sha = lambda b: hashlib.sha256(b).hexdigest()
 
 
@@ -46,14 +47,19 @@ def run(tag):
     tx=write_mode or 'whole'
     assert tx in ('whole','bytewise')
     bank=tag.startswith('bank-start-')
-    archive_hash=BANK_ARCHIVE if bank else ARCHIVE
+    motion=tag.startswith('text-motion-')
+    archive_hash=MOTION_ARCHIVE if motion else BANK_ARCHIVE if bank else ARCHIVE
     filename='regis-bank-start-xterm.zip' if bank else 'regis-first-expose-captures.zip'
+    if motion: filename='regis-text-motion-xterm.zip'
     source=(ROOT/'testdata/upstream'/filename).read_bytes(); assert sha(source)==archive_hash
-    ev={}; comparisons={}; historical_failures=[]; capture_failures=[]
+    ev={}; comparisons={}; historical_failures=[]; capture_failures=[]; reply_failures=[]
     with ZipFile(io.BytesIO(source)) as ref:
         facts=json.loads(ref.read('reference/observations.json'))
         scene,last=(tag,0) if bank else facts['targets'][tag]
         upstream=facts['cases'][tag][tx]
+        if motion:
+            from regis_text_motion import scenes
+            assert [s['sequence_hex'] for s in upstream['steps']]==scenes()[tag]
         if bank:
             from shared_bank_start_cases import bank_starts
             wire,=bank_starts()[tag.removeprefix('bank-start-')]
@@ -84,13 +90,18 @@ def run(tag):
                         memo[digest]=mismatches(crop,reference)
                     last_frame[0]=crop
                     return True  # fixed observation window, independent of any expected pixels
-                phase(label,wire,[],expected_reply=reply,stable_seconds=.25,pixel_check=consume)
+                phase(label,wire,[],expected_reply=None if motion else reply,stable_seconds=.25,pixel_check=consume)
                 digest=samples[-1]['sha256']; i=len(samples)-1
                 while i and samples[i-1]['sha256']==digest: i-=1
                 stable_ms=samples[-1]['ms']-samples[i]['ms']
                 row=comparisons[label]=dict(samples=samples,reference_sha256=sha(reference.tobytes()),
                     samples_vs_reference=memo,last_sha256=digest,last_difference=memo[digest],last_stable_ms=stable_ms,
                     check_literal_pixels=comparison_required)
+                if motion:
+                    expected=(reply+b'\x1b[0n').hex()
+                    actual=ev['checks'][-1]['reply_hex']
+                    row.update(expected_reply_hex=expected,actual_reply_hex=actual)
+                    if actual!=expected: reply_failures.append(label)
                 if bank:
                     def stripes(image):
                         return [sorted((count,bytes(rgb).hex()) for count,rgb in
@@ -119,7 +130,7 @@ def run(tag):
                 transport=tx,capture=ev['capture'],renderer=ev['requested_renderer'],actual_renderer=ev['actual_renderer'],font=os.environ['NEMOTERM_TEST_FONT'],cells=ev['cell_pixels'],
                 product_sha256=ev['executable_sha256'],reference_exe_sha256=facts['executable_sha256'],
                 frames=comparisons,before_vs_after=mismatches(before,after),
-                historical_pixel_failures=historical_failures,capture_failures=capture_failures)
+                historical_pixel_failures=historical_failures,capture_failures=capture_failures,reply_failures=reply_failures)
             write_snapshot(capture_dir/'paired.json',pair)
             if write_mode:
                 # An all-black/stale GPU capture can agree with a blank reference.
@@ -137,9 +148,9 @@ def run(tag):
                 finally:write_snapshot(capture_dir/'paired.json',pair)
         assert ('--presented-gdi' in sys.argv) != ('--presented-directx' in sys.argv)
         main(exercise,suite_name='regis-window-pair-'+tag, before_exercise=ev.update,prepare_window=resize_grid,
-             font=os.environ['NEMOTERM_TEST_FONT'],child_write_mode=write_mode,profile_values=dict(NemoTabs=0,LockSize=2))
+             font=os.environ['NEMOTERM_TEST_FONT'],child_write_mode=write_mode,profile_values=dict(NemoTabs=0,LockSize=2,**({'NemoAllowChecksum':1} if motion else {})))
     # A mismatch must not prevent subsequent frame capture or natural cleanup.
-    if historical_failures or capture_failures: sys.exit(f'{tag}: historical pixels {historical_failures}, capture {capture_failures}')
+    if historical_failures or capture_failures or reply_failures: sys.exit(f'{tag}: historical pixels {historical_failures}, capture {capture_failures}, replies {reply_failures}')
 
 
 if __name__=='__main__': run(sys.argv.pop(1))

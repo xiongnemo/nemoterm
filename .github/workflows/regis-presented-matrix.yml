@@ -2,6 +2,7 @@ name: Presented ReGIS windows on two renderers and two write sizes
 on:
   workflow_call:
     inputs:
+      text_motion: {type: boolean, default: false}
       product_run: {type: string, required: true}
       product_commit: {type: string, required: true}
 permissions:
@@ -29,14 +30,19 @@ jobs:
           "NEMOTERM_TEST_EXE=$((Resolve-Path build/frame-pair-product/nemoterm.exe).Path)" | Out-File $env:GITHUB_ENV -Append -Encoding utf8
           scripts/prepare-remote-interaction.ps1
       - run: python -m pip install Pillow==13.0.0
-      - name: Compare all ten endpoints in fresh processes, including two-colour controls
+      - name: Compare selected endpoints in fresh processes, including two-colour controls
         env:
+          TEXT_MOTION: ${{ inputs.text_motion }}
           RENDERER: ${{ matrix.renderer }}
           NEMOTERM_REGIS_WRITE_MODE: ${{ matrix.transport }}
         run: |
           $PSNativeCommandUseErrorActionPreference = $false
           $bad = @()
-          foreach ($t in @('control-line-erase-end-1','control-text-end-1','control-line-erase-end-2','scroll-up-end-2','scroll-down-end-1','scroll-down-end-2','newline-scroll-end-2','regis-palette-False-end-1','erase-line-end-1','erase-line-end-2')) {
+          $targets = @('control-line-erase-end-1','control-text-end-1','control-line-erase-end-2','scroll-up-end-2','scroll-down-end-1','scroll-down-end-2','newline-scroll-end-2','regis-palette-False-end-1','erase-line-end-1','erase-line-end-2')
+          if ($env:TEXT_MOTION -eq 'true') {
+            $targets = 'idle','ich','dch','sl','sr','decic','decdc','decbi','decfi' | ForEach-Object { "text-motion-$_" }
+          }
+          foreach ($t in $targets) {
             python tests/regis_paired_window.py $t --renderer $env:RENDERER "--presented-$env:RENDERER"
             if ($LASTEXITCODE -ne 0) { $bad += $t }
           }
@@ -44,7 +50,7 @@ jobs:
       - if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
-          name: regis-presented-${{ matrix.renderer }}-${{ matrix.transport }}-${{ github.run_id }}-${{ github.run_attempt }}
+          name: regis-${{ inputs.text_motion && 'text-motion' || 'presented' }}-${{ matrix.renderer }}-${{ matrix.transport }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
             research/regis-window-pair-*
             build/frame-pair-product/SOURCE-HOST.json
