@@ -48,6 +48,8 @@ gh workflow run font-zoom-replay.yml --ref <branch> -f suite=interaction -f sour
 
 `suite=wsl-tmux-vim` 仅在 GitHub 托管 Windows runner 上运行，并记录 `wsl --list --verbose` 确认 Ubuntu-24.04 使用 WSL1。相同四组输入通过 tmux 到达 Vim；检查外层 `xterm` / `xterm-256color`、内层 `tmux-256color`、两次实际缩放，以及 Shift 拖选和矩形选择后 tmux 没进入复制模式。每次检查通过该次回放独占的 tmux socket 读取状态，不占用 Vim 的键盘输入。这项测试不使用开发电脑的 WSL，也不证明 WSL2 的行为。
 
+同一工作流还在 GDI、DirectX 各启动两次相同的 `xterm-256color` 会话：默认权限以及关闭应用写系统剪贴板。Vim 开启鼠标后，用实际 Shift 拖选 `中文`，再让连接中的 tmux 使用 `load-buffer -w` 写入另一段 Unicode。保存客户端实际输出中的 OSC 52 与后续 Vim 画面标记、tmux 自己的缓冲区字节、Windows 剪贴板值和序号、窗口像素，以及实按右键和 Ctrl+Shift+C 的结果。四个独立结果在 `wsl-tmux-clipboard-*/result.json`，与原有四种 TERM/渲染器交互分别计数。
+
 `suite=profile-env` 可让 `--profile 名称` 和 Windows 跳转列表所用的 `@名称` 分别在父环境未设、设置了不同 `TERM`、已有全部 WSL 转发规则时启动子进程，读取其真实 `TERM`、`COLORTERM`、`TERM_PROGRAM`。
 
 `f628d89` 单文件预览的[完整回放和内存数据](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/right-button-release.md#complete-interaction-replay)为 74/74。另一个 MinGW 便携构建出现[混合 profile 关闭超时](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/mixed-profile-close-f628d89.md)；`tabs-close-replay.yml` 的 `profiles-mingw` 和 `profiles-api-mingw` 使用原失败产物，分别回放带探针和内置自动化的操作。

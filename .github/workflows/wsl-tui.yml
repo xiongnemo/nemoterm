@@ -140,6 +140,9 @@ jobs:
       - name: Exercise nested mouse ownership and resize with tmux and Vim
         if: ${{ !cancelled() && steps.prepare.outcome == 'success' && inputs.suite == 'tmux-vim' }}
         run: python build/wsl-check/tests/wsl_vim_interaction.py --tmux
+      - name: Check tmux clipboard writes and local Shift copy with Vim in the foreground
+        if: ${{ !cancelled() && steps.prepare.outcome == 'success' && inputs.suite == 'tmux-vim' && !inputs.bundled }}
+        run: python build/wsl-check/tests/wsl_vim_interaction.py --tmux --tmux-clipboard
       - name: Compare Ubuntu terminfo colour sequences to native pixels and screen restoration
         if: inputs.suite == 'colour'
         run: python build/wsl-check/tests/wsl_terminfo_colour.py

@@ -26,6 +26,10 @@ set shortmess+=I ttimeout ttimeoutlen=100 nobackup nowritebackup noswapfile
 let s:next_request = 1
 function! NemoObserve(timer) abort
   if filereadable('stop') | qa! | endif
+  if filereadable('clip-fence') && !exists('s:clip_fenced')
+    let s:clip_fenced = 1
+    echo 'NEMO_CLIPBOARD_FENCE'
+  endif
   let id = s:next_request
   if !filereadable('request-'.id) | return | endif
   let state={'request_id':id, 'grid':[&columns,&lines], 'cursor':[line('.'),col('.')], 'mode':mode(1), 'term':&term, 'mouse':&mouse, 'ttymouse':&ttymouse, 'lines':getline(1,'$')}
@@ -58,7 +62,14 @@ if [[ "$2" = tmux ]]; then
     trap 'tmux -S "$sock" kill-server 2>/dev/null || :; rmdir "$scratch" 2>/dev/null || :' EXIT
     { tmux -V; sha256sum "$(command -v tmux)"; infocmp tmux-256color; } > tmux-id.txt
     printf '%s' "$sock" > tmux-socket
-    tmux -S "$sock" -f "$PWD/tmux.conf" new-session -s fixture -c "$PWD" 'vim -Nu fixture.vim -i NONE -n -- buffer.txt; printf %s "$?" > vim-exit'
+    if [[ -f clipboard-trial ]]; then
+        work=$PWD
+        (cd "$scratch" && tmux -vv -S "$sock" -f "$work/tmux.conf" new-session -s fixture -c "$work" 'vim -Nu fixture.vim -i NONE -n -- buffer.txt; printf %s "$?" > vim-exit')
+        cp -- "$scratch"/tmux-out-*.log "$work/clipboard-client.vt"
+        rm -f -- "$scratch"/tmux-{out,client,server}-*.log
+    else
+        tmux -S "$sock" -f "$PWD/tmux.conf" new-session -s fixture -c "$PWD" 'vim -Nu fixture.vim -i NONE -n -- buffer.txt; printf %s "$?" > vim-exit'
+    fi
 else
     vim -Nu fixture.vim -i NONE -n -- buffer.txt
     printf '%s' "$?" > vim-exit
@@ -74,8 +85,9 @@ set -g mouse on
 set -g default-terminal tmux-256color
 """
 
-def trial(renderer,branch,mux):
+def trial(renderer,branch,mux,clipboard_policy=None):
     suite='wsl-tmux-vim' if mux else 'wsl-vim'
+    if clipboard_policy: suite='wsl-tmux-clipboard-'+clipboard_policy
     folder=root/'research'/f'{suite}-{renderer}-{branch}';folder.mkdir(parents=True)
     exe=Path(os.environ['NEMOTERM_TEST_EXE']);font=os.environ['NEMOTERM_TEST_FONT'];term='xterm' if branch=='plain' else 'xterm-256color'
     profile='vim-test-'+uuid.uuid4().hex;reg='Software\\Nemo\\Nemoterm\\Sessions\\'+profile
@@ -83,6 +95,7 @@ def trial(renderer,branch,mux):
     posix='/mnt/'+folder.drive[0].lower()+folder.as_posix()[2:]
     (folder/'buffer.txt').write_bytes(('\n'.join(BUFFER)+'\n').encode());(folder/'fixture.vim').write_bytes(VIMRC.encode());(folder/'driver').write_bytes(DRIVER.encode())
     if mux:(folder/'tmux.conf').write_bytes(TMUX_CONF.encode())
+    if clipboard_policy:(folder/'clipboard-trial').touch()
     bundled=os.environ.get('NEMOTERM_TEST_WSL_PROFILE_PTY')=='1'
     assert 'NEMOTERM_WSL_PTY_RELAY' not in os.environ
     report['transport_selection']='saved-profile' if bundled else 'default'
@@ -95,6 +108,7 @@ def trial(renderer,branch,mux):
     proc=desk=clip=None; serial=0
     try:
         with winreg.CreateKey(winreg.HKEY_CURRENT_USER,reg) as key:
+            if clipboard_policy=='deny':winreg.SetValueEx(key,'NemoOSC52Write',0,winreg.REG_DWORD,0)
             if bundled: winreg.SetValueEx(key,'NemoWslLinuxPty',0,winreg.REG_DWORD,1)
             for name,value in dict(NemoRenderer=renderer,WarnOnClose=0,CloseOnExit=1,WindowBorder=1,ScrollBar=0,FontHeight=12).items():winreg.SetValueEx(key,name,0,winreg.REG_DWORD,value)
         proc=subprocess.Popen([str(exe),'--no-tabs','-load',profile,'--automation','--cols','60','--rows','20','--font',font,'-e',*wsl,'bash',posix+'/driver',branch,'tmux' if mux else 'direct',*(['builtin'] if bundled else [])],env=child_env,creationflags=subprocess.CREATE_NO_WINDOW)
@@ -146,10 +160,17 @@ def trial(renderer,branch,mux):
                 diff=ImageChops.difference(base.crop(box),frame.crop(box)).convert('L').histogram();ratios.append(1-diff[0]/(cw*ch))
             report['highlight_changed_ratios']=ratios
             return max(ratios[0],ratios[-1])<.1 and min(ratios[1:-1])>.5
+        if clipboard_policy:
+            import tmux_clipboard_selection as tc
+            def presented(label):return tc.frame(proc.pid,hwnd,renderer,folder,label)
+            presented('base')
         desk.drag(x0,x1,y0,highlighted);photo('selection');desk.chord(0x11,0x10,ord('C'))
         wait_for(lambda:clipboard_text(hwnd)=='中文');after=state('shift-copy');assert after['cursor']==[3,5] and after['mode']=='n' and after['lines']==BUFFER,after
         mux_state('shift-copy',GRID)
         report['checks'].append('Shift drag selected four rendered cells; exact Unicode copied; Vim cursor and buffer unchanged')
+        if clipboard_policy:
+            tc.exercise(report,clipboard_policy,wsl,folder,posix,hwnd,desk,xy,presented,visible,state)
+            mux_state('after-tmux-clipboard',GRID)
         for cols,rows in [(72,24),(52,16)]:
             current,=api.request(endpoint)['sessions'];rect=w.RECT();assert u.GetWindowRect(s['window'],c.byref(rect));assert u.SetWindowPos(s['window'],None,0,0,rect.right-rect.left+(cols-current['cols'])*cw,rect.bottom-rect.top+(rows-current['rows'])*ch,0x16)
             name=f'{cols}x{rows}';p=folder/'resizes';wait_for(lambda:p.exists() and name in p.read_text().splitlines(),timeout=12)
@@ -187,6 +208,7 @@ def trial(renderer,branch,mux):
         if bundled:
             report['relay_files_after_exit']=[p.name for p in session_temp.glob('nemoterm-wsl-*.elf')]
             assert not report['relay_files_after_exit']
+        if clipboard_policy:tc.verify_wire(folder,report)
         report['completed']=True
     except Exception:
         report['error']=traceback.format_exc()
@@ -211,7 +233,8 @@ if __name__=='__main__':
     if os.environ.get('GITHUB_ACTIONS')!='true' or os.environ.get('RUNNER_ENVIRONMENT')!='github-hosted':
         raise SystemExit('Requires a GitHub-hosted Windows runner')
     import argparse
-    parser=argparse.ArgumentParser();parser.add_argument('--tmux',action='store_true');args=parser.parse_args()
+    parser=argparse.ArgumentParser();parser.add_argument('--tmux',action='store_true');parser.add_argument('--tmux-clipboard',action='store_true');args=parser.parse_args()
+    assert not args.tmux_clipboard or args.tmux
     if args.tmux:
         registered=subprocess.check_output([shutil.which('wsl.exe'),'--list','--verbose'])
         distro=os.environ['NEMOTERM_TEST_WSL_DISTRO']
@@ -221,7 +244,7 @@ if __name__=='__main__':
         if len(found)!=1 or found[0][-1]!='1':raise RuntimeError(f'Expected {distro} on hosted WSL1: {listing}')
     errors=[]
     for r in (0,2):
-        for b in ('default','plain'):
-            try:trial(r,b,args.tmux)
-            except Exception:traceback.print_exc();errors.append((r,b))
+        for branch,policy in ([('default','default'),('default','deny')] if args.tmux_clipboard else [('default',None),('plain',None)]):
+            try:trial(r,branch,args.tmux,policy)
+            except Exception:traceback.print_exc();errors.append((r,branch,policy))
     if errors:raise SystemExit(f'Vim interactions failed: {errors}')
