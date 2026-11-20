@@ -30,7 +30,7 @@
 
 `TERM=xterm` 和 `xterm-256color` 的 [Vim](https://github.com/xiongnemo/nemoterm/actions/runs/44745154996/artifacts/14633486027)、[tmux 内 Vim](https://github.com/xiongnemo/nemoterm/actions/runs/44745154996/artifacts/14632874230) 共八个窗口。[Sixel](https://github.com/xiongnemo/nemoterm/actions/runs/44745154996/artifacts/14633750489) 两种渲染器八张图通过像素比对。[中英文 DPI](https://github.com/xiongnemo/nemoterm/actions/runs/44745154996/artifacts/14634295203) 各 12/12。两种渲染器的默认右键、快捷键复制、可选右键复制并粘贴各通过 14、4、6 项。
 
-[Codex 实际贴图回执](https://github.com/xiongnemo/nemoterm/actions/runs/44745154996/artifacts/14633103475)：正常编辑器就绪后 4/4 首条提交有正确图片；在初始输入框抢先粘贴的 4/4 首条提交只有文字。两项启动时机的严格检查仍为失败。
+[Codex 实际贴图回执](https://github.com/xiongnemo/nemoterm/actions/runs/44745154996/artifacts/14633103475)：正常编辑器就绪后 4/4 首条提交有正确图片；在初始输入框抢先粘贴的 4/4 首条提交只有文字。输入提示可见不等于编辑器已能接收附件。v0 要求就绪后一次粘贴只附上一张正确图片；就绪前不保证贴图，也不自动补发，以免重复添加。[Windows Terminal 和原版 pterm 的对照](codex-bitmap-requests.md)也观察到了相同的启动时序。
 
 [整体交互](https://github.com/xiongnemo/nemoterm/actions/runs/44745154996/artifacts/14634632147) 79/81；未通过项目：agent-image-codex、agent-image-system-codex。
 
