@@ -22,6 +22,12 @@ def table(model, entries):
     return DCS+'2$s'+'/'.join(';'.join(map(str,(i,model,*color))) for i,color in enumerate(entries))+ST
 
 
+def restore(report):
+    # DEC's report is DCS 2 $ s; the application uses DCS 2 $ p to load its data.
+    assert report.startswith(DCS+'2$s') and report.endswith(ST)
+    return DCS+'2$p'+report[len(DCS+'2$s'):]
+
+
 def osc_read(index): return f'\x1b]4;{index};?\x07'
 
 def osc_value(index, triple): return f'\x1b]4;{index};rgb:'+('/'.join(f'{c:02x}{c:02x}' for c in triple))+'\x07'
@@ -45,25 +51,26 @@ def main():
         hls,rgb=(table(model,arr+[(0,0,0)]*240) for model,arr in [(1,HLS),(2,RGB)])
         record('read-hls',CSI+'2;1$u',hls,a.style); actual=record('read-rgb',CSI+'2;2$u',rgb,a.style)
         record('unsupported',CSI+'1$u'+CSI+'2$u'+CSI+'2;0$u'+CSI+'2;3$u','',a.style)
-        mutate=DCS+'2$s0;2;0;100;0/255;1;120;50;100'+ST
+        mutate=DCS+'2$p0;2;0;100;0/255;1;120;50;100'+ST
         record('restore-two-models',mutate+osc_read(0)+osc_read(255),osc_value(0,(0,255,0))+osc_value(255,(255,0,0)),a.style)
         # Replay the application's own saved table; the query/restore format is percent-based.
         # A baseline with no reply must still carry the restore probe through the window.
         record('independent-restore-sentinel','\x1b]4;0;#112233;1;#445566;255;#778899\x07'+osc_read(0)+osc_read(1)+osc_read(255),
                osc_value(0,(17,34,51))+osc_value(1,(68,85,102))+osc_value(255,(119,136,153)))
-        record('restore-full-table',(actual or rgb)+osc_read(0)+osc_read(1)+osc_read(255),
+        record('report-is-not-a-command',rgb+osc_read(0)+osc_read(255),osc_value(0,(17,34,51))+osc_value(255,(119,136,153)),a.style)
+        record('restore-full-table',restore(actual or rgb)+osc_read(0)+osc_read(1)+osc_read(255),
                osc_value(0,(0,0,0))+osc_value(1,(204,36,36))+osc_value(255,(0,0,0)),a.style)
-        record('first-last-and-duplicate',DCS+'2$s0;2;100;0;0/255;2;99;51;1/0;1;0;50;100'+ST+osc_read(0)+osc_read(255),
+        record('first-last-and-duplicate',DCS+'2$p0;2;100;0;0/255;2;99;51;1/0;1;0;50;100'+ST+osc_read(0)+osc_read(255),
                osc_value(0,(0,0,255))+osc_value(255,(252,130,3)),a.style)
-        record('cancel-after-complete-entry',DCS+'2$s0;2;0;100;0/255;2;100;0;100\x18'+osc_read(0)+osc_read(255),
+        record('cancel-after-complete-entry',DCS+'2$p0;2;0;100;0/255;2;100;0;100\x18'+osc_read(0)+osc_read(255),
                osc_value(0,(0,0,255))+osc_value(255,(252,130,3)),a.style)
-        record('invalid-entries-do-not-escape',DCS+'2$s256;2;100;100;100/0;2;9;8/0;9;0;0;0/0;2;100;0;999999999999999999999/254;2;0;100;0'+ST+osc_read(0)+osc_read(254),
+        record('invalid-entries-do-not-escape',DCS+'2$p256;2;100;100;100/0;2;9;8/0;9;0;0;0/0;2;100;0;999999999999999999999/254;2;0;100;0'+ST+osc_read(0)+osc_read(254),
                osc_value(0,(0,0,255))+osc_value(254,(0,255,0)),a.style)
         # A light theme can exceed one 4 KiB input buffer even with exactly 256 registers.
         # Mutate a swatch through OSC before replaying the actual reply to catch a no-op restore.
         white = table(2,[(100,100,100)]*256); assert len(white)>4096
-        actual=record('report-over-4k',white+CSI+'2;2$u',white,a.style)
-        record('restore-over-4k','\x1b]4;255;#000000\x07'+(actual or white)+osc_read(255),osc_value(255,(255,255,255)),a.style)
+        actual=record('report-over-4k',restore(white)+CSI+'2;2$u',white,a.style)
+        record('restore-over-4k','\x1b]4;255;#000000\x07'+restore(actual or white)+osc_read(255),osc_value(255,(255,255,255)),a.style)
         return dict(checks=rows)
     run(name,(),exercise=exercise,profile=dict(NemoRenderer={'gdi':0,'directx':2}[a.renderer],WarnOnClose=0),
         font='SarasaTermSC Nerd Light',barrier=(CSI+'5n',b'\x1b[0n'),source_reference='VT525 colour table values in microsoft/terminal PR 17708')
