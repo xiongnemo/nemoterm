@@ -22,7 +22,7 @@ cases += [
 cases += [(f'window-resize-{side}', 'window_resize', ['--tabs','--tab-side',side],
            'tabs-window-resize-observed.json') for side in ('top','bottom','left','right')]
 cases += [(f'selection-{name}', 'selection', ['--tabs', '--tab-side', 'right',
-           '--renderer', str(renderer)], 'tabs-selection-observed.json')
+           '--renderer', str(renderer), '--suite-records'], 'tabs-selection-observed.json')
           for renderer, name in ((0, 'gdi'), (1, 'opengl'), (2, 'directx'))]
 evidence = dict(completed=False, input_api=options.input_api, checks=[])
 try:

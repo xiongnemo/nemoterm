@@ -13,7 +13,11 @@ parser.add_argument('--tab-side',choices=('top','bottom','left','right'),default
 font_options=parser.add_mutually_exclusive_group()
 font_options.add_argument('--font',default=os.environ.get('NEMOTERM_TEST_FONT'))
 font_options.add_argument('--profile-font',action='store_true',help='Leave the clean profile font unchanged')
+parser.add_argument('--suite-records',action='store_true',help='Keep separate tab-suite records for each renderer')
 args=parser.parse_args()
+if args.suite_records and not args.tabs:parser.error('--suite-records requires --tabs')
+record_prefix='tabs-selection-'+('gdi','opengl','directx')[args.renderer] if args.suite_records else 'selection'
+log_path=root/'research'/(record_prefix+'-child-output.log')
 if args.profile_font:args.font=None
 u.GetPropW.argtypes,u.GetPropW.restype=[w.HWND,w.LPCWSTR],w.HANDLE
 u.GetClassNameW.argtypes=[w.HWND,w.LPWSTR,c.c_int]
@@ -24,7 +28,7 @@ with winreg.CreateKey(winreg.HKEY_CURRENT_USER,keypath) as key:
     winreg.SetValueEx(key,'WarnOnClose',0,winreg.REG_DWORD,0)
     for setting,value in (('LogType',2),('LogFileClash',1),('LogFlush',1)):
         winreg.SetValueEx(key,setting,0,winreg.REG_DWORD,value)
-    winreg.SetValueEx(key,'LogFileName',0,winreg.REG_SZ,str(root/'research/selection-child-output.log'))
+    winreg.SetValueEx(key,'LogFileName',0,winreg.REG_SZ,str(log_path))
 exe=Path(os.environ.get('NEMOTERM_TEST_EXE',root/'dist/nemoterm.exe')).resolve()
 evidence=dict(requested_tab_host=args.tabs,tab_host=None,tab_side=args.tab_side,executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),checks=[],rectangles=[],requested_renderer=args.renderer,completed=False)
 evidence['requested_font']=args.font
@@ -56,6 +60,20 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-selection-') as temporary:
         def captured(name=None,return_pixels=False):
             return gpu.capture(name,return_pixels) if gpu else capture(hwnd,name,return_pixels)
         phase_request=None
+        phase_log_start=None
+        desktop=None
+        def phase_boundary():
+            state=dict(snapshot=read_snapshot(report),process_exit=process.poll())
+            try:
+                if desktop:
+                    gui=desktop.state(); state['gui']=dict(capture=gui.capture,focus=gui.focus,
+                        held=list(desktop.held),terminal_hwnd=hwnd)
+                if phase_log_start is not None:
+                    with log_path.open('rb') as log:
+                        log.seek(phase_log_start); tail=log.read(4096); more=bool(log.read(1))
+                    state['frontend_parser_log']=dict(offset=phase_log_start,hex=tail.hex(),truncated=more)
+            except (AssertionError,OSError) as err: state['observation_error']=repr(err)
+            return state
         def phase_state(name,wait_reply=True):
             # Keep the actual observations tested during the wait distinct from the
             # final snapshot taken after releasing the physical mouse on cleanup.
@@ -73,10 +91,14 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-selection-') as temporary:
                 evidence['phase_timeout']=dict(name=name,request=phase_request,wait_reply=wait_reply,
                     polls=polls,elapsed_ms=round((time.monotonic()-start)*1000),
                     changes=list(changes),process_exit=process.poll(),control=read_snapshot(control),
-                    snapshot_before_mouse_cleanup=read_snapshot(report))
+                    snapshot_before_mouse_cleanup=read_snapshot(report),boundary_before_cleanup=phase_boundary())
                 raise
         def begin_phase(name,sequence,*,preserve_mouse=False,wait_reply=True):
-            global phase_request
+            global phase_request, phase_log_start
+            phase_log_start=None
+            if name.startswith('screen-') and name.endswith('-mode'):
+                try: phase_log_start=log_path.stat().st_size
+                except OSError: pass
             phase_request=dict(phase=name,sequence=sequence+'\x1b[5n',preserve_mouse=preserve_mouse)
             write_snapshot(control,phase_request)
             return phase_state(name,wait_reply)
@@ -287,7 +309,18 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-selection-') as temporary:
                 screen_drag_ok=verify_screen_drag(hwnd,begin_phase,phase_state,point,captured,tile,no_forwarded_input,desktop,evidence)
                 from selection_screen_modes import verify as verify_screen_modes
                 screen_ok=verify_screen_modes(hwnd,begin_phase,point,captured,tile,no_forwarded_input,desktop,evidence)
-            finally:desktop.restore()
+            finally:
+                desktop.restore()
+                failure=evidence.get('phase_timeout')
+                if failure and failure['name'].startswith('screen-'):
+                    # Observe the original request after button-up. Never send another
+                    # query or promote a response after the deadline into a success.
+                    until=time.monotonic()+1.2
+                    while time.monotonic()<until:
+                        after=read_snapshot(report)
+                        if after.get('phase')==failure['name'] and after.get('hex','').endswith('1b5b306e'):break
+                        time.sleep(.015)
+                    failure['boundary_after_release']=phase_boundary()
         assert split_messages_ok and split_system_ok, (evidence['split_scroll_press'],evidence.get('split_scroll_system'))
         assert discard_ok,evidence['discarded_scroll_press']
         assert horizontal_ok,[(r['case'],r.get('right_copy'),r.get('highlight')) for k in ('horizontal_press','horizontal_press_system') for r in evidence.get(k,[]) if not r['passed']]
@@ -302,7 +335,7 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-selection-') as temporary:
     finally:
         if sys.exc_info()[0]:evidence['error']=repr(sys.exc_info()[1])
         (root/'research'/('tabs-selection-observed.json' if args.tabs else 'selection-observed.json')).write_text(json.dumps(evidence,indent=2))
-        (root/'research/selection-last-snapshot.json').write_text(json.dumps(read_snapshot(report)))
+        (root/'research'/(record_prefix+'-last-snapshot.json')).write_text(json.dumps(read_snapshot(report)))
         if gpu:gpu.close()
         if script:script.unload()
         if session:session.detach()
