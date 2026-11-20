@@ -1,6 +1,6 @@
 # 当前测试版与待审阅材料
 
-- [当前 dist 试用版 `f20a27da` 的交互和内存验收](acceptance-f20a27da.md)。[试用版历史和原始制品](../docs/PREVIEW_HISTORY.md)。
+- [当前 dist 试用版 `bdf847f9` 的交互和内存验收](acceptance-bdf847f9.md)。[试用版历史和原始制品](../docs/PREVIEW_HISTORY.md)。
 - [清历史时的 Shift 拖选](selection-history-clear.md)：应用输出暂存到松手，本地菜单可以立即清除；两种渲染器共 20 个窗口。
 - [终端程序请求改变行列数时保留 Shift 选区](selection-page-size.md)：`226ddd98` 的 GDI 和 DirectX 实际窗口，修复前 4/28、修复后 28/28。
 - [标签中键误关的修复和两版实际鼠标记录](tab-middle-gestures.md)。
