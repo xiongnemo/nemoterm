@@ -33,7 +33,7 @@ Kitty 图片支持直接 RGB/RGBA/PNG、压缩传输、裁剪、透明度、查�
 
 ## 下载
 
-[下载 Windows x64 单文件试用版 `03d0e0bc`](https://github.com/xiongnemo/nemoterm/actions/runs/44745154996/artifacts/14632717790)。全屏时可以从左上角按 Shift 拖选；GDI、DirectX 各 5 种窗口布局全部通过。Codex、Claude Code 和 OpenCode 共 10 个真实窗口的选区交互通过。[本版验收及 SHA-256](research/acceptance-03d0e0bc.md) · [上一版及内存记录](research/acceptance-706fe3ee.md)。
+[下载 Windows x64 单文件试用版 `03d0e0bc`](https://github.com/xiongnemo/nemoterm/actions/runs/44745154996/artifacts/14632717790)。全屏时可以从左上角按 Shift 拖选；GDI、DirectX 各 5 种窗口布局全部通过。Codex、Claude Code 和 OpenCode 共 10 个真实窗口的选区交互通过。六种满屏负载的前端私有工作集峰值为 **GDI 18.86 MB、DirectX 28.96 MB**。[本版验收及 SHA-256](research/acceptance-03d0e0bc.md) · [上一版及内存记录](research/acceptance-706fe3ee.md)。
 
 旧版本的下载、内存和已知差异见[历史试用版](docs/PREVIEW_HISTORY.md)，其中 `cf091974` 通过了当时全部 81 项交互检查。
 

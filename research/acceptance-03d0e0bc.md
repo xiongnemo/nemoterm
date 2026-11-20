@@ -12,4 +12,28 @@
 
 字体为 `SarasaTermSC Nerd Light`。每个全屏窗口都实际复制了 `A中Z`，按 Ctrl+Shift+V 后子程序收到相同的 UTF-8 文本和粘贴边界。独立 Linux Runner 从原始窗口 PNG 核对高亮的四个字格和字形，旁边的 `!` 未选中。[原始截图、剪贴板、子程序字节、两版结果和 EXE 标识](acceptance-03d0e0bc.zip)。
 
-在同一 EXE 的 [10 个真实客户端窗口](https://github.com/xiongnemo/nemoterm/actions/runs/44745154996/artifacts/14633122365) 中，Codex、Claude Code 和 OpenCode 的选区交互均通过。[完整回归及内存结果](https://github.com/xiongnemo/nemoterm/actions/runs/44745154996)另计；上一版的内存数字不作为本版测量值。
+在同一 EXE 的 [10 个真实客户端窗口](https://github.com/xiongnemo/nemoterm/actions/runs/44745154996/artifacts/14633122365) 中，Codex、Claude Code 和 OpenCode 的选区交互均通过。[完整回归及内存结果](https://github.com/xiongnemo/nemoterm/actions/runs/44745154996)保留了原始回执。下表列出同一轮托管 Windows 测得的峰值。
+
+本版的前端内存实测（十进制 MB；不计 shell 和控制台宿主）：
+
+| 负载 | 私有工作集峰值 | 总工作集峰值 | 私有提交峰值 |
+| --- | ---: | ---: | ---: |
+| pterm 原版，24 轮 Codex | 3.79 MB | 22.69 MB | 4.48 MB |
+| Nemoterm GDI，24 轮 Codex | 5.87 MB | 37.21 MB | 7.32 MB |
+| Nemoterm DirectX，24 轮 Codex | 10.03 MB | 47.37 MB | 11.66 MB |
+| Nemoterm GDI，六种满屏负载 | 18.86 MB | 53.67 MB | 22.93 MB |
+| Nemoterm DirectX，六种满屏负载 | 28.96 MB | 72.15 MB | 32.56 MB |
+
+[真实 Codex 对话的原始内存取样](https://github.com/xiongnemo/nemoterm/actions/runs/44745154996/artifacts/14634285555)。REA 在本 EXE 中查到 684 个普通导入和 11 个延迟导入，未见已知 WebView 依赖；对话结束时的进程和模块取样也未见已知 WebView。
+
+六种满屏负载均达标：[GDI](https://github.com/xiongnemo/nemoterm/actions/runs/44745154996/artifacts/14633838964) 实测峰值 18,862,080 字节（要求 <20,000,000）；[DirectX](https://github.com/xiongnemo/nemoterm/actions/runs/44745154996/artifacts/14634107401) 28,958,720 字节（要求 ≤30,000,000）。
+
+`TERM=xterm` 和 `xterm-256color` 的 [Vim](https://github.com/xiongnemo/nemoterm/actions/runs/44745154996/artifacts/14633486027)、[tmux 内 Vim](https://github.com/xiongnemo/nemoterm/actions/runs/44745154996/artifacts/14632874230) 共八个窗口。[Sixel](https://github.com/xiongnemo/nemoterm/actions/runs/44745154996/artifacts/14633750489) 两种渲染器八张图通过像素比对。[中英文 DPI](https://github.com/xiongnemo/nemoterm/actions/runs/44745154996/artifacts/14634295203) 各 12/12。两种渲染器的默认右键、快捷键复制、可选右键复制并粘贴各通过 14、4、6 项。
+
+[Codex 实际贴图回执](https://github.com/xiongnemo/nemoterm/actions/runs/44745154996/artifacts/14633103475)：正常编辑器就绪后 4/4 首条提交有正确图片；在初始输入框抢先粘贴的 4/4 首条提交只有文字。两项启动时机的严格检查仍为失败。
+
+[整体交互](https://github.com/xiongnemo/nemoterm/actions/runs/44745154996/artifacts/14634632147) 79/81；未通过项目：agent-image-codex、agent-image-system-codex。
+
+[独立 Runner 核对真实客户端的输入框像素和提交回执](https://github.com/xiongnemo/nemoterm/actions/runs/44745154996/artifacts/14635120591)：10/10。
+
+仍保留原始差异：[ReGIS 横向编辑的中间帧](regis-horizontal.md)、[宽字在边界的行为](column-edge-integrity.md)、[Backspace 与系统 terminfo 的差异](backspace-706fe3ee.md)及托管 WSL1 的回归不计为通过。[协议覆盖表](../docs/PROTOCOL_COVERAGE.md)单列尚未实现的序列。
