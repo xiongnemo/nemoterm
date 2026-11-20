@@ -1,6 +1,7 @@
 # 当前测试版与待审阅材料
 
 - [当前 dist 试用版 `f20a27da` 的交互和内存验收](acceptance-f20a27da.md)。[试用版历史和原始制品](../docs/PREVIEW_HISTORY.md)。
+- [清历史时的 Shift 拖选](selection-history-clear.md)：应用输出暂存到松手，本地菜单可以立即清除；两种渲染器共 20 个窗口。
 - [终端程序请求改变行列数时保留 Shift 选区](selection-page-size.md)：`226ddd98` 的 GDI 和 DirectX 实际窗口，修复前 4/28、修复后 28/28。
 - [标签中键误关的修复和两版实际鼠标记录](tab-middle-gestures.md)。
 - [Codex 输入就绪前后的贴图](codex-bitmap-requests.md)单列启动草稿和正常输入的结果；更早的 [`dc8b6913` 验收记录](https://github.com/xiongnemo/nemoterm/blob/212f1fcbf302e6b46d3ae2a887ac70915e367082/research/acceptance-dc8b6913.md) 已归档。
