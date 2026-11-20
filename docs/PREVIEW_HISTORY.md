@@ -2,7 +2,9 @@
 
 下文保留当时的记录。每条数字都对应所列提交；当前测试版请从 [README 下载](../README.md#下载)。
 
-[上一试用版 `f073c8d1`](../research/acceptance-f073c8d1.md) 修复已放大行跨行选择时复制不可见文字的问题（18/18）。后续在按住鼠标期间改变行宽时出现的独立问题，以及两版对照见[窗口截图与剪贴板](../research/selection-rendition-press.md)。
+[2026 年 11 月的八份历史验收记录及原始压缩包](https://github.com/xiongnemo/nemoterm/tree/0d447c11be56895b89210c0f64f8aba8916c512a/research)保存在对应的 Git 快照中，旧版的内存数据与未通过项均可复核。
+
+[上一试用版 `f073c8d1`](https://github.com/xiongnemo/nemoterm/blob/0d447c11be56895b89210c0f64f8aba8916c512a/research/acceptance-f073c8d1.md) 修复已放大行跨行选择时复制不可见文字的问题（18/18）。后续在按住鼠标期间改变行宽时出现的独立问题，以及两版对照见[窗口截图与剪贴板](../research/selection-rendition-press.md)。
 
 ## `cf091974`：81 项交互通过的历史试用版
 
