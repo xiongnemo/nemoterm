@@ -3,6 +3,7 @@
 Use printable ASCII so a disagreement cannot be caused by differing wide-cell
 encodings. The session is owned by the hosted Windows job only.
 """
+import argparse
 import hashlib
 import json
 import os
@@ -35,34 +36,59 @@ def replies(wire):
                 text=''.join(chr(int(v, 16)) for _,v in groups))
 
 
-def main():
+def saved_cases(allow):
+    # Run the first six cases at 80 columns. An accepted same-width DECCOLM
+    # still homes the cursor and optionally erases the page. This distinguishes
+    # an ignored restore from incidental window resize notifications.
+    mode = lambda p: C + '?' + p
+    def check(key, seq, width=80, cursor=HOME, text=MARK):
+        return key, seq, width if allow else 80, cursor if allow else AWAY, text if allow else MARK
+    return [
+        check('restore-keep', mode('40;95h')+mode('95s')+mode('95l')+PAINT+mode('95r')+mode('3l')),
+        check('restore-clear', mode('95l')+mode('95s')+mode('95h')+PAINT+mode('95r')+mode('3l'), text=BLANK),
+        check('restore-disabled', mode('40l')+mode('40s')+mode('40h')+PAINT+mode('40r')+mode('3l'), cursor=AWAY),
+        check('restore-enabled', mode('40h')+mode('40s')+mode('40l')+PAINT+mode('40r')+mode('3l'), text=BLANK),
+        check('restore-both', mode('40;95h')+mode('40;95s')+mode('40;95l')+PAINT+mode('40;95r')+mode('3l')),
+        check('restore-width-80', mode('3l')+mode('3s')+PAINT+mode('3r')),
+        check('save-width-132', PAINT+mode('3h')+mode('3s'), width=132),
+        check('back-to-80', PAINT+mode('3l')),
+        check('restore-width-132', PAINT+mode('3r'), width=132),
+    ]
+
+
+def ordinary_cases(policy, allow):
+    cases = [('baseline', C+'?40;95h'+PAINT, 80, AWAY, MARK),
+             ('widen-keep', C+'?3h', 132 if allow else 80, HOME if allow else AWAY, MARK),
+             ('narrow-keep', PAINT+C+'?3l', 80, HOME if allow else AWAY, MARK),
+             ('same-width-clear', PAINT+C+'?95l'+C+'?3l', 80, HOME if allow else AWAY, BLANK if allow else MARK),
+             ('disabled-by-app', C+'?40l'+PAINT+C+'?3h', 80, AWAY, MARK),
+             ('reenable-clear', C+'?40h'+C+'?3h', 132 if allow else 80, HOME if allow else AWAY, BLANK if allow else MARK)]
+    # A separate client starts with the profile switch off; without any
+    # preceding ?40, the host has only the actual launch policy to consult.
+    cases[:0] = [('startup-default', PAINT+C+'?3h', 132 if allow else 80,
+                  HOME if allow else AWAY, BLANK if allow else MARK),
+                 ('return-to-80', C+'?3l', 80, HOME if allow else AWAY, BLANK if allow else MARK)]
+    if policy == 'startup-off':
+        cases = [('deny-at-start', PAINT+C+'?3h',80,AWAY,MARK),
+                 ('enable-at-runtime', C+'?40;95h'+C+'?3h',132,HOME,MARK)]
+    if policy == 'allow':
+        cases += [('reset-before-dialog', C+'?3l',80,HOME,BLANK),
+                  ('live-deny', PAINT+C+'?3h',80,AWAY,MARK),
+                  ('live-allow', C+'?95h'+C+'?3h',132,HOME,MARK),
+                  ('in-order', PAINT+C+'?3l'+C+'2;4H!'+C+'7;11H',80,AWAY,'K!EP')]
+    return cases
+
+
+def main(saved):
     if os.environ.get('RUNNER_ENVIRONMENT') != 'github-hosted':
         raise RuntimeError('GitHub-hosted desktop required')
     gpu = os.environ['RENDERER']
-    name = 'column-mode-readback-' + gpu
+    name = ('column-mode-saved-readback-' if saved else 'column-mode-readback-') + gpu
     records = dict(sha256=hashlib.sha256(Path(os.environ['NEMOTERM_TEST_EXE']).read_bytes()).hexdigest(),
                    api=['ReadConsoleOutputW', 'GetConsoleScreenBufferInfo'], profiles={})
-    for policy in ('allow', 'deny', 'startup-off'):
+    for policy in (('allow', 'deny') if saved else ('allow', 'deny', 'startup-off')):
         allow = policy != 'deny'
-        cases = [('baseline', C+'?40;95h'+PAINT, 80, AWAY, MARK),
-                 ('widen-keep', C+'?3h', 132 if allow else 80, HOME if allow else AWAY, MARK),
-                 ('narrow-keep', PAINT+C+'?3l', 80, HOME if allow else AWAY, MARK),
-                 ('same-width-clear', PAINT+C+'?95l'+C+'?3l', 80, HOME if allow else AWAY, BLANK if allow else MARK),
-                 ('disabled-by-app', C+'?40l'+PAINT+C+'?3h', 80, AWAY, MARK),
-                 ('reenable-clear', C+'?40h'+C+'?3h', 132 if allow else 80, HOME if allow else AWAY, BLANK if allow else MARK)]
-        # A separate client starts with the profile switch off; without any
-        # preceding ?40, the host has only the actual launch policy to consult.
-        cases[:0] = [('startup-default', PAINT+C+'?3h', 132 if allow else 80,
-                      HOME if allow else AWAY, BLANK if allow else MARK),
-                     ('return-to-80', C+'?3l', 80, HOME if allow else AWAY, BLANK if allow else MARK)]
-        if policy == 'startup-off':
-            cases = [('deny-at-start', PAINT+C+'?3h',80,AWAY,MARK),
-                     ('enable-at-runtime', C+'?40;95h'+C+'?3h',132,HOME,MARK)]
-        if policy == 'allow':
-            cases += [('reset-before-dialog', C+'?3l',80,HOME,BLANK),
-                      ('live-deny', PAINT+C+'?3h',80,AWAY,MARK),
-                      ('live-allow', C+'?95h'+C+'?3h',132,HOME,MARK),
-                      ('in-order', PAINT+C+'?3l'+C+'2;4H!'+C+'7;11H',80,AWAY,'K!EP')]
+        cases = saved_cases(allow) if saved else ordinary_cases(policy, allow)
         output = records['profiles'][policy] = {}
 
         def exercise(hwnd, phase, current):
@@ -89,7 +115,7 @@ def main():
                 end = time.monotonic()+1
                 while not matches(sample) and time.monotonic()<end:
                     time.sleep(.04); sample = read()
-                output[key] = dict(expected=expected, wire=raw.hex(),frontend=front, first=first,settled=sample,
+                output[key] = dict(expected=expected, input=command.encode().hex(), wire=raw.hex(),frontend=front, first=first,settled=sample,
                                    passed=(front==expected and matches(sample) and ((allow and key not in ('live-deny','deny-at-start')) or matches(first))))
             return output
 
@@ -104,4 +130,7 @@ def main():
     assert not missing, missing
 
 
-if __name__ == '__main__': main()
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--saved', action='store_true')
+    main(parser.parse_args().saved)

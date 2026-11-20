@@ -56,6 +56,11 @@ jobs:
         env:
           RENDERER: ${{ matrix.renderer }}
         run: python tests/column_mode_native_readback.py
+      - name: Read the native row and cursor after restoring private column modes
+        if: ${{ !cancelled() && steps.prepare.outcome == 'success' }}
+        env:
+          RENDERER: ${{ matrix.renderer }}
+        run: python tests/column_mode_native_readback.py --saved
       - name: Apply and revoke the resize permission on just one of two live tabs
         if: ${{ !cancelled() && steps.prepare.outcome == 'success' }}
         env:
