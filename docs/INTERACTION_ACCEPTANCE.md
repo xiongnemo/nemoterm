@@ -200,6 +200,8 @@ gh workflow run font-zoom-replay.yml --ref fix/legacy-key-modifiers-20261116 -f 
 
 [六次运行的数字和截图](../research/pterm-findings.md#同一台-runner-上的真实-codex-对照)。 当前预览另有[十次正反序对照](../research/pterm-findings.md#f564927-普通-codex-会话实际驻留了什么)。每次在启动 Codex 前、收到固定回复后，分别将前端的驻留页按自身 EXE、其他映像、私有分配和映射段分类，保留每类的私有页与可共享页数。后一次清单在普通工作集计数结束、窗口截图开始之前采集。
 
+下载 `interaction-agents-<run>-<attempt>` 原始制品后，可用 `python scripts/review-codex-paste-receipts.py <archive.zip> --expect-commit <完整哈希> --output first-paste.json` 离线复核首次贴图。它分别检查刚能看到输入文字、已经收到 idle 并重绘两种时机，列出两个快捷键、两种输入途径的首个带标记请求和后续各请求的图片数。首次缺图仍返回非零；即使后续请求有图也不会追认首次成功。
+
 显式触发 `ci.yml` 的 `scope=full` 时，`agent-session-memory` 作业会等待本次单文件构建成功，再用这一份 EXE 执行多轮会话。需要单独复核历史制品时，仍可用 `font-zoom-replay.yml` 的 `suite=agent-session-memory` 和原始 `source_run`、`source_commit`。pterm、Nemoterm GDI 单标签和 DirectX 单标签各只开一次，先收到初始回复，再在该窗口连续提交 24 条不同的提示。每轮用 Windows 键盘输入数字，回环服务检查最新一条用户消息；确认子进程可见屏幕中出现本轮回复末行和独有的结束标记后，继续采样至少 5 秒。记录各轮前端的私有工作集、总工作集和私有提交量；GDI <20,000,000 字节、DirectX ≤30,000,000 字节按整段采样峰值验收。与上面的短会话是两个独立的工作负载，不替换已有记录。
 
 在 `agents-grid` 的六个真实客户端／渲染器组合中，系统鼠标另从「中」的右半格拖到「文」的左半格；要求四格全部高亮、紧邻两格不变、Ctrl+Shift+C 复制为「中文」。然后仍须完成原有整条回复的选择、复制、粘贴与 HTTP 核对。该检查覆盖 160×48 并使用固定 Sarasa Light 字体。每次结果只对回放的那份 EXE 有效。
