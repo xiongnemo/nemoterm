@@ -37,7 +37,7 @@ Kitty 图片支持直接 RGB/RGBA/PNG、压缩传输、裁剪、透明度、查�
 
 旧版本的下载、内存和已知差异见[历史试用版](docs/PREVIEW_HISTORY.md)，其中 `cf091974` 通过了当时全部 81 项交互检查。
 
-Codex 0.167.0 的启动草稿只收文字。即使已经能打字，也请等正常编辑器接手后再贴图，看到图片附件再发送。[原版 pterm 和微软 Windows Terminal 的真实窗口对照](research/codex-bitmap-requests.md#微软-windows-terminal-的真实窗口)也复现过：Ctrl+V 交给 Codex 时，刚见到文字只提交了文字，稍后则收到完整图片。窗口标题不能判断是否就绪。[实际提交与截图](research/codex-file-draft-order.md) · [按键后 Windows 何时索取位图](research/codex-bitmap-requests.md)。
+Codex 0.167.0 刚显示输入提示时，可能已经能打字，但还不能接收图片。等编辑器就绪后粘贴一次，看到附件即可发送，不用先发一条文字消息。Nemoterm 不会自动重试粘贴，以免重复添加附件。[原版 pterm 和微软 Windows Terminal 的真实窗口对照](research/codex-bitmap-requests.md#微软-windows-terminal-的真实窗口)也复现过：Ctrl+V 交给 Codex 时，刚见到文字只提交了文字，稍后则收到完整图片。窗口标题不能判断是否就绪。[实际提交与截图](research/codex-file-draft-order.md) · [按键后 Windows 何时索取位图](research/codex-bitmap-requests.md)。
 
 查找后续开发构建：
 
