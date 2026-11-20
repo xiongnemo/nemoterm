@@ -218,6 +218,8 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-selection-') as temporary:
         verify_wide_boundary(hwnd,begin_phase,point,captured,tile,shortcut,no_forwarded_input,evidence)
         from selection_release_endpoint import verify_scaled_rows
         verify_scaled_rows(hwnd,begin_phase,point,captured,tile,shortcut,no_forwarded_input,evidence)
+        from selection_scaled_copy import verify as verify_scaled_copy
+        scaled_ok=verify_scaled_copy(hwnd,begin_phase,point,captured,tile,copy_shortcut,no_forwarded_input,evidence)
         from selection_bidi_rectangle import verify as verify_bidi
         verify_bidi(hwnd,begin_phase,point,captured,tile,shortcut,no_forwarded_input,evidence)
         verify_bidi(hwnd,begin_phase,point,captured,tile,shortcut,no_forwarded_input,evidence,block=False)
@@ -254,6 +256,7 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-selection-') as temporary:
                 discard_ok=verify_discarded_scroll(hwnd,tracked_phase,point,captured,tile,system_copy,no_forwarded_input,evidence,desktop,await_new_input) and discard_ok
                 horizontal_ok=verify_horizontal_press(hwnd,tracked_phase,point,captured,tile,system_copy,no_forwarded_input,evidence,desktop,await_new_input) and horizontal_ok
                 words_ok=verify_words(hwnd,begin_phase,point,captured,tile,system_copy,no_forwarded_input,evidence,desktop) and words_ok
+                scaled_ok=verify_scaled_copy(hwnd,begin_phase,point,captured,tile,system_copy,no_forwarded_input,evidence,desktop) and scaled_ok
                 from selection_height_resize import verify as verify_height_resize
                 height_ok=verify_height_resize(host,hwnd,begin_phase,point,captured,tile,no_forwarded_input,desktop,evidence)
                 from selection_screen_active_drag import verify as verify_screen_drag
@@ -268,6 +271,7 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-selection-') as temporary:
         if args.tabs:assert height_ok,[r for k in ('height_selection','width_selection','reflow_selection','reflow_unicode') for r in evidence[k] if not r['passed']]
         if args.tabs:assert screen_ok,evidence['screen_selection']
         if args.tabs:assert screen_drag_ok,evidence['screen_active_drag']
+        assert scaled_ok,[r for group in ('scaled_copy_messages','scaled_copy_system') for r in evidence.get(group,[]) if not r['passed']]
         evidence['completed']=True
         print('Rapid independent selections and 16 Ctrl rectangles, exact Unicode, shortcut/right-click copy and pixels passed')
     finally:
