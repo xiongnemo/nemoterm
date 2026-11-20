@@ -19,6 +19,38 @@ from owned_job import OwnedJob
 from paired_agent_memory import ROOT, PTERM, CODEX, digest, gui
 
 
+def paste_and_submit(folder,phase,binding,desk,server,rec,save_frame):
+    write_snapshot(folder/'launch.json',{'start':True})
+    def text():return read_snapshot(folder/'peer-screen.json').get('text','')
+    def visible(marker):
+        def check():
+            s=text();return s if marker in s else None
+        return check
+    def inputs(digits):
+        for digit in digits:desk.chord(ord(digit))
+    def marked(r,marker):
+        return any(v.strip().removesuffix('[Image #1]').rstrip()==marker for v in r.get('gui_drafts',[]))
+    def receipt(marker):
+        return next((r for r in server.requests if marked(r,marker)),None)
+    wait_for(visible('Ask Codex'),timeout=80)
+    if phase=='after-turn':
+        inputs('3721');wait_for(visible('3721'));desk.chord(13)
+        wait_for(lambda:receipt('3721'),timeout=30);wait_for(visible('NEMOTERM_TEXT_ACCEPTED'),timeout=30)
+    inputs('8932');rec['marker_screen']=wait_for(visible('8932'));rec['marker_ns']=time.perf_counter_ns()
+    rec['key_ns']=time.perf_counter_ns();desk.chord(*([17,86] if binding=='ctrl-v' else [17,16,86]))
+    try:
+        rec['attachment_screen']=wait_for(visible('[Image'),timeout=10);rec['visible']=True
+    except AssertionError:
+        rec['attachment_screen']=text();rec['visible']=False
+    save_frame()
+    desk.chord(13);wait_for(lambda:receipt('8932'),timeout=30)
+    target=[r for r in server.requests if marked(r,'8932')];assert len(target)==1
+    imgs=target[0]['images'];rec['images']=imgs
+    assert len(imgs)<=1 and all(im['generated_pixels_match'] for im in imgs) and target[0]['path']=='/v1/responses'
+    rec['reply']=wait_for(visible('NEMOTERM_IMAGE_ACCEPTED' if imgs else 'NEMOTERM_TEXT_ACCEPTED'),timeout=30)
+    assert not server.errors
+
+
 def observe(folder, kind, exe, client, phase, binding, rec):
     folder.mkdir()
     home, work, env = isolated_home(folder)
@@ -49,35 +81,7 @@ def observe(folder, kind, exe, client, phase, binding, rec):
                     u.GetPropW.argtypes,u.GetPropW.restype=[w.HWND,w.LPCWSTR],w.HANDLE
                     rec['renderer']=int(u.GetPropW(hwnd,'NemotermRenderer') or 0);assert rec['renderer']==1
                 desk=DesktopInput(proc.pid,host,hwnd,rec.setdefault('desktop',{}));clip=SavedClipboard(hwnd);put_bitmap(hwnd)
-                write_snapshot(folder/'launch.json',{'start':True})
-                def text():return read_snapshot(folder/'peer-screen.json').get('text','')
-                def visible(marker):
-                    def check():
-                        s=text();return s if marker in s else None
-                    return check
-                def inputs(digits):
-                    for digit in digits:desk.chord(ord(digit))
-                def marked(r,marker):
-                    return any(v.strip().removesuffix('[Image #1]').rstrip()==marker for v in r.get('gui_drafts',[]))
-                def receipt(marker):
-                    return next((r for r in server.requests if marked(r,marker)),None)
-                wait_for(visible('Ask Codex'),timeout=80)
-                if phase=='after-turn':
-                    inputs('3721');wait_for(visible('3721'));desk.chord(13)
-                    wait_for(lambda:receipt('3721'),timeout=30);wait_for(visible('NEMOTERM_TEXT_ACCEPTED'),timeout=30)
-                inputs('8932');rec['marker_screen']=wait_for(visible('8932'));rec['marker_ns']=time.perf_counter_ns()
-                rec['key_ns']=time.perf_counter_ns();desk.chord(*([17,86] if binding=='ctrl-v' else [17,16,86]))
-                try:
-                    rec['attachment_screen']=wait_for(visible('[Image'),timeout=10);rec['visible']=True
-                except AssertionError:
-                    rec['attachment_screen']=text();rec['visible']=False
-                capture(hwnd,str(folder/'before-submit.png'))
-                desk.chord(13);wait_for(lambda:receipt('8932'),timeout=30)
-                target=[r for r in server.requests if marked(r,'8932')];assert len(target)==1
-                imgs=target[0]['images'];rec['images']=imgs
-                assert len(imgs)<=1 and all(im['generated_pixels_match'] for im in imgs) and target[0]['path']=='/v1/responses'
-                rec['reply']=wait_for(visible('NEMOTERM_IMAGE_ACCEPTED' if imgs else 'NEMOTERM_TEXT_ACCEPTED'),timeout=30)
-                assert not server.errors
+                paste_and_submit(folder,phase,binding,desk,server,rec,lambda:capture(hwnd,str(folder/'before-submit.png')))
                 rec['clipboard_owned_at_restore']=u.GetClipboardOwner()==hwnd;clip.restore();clip=None
                 desk.chord(17,67);time.sleep(.35)
                 if proc.poll() is None and u.IsWindow(hwnd):desk.chord(17,67)

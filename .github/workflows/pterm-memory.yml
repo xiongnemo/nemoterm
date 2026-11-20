@@ -20,7 +20,7 @@ jobs:
           PRODUCT_RUN: ${{ inputs.product_run }}
           PRODUCT_COMMIT: ${{ inputs.product_commit }}
         run: |
-          if ($env:PAIR_SUITE -notin 'pterm-images','pterm-memory','agent-session-memory') {throw 'Unknown paired frontend scenario'}
+          if ($env:PAIR_SUITE -notin 'wt-images','pterm-images','pterm-memory','agent-session-memory') {throw 'Unknown paired frontend scenario'}
           scripts/fetch-ci-product.ps1 -Run $env:PRODUCT_RUN -Commit $env:PRODUCT_COMMIT -Destination build/pair-product
           "NEMOTERM_TEST_EXE=$((Resolve-Path build/pair-product/nemoterm.exe).Path)" | Out-File $env:GITHUB_ENV -Append -Encoding utf8
           $uri='https://the.earth.li/~sgtatham/putty/0.85/w64/pterm.exe'
@@ -41,6 +41,16 @@ jobs:
           python -m pip install Pillow==13.0.0
           if ($LASTEXITCODE) {exit $LASTEXITCODE}
           npm ci --prefix tools/codex-fixture --ignore-scripts --no-audit --no-fund
+          exit $LASTEXITCODE
+      - name: Verify the Microsoft portable Windows Terminal reference
+        if: inputs.suite == 'wt-images'
+        run: scripts/prepare-windows-terminal-reference.ps1
+      - name: Compare physical paste in Windows Terminal and Nemoterm
+        if: inputs.suite == 'wt-images'
+        run: |
+          $clients=@(Get-ChildItem tools/codex-fixture/node_modules -Recurse -Filter codex.exe)
+          if ($clients.Count -ne 1) {throw 'Expected one pinned Codex client'}
+          python tests/windows_terminal_images.py --codex $clients[0].FullName
           exit $LASTEXITCODE
       - name: Press paste in stock pterm and Nemoterm with an actual Codex editor
         if: inputs.suite == 'pterm-images'
@@ -65,10 +75,17 @@ jobs:
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
-          name: ${{ inputs.suite == 'pterm-images' && 'paired-gui-images' || inputs.suite == 'agent-session-memory' && 'agent-session-memory' || 'pterm-memory-pair' }}-${{ github.run_id }}-${{ github.run_attempt }}
+          name: ${{ inputs.suite == 'wt-images' && 'windows-terminal-images' || inputs.suite == 'pterm-images' && 'paired-gui-images' || inputs.suite == 'agent-session-memory' && 'agent-session-memory' || 'pterm-memory-pair' }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
             build/pair-product/*.json
             build/interaction-dependencies/*.json
+            build/wt-reference/identity.json
+            build/wt-images/summary.json
+            build/wt-images/*/before-submit.png
+            build/wt-images/*/reference-settings.json
+            build/wt-images/*/grid.json
+            build/wt-images/*/peer-terminal.json
+            build/wt-images/*/cell-calibration.json
             build/paired-gui-images/summary.json
             build/paired-gui-images/*/before-submit.png
             build/paired-agent-memory/summary.json
