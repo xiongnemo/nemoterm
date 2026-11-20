@@ -6,7 +6,7 @@ on:
       suite:
         description: Checks or notice-only packaging against the exact artifact
         type: choice
-        options: [font-bell, dpi, backarrow, backarrow-review, agent-pixels, agent-bindings, interaction, single, ui-regression, shell-lifetime, tcap, portable-notices, regis-window, regis-erase, regis-frame-pair, regis-presented-matrix, regis-text-motion, regis-bank-start, column-modes, column-cells, tab-selection, tab-hover, pointer-hiding, pointer-colour, colour-input, sync-selection, palette-exit, unicode-boundary, picture-keys, image-timing, image-mixed, image-mixed-opencode, image-reads, image-files, image-reference, draft-reference, draft-product, paste-order, wt-images, pterm-images, pterm-memory, agent-session-memory, frontend-memory-review, windows-trial, profile-dump, profile-dump-single, profile-env, wsl-tui, wsl-sixel, wsl-vim, wsl-tmux-vim, wsl-colour, wsl-paste-quote, wsl-relay-paste, wsl-relay-vim, wsl-byte-path, wsl-drop, rendering-settings, close-cancel, profile-sequence, font-ops, scrollback-modes, paste-lines, paste-quote, paste-quote-exit, taskbar-progress, taskbar-memory, fullscreen]
+        options: [font-bell, dpi, backarrow, backarrow-review, agent-pixels, agent-bindings, interaction, single, ui-regression, shell-lifetime, tcap, portable-notices, regis-window, regis-erase, regis-frame-pair, regis-presented-matrix, regis-text-motion, regis-bank-start, column-modes, column-cells, tab-selection, tab-selection-pair, tab-hover, pointer-hiding, pointer-colour, colour-input, sync-selection, palette-exit, unicode-boundary, picture-keys, image-timing, image-mixed, image-mixed-opencode, image-reads, image-files, image-reference, draft-reference, draft-product, paste-order, wt-images, pterm-images, pterm-memory, agent-session-memory, frontend-memory-review, windows-trial, profile-dump, profile-dump-single, profile-env, wsl-tui, wsl-sixel, wsl-vim, wsl-tmux-vim, wsl-colour, wsl-paste-quote, wsl-relay-paste, wsl-relay-vim, wsl-byte-path, wsl-drop, rendering-settings, close-cancel, profile-sequence, font-ops, scrollback-modes, paste-lines, paste-quote, paste-quote-exit, taskbar-progress, taskbar-memory, fullscreen]
         default: font-bell
       source_commit:
         description: Full source commit of the source-console-host artifact
@@ -336,6 +336,54 @@ jobs:
       rendering_only: ${{ inputs.suite == 'rendering-settings' }}
       product_run: ${{ inputs.source_run }}
       product_commit: ${{ inputs.source_commit }}
+  tab-selection-pair:
+    if: inputs.suite == 'tab-selection-pair'
+    runs-on: windows-2025
+    timeout-minutes: 12
+    strategy:
+      fail-fast: false
+      matrix: {image: [single, mingw]}
+    env:
+      GH_TOKEN: ${{ github.token }}
+      SOURCE_RUN: ${{ inputs.source_run }}
+      SOURCE_COMMIT: ${{ inputs.source_commit }}
+      FAILURE_HASH: ${{ inputs.diagnostic_sha256 }}
+      IMAGE: ${{ matrix.image }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with: {fetch-depth: 0}
+      - name: Identify the exact single EXE and the original failed MinGW package
+        run: |
+          $ErrorActionPreference='Stop'
+          scripts/fetch-ci-product.ps1 -Run $env:SOURCE_RUN -Commit $env:SOURCE_COMMIT -Destination build/selection-single
+          gh run download $env:SOURCE_RUN --name "test-results-windows-$env:SOURCE_COMMIT" --dir build/initial-selection
+          if ($LASTEXITCODE) { throw 'Original failure record unavailable' }
+          $initial=Get-Content -Raw build/initial-selection/test-results/tabs-selection-directx-observed.json | ConvertFrom-Json
+          if ($env:FAILURE_HASH -notmatch '^[a-f0-9]{64}$' -or $initial.executable_sha256 -ne $env:FAILURE_HASH -or $initial.active_renderer -ne 3 -or $initial.tab_side -ne 'right' -or $initial.completed -or !$initial.phase_timeout) { throw 'Wrong original selection failure' }
+          $dir='build/selection-single'
+          if ($env:IMAGE -eq 'mingw') {
+            $dir='build/selection-mingw'
+            gh run download $env:SOURCE_RUN --name "unverified-mingw-runtime-$env:SOURCE_COMMIT" --dir $dir
+            if ($LASTEXITCODE) { throw 'Original portable package unavailable' }
+          }
+          $file=Get-Item "$dir/nemoterm.exe"; $actual=(Get-FileHash -LiteralPath $file.FullName).Hash.ToLowerInvariant()
+          if ($env:IMAGE -eq 'mingw' -and $actual -cne $env:FAILURE_HASH) { throw 'Portable executable hash differs from original failure' }
+          $record=@{source_run=$env:SOURCE_RUN;source_commit=$env:SOURCE_COMMIT;fixture_commit=$env:GITHUB_SHA;image=$env:IMAGE;sha256=$actual;bytes=$file.Length;original_failed_sha256=$env:FAILURE_HASH;phase=$initial.phase_timeout.name;package=@(Get-ChildItem -LiteralPath $dir -File | Get-FileHash | Select-Object Path,Hash)}
+          $record | ConvertTo-Json -Depth 5 | Set-Content build/selection-identity.json
+          "NEMOTERM_TEST_EXE=$($file.FullName)" >> $env:GITHUB_ENV
+      - run: python -m pip install frida==17.24.3 Pillow==13.0.0
+      - name: Run the original right-side DirectX selection command
+        run: python tests/selection_window_smoke.py --tabs --tab-side right --renderer 2
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: tab-selection-pair-${{ matrix.image }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            build/selection-identity.json
+            research/tabs-selection-observed.json
+            research/selection-last-snapshot.json
+            research/selection-child-output.log
+          if-no-files-found: error
   focused-replay:
     if: ${{ inputs.suite == 'font-bell' || inputs.suite == 'tab-selection' || inputs.suite == 'ui-regression' || inputs.suite == 'tcap' || inputs.suite == 'pointer-colour' || inputs.suite == 'profile-env' || inputs.suite == 'close-cancel' || inputs.suite == 'fullscreen' }}
     runs-on: windows-2025
