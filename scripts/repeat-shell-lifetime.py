@@ -39,7 +39,8 @@ def main():
             for mode in ('ordinary', 'process-observed'):
                 os.environ['NEMOTERM_SHELL_PROCESS_OBSERVER'] = '0' if mode == 'ordinary' else '1'
                 stage = destination/f'{iteration+1:02d}-{mode}'
-                prepare(argparse.Namespace(stage=stage, exe=exe, sha256=args.sha256))
+                prepare(argparse.Namespace(stage=stage, exe=exe, sha256=args.sha256,
+                    require_clean_fixture=True))
                 code = run(argparse.Namespace(stage=stage, group=['shells'], case=[],
                     continue_on_failure=True, retry_failed=False))
                 result = load(stage/'results.json')
