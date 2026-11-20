@@ -4,6 +4,7 @@
 - [窗口或字号变化时，订阅程序收到的行列数和像素尺寸](inband-resize.md)。
 - [tmux 写入系统剪贴板后，Vim 的 Shift 选区是否保留](tmux-clipboard.md)：GDI、DirectX 各测允许和拒绝写入。
 - [清历史时的 Shift 拖选](selection-history-clear.md)：应用输出暂存到松手，本地菜单可以立即清除；两种渲染器共 20 个窗口。
+- [应用只编辑选框旁的文字时保留矩形选区](rectangle-neighbour-edits.md)：两种渲染器各由 6/14 到 14/14，并独立核对快捷键复制和可选右键粘贴。
 - [终端程序请求改变行列数时保留 Shift 选区](selection-page-size.md)：`226ddd98` 的 GDI 和 DirectX 实际窗口，修复前 4/28、修复后 28/28。
 - [标签中键误关的修复和两版实际鼠标记录](tab-middle-gestures.md)。
 - [Codex 输入就绪前后的贴图](codex-bitmap-requests.md)单列启动草稿和正常输入的结果；更早的 [`dc8b6913` 验收记录](https://github.com/xiongnemo/nemoterm/blob/212f1fcbf302e6b46d3ae2a887ac70915e367082/research/acceptance-dc8b6913.md) 已归档。
