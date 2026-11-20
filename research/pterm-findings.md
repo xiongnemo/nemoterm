@@ -2,6 +2,8 @@
 
 调查日期：2026-11-12（Australia/Sydney）。仅查询已运行进程，不输入命令、不读取终端画面、不修改 PuTTY 配置、不清空工作集、不终止用户进程。
 
+[`7faa7fac` 同一台 runner 上的 24 轮 Codex 对话](https://github.com/xiongnemo/nemoterm/actions/runs/44832796247/artifacts/14678240461)：原版 pterm、Nemoterm GDI、DirectX 的前端私有工作集采样峰值分别为 **3.77、5.77、10.03 MB**。这是固定工作负载的比较；最初用户桌面的五个 pterm 窗口仍按下表单列。[本版满屏负载与交互成绩](../docs/KNOWN_ISSUES.md#内存验收)。
+
 [`83d584d8` 的 24 轮 Codex 同机对照](trial-83d584d8.md)：原版 pterm、Nemoterm GDI、DirectX 前端私有工作集峰值分别为 **3.78、5.48、9.81 MB**。这次也检查了新 EXE 的 PE 导入表及实际客户端窗口加载的模块和进程。
 
 [上一版 `fe5f98f9` 的 24 轮 Codex 同机对照](trial-fe5f98f9.md)：原版 pterm、Nemoterm GDI、DirectX 前端私有工作集采样峰值分别为 **3.76、5.47、9.76 MB**。

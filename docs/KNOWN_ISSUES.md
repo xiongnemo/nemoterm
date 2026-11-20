@@ -21,4 +21,17 @@ Codex 0.167.0 刚出现文字提示时，图片输入可能还没就绪，第一
 
 - **协议范围：** 可以运行声明 `TERM=xterm` 或 `xterm-256color` 的应用，不承诺与 XTerm 412 的所有私有序列和行为逐项相同。Kitty 图片的文件和共享内存传输、Kitty 动画，以及 OSC 633 的补全扩展尚未实现。[协议支持表](PROTOCOLS.md)按功能列出已实现和缺失项。
 - **窗口交互：** 本版在 Codex、Claude Code、OpenCode 的十个真实窗口中用 Sarasa Light 测了 GDI 和 DirectX 的中文矩形选区，截图和系统剪贴板均符合预期。[交互回执与窗口原图](../research/column-edge-integrity.md#行尾输入一个汉字时下一行的第一个字消失)。
-- **内存口径：** 比较前端进程的私有工作集，GDI 要低于 20 MB，DirectX 不超过 30 MB，1 MB = 1,000,000 字节。本版 [24 轮 Codex 对话](https://github.com/xiongnemo/nemoterm/actions/runs/44832796247/artifacts/14678240461)的采样峰值为 GDI **5,767,168 字节**、DirectX **10,027,008 字节**。六种满屏压力用例需单独看[同一份 EXE 的完整回归](https://github.com/xiongnemo/nemoterm/actions/runs/44832796247)，不能用对话采样或旧版成绩替代。
+- **键鼠与图像：** 三个客户端、两种渲染器的 [18 种实按组合](https://github.com/xiongnemo/nemoterm/actions/runs/44832796247/artifacts/14678590150)均通过，覆盖 Shift 拖选、复制粘贴快捷键、默认右键仅复制及可选的复制并粘贴。`TERM=xterm` 和 `xterm-256color` 下的 [Vim](https://github.com/xiongnemo/nemoterm/actions/runs/44832796247/artifacts/14678011129) 与 [tmux 中的 Vim](https://github.com/xiongnemo/nemoterm/actions/runs/44832796247/artifacts/14676817878) 都正确复制了中文矩形选区。两种渲染器的 [8 帧 Sixel 画面](https://github.com/xiongnemo/nemoterm/actions/runs/44832796247/artifacts/14677037651)与参考像素相符；上面的 WSL1 像素**尺寸查询**问题单列。
+- **严格交互总评：** [79/81](https://github.com/xiongnemo/nemoterm/actions/runs/44832796247/artifacts/14676909518)，没有漏跑。两项失败均为 Codex 刚出现文字提示时贴图；编辑器就绪后，两种输入路径的 Ctrl+V 和 Ctrl+Shift+V 首次提交均含正确图片（4/4）。这 81 项不含上表单独运行的协议对照。
+
+### 内存验收
+
+比较 `nemoterm.exe` 前端进程的**私有工作集**，GDI 要低于 20 MB，DirectX 不超过 30 MB；1 MB = 1,000,000 字节。下表是同一份 EXE 在 160×48 字符、`SarasaTermSC Nerd Light` 下的采样峰值，不包含 shell 或 agent 自身的进程。
+
+| 负载 | GDI | DirectX |
+| --- | ---: | ---: |
+| [24 轮 Codex 对话](https://github.com/xiongnemo/nemoterm/actions/runs/44832796247/artifacts/14678240461) | 5,767,168 字节 | 10,027,008 字节 |
+| [十个真实客户端窗口](https://github.com/xiongnemo/nemoterm/actions/runs/44832796247/artifacts/14676424929)，各窗口分别采样 | 11,812,864 字节 | 22,368,256 字节 |
+| 六种满屏文字和图片负载 | [19,472,384 字节](https://github.com/xiongnemo/nemoterm/actions/runs/44832796247/artifacts/14678970520) | [29,147,136 字节](https://github.com/xiongnemo/nemoterm/actions/runs/44832796247/artifacts/14679270378) |
+
+六种满屏负载中，两种渲染器的最高值都来自 Unicode 占位的 Kitty 图像，各自距上限 527,616 字节和 852,864 字节。这个结果只覆盖已测负载，不是对任意会话长度、窗口大小或显卡驱动的上界保证。
