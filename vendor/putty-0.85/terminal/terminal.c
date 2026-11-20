@@ -6570,6 +6570,42 @@ static void nemo_erase_rectangle(Terminal *term, bool selective)
     seen_disp_event(term);
 }
 
+/* A DEC rectangle replaces text at its destination. A press on a copied
+ * source stays there. At the destination keep it only when the whole glyph
+ * survives (both cells and the combining sequence); colours are irrelevant
+ * to the text being copied. Resolve before check_boundary can split a glyph.
+ * A fill supplies one repeated cell; a copy supplies its existing snapshot. */
+static PressedPaint pressed_rectangle_row(Terminal *term, int y, int left,
+                                          int right, const termchar *cells,
+                                          bool repeated)
+{
+    PressedPaint p = {0};
+    int first, last;
+    if (!pressed_cell_source(term, y, y, &p.logical, &p.half, &first, &last))
+        return p;
+    if (first < right && last >= left) {
+        if (first < left || last >= right) goto lost;
+        int offset = first - left;
+        const termchar *a = &scrlineptr(y)->chars[first];
+        const termchar *b = &cells[repeated ? 0 : offset];
+        bool wide = !repeated && first+1 < right && b[1].chr == UCSWIDE;
+        if (wide != (last != first)) goto lost;
+        for (;;) {
+            if (a->chr != b->chr) goto lost;
+            if (!a->cc_next || !b->cc_next) {
+                if (a->cc_next || b->cc_next) goto lost;
+                break;
+            }
+            a += a->cc_next; b += b->cc_next;
+        }
+    }
+    p.follow = true; /* Editing a neighbour can still reorder a bidi row. */
+    return p;
+  lost:
+    discard_selection_press(term);
+    return p;
+}
+
 static void nemo_fill_rectangle(Terminal *term)
 {
     unsigned ch = term->esc_args[0] ? term->esc_args[0] : ' ';
@@ -6594,7 +6630,10 @@ static void nemo_fill_rectangle(Terminal *term)
     }
     for (int y = r.top; y < r.bottom; y++) {
         termline *line = scrlineptr(y);
-        check_line_size(term, line); check_trust_status(term, line);
+        check_line_size(term, line);
+        PressedPaint held = pressed_rectangle_row(term, y, r.left, r.right,
+                                                  &(termchar){.chr=ch}, true);
+        check_trust_status(term, line);
         check_boundary(term, r.left, y); check_boundary(term, r.right, y);
         check_selection(term, (pos){y,r.left}, (pos){y,r.right});
         nemo_images_erase(term, (pos){y,r.left}, (pos){y,r.right});
@@ -6616,6 +6655,7 @@ static void nemo_fill_rectangle(Terminal *term)
             }
             copy_termchar(line, x, &fill);
         }
+        end_pressed_paint(term, held);
     }
     seen_disp_event(term);
 }
@@ -6646,6 +6686,8 @@ static void nemo_copy_rectangle(Terminal *term)
                 copy_termchar(scratch, x, &blank);
             } else copy_termchar(scratch, x, cell);
         }
+        PressedPaint held = pressed_rectangle_row(term, dst.top+i, dst.left,
+                                                  dst.left+width, scratch->chars, false);
         check_trust_status(term, to);
         check_boundary(term, dst.left, dst.top+i);
         check_boundary(term, dst.left+width, dst.top+i);
@@ -6655,6 +6697,7 @@ static void nemo_copy_rectangle(Terminal *term)
             copy_termchar(to, dst.left+x, &scratch->chars[x]);
             to->chars[dst.left+x].truecolour.decoration &= ~CELL_UNDRAWN;
         }
+        end_pressed_paint(term, held);
     }
     freetermline(scratch);
     seen_disp_event(term);
