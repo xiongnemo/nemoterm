@@ -211,6 +211,11 @@ def agent_grid_case(path,row,identity):
             and paint['cells']==2 and paint['source']!=paint['selected'] and paint['min_selected_ratio']>=.5
             and min(paint['guard_ratios'])>=.9,'missing bidi glyph identity, physical highlight, or original clipboard text')
     modal=obs['close_cancel'];http=obs['http_receipt']
+    edit=modal['backspace_edit']
+    require(edit['typed']=='NEMOTERM_SUBMIT x' and edit['corrected'] and edit['clipboard_before']==edit['clipboard_after']
+            and all(any(name.endswith(suffix) for name in obs['screenshots']) for suffix in
+                    ('-composer-before-backspace.png','-composer-after-backspace.png')),
+            'missing physical Backspace edit or clipboard changed before paste')
     require(modal['button_id']==2 and modal['dialog']!=sess['window'] and modal['owner_disabled']
             and modal['capture']==modal['button'] and modal['button_state'] & 4 and modal['foreground']==sess['window']
             and modal['focus']==sess['hwnd'] and modal['clipboard_intact'] and modal['typed_prefix']=='NEMOTERM_SUBMIT '

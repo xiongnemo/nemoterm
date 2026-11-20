@@ -25,12 +25,15 @@ jobs:
           scripts/prepare-remote-interaction.ps1
       - name: Compare queries and physical keys on four fresh profiles with XTerm 412
         run: python tests/backarrow_window.py
+      - name: Compare the same child input against XTerm using both terminfo databases
+        if: ${{ !cancelled() && hashFiles('research/backarrow-window.json') != '' }}
+        run: python scripts/review-backarrow.py research/backarrow-window.json build/backarrow-product/SOURCE-HOST.json --output research/backarrow-comparison.json
       - if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: backarrow-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
-            research/backarrow-window.json
+            research/backarrow-*.json
             build/backarrow-product/SOURCE-HOST.json
             build/interaction-dependencies/environment.json
           if-no-files-found: error
