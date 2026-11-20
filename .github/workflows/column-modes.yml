@@ -71,6 +71,10 @@ jobs:
         env:
           RENDERER: ${{ matrix.renderer }}
         run: python tests/column_mode_native_tabs.py
+      - name: Check in-band resize subscription, real HWND geometry and child grid
+        if: ${{ !cancelled() && steps.prepare.outcome == 'success' }}
+        env: {RENDERER: '${{ matrix.renderer }}'}
+        run: python tests/inband_resize_window.py
       - name: Restore the runner display and retain its measured geometry
         if: always()
         shell: pwsh
