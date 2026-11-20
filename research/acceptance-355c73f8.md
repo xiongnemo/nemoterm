@@ -2,6 +2,8 @@
 
 [下载本次 EXE](https://github.com/xiongnemo/nemoterm/actions/runs/44785665334/artifacts/14653593498)，4,942,336 字节，SHA-256 `12b0ba38581401d4e2a858c0c5d644fa2abe057e8cbe306dc3b0babd43b14e50`。保留四边的 Win32 风格标签；应用现在可以用 `CSI > Ps p` 设置打字时的鼠标显示方式。两种 profile 下 32 个按键/移动场景均与 XTerm 412 的可见状态和回执相符，详见[隐藏指针后拖选中文的对照图](pointer-hiding-355c73f8.md)。
 
+[四个方向的标签外形截图](tab-faces-3da1ebb8.png)也适用于本次 EXE：[同一文件的托管 Windows 原始截图与交互记录](https://github.com/xiongnemo/nemoterm/actions/runs/44785665334/artifacts/14654842273)在每个方向都记录了两个标签分别激活的状态。这八张标签栏截图与上一版逐像素一致；四边的悬停预览、点击切换和拖选复制均通过。
+
 [合并报告](https://github.com/xiongnemo/nemoterm/actions/runs/44790406809/artifacts/14654669422)从同一 EXE 的原始记录复核。严格交互为 **79/81**，全部执行。两项未通过是 Codex 输入框就绪前的粘贴：四种按键与送入路径在首次提交时均只有文字。编辑器就绪后，Ctrl+V、Ctrl+Shift+V 各按两种输入路径验证，**4/4** 首次提交带有且只有一张正确原图。合并报告保留原来的失败状态。
 
 在 160×48、SarasaTermSC Nerd Light 的窗口里，Codex、Claude Code、OpenCode 的 [18/18 项真实快捷键及右键行为](https://github.com/xiongnemo/nemoterm/actions/runs/44785665334/artifacts/14656586522)通过，覆盖默认右键仅复制、选配复制并粘贴。十个真实客户端窗口都正确高亮并复制了宽字符「中文」；关闭确认选「取消」后，键入的编辑和提交也都到达原客户端。窗口启动和提交后的 20 次采样都未发现已知浏览器模块或浏览器子进程。[查看实际 Shift 高亮截图](agent-grid-355c73f8.png)。
