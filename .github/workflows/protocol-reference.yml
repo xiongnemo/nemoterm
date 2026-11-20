@@ -19,6 +19,7 @@ on:
           - attribute-colour
           - selection-colour
           - pointer-colour
+          - pointer-hiding
           - cursor-charset
           - ansi-conformance
           - control-cancellation
@@ -260,6 +261,11 @@ jobs:
       - name: Compare attribute-colour query and reset semantics
         if: ${{ (success() || failure()) && (inputs.family == 'attribute-colour' || inputs.family == 'all') }}
         run: python3 tests/xterm_attribute_colour_oracle.py --xterm /tmp/nemoterm-xterm-reference/xterm --output build/protocol-reference/attribute-colour-xterm.json
+      - name: Observe the X11 pointer before typing, after key delivery and after motion
+        if: ${{ (success() || failure()) && (inputs.family == 'pointer-hiding' || inputs.family == 'all') }}
+        run: |
+          sudo apt-get install -y xauth libxfixes3
+          xvfb-run -a -s '-screen 0 1024x768x24' python3 tests/xterm_pointer_hiding.py /tmp/nemoterm-xterm-reference/xterm build/protocol-reference/pointer-hiding
       - name: Capture pointer-colour replies and the private display's current cursor pixels
         if: ${{ (success() || failure()) && (inputs.family == 'pointer-colour' || inputs.family == 'all') }}
         run: |
