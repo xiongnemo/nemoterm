@@ -336,7 +336,7 @@ Windows 用 `font-zoom-replay.yml` 的 `suite=paste-quote` 对指定 EXE 重放�
 
 ### 从资源管理器拖入 WSL，以及更改默认 shell 后再拖放
 
-用 `font-zoom-replay.yml` 的 `suite=wsl-drop`、`source_run`、完整 `source_commit` 回放同一 EXE；`ci.yml scope=full` 运行相同的检查。GitHub 托管的 Windows runner 在 Ubuntu 中生成文件和目录，把 Windows 文件列表拖放或粘贴到真实窗口。检查原始 PTY 输入、Bash 能否用收到的路径读到两份原始内容，以及混入另一发行版时是否整批拒绝。显式指定发行版与默认发行版各有覆盖。另开实际 Windows PowerShell，在 Profile Settings 中保存 cmd 为默认 shell；当前 PowerShell 和随后打开的 cmd 必须用同一 profile 分别读到对应文件的随机内容。两组都保留 GDI 和 DirectX 结果。原始失败：[资源管理器路径的旧版对照](https://github.com/xiongnemo/nemoterm/blob/408a251dca608961d936f0200001cdd2f649079b/research/wsl-share-drop-before-9b5e1111.zip)。
+用 `font-zoom-replay.yml` 的 `suite=wsl-drop`、`source_run`、完整 `source_commit` 回放同一 EXE；`ci.yml scope=full` 运行相同的检查。GitHub 托管的 Windows runner 在 Ubuntu 中生成文件和目录，把 Windows 文件列表拖放或粘贴到真实窗口。检查原始 PTY 输入、Bash 能否用收到的路径读到两份原始内容，以及混入另一发行版时是否整批拒绝。显式指定发行版与默认发行版各有覆盖。另开实际 Windows PowerShell，在 Profile Settings 中保存 cmd 为默认 shell；当前 PowerShell 和随后打开的 cmd 必须用同一 profile 分别读到对应文件的随机内容。两组都保留 GDI 和 DirectX 结果。`tests/drop_profile_shell.py` 在发现窗口后立即发送一次命令，不重发；另一次 `--after-prompt` 启动独立 profile，等实际 PowerShell 或 cmd 提示符出现，再分别在改设置前、改设置后和重开时拖入文件及目录。成功条件是读到文件内随机内容、列出目录中随机文件名。两次分别留档，不用后者覆盖冷启动失败。原始失败：[资源管理器路径的旧版对照](https://github.com/xiongnemo/nemoterm/blob/408a251dca608961d936f0200001cdd2f649079b/research/wsl-share-drop-before-9b5e1111.zip)。
 
 ### 原版 pterm 的真实窗口与图片粘贴
 

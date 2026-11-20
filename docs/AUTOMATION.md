@@ -28,7 +28,9 @@ python tools/nemoterm_debug.py paste --endpoint $endpoint --session 1 --file tex
 adding Enter. It can contain explicit control characters. `paste` uses the
 terminal's regular paste path, including negotiated bracketed paste. An
 acceptance response means input was queued, not that the child program finished
-processing it. Poll `text` or `image` to observe the result. `key` sends a complete
+processing it. Discovery can succeed before the shell has drawn its first prompt.
+For startup-sensitive commands, poll `text` for the expected shell prompt first;
+then send the command once and wait for a recognizable result in `text` or `image`. `key` sends a complete
 Windows virtual-key press/release through the frontend's normal key translator;
 Ctrl, Shift and Alt, application keyboard protocols and configured terminal
 bindings apply. Arrow, Home/End, Page Up/Down, Insert and Delete virtual keys
