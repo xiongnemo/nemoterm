@@ -229,7 +229,7 @@ Use `suite=profile-sequence` on the exact EXE to replay the aggregate profile wo
 
 `selection` 组还检查放大行跨行复制：先让 80 列窗口显示 `WXYZOFFSCREEN`，再由应用把这一行改为倍宽。用另一条从未写入 `OFFSCREEN` 的放大行做逐格截图对照。Shift 从可见的 `WXYZ` 拖到下一行的 `END` 后，检查整段高亮、系统剪贴板文字和应用实际收到的字节。普通宽度保留标记；倍宽、双高的上半行和下半行都只能复制可见文字。GDI 和 DirectX 均执行，带标签的窗口还用 Windows 系统输入重复倍宽用例。复跑：`suite=interaction`、`groups=["selection"]`。原试用版的[失败记录](https://github.com/xiongnemo/nemoterm/actions/runs/44672824926/artifacts/14601013448)保留用于前后对照。见[两版系统剪贴板和逐格截图结果](../research/selection-scaled-copy.md)。
 
-同一组还分开测试“先按住鼠标，再改变行宽”。例如在普通行的 `E` 上按下 Shift+Ctrl+左键，应用随即把行改为倍宽，松手位置是放大后的 `G`；窗口高亮、右键和 Ctrl+Shift+C 都应得到 `EFG`。如果按下的字符已完全移出屏幕，后续拖动和松手不应发送给应用，下一次独立右键则应交回应用。用例同时覆盖缩回普通宽度、相同宽度的上下半行、只改另一行，以及启用左右边距导致的行宽复原。`tests/selection_rendition_press.py` 保留松手前后的截图、剪贴板文本和原始鼠标字节；复跑入口与上一段相同。
+同一组还分开测试“先按住鼠标，再改变行宽”。例如在普通行的 `E` 上按下 Shift+Ctrl+左键，应用随即把行改为倍宽，松手位置是放大后的 `G`；窗口高亮、右键和 Ctrl+Shift+C 都应得到 `EFG`。如果按下的字符已完全移出屏幕，后续拖动和松手不应发送给应用，下一次独立右键则应交回应用。用例同时覆盖缩回普通宽度、倍宽行改为相同宽度的双高下半行、只改另一行，以及启用左右边距导致的行宽复原。`tests/selection_rendition_press.py` 保留松手前后的截图、剪贴板文本和原始鼠标字节；复跑入口与上一段相同。[原试用版 `f073c8d1` 的同组原始失败](https://github.com/xiongnemo/nemoterm/actions/runs/44676272043/artifacts/14601714654)为 12/34：倍宽矩形在 `E` 按下、`G` 松手会错误复制 `CDEFG`，复原普通宽度会复制 `GHIJ`；已不可见的起点也可能选中不相关的一段。
 
 `selection` 另覆盖滚动分栏穿过双向文字的场景：先在原图与滚动后截图中用字格底色定位同一字，再检查系统剪贴板和应用实际收到的字节。分开记录窗口消息和 Windows 实按 Shift、鼠标、Ctrl+Shift+C。[分栏选区前后对比](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/selection-split-scroll.md)。如果按下的字被整个滚出或被栏边截断，要同时检查松手后无高亮、右键归应用、后续新选区仍可复制。[原始失败与检验步骤](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/selection-discarded-scroll.md)。
 
