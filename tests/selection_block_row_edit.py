@@ -22,7 +22,9 @@ CASES=[('right-ich',1,16,20,24,2,True),('right-dch',1,16,20,24,-2,True),
        ('left-ich',1,0,2,5,2,True),('left-dch',1,0,2,5,-2,True),
        ('first-right',0,16,20,24,2,True),('last-left',2,0,2,5,-2,True),
        ('other-row',3,8,20,24,2,True),('through-text',1,8,20,24,-2,False),
-       ('cut-wide-edge',1,10,20,24,2,False),('move-one-row',1,1,20,24,2,False)]
+       ('cut-wide-edge',1,10,20,24,2,False),('move-one-row',1,1,20,24,2,False),
+       ('bidi-right',1,16,20,24,2,True),('bidi-reorders',1,10,20,24,1,False),
+       ('scaled-right',1,8,12,80,2,True),('scaled-cut',1,4,12,80,-2,False)]
 
 def trial(renderer):
     mode={'gdi':1,'directx':3}[renderer]; name='scrollback-block-edit-'+renderer
@@ -39,9 +41,12 @@ def trial(renderer):
             desk=DesktopInput(pid.value,terminal_host(hwnd),hwnd,obs.setdefault('input',{}))
             cam=PresentedWindowCapture(pid.value,hwnd,directx=mode==3);cam.wait_for_initial_geometry()
             def point(x,y):desk.point(1+x*cw+cw//2,1+y*ch+ch//2)
-            wanted=[list(range(6,11)) for _ in range(3)];empty=[[],[],[]]
+            empty=[[],[],[]]
             for i,(label,row,at,marker,end,shift,keep) in enumerate(CASES):
-                rec=obs['cases'][label]=dict(edit=[row,at,end,shift],keep=keep,marker_from=marker,marker_to=marker+shift)
+                bidi=label.startswith('bidi-');scaled=label.startswith('scaled-');scale=2 if scaled else 1
+                wanted=[list(range(6,11)),list(range(7,10) if bidi else range(6,10) if scaled else range(6,11)),list(range(6,11))]
+                expected_text=TEXT.replace('中B文','בגד' if bidi else '中' if scaled else '中B文')
+                rec=obs['cases'][label]=dict(edit=[row,at,end,shift],keep=keep,marker_from=marker,marker_to=marker+shift,expected_marks=wanted if keep else empty,expected_text=expected_text)
                 colour=bytes((140,80+i,30)); cup=lambda y,x:f'{CSI}{y+1};{x+1}H'
                 def shot(stage,marker_x,expected=None):
                     def read():
@@ -49,15 +54,18 @@ def trial(renderer):
                         def px(x,y):
                             off=54+4*((2+y*ch)*width+2+x*cw);return bmp[off:off+3]
                         marked=[[x for x in range(15) if px(x,y)==b'\x55\x33\x22'] for y in range(3)]
-                        markers=[x for x in range(26) if px(x,row)==colour]
-                        if markers==[marker_x] and (expected is None or marked==expected):return bmp,marked
+                        markers=[x for x in range(34) if px(x,row)==colour]
+                        if markers==list(range(marker_x*scale,(marker_x+1)*scale)) and (expected is None or marked==expected):return bmp,marked
                     bmp,marks=wait_for(read,timeout=5);rec[stage]=marks
                     capture_result(rect.right,rect.bottom,bmp[54:],name+'-'+label+'-'+stage+'.png')
                     return marks
                 set_clipboard(hwnd,'block-edit sentinel '+label)
-                scene=CSI+'?69l'+CSI+'2J'+CSI+'?25l'+CSI+'?1002;1006h'+'\x1b]17;#223355\x07\x1b]11;#000000\x07'
+                scene=CSI+'?69l'+cup(1,0)+'\x1b#5'+CSI+'2J'+CSI+'?25l'+CSI+'?1002;1006h'+'\x1b]17;#223355\x07\x1b]11;#000000\x07'
                 scene+=''.join(cup(y,5)+'a中'+letter+'文z' for y,letter in enumerate('ABCD'))
-                scene+=cup(row,marker)+f'{CSI}48;2;30;{80+i};140m '+CSI+'0m'+CSI+'?69h'+f'{CSI}1;{end}s'
+                if bidi:scene+=cup(1,5)+'aאבגדזQ'
+                if scaled:scene+=cup(1,0)+'\x1b#6'+'012中X文ZZ'
+                scene+=cup(row,marker)+f'{CSI}48;2;30;{80+i};140m '+CSI+'0m'
+                if not scaled:scene+=CSI+'?69h'+f'{CSI}1;{end}s'
                 phase(label+'-seed',scene+CSI+'?1002$p'+CSI+'?1006$p',b'\x1b[?1002;1$y\x1b[?1006;1$y');shot('seed',marker,empty)
                 time.sleep(u.GetDoubleClickTime()/1000+.02)
                 reverse=i%2; p,q=((9,2),(7,0)) if reverse else ((7,0),(9,2))
@@ -65,14 +73,14 @@ def trial(renderer):
                 wait_for(lambda:desk.state().capture==hwnd);point(*q);shot('drag',marker,wanted)
                 desk.event(None,False);wait_for(lambda:desk.state().capture!=hwnd);desk.event(0x11,False);desk.event(0x10,False)
                 seq=u.GetClipboardSequenceNumber();desk.chord(0x11,0x10,ord('C'));wait_for(lambda:u.GetClipboardSequenceNumber()!=seq)
-                rec['initial_copy']=clipboard_text(hwnd);assert rec['initial_copy']==TEXT
+                rec['initial_copy']=clipboard_text(hwnd);assert rec['initial_copy']==expected_text
                 phase(label+'-edit',cup(row,at)+CSI+str(abs(shift))+('@' if shift>0 else 'P'),b'')
                 marks=shot('edited',marker+shift);rec['clipboard_after_edit']=clipboard_text(hwnd)
                 point(15,4);seq=u.GetClipboardSequenceNumber();desk.chord('right');desk.chord(ord('8'))
                 wire=wait_for(lambda:v if (v:=bytes.fromhex(current()['hex'])).endswith(b'8') else None)
                 rec.update(right_changed=u.GetClipboardSequenceNumber()!=seq,right_text=clipboard_text(hwnd),wire=wire.hex())
                 target=ACK+(b'' if keep else b'\x1b[<2;16;5M\x1b[<2;16;5m')+b'8'
-                rec['passed']=marks==(wanted if keep else empty) and rec['right_changed']==keep and rec['right_text']==rec['clipboard_after_edit']==TEXT and wire==target
+                rec['passed']=marks==(wanted if keep else empty) and rec['right_changed']==keep and rec['right_text']==rec['clipboard_after_edit']==expected_text and wire==target
                 checks.append(rec['passed'])
         finally:
             if cam:cam.close()
