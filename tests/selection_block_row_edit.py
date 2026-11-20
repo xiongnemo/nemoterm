@@ -34,9 +34,22 @@ BINDING_CASES = {
     'copy-paste': {'right-ich', 'left-dch', 'bidi-right', 'scaled-right', 'cut-wide-edge', 'bidi-reorders'},
 }
 
-def trial(renderer, action='default'):
+# Each edit affects the whole pane, unlike ICH/DCH above. The expected shift
+# describes the original selection, not the coloured edit marker.
+PANE = {
+    'pane-decic': (1, 2, True, "'}", 2), 'pane-decdc': (1,-2,True,"'~",-2),
+    'pane-sr': (1,2,True,' A',2), 'pane-sl': (1,-2,True,' @',-2),
+    'bidi-pane-decic': (1,2,True,"'}",2), 'bidi-pane-sl': (1,-2,True,' @',-2),
+    'pane-beside': (16,-2,True,"'~",0), 'bidi-pane-beside': (16,2,True,"'}",0),
+    'pane-cut-wide': (7,-2,False,"'~",0), 'pane-split-rows': (1,2,False,"'}",0),
+    'bidi-pane-cut': (8,-2,False,"'~",0),
+}
+
+def trial(renderer, action='default', pane=False):
     mode={'gdi':1,'directx':3}[renderer]; name='scrollback-block-edit-'+renderer
+    if pane: name='column-pane-'+renderer
     if action!='default':name+='-'+action
+    cases = [(key,1,at,20,24,shift,keep) for key,(at,shift,keep,_,_) in PANE.items()] if pane else CASES
     obs=dict(renderer=renderer,action=action,cases={}); checks=[]
     def exercise(hwnd,phase,current):
         u.GetPropW.argtypes,u.GetPropW.restype=[w.HWND,w.LPCWSTR],w.HANDLE
@@ -51,12 +64,13 @@ def trial(renderer, action='default'):
             cam=PresentedWindowCapture(pid.value,hwnd,directx=mode==3);cam.wait_for_initial_geometry()
             def point(x,y):desk.point(1+x*cw+cw//2,1+y*ch+ch//2)
             empty=[[],[],[]]
-            for i,(label,row,at,marker,end,shift,keep) in enumerate(CASES):
-                if action!='default' and label not in BINDING_CASES[action]:continue
+            for i,(label,row,at,marker,end,shift,keep) in enumerate(cases):
+                if not pane and action!='default' and label not in BINDING_CASES[action]:continue
+                if pane and action=='copy-key' and not keep:continue
                 bidi=label.startswith('bidi-');scaled=label.startswith('scaled-');scale=2 if scaled else 1
                 wanted=[list(range(6,11)),list(range(7,10) if bidi else range(6,10) if scaled else range(6,11)),list(range(6,11))]
                 expected_text=TEXT.replace('中B文','בגד' if bidi else '中' if scaled else '中B文')
-                rec=obs['cases'][label]=dict(edit=[row,at,end,shift],keep=keep,marker_from=marker,marker_to=marker+shift,expected_marks=wanted if keep else empty,expected_text=expected_text)
+                rec=obs['cases'][label]=dict(edit=[row,at,end,shift],keep=keep,marker_from=marker,marker_to=marker+shift,expected_marks=[[x+(PANE[label][4] if pane else 0) for x in line] for line in wanted] if keep else empty,expected_text=expected_text)
                 colour=bytes((140,80+i,30)); cup=lambda y,x:f'{CSI}{y+1};{x+1}H'
                 def shot(stage,marker_x,expected=None):
                     def read():
@@ -70,12 +84,13 @@ def trial(renderer, action='default'):
                     capture_result(rect.right,rect.bottom,bmp[54:],name+'-'+label+'-'+stage+'.png')
                     return marks
                 set_clipboard(hwnd,'block-edit sentinel '+label)
-                scene=CSI+'?69l'+cup(1,0)+'\x1b#5'+CSI+'2J'+CSI+'?25l'+CSI+'?1002;1006h'+'\x1b]17;#223355\x07\x1b]11;#000000\x07'
+                scene=(CSI+'r' if pane else '')+CSI+'?69l'+cup(1,0)+'\x1b#5'+CSI+'2J'+CSI+'?25l'+CSI+'?1002;1006h'+'\x1b]17;#223355\x07\x1b]11;#000000\x07'
                 scene+=''.join(cup(y,5)+'a中'+letter+'文z' for y,letter in enumerate('ABCD'))
                 if bidi:scene+=cup(1,5)+'aאבגדזQ'
                 if scaled:scene+=cup(1,0)+'\x1b#6'+'012中X文ZZ'
                 scene+=cup(row,marker)+f'{CSI}48;2;30;{80+i};140m '+CSI+'0m'
                 if not scaled:scene+=CSI+'?69h'+f'{CSI}1;{end}s'
+                if label=='pane-split-rows': scene+=CSI+'2;4r'
                 phase(label+'-seed',scene+CSI+'?1002$p'+CSI+'?1006$p',b'\x1b[?1002;1$y\x1b[?1006;1$y');shot('seed',marker,empty)
                 time.sleep(u.GetDoubleClickTime()/1000+.02)
                 reverse=i%2; p,q=((9,2),(7,0)) if reverse else ((7,0),(9,2))
@@ -84,7 +99,8 @@ def trial(renderer, action='default'):
                 desk.event(None,False);wait_for(lambda:desk.state().capture!=hwnd);desk.event(0x11,False);desk.event(0x10,False)
                 seq=u.GetClipboardSequenceNumber();desk.chord(0x11,0x10,ord('C'));wait_for(lambda:u.GetClipboardSequenceNumber()!=seq)
                 rec['initial_copy']=clipboard_text(hwnd);assert rec['initial_copy']==expected_text
-                phase(label+'-edit',cup(row,at)+CSI+str(abs(shift))+('@' if shift>0 else 'P'),b'')
+                operation=PANE[label][3] if pane else ('@' if shift>0 else 'P')
+                phase(label+'-edit',cup(row,at)+CSI+str(abs(shift))+operation,b'')
                 marks=shot('edited',marker+shift);rec['clipboard_after_edit']=clipboard_text(hwnd)
                 point(15,4);seq=u.GetClipboardSequenceNumber()
                 if action=='copy-key':desk.chord(0x11,0x10,ord('C'))
@@ -97,7 +113,7 @@ def trial(renderer, action='default'):
                 rec.update(action_changed=changed,action_text=after,wire=wire.hex())
                 body=(expected_text.replace('\r\n','\r').encode() if action=='copy-paste' else b'') if keep else b'\x1b[<2;16;5M\x1b[<2;16;5m'
                 target=ACK+body+b'8';rec['expected_wire']=target.hex()
-                rec['passed']=marks==(wanted if keep else empty) and changed==keep and after==rec['clipboard_after_edit']==expected_text and wire==target
+                rec['passed']=marks==rec['expected_marks'] and changed==keep and after==rec['clipboard_after_edit']==expected_text and wire==target
                 checks.append(rec['passed'])
         finally:
             if cam:cam.close()
@@ -108,12 +124,17 @@ def trial(renderer, action='default'):
             profile=dict(NemoTabs=1,NemoRenderer=mode-1,FontHeight=8,WarnOnClose=0,MouseOverride=1,MouseAutocopy=0,
                          **({'RightClickCopyAndPaste':1} if action=='copy-paste' else {})))
     except Exception:obs['error']=traceback.format_exc()
-    obs['passed']='error' not in obs and len(checks)==(len(CASES) if action=='default' else len(BINDING_CASES[action])) and all(checks)
+    obs['passed']='error' not in obs and len(checks)==(sum(keep or action!='copy-key' for _,_,keep,_,_ in PANE.values()) if pane else len(CASES) if action=='default' else len(BINDING_CASES[action])) and all(checks)
     (root/'research'/(name+'.json')).write_text(json.dumps(obs,indent=2),encoding='utf-8');return obs['passed']
 
 if __name__=='__main__':
     assert os.environ.get('RUNNER_ENVIRONMENT')=='github-hosted'
     if len(sys.argv)==1:raise SystemExit(not trial(os.environ['RENDERER']))
+    if sys.argv[1]=='--pane':
+        assert len(sys.argv)==3 and sys.argv[2] in ('gdi','directx')
+        os.environ.update(NEMOTERM_TEST_INPUT_CP='65001',NEMOTERM_TEST_WIDE_INPUT='1')
+        results=[trial(sys.argv[2],action,pane=True) for action in ('default','copy-key','copy-paste')]
+        raise SystemExit(not all(results))
     assert sys.argv[1:]==['--bindings']
     os.environ.update(NEMOTERM_TEST_INPUT_CP='65001',NEMOTERM_TEST_WIDE_INPUT='1')
     results=[trial(os.environ['RENDERER'],action) for action in BINDING_CASES]

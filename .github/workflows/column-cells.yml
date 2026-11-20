@@ -45,11 +45,19 @@ jobs:
       - name: Copy and paste a moving two-row Unicode rectangle (DirectX)
         if: ${{ !cancelled() && steps.images.outcome == 'success' }}
         run: python tests/column_rectangle_paste.py directx
+      - name: Follow released rectangles across pane edits (GDI)
+        if: ${{ !cancelled() && steps.images.outcome == 'success' }}
+        run: python tests/selection_block_row_edit.py --pane gdi
+      - name: Follow released rectangles across pane edits (DirectX)
+        if: ${{ !cancelled() && steps.images.outcome == 'success' }}
+        run: python tests/selection_block_row_edit.py --pane directx
       - if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: column-cells-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
+            research/column-pane-*.json
+            research/column-pane-*-edited.png
             research/column-rectangle-*/
             research/column-rectangle-*-observed.json
             research/column-press-observed.json
