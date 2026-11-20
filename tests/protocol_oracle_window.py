@@ -59,14 +59,19 @@ def run(name, cases, scene=None, extra_cases=(), exercise=None, barrier=None, re
             if os.environ.get('NEMOTERM_PROTOCOL_WIRE_TRACE') == '1':
                 from protocol_wire_trace import ProtocolWireTrace
                 wire_trace = ProtocolWireTrace(process, exe, root/'research'/f'{name}-wire.jsonl')
-            def phase(phase_name, sequence, expected, phase_barrier=None, *, after_write=None):
+            def phase(phase_name, sequence, expected, phase_barrier=None, *, after_write=None, console_write=None):
                 active_barrier,active_marker = phase_barrier or (barrier_sequence,marker)
                 expected_bytes = expected if isinstance(expected, bytes) else expected.encode() if expected is not None else None
                 if wire_trace:
                     wire_trace.phase(phase_name, sequence+active_barrier,
                                      expected_bytes+active_marker if expected_bytes is not None else None)
-                write_snapshot(control, dict(phase=phase_name, preserve_mouse=True, report_cursor=report_cursor,
-                    sequence=sequence+active_barrier, native_row=native_row))
+                request = dict(phase=phase_name, preserve_mouse=True, report_cursor=report_cursor,
+                               sequence=sequence+active_barrier, native_row=native_row)
+                if console_write is not None:
+                    # mouse_fixture appends exactly one DSR after explicit WriteFile calls.
+                    assert console_write in ('whole','bytewise') and (active_barrier,active_marker)==('\x1b[5n',b'\x1b[0n')
+                    request.update(output_write=console_write,input_barrier=phase_name,sequence=sequence)
+                write_snapshot(control,request)
                 if after_write is not None:
                     # mouse_fixture publishes the phase only after flushing stdout.
                     # A caller can observe a held drag before allowing its reply.
@@ -78,6 +83,11 @@ def run(name, cases, scene=None, extra_cases=(), exercise=None, barrier=None, re
                         bytes.fromhex(value['hex']).endswith(active_marker) else None
                 value = wait_for(received)
                 wire = bytes.fromhex(value['hex'])
+                if console_write is not None:
+                    sent = (sequence+active_barrier).encode('ascii'); writes = value['output_write']
+                    evidence.setdefault('console_writes',{})[phase_name] = writes
+                    assert writes['style']==console_write and writes['bytes']==len(sent) and writes['sha256']==hashlib.sha256(sent).hexdigest()
+                    assert writes['calls']==(1 if console_write=='whole' else len(sent))
                 evidence['cases'][phase_name] = wire.hex()
                 evidence.setdefault('case_metadata',{})[phase_name] = dict(
                     input_cp=value.get('input_cp'),input_api=value.get('input_api'))

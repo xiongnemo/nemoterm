@@ -40,3 +40,53 @@ jobs:
             build/interaction-dependencies/environment.json
             build/colour-product/SOURCE-HOST.json
           if-no-files-found: error
+  linux-entry:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Collect the installed ncurses linux initc and oc byte streams
+        run: python3 tests/collect_linux_palette.py
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: linux-palette-reference-${{ github.run_id }}-${{ github.run_attempt }}
+          path: build/linux-palette-reference/
+          if-no-files-found: error
+  linux-palette:
+    needs: linux-entry
+    runs-on: windows-2025
+    timeout-minutes: 8
+    strategy:
+      fail-fast: false
+      matrix: {renderer: [gdi, directx], style: [whole, bytewise]}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with: {fetch-depth: 0}
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: linux-palette-reference-${{ github.run_id }}-${{ github.run_attempt }}
+          path: build/linux-palette-reference
+      - name: Fetch the exact single executable
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PRODUCT_RUN: ${{ inputs.product_run }}
+          PRODUCT_COMMIT: ${{ inputs.product_commit }}
+        run: |
+          scripts/fetch-ci-product.ps1 -Run $env:PRODUCT_RUN -Commit $env:PRODUCT_COMMIT -Destination build/colour-product
+          "NEMOTERM_TEST_EXE=$((Resolve-Path build/colour-product/nemoterm.exe).Path)" | Out-File $env:GITHUB_ENV -Append -Encoding utf8
+      - name: Install and identify Sarasa Light
+        run: scripts/prepare-remote-interaction.ps1
+      - name: Compare all 16 colour replies, actual swatches, following text and Shift copy
+        run: python tests/linux_palette_window.py build/linux-palette-reference/linux-palette.json ${{ matrix.renderer }} ${{ matrix.style }}
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: linux-palette-${{ matrix.renderer }}-${{ matrix.style }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            research/linux-palette-*/
+            research/linux-palette-*-observed.json
+            build/linux-palette-reference
+            build/interaction-dependencies/environment.json
+            build/colour-product/SOURCE-HOST.json
+          if-no-files-found: error
