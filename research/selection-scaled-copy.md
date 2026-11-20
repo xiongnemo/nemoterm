@@ -15,3 +15,5 @@
 每版使用四个窗口：SarasaTermSC Nerd Light 的多标签 GDI 和 DirectX，以及默认字体的独立 GDI 和 DirectX 窗口。逐格比较来自下载的原始 PNG；每个放大行还与一条从未写入隐藏后缀的参考行对比。图中是 Sarasa GDI 实际系统输入的裁剪；两版这一选区的两行像素完全相同。Windows 核心用例另测了奇数宽窗口中末字只露一半、双向文字从不可见的源列排到可见列，以及软换行时不插入换行符。
 
 [旧 EXE 与原始失败](https://github.com/xiongnemo/nemoterm/actions/runs/44672824926/artifacts/14601013448) · [新 EXE 的原始选区记录](https://github.com/xiongnemo/nemoterm/actions/runs/44673225346/artifacts/14602230647) · [两版原始 JSON、截图、制品身份和逐格复核记录](selection-scaled-copy.zip)。复跑方法见[远程交互验收](../docs/INTERACTION_ACCEPTANCE.md)。
+
+下载上面两份名为 `interaction-selection-…` 的原始制品后，可用 `python scripts/compare-scaled-selection.py before.zip after.zip`（需要 Pillow）独立复核。脚本核对每张 PNG 和观测 JSON 的原始 SHA-256，再从截图计算变化的单元格，不启动终端。
