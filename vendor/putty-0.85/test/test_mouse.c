@@ -635,6 +635,37 @@ static void test_selection_cursor_traffic(Mock *mk)
 #define BLOCK_NL L"\n"
 #endif
 
+/* Six glyph columns fit on a doubled 12-column row. In the bidi case,
+ * visual columns 4 and 5 come from source columns 7 and 6 respectively. */
+static void test_scaled_visual_copy(Mock *mk)
+{
+    static const struct { int width; const char *line; const wchar_t *copy; } cases[] = {
+        {13, "ABCDEFGHIJ\033#6\r\nEND|", L"EFG" BLOCK_NL L"END"}, /* G is half visible */
+        {12, "ABCDEFGHIJ\033#6\r\nEND|", L"EF" BLOCK_NL L"END"},
+        {12, "ABCDE HIJ\033#4\r\nEND|", L"E" BLOCK_NL L"END"},
+        {12, "ABCD\xd7\x90\xd7\x91\xd7\x92\xd6\xb0\xd7\x93Z\033#3\r\nEND|",
+         L"\x5d2\x5b0\x5d3" BLOCK_NL L"END"},
+        {12, "\033#6ABCDEFEND|", L"EFEND"}, /* soft wrap */
+    };
+    const int clipboard = CLIP_LOCAL + 1;
+    for (size_t i=0; i<lenof(cases); i++) {
+        mouse_setup(mk, "Shift-copy only the painted columns of a sized row", "");
+        test_context(mk, "scaled Shift-copy case %zu (%d columns)", i, cases[i].width);
+        term_size(mk->term, 3, cases[i].width, 100);
+        mk->ucsdata->line_codepage = CP_UTF8;
+        mk->term->no_bidi = false;
+        mk->term->rect_select = false;
+        term_data_fragmented(mk->term, "\033%G\033[?7h\033[?1002;1006h");
+        term_data_fragmented(mk->term, cases[i].line);
+        send_mouse(mk, MBT_LEFT, MA_CLICK, 8, 0, true, false, false);
+        mouse_release(mk, 2, 1);
+        IEQUAL(mk->term->seltype, VISUAL_STREAM);
+        term_request_copy(mk->term, &clipboard, 1);
+        check_clipboard(mk, cases[i].copy);
+        MOUSE_BYTES("");
+    }
+}
+
 static void test_ctrl_rectangle(Mock *mk)
 {
     const int clipboard = CLIP_LOCAL + 1;
@@ -908,6 +939,7 @@ int main(void)
     test_unmatched_local_release(mk);
     test_unencodable_release_cancel(mk);
     test_shift_selection(mk);
+    test_scaled_visual_copy(mk);
     test_ctrl_rectangle(mk);
     test_block_clipping(mk);
     test_block_crossing_region(mk);

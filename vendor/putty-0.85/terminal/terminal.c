@@ -5598,6 +5598,13 @@ static int selection_row_scale(const termline *line)
     return (line->lattr & LATTR_MODE) == LATTR_NORM ? 1 : 2;
 }
 
+/* Include a partially painted last character in an odd-width viewport.
+ * The last writable column of a doubled row is a separate VT rule. */
+static int selection_painted_columns(Terminal *term, const termline *line)
+{
+    return 1 + (term->cols - 1) / selection_row_scale(line);
+}
+
 /* The cache is indexed by viewport row, never by the (possibly negative)
  * scrollback coordinate. Off-screen rows can reuse the nearest slot: each
  * lookup verifies the original row and eviction is already bounded. */
@@ -12682,6 +12689,7 @@ static void clipme(Terminal *term, pos top, pos bottom, SelectionType type, bool
         int left = old_top_x, right = bottom.x;
         const int *forward = NULL, *backward = NULL;
         termchar *visual = NULL;
+        bool scaled = type != LEXICOGRAPHIC && selection_row_scale(ldata) != 1;
         if (type != LEXICOGRAPHIC) {
             int slot = selection_bidi_slot(term, top.y);
             visual = term_bidi_line(term, ldata, slot);
@@ -12695,6 +12703,20 @@ static void clipme(Terminal *term, pos top, pos bottom, SelectionType type, bool
                  * already been expanded to the edges of whole glyphs. */
                 left = top.x;
                 right = top.y == bottom.y ? bottom.x : term->cols;
+            }
+            if (scaled) {
+                /* DEC line sizing can leave a full single-width row in storage.
+                 * Clip in painted coordinates BEFORE mapping back: even a
+                 * source glyph beyond the cutoff can be visible after bidi. */
+                int end = selection_painted_columns(term, ldata);
+                if (ldata->lattr & LATTR_WRAPPED) {
+                    if (ldata->lattr & LATTR_WRAPPED2) end = nemo_line_columns(term, ldata)-1;
+                } else {
+                    end = selection_text_end(visual ? visual : ldata->chars, end);
+                    nl = top.y < bottom.y || right > end;
+                }
+                right = min(right, end);
+                row_bottom.x = right;
             }
             if (visual) {
                 forward = term->post_bidi_cache[slot].forward;
@@ -12724,7 +12746,11 @@ static void clipme(Terminal *term, pos top, pos bottom, SelectionType type, bool
          * because in normal selection mode this means we need a
          * newline at the end)...
          */
-        if (!(ldata->lattr & LATTR_WRAPPED)) {
+        if (scaled) {
+            /* The visible end, including trailing blanks and wrap padding,
+             * has already been applied in display order above. */
+            nlpos.x = row_bottom.x;
+        } else if (!(ldata->lattr & LATTR_WRAPPED)) {
             while (nlpos.x &&
                    IS_SPACE_CHR(ldata->chars[nlpos.x - 1].chr) &&
                    !ldata->chars[nlpos.x - 1].cc_next &&
@@ -13102,7 +13128,7 @@ static SelectionWordRow selection_word_row(Terminal *term, termline *line, int y
     SelectionWordRow row = { .line = line, .columns = line_cols(term, line) };
     if (term->seltype == VISUAL_STREAM) {
         int slot = selection_bidi_slot(term, y);
-        row.columns = min(row.columns, nemo_line_columns(term, line));
+        row.columns = min(row.columns, selection_painted_columns(term, line));
         if (term_bidi_line(term, line, slot)) {
             row.backward = term->post_bidi_cache[slot].backward;
             row.forward = term->post_bidi_cache[slot].forward;
@@ -13134,20 +13160,22 @@ static pos sel_spread_half(Terminal *term, pos p, int dir)
         termchar *chars = term->seltype == VISUAL_STREAM ?
             term_bidi_line(term, ldata, selection_bidi_slot(term, p.y)) : NULL;
         if (!chars) chars = ldata->chars;
+        int cols = term->seltype == VISUAL_STREAM ?
+            selection_painted_columns(term, ldata) : term->cols;
         /*
          * In this mode, every character is a separate unit, except
          * for runs of spaces at the end of a non-wrapping line.
          */
         if (!(ldata->lattr & LATTR_WRAPPED)) {
-            int end = selection_text_end(chars, line_cols(term, ldata));
-            if (end == term->cols) end--;
+            int end = selection_text_end(chars, min(cols, line_cols(term, ldata)));
+            if (end == cols) end--;
             if (p.x >= end)
-                p.x = dir < 0 ? end : term->cols-1;
+                p.x = dir < 0 ? end : cols-1;
         }
         if (dir < 0)
-            p.x = whole_glyph_edge(chars, min(ldata->cols,term->cols), p.x, -1);
+            p.x = whole_glyph_edge(chars, min(ldata->cols,cols), p.x, -1);
         else
-            p.x = whole_glyph_edge(chars, min(ldata->cols,term->cols), p.x + 1, +1) - 1;
+            p.x = whole_glyph_edge(chars, min(ldata->cols,cols), p.x + 1, +1) - 1;
         break;
       }
       case SM_WORD: {
