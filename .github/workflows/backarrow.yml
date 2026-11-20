@@ -15,6 +15,7 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with: {fetch-depth: 0}
       - name: Fetch the exact source-host executable and the pinned Sarasa font
+        id: prepare
         env:
           GH_TOKEN: ${{ github.token }}
           PRODUCT_RUN: ${{ inputs.source_run }}
@@ -28,6 +29,9 @@ jobs:
       - name: Compare the same child input against XTerm using both terminfo databases
         if: ${{ !cancelled() && hashFiles('research/backarrow-window.json') != '' }}
         run: python scripts/review-backarrow.py research/backarrow-window.json build/backarrow-product/SOURCE-HOST.json --output research/backarrow-comparison.json
+      - name: Switch from native line editing into VT ReadFile and ReadConsoleW, then back
+        if: ${{ !cancelled() && steps.prepare.outcome == 'success' }}
+        run: python tests/backspace_native_transition.py
       - if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
