@@ -15,6 +15,8 @@
 
 [同一窗口来回切换输入方式](https://github.com/xiongnemo/nemoterm/actions/runs/44740887816/artifacts/14629998901) 另外验证 6/6：原生 Windows 行编辑器在进入 VT 应用前和返回后均把 `abx`、Backspace、`c`、Enter 读成 `abc\r\n`；VT 应用分别用 `ReadFile` / `ReadConsoleW`，在两种模式下均收到预期的真实按键序列。此项和前表均在 GitHub 托管 Windows 上完成。
 
-[真实 Codex、Claude Code、OpenCode 的首轮输入框回放](https://github.com/xiongnemo/nemoterm/actions/runs/44740132781) 在两种渲染器的十个窗口里均验证：应用接管鼠标时仍能 Shift 复制「中文」，取消关闭后能删掉错字，粘贴后提供方收到的精确文字只有一份。此轮 OpenCode/DirectX 的一对退格前后截图完全相同，因此不能用它们证明该帧已经呈现。渲染回放现在要直接读实际可见窗口，依次看到两个相同字形、一个字形和两个空格才释放下一次按键。
+[真实 Codex、Claude Code、OpenCode 的首轮输入框回放](https://github.com/xiongnemo/nemoterm/actions/runs/44740132781) 在两种渲染器的十个窗口里均验证：应用接管鼠标时仍能 Shift 复制「中文」，取消关闭后能删掉错字，粘贴后提供方收到的精确文字只有一份。此轮 OpenCode/DirectX 的一对退格前后截图完全相同，因此不能用它们证明该帧已经呈现。[后续回放](https://github.com/xiongnemo/nemoterm/actions/runs/44741298405)直接读实际可见窗口，依次看到两个相同字形、一个字形和两个空格才释放下一次按键。10/10 个窗口均通过；其中 OpenCode/DirectX 两格内部的字形像素依次为 `38/38`、`38/0`、`0/0`。[另一台 Runner 复核原图、选区和收到的消息](https://github.com/xiongnemo/nemoterm/actions/runs/44742074375/artifacts/14631995636)，没有重启客户端或对图片做补画。
+
+![三个 agent 在 GDI 和 DirectX 上实际呈现的最后两格：两个 x、一个 x、两个空格](backspace-agent-pixels.png)
 
 [同机 24 轮 Codex 的内存原始值](https://github.com/xiongnemo/nemoterm/actions/runs/44739336945/artifacts/14630581891)：私有工作集峰值（字节）pterm **3,764,224**，Nemoterm GDI **5,824,512**，DirectX **9,994,240**。测试字体 `SarasaTermSC Nerd Light`、网格 160×48，只计前端。该负载不能替代六种满屏压力测量。
