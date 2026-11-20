@@ -18,4 +18,4 @@
 
 四侧标签预览首次通过三侧，修正测试的按键同步后，同一份 EXE 四侧全部通过。原始截图清楚记录隐藏标签更新，且键盘输入送往前台标签。托管机实际使用 GDI 回退。[首次失败与四侧复测原始记录](tab-hover-6a8986d5.zip)。全量 CI 仍保留[宽字符编辑边界](column-edge-integrity.md)、[ReGIS 历史画面](regis-presented-pairs.md)和 [WSL1](wsl-relay-window.md) 的严格差异。
 
-上述 81 项使用本版构建时的测试清单。后来增加的「按住 Shift 时应用填充或复制矩形」实际窗口[单独回放](https://github.com/xiongnemo/nemoterm/actions/runs/44682932298)只有 [20/56 个手势符合预期](selection-rectangle-redraw.md)，不在上述 81 项里；正在验证的修复 `78b18ac0` 不在这个下载文件中。
+上述 81 项使用本版构建时的测试清单。后来增加的「按住 Shift 时应用填充或复制矩形」实际窗口[单独回放](https://github.com/xiongnemo/nemoterm/actions/runs/44682932298)只有 [20/56 个手势符合预期](selection-rectangle-redraw.md)，不在上述 81 项里；修复版 `78b18ac0` 在同组中通过 56/56；这个下载文件不包含后续修复。

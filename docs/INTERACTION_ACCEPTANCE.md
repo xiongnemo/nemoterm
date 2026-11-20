@@ -241,7 +241,7 @@ CI 在 `selection` 组单独读取这 34 项的原始 PNG 和剪贴板/鼠标回
 
 The same `suite=column-cells` replay checks horizontal edits through two independent interfaces on GDI and DirectX. A child queries all 26 cells of a row using VT checksums and reads the same row using `ReadConsoleOutputW`, including the wide-character lead/trailer flags. The 120 cases per renderer include insertion and deletion at the cursor, pane-wide scrolling, split glyphs, an oversized count and no-op controls outside the pane. Both raw rows are kept even when the strict XTerm comparison fails. The `selection` replay separately holds Shift and the mouse as `中U` moves to the right margin, then checks the visible glyphs, both copy bindings and the child's input.
 
-`suite=interaction`、`groups=["selection"]` 还验证鼠标按住以后，应用用 `DECFRA` 填充矩形或用 `DECCRA` 复制矩形的情况。复制源区后，原字仍可选；目标处的宽字、组合重音或普通字被替换时，这次拖选应取消，下一次右键交给应用。覆盖 GDI 和 DirectX 各两种字体/窗口配置，共 48 个窗口消息手势；两个 Sarasa 标签窗口另有 8 个系统手势。用 `python scripts/review-rectangle-press.py <interaction-selection.zip>` 可只读复核每个实际截图中的高亮列、两种复制方式以及子进程接收的完整字节；结果不并入此前的候选版分数。
+`suite=interaction`、`groups=["selection"]` 还验证鼠标按住以后，应用用 `DECFRA` 填充矩形或用 `DECCRA` 复制矩形的情况。复制源区后，原字仍可选；目标处的宽字、组合重音或普通字被替换时，这次拖选应取消，下一次右键交给应用。覆盖 GDI 和 DirectX 各两种字体/窗口配置，共 48 个窗口消息手势；两个 Sarasa 标签窗口另有 8 个系统手势。用 `python scripts/review-rectangle-press.py <interaction-selection.zip>` 可只读复核每个实际截图中的高亮列、两种复制方式以及子进程接收的完整字节；结果不并入此前的候选版分数。[修复前后 20/56 与 56/56 的原始窗口对照](../research/selection-rectangle-redraw.md)。
 
 `suite=regis-erase` 用同一个 Windows 单文件分别打开 GDI 和 DirectX 窗口。在备用屏画一条 101 像素长的红线，在主屏画绿线；先往返切屏确认两幅图保留，再用逐行擦除和滚屏清完整张高 8192 像素的图。两端检查状态回复，并核对再次切回和强制重绘后红线的每个像素。传 `source_run` 和完整 `source_commit` 即可重放指定 EXE；`ci.yml scope=full` 也会运行此项。[两版窗口截图、组件分配记录和原始失败](../research/regis-sparse-erase.md)。
 
