@@ -127,6 +127,9 @@ jobs:
         env:
           TEST_GROUP: ${{ matrix.group }}
         run: python build/interaction/runner.py run --stage build/interaction --group $env:TEST_GROUP --continue-on-failure
+      - name: Read back held-selection screenshots, clipboard and child input
+        if: ${{ !cancelled() && matrix.group == 'selection' }}
+        run: python scripts/review-rendition-selection.py build --json build/interaction/rendition-review.json
       - name: Publish case results
         if: always()
         shell: pwsh
