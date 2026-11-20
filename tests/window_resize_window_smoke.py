@@ -113,6 +113,8 @@ try:
                     if name!='font-resize':
                         from xtwinops_fullscreen import check
                         check(host, monitor.monitor, control, report, mode, name=='normal')
+                        from xtwinops_maximise import check as check_axes
+                        check_axes(host, monitor.work, control, report, mode, name=='normal')
                     if name in ('remote-denied','locked-window'):
                         for index,command in enumerate(('8;30;90t','4;213;489t','8;0;0t','48t')):
                             phase('denied-'+str(index),CSI+command,client=initial,grid=[83,27])
@@ -236,6 +238,8 @@ try:
                         finally:k.CloseHandle(handle)
         finally:
             winreg.DeleteKey(winreg.HKEY_CURRENT_USER,keypath)
+    axis_failures=[(m['policy'],r['name'],r['observed']) for m in evidence['modes'] for r in m.get('axis_maximise',{}).get('steps',[]) if not r['passed']]
+    assert not axis_failures,axis_failures
     evidence['completed']=True
 finally:
     if sys.exc_info()[0]:evidence['error']=repr(sys.exc_info()[1])
