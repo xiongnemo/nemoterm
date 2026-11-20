@@ -21,7 +21,7 @@ Nemoterm 是 **PuTTY 0.85 Windows pterm 的下游 fork**，沿用其终端核心
 
 - **单文件分发**：无需 WebView，也无需附带 `OpenConsole.exe` 或 `conpty.dll`。
 - **Shell 选择**：检测 PowerShell 7、Windows PowerShell、BusyBox ash、Git Bash、WSL Bash 和 cmd，支持保存默认 shell 与启动目录。
-- **多标签**：标签栏可放在上、下、左、右；支持悬停终端预览和标签滚动。开发分支使用经典 Win32 属性页式轮廓，当前标签贴合终端，侧栏的标题保持横排。在同一标签上按下并松开鼠标中键会关闭该标签；拖到其他标签再松手会取消。
+- **多标签**：标签栏可放在上、下、左、右；支持悬停终端预览和标签滚动。使用经典 Win32 属性页式轮廓，当前标签贴合终端，侧栏的标题保持横排。在同一标签上按下并松开鼠标中键会关闭该标签；拖到其他标签再松手会取消。
 - **原生交互**：鼠标上报、滚轮、矩形选择、可配置快捷键，以及窗口缩放与历史重排。
 - **文件与图片输入**：拖入文件或文件夹即可粘贴路径；剪贴板只有图片时，交给前台应用读取。
 - **本机调试接口**：按需开启实例发现、标签页寻址、输入，以及文字和 PNG 画面快照。
@@ -33,7 +33,7 @@ Kitty 图片支持直接 RGB/RGBA/PNG、压缩传输、裁剪、透明度、查�
 
 ## 下载
 
-[下载 Windows x64 单文件试用版 `abe6de57`](https://github.com/xiongnemo/nemoterm/actions/runs/44773123053/artifacts/14649155549)。修复了按住 Shift 时文字在鼠标下移动可能导致终端暂停输出的问题。Codex、Claude Code 和 OpenCode 的选区复制与粘贴绑定 18/18 通过，Codex 输入框就绪后贴图 4/4 通过。[本版验收、已知差异及 SHA-256](research/acceptance-abe6de57.md) · [上一试用版](research/acceptance-03d0e0bc.md)。
+[下载 Windows x64 单文件试用版 `3da1ebb8`](https://github.com/xiongnemo/nemoterm/actions/runs/44778524143/artifacts/14651845827)。标签改为经典 Win32 属性页式轮廓。四边共 8 张选中状态截图、悬停预览和 20 项中键手势均已在这份 EXE 上验证。[实机截图及 SHA-256](research/tab-faces-3da1ebb8.md) · [上一试用版的交互和内存成绩](research/acceptance-abe6de57.md)。
 
 旧版本的下载、内存和已知差异见[历史试用版](docs/PREVIEW_HISTORY.md)，其中 `cf091974` 通过了当时全部 81 项交互检查。
 
