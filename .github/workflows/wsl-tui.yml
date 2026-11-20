@@ -113,6 +113,9 @@ jobs:
           Copy-Item testdata/upstream/xterm412-paste-quote.zip build/wsl-check/
           python build/wsl-check/tests/wsl_paste_quote.py
           exit $LASTEXITCODE
+      - name: Compare natural WSL exits with and without the PTY, outside the frontend
+        if: ${{ !cancelled() && inputs.suite == 'relay-paste' && steps.prepare.outcome == 'success' }}
+        run: python build/wsl-check/tests/wsl_paste_exit_controls.py build/wsl-relay/relay build/wsl-check/research/wsl-paste-exit-controls.json
       - name: Compare a Linux raw reader and canonical input with the XTerm clipboard
         if: ${{ !cancelled() && inputs.suite == 'paste-quote' && steps.prepare.outcome == 'success' }}
         run: |

@@ -10,25 +10,14 @@ import zipfile
 from clipboard_test_utils import SavedClipboard, set_clipboard
 from fixture_io import read_snapshot
 from hosted_gesture_input import DesktopInput
-from native_test_utils import c,w,u,k,root,find_window,terminal_host,wait_for
+from native_test_utils import c,w,u,root,find_window,terminal_host,wait_for
 from owned_job import OwnedJob
+from wsl_job_observation import job_images, finish_observed
 from protocol_oracle_window import saved_profile
 from xterm_paste_lines import TEXT
 
 
 def unix(p):return '/mnt/'+p.drive[0].lower()+p.as_posix()[2:]
-
-def job_images(job):
-    rows=[];unavailable=[]
-    for handle in job.member_handles(unavailable):
-        try:
-            path=c.create_unicode_buffer(32768);size=w.DWORD(len(path));row={'pid':k.GetProcessId(handle)}
-            if k.QueryFullProcessImageNameW(handle,0,path,c.byref(size)):row['image']=path.value
-            else:row['image_error']=c.get_last_error()
-            rows.append(row)
-        finally:k.CloseHandle(handle)
-    return {'members':rows,'unavailable':unavailable}
-
 
 def exercise(renderer,lnext,reference):
     folder=root/'research'/f'wsl-paste-quote-{renderer}-{lnext}';folder.mkdir()
@@ -88,7 +77,7 @@ def exercise(renderer,lnext,reference):
                 assert peer_result['parent_exe'].endswith('/'+r['relay_file']),peer_result['parent_exe']
                 r['relay_files_after_exit']=[p.name for p in session_temp.glob('nemoterm-wsl-*.elf')]
                 assert not r['relay_files_after_exit']
-            r['job_after_exit']=job_images(job);r['cleanup']=job.finish(grace=2,observe_after_deadline=5)
+            r['job_after_exit']=job_images(job);r['cleanup']=finish_observed(job)
             assert not r['cleanup']['grace_exceeded'] and not r['cleanup']['terminated_remaining'];r['completed']=True
         except BaseException:
             r['error']=traceback.format_exc();raise
