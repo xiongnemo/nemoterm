@@ -29,6 +29,13 @@ def test(renderer, style, ref):
     stages=[('legacy-set',legacy,palette),('legacy-reset',[bytes.fromhex(ref['reset']).decode('ascii')],BASE),
             ('modern-set',modern,palette),('modern-reset',[OSC+'104'+ST],BASE),
             ('modern-set-for-reset',modern,palette),('cross-reset',[bytes.fromhex(ref['reset']).decode('ascii')],BASE)]
+    # The first six stages are the original before/after comparison. Keep
+    # syntax guards separate from the bytes actually produced by ncurses.
+    title='R P1123456 is literal title text'
+    guards=[OSC+'2;'+title+ST, OSC+'Pz', OSC+'P12x']
+    stages.extend([('uppercase-set',[cmd.upper() for cmd in legacy],palette),
+                   ('reset-after-uppercase',[bytes.fromhex(ref['reset']).decode('ascii')],BASE),
+                   ('literal-and-invalid',guards,BASE)])
     checks=[]
     def exercise(hwnd,phase,current):
         u.GetPropW.argtypes,u.GetPropW.restype=[w.HWND,w.LPCWSTR],w.HANDLE
@@ -83,7 +90,9 @@ def test(renderer, style, ref):
                 passed=dict(replies=wire==expected,swatches=swatches==colours,following_text=ink==list(range(len(commands))),
                             highlight=selected==[3,4,5,6],copy=changed and copied=='中文',input=child==wire+ACK+b'8')
                 passed.update(native_text=native_text==expected_text,native_colours=native_colours==expected_native)
-                obs['stages'][label]=dict(native_text=native_text,expected_text=expected_text,native_colours=native_colours,expected_native_colours=expected_native,actual=wire.hex(),expected=expected.hex(),colours=swatches,following_text=ink,selected=selected,
+                if label=='literal-and-invalid':
+                    passed['literal_title']=snapshot['win32_title']==title
+                obs['stages'][label]=dict(native_row=snapshot['native_row'],win32_title=snapshot['win32_title'],native_text=native_text,expected_text=expected_text,native_colours=native_colours,expected_native_colours=expected_native,actual=wire.hex(),expected=expected.hex(),colours=swatches,following_text=ink,selected=selected,
                                           clipboard=copied,clipboard_changed=changed,child=child.hex(),checks=passed)
                 checks.extend(passed.values())
         finally:
@@ -98,7 +107,7 @@ def test(renderer, style, ref):
     try:
         run(name,[],exercise=exercise,barrier=(CSI+'5n',ACK),font=os.environ['NEMOTERM_TEST_FONT'],profile=profile,native_row=(0,3,17),
             source_reference='hosted ncurses linux terminfo initc/oc; OSC 4 and screen probes are measured by the Windows fixture')
-        obs['passed']=len(checks)==8*len(stages) and all(checks)
+        obs['passed']=len(checks)==8*len(stages)+1 and all(checks)
     finally:(out/'result.json').write_text(json.dumps(obs,indent=2))
     return obs['passed']
 

@@ -220,6 +220,8 @@ Use `suite=profile-sequence` on the exact EXE to replay the aggregate profile wo
 
 `suite=colour-input` 同时在 Ubuntu 24.04 的 `linux` terminfo 上实际运行 `tput initc` 和 `tput oc`，保存 16 种颜色和复原命令的原始字节及 `infocmp` 输出。Windows 的 GDI、DirectX 分别用一次或逐字节的 `WriteFile` 送入同一 EXE，每条命令紧跟可打印的 `@`，另以 OSC 4 设置和 OSC 104 复原作对照。检查子程序的原始回复、已绘制的一排色块、紧跟的文字以及鼠标接管时的 Shift 选区和显式复制。原始参考是 Linux 客户端输出，不代表 XTerm 支持 Linux 控制台的专用语法。
 
+判断内置控制台是否同步时，使用子程序自己的 `ReadConsoleOutputW` 读取同一行、`GetConsoleScreenBufferInfoEx` 读取 16 项颜色；屏幕截图和 OSC 4 回复均不能代替这两次读取。分别保存初始 Win32 调色板和前端 profile 颜色，按各自的初始值验证复原。独立的语法回归还包含大写十六进制、无效颜色数字后的下一个字符，以及正常 OSC 2 标题内的 `R P1123456` 原文（由 `GetConsoleTitleW` 读回）。
+
 `suite=colour-input` 还重放 `22ed829` 记录中 Codex 输入乱序现场在颜色查询前实际发出的 VT。原生 `ReadConsoleInputW` 接收器与真实客户端分开：同一 EXE 分别在 GDI、DirectX 下向它粘贴完整标记；无查询的对照以及查询前、并发启动和查询回复后三种顺序都保留原始按键记录。完整状态回复将输入定界；只移除明确的回复后，用户字节须与基准逐字相同。
 
 `suite=draft-product` 与 `suite=draft-reference` 分别在受测 EXE（GDI、DirectX）和独立系统 ConPTY、WinPTY 上运行固定版本的真实 Codex。每种窗口、每个时点各开三个新会话，区分首次可见输入框与一个完整回复后。独立宿主一次写入整段原生按键记录；产品使用发现接口粘贴和实按 Ctrl+Shift+V。输入按原样只提交一次，不因字符串出错而重试，保存屏幕、原始输出和本地服务的回执。[原始证据与输入边界](../research/codex-file-draft-order.md)。

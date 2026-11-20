@@ -43,6 +43,8 @@ class ScreenInfoEx(c.Structure):
 collect_palette=os.environ.get('NEMOTERM_TEST_NATIVE_PALETTE')=='1'
 if collect_palette:
     k.GetConsoleScreenBufferInfoEx.argtypes=[w.HANDLE,c.POINTER(ScreenInfoEx)]
+    k.GetConsoleTitleW.argtypes=[w.LPWSTR,w.DWORD]
+    k.GetConsoleTitleW.restype=w.DWORD
 
 class NativeCell(c.Structure):
     _fields_ = [('unit', w.WORD), ('attributes', w.WORD)]
@@ -167,6 +169,9 @@ try:
             info_ex=ScreenInfoEx(size_bytes=c.sizeof(ScreenInfoEx))
             if not k.GetConsoleScreenBufferInfoEx(stdout,c.byref(info_ex)):raise c.WinError()
             snapshot['win32_colorref']=list(info_ex.colours)
+            title=c.create_unicode_buffer(1024)
+            k.GetConsoleTitleW(title,len(title))
+            snapshot['win32_title']=title.value
         if request.get('report_cursor') or request.get('native_row'):
             info=ScreenInfo()
             if not k.GetConsoleScreenBufferInfo(stdout, c.byref(info)):
