@@ -8550,7 +8550,7 @@ static void do_osc(Terminal *term, bool bel)
             break;
           }
           case 50:
-            nemo_font_operation(term, bel);
+            nemo_osc50(term, bel);
             break;
           case 60: case 61: case 62:
             nemo_report_feature_policy(term, bel);

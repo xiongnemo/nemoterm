@@ -2,9 +2,25 @@
  * OSC 50 with one scalable face per terminal. XTerm's scalable renderer
  * shares one face across its built-in menu entries; it does not load X11
  * bitmap aliases into a Windows font mapper. */
-static void nemo_font_operation(Terminal *term, bool bel)
+static void nemo_osc50(Terminal *term, bool bel)
 {
     if (term->osc_overflow) return;
+    /* Alacritty/vte's legacy OSC 50 cursor command shares the selector
+     * with XTerm font operations. Only its first value byte selects the
+     * shape; neither font permissions nor the cursor blink mode change. */
+    static const char prefix[] = "CursorShape=";
+    if (term->osc_strlen >= (int)(sizeof(prefix)-1) &&
+        !memcmp(term->osc_string, prefix, sizeof(prefix)-1)) {
+        switch (term->osc_string[sizeof(prefix)-1]) {
+          case '0': term->cursor_type = CURSOR_BLOCK; break;
+          case '1': term->cursor_type = CURSOR_VERTICAL_LINE; break;
+          case '2': term->cursor_type = CURSOR_UNDERLINE; break;
+          default: return;
+        }
+        term->big_cursor = false;
+        term_invalidate(term);
+        return;
+    }
     const TermWinVtable *vt = term->win->vt;
     const char *p = term->osc_string;
     bool query = *p == '?', indexed = false;

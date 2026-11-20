@@ -63,6 +63,13 @@ def main():
                     expect=sample.replace(b'DejaVu Sans Mono',font.encode()) if aget else b''
                     frame=sample_frame(step,i,command+OSC+'?'+ST,expect)
                     if frame!=cold[font]:evidence['errors'].append(f'{label}/{step}: glyph or dimensions')
+                # This reserved OSC 50 subcommand changes only cursor shape,
+                # even when the profile denies both font operations. Read back
+                # the cursor and font separately; independently compare glyphs.
+                expected_font = sample.replace(b'DejaVu Sans Mono', base.encode()) if aget else b''
+                frame = sample_frame('cursor-shape', 9, '\x1b[1 q'+OSC+'CursorShape=1'+ST+
+                                     '\x1bP$q q'+ST+OSC+'?'+ST, b'\x1bP1$r5 q'+ST.encode()+expected_font)
+                if frame != cold[base]: evidence['errors'].append(f'{label}/cursor-shape: font changed')
                 # Retain and compare wire framing independently of the image comparison.
                 for key,obs in xft.items():
                     if not key.startswith('query-'):continue

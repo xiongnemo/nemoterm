@@ -486,6 +486,17 @@ static void test_sgr_stack(Mock *mk)
 static void test_cursor(Mock *mk)
 {
     reset(mk);
+    test_context(mk, "OSC 50 CursorShape: preserve blink, consume only shape commands");
+    /* Osc terminators, one-byte writes, permissive parameter tails, and
+     * invalid/cancelled commands must not corrupt the next status reply. */
+    term_data_fragmented(mk->term, "\033[3 q\033]50;CursorShape=0\007\033P$q q\033\\"
+                         "\033]50;CursorShape=1;extra\033\\\033P$q q\033\\"
+                         "\033]50;CursorShape=2tail\007\033P$q q\033\\");
+    response(mk, "\033P1$r1 q\033\\\033P1$r5 q\033\\\033P1$r3 q\033\\");
+    term_data_fragmented(mk->term, "\033[4 q\033]50;CursorShape=\007"
+                         "\033]50;CursorShape=9\007\033]50;CursorShape=1\030"
+                         "\033P$q q\033\\\033]50;CursorShape=0\033\\\033P$q q\033\\");
+    response(mk, "\033P1$r4 q\033\\\033P1$r2 q\033\\");
     for (unsigned style = 0; style <= 6; style++) {
         test_context(mk, "DECSCUSR %u", style);
         char command[40], expected[40];

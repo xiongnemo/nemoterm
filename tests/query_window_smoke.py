@@ -103,6 +103,14 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-query-') as directory:
         assert shapes[0][0] > 1 and shapes[0][1] > 1, shapes
         assert shapes[1][0] > 1 and shapes[1][1] == 1, shapes
         assert shapes[2][0] == 1 and shapes[2][1] > 1, shapes
+        # Use the independently rendered DECSCUSR frames as the pixel oracle.
+        # End on a steady bar again for the following identity/focus checks.
+        for digit, style, reference in [(2, 4, 'underline'), (0, 2, 'block'), (1, 6, 'bar')]:
+            name = f'osc50-cursor-{digit}'
+            pixels = phase(name, f'\x1b]50;CursorShape={digit}\x07\x1bP$q q\x1b\\',
+                           f'\x1bP1$r{style} q\x1b\\'.encode())
+            assert hashlib.sha256(pixels).hexdigest() == evidence[reference]['sha256'], name
+            evidence[name]['matches'] = reference
         before_identity = capture(hwnd, return_pixels=True)
         identity_phase('identity-visible-pixels', '\x1b[=c\x1b[>q',
                        b'\x1bP!|00000000\x1b\\\x1bP>|Nemoterm(PuTTY 0.85)\x1b\\')
