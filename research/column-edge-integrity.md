@@ -49,3 +49,5 @@
 [真实窗口画面与物理复制](https://github.com/xiongnemo/nemoterm/actions/runs/44833479543/artifacts/14676627685)：两种渲染器的窗口都使用 `SarasaTermSC Nerd Light`。插入后的 14 格和另行直接绘制的正确文字逐像素相同。子程序开启鼠标跟踪后，从「中」的右半格拉到「尾」的左半格，高亮恰好覆盖七格；改写剪贴板后，再按 Ctrl+Shift+C 仍读回 `中界V尾`。
 
 ![远程 GDI 原图：三行依次是插入前、插入后和 Shift 拖选后的下一行](cjk-insert-wrap.png)
+
+[本次对照的原始记录包](cjk-insert-wrap.zip)保留了旧版失败与新版通过的逐格读数、两种渲染器的窗口原图、按键与剪贴板回执，以及对应的 EXE 清单。`sources.json` 标明每个成员的原路径、散列及远程制品编号。
