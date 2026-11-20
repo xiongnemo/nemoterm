@@ -16,3 +16,9 @@
 在 `282b289a`（EXE SHA-256 `984baa55ef23f7cc1f35e16be0cde7023e7fc962c12cc988bd71f2a160a68637`），[GDI](https://github.com/xiongnemo/nemoterm/actions/runs/44729741150/job/136268407846) 和 [DirectX](https://github.com/xiongnemo/nemoterm/actions/runs/44729741150/job/136268407782) 分别通过 11/11 项。窗口外读取的 PNG 独立解码后：普通拖选、按住超过一秒再松开，以及 Ctrl+Shift 矩形拖选，均只改变所选的四格，显示原来的「中文」字形；松开后子程序继续，剪贴板是「中文」。在这三个 80×24 小窗口用例中，按住时私有工作集最高的采样值分别为 4,792,320 和 7,155,712 字节，不是整个会话的内存峰值。[两份原始制品和逐项像素复核](sync-selection-282b289a.zip)；可用 `scripts/review-sync-selection.py --generation drag` 读取其中两份原始 ZIP。
 
 在 `eff87f31` 上，原来的 11 项在 GDI 和 DirectX 仍全部通过。[另一次托管对照](https://github.com/xiongnemo/nemoterm/actions/runs/44731633440)固定了同一 EXE（SHA-256 `abe6d263f4526cd76c50be2109b7faaa8a9fd0afd9ec80b503c9636bb9693de9`），只更新所选「中文」右侧的色块。拖选时四格都正确，快捷键也复制了「中文」，但蓝色块显示后四格高亮消失；普通和矩形两种选择的右键都被传给了子程序，Windows 剪贴板未更新。改动所选文字本身时，高亮正常撤掉，子程序收到右键。两种渲染器各 11/13。[原始 PNG、剪贴板、子程序记录和独立复核](sync-selection-neighbour-eff87f31.zip)；用 `scripts/review-sync-selection.py --generation adjacent` 读取包内两份原始 ZIP。
+
+`a7253b2c` 的[远程 GDI](https://github.com/xiongnemo/nemoterm/actions/runs/44732257820/job/136276661144) 和[远程 DirectX](https://github.com/xiongnemo/nemoterm/actions/runs/44732257820/job/136276660934) 使用同一份 EXE（`be4a655b3ae9fa1174876436f728b54f93c8777433bfcc8239ce355bfd12adda`），各通过 13/13 项。普通和矩形拖选都保留了「中文」的四格高亮；提交新帧后重新放入剪贴板哨兵，再点默认右键，得到「中文」，子程序没有收到鼠标事件。对照中如果「中文」本身换成「明月」，高亮消失，子程序收到右键的按下和松开，剪贴板哨兵保持不变。[两份原始制品及独立复核](sync-selection-neighbour-a7253b2c.zip)。
+
+下图取自 GDI 两版的实际窗口。左侧按住鼠标时都正确；右侧色块变蓝代表下一帧已显示，只有修复版保留了所选文字的灰色背景。截图局部按整数倍放大。
+
+![改动同一行右侧色块，松开鼠标后仍保留原来的高亮](sync-selection-neighbour.png)
