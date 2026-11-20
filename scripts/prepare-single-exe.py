@@ -99,6 +99,30 @@ static bool visualWriter(CONSOLE_API_MSG* message)
             case InjectionType::RIS:''')
 
 
+def patch_column_edits():
+    src = DEST / 'src'
+    adapter = src / 'terminal/adapter/adaptDispatch.cpp'
+    anchor = 'void AdaptDispatch::_ScrollRectHorizontally(const Page& page, const til::rect& scrollRect, const VTInt delta)'
+    shutil.copyfile(ROOT / 'native/single_exe/column_edits.inc', adapter.parent / 'nemo_column_edits.inc')
+    replace(adapter, anchor, '#include "nemo_column_edits.inc"\n\n' + anchor)
+    anchor = '    const auto absoluteDelta = std::min(std::abs(delta), scrollRect.width());'
+    replace(adapter, anchor, anchor + '''
+    if (_api.IsConPTY())
+    {
+        nemoSplitScrollGlyphs(textBuffer, scrollRect, delta > 0 ? scrollRect.right - absoluteDelta : scrollRect.left + absoluteDelta);
+    }''')
+    anchor = '        void DeleteColumn(const VTInt distance) override;'
+    replace(src / 'terminal/adapter/adaptDispatch.hpp', anchor, '        void NemoScrollColumns(VTInt count, bool right) override;\n' + anchor)
+    anchor = '    virtual void UnknownSequence() noexcept = 0;'
+    replace(src / 'terminal/adapter/ITermDispatch.hpp', anchor, anchor + '\n    virtual void NemoScrollColumns(VTInt, bool) { UnknownSequence(); }')
+    anchor = '    case CsiActionCodes::ICH_InsertCharacter:'
+    replace(src / 'terminal/parser/OutputStateMachineEngine.cpp', anchor, '''    case VTID(" @"):
+    case VTID(" A"):
+        _dispatch->NemoScrollColumns(parameters.at(0), id == VTID(" A"));
+        break;
+''' + anchor)
+
+
 def patch_column_resize_owner():
     src = DEST / 'src'
     def sub(file, before, after):
@@ -518,6 +542,7 @@ def main():
 
     patch_visual_writer()
     patch_column_resize_owner()
+    patch_column_edits()
     patch_cursor_sync()
     patch_input_dcs_fragments()
     patch_cursor_sync_fragments()
