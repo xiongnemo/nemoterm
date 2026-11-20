@@ -7050,6 +7050,39 @@ static void dec_screen_request(Terminal *term, bool alternate,
     swap_screen(term, which, clear, keep_cur_pos);
 }
 
+/* Restoring a saved width homes the cursor within the existing margins;
+ * an explicit width request also resets the margins and line renditions. */
+static void nemo_column_mode(Terminal *term, bool state, bool restore)
+{
+    if (!term->allow_132 || term->no_remote_resize) return;
+    int width = state ? 132 : 80;
+    if (!term->noclear_132) lose_resize_selection(term);
+    if (state != term->reset_132 || term->cols != width)
+        term_request_resize(term, width, term->rows);
+    term->reset_132 = state;
+    if (!restore) {
+        term->marg_t = 0; term->marg_b = term->rows-1;
+        term->marg_l = 0; term->marg_r = term->cols-1;
+    }
+    move(term, term->dec_om ? term->marg_l : 0, term->dec_om ? term->marg_t : 0, 0);
+    if (!term->noclear_132) {
+        erase_lots(term, false, true, true);
+    } else if (!restore) {
+        /* DECCOLM still restores single-width lines. Unrelated
+         * ordinary glyphs retain their selection through reflow. */
+        for (int y = 0; y < term->rows; y++) {
+            termline *line = scrlineptr(y);
+            if (!(line->lattr & LATTR_MODE)) continue;
+            if ((term->selstate == ABOUT_TO && term->selanchor.y == y) ||
+                (term->selstate != ABOUT_TO && term->selstate != NO_SELECTION &&
+                 term->selstart.y <= y && y <= term->selend.y))
+                lose_resize_selection(term);
+            line->lattr &= ~LATTR_MODE;
+        }
+        seen_disp_event(term);
+    }
+}
+
 /*
  * Toggle terminal mode `mode' to state `state'. (`query' indicates
  * whether the mode is a DEC private one or a normal one.)
@@ -7078,34 +7111,9 @@ static void toggle_mode(Terminal *term, int mode, int query, bool state)
           case 95:                     /* VT510: retain contents on DECCOLM */
             if (has_compat(VT510)) term->noclear_132 = state;
             break;
-          case 3: {                    /* DECCOLM: 80/132 columns */
-            if (!term->allow_132 || term->no_remote_resize) break;
-            int width = state ? 132 : 80;
-            if (!term->noclear_132) lose_resize_selection(term);
-            if (state != term->reset_132 || term->cols != width)
-                term_request_resize(term, width, term->rows);
-            term->reset_132 = state;
-            term->marg_t = 0; term->marg_b = term->rows-1;
-            term->marg_l = 0; term->marg_r = term->cols-1;
-            move(term, 0, 0, 0);
-            if (!term->noclear_132) {
-                erase_lots(term, false, true, true);
-            } else {
-                /* DECCOLM still restores single-width lines. Unrelated
-                 * ordinary glyphs retain their selection through reflow. */
-                for (int y = 0; y < term->rows; y++) {
-                    termline *line = scrlineptr(y);
-                    if (!(line->lattr & LATTR_MODE)) continue;
-                    if ((term->selstate == ABOUT_TO && term->selanchor.y == y) ||
-                        (term->selstate != ABOUT_TO && term->selstate != NO_SELECTION &&
-                         term->selstart.y <= y && y <= term->selend.y))
-                        lose_resize_selection(term);
-                    line->lattr &= ~LATTR_MODE;
-                }
-                seen_disp_event(term);
-            }
+          case 3:                      /* DECCOLM: 80/132 columns */
+            nemo_column_mode(term, state, false);
             break;
-          }
           case 5:                      /* DECSCNM: reverse video */
             /*
              * Toggle reverse video. If we receive an OFF within the
@@ -7404,9 +7412,14 @@ static void nemo_saved_dec_mode(Terminal *term, unsigned mode, bool save)
     unsigned status = term_mode_status(term, mode, true);
     if (!status || status >= 3) return; /* local policy always wins */
     if (colbit) {
+        if (mode == 3 && !term->allow_132) return;
         if (save) {
-            if (status == 1) term->saved_dec_modes[i] |= colbit;
+            /* XTerm 412 savemodes records NOCLEAR_COLM itself for 95,
+             * including when the current value is clear. */
+            if (status == 1 || mode == 95) term->saved_dec_modes[i] |= colbit;
             else term->saved_dec_modes[i] &= ~colbit;
+        } else if (mode == 3) {
+            nemo_column_mode(term, (term->saved_dec_modes[i] & colbit) != 0, true);
         } else {
             toggle_mode(term, mode, 1, (term->saved_dec_modes[i] & colbit) != 0);
         }

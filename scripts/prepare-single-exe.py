@@ -108,25 +108,21 @@ def patch_column_resize_owner():
     # to apply the corresponding erase/cursor operations, in stream order,
     # before it processes later text in the same WriteConsole call.
     adapter = 'terminal/adapter/adaptDispatch.cpp'
-    sub(adapter, '        _api.ResizeWindow(pageWidth, pageHeight);',
-        '        if (!pty)\n        {\n            _api.ResizeWindow(pageWidth, pageHeight);\n        }')
-    sub(adapter, '    if (_modes.test(Mode::AllowDECCOLM))', '''    const bool pty = _api.IsConPTY();
-    if (pty && _api.GetSystemMode(ITerminalApi::Mode::NemoColumnDenied))
-    {
-        return;
-    }
-    const bool allowed = pty && !_modes.test(Mode::NemoColumnPermissionSet) ?
-        _api.GetSystemMode(ITerminalApi::Mode::NemoColumnStartEnabled) : _modes.test(Mode::AllowDECCOLM);
-    if (allowed)''')
-    sub(adapter, '        CursorPosition(1, 1);\n        EraseInDisplay(DispatchTypes::EraseType::All);\n        _DoSetTopBottomScrollingMargins(0, 0);',
-        '''        CursorPosition(1, 1);
-        if (!pty || !_modes.test(Mode::NemoKeepOnColumnChange))
-        {
-            EraseInDisplay(DispatchTypes::EraseType::All);
-        }
-        _DoSetTopBottomScrollingMargins(0, 0);''')
-    sub('terminal/adapter/adaptDispatch.hpp','            AllowDECCOLM,',
-        '            AllowDECCOLM,\n            NemoColumnPermissionSet,\n            NemoKeepOnColumnChange,')
+    adapt_h = 'terminal/adapter/adaptDispatch.hpp'
+    shutil.copyfile(ROOT / 'native/single_exe/column_modes.inc', src / 'terminal/adapter/nemo_column_modes.inc')
+    anchor = 'void AdaptDispatch::_SetColumnMode(const bool enable)\n{'
+    sub(adapter, anchor, '#include "nemo_column_modes.inc"\n\n' + anchor + '\n    if (_api.IsConPTY()) { _NemoApplyWidth(enable, false); return; }')
+    sub(adapt_h, '            AllowDECCOLM,',
+        '            AllowDECCOLM,\n            NemoColumnPermissionSet,\n            NemoColumnWidthSet,\n            NemoKeepOnColumnChange,')
+    anchor = '        void _SetColumnMode(const bool enable);'
+    sub(adapt_h, anchor, anchor + '\n        bool _NemoColumnPermission() const;\n        void _NemoApplyWidth(bool wide, bool restore);\n        til::enumset<Mode> _nemoSavedColumns;')
+    anchor = '        void UnknownSequence() noexcept override;'
+    sub(adapt_h, anchor, anchor + '\n        void NemoSaveRestoreModes(VTParameters parameters, bool save) override;')
+    anchor = '    virtual void UnknownSequence() noexcept = 0;'
+    sub('terminal/adapter/ITermDispatch.hpp', anchor, anchor + '\n    virtual void NemoSaveRestoreModes(VTParameters, bool) { UnknownSequence(); }')
+    anchor = '    case CsiActionCodes::DECSET_PrivateModeSet:'
+    sub('terminal/parser/OutputStateMachineEngine.cpp', anchor,
+        '    case VTID("?s"):\n    case VTID("?r"):\n        _dispatch->NemoSaveRestoreModes(parameters, id == VTID("?s"));\n        break;\n' + anchor)
     sub('terminal/adapter/DispatchTypes.hpp','        XTERM_EnableDECCOLMSupport = DECPrivateMode(40),',
         '        XTERM_EnableDECCOLMSupport = DECPrivateMode(40),\n        NemoKeepOnColumnChange = DECPrivateMode(95),')
     sub(adapter,'        _modes.set(Mode::AllowDECCOLM, enable);','''        _modes.set(Mode::AllowDECCOLM, enable);
@@ -142,7 +138,7 @@ def patch_column_resize_owner():
         _modes.set(Mode::NemoColumnPermissionSet);
         _modes.set(Mode::AllowDECCOLM, columnsAllowed);
     }''')
-    sub('terminal/adapter/ITerminalApi.hpp','            AutoWrap,','            NemoColumnDenied,\n            NemoColumnStartEnabled,\n            AutoWrap,')
+    sub('terminal/adapter/ITerminalApi.hpp','            AutoWrap,','            NemoColumnDenied,\n            NemoColumnStartEnabled,\n            NemoColumnStartWide,\n            AutoWrap,')
     sub('host/outputStream.cpp','bool ConhostInternalGetSet::GetSystemMode(const Mode mode) const\n{\n    switch (mode)\n    {',
         '''bool ConhostInternalGetSet::GetSystemMode(const Mode mode) const
 {
@@ -151,26 +147,28 @@ def patch_column_resize_owner():
     case Mode::NemoColumnDenied:
         return ServiceLocator::LocateGlobals().getConsoleInformation().NemoColumnDenied();
     case Mode::NemoColumnStartEnabled:
-        return ServiceLocator::LocateGlobals().getConsoleInformation().NemoColumnStartEnabled();''')
-    sub('host/server.h','    bool GetBracketedPasteMode() const noexcept;', '''    void InitializeNemoColumnPolicy(HANDLE event, bool startEnabled) noexcept
+        return ServiceLocator::LocateGlobals().getConsoleInformation().NemoColumnStart() != 2;
+    case Mode::NemoColumnStartWide:
+        return ServiceLocator::LocateGlobals().getConsoleInformation().NemoColumnStart() == 1;''')
+    sub('host/server.h','    bool GetBracketedPasteMode() const noexcept;', '''    void InitializeNemoColumnPolicy(HANDLE event, int start) noexcept
     {
         _nemoColumnDenied.reset(event);
-        _nemoColumnStartEnabled = startEnabled;
+        _nemoColumnStart = start;
     }
     bool NemoColumnDenied() const noexcept
     {
         return _nemoColumnDenied && WaitForSingleObject(_nemoColumnDenied.get(), 0) != WAIT_TIMEOUT;
     }
-    bool NemoColumnStartEnabled() const noexcept { return _nemoColumnStartEnabled; }
+    int NemoColumnStart() const noexcept { return _nemoColumnStart; }
     bool GetBracketedPasteMode() const noexcept;''')
-    sub('host/server.h','    bool _bracketedPasteMode = false;', '    wil::unique_handle _nemoColumnDenied;\n    bool _nemoColumnStartEnabled = false;\n    bool _bracketedPasteMode = false;')
+    sub('host/server.h','    bool _bracketedPasteMode = false;', '    wil::unique_handle _nemoColumnDenied;\n    int _nemoColumnStart = 2;\n    bool _bracketedPasteMode = false;')
     sub('host/ConsoleArguments.hpp','    HANDLE GetSignalHandle() const;', '''    HANDLE GetSignalHandle() const;
     HANDLE GetNemoColumnEvent() const { return ULongToHandle(_nemoColumnEvent); }
-    bool GetNemoColumnStart() const { return _nemoColumnStart; }''')
-    sub('host/ConsoleArguments.hpp','    DWORD _signalHandle = 0;', '    DWORD _signalHandle = 0;\n    DWORD _nemoColumnEvent = 0;\n    bool _nemoColumnStart = false;')
-    sub('host/ConsoleArguments.cpp', '        else if (arg == SIGNAL_HANDLE_ARG)', '''        else if (arg == L"--nemoColumnOn" || arg == L"--nemoColumnOff")
+    int GetNemoColumnStart() const { return _nemoColumnStart; }''')
+    sub('host/ConsoleArguments.hpp','    DWORD _signalHandle = 0;', '    DWORD _signalHandle = 0;\n    DWORD _nemoColumnEvent = 0;\n    int _nemoColumnStart = 2;')
+    sub('host/ConsoleArguments.cpp', '        else if (arg == SIGNAL_HANDLE_ARG)', '''        else if (arg == L"--nemoColumnOn" || arg == L"--nemoColumnOff" || arg == L"--nemoColumnDefault")
         {
-            _nemoColumnStart = arg == L"--nemoColumnOn";
+            _nemoColumnStart = arg == L"--nemoColumnOn" ? 1 : arg == L"--nemoColumnOff" ? 2 : 0;
             std::wstring handle;
             hr = s_GetArgumentValue(args, i, &handle);
             if (SUCCEEDED(hr)) hr = s_ParseHandleArg(handle, _nemoColumnEvent);
@@ -186,8 +184,8 @@ def patch_column_resize_owner():
     # same-image API adds it to the existing restricted inheritance list;
     # the host duplicate can observe but cannot change the parent's policy.
     cpp = 'winconpty/winconpty.cpp'
-    sub('winconpty/winconpty.h','_Inout_ PseudoConsole* pPty);','_Inout_ PseudoConsole* pPty, HANDLE columnEvent = nullptr, BOOL columnStart = FALSE);')
-    sub(cpp,'_Inout_ PseudoConsole* pPty)\n{','_Inout_ PseudoConsole* pPty, HANDLE columnEvent, BOOL columnStart)\n{')
+    sub('winconpty/winconpty.h','_Inout_ PseudoConsole* pPty);','_Inout_ PseudoConsole* pPty, HANDLE columnEvent = nullptr, int columnStart = 2);')
+    sub(cpp,'_Inout_ PseudoConsole* pPty)\n{','_Inout_ PseudoConsole* pPty, HANDLE columnEvent, int columnStart)\n{')
     sub(cpp,'    const auto inheritCursor =', '''    wil::unique_handle columnRead;
     wil::unique_process_heap_string columnArg;
     if (columnEvent)
@@ -195,7 +193,7 @@ def patch_column_resize_owner():
         RETURN_IF_WIN32_BOOL_FALSE(DuplicateHandle(GetCurrentProcess(), columnEvent, GetCurrentProcess(),
                                                     columnRead.addressof(), SYNCHRONIZE, TRUE, 0));
         RETURN_IF_FAILED(wil::str_printf_nothrow(columnArg, L"--nemoColumn%s 0x%tx ",
-            columnStart ? L"On" : L"Off", std::bit_cast<uintptr_t>(columnRead.get())));
+            columnStart == 1 ? L"On" : columnStart == 2 ? L"Off" : L"Default", std::bit_cast<uintptr_t>(columnRead.get())));
     }
     const auto inheritCursor =''')
     sub(cpp,'--headless %s%s%s--width','--headless %s%s%s%s--width')
@@ -204,15 +202,15 @@ def patch_column_resize_owner():
         '    const size_t inheritedCount = columnRead ? 5 : 4;\n    HANDLE inheritedHandles[5];\n    inheritedHandles[4] = columnRead.get();')
     sub(cpp,'(INHERITED_HANDLES_COUNT * sizeof(HANDLE))','(inheritedCount * sizeof(HANDLE))')
     old='extern "C" HRESULT WINAPI ConptyCreatePseudoConsoleAsUser(_In_ HANDLE hToken,'
-    sub(cpp,old,'static HRESULT _CreateForUser(HANDLE columnEvent, BOOL columnStart, _In_ HANDLE hToken,')
+    sub(cpp,old,'static HRESULT _CreateForUser(HANDLE columnEvent, int columnStart, _In_ HANDLE hToken,')
     sub(cpp,'duplicatedOutput.get(), dwFlags, pPty));','duplicatedOutput.get(), dwFlags, pPty, columnEvent, columnStart));')
     marker='// Function Description:\n// Resizes the given conpty to the specified size, in characters.'
     sub(cpp,marker,'''extern "C" HRESULT WINAPI ConptyCreatePseudoConsoleAsUser(_In_ HANDLE token, _In_ COORD size, _In_ HANDLE in, _In_ HANDLE out, _In_ DWORD flags, _Out_ HPCON* pc)
 {
-    return _CreateForUser(nullptr, FALSE, token, size, in, out, flags, pc);
+    return _CreateForUser(nullptr, 2, token, size, in, out, flags, pc);
 }
 
-extern "C" HRESULT WINAPI NemoCreatePseudoConsole(COORD size, HANDLE in, HANDLE out, HANDLE columnEvent, BOOL columnStart, HPCON* pc)
+extern "C" HRESULT WINAPI NemoCreatePseudoConsole(COORD size, HANDLE in, HANDLE out, HANDLE columnEvent, int columnStart, HPCON* pc)
 {
     return _CreateForUser(columnEvent, columnStart, INVALID_HANDLE_VALUE, size, in, out, 0, pc);
 }

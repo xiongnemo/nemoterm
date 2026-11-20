@@ -45,7 +45,7 @@ static const char *conpty_api_error;
 static DWORD conpty_api_winerror;
 
 #ifdef NEMOTERM_SINGLE_EXE
-HRESULT WINAPI NemoCreatePseudoConsole(COORD, HANDLE, HANDLE, HANDLE, BOOL, HPCON *);
+HRESULT WINAPI NemoCreatePseudoConsole(COORD, HANDLE, HANDLE, HANDLE, int, HPCON *);
 HRESULT WINAPI ConptyCreatePseudoConsole(COORD, HANDLE, HANDLE, DWORD, HPCON *);
 HRESULT WINAPI ConptyResizePseudoConsole(HPCON, COORD);
 void WINAPI ConptyClosePseudoConsole(HPCON);
@@ -506,7 +506,7 @@ static char *conpty_init(const BackendVtable *vt, Seat *seat,
              * Changing this profile updates the live mirror synchronously. */
             column_denied = CreateEventW(NULL, TRUE, conf_get_bool(conf, CONF_no_remote_resize), NULL);
             result = column_denied ? NemoCreatePseudoConsole(size, in_r, out_w, column_denied,
-                conf_get_int(conf, CONF_nemo_column_mode_start) != 2, &pcon) : HRESULT_FROM_WIN32(GetLastError());
+                conf_get_int(conf, CONF_nemo_column_mode_start), &pcon) : HRESULT_FROM_WIN32(GetLastError());
         } else
 #endif
             result = p_CreatePseudoConsole(size, in_r, out_w, 0, &pcon);
