@@ -24,10 +24,16 @@ def verify_composer_edit(pid, hwnd, directx, desktop, text, width, grid, cell, o
             shapes=[]
             for col in (x,x+glyph_cells):
                 # Exclude caret edge / underline. A solid block also has a uniform interior.
-                tile=[bmp[54+i*4:57+i*4] for yy in range(2,ch-3) for xx in range(1,glyph_cells*cw-1)
-                      for i in [(oy+y*ch+yy)*w+ox+col*cw+xx]]
-                bg=Counter(tile).most_common(1)[0][0]
-                shapes.append(bytes(max(abs(a-b) for a,b in zip(pixel,bg))>24 for pixel in tile))
+                # A wide character occupies two cells; Claude's block caret
+                # fills just one when the character is erased. Compare ink
+                # with each cell's own background, retaining both half masks.
+                shape=bytearray()
+                for half in range(glyph_cells):
+                    tile=[bmp[54+i*4:57+i*4] for yy in range(2,ch-3) for xx in range(1,cw-1)
+                          for i in [(oy+y*ch+yy)*w+ox+(col+half)*cw+xx]]
+                    bg=Counter(tile).most_common(1)[0][0]
+                    shape.extend(max(abs(a-b) for a,b in zip(pixel,bg))>24 for pixel in tile)
+                shapes.append(bytes(shape))
             return bmp,shapes
         def stage(name,predicate,glyph_cells=1):
             last=None
@@ -65,7 +71,7 @@ def verify_composer_edit(pid, hwnd, directx, desktop, text, width, grid, cell, o
                 frame('composer-unmatched-han-count-'+str(count),capture.capture())
                 raise
         expect_count(2)
-        full,_=stage('repeated-han',lambda a,b:a==b and sum(a)>=5,2)
+        full,_=stage('repeated-han',lambda a,b:a==b and min(sum(a[:len(a)//2]),sum(a[len(a)//2:]))>=5,2)
         desktop.chord(0x08);expect_count(1)
         stage('one-han',lambda a,b:a==full and not any(b),2)
         desktop.chord(0x08);expect_count(0)
