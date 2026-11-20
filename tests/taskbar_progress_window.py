@@ -3,7 +3,7 @@ import json
 import os
 import struct
 import time
-from native_test_utils import c, w, u, root, terminal_host, capture_result, wait_for
+from native_test_utils import c, w, u, root, terminal_host, capture_result
 from presented_window_capture import PresentedWindowCapture
 from protocol_oracle_window import run
 
@@ -31,26 +31,45 @@ def exercise(hwnd, phase, current):
         def frame():
             bmp=surface.capture();width,height=struct.unpack_from('<ii',bmp,18)
             return width,-height,bmp[54:]
-        def tab_width():
-            width,_,pixels=frame();row=pixels[width*4:2*width*4]
-            if tuple(row[:3])!=(76,68,64):return None
-            return next((x for x in range(1,width) if tuple(row[4*x:4*x+3])!=(76,68,64)),None)
-        extent=wait_for(tab_width); result['tab_width']=extent
+        # The first tab is alone in a wide, non-overflow top strip. Derive its
+        # published preferred width from host DPI, never from the colour of
+        # its corners or from any progress pixels under test. Measure the
+        # actual strip height from the terminal child in screen coordinates.
+        u.GetDpiForWindow.argtypes=[w.HWND]; dpi=u.GetDpiForWindow(host); assert dpi>0
+        origin=w.POINT(); child=w.RECT(); assert u.ClientToScreen(host,c.byref(origin))
+        assert u.GetWindowRect(hwnd,c.byref(child)); strip_height=child.top-origin.y
+        width,height,_=frame(); extent=(168*dpi+48)//96
+        assert 0<strip_height<height and width>=extent+strip_height
+        result.update(tab_width=extent,dpi=dpi,strip_height=strip_height,host_size=[width,height])
+        colours={bytes(rgb):i for i,rgb in enumerate(PAINT[1:])}
         for i,(name,payload,state,value) in enumerate(CASES):
             seq='\x1bc' if payload is None else '\x1b]9;'+payload+('\x07' if i%2 else '\x1b\\')
             phase(name,seq,''); until=time.monotonic()+1
             while True:
                 width,height,pixels=frame()
-                # Count each colour on its fullest scanline within the first tab.
-                counts=[max(sum(pixels[(y*width+x)*4:(y*width+x)*4+3]==bytes(colour) for x in range(extent)) for y in range(min(48,height))) for colour in PAINT[1:]]
+                assert [width,height]==result['host_size']
+                # Compare exact painted positions across the whole strip.
+                # This catches a shifted/over-wide fill, stray colour on
+                # another row, or stripes with the correct count but phase.
+                band=max(2,(3*dpi+48)//96); expected=set()
+                if state:
+                    columns=(x for x in range(extent) if x%8<4) if state==3 else range(extent*value//100)
+                    expected={(x,y,state-1) for x in columns for y in range(strip_height-band,strip_height)}
+                seen=set()
+                for y in range(strip_height):
+                    for x in range(width):
+                        colour=colours.get(pixels[(y*width+x)*4:(y*width+x)*4+3])
+                        if colour is not None:seen.add((x,y,colour))
+                counts=[max((sum((x,y,c) in seen for x in range(extent)) for y in range(strip_height)),default=0) for c in range(4)]
                 target=[0]*4
-                if state:target[state-1]=((extent//8)*4+min(extent%8,4)) if state==3 else extent*value//100
-                if counts==target or time.monotonic()>=until:break
+                if state:target[state-1]=len(expected)//band
+                if seen==expected or time.monotonic()>=until:break
                 time.sleep(.02)
-            row=dict(name=name,sequence_hex=seq.encode().hex(),state=state,value=value,pixel_counts=counts,expected_counts=target,passed=counts==target)
+            row=dict(name=name,sequence_hex=seq.encode().hex(),state=state,value=value,pixel_counts=counts,expected_counts=target,
+                     missing_pixels=len(expected-seen),unexpected_pixels=len(seen-expected),passed=seen==expected)
             result['cases'].append(row)
             if not row['passed'] or name in ('normal','busy','paused-value'):
-                crop=pixels[:width*min(48,height)*4];capture_result(width,min(48,height),crop,tag+'-'+name+'.png')
+                crop=pixels[:width*strip_height*4];capture_result(width,strip_height,crop,tag+'-'+name+'.png')
     finally:
         result['capture']=surface.close()
         (root/'research'/(tag+'.json')).write_text(json.dumps(result,indent=2),encoding='utf-8')
