@@ -303,6 +303,7 @@
     "error.title": "{app} 错误",
     "error.binding_conflict": "此快捷键已绑定到其他操作。请选择其他按键，或先禁用已有绑定。",
     "confirm.close_all": "关闭此窗口及其中的所有终端标签页？",
+    "confirm.close_session": "确定要关闭此会话吗？",
     "confirm.exit_title": "{app} 退出确认",
     "language.save_error": "无法保存界面语言（Windows 错误 {code}）。请重试。",
     "menu.output_truncated": "选择输出（已截断）(&O)",

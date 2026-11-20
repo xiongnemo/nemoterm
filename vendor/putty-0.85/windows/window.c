@@ -3047,9 +3047,8 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
         if (wgs->backend && wgs->backend->vt->close_warn_text) {
             additional = wgs->backend->vt->close_warn_text(wgs->backend);
         }
-        msg = dupprintf("Are you sure you want to close this session?%s%s",
-                        additional ? "\n" : "",
-                        additional ? additional : "");
+        msg = dupcat(nemo_ui_text("confirm.close_session"),
+                     additional ? "\n" : "", additional ? additional : "");
         if (wgs->session_closed ||
             !conf_get_bool(wgs->conf, CONF_warn_on_close) ||
             win_modal_message_box(hwnd, msg, title,

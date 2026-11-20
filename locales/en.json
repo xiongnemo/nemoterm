@@ -303,6 +303,7 @@
     "error.title": "{app} Error",
     "error.binding_conflict": "This shortcut is already assigned to another action. Choose a different key or disable that action first.",
     "confirm.close_all": "Close this window and all its terminal tabs?",
+    "confirm.close_session": "Are you sure you want to close this session?",
     "confirm.exit_title": "{app} Exit Confirmation",
     "language.save_error": "Unable to save the interface language (Windows error {code}). Please try again.",
     "menu.output_truncated": "Select &Output (Truncated)",
