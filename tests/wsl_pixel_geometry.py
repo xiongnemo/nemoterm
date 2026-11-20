@@ -59,6 +59,17 @@ def exercise(gpu, fixed=False):
                 (folder/('request-'+stage)).touch();v=read(stage);rec['stages'][stage]=dict(window=g,guest=v)
                 rec['checks'][stage+'-vt']=v['cell_grid']==[g['ch'],g['cw'],g['rows'],g['cols']]
                 rec['checks'][stage+'-pty']=v['after']==g['winsize']
+            if fixed:
+                subscribed=read('subscribed');rec['subscribed']=subscribed
+                def notice_for(grid):
+                    rows,cols,x,y=grid['winsize'];return [rows,cols,y,x]
+                rec['checks']['subscribe-size']=subscribed['notices']==[notice_for(g)]
+                outer=w.RECT();assert u.GetWindowRect(hwnd,c.byref(outer));before=g
+                assert u.SetWindowPos(hwnd,None,0,0,outer.right-outer.left+g['cols'],outer.bottom-outer.top+g['rows'],0x16)
+                g=wait_for(lambda:v if ((v:=geom())['cols'],v['rows'],v['cw'],v['ch'])==(80,24,before['cw']+1,before['ch']+1) else None)
+                r=read('notified');rec['font_only_result']=dict(window=g,guest=r)
+                rec['checks']['font-only-notice']=bool(r['notices']) and r['notices'][-1]==notice_for(g)
+                rec['checks']['text-pixel-query']=r['text_pixels']==notice_for(g)[2:]
             (folder/'stop').touch();rec['exit_code']=proc.wait(timeout=15);assert rec['exit_code']==0
     except Exception:rec['error']=traceback.format_exc()
     finally:
@@ -66,7 +77,7 @@ def exercise(gpu, fixed=False):
         if proc and proc.poll() is None:
             try: proc.wait(timeout=8)
             except subprocess.TimeoutExpired: proc.terminate();proc.wait(timeout=8);rec['forced_cleanup']=True
-        rec['passed']='error' not in rec and not rec.get('forced_cleanup') and len(rec['checks'])==2+len(stages)*2 and all(rec['checks'].values())
+        rec['passed']='error' not in rec and not rec.get('forced_cleanup') and len(rec['checks'])==2+len(stages)*2+(3 if fixed else 0) and all(rec['checks'].values())
         (folder/'geometry.json').write_text(json.dumps(rec,indent=2),encoding='utf8')
     return rec['passed']
 

@@ -28,6 +28,42 @@ def publish(name, state):
     tmp.replace(folder / (name + '.json'))
 
 
+def read_wire(stop, timeout, quiet=None):
+    data=b''; deadline=time.monotonic()+timeout
+    while not stop(data):
+        remaining=max(0,deadline-time.monotonic())
+        if not remaining or not select.select([0],[],[],min(remaining,quiet) if quiet and data else remaining)[0]: break
+        chunk=os.read(0,1024)
+        if not chunk or len(data)+len(chunk)>2048:raise ValueError('unexpected VT input')
+        data+=chunk
+    return data
+
+
+notice=re.compile(rb'\x1b\[48;(\d+);(\d+);(\d+);(\d+)t')
+ack=b'\x1b[0n'
+
+
+def notices(wire):
+    matches=list(notice.finditer(wire))
+    if b''.join(m.group() for m in matches)!=wire:return None
+    return [list(map(int,m.groups())) for m in matches]
+
+
+def font_only_notifications():
+    os.write(1,b'\x1b[?2048h\x1b[5n')
+    initial=read_wire(lambda s:s.endswith(ack),4)
+    publish('subscribed',dict(raw=initial.hex(),notices=notices(initial[:-len(ack)]) if initial.endswith(ack) else None))
+    # The owner now changes the window, with the grid locked. Read without
+    # sending anything so a solicited size can never pass as a notification.
+    changed=read_wire(lambda _:False,6,quiet=.15)
+    os.write(1,b'\x1b[14t\x1b[5n')
+    asked=read_wire(lambda s:s.endswith(ack),4)
+    m=re.fullmatch(rb'\x1b\[4;(\d+);(\d+)t\x1b\[0n',asked)
+    publish('notified',dict(raw=changed.hex(),notices=notices(changed),
+        query_raw=asked.hex(),text_pixels=list(map(int,m.groups())) if m else None,winsize=size(0)))
+    os.write(1,b'\x1b[?2048l')
+
+
 def exercise():
     # Independent of the Windows terminal: ask a separate PTY in this very
     # kernel to retain both pixel fields with the same rows and columns.
@@ -71,6 +107,7 @@ def exercise():
         match = reply.fullmatch(wire)
         publish(stage,dict(before=first, after=size(0), reply=wire.hex(),
             cell_grid=list(map(int,match.groups())) if match else None))
+    if 'fixed-font' in sys.argv[2:]:font_only_notifications()
     deadline = time.monotonic()+15
     while not (folder/'stop').exists() and time.monotonic()<deadline:time.sleep(.025)
 
