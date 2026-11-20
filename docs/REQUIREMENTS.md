@@ -1,6 +1,8 @@
 # Nemoterm requirements and evidence ledger
 
-The [distributed `9521179a` preview](../research/acceptance-9521179a.md) preserves a multiline rectangular selection after neighbouring ICH/DCH on GDI and DirectX. The 14 default right-click cases per renderer improved from 6/14 to 14/14; four explicit copy and six optional right-click paste cases per renderer also passed. Full interaction: 79/81. Six stress workloads peaked at 19,124,224 and 29,171,712 frontend private working-set bytes, respectively.
+The [distributed `3308de91` preview](../research/acceptance-3308de91.md) keeps Win32 buffer text and palette reads in sync with Windows window pixels across Linux console palette changes. Four write/render combinations passed 6/6 stages each (3/6 before). Full interaction: 79/81; six full-grid workloads peaked at 19,288,064 GDI and 28,684,288 DirectX frontend private working-set bytes.
+
+The [previous `9521179a` preview](../research/acceptance-9521179a.md) preserves a multiline rectangular selection after neighbouring ICH/DCH on GDI and DirectX. The 14 default right-click cases per renderer improved from 6/14 to 14/14; four explicit copy and six optional right-click paste cases per renderer also passed. Full interaction: 79/81. Six stress workloads peaked at 19,124,224 and 29,171,712 frontend private working-set bytes, respectively.
 
 The [previous `032bb830` preview](../research/acceptance-032bb830.md) passes 76/76 native resize checks and feeds measured pixel geometry to the embedded WSL PTY. Fixed-grid WSL1 ioctl readback is stale even on a private kernel control; direct VT queries and in-band reports match the Windows surface. Interaction: 79/81. Six full-grid stress workloads peaked at 18,837,504 (GDI) and 29,167,616 (DirectX) frontend private working-set bytes.
 

@@ -33,7 +33,7 @@ Kitty 图片支持直接 RGB/RGBA/PNG、压缩传输、裁剪、透明度、查�
 
 ## 下载
 
-[下载 Windows x64 单文件试用版 `9521179a`](https://github.com/xiongnemo/nemoterm/actions/runs/44714993575/artifacts/14619940872)。应用只编辑选框旁的文字时，矩形选区和复制现在会保留。[修复前后实测](research/rectangle-neighbour-edits.md)；六种满屏负载私有工作集峰值 **GDI 19.12 MB / DirectX 29.17 MB**。整组交互 79/81。[本版验收及 SHA-256](research/acceptance-9521179a.md) · [上一试用版](research/acceptance-032bb830.md)。
+[下载 Windows x64 单文件试用版 `3308de91`](https://github.com/xiongnemo/nemoterm/actions/runs/44720435221/artifacts/14622495149)。应用改动 Linux 调色板后，Windows 子程序能读回正确颜色和紧跟的文字。[修复前后实测](research/linux-console-palette.md)。六种满屏负载私有工作集峰值 **GDI 19.29 MB / DirectX 28.68 MB**，整组交互 79/81。[本版验收及 SHA-256](research/acceptance-3308de91.md) · [上一试用版](research/acceptance-9521179a.md)。
 
 旧版本的下载、内存和已知差异见[历史试用版](docs/PREVIEW_HISTORY.md)，其中 `cf091974` 通过了当时全部 81 项交互检查。
 

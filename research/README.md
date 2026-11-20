@@ -1,6 +1,6 @@
 # 当前测试版与待审阅材料
 
-- [当前 dist 试用版 `9521179a` 的交互和内存验收](acceptance-9521179a.md)。[试用版历史和原始制品](../docs/PREVIEW_HISTORY.md)。
+- [当前 dist 试用版 `3308de91` 的交互和内存验收](acceptance-3308de91.md)。[试用版历史和原始制品](../docs/PREVIEW_HISTORY.md)。
 - [Linux 调色后，窗口像素与子程序读到的文字和颜色是否一致](linux-console-palette.md)：GDI、DirectX 的整段和逐字节检查由各 3/6 到 6/6。
 - [窗口或字号变化时，订阅程序收到的行列数和像素尺寸](inband-resize.md)。
 - [tmux 写入系统剪贴板后，Vim 的 Shift 选区是否保留](tmux-clipboard.md)：GDI、DirectX 各测允许和拒绝写入。
