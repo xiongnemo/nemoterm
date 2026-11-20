@@ -374,3 +374,15 @@ For an exact-image Windows quoted-paste exit diagnostic, run `font-zoom-replay.y
 `font-zoom-replay.yml`, `suite=tab-hover`, runs real pointer and keyboard input on a GitHub-hosted Windows desktop against the isolated source-built single EXE. Pass the source run and commit as above. To replay the same four sides on a failed MSVC renderer package alongside it, also pass its full `diagnostic_sha256`. Each side captures the visible popup before/after a hidden update, records both children’s ordered input and the copied selection, and reports the active renderer. For keys typed while hovering and after switching tabs, require the intended child to report the exact new bytes before asking either child for the next DSR. Both children must still match the complete ordered byte stream after that DSR. The [earlier right-side failure](https://github.com/xiongnemo/nemoterm/actions/runs/44680462961/artifacts/14603279842) retained the `8` in the intended child but after the independently requested DSR reply. The [same-executable replay](https://github.com/xiongnemo/nemoterm/actions/runs/44681759148/artifacts/14604248146) then passed on all four sides. Each preview changed from red to blue while the other tab kept keyboard focus; switching tabs delivered `8` to the new foreground child. Both children’s complete byte streams and the copied `Copy7` matched in every placement. [Both original CI archives](../research/tab-hover-6a8986d5.zip) include the PNGs and input receipts. All four replay windows used GDI fallback. GDI fallback is evidence for that fallback only; it does not validate hardware OpenGL. `ci.yml` also runs the product lane after building the source host.
 
 The same hosted run also tests tab middle-button gestures in fresh processes for all four sides. Releasing on another tab, pressing the add button with the middle button, cancelling capture, and removing the pressed tab before release must leave the surviving sessions and their keyboard focus intact. A genuine middle click on an inactive tab must close exactly that tab. The receipt records both HWND identities, the focused child’s input, and the process exit.
+
+For Shift selection during synchronized output (`CSI ? 2026 h`), dispatch
+`font-zoom-replay.yml` with `suite=sync-selection`, `source_run` and the full
+`source_commit`. Each hosted Windows runner opens a tab with the pinned Sarasa
+Light face. Inspect `sync-select-*.json` and the before/gesture/after PNGs:
+the two live controls select `中文` and `明月`; the other cases change `中文`
+to `明月` behind a frozen frame before a new Shift drag, shortcut copy of an
+existing highlight, or default right click. The RGB chip outside the highlight
+identifies the displayed frame. The clipboard must change, the child must
+receive no gesture bytes and the frozen observations must fit within the
+one-second presentation timeout. The raw mode query is retained after each
+gesture for diagnosis.

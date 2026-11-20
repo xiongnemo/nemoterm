@@ -1,0 +1,126 @@
+"""Compare the text visible at a real Shift gesture with the Windows clipboard."""
+import hashlib
+import json
+import os
+import struct
+import subprocess
+import sys
+import tempfile
+import time
+from pathlib import Path
+from clipboard_test_utils import SavedClipboard, clipboard_text, set_clipboard
+from hosted_gesture_input import DesktopInput
+from native_test_utils import c, w, u, root, find_window, terminal_host, wait_for, capture_result
+from fixture_io import read_snapshot, write_snapshot
+from owned_job import OwnedJob
+from presented_window_capture import PresentedWindowCapture
+from protocol_oracle_window import saved_profile
+
+CSI = '\x1b['
+DSR, ACK = CSI+'5n', b'\x1b[0n'
+OLD, NEW = '中文', '明月'
+QUERIES = ''.join(CSI+f'?{m}$p' for m in (2026, 1002, 1006))
+
+
+def run(engine, output):
+    assert os.environ.get('RUNNER_ENVIRONMENT') == 'github-hosted' and os.environ.get('GITHUB_ACTIONS') == 'true'
+    exe = Path(os.environ['NEMOTERM_TEST_EXE']).resolve()
+    font = os.environ['NEMOTERM_TEST_FONT']
+    output.update(exe_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(), font=font, cases=[])
+    def draw(row, text):
+        return CSI+f'{row+1};4H'+text
+    def scene(row, current):
+        # The colour chip outside the selection identifies its backing frame even when highlighted.
+        return draw(row,current)+CSI+f'{row+1};12H'+CSI+'48;2;'+('180;32;16' if current==OLD else '16;48;180')+'m   '+CSI+'0m'
+    def mode_reply(frozen):
+        return (CSI+f'?2026;{1 if frozen else 2}$y'+CSI+'?1002;1$y'+CSI+'?1006;1$y').encode()
+    with tempfile.TemporaryDirectory() as folder, OwnedJob() as job, saved_profile(dict(NemoRenderer=engine-1, WarnOnClose=0)) as profile:
+        report, control = (Path(folder)/f for f in ('report','control'))
+        proc = job.spawn([str(exe), *profile, '--tabs','--font',font,'--cols','80','--rows','24','-e', sys.executable,
+                          str(root/'tests/mouse_fixture.py'),str(report),str(control),'150'],
+                         env=dict(os.environ,NEMOTERM_CONPTY='bundled',NEMOTERM_TEST_EXACT_OUTPUT='1'),creationflags=subprocess.CREATE_NO_WINDOW)
+        hwnd = wait_for(lambda: find_window(proc.pid)); host=terminal_host(hwnd); assert host != hwnd
+        u.GetPropW.argtypes,u.GetPropW.restype=[w.HWND,w.LPCWSTR],w.HANDLE
+        output['actual_renderer']=u.GetPropW(hwnd,'NemotermRenderer'); assert output['actual_renderer']==engine
+        saved=SavedClipboard(hwnd); desktop=cap=None
+        try:
+            desktop=DesktopInput(proc.pid,host,hwnd,output.setdefault('desktop',{})); cap=PresentedWindowCapture(proc.pid,hwnd,engine==3,raise_window=False)
+            cap.wait_for_initial_geometry(); rect=w.RECT(); assert u.GetClientRect(hwnd,c.byref(rect))
+            width,height=rect.right,rect.bottom; cw,ch=(width-2)//80,(height-2)//24
+            output['geometry']=[width,height,cw,ch]
+            def point(x,y): desktop.point(1+x*cw+cw//2,1+y*ch+ch//2)
+            def snapshot():
+                v=read_snapshot(report); assert proc.poll() is None and not v.get('error'),v
+                return v
+            wait_for(lambda: (v:=snapshot()).get('columns')==80 and v.get('rows')==24)
+            def phase(name, sequence):
+                req=dict(phase=name, sequence=sequence+DSR, preserve_mouse=True)
+                write_snapshot(control,req)
+                v=wait_for(lambda: s if (s:=snapshot()).get('phase')==name and bytes.fromhex(s['hex']).endswith(ACK) else None)
+                return req, bytes.fromhex(v['hex'])
+            def drain(req):
+                write_snapshot(control,dict(req,input_barrier='after-gesture'))
+                return bytes.fromhex(wait_for(lambda: s if (s:=snapshot()).get('phase')==req['phase'] and s.get('input_barrier')=='after-gesture' else None)['hex'])
+            def sample():
+                bmp=cap.capture(); assert struct.unpack_from('<ii',bmp,18)==(width,-height)
+                return bmp[54:]
+            def tile(frame,x,y):
+                return b''.join(frame[(width*j+1+x*cw)*4:(width*j+1+(x+1)*cw)*4] for j in range(1+y*ch,1+(y+1)*ch))
+            def glyphs(frame,y):return b''.join(tile(frame,x,y) for x in range(3,7))
+            def chip(frame,y):return tuple(tile(frame,12,y)[:3][::-1])
+            def drag(y):
+                point(3,y);desktop.event(0x10,True);desktop.event(None,True)
+                try:
+                    wait_for(lambda:desktop.state().capture==hwnd);point(6,y)
+                finally:
+                    desktop.event(None,False);wait_for(lambda:desktop.state().capture!=hwnd);desktop.event(0x10,False)
+            for index,(case,preselect,freeze,action,initial) in enumerate((
+                ('live-old',False,False,'key',OLD),('live-new',False,False,'key',NEW),
+                ('press-frozen',False,True,'key',OLD),('copy-frozen',True,True,'key',OLD),('right-frozen',True,True,'right',OLD))):
+                y=4+2*index; row=dict(case=case,expected=initial);output['cases'].append(row)
+                req,raw=phase(case+'-start','\x1bc'+CSI+'?25l'+CSI+'?1002;1006h'+draw(18,OLD)+draw(20,NEW)+scene(y,initial)+QUERIES)
+                assert raw==mode_reply(False)+ACK,raw
+                ref=18 if initial==OLD else 20; oldchip=(180,32,16); newchip=(16,48,180)
+                before=wait_for(lambda: f if chip(f:=sample(),y)==(oldchip if initial==OLD else newchip) and glyphs(f,y)==glyphs(f,ref) and glyphs(f,18)!=glyphs(f,20) else None)
+                set_clipboard(hwnd,'untouched:'+case)
+                # Position the pointer before freezing. No input filter or renderer hook is installed.
+                point(3,y)
+                if preselect:
+                    drag(y)
+                    def highlighted():
+                        frame=sample()
+                        return frame if all(tile(frame,x,y)!=tile(frame,x,ref) for x in range(3,7)) else None
+                    before=wait_for(highlighted)
+                seq=u.GetClipboardSequenceNumber(); t0=time.perf_counter_ns()
+                req,raw=phase(case+'-gesture',(CSI+'?2026h'+scene(y,NEW) if freeze else '')+QUERIES)
+                assert raw==mode_reply(freeze)+ACK,raw
+                observed=sample(); row['pre_gesture_ms']=(time.perf_counter_ns()-t0)/1e6
+                row['pre_gesture_same_cells']=glyphs(observed,y)==glyphs(before,y);row['pre_gesture_chip']=chip(observed,y)
+                if not preselect:drag(y)
+                if action=='key':desktop.chord(0x11,0x10,ord('C'))
+                else:desktop.event('right',True);desktop.event('right',False)
+                row['gesture_sent_ms']=(time.perf_counter_ns()-t0)/1e6
+                raw=drain(req); row['gesture_wire']=raw.hex(); row['fresh_clipboard']=u.GetClipboardSequenceNumber()!=seq
+                row['copied']=clipboard_text(hwnd); after=sample();row['after_chip']=chip(after,y)
+                _,post=phase(case+'-after',QUERIES);row['post_mode_wire']=post.hex()
+                row['sample_end_ms']=(time.perf_counter_ns()-t0)/1e6
+                _,end=phase(case+'-release',CSI+'?2026l'+QUERIES);assert end==mode_reply(False)+ACK
+                if freeze:wait_for(lambda:chip(sample(),y)==newchip)
+                for label,pixels in (('before',before),('gesture',observed),('after',after)):
+                    capture_result(width,height,pixels,f'sync-select-{engine}-{case}-{label}.png')
+                row['passed']=(row['pre_gesture_same_cells'] and tuple(row['pre_gesture_chip'])==(oldchip if initial==OLD else newchip) and
+                               (not freeze or row['sample_end_ms']<1000) and raw==mode_reply(freeze)+ACK*2 and row['fresh_clipboard'] and row['copied']==initial)
+        finally:
+            if cap:output['capture']=cap.close()
+            if desktop:desktop.restore()
+            saved.restore();write_snapshot(control,dict(stop=True));output['returncode']=proc.wait(timeout=10)
+        output['cleanup']=job.finish(); assert output['returncode']==0 and not output['cleanup']['terminated_remaining']
+    assert all(r['passed'] for r in output['cases']),[(r['case'],r['copied'],r['pre_gesture_chip'],r['sample_end_ms']) for r in output['cases'] if not r['passed']]
+
+
+if __name__=='__main__':
+    engine={'gdi':1,'directx':3}[sys.argv[1]]; result={}
+    try:run(engine,result)
+    except BaseException as exc:
+        result['error']=repr(exc);raise
+    finally:(root/'research'/f'sync-select-{engine}.json').write_text(json.dumps(result,indent=2),encoding='utf8')
