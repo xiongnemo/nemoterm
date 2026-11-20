@@ -86,12 +86,15 @@ def collect(run, commit, directory):
                   ident['font']=='SarasaTermSC Nerd Light' and not ident['fixture_dirty'],'window fixture: '+key)
     reviewer('review-agent-wide-selection').review(archive('windows'),archive('grid'),out/'selection')
     reviewer('review-agent-composer').review(archive('windows'),archive('grid'),out/'composer')
+    window_memory=reviewer('review-agent-window-memory')
+    by_window=window_memory.review(archive('windows'))
+    check(by_window['source']==commit and by_window['executable']==exe,'agent memory source')
     runtime=runtime_snapshots(out/'selection'/'observations.zip',exe)
     paste = reviewer('review-codex-paste-receipts').review(archive('agents'),commit)
     check(paste['executable']==exe and paste['fixture_commit']==commit,'image paste identity')
     graphics=reviewer('review-wsl-window-records').review(archive('vim'),archive('tmux'),archive('sixel'))
     check(graphics['product']==commit and graphics['exe']==exe['SHA256'],'graphics identity')
-    data=dict(product=source,run=run,bindings=binding,images=paste,windows=graphics,native_runtime=runtime,conversation=conversation,stress=stress,
+    data=dict(product=source,run=run,bindings=binding,images=paste,windows=graphics,native_runtime=runtime,agent_memory=by_window,conversation=conversation,stress=stress,
               interaction=dict(verified=verified,expected=len(unique),failed=failed,not_run=absent,passed=strict['passed']))
     (out/'records.json').write_text(json.dumps(data,indent=2,ensure_ascii=False),encoding='utf8')
     base=f'https://github.com/{os.environ["GITHUB_REPOSITORY"]}/actions/runs/{run}'
@@ -111,10 +114,11 @@ def collect(run, commit, directory):
     for row in paste['cases'].values():
         cols=[row['phase'],row['input'],*(row['shortcuts'][k]['first_submission'] for k in ('ctrl-v','ctrl-shift-v')),row['fixture_status']]
         lines.append('| '+' | '.join(cols)+' |')
+    lines.extend(['',window_memory.markdown(by_window).rstrip()])
     text='\n'.join(lines)+'\n'; (out/'report.md').write_text(text,encoding='utf8')
     if summary:=os.environ.get('GITHUB_STEP_SUMMARY'):
         with open(summary,'a',encoding='utf8') as stream:stream.write(text)
-    return strict['passed'] and all(row['fixture_status']=='passed' and all(x['passed'] for x in row['shortcuts'].values()) for row in paste['cases'].values())
+    return all(c['within_limit'] for c in by_window['cases'].values()) and strict['passed'] and all(row['fixture_status']=='passed' and all(x['passed'] for x in row['shortcuts'].values()) for row in paste['cases'].values())
 
 
 if __name__=='__main__':

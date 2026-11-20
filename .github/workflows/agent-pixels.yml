@@ -34,6 +34,7 @@ jobs:
             exit $?
           fi
           "$py" scripts/review-agent-wide-selection.py build/agent-review/receipt.zip build/agent-review/surfaces.zip --output build/agent-review/selection
+          "$py" scripts/review-agent-window-memory.py build/agent-review/receipt.zip build/agent-review/agent-window-memory.json
           "$py" scripts/review-agent-composer.py build/agent-review/receipt.zip build/agent-review/surfaces.zip --output build/agent-review/composer
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
@@ -42,6 +43,7 @@ jobs:
           path: |
             build/agent-review/inputs.json
             build/agent-review/bindings.json
+            build/agent-review/agent-window-memory.*
             build/agent-review/selection/
             build/agent-review/composer/
           if-no-files-found: error
