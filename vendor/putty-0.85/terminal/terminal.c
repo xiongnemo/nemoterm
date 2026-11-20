@@ -204,6 +204,7 @@ typedef enum { ALT_KEEP, ALT_CLEAR_ON_ENTRY, ALT_CLEAR_ON_EXIT } AltClearPolicy;
 static void swap_screen(Terminal *, int, AltClearPolicy, bool);
 static void update_sbar(Terminal *);
 static void deselect(Terminal *);
+static void discard_selection_press(Terminal *);
 static termchar *term_bidi_line(Terminal *, termline *, int);
 static int selection_bidi_slot(Terminal *, int);
 static void term_print_finish(Terminal *);
@@ -4180,6 +4181,15 @@ void term_reconfig(Terminal *term, Conf *conf)
  */
 void term_clrsb(Terminal *term)
 {
+    /* A press has only an anchor until its first drag. Established ranges
+     * have an ordered start, even for reversed rectangular selections. */
+    if ((term->selstate == ABOUT_TO && term->selanchor.y < 0) ||
+        (term->selstate == DRAGGING && term->selstart.y < 0)) {
+        discard_selection_press(term);
+    } else if (term->selstate == SELECTED && term->selstart.y < 0) {
+        deselect(term);
+    }
+
     if (term->regis) nemo_regis_trim_history(term->regis->decoder,0,term->cell_height);
     nemo_shell_marks_rows(&term->shell_marks, 0, term->rows-1, 0);
     nemo_images_rows(term, 0, 0, INT_MAX, 0);
@@ -4211,13 +4221,6 @@ void term_clrsb(Terminal *term)
      */
     for (i = 0; i < term->rows; i++)
         check_line_size(term, scrlineptr(i));
-
-    /*
-     * That operation has invalidated the selection, if it overlapped
-     * the scrollback at all.
-     */
-    if (term->selstate != NO_SELECTION && term->selstart.y < 0)
-        deselect(term);
 
     /*
      * There are now no lines of real scrollback which can be pulled

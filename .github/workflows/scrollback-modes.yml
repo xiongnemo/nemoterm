@@ -36,6 +36,11 @@ jobs:
         env:
           RENDERER: ${{ matrix.renderer }}
         run: python tests/scrollback_modes_window.py --history-selection
+      - name: Check history clears during a physical Shift press, drag and released selection
+        if: ${{ !cancelled() && env.NEMOTERM_TEST_FONT != '' }}
+        env:
+          RENDERER: ${{ matrix.renderer }}
+        run: python tests/selection_clear_history.py
       - name: Preserve rectangular highlight columns as selected history rows are evicted
         if: ${{ !cancelled() && env.NEMOTERM_TEST_FONT != '' }}
         env:
@@ -60,6 +65,7 @@ jobs:
             research/scrollback-held-history.json
             research/scrollback-region*
             research/scrollback-rectangle*
+            research/scrollback-clear-*
             build/scrollback-modes-product/SOURCE-HOST.json
             build/interaction-dependencies/environment.json
           if-no-files-found: error

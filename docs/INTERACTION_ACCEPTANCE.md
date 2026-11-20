@@ -245,6 +245,8 @@ The same `suite=column-cells` replay checks horizontal edits through two indepen
 
 `suite=regis-erase` 用同一个 Windows 单文件分别打开 GDI 和 DirectX 窗口。在备用屏画一条 101 像素长的红线，在主屏画绿线；先往返切屏确认两幅图保留，再用逐行擦除和滚屏清完整张高 8192 像素的图。两端检查状态回复，并核对再次切回和强制重绘后红线的每个像素。传 `source_run` 和完整 `source_commit` 即可重放指定 EXE；`ci.yml scope=full` 也会运行此项。[两版窗口截图、组件分配记录和原始失败](../research/regis-sparse-erase.md)。
 
+`suite=scrollback-modes` 也会检查应用发送 ED 3 或 DECSED 3 清空历史时的本地选择。分别在按下、拖动、松开后发出请求，并用禁止远程清历史的 profile 作对照。两种渲染器都会记录滚动条、屏幕上的行号色标、选区像素、系统剪贴板、子程序实际收到的按键与按钮，以及下一次新拖选是否正常。
+
 `suite=regis-window` 还会在默认标签窗口用实际键鼠验证图形旁的 Shift 拖选：TUI 开启鼠标上报，左键按住 `A中Z` 时插入字符，或在 Ctrl 矩形选择时把文字向左滚动。GDI、DirectX 分别采集按下前、文字移动后和松手后画面。除了复制文字，还检查同行两段红线、四格高亮、子程序收到的字节、默认右键仅复制和正常退出。[这四个实际窗口的运行记录](https://github.com/xiongnemo/nemoterm/actions/runs/44694679112)。
 
 `protocol-reference.yml` 的 `family=regis-text-motion` 用 XTerm 412 对照八种横向文字编辑和一个空操作。两种传输方式均读取两行共 14 个字符的校验值，并保留编辑前、编辑后、强制重绘后的原始截图。`font-zoom-replay.yml` 的 `suite=regis-text-motion` 用指定的 `source_run`、`source_commit` 在 GDI 和 DirectX 上逐项核对同一输入、应答和画面。首次采集因未开放 GetChecksum 而失败（运行 `44691360396`）；[完整的参考记录](https://github.com/xiongnemo/nemoterm/actions/runs/44691719953)和该失败记录分别保留。
