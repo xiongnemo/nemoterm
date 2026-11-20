@@ -13,17 +13,8 @@ import subprocess
 from native_test_utils import c, u, w
 import time
 
-from column_mode_cases import C
+from column_mode_saved_cases import AWAY, BLANK, C, HOME, MARK, PAINT, QUERY, saved_cases
 from protocol_oracle_window import root, run
-
-PAINT = C + '2;3HKEEP' + C + '7;11H'
-QUERY = C + '6n' + C + '18t' + C + '31#y' + ''.join(
-    C + f'{x};1;2;{x};2;{x}*y' for x in range(3, 7))
-MARK = 'KEEP'
-BLANK = '    '
-HOME = (0, 0)
-AWAY = (10, 6)
-
 
 def replies(wire):
     cursor = re.match(rb'\x1b\[(\d+);(\d+)R\x1b\[8;(\d+);(\d+)t', wire)
@@ -34,26 +25,6 @@ def replies(wire):
         b'\x1bP'+k+b'!~'+v+b'\x1b\\' for k,v in groups) == tail, tail.hex()
     return dict(size=[int(cursor[4]), int(cursor[3])], cursor=[int(cursor[2])-1, int(cursor[1])-1],
                 text=''.join(chr(int(v, 16)) for _,v in groups))
-
-
-def saved_cases(allow):
-    # Run the first six cases at 80 columns. An accepted same-width DECCOLM
-    # still homes the cursor and optionally erases the page. This distinguishes
-    # an ignored restore from incidental window resize notifications.
-    mode = lambda p: C + '?' + p
-    def check(key, seq, width=80, cursor=HOME, text=MARK):
-        return key, seq, width if allow else 80, cursor if allow else AWAY, text if allow else MARK
-    return [
-        check('restore-keep', mode('40;95h')+mode('95s')+mode('95l')+PAINT+mode('95r')+mode('3l')),
-        check('restore-clear', mode('95l')+mode('95s')+mode('95h')+PAINT+mode('95r')+mode('3l'), text=BLANK),
-        check('restore-disabled', mode('40l')+mode('40s')+mode('40h')+PAINT+mode('40r')+mode('3l'), cursor=AWAY),
-        check('restore-enabled', mode('40h')+mode('40s')+mode('40l')+PAINT+mode('40r')+mode('3l'), text=BLANK),
-        check('restore-both', mode('40;95h')+mode('40;95s')+mode('40;95l')+PAINT+mode('40;95r')+mode('3l')),
-        check('restore-width-80', mode('3l')+mode('3s')+PAINT+mode('3r')),
-        check('save-width-132', PAINT+mode('3h')+mode('3s'), width=132),
-        check('back-to-80', PAINT+mode('3l')),
-        check('restore-width-132', PAINT+mode('3r'), width=132),
-    ]
 
 
 def ordinary_cases(policy, allow):
@@ -86,9 +57,9 @@ def main(saved):
     name = ('column-mode-saved-readback-' if saved else 'column-mode-readback-') + gpu
     records = dict(sha256=hashlib.sha256(Path(os.environ['NEMOTERM_TEST_EXE']).read_bytes()).hexdigest(),
                    api=['ReadConsoleOutputW', 'GetConsoleScreenBufferInfo'], profiles={})
-    for policy in (('allow', 'deny') if saved else ('allow', 'deny', 'startup-off')):
+    for policy in (('allow', 'deny', 'startup-off', 'auto') if saved else ('allow', 'deny', 'startup-off')):
         allow = policy != 'deny'
-        cases = saved_cases(allow) if saved else ordinary_cases(policy, allow)
+        cases = saved_cases(allow, policy == 'allow') if saved else ordinary_cases(policy, allow)
         output = records['profiles'][policy] = {}
 
         def exercise(hwnd, phase, current):
@@ -122,7 +93,7 @@ def main(saved):
         try:
             run(name+'-'+policy, [], exercise=exercise, barrier=(C+'5n',b'\x1b[0n'),
                 native_row=(2,1,4), font=os.environ['NEMOTERM_TEST_FONT'],
-                profile=dict(NemoTabs=1,NemoRenderer={'gdi':0,'directx':2}[gpu],NemoColumnModeStart=2 if policy=='startup-off' else 1,
+                profile=dict(NemoTabs=1,NemoRenderer={'gdi':0,'directx':2}[gpu],NemoColumnModeStart={'startup-off':2,'auto':0}.get(policy,1),
                              NoRemoteResize=int(not allow),NemoAllowChecksum=1,FontHeight=8,WarnOnClose=0))
         finally:
             (root/'research'/(name+'-results.json')).write_text(json.dumps(records,indent=2),encoding='utf8')
