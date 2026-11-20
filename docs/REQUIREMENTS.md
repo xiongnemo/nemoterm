@@ -1,8 +1,10 @@
 # Nemoterm requirements and evidence ledger
 
-The [distributed single executable `fe5f98f9`](../research/close-dialog-language.md) passed 8/8 English and Chinese native close-dialog cases, including Cancel and Escape on an inactive tab. Product identity and original observations are linked there.
+The [distributed single executable `83d584d8`](../research/trial-83d584d8.md) passed the current physical clipboard and mouse checks, 8 Sixel frames, 8 bilingual close-dialog cases and the six-workload private working set budgets (19,333,120 bytes GDI; 29,577,216 DirectX). Its original strict interaction result is 79/81: both failed cases pasted before Codex signalled ready. General terminal status and other protocol gaps remain in the [coverage ledger](PROTOCOL_COVERAGE.md).
 
-The [current real-client trial](../research/trial-fe5f98f9.md) independently verified all 18 bindings/gesture combinations, 20 visual-order drags, and 10 exact mixed-script submissions on the shipped executable.
+The [previous single executable `fe5f98f9`](../research/close-dialog-language.md) passed 8/8 English and Chinese native close-dialog cases, including Cancel and Escape on an inactive tab. Product identity and original observations are linked there.
+
+The [`fe5f98f9` real-client trial](../research/trial-fe5f98f9.md) independently verified all 18 bindings/gesture combinations, 20 visual-order drags, and 10 exact mixed-script submissions on the shipped executable.
 
 The [previous single executable `c55cca64`](../research/osc7-tab-directory.md) passed 14/14 new-tab directory cases and all four tab placements, including hover previews. Both drag directions in ten real-agent windows copied the displayed glyph and its combining mark. This image and the older builds below have separate memory and interaction results.
 

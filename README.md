@@ -21,7 +21,7 @@ Nemoterm 是 **PuTTY 0.85 Windows pterm 的下游 fork**，沿用其终端核心
 
 - **单文件分发**：无需 WebView，也无需附带 `OpenConsole.exe` 或 `conpty.dll`。
 - **Shell 选择**：检测 PowerShell 7、Windows PowerShell、BusyBox ash、Git Bash、WSL Bash 和 cmd，支持保存默认 shell 与启动目录。
-- **多标签**：在「窗口 → 标签页 → 标签栏 → 位置」可选择上、下、左、右；同一页可开关鼠标悬停预览。标签过多时可滚动。使用[经典 Win32 属性页式轮廓（四边切换前后实图）](research/tab-faces-fe5f98f9.png)，当前标签贴合终端，侧栏的标题保持横排。[本版远程实测的八张原图和悬停预览](https://github.com/xiongnemo/nemoterm/actions/runs/44820130857/artifacts/14672445667)。在同一标签上按下并松开鼠标中键会关闭该标签；拖到其他标签再松手会取消。
+- **多标签**：在「窗口 → 标签页 → 标签栏 → 位置」可选择上、下、左、右；同一页可开关鼠标悬停预览。标签过多时可滚动。使用[经典 Win32 属性页式轮廓（四边切换前后实图）](research/tab-faces-fe5f98f9.png)，当前标签贴合终端，侧栏的标题保持横排。[本版远程实测的八张原图和悬停预览](https://github.com/xiongnemo/nemoterm/actions/runs/44827444033/artifacts/14674852795)。在同一标签上按下并松开鼠标中键会关闭该标签；拖到其他标签再松手会取消。
 - **原生交互**：鼠标上报、滚轮、矩形选择、可配置快捷键，以及窗口缩放与历史重排。
 - **文件与图片输入**：拖入文件或文件夹即可粘贴路径；剪贴板只有图片时，交给前台应用读取。
 - **本机调试接口**：按需开启实例发现、标签页寻址、输入，以及文字和 PNG 画面快照。
@@ -33,7 +33,9 @@ Kitty 图片支持直接 RGB/RGBA/PNG、压缩传输、裁剪、透明度、查�
 
 ## 下载
 
-[下载 Windows x64 单文件试用版 `fe5f98f9`](https://github.com/xiongnemo/nemoterm/actions/runs/44820130857/artifacts/14672630186)。中文界面关闭单个会话时，确认问题也使用中文。[中英文关闭确认、取消后立即输入及后台标签检查](research/close-dialog-language.md)为 **8/8**。[应用交互和内存实测](research/trial-fe5f98f9.md)：18/18 种快捷键与右键组合通过，六种满屏负载的前端私有工作集峰值为 GDI **19.23 MB**、DirectX **28.88 MB**。[本版完整回归](https://github.com/xiongnemo/nemoterm/actions/runs/44820130857)与上一版的内存结果分别计分。
+[下载 Windows x64 单文件试用版 `83d584d8`](https://github.com/xiongnemo/nemoterm/actions/runs/44827444033/artifacts/14675625577)。本版修复应用恢复调色板后窗口仍显示旧色的问题。[交互和内存实测](research/trial-83d584d8.md)：18/18 种复制、粘贴和右键组合通过；六组满屏负载中，前端私有工作集峰值为 **GDI 19.33 MB、DirectX 29.58 MB**。严格交互 79/81，两项失败都在 Codex 输入框就绪前；就绪后四种贴图方式全部通过。
+
+[上一版 `fe5f98f9` 的单文件](https://github.com/xiongnemo/nemoterm/actions/runs/44820130857/artifacts/14672630186)。中文界面关闭单个会话时，确认问题也使用中文。[中英文关闭确认、取消后立即输入及后台标签检查](research/close-dialog-language.md)为 **8/8**。[应用交互和内存实测](research/trial-fe5f98f9.md)：18/18 种快捷键与右键组合通过，六种满屏负载的前端私有工作集峰值为 GDI **19.23 MB**、DirectX **28.88 MB**。[本版完整回归](https://github.com/xiongnemo/nemoterm/actions/runs/44820130857)与上一版的内存结果分别计分。
 
 [上一版 `c55cca64` 的单文件](https://github.com/xiongnemo/nemoterm/actions/runs/44814333692/artifacts/14669630337)。修复应用用 `file:/C:/work` 或大写 `FILE:` 报告工作目录时，按 Ctrl+Shift+T 仍在旧目录打开的问题。[新标签实际目录与复制 URI](research/osc7-tab-directory.md)在 GDI、DirectX 上合计从 8/14 提升到 14/14。[本版交互和内存](research/osc7-tab-directory.md#单文件交互与内存验收)：六种满屏负载的前端私有工作集峰值为 **GDI 19.47 MB、DirectX 29.52 MB**。真实应用快捷键和右键 18/18，就绪后贴图 4/4；严格交互 **79/81**，两项失败均为 Codex 启动早期贴图。[完整运行](https://github.com/xiongnemo/nemoterm/actions/runs/44814333692)另含平台与协议对照。
 
