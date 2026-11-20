@@ -376,6 +376,44 @@ static void nemo_host_draw_label(HDC dc, NemoTabRect box, const wchar_t *text, C
     RECT r=nemo_host_rect(box);SetTextColor(dc,color);
     DrawTextW(dc,text,-1,&r,DT_SINGLELINE|DT_VCENTER|DT_CENTER|DT_END_ELLIPSIS|DT_NOPREFIX);
 }
+/* Orient only the tab outline: along follows the strip, inward always points
+ * towards the terminal. Titles and close glyphs stay upright on sidebars. */
+static POINT nemo_tab_point(RECT r, int side, int along, int inward)
+{
+    switch (side) {
+      case NEMO_TABS_BOTTOM: return (POINT){r.left+along,r.bottom-1-inward};
+      case NEMO_TABS_LEFT:   return (POINT){r.left+inward,r.top+along};
+      case NEMO_TABS_RIGHT:  return (POINT){r.right-1-inward,r.top+along};
+      default:               return (POINT){r.left+along,r.top+inward};
+    }
+}
+
+static void nemo_tab_face(HDC dc, RECT r, bool selected, COLORREF face,
+                          COLORREF rim, COLORREF shadow)
+{
+    const bool vertical=tab_host.layout.vertical;
+    int span=vertical?r.bottom-r.top:r.right-r.left;
+    int depth=vertical?r.right-r.left:r.bottom-r.top;
+    int unit=max(1,MulDiv(1,tab_host.dpi,96));
+    int start=unit, end=span-1-unit;
+    int outer=selected?0:2*unit, inner=depth-1-(selected?0:unit);
+    int corner=min(max(2,MulDiv(4,tab_host.dpi,96)),min((end-start)/2,inner-outer));
+    if (corner<1) { SetDCBrushColor(dc,face);FillRect(dc,&r,(HBRUSH)GetStockObject(DC_BRUSH));return; }
+    int side=tab_host.side;
+    POINT pts[]={nemo_tab_point(r,side,start,inner),
+        nemo_tab_point(r,side,start,outer+corner),nemo_tab_point(r,side,start+corner,outer),
+        nemo_tab_point(r,side,end-corner,outer),nemo_tab_point(r,side,end,outer+corner),
+        nemo_tab_point(r,side,end,inner)};
+    SetDCBrushColor(dc,face);SelectObject(dc,GetStockObject(NULL_PEN));
+    Polygon(dc,pts,lenof(pts));SelectObject(dc,GetStockObject(DC_PEN));
+    /* Close the fill up to the page seam, which Polygon may exclude at
+     * its lower/right bound. Only inactive tabs have a line at that seam. */
+    SetDCPenColor(dc,selected?face:shadow);MoveToEx(dc,pts[0].x,pts[0].y,NULL);
+    LineTo(dc,pts[5].x,pts[5].y);
+    SetDCPenColor(dc,rim);Polyline(dc,pts,4);
+    SetDCPenColor(dc,shadow);Polyline(dc,pts+3,3);
+}
+
 static LRESULT CALLBACK nemo_host_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 {
     WinGuiSeat *active=tab_host.active;
@@ -399,24 +437,45 @@ static LRESULT CALLBACK nemo_host_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp
       case WM_PAINT: {
         PAINTSTRUCT p;HDC dc=BeginPaint(hwnd,&p);
         RECT bar=nemo_host_rect(tab_host.layout.bar);
-        HBRUSH bg=CreateSolidBrush(RGB(30,32,36));FillRect(dc,&bar,bg);DeleteObject(bg);
+        HIGHCONTRASTW hc={sizeof(hc),0,NULL};
+        bool contrast=SystemParametersInfoW(SPI_GETHIGHCONTRAST,sizeof(hc),&hc,0) &&
+                      (hc.dwFlags&HCF_HIGHCONTRASTON);
+        COLORREF background=contrast?GetSysColor(COLOR_BTNFACE):RGB(30,32,36);
+        COLORREF ink=contrast?GetSysColor(COLOR_BTNTEXT):RGB(238,238,240);
+        COLORREF rim=contrast?ink:RGB(111,117,128), shadow=contrast?ink:RGB(86,91,101);
+        HGDIOBJ oldBrush=SelectObject(dc,GetStockObject(DC_BRUSH));
+        HGDIOBJ oldPen=SelectObject(dc,GetStockObject(DC_PEN));
+        SetDCBrushColor(dc,background);FillRect(dc,&bar,(HBRUSH)GetStockObject(DC_BRUSH));
+        int depth=tab_host.layout.vertical?bar.right-bar.left:bar.bottom-bar.top;
+        int span=tab_host.layout.vertical?bar.bottom-bar.top:bar.right-bar.left;
+        if (depth>0 && span>0) {
+            POINT seam[]={nemo_tab_point(bar,tab_host.side,0,depth-1),
+                          nemo_tab_point(bar,tab_host.side,span,depth-1)};
+            SetDCPenColor(dc,shadow);Polyline(dc,seam,2);
+        }
         HGDIOBJ old=SelectObject(dc,tab_host.font);SetBkMode(dc,TRANSPARENT);
         for (int i=tab_host.layout.first;i<tab_host.layout.first+tab_host.layout.visible;i++) {
             WinGuiSeat *w=nemo_host_item(i);if (!w) break;
             NemoTabRect box=nemo_tabs_item(&tab_host.layout,i),close=nemo_tabs_close(&tab_host.layout,i);
             RECT r=nemo_host_rect(box);
-            bg=CreateSolidBrush(w==active?RGB(64,68,76):w==tab_host.hover?RGB(46,49,55):RGB(30,32,36));
-            FillRect(dc,&r,bg);DeleteObject(bg);
+            bool selected=(w==active),hot=(w==tab_host.hover);
+            COLORREF face=contrast?(selected?GetSysColor(COLOR_HIGHLIGHT):background):
+                selected?RGB(64,68,76):hot?RGB(46,49,55):RGB(38,40,45);
+            COLORREF text=contrast && selected?GetSysColor(COLOR_HIGHLIGHTTEXT):ink;
+            nemo_tab_face(dc,r,selected,face,rim,shadow);
             NemoTabRect label=box;label.x+=8;label.width=max(0,label.width-16-close.width);
-            nemo_host_draw_label(dc,label,w->window_name,RGB(238,238,240));
+            nemo_host_draw_label(dc,label,w->window_name,text);
             draw_tab_progress(dc,r,w->term);
-            if (close.width) nemo_host_draw_label(dc,close,L"\x00d7",RGB(190,192,198));
+            if (close.width) nemo_host_draw_label(dc,close,L"\x00d7",contrast?text:RGB(190,192,198));
         }
-        nemo_host_draw_label(dc,tab_host.layout.add,L"+",RGB(238,238,240));
-        nemo_host_draw_label(dc,tab_host.layout.previous,L"\x2039",RGB(238,238,240));
-        nemo_host_draw_label(dc,tab_host.layout.next,L"\x203a",RGB(238,238,240));
-        SelectObject(dc,old);EndPaint(hwnd,&p);return 0;
+        nemo_host_draw_label(dc,tab_host.layout.add,L"+",ink);
+        nemo_host_draw_label(dc,tab_host.layout.previous,L"\x2039",ink);
+        nemo_host_draw_label(dc,tab_host.layout.next,L"\x203a",ink);
+        SelectObject(dc,oldPen);SelectObject(dc,oldBrush);SelectObject(dc,old);
+        EndPaint(hwnd,&p);return 0;
       }
+      case WM_SYSCOLORCHANGE:case WM_SETTINGCHANGE:
+        InvalidateRect(hwnd,NULL,FALSE);break;
       case WM_SIZE:
         nemo_host_hide_preview();
         for (int i=0;i<nemo_host_count();i++) term_notify_minimised(nemo_host_item(i)->term,wp==SIZE_MINIMIZED);

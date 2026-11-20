@@ -37,6 +37,40 @@ def label(side, host):
     p = w.POINT(x, y); assert u.ClientToScreen(host, c.byref(p)); return p
 
 
+def tab_faces(side, host, pid, out, active_index, rec):
+    """Read the presented strip, independently of the host's painting code."""
+    dpi = u.GetDpiForWindow(host); geo = rect(host); width, height = geo.right, geo.bottom
+    scale = lambda n: (n*dpi+48)//96
+    vertical = side in ('left','right'); depth = scale(192 if vertical else 28)
+    extent = min(scale(28 if vertical else 168), ((height if vertical else width)-scale(28))//2)
+    strip_box = {'top':(0,0,width,depth), 'bottom':(0,height-depth,width,height),
+                 'left':(0,0,depth,height), 'right':(width-depth,0,width,height)}[side]
+    capture = PresentedWindowCapture(pid,host,raise_window=False)
+    try:
+        def sample():
+            strip = Image.open(io.BytesIO(capture.capture())).convert('RGB').crop(strip_box)
+            strip.save(out/f'tab-faces-active-{active_index}.png')
+            if side=='bottom': strip=strip.transpose(Image.Transpose.FLIP_TOP_BOTTOM)
+            if side=='right': strip=strip.transpose(Image.Transpose.FLIP_LEFT_RIGHT)
+            if vertical: strip=strip.transpose(Image.Transpose.TRANSPOSE)
+            rows=[]
+            for i in range(2):
+                item=strip.crop((i*extent,0,(i+1)*extent,depth)); px=item.getpixel
+                outside=px((0,0)); inset=max(2,scale(6)); probe=extent//3
+                def occupied(y): return [x for x in range(extent) if px((x,y))!=outside]
+                lip,body=occupied(0),occupied(inset)
+                rows.append(dict(lip=[min(lip),max(lip)] if lip else None,
+                    body=[min(body),max(body)] if body else None,
+                    face=px((probe,depth-1-inset)), seam=px((probe,depth-1))))
+            rec.setdefault('tab_faces',{})[str(active_index)]=rows
+            active,other=rows[active_index],rows[1-active_index]
+            return (active['lip'] and active['body'] and
+                    active['body'][0]<active['lip'][0]<active['lip'][1]<active['body'][1] and
+                    active['face']==active['seam'] and other['face']!=other['seam'] and not other['lip'])
+        wait_for(sample)
+    finally: capture.close()
+
+
 def perform(side, exe, tmp, out, profile, job, rec):
     proc = job.spawn([str(exe), *profile, '--tabs', '--tab-side', side, '-e', sys.executable,
                       str(root/'tests/session_fixture.py'), str(tmp), '120'],
@@ -93,6 +127,7 @@ def perform(side, exe, tmp, out, profile, job, rec):
         rec['phase'] = 'hover-hidden-tab'; point = label(side, host)
         # Start from content so Windows delivers an actual enter even if the pointer was already on the label.
         desk.point(rect(views[1]).right//2, rect(views[1]).bottom//2)
+        tab_faces(side,host,proc.pid,out,1,rec)
         desk.move_screen(point.x, point.y)
         def on_label():
             p=w.POINT(); assert desk.u.GetCursorPos(c.byref(p)); return (p.x,p.y)==(point.x,point.y) and desk.u.WindowFromPoint(p)==host
@@ -117,6 +152,7 @@ def perform(side, exe, tmp, out, profile, job, rec):
         finally: rec['capture']=capture.close()
         rec['phase']='click-previewed-tab'; assert on_label(); desk.event(None,True); desk.event(None,False)
         wait_for(lambda:active(0) and not owned_popup()); desk.hwnd=views[0]; desk.target(); rec['first_renderer']=renderer(0)
+        tab_faces(side,host,proc.pid,out,0,rec)
         desk.chord(ord('8')); barrier(2,(b'8',b''))
         rec['phase']='select-and-copy'; r=rect(views[0]); state=read_snapshot(file(0,'report'))
         cw, dx=divmod(r.right-2,state['columns']); ch, dy=divmod(r.bottom-2,state['rows'])
