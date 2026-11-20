@@ -124,6 +124,13 @@ jobs:
       - name: Compare a real WSL image against the libsixel decoder on GDI and DirectX
         if: inputs.suite == 'sixel'
         run: python build/wsl-check/tests/wsl_sixel_image.py
+      - name: Compare Linux TIOCGWINSZ pixels with the real Windows text area
+        if: ${{ !cancelled() && steps.prepare.outcome == 'success' && inputs.suite == 'sixel' }}
+        shell: pwsh
+        run: |
+          $env:NEMOTERM_TEST_RELAY_SHA256 = (Get-Content native/wsl_pty/bundled/manifest.json -Raw | ConvertFrom-Json).relay_sha256
+          python build/wsl-check/tests/wsl_pixel_geometry.py
+          exit $LASTEXITCODE
       - name: Select the embedded transport and expected guest image
         if: inputs.bundled
         shell: pwsh
