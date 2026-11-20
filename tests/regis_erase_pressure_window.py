@@ -16,6 +16,8 @@ def exercise(phase, block):
     frame('stored-red-line',reset()+CSI+'?47h'+red,line(40,'red'))
     green=regis(f'S(A[0,0][{width-1},{height-1}])S(E)S(M3(R0G100B0))W(I3)P[20,20]V[120,20]',1)
     frame('active-green-line',CSI+'?47l'+green,line(20,'green'))
+    frame('control-restore-before-erasing',CSI+'?47h',line(40,'red'))
+    frame('control-return-before-erasing',CSI+'?47l',line(20,'green'))
     stripe=''.join(CSI+f'{r};1H'+CSI+'2K' for r in range(1,ROWS+1));scroll=CSI+f'{ROWS}S'
     bands=math.ceil(height/(ROWS*ch));context['checks'][-1].update(page=[width,height],band_pixels=ROWS*ch,bands=bands)
     frame('first-band-erased',stripe)
