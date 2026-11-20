@@ -81,9 +81,21 @@ def conversation(path, source):
 if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__)
     for k in ('source','agent','gdi','directx'): p.add_argument(k,type=Path)
+    p.add_argument('--summary',type=Path,help='Append a Markdown table to a GitHub job summary')
     a=p.parse_args()
     with ZipFile(a.source) as z:
         m=read(z,'SOURCE-HOST.json');product=z.read('nemoterm.exe')
         check(m['Executable']=={'SHA256':sha256(product).hexdigest(),'Bytes':len(product)}, 'product bytes')
-    print(json.dumps({'commit':m['SourceCommit'],'executable':m['Executable'],'conversation':conversation(a.agent,m),
-                      'gdi':stress(a.gdi,m,'gdi',1,20_000_000),'directx':stress(a.directx,m,'directx',3,30_000_000)},indent=2))
+    r={'commit':m['SourceCommit'],'executable':m['Executable'],'conversation':conversation(a.agent,m),
+       'gdi':stress(a.gdi,m,'gdi',1,20_000_000),'directx':stress(a.directx,m,'directx',3,30_000_000)}
+    if a.summary:
+        rows=[(label,r['conversation'][key]['whole_run_peak']) for key,label in
+              [('1-pterm','pterm'),('2-nemoterm-tab','GDI'),('3-nemoterm-directx-tab','DirectX')]]
+        rows=[(label+' / 24 Codex turns',peak) for label,peak in rows]
+        rows.extend((label+' / six 160×48 workloads',r[key]['peak']) for key,label in [('gdi','GDI'),('directx','DirectX')])
+        with a.summary.open('a',encoding='utf-8') as f:
+            print(f"Frontend process peaks in bytes; EXE `{m['Executable']['SHA256']}`.\n",file=f)
+            print('| Workload | Private working set | Total working set | Private commit |\n|---|---:|---:|---:|',file=f)
+            for label,peak in rows:
+                print('| '+label+' | '+' | '.join(f'{peak[k]:,}' for k in METRICS)+' |',file=f)
+    print(json.dumps(r,indent=2))

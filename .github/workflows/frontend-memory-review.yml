@@ -1,0 +1,34 @@
+name: Verify frontend memory from original process samples
+on:
+  workflow_call:
+    inputs:
+      product_run: {type: string, required: true}
+      product_commit: {type: string, required: true}
+permissions:
+  contents: read
+  actions: read
+jobs:
+  review:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Authenticate the source image, paired conversation and both stress groups
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SOURCE_RUN: ${{ inputs.product_run }}
+          SOURCE_COMMIT: ${{ inputs.product_commit }}
+        run: python3 scripts/fetch-memory-review.py "$SOURCE_RUN" "$SOURCE_COMMIT" build/memory-review
+      - name: Recompute all peaks and check both renderer budgets
+        run: |
+          d=build/memory-review
+          python3 scripts/review-frontend-memory.py "$d/source.zip" "$d/conversation.zip" "$d/gdi.zip" "$d/directx.zip" --summary "$GITHUB_STEP_SUMMARY" > "$d/result.tmp"
+          mv "$d/result.tmp" "$d/results.json"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: frontend-memory-review-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            build/memory-review/inputs.json
+            build/memory-review/results.json
+          if-no-files-found: error
