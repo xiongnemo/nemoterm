@@ -51,3 +51,5 @@
 ![远程 GDI 原图：三行依次是插入前、插入后和 Shift 拖选后的下一行](cjk-insert-wrap.png)
 
 [本次对照的原始记录包](cjk-insert-wrap.zip)保留了旧版失败与新版通过的逐格读数、两种渲染器的窗口原图、按键与剪贴板回执，以及对应的 EXE 清单。`sources.json` 标明每个成员的原路径、散列及远程制品编号。
+
+[真实客户端的矩形选区回放](https://github.com/xiongnemo/nemoterm/actions/runs/44833479320)也使用这份 EXE。Codex、Claude Code 和 OpenCode 的 GDI、DirectX 窗口共十个，包含 Claude 的两种额外启动/排版对照。实际按住 Ctrl+Shift 从回复上框选两行：第一行切过两个宽字的内半格，第二行只切中 `b` 和 `c`。十个窗口的[原始截图](https://github.com/xiongnemo/nemoterm/actions/runs/44833479320/artifacts/14677663715)逐格复核都显示上行四格、下行两格高亮，相邻格不变；实按 Ctrl+Shift+C 后[十份剪贴板回执](https://github.com/xiongnemo/nemoterm/actions/runs/44833479320/artifacts/14677583822)均为 `中文`、Windows 换行、`bc`。OpenCode 在实际输出中开启了鼠标跟踪。
