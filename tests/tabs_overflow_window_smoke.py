@@ -110,6 +110,7 @@ try:
             evidence['checks'].append('wheel scroll and subsequent keyboard navigation restore visibility')
             # Middle-click the active fill, away from text and close buttons.
             x,y=wait_for(active_stripe)
+            u.SendMessageW(host,0x207,0x10,x|(y<<16))
             u.SendMessageW(host,0x208,0,x|(y<<16))
             wait_for(lambda:not u.IsWindow(current['hwnd']))
             wait_for(active_stripe)

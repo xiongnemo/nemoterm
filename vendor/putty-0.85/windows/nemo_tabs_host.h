@@ -5,7 +5,8 @@
 typedef struct NemoTabHost {
     HWND hwnd, preview;
     NemoTaskbarButton task_button; /* one shell button for all tabs */
-    WinGuiSeat *active, *hover;
+    WinGuiSeat *active, *hover, *middle_target;
+    bool middle_tracking;
     NemoTabLayout layout;
     NemoGPU *gpu;
     int gpu_kind, side, sidebar, first, dpi, system_menu_items;

@@ -32,6 +32,12 @@ static void nemo_host_hide_preview(void)
     if (tab_host.thumbnail) DeleteObject(tab_host.thumbnail);
     tab_host.thumbnail=NULL;
 }
+static void nemo_host_cancel_middle(void)
+{
+    bool tracking=tab_host.middle_tracking;
+    tab_host.middle_tracking=false;tab_host.middle_target=NULL;
+    if (tracking && GetCapture()==tab_host.hwnd) ReleaseCapture();
+}
 static void nemo_host_detach_menu(void)
 {
     WinGuiSeat *w=tab_host.active;
@@ -216,6 +222,7 @@ static void nemo_host_select(WinGuiSeat *w)
 static void nemo_host_remove(WinGuiSeat *w)
 {
     if (!w->tabbed) return;
+    if (tab_host.middle_target==w) nemo_host_cancel_middle();
     nemo_host_hide_preview();
     if (tab_host.active==w) {
         WinGuiSeat *next=nemo_host_item(0);
@@ -416,7 +423,10 @@ static LRESULT CALLBACK nemo_host_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp
         if (wp!=SIZE_MINIMIZED) nemo_host_layout();return 0;
       case WM_SETFOCUS:if (active) SetFocus(active->term_hwnd);return 0;
       case WM_ACTIVATE:
-        if (LOWORD(wp)==WA_INACTIVE) memset(tab_host.consumed_keys,0,sizeof(tab_host.consumed_keys));
+        if (LOWORD(wp)==WA_INACTIVE) {
+            memset(tab_host.consumed_keys,0,sizeof(tab_host.consumed_keys));
+            nemo_host_cancel_middle();
+        }
         if (active && !active->closing) {
             /* A background tab switch may already have selected this child
              * in our input queue, so activation need not send WM_SETFOCUS. */
@@ -434,13 +444,34 @@ static LRESULT CALLBACK nemo_host_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp
         }
         break;
       case WM_MOUSEACTIVATE:return MA_ACTIVATE;
-      case WM_LBUTTONDOWN:
+      case WM_CAPTURECHANGED:
+        if ((HWND)lp!=hwnd) {
+            tab_host.middle_tracking=false;tab_host.middle_target=NULL;
+        }
+        break;
+      case WM_CANCELMODE:
+        nemo_host_cancel_middle();break;
+      case WM_MBUTTONDOWN: {
+        NemoTabHit hit=nemo_tabs_hit(&tab_host.layout,(short)LOWORD(lp),(short)HIWORD(lp));
+        nemo_host_hide_preview();
+        SetCapture(hwnd);
+        tab_host.middle_tracking=GetCapture()==hwnd;
+        tab_host.middle_target=tab_host.middle_tracking ? nemo_host_item(hit.index) : NULL;
+        return 0;
+      }
       case WM_MBUTTONUP: {
+        NemoTabHit hit=nemo_tabs_hit(&tab_host.layout,(short)LOWORD(lp),(short)HIWORD(lp));
+        WinGuiSeat *w=tab_host.middle_target;
+        if (w && GetCapture()==hwnd && w==nemo_host_item(hit.index))
+            PostMessage(w->term_hwnd,WM_CLOSE,0,0);
+        nemo_host_cancel_middle();return 0;
+      }
+      case WM_LBUTTONDOWN: {
         NemoTabHit hit=nemo_tabs_hit(&tab_host.layout,(short)LOWORD(lp),(short)HIWORD(lp));
         WinGuiSeat *w=nemo_host_item(hit.index);
         nemo_host_hide_preview();
-        if (hit.kind==NEMO_TAB_BODY && msg==WM_LBUTTONDOWN) nemo_host_select(w);
-        else if (w && (hit.kind==NEMO_TAB_CLOSE || (hit.kind==NEMO_TAB_BODY && msg==WM_MBUTTONUP)))
+        if (hit.kind==NEMO_TAB_BODY) nemo_host_select(w);
+        else if (w && hit.kind==NEMO_TAB_CLOSE)
             PostMessage(w->term_hwnd,WM_CLOSE,0,0);
         else if (hit.kind==NEMO_TAB_ADD && active) nemo_host_new_tab(active);
         else if (hit.kind==NEMO_TAB_PREVIOUS || hit.kind==NEMO_TAB_NEXT) {
@@ -452,6 +483,7 @@ static LRESULT CALLBACK nemo_host_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp
         tab_host.first+=(short)HIWORD(wp)>0?-1:1;
         nemo_host_hide_preview();nemo_host_layout();return 0;
       case WM_MOUSEMOVE: {
+        if (tab_host.middle_tracking) return 0;
         NemoTabHit hit=nemo_tabs_hit(&tab_host.layout,(short)LOWORD(lp),(short)HIWORD(lp));
         WinGuiSeat *hover=(hit.kind==NEMO_TAB_BODY || hit.kind==NEMO_TAB_CLOSE)?nemo_host_item(hit.index):NULL;
         if (hover!=tab_host.hover) {
