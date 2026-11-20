@@ -97,8 +97,16 @@ def session(out,exe,client,phase,binding,policy,rec):
                     desk.target();r=w.RECT();assert u.GetClientRect(host,c.byref(r));origin=w.POINT();assert u.ClientToScreen(host,c.byref(origin))
                     x,y=origin.x,origin.y;w0,h0=r.right,r.bottom
                     assert 0<=x<x+w0<=u.GetSystemMetrics(0) and 0<=y<y+h0<=u.GetSystemMetrics(1),(x,y,w0,h0)
-                    im=ImageGrab.grab(bbox=(x,y,x+w0,y+h0));desk.target();im.save(out/'before-submit.png')
-                    rec['capture']=dict(method='foreground owned client rectangle',size=list(im.size))
+                    start=time.monotonic();frames=[]
+                    # A console read can see the attachment before Windows Terminal presents it.
+                    # Preserve that first frame; observe later frames without sending further input.
+                    for offset,filename in [(0,'before-submit.png')]+([(0.25,'before-submit-250ms.png'),(1,'before-submit-1000ms.png')] if rec['visible'] else []):
+                        time.sleep(max(0,start+offset-time.monotonic()));desk.target()
+                        current=w.POINT();bounds=w.RECT();assert u.ClientToScreen(host,c.byref(current)) and u.GetClientRect(host,c.byref(bounds))
+                        assert (current.x,current.y,bounds.right,bounds.bottom)==(x,y,w0,h0)
+                        im=ImageGrab.grab(bbox=(x,y,x+w0,y+h0));desk.target()
+                        frames.append(dict(filename=filename,elapsed_ms=round(1000*(time.monotonic()-start))));im.save(out/filename)
+                    rec['capture']=dict(method='foreground owned client rectangle',size=[w0,h0],frames=frames)
                 rec['stage']='paste';paste_and_submit(out,phase,binding,desk,server,rec,shot)
                 assert rec['visible']==bool(rec['images']);rec['stage']='close'
                 rec['clipboard_owned_at_restore']=u.GetClipboardOwner()==host;clip.restore();clip=None;assert rec['clipboard_owned_at_restore']
