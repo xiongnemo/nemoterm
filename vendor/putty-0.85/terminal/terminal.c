@@ -2014,9 +2014,8 @@ static size_t nemo_image_erase_need(Terminal *term, NemoTermImage *image,
  * First release fully erased rows, then
  * admit all necessary masks before traversing again: admission can evict old
  * images, but must never invalidate an in-progress list iterator. */
-static void nemo_images_erase(Terminal *term, pos start, pos end)
+static void nemo_rasters_erase(Terminal *term, pos start, pos end)
 {
-    nemo_regis_erase_cells(term,start,end);
     bool changed = false;
     NemoTermImage **link = &term->images;
     while (*link) {
@@ -2082,6 +2081,15 @@ static void nemo_images_erase(Terminal *term, pos start, pos end)
         }
     }
     if (changed) term_invalidate(term);
+}
+
+/* Explicit erasure and ordinary text overwrites affect both kinds of image.
+ * Horizontal text editing leaves the ReGIS page intact, as seen on Expose
+ * in XTerm; it only clips or shifts the rasters attached to cells. */
+static void nemo_images_erase(Terminal *term, pos start, pos end)
+{
+    nemo_regis_erase_cells(term, start, end);
+    nemo_rasters_erase(term, start, end);
 }
 
 /* An upper bound on a cropped view, including temporarily duplicated masks.
@@ -2259,7 +2267,7 @@ static void nemo_images_shift(Terminal *term, int left, int right,
     int source_left = left + max(0, -delta);
     int source_right = right - max(0, delta);
     for (int y = top; y <= bottom; y++)
-        nemo_images_erase(term, (pos){y, delta > 0 ? source_right : left},
+        nemo_rasters_erase(term, (pos){y, delta > 0 ? source_right : left},
                           (pos){y, delta > 0 ? right : source_left});
     if (source_left >= source_right) return;
     nemo_images_split_columns(term, source_left, source_right, top, bottom);
@@ -6878,8 +6886,7 @@ static void insch(Terminal *term, int n)
     pos eol;
     termline *ldata;
 
-    nemo_images_erase(term, term->curs,
-                      (pos){term->curs.y, end});
+    nemo_rasters_erase(term, term->curs, (pos){term->curs.y, end});
     n = (n < 0 ? -n : n);
     if (n > end - term->curs.x)
         n = end - term->curs.x;
