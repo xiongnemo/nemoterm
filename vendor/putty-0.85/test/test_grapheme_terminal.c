@@ -38,6 +38,28 @@ static void cluster_contents(Mock *mk, int x, int y, const uint32_t *cp, size_t 
     term_release_line(line);
 }
 
+/* A two-cell glyph moves as a unit. IRM must shift the destination row,
+ * even if the cursor started on the preceding row's last editable cell. */
+static void test_insert_across_margin(Mock *mk)
+{
+    for (int cluster = 0; cluster < 2; cluster++) {
+        setup_cluster(mk, "insert wide glyph across right margin", 4, 12);
+        Terminal *t = mk->term;
+        if (!cluster) term_data_fragmented(t, "\033[?2027l");
+        term_data_fragmented(t, "\033[2;1HAB\xe7\x95\x8cVXYZ_UVW"
+                             "\033[?69h\033[3;8s\033[1;8H\033[4h\xe4\xb8\xad");
+        IEQUAL(get_termchar(t,1,1).chr, CSET_ASCII|'B');
+        IEQUAL(get_termchar(t,2,1).chr, 0x4e2d);
+        IEQUAL(get_termchar(t,3,1).chr, UCSWIDE);
+        IEQUAL(get_termchar(t,4,1).chr, 0x754c);
+        IEQUAL(get_termchar(t,5,1).chr, UCSWIDE);
+        IEQUAL(get_termchar(t,6,1).chr, CSET_ASCII|'V');
+        IEQUAL(get_termchar(t,7,1).chr, CSET_ASCII|'X');
+        IEQUAL(get_termchar(t,8,1).chr, CSET_ASCII|'_');
+        IEQUAL(t->curs.x, 4); IEQUAL(t->curs.y, 1);
+    }
+}
+
 static void test_shapes(Mock *mk)
 {
     const struct { const char *name; uint32_t text[9]; unsigned count,cells; } cases[]={
@@ -582,6 +604,7 @@ int main(void)
     Mock *mk=mock_new();TermWinVtable supported=*mk->tw.vt;supported.grapheme_clusters=true;
     mk->tw.vt=&supported;mk->term=term_init(mk->conf,mk->ucsdata,&mk->tw);
     mk->ldisc=ldisc_create(mk->conf,mk->term,&mk->backend,&mk->seat);
+    test_insert_across_margin(mk);
     test_shapes(mk);test_late_width(mk);test_controls_and_storage(mk);
     test_reflow_and_rectangle(mk);test_repeat(mk);test_mode(mk);test_initial_policy(mk);test_bidi_cache(mk);
     test_double_size_clusters(mk);

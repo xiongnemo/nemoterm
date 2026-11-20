@@ -8924,8 +8924,6 @@ static void term_display_graphic_char(Terminal *term, unsigned long c, uint64_t 
      * row. Like xterm, ignore graphic output there until the cursor returns
      * to its visible cells; never write and then clamp it backwards. */
     if (width > 0 && term->curs.x >= nemo_line_columns(term, cline)) return;
-    if (term->insert && width > 0)
-        insch(term, width);
     check_trust_status(term, cline);
 
     int linecols = nemo_write_right(term, cline)+1;
@@ -8990,6 +8988,9 @@ static void term_display_graphic_char(Terminal *term, unsigned long c, uint64_t 
                 goto write_single_cell;
             }
         }
+        /* A wide glyph at the last column wraps before it is written.
+         * Make room on the row that receives it, preserving its old text. */
+        if (term->insert) insch(term, 2);
         paint = begin_pressed_paint(term, term->curs, 2, c);
         check_boundary(term, term->curs.x, term->curs.y);
         check_selection(term, term->curs, (pos){term->curs.y,term->curs.x+2});
@@ -9024,6 +9025,7 @@ static void term_display_graphic_char(Terminal *term, unsigned long c, uint64_t 
         break;
       case 1:
       write_single_cell:
+        if (term->insert) insch(term, 1);
         paint = begin_pressed_paint(term, term->curs, 1, c);
         check_selection(term, term->curs, (pos){term->curs.y,term->curs.x+1});
         cluster_anchor = term->curs;
