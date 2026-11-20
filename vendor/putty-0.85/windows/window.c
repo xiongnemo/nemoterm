@@ -3484,6 +3484,9 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
         }
         if (message == WM_RBUTTONDOWN && !(wParam & MK_CONTROL) &&
             term_has_presented_selection(wgs->term)) {
+            /* This consumed button never reaches click(). A subsequent left
+             * press is a new gesture even at the previous double-click point. */
+            wgs->lastbtn = MBT_NOTHING;
             wgs->nemo_consumed_right_click = true;
             if (conf_get_bool(wgs->conf, CONF_nemo_right_click_paste))
                 term_request_copy_paste(wgs->term, clips_system, lenof(clips_system));
@@ -3500,6 +3503,7 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
             /* Just in case this happened in mid-select */
             term_cancel_selection_drag(wgs->term);
             wgs->nemo_consumed_right_click = true;
+            wgs->lastbtn = MBT_NOTHING;
 
             show_mouseptr(wgs, true);    /* make sure pointer is visible */
             UINT command = nemo_link_menu(wgs, wgs->popup_menus[CTXMENU].menu, cursorpos);
