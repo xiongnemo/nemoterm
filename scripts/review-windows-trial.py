@@ -4,6 +4,7 @@ from hashlib import sha256
 from importlib.util import spec_from_file_location, module_from_spec
 import json
 import os
+import sys
 from pathlib import Path
 from zipfile import ZipFile
 
@@ -20,6 +21,29 @@ def read(archive, member):
 
 def check(condition, message):
     if not condition: raise ValueError(message)
+
+
+def runtime_snapshots(path, exe):
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]/'tests'))
+    from frontend_runtime_names import WEB_MODULES, WEB_PROCESSES
+    findings={}
+    with ZipFile(path) as z:
+        for member in z.namelist():
+            if not member.endswith('/observed.json'): continue
+            obs=read(z,member); name=member.split('/')[0]; phases={}
+            check(name not in findings and obs['child']['terminal_sha256']==exe['SHA256'], 'native runtime identity')
+            for row in obs['native_runtime']:
+                phase=row['phase']; processes=row['job_processes']; modules=set(row['modules']); pids=row['process_enumerations'][-1]
+                check(phase not in phases and modules and row['exact_frontend_module'] and not pids['unavailable'] and
+                      pids['processes']==processes and [p['pid'] for p in processes if p['frontend']]==[row['frontend_pid']] and
+                      row['frontend_pid']==obs['child']['pid'] and any(p['client'] for p in processes), 'incomplete native runtime snapshot: '+name)
+                images={p['image'] for p in processes}
+                check(not (modules & WEB_MODULES or images & WEB_PROCESSES or row['matched_modules'] or row['matched_processes']),
+                      'browser runtime marker: '+name)
+                phases[phase]={'frontend_pid':row['frontend_pid'],'modules':len(modules),'job_process_images':sorted(images)}
+            check(set(phases)=={'startup','submitted'},'native snapshot stages: '+name); findings[name]=phases
+    check(len(findings)==10,'native snapshot case count')
+    return findings
 
 
 def collect(run, commit, directory):
@@ -62,11 +86,12 @@ def collect(run, commit, directory):
                   ident['font']=='SarasaTermSC Nerd Light' and not ident['fixture_dirty'],'window fixture: '+key)
     reviewer('review-agent-wide-selection').review(archive('windows'),archive('grid'),out/'selection')
     reviewer('review-agent-composer').review(archive('windows'),archive('grid'),out/'composer')
+    runtime=runtime_snapshots(out/'selection'/'observations.zip',exe)
     paste = reviewer('review-codex-paste-receipts').review(archive('agents'),commit)
     check(paste['executable']==exe and paste['fixture_commit']==commit,'image paste identity')
     graphics=reviewer('review-wsl-window-records').review(archive('vim'),archive('tmux'),archive('sixel'))
     check(graphics['product']==commit and graphics['exe']==exe['SHA256'],'graphics identity')
-    data=dict(product=source,run=run,bindings=binding,images=paste,windows=graphics,conversation=conversation,stress=stress,
+    data=dict(product=source,run=run,bindings=binding,images=paste,windows=graphics,native_runtime=runtime,conversation=conversation,stress=stress,
               interaction=dict(verified=verified,expected=len(unique),failed=failed,not_run=absent,passed=strict['passed']))
     (out/'records.json').write_text(json.dumps(data,indent=2,ensure_ascii=False),encoding='utf8')
     base=f'https://github.com/{os.environ["GITHUB_REPOSITORY"]}/actions/runs/{run}'
@@ -80,6 +105,7 @@ def collect(run, commit, directory):
     rows += [(label+' / 六种满屏负载',stress[key]['peak']) for label,key in [('GDI','gdi'),('DirectX','directx')]]
     lines += ['| '+label+' | '+' | '.join(f'{m[k]:,}' for k in mem.METRICS)+' |' for label,m in rows]
     lines += ['', 'Codex、Claude Code、OpenCode：18/18 项快捷键和右键行为通过。10 个窗口的实际 Shift 选区都复制出「中文」；选区及相邻字格见附件 `selection/selected.png`。',
+              '10 个真实 agent 窗口的启动、提交后共 20 次采样：前端已加载模块和测试作业进程均未发现已知 WebView/浏览器标记。此项只覆盖采样时刻。',
               'GDI 和 DirectX 的 8 帧 Sixel 已核对。字体为 SarasaTermSC Nerd Light。','',
               '| Codex 粘贴时机 | 输入方式 | Ctrl+V 首次提交 | Ctrl+Shift+V 首次提交 | 原始用例结果 |','|---|---|---|---|---|']
     for row in paste['cases'].values():

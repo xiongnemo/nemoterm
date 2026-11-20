@@ -3,6 +3,8 @@
 This queries the frontend only; its shell/agent is allowed to use unrelated
 libraries. Snapshot names detect known browser runtimes, not all possible code.
 """
+from frontend_runtime_names import WEB_MODULES, WEB_PROCESSES
+
 import ctypes as c
 from ctypes import wintypes as w
 import time
@@ -15,10 +17,6 @@ kernel.GetProcessId.argtypes=[w.HANDLE];kernel.GetProcessId.restype=w.DWORD
 kernel.CloseHandle.argtypes=[w.HANDLE]
 kernel.WaitForSingleObject.argtypes=[w.HANDLE,w.DWORD]
 kernel.WaitForSingleObject.restype=w.DWORD
-WEB_MODULES={'webview2loader.dll','embeddedbrowserwebview.dll','msedge.dll','libcef.dll',
-             'chrome.dll','mshtml.dll','xul.dll','qt5webenginecore.dll','qt6webenginecore.dll'}
-WEB_PROCESSES={'msedgewebview2.exe','msedge.exe','chrome.exe','chromium.exe','electron.exe',
-               'firefox.exe','qtwebengineprocess.exe','cefsharp.browsersubprocess.exe'}
 
 
 def snapshot(evidence,phase,handle,job,frontend,client):
