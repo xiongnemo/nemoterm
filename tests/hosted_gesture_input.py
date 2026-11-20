@@ -144,9 +144,9 @@ class DesktopInput:
     def event(self,vk,down,*,extended=False):
         if down:self.target()
         event=Input()
-        if vk is None or vk=='right':
+        if vk in (None, 'right', 'middle'):
             event.kind=0
-            event.mouse.flags=({True:8,False:16} if vk=='right' else {True:2,False:4})[down]
+            event.mouse.flags={None:(2,4), 'right':(8,16), 'middle':(32,64)}[vk][not down]
         else:event.kind=1;event.key.key=vk;event.key.flags=(0 if down else 2) | (1 if extended else 0)
         if self.u.SendInput(1,c.byref(event),c.sizeof(event))!=1:raise c.WinError(c.get_last_error())
         if down:self.held.append(vk)
