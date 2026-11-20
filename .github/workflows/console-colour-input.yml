@@ -82,12 +82,17 @@ jobs:
       - name: Read and restore the full VT525 colour table through the console child
         if: ${{ !cancelled() && env.NEMOTERM_TEST_EXE != '' }}
         run: python tests/dec_colour_table_window.py ${{ matrix.renderer }} ${{ matrix.style }}
+      - name: Read the already-painted swatches and the child console's native palette
+        if: ${{ !cancelled() && env.NEMOTERM_TEST_EXE != '' }}
+        run: python tests/dec_colour_table_swatches.py ${{ matrix.renderer }} ${{ matrix.style }}
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
           name: linux-palette-${{ matrix.renderer }}-${{ matrix.style }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
             research/dec-colour-table-*.json
+            research/dec-swatch-*/
+            research/dec-swatch-*-observed.json
             research/linux-palette-*/
             research/linux-palette-*-observed.json
             build/linux-palette-reference
