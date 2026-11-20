@@ -68,6 +68,7 @@ static void test_switchable_modes(Mock *mk)
         MODE_CASE("?", "66", "DECNKM application keypad"),
         MODE_CASE("?", "69", "DECLRMM left/right margins"),
         MODE_CASE("?", "47", "alternate screen mode 47"),
+        MODE_CASE("?", "67", "DECBKM Backspace key"),
         MODE_CASE("?", "80", "DECSDM Sixel display mode"),
         MODE_CASE("?", "1004", "focus reporting"),
         MODE_CASE("?", "1007", "alternate scrolling"),

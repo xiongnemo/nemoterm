@@ -247,7 +247,14 @@ static void test_keyboard(Mock *mk)
     term_data_fragmented(mk->term, "\033>\033[20h"); query(mk, "kent", "\r\n");
     conf_set_bool(mk->conf, CONF_bksp_is_delete, false); term_reconfig(mk->term, mk->conf);
     query(mk, "kb", "\010");
+    term_data_fragmented(mk->term, "\033[?67l");
+    query(mk, "kb", "\177");
+    IEQUAL(term_backspace_key(mk->term, true, false), 127);
+    IEQUAL(term_backspace_key(mk->term, false, true), 8);
     conf_set_bool(mk->conf, CONF_no_applic_c, true); term_reconfig(mk->term, mk->conf);
+    query(mk, "kb", "\177"); /* Applying an unrelated setting preserves DECBKM. */
+    term_data_fragmented(mk->term, "\033[!p"); query(mk, "kb", "\177");
+    term_data_fragmented(mk->term, "\033c"); query(mk, "kb", "\010");
     query(mk, "ku", "\033[A");
     /* Saved legacy profiles still select legacy encoders. */
     conf_set_int(mk->conf, CONF_funky_type, FUNKY_TILDE);

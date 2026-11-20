@@ -344,6 +344,19 @@ def patch_cursor_sync():
             "        // Internal cursor synchronization uses tagged ?R replies above.")
 
 
+def patch_vt_backspace_input():
+    # A VT-aware child reads the bytes already chosen by the frontend. Turning
+    # them back into VK_BACK would apply DECBKM a second time. A native console
+    # reader still needs the original key-record and cooked editing behaviour.
+    anchor = 'bool InputStateMachineEngine::ActionExecute(const wchar_t wch)\n{\n'
+    replace(DEST / 'src/terminal/parser/InputStateMachineEngine.cpp', anchor, anchor + r'''    if ((wch == L'\b' || wch == L'\x7f') && _pDispatch->IsVtInputEnabled())
+    {
+        _pDispatch->WriteStringRaw(std::wstring_view{ &wch, 1 });
+        return true;
+    }
+''')
+
+
 def patch_input_dcs_fragments():
     # Input DCS replies are deliberately buffered until ST by the input engine.
     # Discarding a prefix cached by an earlier ProcessString call loses bytes
@@ -583,6 +596,7 @@ def main():
     patch_column_edits()
     patch_linux_palette()
     patch_cursor_sync()
+    patch_vt_backspace_input()
     patch_input_dcs_fragments()
     patch_cursor_sync_fragments()
     patch_initial_window_visibility()

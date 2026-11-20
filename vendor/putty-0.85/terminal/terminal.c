@@ -3649,6 +3649,7 @@ static void term_progress(Terminal *term, unsigned state, unsigned value)
 
 static void power_on(Terminal *term, bool clear, bool keep_encoding)
 {
+    term->bksp_is_delete = conf_get_bool(term->conf, CONF_bksp_is_delete);
     term->noclear_132 = false;
     term_progress(term, 0, 0);
     nemo_udk_clear(term);
@@ -4011,7 +4012,6 @@ static void term_copy_stuff_from_conf(Terminal *term)
     term->bellovl_t = conf_get_int(term->conf, CONF_bellovl_t);
     term->no_bidi = conf_get_bool(term->conf, CONF_no_bidi);
     term->no_bracketed_paste = conf_get_bool(term->conf, CONF_no_bracketed_paste);
-    term->bksp_is_delete = conf_get_bool(term->conf, CONF_bksp_is_delete);
     term->blink_cur = conf_get_bool(term->conf, CONF_blink_cur);
     term->blinktext = conf_get_bool(term->conf, CONF_blinktext);
     term->cursor_type = conf_get_int(term->conf, CONF_cursor_type);
@@ -4089,6 +4089,9 @@ void term_pre_reconfig(Terminal *term, Conf *conf)
  */
 void term_reconfig(Terminal *term, Conf *conf)
 {
+    /* An application may have changed DECBKM since this profile was loaded. */
+    if (conf_get_bool(term->conf, CONF_bksp_is_delete) != conf_get_bool(conf, CONF_bksp_is_delete))
+        term->bksp_is_delete = conf_get_bool(conf, CONF_bksp_is_delete);
     /* DEC private modes 1010/1011 are live window policy. Applying a
      * different profile value overrides that mode, while applying an
      * unrelated setting must not move the reader out of history. */
@@ -7479,6 +7482,9 @@ static void toggle_mode(Terminal *term, int mode, int query, bool state)
           case 66:                     /* DECNKM: numeric/application keypad */
             term->app_keypad_keys = state;
             break;
+          case 67:                     /* DECBKM: Backspace sends BS when set */
+            term->bksp_is_delete = !state;
+            break;
           case 69:                     /* DECLRMM: left/right margins */
             term->lrmm = state;
             if (!state) { term->marg_l = 0; term->marg_r = term->cols-1; }
@@ -7655,6 +7661,7 @@ static unsigned term_mode_status(Terminal *term, unsigned mode, bool dec)
           case 47: case 1047: case 1049:
             if (term->no_alt_screen) return 4;
             state = term->alt_which != 0; break;
+          case 67: state = !term->bksp_is_delete; break;
           case 69: state = term->lrmm; break;
           case 80: state = term->sixel_display_mode; break;
           case 1070: state = term->sixel_private_palette; break;
@@ -14555,6 +14562,15 @@ static bool nemo_xterm_keyboard(Terminal *term)
         nemo_legacy_keyboard(term);
 }
 
+/* Called after application-specific extended key encodings and terminfo lookup.
+ * Preserve PuTTY's Shift toggle on non-XTerm keyboard profiles. */
+int term_backspace_key(Terminal *term, bool shift, bool ctrl)
+{
+    bool xterm = !term->vt52_mode && nemo_xterm_keyboard(term);
+    if (!xterm && ctrl) return -1;
+    return (term->bksp_is_delete != (xterm ? ctrl : shift)) ? 127 : 8;
+}
+
 static bool nemo_legacy_modifiers(Terminal *term, unsigned category)
 {
     return !nemo_legacy_keyboard(term) || term->modify_keys.level != 0 ||
@@ -14624,7 +14640,7 @@ int term_format_xterm_legacy_key(Terminal *term, unsigned resource,
          * backarrow/Tab path after a database miss. Shift alone does not flip
          * Backspace; Control does. Explicit modified-key protocols run first. */
         if (unicode == 8) {
-            encoded[0] = (term->bksp_is_delete != ctrl) ? 127 : 8;
+            encoded[0] = term_backspace_key(term, shift, ctrl);
             length = 1;
         } else if (unicode == 9) {
             encoded[0] = '\t'; length = 1;

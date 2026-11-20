@@ -2209,6 +2209,7 @@ int format_numeric_keypad_key(char *buf, Terminal *term, char key,
 int term_format_xterm_extended_key(Terminal *, unsigned resource,
                                    unsigned codepoint, unsigned modifiers,
                                    char *output, size_t capacity);
+int term_backspace_key(Terminal *, bool shift, bool ctrl);
 int term_format_xterm_legacy_key(Terminal *, unsigned resource, unsigned codepoint,
                                  unsigned modifiers, bool numlock,
                                  char *output, size_t capacity);

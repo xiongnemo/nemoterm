@@ -2,6 +2,7 @@
 import hashlib
 import json
 import os
+import re
 import subprocess
 import sys
 import tempfile
@@ -19,6 +20,13 @@ ACK = b'\x1b[0n'
 # key reached the input queue before the child asks for the second status reply.
 SENTINEL = b'z'
 VK = {'BackSpace': 0x08, 'Delete': 0x2e, 'Shift_L': 0x10, 'Control_L': 0x11}
+
+
+def decode_reply(raw):
+    # Keep the raw reply as the compatibility gate. Separately show whether
+    # the reported mode and the decoded kbs value have the same meaning.
+    match = re.fullmatch(rb'\x1b\[\?67;([0-4])\$y\x1bP1\+r6b6273=([A-Fa-f0-9]{2})\x1b\\', raw)
+    return [int(match[1]), int(match[2], 16)] if match else None
 
 
 def capture(exe, font, name, ref, result):
@@ -69,6 +77,9 @@ def capture(exe, font, name, ref, result):
                 assert wire.startswith(prefix) and wire.endswith(SENTINEL+ACK), row
                 row['actual_key'] = wire[len(prefix):-len(SENTINEL+ACK)].hex()
                 row['passed'] = row['actual_query']==row['expected_query'] and row['actual_key']==row['expected_key']
+                row['query_fields'] = decode_reply(bytes.fromhex(row['actual_query']))
+                row['expected_fields'] = decode_reply(query); assert row['expected_fields'] is not None
+                row['same_key_and_fields'] = row['query_fields']==row['expected_fields'] and row['actual_key']==row['expected_key']
         finally:
             result['last_snapshot'] = read_snapshot(report)
             if desktop: desktop.restore()

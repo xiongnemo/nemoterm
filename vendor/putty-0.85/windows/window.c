@@ -5950,18 +5950,13 @@ static int TranslateKey(WinGuiSeat *wgs, UINT message, WPARAM wParam,
     }
 
     if (key_down && (keystate[VK_RMENU] & 0x80) == 0 && !wgs->compose_state) {
-        if (wParam == VK_BACK && shift_state == 0) {    /* Backspace */
-            *p++ = (conf_get_bool(wgs->conf, CONF_bksp_is_delete) ?
-                    0x7F : 0x08);
-            *p++ = 0;
-            return -2;
-        }
-        if (wParam == VK_BACK && shift_state == 1) {    /* Shift Backspace */
-            /* We do the opposite of what is configured */
-            *p++ = (conf_get_bool(wgs->conf, CONF_bksp_is_delete) ?
-                    0x08 : 0x7F);
-            *p++ = 0;
-            return -2;
+        if (wParam == VK_BACK) {
+            int code = term_backspace_key(wgs->term, shift_state & 1, shift_state & 2);
+            if (code >= 0) {
+                *p++ = code;
+                *p++ = 0;
+                return -2;
+            }
         }
         if (wParam == VK_TAB && shift_state == 1) {     /* Shift tab */
             *p++ = 0x1B;
