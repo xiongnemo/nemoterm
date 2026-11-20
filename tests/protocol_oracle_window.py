@@ -59,7 +59,7 @@ def run(name, cases, scene=None, extra_cases=(), exercise=None, barrier=None, re
             if os.environ.get('NEMOTERM_PROTOCOL_WIRE_TRACE') == '1':
                 from protocol_wire_trace import ProtocolWireTrace
                 wire_trace = ProtocolWireTrace(process, exe, root/'research'/f'{name}-wire.jsonl')
-            def phase(phase_name, sequence, expected, phase_barrier=None):
+            def phase(phase_name, sequence, expected, phase_barrier=None, *, after_write=None):
                 active_barrier,active_marker = phase_barrier or (barrier_sequence,marker)
                 expected_bytes = expected if isinstance(expected, bytes) else expected.encode() if expected is not None else None
                 if wire_trace:
@@ -67,6 +67,11 @@ def run(name, cases, scene=None, extra_cases=(), exercise=None, barrier=None, re
                                      expected_bytes+active_marker if expected_bytes is not None else None)
                 write_snapshot(control, dict(phase=phase_name, preserve_mouse=True, report_cursor=report_cursor,
                     sequence=sequence+active_barrier, native_row=native_row))
+                if after_write is not None:
+                    # mouse_fixture publishes the phase only after flushing stdout.
+                    # A caller can observe a held drag before allowing its reply.
+                    written = wait_for(lambda: v if (v := current()).get('phase') == phase_name else None)
+                    after_write(written)
                 def received():
                     value = current()
                     return value if value.get('phase') == phase_name and \

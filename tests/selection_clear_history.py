@@ -22,12 +22,14 @@ CASES = [
     ('history','released','3J',False,False), ('live','press','?3J',False,True),
     ('live','released','3J',False,False), ('partway','drag','3J',False,True),
     ('history','press','3J',True,False), ('history','released','?3J',True,True),
+    ('history','drag','menu',True,True), ('partway','drag','menu',True,True),
 ]
 
 
 def replay(renderer, view, stage, op, denied, reverse):
-    case=f'{view}-{stage}-{int(denied)}'; name=f'scrollback-clear-{renderer}-{case}'
-    font=os.environ['NEMOTERM_TEST_FONT']; keep=view!='history' or denied
+    menu=op=='menu'; blocked=denied and not menu
+    case=f'{view}-{stage}-{int(denied)}'+('-menu' if menu else ''); name=f'scrollback-clear-{renderer}-{case}'
+    font=os.environ['NEMOTERM_TEST_FONT']; keep=view!='history' or blocked
     rec=dict(view=view,stage=stage,request=op,denied=denied,rectangle=reverse,renderer=renderer,checks={})
     def exercise(hwnd,phase,current):
         host=terminal_host(hwnd);assert host!=hwnd
@@ -72,6 +74,7 @@ def replay(renderer, view, stage, op, denied, reverse):
             if view=='history':u.SendMessageW(hwnd,0x115,6,0)
             if view=='partway':u.SendMessageW(hwnd,0x115,0,0) # One live row above the usual viewport
             first={'live':32,'history':0,'partway':31}[view];wait_for(lambda:pos()==[first,32]);frame('initial',first,False,3);assert rec['checks']['initial']
+            phase('input','',b'')
             baseline='clear history clipboard sentinel';set_clipboard(hwnd,baseline);start,end=(8,4) if reverse else (4,8)
             y=3;oldtext=f'{first+y:02d}中!';point(start,y);desk.event(0x10,True)
             if reverse:desk.event(0x11,True)
@@ -82,10 +85,28 @@ def replay(renderer, view, stage, op, denied, reverse):
             desk.event(0x10,False);frame('before_clear',first,stage!='press',y);assert rec['checks']['before_clear']
             if stage=='released':
                 copy('previous_copy',(0x11,0x10,ord('C')),'4',oldtext,b'');baseline=oldtext
-            phase('clear',CSI+op,b'');after=first if denied else 32;newy=y+first-after if keep else y
-            target_pos=[first,32] if denied else [0,0];wait_for(lambda:pos()==target_pos)
+            after=first if blocked else 32;newy=y+first-after if keep else y
+            target_pos=[first,32] if blocked else [0,0]
+            queued=stage=='drag' and not menu
+            if menu:
+                # Dispatch the actual Clear Scrollback menu command to the terminal
+                # HWND while capture remains held. Opening a menu would steal it.
+                u.SendMessageW(hwnd,0x111,0x0060,0)
+            elif queued:
+                def release_pending(written):
+                    assert written['hex']=='' and desk.state().capture==hwnd
+                    frame('while_queued',first,True,y)
+                    waiting=current();rec['queued_wire']=waiting['hex']
+                    rec['checks']['held_until_release']=(waiting['phase']=='clear' and not waiting['hex'] and pos()==[first,32] and desk.state().capture==hwnd)
+                    desk.event(None,False);wait_for(lambda:desk.state().capture!=hwnd)
+                phase('clear',CSI+op,b'',after_write=release_pending)
+            else:
+                phase('clear',CSI+op,b'')
+            wait_for(lambda:pos()==target_pos)
             frame('after_clear',after,keep and stage!='press',newy)
-            if stage!='released':
+            if stage!='released' and not queued:
+                assert desk.state().capture==hwnd
+                if menu and not keep:point(end+1,newy)  # Actual motion after losing the selected line
                 point(end,newy);desk.event(None,False);wait_for(lambda:desk.state().capture!=hwnd)
             rec['gesture_wire']=fence('7').hex();rec['checks']['ownership']=rec['gesture_wire']==(ACK+b'7').hex()
             frame('after_release',after,keep,newy)
