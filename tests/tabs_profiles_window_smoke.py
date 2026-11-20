@@ -14,7 +14,10 @@ parser.add_argument('--exception-observer',type=Path,
                     help='attach an external debugger to this private fixture process; diagnostic only')
 parser.add_argument('--failure-dump',type=Path,default=os.environ.get('NEMOTERM_PROFILE_FAILURE_DUMP'),
                     help='external small-dump helper used only after a failed check, before owned cleanup')
+parser.add_argument('--keep-observer-until-exit',action='store_true',
+                    help='diagnostic: keep the same Frida sessions attached until the frontend exits')
 args=parser.parse_args()
+if args.keep_observer_until_exit and args.observer!='frida':parser.error('keeping sessions requires Frida')
 if args.failure_dump:args.failure_dump=args.failure_dump.resolve(strict=True)
 if args.observer=='automation':
     from automation_capture import OwnedAutomationCapture as ProfileCapture, api
@@ -38,6 +41,8 @@ profiles=[]
 if args.observer=='automation':evidence.update(automation_diagnostic=True,memory_acceptance=False)
 if args.exception_observer:evidence.update(exception_diagnostic=True,memory_acceptance=False)
 if args.failure_dump:evidence.update(failure_dump_enabled=True,memory_acceptance=False)
+evidence['observer_release']='process-exit' if args.keep_observer_until_exit else 'before-close'
+if args.keep_observer_until_exit:evidence['memory_acceptance']=False
 def menu_command(menu,label):
     for i in range(u.GetMenuItemCount(menu)):
         text=c.create_unicode_buffer(256)
@@ -202,18 +207,21 @@ try:
             output(current,'\x1b[?2026l')
             wait_for(lambda:captures[2].capture()!=hashes[2])
             evidence['checks'].append('frozen pixels survive destroying and recreating the shared renderer')
-            evidence['phase']='close-capture-helpers'
-            for helper in captures:helper.close()
-            captures=[]
-            if session:
-                evidence['phase']='detach-key-probe';session.detach();session=None
+            if not args.keep_observer_until_exit:
+                evidence['phase']='close-capture-helpers'
+                for helper in captures:helper.close()
+                captures=[]
+                if session:
+                    evidence['phase']='detach-key-probe';session.detach();session=None
             evidence['phase']='close-host'
             owner=w.DWORD();host_thread=u.GetWindowThreadProcessId(host,c.byref(owner))
             evidence['close_request']=dict(hwnd=host,thread=host_thread,pid=owner.value)
             assert host_thread and owner.value==process.pid,'Tab host ownership changed before close'
             evidence['close_request']['posted']=bool(u.PostMessageW(host,0x10,0,0))
             assert evidence['close_request']['posted'],'WM_CLOSE could not be posted to the owned tab host'
-            evidence['frontend_exit']=process.wait(timeout=15)
+            close_started=time.monotonic()
+            try:evidence['frontend_exit']=process.wait(timeout=15)
+            finally:evidence['close_wait_seconds']=round(time.monotonic()-close_started,3)
             assert evidence['frontend_exit']==0,evidence['frontend_exit']
             if exception_observer:exception_observer.helper.wait(timeout=10)
             evidence['owned_job_cleanup']=job.finish(grace=5)
@@ -233,7 +241,9 @@ try:
         finally:
             primary_failure=sys.exc_info()[1]
             try:
-                if session:session.detach()
+                if session:
+                    from frida_test_utils import detach_session
+                    detach_session(session)
                 for helper in captures:helper.close()
             finally:
                 if handle:k.CloseHandle(handle)
