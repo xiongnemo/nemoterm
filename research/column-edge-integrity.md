@@ -43,3 +43,9 @@
 [Windows 旧版回放](https://github.com/xiongnemo/nemoterm/actions/runs/44832637710/artifacts/14677541761)直接使用已交付的 `83d584d8`：GDI、DirectX 各跑八组。两种字宽模式都复现，终端报告 `中V尾abcXYZ`，而同一进程通过 `ReadConsoleOutputW` 能读到完整的 `中界V尾abcXYZ`。其余六个对照各自通过：覆盖模式应当覆盖 `界`，直接在目标行插入应保留 `界`，先在行末写 ASCII 再触发延迟换行也应保留 `界`。
 
 修复 `7faa7fac` 把为插入字符腾出空间的时机移到确定目标行和字宽之后，维持原本覆盖模式的行为。[终端字格回归](https://github.com/xiongnemo/nemoterm/actions/runs/44832796282)在 MSVC、GCC 和 Clang 上通过，也覆盖了设置左右栏边界、边界外文字不能跟着移动的情况。
+
+[同一组输入的新旧版本对照](https://github.com/xiongnemo/nemoterm/actions/runs/44832796247/artifacts/14676459213)：新单文件为 4,947,968 字节，SHA-256 `7d81e9130dbb4193e8d60b60ed4de3216aa7aad753518f976391e2d448a91608`。按八组输入分别核对 VT 和 `ReadConsoleOutputW`（含宽字的首格/续格标志）：旧版 GDI、DirectX 各 6/8，新版各 8/8。四组原先失败的画面状态现在保留完整的 `中界V尾abcXYZ`。旧版的原始失败和 728 格 XTerm 左移对照仍分别保留。
+
+[真实窗口画面与物理复制](https://github.com/xiongnemo/nemoterm/actions/runs/44833479543/artifacts/14676627685)：两种渲染器的窗口都使用 `SarasaTermSC Nerd Light`。插入后的 14 格和另行直接绘制的正确文字逐像素相同。子程序开启鼠标跟踪后，从「中」的右半格拉到「尾」的左半格，高亮恰好覆盖七格；改写剪贴板后，再按 Ctrl+Shift+C 仍读回 `中界V尾`。
+
+![远程 GDI 原图：三行依次是插入前、插入后和 Shift 拖选后的下一行](cjk-insert-wrap.png)

@@ -33,7 +33,9 @@ Kitty 图片支持直接 RGB/RGBA/PNG、压缩传输、裁剪、透明度、查�
 
 ## 下载
 
-[下载 Windows x64 单文件试用版 `83d584d8`](https://github.com/xiongnemo/nemoterm/actions/runs/44827444033/artifacts/14675625577)。本版修复应用恢复调色板后窗口仍显示旧色的问题。[交互和内存实测](research/trial-83d584d8.md)：18/18 种复制、粘贴和右键组合通过；六组满屏负载中，前端私有工作集峰值为 **GDI 19.33 MB、DirectX 29.58 MB**。严格交互 79/81，两项失败都在 Codex 输入框就绪前；就绪后四种贴图方式全部通过。
+[下载 Windows x64 单文件试用版 `7faa7fac`](https://github.com/xiongnemo/nemoterm/actions/runs/44832796247/artifacts/14677562291)。开启插入模式，在行末只剩一格时输入汉字，现在会移到下一行并保留那里原有的文字。托管 Windows 上 GDI、DirectX 的[16 组终端和 Win32 读回对照](research/column-edge-integrity.md#行尾输入一个汉字时下一行的第一个字消失)均通过。
+
+[上一版 `83d584d8` 的单文件](https://github.com/xiongnemo/nemoterm/actions/runs/44827444033/artifacts/14675625577)。本版修复应用恢复调色板后窗口仍显示旧色的问题。[交互和内存实测](research/trial-83d584d8.md)：18/18 种复制、粘贴和右键组合通过；六组满屏负载中，前端私有工作集峰值为 **GDI 19.33 MB、DirectX 29.58 MB**。严格交互 79/81，两项失败都在 Codex 输入框就绪前；就绪后四种贴图方式全部通过。
 
 [上一版 `fe5f98f9` 的单文件](https://github.com/xiongnemo/nemoterm/actions/runs/44820130857/artifacts/14672630186)。中文界面关闭单个会话时，确认问题也使用中文。[中英文关闭确认、取消后立即输入及后台标签检查](research/close-dialog-language.md)为 **8/8**。[应用交互和内存实测](research/trial-fe5f98f9.md)：18/18 种快捷键与右键组合通过，六种满屏负载的前端私有工作集峰值为 GDI **19.23 MB**、DirectX **28.88 MB**。[本版完整回归](https://github.com/xiongnemo/nemoterm/actions/runs/44820130857)与上一版的内存结果分别计分。
 
