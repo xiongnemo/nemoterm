@@ -8,7 +8,7 @@
 
 `7ec651d` 在默认 profile 对实测版本 Claude 的原生写入保留客户端已排好的字序。普通 shell 仍照常重排；直接启动和从 PowerShell 启动分别在 GDI、DirectX 核对屏幕像素、系统剪贴板和粘贴回执。见[截图、版本范围与验收](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/claude-writer-order.md)。
 
-最近补充核对：2026-11-19。这是持续更新的覆盖账本，目标仍是用户要求的现代终端完整能力；不是“基本 ANSI 已经够用”的验收结论。支持状态针对本工作区，而非原版 PuTTY 的宣传描述。后续实现必须更新相应行，并补充精确测试和端到端证据。
+当前目标（2026-11-21）是[现代终端子集](MODERN_VT.md)：以 Windows Terminal、Alacritty 的现代行为和 xterm 应用为基准，明确包含 Sixel。本账本也保留历史扩展与逐项差异；并非每一行都是 v0 交付条件。支持状态针对本工作区，而非原版 PuTTY 的宣传描述。后续实现必须更新相应行，并补充精确测试和端到端证据。
 
 所有自动测试现已迁移到 GitHub-hosted runner。早期[远程迁移记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/remote-test-migration.md)包含当时的 26 项交互和 DPI 检查。`f628d89` 的同一份单文件已通过 [74 项交互和 170 项单文件检查](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/right-button-release.md#complete-interaction-replay)，后续候选的结果按 EXE 单独记录。操作入口见[远程测试说明](INTERACTION_ACCEPTANCE.md)。下文带提交号的本机记录保留为历史证据；“待本机验收”不再要求占用开发电脑，也不表示任意物理设备或未实现协议已经通过。
 
@@ -134,7 +134,7 @@ XTSETTCAP 已接入可选 Terminfo 键盘：固定只读 ncurses 数据库、独
 
 1. **直接影响现代agent的缺口**：kitty键盘的真实应用/IME验收及SGR覆盖审计；表意文字60–65已有[开发分支本机验证](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/sgr-ideograms.md)，[完整CI及成品验收](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/sgr-ideogram-ci.md)已通过；上划线53/55已有[完整CI与本机像素证据](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/overline.md)。框线51、圈线52与取消54已通过独立分支的核心、三渲染器像素和ConPTY查询测试，[记录](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/sgr-enclosures.md)保留原DX资源检查失败，独立分支[完整CI](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/sgr-enclosure-ci.md)已通过；[整合版本机验证](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/sixel-enclosure-integration.md)进一步通过GDI/DX完整负载，[整合CI与下载成品验收](https://github.com/xiongnemo/nemoterm/blob/fca0e61388f99dd460811c231950d5d7c19a775e/research/sixel-enclosure-integration-ci.md)已通过。继续完成Sixel像素和资源生命周期，增加断片输入/错误恢复/准确回复测试，不宣告尚未实现的能力。
 2. **交互和协商完整性**：剩余DECRQSS状态与XTGETTCAP名称、OSC52真实远程应用验收、1001边缘场景与物理设备验收、Windows输入模式、resize/DPI和大坐标、更多光标/边距/擦除行为；在真实Claude Code/Codex和shell里记录可复现输入及输出。
-3. **剩余现代及历史范围**：OSC133及剩余633/1337语义，kitty/iTerm图像扩展，完整xterm家族逐项拆解及测试。优先级表示先后次序，不是把后项从目标删除。
+3. **剩余现代及历史范围**：OSC133及剩余633/1337语义，kitty/iTerm图像扩展，完整xterm家族逐项拆解及测试。此处保留历史审计顺序；是否属于当前目标按上面的现代子集判定。
 
 每一项完成至少需要：序列与参数定义 → 对应源码和状态生命周期 → 分块输入与回复测试 → 有界资源测试 → 必要的真实窗口/应用验证。图片、链接、历史和新样式加入后，应重跑代表性agent负载的私有工作集、总工作集和长时间峰值；本账本不证明内存门槛已经成立。
 

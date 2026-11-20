@@ -1,6 +1,8 @@
 # Nemoterm requirements and evidence ledger
 
-The [distributed single executable `83d584d8`](../research/trial-83d584d8.md) passed the current physical clipboard and mouse checks, 8 Sixel frames, 8 bilingual close-dialog cases and the six-workload private working set budgets (19,333,120 bytes GDI; 29,577,216 DirectX). Its original strict interaction result is 79/81: both failed cases pasted before Codex signalled ready. General terminal status and other protocol gaps remain in the [coverage ledger](PROTOCOL_COVERAGE.md).
+Current protocol goal (2026-11-21): the [modern VT subset](MODERN_VT.md), using Windows Terminal and Alacritty as references, plus xterm application compatibility and Sixel. Historical full-catalogue goals below are retained for context. See the [current binary’s acceptance results and known differences](KNOWN_ISSUES.md).
+
+The [previous single executable `83d584d8`](../research/trial-83d584d8.md) passed the current physical clipboard and mouse checks, 8 Sixel frames, 8 bilingual close-dialog cases and the six-workload private working set budgets (19,333,120 bytes GDI; 29,577,216 DirectX). Its original strict interaction result is 79/81: both failed cases pasted before Codex signalled ready. General terminal status and other protocol gaps remain in the [coverage ledger](PROTOCOL_COVERAGE.md).
 
 The [previous single executable `fe5f98f9`](../research/close-dialog-language.md) passed 8/8 English and Chinese native close-dialog cases, including Cancel and Escape on an inactive tab. Product identity and original observations are linked there.
 

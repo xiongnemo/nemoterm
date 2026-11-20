@@ -1,5 +1,7 @@
 # Protocol coverage and remaining gaps
 
+The [modern VT target](MODERN_VT.md) defines the current scope. This inventory also retains historical sequences and observed differences outside that scope.
+
 [Editing a row next to a rectangular selection](../research/rectangle-neighbour-edits.md): on `9521179a`, physical Ctrl+Shift drags, system clipboard and child input pass all 14 default right-click checks on each renderer (6/14 previously), including bidi and double-size rows. Four explicit copy and six optional right-click paste cases per renderer exercise the same executable.
 
 [Large ReGIS erasure](../research/regis-sparse-erase.md): clearing a 320×8192 opaque page in successive visible bands no longer drops a stored graphic on the other text screen. On the exact Windows build `d7db3abf`, GDI and DirectX both preserved all 101 reference pixels when switching back and after a forced repaint. The separate historical XTerm comparisons below remain unchanged.

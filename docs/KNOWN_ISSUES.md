@@ -1,6 +1,6 @@
 # v0 已知问题与使用限制
 
-适用于 Windows x64 单文件 `7faa7fac`（[下载与构建记录](https://github.com/xiongnemo/nemoterm/actions/runs/44832796247/artifacts/14677562291)）。下面列的是这份 EXE 在 GitHub 托管 runner 上的结果。普通 shell 或其他 WSL 版本不一定会遇到相同问题。
+适用于 Windows x64 单文件 `7faa7fac`（[下载与构建记录](https://github.com/xiongnemo/nemoterm/actions/runs/44832796247/artifacts/14677562291)）。[原始验收包](../research/trial-7faa7fac.zip)保存严格总评、内存回执、中文框选前后的 20 张原图及制品散列。下面列的是这份 EXE 在 GitHub 托管 runner 上的结果。普通 shell 或其他 WSL 版本不一定会遇到相同问题。
 
 ## 已知兼容问题
 
@@ -19,7 +19,7 @@ Codex 0.167.0 刚出现文字提示时，图片输入可能还没就绪，第一
 
 ## v0 的验收边界
 
-- **协议范围：** 可以运行声明 `TERM=xterm` 或 `xterm-256color` 的应用，不承诺与 XTerm 412 的所有私有序列和行为逐项相同。Kitty 图片的文件和共享内存传输、Kitty 动画，以及 OSC 633 的补全扩展尚未实现。[协议支持表](PROTOCOLS.md)按功能列出已实现和缺失项。
+- **协议范围：** 目标和例子见[现代终端子集](MODERN_VT.md)，其中也列明了 Alacritty 的 `OSC 50 CursorShape` 与本版字体处理语义的差异。可以运行声明 `TERM=xterm` 或 `xterm-256color` 的应用，不承诺与 XTerm 412 的所有私有序列和行为逐项相同。Kitty 图片的文件和共享内存传输、Kitty 动画，以及 OSC 633 的补全扩展尚未实现。[协议支持表](PROTOCOLS.md)按功能列出已实现和缺失项。
 - **窗口交互：** 本版在 Codex、Claude Code、OpenCode 的十个真实窗口中用 Sarasa Light 测了 GDI 和 DirectX 的中文矩形选区，截图和系统剪贴板均符合预期。[交互回执与窗口原图](../research/column-edge-integrity.md#行尾输入一个汉字时下一行的第一个字消失)。
 - **键鼠与图像：** 三个客户端、两种渲染器的 [18 种实按组合](https://github.com/xiongnemo/nemoterm/actions/runs/44832796247/artifacts/14678590150)均通过，覆盖 Shift 拖选、复制粘贴快捷键、默认右键仅复制及可选的复制并粘贴。`TERM=xterm` 和 `xterm-256color` 下的 [Vim](https://github.com/xiongnemo/nemoterm/actions/runs/44832796247/artifacts/14678011129) 与 [tmux 中的 Vim](https://github.com/xiongnemo/nemoterm/actions/runs/44832796247/artifacts/14676817878) 都正确复制了中文矩形选区。两种渲染器的 [8 帧 Sixel 画面](https://github.com/xiongnemo/nemoterm/actions/runs/44832796247/artifacts/14677037651)与参考像素相符；上面的 WSL1 像素**尺寸查询**问题单列。
 - **严格交互总评：** [79/81](https://github.com/xiongnemo/nemoterm/actions/runs/44832796247/artifacts/14676909518)，没有漏跑。两项失败均为 Codex 刚出现文字提示时贴图；编辑器就绪后，两种输入路径的 Ctrl+V 和 Ctrl+Shift+V 首次提交均含正确图片（4/4）。这 81 项不含上表单独运行的协议对照。
