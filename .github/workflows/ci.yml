@@ -1280,6 +1280,7 @@ jobs:
             build/native-crashes/
             research/shutdown-window-observed.json
             research/profiles-failure-*/
+            research/protocol-exit-diagnostics/
           if-no-files-found: warn
 
   decoder-sanitizers:

@@ -103,8 +103,15 @@ def run(name, cases, scene=None, extra_cases=(), exercise=None, barrier=None, re
                 time.sleep(.2)
                 capture(hwnd, name+'-window.png')
             if observe_exit:
+                # The target GUI thread may no longer own a window when a dump is
+                # taken. Record it before signalling the child, outside the deadline.
+                from native_test_utils import c, w, u
+                owner = w.DWORD()
+                u.GetWindowThreadProcessId.argtypes = [w.HWND, c.POINTER(w.DWORD)]
+                tid = u.GetWindowThreadProcessId(hwnd, c.byref(owner))
+                assert tid and owner.value == process.pid, 'unexpected window owner'
                 exit_record = evidence['exit_observation'] = dict(
-                    frontend_pid=process.pid, wait_limit_seconds=10,
+                    frontend_pid=process.pid, window_thread=tid, hwnd=int(hwnd), wait_limit_seconds=10,
                     instrumented=wire_trace is not None, before_stop=job.accounting(),
                     stop_request_ns=time.perf_counter_ns())
             write_snapshot(control, dict(stop=True, observe_exit=observe_exit))
@@ -118,10 +125,15 @@ def run(name, cases, scene=None, extra_cases=(), exercise=None, barrier=None, re
                                        child_at_deadline=read_snapshot(folder/'stop.json'))
                     from owned_failure_state import record_owned_failure
                     record_owned_failure(process, job, exit_record, 'protocol-window-exit')
-                    if helper := os.environ.get('NEMOTERM_QUOTE_EXIT_DUMP'):
+                    # The full single-exe and MinGW suites validate this same
+                    # helper for profile tests; use it for an actual exit timeout.
+                    helper = os.environ.get('NEMOTERM_QUOTE_EXIT_DUMP')
+                    diagnostics = 'quote-exit-diagnostics' if helper else 'protocol-exit-diagnostics'
+                    helper = helper or os.environ.get('NEMOTERM_PROFILE_FAILURE_DUMP')
+                    if helper:
                         from native_failure_dump import capture_owned_failure_dump
                         exit_record['timeout_capture'] = capture_owned_failure_dump(
-                            helper, process, job, root/'research'/'quote-exit-diagnostics'/name)
+                            helper, process, job, root/'research'/diagnostics/name)
                 raise
             if observe_exit:
                 exit_record.update(deadline_missed=False, observed_ns=time.perf_counter_ns(),

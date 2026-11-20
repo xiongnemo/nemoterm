@@ -20,6 +20,6 @@
 
 `TERM=xterm`、`TERM=xterm-256color` 下，[Vim](https://github.com/xiongnemo/nemoterm/actions/runs/44720435221/artifacts/14622440957) 和 [tmux 内的 Vim](https://github.com/xiongnemo/nemoterm/actions/runs/44720435221/artifacts/14621314715) 共 8/8 个窗口通过鼠标、调整窗口、宽字选择、矩形复制和粘贴后保存 UTF-8 文件的检查。[Sixel 原始窗口](https://github.com/xiongnemo/nemoterm/actions/runs/44720435221/artifacts/14622525458)的 24×18 五色图像与独立解码一致，GDI、DirectX 的绘制前、绘制后、重绘和擦除共 8/8 张截图逐像素相符。
 
-[独立单文件回归](https://github.com/xiongnemo/nemoterm/actions/runs/44720435221/job/136237030733)另有一次 DirectX 窗口退出超时：101 条参考应答、窗口颜色和 1,000 次保存/恢复已执行完，收到结束请求后进程在 10 秒内没有退出，作业强制清理。它与上述 81 项交互分开计数。
+[独立单文件回归](https://github.com/xiongnemo/nemoterm/actions/runs/44720435221/job/136237030733)另有一次 DirectX 窗口退出超时：101 条参考应答、窗口颜色和 1,000 次保存/恢复已执行完，收到结束请求后进程在 10 秒内没有退出，作业强制清理。它与上述 81 项交互分开计数。[同一 EXE 的六次退出对照](palette-exit-3308de91.md)均自然退出，原超时尚未归因。
 
 这是开发试用版。完整 CI 保留 [XTerm 宽字边界](column-edge-integrity.md)、[ReGIS 中间画面](regis-horizontal.md)与 [WSL1 尺寸读取](wsl-relay-window.md)等严格对照的差异。[本版原始回执索引与核对结果](acceptance-3308de91.zip)。
