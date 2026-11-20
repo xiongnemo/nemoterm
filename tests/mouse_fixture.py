@@ -61,6 +61,9 @@ if not k.GetConsoleMode(stdin, c.byref(old)) or not k.SetConsoleMode(stdin, 0x28
     raise c.WinError()
 data = bytearray()
 wide_input = os.environ.get('NEMOTERM_TEST_WIDE_INPUT') == '1'
+# Only the hosted resize fixture requests per-read geometry. Keep its original
+# chunks (including split CSI sequences) across phases; do not sample other tests.
+resize_reads = [] if os.environ.get('NEMOTERM_TEST_RESIZE_READS') == '1' else None
 def reader():
     if wide_input:
         buf, n = c.create_string_buffer(2048), w.DWORD()
@@ -70,7 +73,14 @@ def reader():
         return
     buf, n = c.create_string_buffer(1024), w.DWORD()
     while k.ReadFile(stdin, buf, len(buf), c.byref(n), None) and n.value:
-        data.extend(buf.raw[:n.value])
+        chunk = buf.raw[:n.value]
+        if resize_reads is not None and len(resize_reads) < 512:
+            info = ScreenInfo()
+            ok = k.GetConsoleScreenBufferInfo(stdout, c.byref(info))
+            grid = [info.window.right - info.window.left + 1,
+                    info.window.bottom - info.window.top + 1] if ok else None
+            resize_reads.append(dict(wire=chunk.hex(), grid=grid))
+        data.extend(chunk)
 threading.Thread(target=reader, daemon=True).start()
 sys.stdout.reconfigure(encoding='utf-8',
     newline='' if exact_output else None)
@@ -139,6 +149,7 @@ try:
         snapshot = {'phase': phase, 'hex': data.hex(), 'columns': size.columns,
                     'rows': size.lines, 'input_mode': 0x280, 'input_cp': k.GetConsoleCP(),
                     'input_api': 'ReadConsoleW' if wide_input else 'ReadFile'}
+        if resize_reads is not None: snapshot['resize_reads'] = resize_reads.copy()
         if output_write: snapshot['output_write']=output_write
         if request.get('report_responses'):
             snapshot['flushed_responses'] = sorted(responded)

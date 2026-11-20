@@ -842,12 +842,23 @@ static void test_window_resize(Mock *mk)
     mk->tw.vt = &mock_termwin_vt;
 }
 
+static void reached_resize_test_marker(void *ctx)
+{
+    *(bool *)ctx = true;
+}
+
 static void drain_inband_report(Mock *mk)
 {
-    for (unsigned i = 0; i < 64 && mk->term->inband_resize_queued; i++)
-        run_toplevel_callbacks();
-    if (mk->term->inband_resize_queued)
-        report_fail(mk, __FILE__, __LINE__, "in-band resize callback did not drain");
+    /* Other query fixtures use this same event queue. Place a marker behind
+     * the current work: a rescheduled callback goes after the marker and
+     * cannot starve the test, regardless of how many were already queued. */
+    bool reached = false;
+    unsigned ran = 0;
+    queue_toplevel_callback(reached_resize_test_marker, &reached);
+    while (!reached && run_toplevel_callbacks()) ran++;
+    if (!reached || mk->term->inband_resize_queued)
+        report_fail(mk, __FILE__, __LINE__, "in-band resize pending after FIFO marker");
+    if (ran > 64) printf("In-band resize test processed %u queued callbacks including marker\n", ran);
 }
 
 static void test_inband_resize(Mock *mk)
