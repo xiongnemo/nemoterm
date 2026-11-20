@@ -432,6 +432,8 @@ opens the system menu. Each placement retains its own PNGs and result JSON.
 
 同一专项还保留 `repeat-cell-stream` 和 `repeat-cell-block` 的三张原始画面：按下前、字符被应用移动后、拖选并复制后。`scripts/review-stationary-selection.py` 从 PNG 单独核对 `KLM` 是否平移两格、选中行及上下邻行中是否仅三个目标格发生高亮变化，同时核对应用收到的原始字节和两种复制结果。这两个重复坐标的用例通过窗口消息触发。已有的系统实按用例仍单独列在 `horizontal_press_system` 中。
 
+`suite=agent-pixels` also runs `scripts/review-character-repeat.py` on the original agent archives. A hosted Linux runner authenticates the source EXE and both archives; the reviewer checks per-frame digests, measures ink separately in the four displayed half-glyph cells and verifies that the surviving glyph is identical, both erased cells contain no ink beyond the caret background, and the real client submitted exactly the expected prompt. All ten windows must supply all three stages. Incomplete attempts retain their available frames and fail; a historical fixture without this probe supplies no proof of character repeats. `character-repeat.json` keeps that count separate from other pixel and binding checks. [Original controls and outcomes](../research/character-repeat.md#此-exe-的完整交互成绩).
+
 `suite=agent-bindings` 在单独的 Linux Runner 上读取 `agents` 分组已经上传的两份制品，并与指定 `source_run` 的 EXE 和构建清单核对身份。它分别复核 Codex、Claude Code、OpenCode 在 GDI 和 DirectX 下的 18 种系统输入交互：检查客户端开启鼠标跟踪的原始输出、按键和鼠标事件的顺序、Shift 选区原图中每格高亮及两侧边界、剪贴板和本地服务实际收到的完整 Unicode 提交。默认右键后必须另按粘贴键；可选复制并粘贴不需要补按。此项不启动客户端或替代整套交互验收。参数与 `suite=agent-pixels` 相同，`receipt_run` 指含 `agents` 分组的那一轮。
 
 `suite=frontend-memory-review` 在 Ubuntu 托管 Runner 上复核同一个 `scope=full` 构建的四份原始制品。不重开终端：先校验 EXE 和制品哈希，再从 pterm/GDI/DirectX 各 24 轮 Codex 对话，以及 GDI/DirectX 各六种 160×48 满屏负载的逐笔采样重算私有工作集、总工作集和私有提交峰值。GDI 私有工作集须小于 20,000,000 字节，DirectX 须不超过 30,000,000。报告保留原始制品编号和哈希；缺样本、身份不符或超限均不通过。

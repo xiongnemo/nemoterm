@@ -31,3 +31,27 @@ Windows 的 Unicode 窗口可以在一条字符消息的 `lParam` 低 16 位报�
 双标签均显示进度、160×48 Unicode 和 Kitty 图形时，[GDI](https://github.com/xiongnemo/nemoterm/actions/runs/44806811770/artifacts/14664945260) 为 19,181,568 字节，[DirectX](https://github.com/xiongnemo/nemoterm/actions/runs/44808615781/artifacts/14663949359) 为 28,934,144 字节，均指前端私有工作集。DirectX 的[首次压力运行](https://github.com/xiongnemo/nemoterm/actions/runs/44806811770/artifacts/14662704587)在新建第十个临时标签时超时，并未运行到满屏负载：PID 8960 已出现在已关闭的子进程里，同时又是新标签中存活的 Python。旧测试按 PID 去重。为每次启动单独命名控制文件后，同一份 EXE 完成了 12 个新建/关闭循环，记录了 15 次可区分的启动。这两项不代替六种不同满屏负载的验收。
 
 [本版四边标签的八张原图](https://github.com/xiongnemo/nemoterm/actions/runs/44806811770/artifacts/14664641080)与[经典 Win32 轮廓对照图](tab-faces-ba16d56b.png)中的八处逐像素相同；四边均复制出 `Copy7`。[完整回归](https://github.com/xiongnemo/nemoterm/actions/runs/44806811770)还保留独立的 WSL、平台和 XTerm 对照差异。
+
+
+## 此 EXE 的完整交互成绩
+
+[GitHub 上的严格交互报告](https://github.com/xiongnemo/nemoterm/actions/runs/44806811770/artifacts/14664634506)是 **80/81，无跳过**。唯一失败的是 `agent-image-codex`：第一次显示输入提示就通过窗口消息送 `Ctrl+V`，首次提交只有文字。同阶段的物理按键通过；等输入框 idle 并重绘后，`Ctrl+V`、`Ctrl+Shift+V` 的物理按键和窗口消息四种路径均首次提交了正确图片。
+
+Codex、Claude Code、OpenCode 的 [18 种复制与粘贴组合](https://github.com/xiongnemo/nemoterm/actions/runs/44806811770/artifacts/14665671150)通过，包括子程序已接管鼠标时用 Shift 拖选、默认右键只复制、可选右键复制并粘贴。十个窗口的启动和提交后共 20 次模块与进程快照，均未发现已知浏览器 / WebView 标记。字体为 `SarasaTermSC Nerd Light`。
+
+六种独立 160×48 满屏场景，每项在两种实际渲染器上自然结束。下表为从前端逐次采样重算的**私有工作集峰值（字节）**：
+
+| 满屏场景 | GDI | DirectX |
+| --- | ---: | ---: |
+| 纯文本 | 16,588,800 | 26,427,392 |
+| 内嵌图片 | 17,403,904 | 26,796,032 |
+| 动画 | 17,633,280 | 26,923,008 |
+| Kitty | 17,195,008 | 26,828,800 |
+| 压缩 Kitty | 17,354,752 | 26,718,208 |
+| Unicode 与 Kitty | **19,972,096** | **28,622,848** |
+
+[满屏与对话内存的远程复核](https://github.com/xiongnemo/nemoterm/actions/runs/44806811770/artifacts/14666321277)。GDI 距 20,000,000 字节只余 **27,904 字节**，DirectX 距 30,000,000 字节余 1,377,152 字节。六项中的总工作集峰值另为 56,778,752 / 71,843,840 字节；私有提交峰值为 22,704,128 / 32,415,744 字节。采样结果不保证两次采样之间或其他驱动上的峰值。
+
+在 GDI、DirectX 上，[Vim](https://github.com/xiongnemo/nemoterm/actions/runs/44806811770/artifacts/14663133973) 和 [tmux 内的 Vim](https://github.com/xiongnemo/nemoterm/actions/runs/44806811770/artifacts/14664501733) 分别用 `TERM=xterm`、`TERM=xterm-256color` 跑过，矩形复制得到 `中文\r\nCU`。两种渲染器共[八帧 Sixel](https://github.com/xiongnemo/nemoterm/actions/runs/44806811770/artifacts/14664262176)通过像素复核。同作业的 WSL1 尺寸回读仍失败；完整回归的 ReGIS、宽字行尾及 terminfo 对照也有差异，不能据此宣称实现了所有转义序列和 OSC。
+
+远程独立截图复核保留三次原始计分：[旧版 0/10](https://github.com/xiongnemo/nemoterm/actions/runs/44810590288/artifacts/14664314676)、[首次修复版截图 4/10](https://github.com/xiongnemo/nemoterm/actions/runs/44810594718/artifacts/14664254813)、[最终修复版 10/10](https://github.com/xiongnemo/nemoterm/actions/runs/44810584743/artifacts/14665321839)。中间一轮缺六个 Claude 窗口后续操作，不能从第一帧正确推断整轮通过。[六份原始 Actions 制品及 SHA-256](trial-b04ca12a.zip)包括这三轮、两个满屏采样回执及完整交互复核。

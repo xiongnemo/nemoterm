@@ -33,7 +33,7 @@ Kitty 图片支持直接 RGB/RGBA/PNG、压缩传输、裁剪、透明度、查�
 
 ## 下载
 
-[下载 Windows x64 单文件试用版 `b04ca12a`](https://github.com/xiongnemo/nemoterm/actions/runs/44806811770/artifacts/14662764153)。修复 Windows 把重复的中文或表情合并成一条字符消息时只出现一个的问题。44/44 项原生输入检查通过；Codex、Claude Code 和 OpenCode 的十个真实窗口均显示两个“中”，两次退格后分别剩一个、零个。[输入框实图、内存与原始回执](research/character-repeat.md)。
+[下载 Windows x64 单文件试用版 `b04ca12a`](https://github.com/xiongnemo/nemoterm/actions/runs/44806811770/artifacts/14662764153)。修复 Windows 把重复的中文或表情合并成一条字符消息时只出现一个的问题。44/44 项原生输入检查通过；Codex、Claude Code 和 OpenCode 的十个真实窗口均显示两个“中”，两次退格后分别剩一个、零个。六种满屏负载的前端私有工作集峰值为 GDI **19.97 MB**、DirectX **28.62 MB**。严格交互为 **80/81**，唯一未通过的是 Codex 输入框就绪前的一次贴图；就绪后的四种按键路径均通过。[输入框实图与验收结果](research/character-repeat.md)。
 
 [上一版 `5ccb22b4` 的单文件](https://github.com/xiongnemo/nemoterm/actions/runs/44801554063/artifacts/14660973842)。修复应用左右移列后矩形选区消失、右键被送给应用的问题。GDI 和 DirectX 各 30 项相关手势全部通过。本版四边标签的切换与悬停预览均通过；[看标签实图](research/tab-faces-ba16d56b.png)。六种满屏负载中，前端私有工作集峰值为 GDI **19.95 MB**、DirectX **29.23 MB**。严格交互通过 **80/81**：Codex 刚显示输入提示时有一次物理 Ctrl+Shift+V 只提交了文字，编辑器就绪后两种粘贴键均通过。[本版实测与已知差异](research/acceptance-5ccb22b4.md)。
 
