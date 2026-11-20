@@ -119,6 +119,31 @@ static void test_select_presented_frame(Mock *mk)
     IEQUAL(get_termchar(t,5,0).chr & ~CSET_MASK, '!');
     sync_query(mk,"\033[?2026;2$y");
 
+    for (int block = 0; block < 2; block++) {
+        sync_reset(mk, "an unrelated edit on the selected row preserves local right-click ownership");
+        term_data_fragmented(t,"AOLDZ\033[?1002;1006h\033[?2026h\033[1;8H!");
+        term_mouse(t,MBT_LEFT,MBT_SELECT,MA_CLICK,1,0,true,block,false);
+        term_mouse(t,MBT_LEFT,MBT_SELECT,MA_DRAG,3,0,true,block,false);
+        term_mouse(t,MBT_LEFT,MBT_SELECT,MA_RELEASE,3,0,true,block,false);
+        IEQUAL(term_has_presented_selection(t), true);
+        IEQUAL(t->selected_text.len, 3+SELECTION_NUL_TERMINATED);
+        IEQUAL(t->selected_text.text && t->selected_text.len >= 3 &&
+               !wmemcmp(t->selected_text.text,L"OLD",3), true);
+    }
+
+    for (int reorder = 0; reorder < 2; reorder++) {
+        sync_reset(mk, "compare a reordered selection with a combining mark at its painted position");
+        t->no_bidi = false;
+        term_data_fragmented(t,"\033%G\033[?1002;1006hA\xd7\x90\xd7\x91\xd7\x92\xd6\xb0Z\033[?2026h");
+        term_data_fragmented(t,reorder ? "\033[1;5H\xd7\x93" : "\033[1;9H!");
+        term_mouse(t,MBT_LEFT,MBT_SELECT,MA_CLICK,0,0,true,false,false);
+        term_mouse(t,MBT_LEFT,MBT_SELECT,MA_DRAG,1,0,true,false,false);
+        term_mouse(t,MBT_LEFT,MBT_SELECT,MA_RELEASE,1,0,true,false,false);
+        IEQUAL(term_has_presented_selection(t), !reorder);
+        IEQUAL(t->selected_text.text && t->selected_text.len >= 3 &&
+               !wmemcmp(t->selected_text.text,L"A\x5d2\x5b0",3), true);
+    }
+
     sync_reset(mk, "motion without a local press cannot pin an application frame");
     term_data_fragmented(t,"ONE\033[?1002;1006h\033[?2026h\rTWO");
     term_mouse(t,MBT_LEFT,MBT_SELECT,MA_DRAG,1,0,true,false,false);

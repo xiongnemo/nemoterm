@@ -12265,15 +12265,80 @@ static bool show_frozen_selection(Terminal *term)
     return ok;
 }
 
-/* Keep a released highlight on the live screen only if its rows survived.
- * The copied text remains available even when the application replaced them. */
+/* A Shift selection uses painted column boundaries. Compare those columns
+ * on release, including their logical source and any shaping. A status
+ * indicator further along the same row must not take away the selection. */
+static void frozen_row_edges(Terminal *term, termline *line, termchar *chars,
+                             int y, int *left, int *right)
+{
+    *left = term->selstart.x;
+    *right = term->selend.x;
+    if (term->seltype == RECTANGULAR) {
+        block_row_edges(line, chars, term->cols, left, right);
+    } else {
+        if (y != term->selstart.y) *left = 0;
+        if (y != term->selend.y) *right = term->cols;
+    }
+    int limit = selection_painted_columns(term, line);
+    *left = min(*left, limit);
+    *right = min(*right, limit);
+}
+
+static bool frozen_row_survives(Terminal *term, int y, termline *a, termline *b)
+{
+    if (a->lattr != b->lattr || a->trusted != b->trusted) return false;
+    if (term->seltype == LEXICOGRAPHIC) {
+        for (int x = 0; x < term->cols; x++)
+            if (!termchars_equal(&a->chars[x], &b->chars[x])) return false;
+        return true;
+    }
+    const int slot = selection_bidi_slot(term, y);
+    int left, right, new_left, new_right;
+    termchar *visual = term_bidi_line(term, a, slot);
+    termchar *chars = visual ? visual : a->chars;
+    frozen_row_edges(term, a, chars, y, &left, &right);
+    /* A non-wrapped line can trim trailing blanks and supply a newline when
+     * copied. A change just past the selection can change that boundary. */
+    const int limit = selection_painted_columns(term, a);
+    const bool trim = !(a->lattr & LATTR_WRAPPED);
+    int old_end = trim ? selection_text_end(chars, limit) : limit;
+    int old_logical_end = trim ? selection_text_end(a->chars, term->cols) : term->cols;
+    struct block_edit_cell *old = NULL;
+    if (visual && left < right) {
+        /* The next lookup can evict this cache entry and reuse its scratch
+         * storage. Keep only the selected columns, never a pointer to it. */
+        old = snewn(right-left, struct block_edit_cell);
+        for (int x = left; x < right; x++) {
+            int src = term->post_bidi_cache[slot].backward[x];
+            old[x-left] = (struct block_edit_cell){
+                term->post_bidi_cache[slot].forward[src] == x ? src : -1, visual[x].chr};
+        }
+    }
+    visual = term_bidi_line(term, b, slot);
+    chars = visual ? visual : b->chars;
+    frozen_row_edges(term, b, chars, y, &new_left, &new_right);
+    int new_end = trim ? selection_text_end(chars, limit) : limit;
+    int new_logical_end = trim ? selection_text_end(b->chars, term->cols) : term->cols;
+    bool same = left == new_left && right == new_right &&
+        min(right, max(left, old_end)) == min(right, max(left, new_end));
+    for (int x = left; same && x < right; x++) {
+        int src = visual ? term->post_bidi_cache[slot].backward[x] : x;
+        int prev = old ? old[x-left].dest : x;
+        same = prev == src && (!visual || term->post_bidi_cache[slot].forward[src] == x) &&
+            (old ? old[x-left].shown : a->chars[x].chr) == chars[x].chr &&
+            (src < old_logical_end) == (src < new_logical_end) &&
+            termchars_equal(&a->chars[src], &b->chars[src]);
+    }
+    sfree(old);
+    return same;
+}
+
 static bool frozen_selection_survives(Terminal *term)
 {
     if (term->selstate != SELECTED || term->disptop != term->sync_text->top) return false;
     for (int y = term->selstart.y; y <= term->selend.y && y < term->disptop+term->rows; y++) {
         termline *a = selection_line(term, y), *b = lineptr(y);
-        bool same = a->lattr == b->lattr;
-        for (int x=0; same && x<term->cols; x++) same=termchars_equal(&a->chars[x], &b->chars[x]);
+        bool same = frozen_row_survives(term, y, a, b);
         unlineptr(a); unlineptr(b);
         if (!same) return false;
     }
