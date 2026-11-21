@@ -188,8 +188,11 @@ jobs:
             ('Scoop: `scoop bucket add nemo https://github.com/xiongnemo/windows-binaries-scoop-bucket`, then `scoop install nemo/{0}`; it runs as `nemoterm` or `nt`. Settings are kept in the registry, under HKCU\Software\Nemo\Nemoterm.' -f $app)
           ) -join "`n"
           Set-Content dist/notes.md $notes -Encoding utf8
-          $where = if ($env:TAG_RUN -eq 'true') { @('--verify-tag') } else { @('--target', $env:HEAD_SHA) }
-          $kind = if ($env:PRERELEASE -eq 'true') { @('--prerelease', '--latest=false') } else { @('--latest') }
+          # @() around the whole if: an if's output is unrolled, so a one-element
+          # list would come out a string, and splatting a string passes gh its
+          # characters one by one (v0.0.1's first run: "no matches found for `-`").
+          $where = @(if ($env:TAG_RUN -eq 'true') { '--verify-tag' } else { '--target', $env:HEAD_SHA })
+          $kind = @(if ($env:PRERELEASE -eq 'true') { '--prerelease', '--latest=false' } else { '--latest' })
           $assets = @((Get-ChildItem dist/*.zip).FullName) + (Resolve-Path dist/SHA256SUMS).Path
           gh release create $env:VERSION --repo $env:GITHUB_REPOSITORY @where @kind --title "Nemoterm $env:VERSION" --notes-file dist/notes.md @assets
           exit $LASTEXITCODE
