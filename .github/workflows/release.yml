@@ -1,0 +1,218 @@
+name: Release
+
+# Versions follow docs/VERSIONING.md. What this publishes:
+#
+#   - A push to main whose "Test and build" run built the executable becomes a
+#     prerelease, vX.Y.Z-main-<commit12>, Z being the last vX.Y.Z tag's patch
+#     plus the commits since it. The release creates that tag.
+#   - An exact tag vX.Y.Z, pushed by hand, becomes that version once the tag's
+#     own "Test and build" run has built it: a release when Z is 0, otherwise
+#     a prerelease (v0.0.1, where the line starts, is one).
+#
+# The published nemoterm.exe is the one the source-host job built, which the
+# rest of that run tested: it is downloaded from the run, never rebuilt here.
+# The full suite has known failures (docs/KNOWN_ISSUES.md), so it is not the
+# gate. A prerelease needs the executable, built with the unit checks
+# scripts/build-single-exe.ps1 runs, and its notes link the run and give its
+# result for the rest.
+#
+# A manual run publishes the given "Test and build" run, as if it had just
+# completed, for when the automatic one did not.
+
+on:
+  workflow_run:
+    workflows: [Test and build]
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      run:
+        description: ID of a completed "Test and build" run of a push to main or a version tag
+        required: true
+        type: string
+
+permissions:
+  contents: write # tags and releases
+  actions: read # the CI run's jobs and its artifact
+
+# One at a time per branch or tag; a waiting prerelease gives way to a newer one.
+concurrency:
+  group: release-${{ github.event.workflow_run.head_branch || 'manual' }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.event == 'push'
+    runs-on: windows-2025
+    timeout-minutes: 15
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Which run
+        shell: pwsh
+        env:
+          INPUT_RUN: ${{ inputs.run }}
+        run: |
+          if ($env:GITHUB_EVENT_NAME -eq 'workflow_dispatch') {
+            $run = gh api "repos/$env:GITHUB_REPOSITORY/actions/runs/$env:INPUT_RUN" | ConvertFrom-Json
+            if ($LASTEXITCODE) { throw "no run $env:INPUT_RUN" }
+          } else {
+            $run = (Get-Content -Raw $env:GITHUB_EVENT_PATH | ConvertFrom-Json).workflow_run
+          }
+          if ($run.name -ne 'Test and build' -or $run.event -ne 'push' -or $run.status -ne 'completed') {
+            throw "run $($run.id) is '$($run.name)' ($($run.event), $($run.status)), not a completed Test and build of a push"
+          }
+          # For a tag's push, GitHub gives the tag as the run's head branch.
+          @(
+            "RUN_ID=$($run.id)"
+            "RUN_URL=$($run.html_url)"
+            "RUN_CONCLUSION=$($run.conclusion)"
+            "HEAD_BRANCH=$($run.head_branch)"
+            "HEAD_SHA=$($run.head_sha)"
+          ) | Add-Content $env:GITHUB_ENV
+          "run $($run.id): $($run.head_branch) at $($run.head_sha), $($run.conclusion)"
+
+      # The commit CI built, not whatever main is now. Full history, because the
+      # version is counted from the tags; no submodules, since nothing is built.
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ env.HEAD_SHA }}
+          fetch-depth: 0
+
+      - name: Work out what to publish
+        id: meta
+        shell: pwsh
+        run: |
+          $env:NEMOTERM_BRANCH = $env:HEAD_BRANCH
+          $version = ./scripts/version.ps1
+          $tagRun = $env:HEAD_BRANCH -match '^v\d+\.\d+\.\d+$'
+          $skip = ''
+          if ($tagRun) {
+            # A tag's run publishes that tag, and only if this commit computes
+            # it; otherwise one executable would carry two versions.
+            if ($version -ne $env:HEAD_BRANCH) { throw "tag $env:HEAD_BRANCH is not the version this commit computes, $version" }
+          } elseif ($env:HEAD_BRANCH -ne 'main') {
+            $skip = "$env:HEAD_BRANCH is neither main nor a version tag"
+          } elseif ($version -like 'v0.0.0-*') {
+            $skip = 'there is no vX.Y.Z tag yet, so no version line to count from'
+          } elseif ($version -like '*-dirty') {
+            throw "the checkout is dirty: $version"
+          } elseif ($version -notlike '*-*') {
+            $skip = "$version is a tag, and its own run publishes it"
+          }
+          if (!$skip) {
+            gh release view $version --repo $env:GITHUB_REPOSITORY --json tagName *> $null
+            if ($LASTEXITCODE -eq 0) { $skip = "$version is published already" }
+          }
+          if (!$skip) {
+            $built = gh api "repos/$env:GITHUB_REPOSITORY/actions/runs/$env:RUN_ID/jobs?filter=latest&per_page=100" --jq '.jobs[] | select(.name == "Source-built console host for compiler comparison") | .conclusion'
+            if ($LASTEXITCODE) { throw "could not list the jobs of run $env:RUN_ID" }
+            if ($built -ne 'success') { $skip = "the executable was not built (source-host: $(if ($built) { $built } else { 'did not run' }))" }
+          }
+          # Patches are prereleases; exactly a vX.Y.0 tag is a release.
+          $prerelease = !(($version -notlike '*-*') -and ($version -match '\.0$'))
+          @(
+            "version=$version"
+            "publish=$(if ($skip) { 'false' } else { 'true' })"
+            "prerelease=$(if ($prerelease) { 'true' } else { 'false' })"
+            "tag_run=$(if ($tagRun) { 'true' } else { 'false' })"
+          ) | Add-Content $env:GITHUB_OUTPUT
+          if ($skip) {
+            "::notice title=Nothing published::${version}: $skip"
+          } else {
+            "Publishing $version (prerelease: $prerelease)"
+          }
+          exit 0
+
+      - name: Fetch the executable CI built
+        if: steps.meta.outputs.publish == 'true'
+        shell: pwsh
+        run: |
+          gh run download $env:RUN_ID --repo $env:GITHUB_REPOSITORY --name "source-console-host-x64-$env:HEAD_SHA" --dir build/product
+          exit $LASTEXITCODE
+
+      - name: Check it is that build, says its version and is a GUI program
+        if: steps.meta.outputs.publish == 'true'
+        shell: pwsh
+        env:
+          VERSION: ${{ steps.meta.outputs.version }}
+        run: |
+          $exe = Get-Item build/product/nemoterm.exe
+          $record = Get-Content -Raw build/product/SOURCE-HOST.json | ConvertFrom-Json
+          if ($record.SourceCommit -ne $env:HEAD_SHA) { throw "the image was built from $($record.SourceCommit), not $env:HEAD_SHA" }
+          $sha = (Get-FileHash $exe -Algorithm SHA256).Hash.ToLowerInvariant()
+          if ($sha -ne $record.Executable.SHA256) { throw "nemoterm.exe is $sha, and CI recorded $($record.Executable.SHA256)" }
+          # Read from the file's VERSIONINFO, not by running it.
+          $said = $exe.VersionInfo.ProductVersion
+          if ($said -ne $env:VERSION) { throw "nemoterm.exe says it is '$said', and this is $env:VERSION" }
+          # Scoop makes a shim a GUI program only when its target is one
+          # (lib/core.ps1), which keeps `nemoterm` and `nt` from opening a console.
+          $bytes = [IO.File]::ReadAllBytes($exe.FullName)
+          $pe = [BitConverter]::ToInt32($bytes, 0x3C)
+          if ([BitConverter]::ToUInt32($bytes, $pe) -ne 0x4550) { throw 'nemoterm.exe is not a PE image' }
+          $machine = [BitConverter]::ToUInt16($bytes, $pe + 4)
+          $subsystem = [BitConverter]::ToUInt16($bytes, $pe + 24 + 68)
+          if ($machine -ne 0x8664) { throw ('nemoterm.exe is for machine 0x{0:x4}, not x64' -f $machine) }
+          if ($subsystem -ne 2) { throw "nemoterm.exe has subsystem $subsystem, not 2 (Windows GUI)" }
+          "nemoterm.exe $said, $($exe.Length) bytes, sha256 $sha, x64 GUI"
+
+      - name: Package
+        if: steps.meta.outputs.publish == 'true'
+        shell: pwsh
+        env:
+          VERSION: ${{ steps.meta.outputs.version }}
+        run: |
+          New-Item -ItemType Directory dist/package | Out-Null
+          Copy-Item build/product/nemoterm.exe, LICENSE dist/package/
+          Copy-Item vendor/putty-0.85/LICENCE dist/package/LICENCE-PuTTY.txt
+          $name = "nemoterm-$env:VERSION-windows-amd64.zip"
+          Compress-Archive -Path dist/package/* -DestinationPath "dist/$name"
+          $sum = (Get-FileHash "dist/$name" -Algorithm SHA256).Hash.ToLowerInvariant()
+          "$sum  $name" | Set-Content dist/SHA256SUMS -Encoding ascii
+          Get-Content dist/SHA256SUMS
+
+      - name: Publish
+        if: steps.meta.outputs.publish == 'true'
+        shell: pwsh
+        env:
+          VERSION: ${{ steps.meta.outputs.version }}
+          PRERELEASE: ${{ steps.meta.outputs.prerelease }}
+          TAG_RUN: ${{ steps.meta.outputs.tag_run }}
+        run: |
+          $app = if ($env:PRERELEASE -eq 'true') { 'nemoterm-nightly' } else { 'nemoterm' }
+          $notes = @(
+            "Nemoterm $env:VERSION, built from $env:HEAD_SHA."
+            ''
+            ('The executable is the one the [Test and build run]({0}) built and tested, which ended in **{1}**. ' -f $env:RUN_URL, $env:RUN_CONCLUSION) +
+            ('The suite has known failures, listed with their evidence in [docs/KNOWN_ISSUES.md](https://github.com/{0}/blob/{1}/docs/KNOWN_ISSUES.md).' -f $env:GITHUB_REPOSITORY, $env:HEAD_SHA)
+            ''
+            ('Scoop: `scoop bucket add nemo https://github.com/xiongnemo/windows-binaries-scoop-bucket`, then `scoop install nemo/{0}`; it runs as `nemoterm` or `nt`. Settings are kept in the registry, under HKCU\Software\Nemo\Nemoterm.' -f $app)
+          ) -join "`n"
+          Set-Content dist/notes.md $notes -Encoding utf8
+          $where = if ($env:TAG_RUN -eq 'true') { @('--verify-tag') } else { @('--target', $env:HEAD_SHA) }
+          $kind = if ($env:PRERELEASE -eq 'true') { @('--prerelease', '--latest=false') } else { @('--latest') }
+          $assets = @((Get-ChildItem dist/*.zip).FullName) + (Resolve-Path dist/SHA256SUMS).Path
+          gh release create $env:VERSION --repo $env:GITHUB_REPOSITORY @where @kind --title "Nemoterm $env:VERSION" --notes-file dist/notes.md @assets
+          exit $LASTEXITCODE
+
+      # Nemo's Packages (package.anzupop.com) fetches the release by its tag and
+      # passes it on to the Scoop bucket, whose Excavator hashes the asset itself.
+      # Without the token the release still ships, and the bucket's hourly
+      # Excavator finds it.
+      - name: Tell the package repository
+        if: steps.meta.outputs.publish == 'true'
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ secrets.PACKAGES_DISPATCH_TOKEN }}
+          PACKAGES_REPO: ${{ vars.PACKAGES_REPO || 'xiongnemo/packages' }}
+          VERSION: ${{ steps.meta.outputs.version }}
+          CHANNEL: ${{ steps.meta.outputs.prerelease == 'true' && 'nightly' || 'stable' }}
+        run: |
+          if (!$env:GH_TOKEN) {
+            "PACKAGES_DISPATCH_TOKEN is not set; the Scoop bucket's hourly Excavator will find $env:VERSION on its own."
+            exit 0
+          }
+          gh api "repos/$env:PACKAGES_REPO/dispatches" -f event_type=release-published -f "client_payload[repository]=$env:GITHUB_REPOSITORY" -f "client_payload[tag]=$env:VERSION" -f "client_payload[channel]=$env:CHANNEL" -f "client_payload[sha]=$env:HEAD_SHA"
+          if ($LASTEXITCODE) {
+            "::warning title=Package repository not notified::the dispatch to $env:PACKAGES_REPO failed; the bucket's hourly Excavator is the backstop."
+          }
+          exit 0

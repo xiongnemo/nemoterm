@@ -31,6 +31,30 @@ include(FindGit)
 
 set(GENERATED_SOURCES_DIR ${CMAKE_CURRENT_BINARY_DIR}${CMAKE_FILES_DIRECTORY})
 
+# Nemoterm's version (docs/VERSIONING.md). scripts/build-single-exe.ps1
+# passes it from scripts/version.ps1; a configure that names none, such as
+# a component test's, builds as v0.0.0-unversioned.
+set(NEMOTERM_VERSION "v0.0.0-unversioned"
+  CACHE STRING "Nemoterm version: vX.Y.Z, or vX.Y.Z-branch-commit12[-dirty]")
+if(NOT NEMOTERM_VERSION MATCHES "^v([0-9]+)\\.([0-9]+)\\.([0-9]+)(-[0-9A-Za-z._-]+)?$")
+  message(FATAL_ERROR "NEMOTERM_VERSION '${NEMOTERM_VERSION}' is not vX.Y.Z[-suffix]")
+endif()
+set(NEMOTERM_VERSION_NUMBERS "${CMAKE_MATCH_1}.${CMAKE_MATCH_2}.${CMAKE_MATCH_3}")
+set(NEMOTERM_BINARY_VERSION "${CMAKE_MATCH_1},${CMAKE_MATCH_2},${CMAKE_MATCH_3},0")
+set(NEMOTERM_VERSION_SUFFIX "${CMAKE_MATCH_4}")
+# windows/version.rc2 flags the file by these: exactly a tag is a release,
+# a CI build after one a prerelease, and a dirty tree or no version given
+# a private build.
+if(NEMOTERM_VERSION_SUFFIX STREQUAL "")
+  set(NEMOTERM_BUILD_KIND "#define RELEASE")
+elseif(NEMOTERM_VERSION_SUFFIX MATCHES "-(dirty|unversioned)$")
+  set(NEMOTERM_BUILD_KIND "/* A private build. */")
+else()
+  set(NEMOTERM_BUILD_KIND "#define PRERELEASE")
+endif()
+configure_file(${CMAKE_SOURCE_DIR}/cmake/nemoterm-version.h.in
+  ${GENERATED_SOURCES_DIR}/nemoterm-version.h @ONLY)
+
 set(GENERATED_LICENCE_H ${GENERATED_SOURCES_DIR}/licence.h)
 set(INTERMEDIATE_LICENCE_H ${GENERATED_LICENCE_H}.tmp)
 add_custom_command(OUTPUT ${INTERMEDIATE_LICENCE_H}

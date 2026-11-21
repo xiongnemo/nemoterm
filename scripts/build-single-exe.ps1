@@ -1,8 +1,15 @@
-param([string]$Destination = '')
+param([string]$Destination = '', [string]$Version = '')
 $ErrorActionPreference = 'Stop'
 $root = Split-Path $PSScriptRoot -Parent
 if (!$Destination) { $Destination = Join-Path $root 'build/single-exe-dist' }
 $Destination = [IO.Path]::GetFullPath($Destination)
+
+# The version goes into the About box and the file's VERSIONINFO
+# (docs/VERSIONING.md). It is worked out before anything here writes a file,
+# so the build cannot make its own tree look dirty.
+if (!$Version) { $Version = & "$PSScriptRoot/version.ps1" }
+if ($Version -notmatch '^v\d+\.\d+\.\d+(-[0-9A-Za-z._-]+)?$') { throw "Not a Nemoterm version: '$Version'" }
+Write-Host "Building Nemoterm $Version"
 
 # Run in a VS developer shell. CI supplies the pinned Windows runner toolchain.
 Get-Command cl.exe, msbuild.exe, cmake.exe, ninja.exe, nuget.exe -ErrorAction Stop | Out-Null
@@ -14,7 +21,7 @@ if ($LASTEXITCODE) { throw 'UI catalog regression failed' }
 if ($LASTEXITCODE) { throw 'OpenConsole source preparation failed' }
 $source = Join-Path $root 'build/openconsole-single'
 $frontend = Join-Path $root 'build/frontend-single'
-& cmake -S "$root/vendor/putty-0.85" -B $frontend -G Ninja -DCMAKE_C_COMPILER=cl -DCMAKE_CXX_COMPILER=cl -DCMAKE_BUILD_TYPE=MinSizeRel '-DCMAKE_C_FLAGS=/std:c11 /utf-8' '-DCMAKE_C_FLAGS_MINSIZEREL=/O1 /Ob1 /Gy /Gw' -DCMAKE_POLICY_DEFAULT_CMP0091=NEW -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded -DCMAKE_ARCHIVE_OUTPUT_DIRECTORY="$frontend" -DPUTTY_GSSAPI=OFF -DNEMOTERM_SINGLE_EXE=ON
+& cmake -S "$root/vendor/putty-0.85" -B $frontend -G Ninja -DCMAKE_C_COMPILER=cl -DCMAKE_CXX_COMPILER=cl -DCMAKE_BUILD_TYPE=MinSizeRel '-DCMAKE_C_FLAGS=/std:c11 /utf-8' '-DCMAKE_C_FLAGS_MINSIZEREL=/O1 /Ob1 /Gy /Gw' -DCMAKE_POLICY_DEFAULT_CMP0091=NEW -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded -DCMAKE_ARCHIVE_OUTPUT_DIRECTORY="$frontend" -DPUTTY_GSSAPI=OFF -DNEMOTERM_SINGLE_EXE=ON "-DNEMOTERM_VERSION=$Version"
 if ($LASTEXITCODE) { throw 'Frontend configure failed' }
 & cmake --build $frontend --target pterm test_d3d11_reservations test_ui --parallel 4
 if ($LASTEXITCODE) { throw 'Frontend build failed' }

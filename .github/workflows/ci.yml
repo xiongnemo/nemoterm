@@ -95,9 +95,12 @@ jobs:
     runs-on: windows-2025
     timeout-minutes: 15
     steps:
+      # Full history, because the version the image carries is counted from the
+      # tags (docs/VERSIONING.md); release.yml publishes this job's image.
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           submodules: true
+          fetch-depth: 0
       - name: Build the current source host with the same overlay as the single image
         shell: pwsh
         run: |

@@ -15,3 +15,12 @@ and upstream reference collectors, use the entries in
 `docs/INTERACTION_ACCEPTANCE.md`. Retain failures, product/fixture identities
 and original evidence; do not waive gates or overwrite historical failures to
 obtain a green run. User instructions in the active conversation take priority.
+
+# Releases
+
+`main` is the release branch. Every push there whose `ci.yml` run builds the
+executable is published as a nightly prerelease by `release.yml`, with a version
+counted from the last exact `vX.Y.Z` tag (`docs/VERSIONING.md`). Only the
+project owner pushes `vX.Y.Z` tags. Never push one, never rebuild a published
+executable, and keep `ci.yml`'s source-host checkout at `fetch-depth: 0`, since
+the version is counted from the tags.

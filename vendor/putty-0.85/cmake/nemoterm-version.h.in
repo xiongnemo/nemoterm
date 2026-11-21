@@ -1,0 +1,11 @@
+/*
+ * Nemoterm's version, written by cmake/setup.cmake from NEMOTERM_VERSION
+ * (docs/VERSIONING.md). The About box shows TEXTVER, and the VERSIONINFO
+ * resource carries it as the file's product version.
+ */
+#define TEXTVER "@NEMOTERM_VERSION@"
+/* utils/version.c holds the SSH version string under 40 bytes, and a
+ * branch name has no length limit, so this carries only the numbers. */
+#define SSHVER "-Nemoterm-@NEMOTERM_VERSION_NUMBERS@"
+#define BINARY_VERSION @NEMOTERM_BINARY_VERSION@
+@NEMOTERM_BUILD_KIND@

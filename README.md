@@ -33,6 +33,17 @@ Kitty 图片支持直接 RGB/RGBA/PNG、压缩传输、裁剪、透明度、查�
 
 ## 下载
 
+用 [Scoop](https://scoop.sh) 安装 nightly，main 上每个编出 exe 的提交都会发布一次：
+
+```powershell
+scoop bucket add nemo https://github.com/xiongnemo/windows-binaries-scoop-bucket
+scoop install nemo/nemoterm-nightly
+```
+
+装好后用 `nemoterm` 或 `nt` 启动（类似 Windows Terminal 的 `wt`），开始菜单里也有 Nemoterm。不用 Scoop 的话，到 [Releases](https://github.com/xiongnemo/nemoterm/releases) 下载 `nemoterm-<版本>-windows-amd64.zip`。版本号和发布规则见[版本号与发布](docs/VERSIONING.md)。设置保存在注册表 `HKCU\Software\Nemo\Nemoterm`，卸载后仍会保留。
+
+以下是发布前的试用版，以 Actions 产物分发，需要登录 GitHub 才能下载。
+
 [下载 Windows x64 单文件试用版 `9b82d1cf`](https://github.com/xiongnemo/nemoterm/actions/runs/44837714426/artifacts/14679302876)。现在能识别 Alacritty 的 `OSC 50;CursorShape`；GDI 和 DirectX 的方块、竖线、下划线均与标准光标序列的[窗口像素逐一相同](docs/MODERN_VT.md)。六种满屏负载的前端私有工作集峰值：**GDI 19.08 MB、DirectX 28.75 MB**。严格交互 **80/81**，未通过项属于 Codex 输入框就绪前的贴图；就绪后的四条路径全部通过。[本版交互与内存验收](research/trial-9b82d1cf.md)。
 
 [上一版 `7faa7fac` 的单文件](https://github.com/xiongnemo/nemoterm/actions/runs/44832796247/artifacts/14677562291)。开启插入模式，在行末只剩一格时输入汉字，现在会移到下一行并保留那里原有的文字。托管 Windows 上 GDI、DirectX 的[16 组终端和 Win32 读回对照](research/column-edge-integrity.md#行尾输入一个汉字时下一行的第一个字消失)均通过。同一份 EXE 的六种满屏负载私有工作集峰值为 **GDI 19.47 MB、DirectX 29.15 MB**。[内存与交互验收](docs/KNOWN_ISSUES.md#v0-的验收边界)。
@@ -226,6 +237,8 @@ cd nemoterm
 已有 checkout 可先运行 `git submodule update --init --recursive`。
 脚本将固定版本的 Microsoft Terminal 源码复制到 `build/`，应用集成修改并链接生成单 EXE；
 不修改上游子模块。首次构建需要联网获取构建依赖。
+版本号由 `scripts/version.ps1` 从 git 算出，写进「关于」窗口和文件属性，规则见[版本号与发布](docs/VERSIONING.md)；
+`-Version v0.0.1-local-0123456789ab` 这样的参数可以覆盖它。
 
 ### 测试与 CI
 
