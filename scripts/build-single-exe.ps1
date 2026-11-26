@@ -1,6 +1,12 @@
-param([string]$Destination = '', [string]$Version = '')
+param([string]$Destination = '', [string]$Version = '', [ValidateSet('x64', 'x86', 'arm64')][string]$Architecture = 'x64')
 $ErrorActionPreference = 'Stop'
 $root = Split-Path $PSScriptRoot -Parent
+# The VS developer shell picks the compiler's target. Both halves must match
+# it, and the unit checks below run the result, so arm64 builds on arm64.
+$platform = @{ x64 = 'x64'; x86 = 'Win32'; arm64 = 'ARM64' }[$Architecture]
+if ($env:VSCMD_ARG_TGT_ARCH -and $env:VSCMD_ARG_TGT_ARCH -ne $Architecture) {
+    throw "The developer shell targets $env:VSCMD_ARG_TGT_ARCH, not $Architecture"
+}
 if (!$Destination) { $Destination = Join-Path $root 'build/single-exe-dist' }
 $Destination = [IO.Path]::GetFullPath($Destination)
 
@@ -9,7 +15,7 @@ $Destination = [IO.Path]::GetFullPath($Destination)
 # so the build cannot make its own tree look dirty.
 if (!$Version) { $Version = & "$PSScriptRoot/version.ps1" }
 if ($Version -notmatch '^v\d+\.\d+\.\d+(-[0-9A-Za-z._-]+)?$') { throw "Not a Nemoterm version: '$Version'" }
-Write-Host "Building Nemoterm $Version"
+Write-Host "Building Nemoterm $Version for $Architecture"
 
 # Run in a VS developer shell. CI supplies the pinned Windows runner toolchain.
 Get-Command cl.exe, msbuild.exe, cmake.exe, ninja.exe, nuget.exe -ErrorAction Stop | Out-Null
@@ -17,7 +23,7 @@ Get-Command cl.exe, msbuild.exe, cmake.exe, ninja.exe, nuget.exe -ErrorAction St
 if ($LASTEXITCODE) { throw 'UI catalog validation failed' }
 & python "$root/tests/test_ui_catalog.py"
 if ($LASTEXITCODE) { throw 'UI catalog regression failed' }
-& python "$PSScriptRoot/prepare-single-exe.py"
+& python "$PSScriptRoot/prepare-single-exe.py" --architecture $Architecture
 if ($LASTEXITCODE) { throw 'OpenConsole source preparation failed' }
 $source = Join-Path $root 'build/openconsole-single'
 $frontend = Join-Path $root 'build/frontend-single'
@@ -33,8 +39,8 @@ if ($LASTEXITCODE) { throw 'DirectX staging reservation regression failed' }
 # Restore only the WIL headers used by the native console host.
 & nuget install Microsoft.Windows.ImplementationLibrary -Version 1.0.250325.1 -Source https://api.nuget.org/v3/index.json -OutputDirectory "$source/packages" -NonInteractive
 if ($LASTEXITCODE) { throw 'WIL restore failed' }
-& msbuild "$source/src/host/exe/Host.EXE.vcxproj" /m:2 /v:minimal /p:Configuration=Release /p:Platform=x64 "/p:SolutionDir=$source\" /p:WindowsTerminalBranding=Release /p:BuildInParallel=false /bl:"$root/build/single-exe.binlog"
+& msbuild "$source/src/host/exe/Host.EXE.vcxproj" /m:2 /v:minimal /p:Configuration=Release "/p:Platform=$platform" "/p:SolutionDir=$source\" /p:WindowsTerminalBranding=Release /p:BuildInParallel=false /bl:"$root/build/single-exe.binlog"
 if ($LASTEXITCODE) { throw 'Combined console host build failed' }
 New-Item -ItemType Directory -Force $Destination | Out-Null
-Copy-Item -LiteralPath "$source/bin/x64/Release/nemoterm.exe" -Destination (Join-Path $Destination 'nemoterm.exe')
+Copy-Item -LiteralPath "$source/bin/$platform/Release/nemoterm.exe" -Destination (Join-Path $Destination 'nemoterm.exe')
 Get-FileHash -LiteralPath (Join-Path $Destination 'nemoterm.exe') -Algorithm SHA256

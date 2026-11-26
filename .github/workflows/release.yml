@@ -9,12 +9,12 @@ name: Release
 #     own "Test and build" run has built it: a release when Z is 0, otherwise
 #     a prerelease (v0.0.1, where the line starts, is one).
 #
-# The published nemoterm.exe is the one the source-host job built, which the
-# rest of that run tested: it is downloaded from the run, never rebuilt here.
-# The full suite has known failures (docs/KNOWN_ISSUES.md), so it is not the
-# gate. A prerelease needs the executable, built with the unit checks
-# scripts/build-single-exe.ps1 runs, and its notes link the run and give its
-# result for the rest.
+# A release carries nemoterm.exe for x64, x86 and arm64, each the one that
+# run's source-host jobs built: downloaded from the run, never rebuilt here.
+# The rest of the run tests the x64 one. The full suite has known failures
+# (docs/KNOWN_ISSUES.md), so it is not the gate. A release needs all three
+# executables, each built with the unit checks scripts/build-single-exe.ps1
+# runs, and its notes link the run and give its result for the rest.
 #
 # A manual run publishes the given "Test and build" run, as if it had just
 # completed, for when the automatic one did not.
@@ -46,6 +46,8 @@ jobs:
     timeout-minutes: 15
     env:
       GH_TOKEN: ${{ github.token }}
+      # CI's architecture : the release asset's name for it : its PE machine.
+      ARCHES: 'x64:amd64:8664 x86:386:014c arm64:arm64:aa64'
     steps:
       - name: Which run
         shell: pwsh
@@ -104,9 +106,15 @@ jobs:
             if ($LASTEXITCODE -eq 0) { $skip = "$version is published already" }
           }
           if (!$skip) {
-            $built = gh api "repos/$env:GITHUB_REPOSITORY/actions/runs/$env:RUN_ID/jobs?filter=latest&per_page=100" --jq '.jobs[] | select(.name == "Source-built console host for compiler comparison") | .conclusion'
+            # Paginated: a push runs about 90 jobs, and one page holds 100.
+            $jobs = @{}
+            gh api --paginate "repos/$env:GITHUB_REPOSITORY/actions/runs/$env:RUN_ID/jobs?filter=latest&per_page=100" --jq '.jobs[] | "\(.name)\t\(.conclusion)"' |
+              ForEach-Object { $name, $conclusion = $_ -split "`t", 2; $jobs[$name] = $conclusion }
             if ($LASTEXITCODE) { throw "could not list the jobs of run $env:RUN_ID" }
-            if ($built -ne 'success') { $skip = "the executable was not built (source-host: $(if ($built) { $built } else { 'did not run' }))" }
+            foreach ($job in 'Source-built console host for compiler comparison', 'Source-built console host (x86)', 'Source-built console host (arm64)') {
+              $built = $jobs[$job]
+              if ($built -ne 'success') { $skip = "not every executable was built ($job`: $(if ($built) { $built } else { 'did not run' }))"; break }
+            }
           }
           # Patches are prereleases; exactly a vX.Y.0 tag is a release.
           $prerelease = !(($version -notlike '*-*') -and ($version -match '\.0$'))
@@ -123,37 +131,43 @@ jobs:
           }
           exit 0
 
-      - name: Fetch the executable CI built
+      - name: Fetch the executables CI built
         if: steps.meta.outputs.publish == 'true'
         shell: pwsh
         run: |
-          gh run download $env:RUN_ID --repo $env:GITHUB_REPOSITORY --name "source-console-host-x64-$env:HEAD_SHA" --dir build/product
-          exit $LASTEXITCODE
+          foreach ($arch in ($env:ARCHES -split ' ' | ForEach-Object { ($_ -split ':')[0] })) {
+            gh run download $env:RUN_ID --repo $env:GITHUB_REPOSITORY --name "source-console-host-$arch-$env:HEAD_SHA" --dir "build/product/$arch"
+            if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          }
+          exit 0
 
-      - name: Check it is that build, says its version and is a GUI program
+      - name: Check each is that build, says its version and is a GUI program for its machine
         if: steps.meta.outputs.publish == 'true'
         shell: pwsh
         env:
           VERSION: ${{ steps.meta.outputs.version }}
         run: |
-          $exe = Get-Item build/product/nemoterm.exe
-          $record = Get-Content -Raw build/product/SOURCE-HOST.json | ConvertFrom-Json
-          if ($record.SourceCommit -ne $env:HEAD_SHA) { throw "the image was built from $($record.SourceCommit), not $env:HEAD_SHA" }
-          $sha = (Get-FileHash $exe -Algorithm SHA256).Hash.ToLowerInvariant()
-          if ($sha -ne $record.Executable.SHA256) { throw "nemoterm.exe is $sha, and CI recorded $($record.Executable.SHA256)" }
-          # Read from the file's VERSIONINFO, not by running it.
-          $said = $exe.VersionInfo.ProductVersion
-          if ($said -ne $env:VERSION) { throw "nemoterm.exe says it is '$said', and this is $env:VERSION" }
-          # Scoop makes a shim a GUI program only when its target is one
-          # (lib/core.ps1), which keeps `nemoterm` and `nt` from opening a console.
-          $bytes = [IO.File]::ReadAllBytes($exe.FullName)
-          $pe = [BitConverter]::ToInt32($bytes, 0x3C)
-          if ([BitConverter]::ToUInt32($bytes, $pe) -ne 0x4550) { throw 'nemoterm.exe is not a PE image' }
-          $machine = [BitConverter]::ToUInt16($bytes, $pe + 4)
-          $subsystem = [BitConverter]::ToUInt16($bytes, $pe + 24 + 68)
-          if ($machine -ne 0x8664) { throw ('nemoterm.exe is for machine 0x{0:x4}, not x64' -f $machine) }
-          if ($subsystem -ne 2) { throw "nemoterm.exe has subsystem $subsystem, not 2 (Windows GUI)" }
-          "nemoterm.exe $said, $($exe.Length) bytes, sha256 $sha, x64 GUI"
+          foreach ($entry in $env:ARCHES -split ' ') {
+            $arch, $asset, $expected = $entry -split ':'
+            $exe = Get-Item "build/product/$arch/nemoterm.exe"
+            $record = Get-Content -Raw "build/product/$arch/SOURCE-HOST.json" | ConvertFrom-Json
+            if ($record.SourceCommit -ne $env:HEAD_SHA) { throw "the $arch image was built from $($record.SourceCommit), not $env:HEAD_SHA" }
+            $sha = (Get-FileHash $exe -Algorithm SHA256).Hash.ToLowerInvariant()
+            if ($sha -ne $record.Executable.SHA256) { throw "the $arch nemoterm.exe is $sha, and CI recorded $($record.Executable.SHA256)" }
+            # Read from the file's VERSIONINFO, not by running it.
+            $said = $exe.VersionInfo.ProductVersion
+            if ($said -ne $env:VERSION) { throw "the $arch nemoterm.exe says it is '$said', and this is $env:VERSION" }
+            # Scoop makes a shim a GUI program only when its target is one
+            # (lib/core.ps1), which keeps `nemoterm` and `nt` from opening a console.
+            $bytes = [IO.File]::ReadAllBytes($exe.FullName)
+            $pe = [BitConverter]::ToInt32($bytes, 0x3C)
+            if ([BitConverter]::ToUInt32($bytes, $pe) -ne 0x4550) { throw "the $arch nemoterm.exe is not a PE image" }
+            $machine = [BitConverter]::ToUInt16($bytes, $pe + 4)
+            $subsystem = [BitConverter]::ToUInt16($bytes, $pe + 24 + 68)
+            if ($machine -ne [Convert]::ToUInt16($expected, 16)) { throw ('the {0} nemoterm.exe is for machine 0x{1:x4}, not 0x{2}' -f $arch, $machine, $expected) }
+            if ($subsystem -ne 2) { throw "the $arch nemoterm.exe has subsystem $subsystem, not 2 (Windows GUI)" }
+            "$arch nemoterm.exe $said, $($exe.Length) bytes, sha256 $sha, machine 0x$expected GUI"
+          }
 
       - name: Package
         if: steps.meta.outputs.publish == 'true'
@@ -161,13 +175,17 @@ jobs:
         env:
           VERSION: ${{ steps.meta.outputs.version }}
         run: |
-          New-Item -ItemType Directory dist/package | Out-Null
-          Copy-Item build/product/nemoterm.exe, LICENSE dist/package/
-          Copy-Item vendor/putty-0.85/LICENCE dist/package/LICENCE-PuTTY.txt
-          $name = "nemoterm-$env:VERSION-windows-amd64.zip"
-          Compress-Archive -Path dist/package/* -DestinationPath "dist/$name"
-          $sum = (Get-FileHash "dist/$name" -Algorithm SHA256).Hash.ToLowerInvariant()
-          "$sum  $name" | Set-Content dist/SHA256SUMS -Encoding ascii
+          $sums = foreach ($entry in $env:ARCHES -split ' ') {
+            $arch, $asset, $null = $entry -split ':'
+            $package = "dist/package-$arch"
+            New-Item -ItemType Directory $package | Out-Null
+            Copy-Item "build/product/$arch/nemoterm.exe", LICENSE $package/
+            Copy-Item vendor/putty-0.85/LICENCE $package/LICENCE-PuTTY.txt
+            $name = "nemoterm-$env:VERSION-windows-$asset.zip"
+            Compress-Archive -Path $package/* -DestinationPath "dist/$name"
+            "$((Get-FileHash "dist/$name" -Algorithm SHA256).Hash.ToLowerInvariant())  $name"
+          }
+          $sums | Set-Content dist/SHA256SUMS -Encoding ascii
           Get-Content dist/SHA256SUMS
 
       - name: Publish
@@ -182,8 +200,9 @@ jobs:
           $notes = @(
             "Nemoterm $env:VERSION, built from $env:HEAD_SHA."
             ''
-            ('The executable is the one the [Test and build run]({0}) built and tested, which ended in **{1}**. ' -f $env:RUN_URL, $env:RUN_CONCLUSION) +
-            ('The suite has known failures, listed with their evidence in [docs/KNOWN_ISSUES.md](https://github.com/{0}/blob/{1}/docs/KNOWN_ISSUES.md).' -f $env:GITHUB_REPOSITORY, $env:HEAD_SHA)
+            ('The executables are the ones the [Test and build run]({0}) built. Its suite tests the x64 one and ended in **{1}**; ' -f $env:RUN_URL, $env:RUN_CONCLUSION) +
+            ('it has known failures, listed with their evidence in [docs/KNOWN_ISSUES.md](https://github.com/{0}/blob/{1}/docs/KNOWN_ISSUES.md). ' -f $env:GITHUB_REPOSITORY, $env:HEAD_SHA) +
+            'The x86 and arm64 ones pass the unit checks run at build time. The arm64 one does not offer the WSL Linux PTY option yet: its helper is built for x86-64 only.'
             ''
             ('Scoop: `scoop bucket add nemo https://github.com/xiongnemo/windows-binaries-scoop-bucket`, then `scoop install nemo/{0}`; it runs as `nemoterm` or `nt`. Settings are kept in the registry, under HKCU\Software\Nemo\Nemoterm.' -f $app)
           ) -join "`n"

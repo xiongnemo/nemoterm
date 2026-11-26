@@ -119,6 +119,45 @@ jobs:
           path: build/source-console-host/
           retention-days: 7
           if-no-files-found: error
+  # The same image for the other Windows architectures, which release.yml
+  # publishes beside x64. The suite above tests the x64 image only; these pass
+  # the unit checks build-single-exe.ps1 runs, so each builds where it runs:
+  # x86 under WOW64, arm64 on an Arm runner.
+  source-host-arch:
+    name: Source-built console host (${{ matrix.arch }})
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { arch: x86, runner: windows-2025, tools: Microsoft.VisualStudio.Component.VC.Tools.x86.x64, shell: '-arch=x86 -host_arch=x64' }
+          - { arch: arm64, runner: windows-11-arm, tools: Microsoft.VisualStudio.Component.VC.Tools.ARM64, shell: '-arch=arm64 -host_arch=arm64' }
+    steps:
+      # Full history, as for source-host: the version is counted from the tags.
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          submodules: true
+          fetch-depth: 0
+      - name: Build the single image for ${{ matrix.arch }}
+        shell: pwsh
+        env:
+          TOOLS: ${{ matrix.tools }}
+          DEV_SHELL: ${{ matrix.shell }}
+        run: |
+          $vswhere = "${env:ProgramFiles(x86)}/Microsoft Visual Studio/Installer/vswhere.exe"
+          $vs = & $vswhere -latest -products '*' -requires $env:TOOLS -property installationPath
+          if (!$vs) { throw "No Visual Studio with $env:TOOLS" }
+          Import-Module "$vs/Common7/Tools/Microsoft.VisualStudio.DevShell.dll"
+          Enter-VsDevShell -VsInstallPath $vs -SkipAutomaticLocation -DevCmdArguments $env:DEV_SHELL
+          ./scripts/build-single-exe.ps1 -Destination build/source-console-host -Architecture ${{ matrix.arch }}
+          ./scripts/write-source-host-manifest.ps1 -Directory build/source-console-host
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: source-console-host-${{ matrix.arch }}-${{ github.sha }}
+          path: build/source-console-host/
+          retention-days: 7
+          if-no-files-found: error
   dpi:
     needs: source-host
     uses: ./.github/workflows/dpi.yml

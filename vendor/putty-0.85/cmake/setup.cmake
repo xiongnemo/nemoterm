@@ -41,11 +41,13 @@ if(NOT NEMOTERM_VERSION MATCHES "^v([0-9]+)\\.([0-9]+)\\.([0-9]+)(-[0-9A-Za-z._-
 endif()
 set(NEMOTERM_VERSION_NUMBERS "${CMAKE_MATCH_1}.${CMAKE_MATCH_2}.${CMAKE_MATCH_3}")
 set(NEMOTERM_BINARY_VERSION "${CMAKE_MATCH_1},${CMAKE_MATCH_2},${CMAKE_MATCH_3},0")
+set(NEMOTERM_VERSION_PATCH "${CMAKE_MATCH_3}")
 set(NEMOTERM_VERSION_SUFFIX "${CMAKE_MATCH_4}")
-# windows/version.rc2 flags the file by these: exactly a tag is a release,
-# a CI build after one a prerelease, and a dirty tree or no version given
+# windows/version.rc2 flags the file by these, as release.yml marks the
+# GitHub release: exactly a vX.Y.0 tag is a release, any other tag (v0.0.1)
+# or a CI build after one a prerelease, and a dirty tree or no version given
 # a private build.
-if(NEMOTERM_VERSION_SUFFIX STREQUAL "")
+if(NEMOTERM_VERSION_SUFFIX STREQUAL "" AND NEMOTERM_VERSION_PATCH EQUAL 0)
   set(NEMOTERM_BUILD_KIND "#define RELEASE")
 elseif(NEMOTERM_VERSION_SUFFIX MATCHES "-(dirty|unversioned)$")
   set(NEMOTERM_BUILD_KIND "/* A private build. */")

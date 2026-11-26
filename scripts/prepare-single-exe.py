@@ -3,6 +3,7 @@
 Build outputs stay under build/. Changes below deliberately fail if their
 upstream anchors change; upgrading the submodule requires reviewing them.
 """
+import argparse
 import io
 import hashlib
 import json
@@ -490,6 +491,10 @@ def patch_closed_console_connections():
 
 
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--architecture", choices=("x64", "x86", "arm64"), default="x64",
+                        help="Windows architecture the overlay is built for (default x64)")
+    args = parser.parse_args()
     actual = subprocess.check_output(["git", "-C", str(UPSTREAM), "rev-parse", "HEAD"], text=True).strip()
     if actual != REVISION:
         raise SystemExit(f"Expected Microsoft Terminal {REVISION}, got {actual}")
@@ -677,7 +682,14 @@ def main():
     for data, key in [(elf, 'relay_sha256'), (source, 'source_sha256'), (notice, 'musl_notice_sha256')]:
         if hashlib.sha256(data).hexdigest() != manifest[key]:
             raise ValueError('Bundled WSL relay identity mismatch: '+key)
-    (DEST / 'src/host/exe/nemo-wsl-relay.elf').write_bytes(elf)
+    # The relay runs inside WSL, so it must match the distribution's machine,
+    # which is the Windows host's: x86-64 under x64 and x86 builds. Windows on
+    # Arm runs aarch64 distributions, and there is no aarch64 relay yet; without
+    # resource 40003 the Linux PTY option is not offered (config.c) and WSL
+    # uses ConPTY, as it does when that option is off.
+    embed_relay = args.architecture in ("x64", "x86")
+    if embed_relay:
+        (DEST / 'src/host/exe/nemo-wsl-relay.elf').write_bytes(elf)
     notices = "\n\n".join(p.read_text(encoding="utf-8-sig") for p in (
         ROOT / "LICENSE", ROOT / "vendor/putty-0.85/LICENCE",
         UPSTREAM / "LICENSE", UPSTREAM / "NOTICE.md",
@@ -688,7 +700,8 @@ def main():
         ROOT / "vendor/putty-0.85/terminal/puff/puff.h"))
     (DEST / "src/host/exe/nemo-licenses.txt").write_text(notices, encoding="utf-8")
     (DEST / "src/host/exe/nemo-licenses.rc").write_text(
-        '40000 RCDATA "nemo-licenses.txt"\n40003 RCDATA "nemo-wsl-relay.elf"\n', encoding="ascii")
+        '40000 RCDATA "nemo-licenses.txt"\n'
+        + ('40003 RCDATA "nemo-wsl-relay.elf"\n' if embed_relay else ''), encoding="ascii")
     # One RC invocation allocates the individual ICON image IDs consistently;
     # separate .res files both start those implicit IDs at 1 and collide.
     host_rc = DEST / "src/host/exe/Host.EXE.rc"

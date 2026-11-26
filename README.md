@@ -40,7 +40,7 @@ scoop bucket add nemo https://github.com/xiongnemo/windows-binaries-scoop-bucket
 scoop install nemo/nemoterm-nightly
 ```
 
-装好后用 `nemoterm` 或 `nt` 启动（类似 Windows Terminal 的 `wt`），开始菜单里也有 Nemoterm。不用 Scoop 的话，到 [Releases](https://github.com/xiongnemo/nemoterm/releases) 下载 `nemoterm-<版本>-windows-amd64.zip`。版本号和发布规则见[版本号与发布](docs/VERSIONING.md)。设置保存在注册表 `HKCU\Software\Nemo\Nemoterm`，卸载后仍会保留。
+装好后用 `nemoterm` 或 `nt` 启动（类似 Windows Terminal 的 `wt`），开始菜单里也有 Nemoterm。不用 Scoop 的话，到 [Releases](https://github.com/xiongnemo/nemoterm/releases) 下载 `nemoterm-<版本>-windows-<架构>.zip`，架构是 `amd64`、`386` 或 `arm64`；arm64 版暂时没有 WSL「Linux PTY」选项。版本号和发布规则见[版本号与发布](docs/VERSIONING.md)。设置保存在注册表 `HKCU\Software\Nemo\Nemoterm`，卸载后仍会保留。
 
 以下是发布前的试用版，以 Actions 产物分发，需要登录 GitHub 才能下载。
 
@@ -235,6 +235,7 @@ cd nemoterm
 ```
 
 已有 checkout 可先运行 `git submodule update --init --recursive`。
+x86 或 arm64 版在对应架构的 Developer PowerShell 里加 `-Architecture x86` 或 `-Architecture arm64`；编译时的单元检查会运行编出的程序，所以 arm64 版要在 Arm 机器上编。
 脚本将固定版本的 Microsoft Terminal 源码复制到 `build/`，应用集成修改并链接生成单 EXE；
 不修改上游子模块。首次构建需要联网获取构建依赖。
 版本号由 `scripts/version.ps1` 从 git 算出，写进「关于」窗口和文件属性，规则见[版本号与发布](docs/VERSIONING.md)；

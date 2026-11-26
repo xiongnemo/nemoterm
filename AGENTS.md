@@ -22,5 +22,6 @@ obtain a green run. User instructions in the active conversation take priority.
 executable is published as a nightly prerelease by `release.yml`, with a version
 counted from the last exact `vX.Y.Z` tag (`docs/VERSIONING.md`). Only the
 project owner pushes `vX.Y.Z` tags. Never push one, never rebuild a published
-executable, and keep `ci.yml`'s source-host checkout at `fetch-depth: 0`, since
-the version is counted from the tags.
+executable, and keep `ci.yml`'s source-host and source-host-arch checkouts at
+`fetch-depth: 0`, since the version is counted from the tags. A release needs
+the x64, x86 and arm64 executables; only x64 runs the full suite.
